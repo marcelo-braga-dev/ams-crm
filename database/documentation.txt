@@ -1,0 +1,4 @@
+-> Tabela Pedidos
+    * situacao: // usado para setar a interatividade com o pedido
+        - novo // default
+        - visualizado
