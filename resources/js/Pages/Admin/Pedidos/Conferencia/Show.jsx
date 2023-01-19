@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Inertia} from '@inertiajs/inertia'
 import Layout from '@/Layouts/Admin/Layout';
 import {Button, Card, Col, Container, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
@@ -14,7 +15,7 @@ import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
 
 export default function Pedidos({pedido}) {
 
-    const {put, setData} = useForm({
+    const {data, put, setData} = useForm({
         'reprovado': ''
     })
 
@@ -37,7 +38,10 @@ export default function Pedidos({pedido}) {
 
     function submit(e) {
         e.preventDefault()
-        put(route('admin.conferencia.update', pedido.pedido.id))
+        Inertia.post(route('admin.conferencia.update', pedido.pedido.id), {
+            _method: 'put',
+            ...data
+        })
     }
 
     return (

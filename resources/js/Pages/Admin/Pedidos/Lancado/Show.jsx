@@ -1,4 +1,5 @@
 import Layout from '@/Layouts/Admin/Layout';
+import {Inertia} from '@inertiajs/inertia'
 import {Button, Card, Col, Container, Row, Table} from "reactstrap";
 import * as React from 'react';
 import Typography from "@mui/material/Typography";
@@ -15,7 +16,10 @@ export default function Pedidos({dados}) {
 
     function submit(e) {
         e.preventDefault()
-        put(route('admin.lancado.update', dados.pedido.id))
+        Inertia.post(route('admin.lancado.update', dados.pedido.id), {
+            _method: 'put',
+            ...data
+        })
     }
 
     // ConvertMoney

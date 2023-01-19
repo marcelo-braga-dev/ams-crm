@@ -5,14 +5,18 @@ import ConvertMoney from "@/Components/ConvertMoney";
 import Paper from "@mui/material/Paper";
 
 import {useForm} from '@inertiajs/inertia-react'
+import {Inertia} from "@inertiajs/inertia";
 
 
 export default function Pedidos({pedido, cliente, img}) {
-    const {put} = useForm()
+    const {data, put} = useForm()
 
     function submit(e) {
         e.preventDefault()
-        put(route('admin.entregue.update', pedido.id))
+        Inertia.post(route('admin.entregue.update', pedido.pedido.id), {
+            _method: 'put',
+            ...data
+        })
     }
 
     return (<Layout titlePage="Pedidos" button={true} url={route('admin.pedidos.index')} textButton={'Voltar'}>
