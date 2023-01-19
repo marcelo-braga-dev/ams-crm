@@ -93,7 +93,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, border}) 
 
             {/* Pills */}
             <Stack className='py-2' direction="row" spacing={1}>
-                {dados.infos.sac ? <a href={route('admin.chamados.pedido.show', dados.id)}>
+                {dados.infos.sac ? <a href={route('admin.chamado.index', dados.id)}>
                     <Chip icon={<SpeakerNotesIcon className="ml-2"/>} label="SAC" color="warning"
                           size="small"/></a> : ''}
             </Stack>

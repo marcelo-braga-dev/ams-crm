@@ -11,10 +11,11 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
+import {Inertia} from '@inertiajs/inertia'
 
 export default function Pedidos({pedido}) {
 
-    const {put, setData} = useForm({
+    const {data, put, setData} = useForm({
         'reprovado': ''
     })
 
@@ -37,7 +38,10 @@ export default function Pedidos({pedido}) {
 
     function submit(e) {
         e.preventDefault()
-        put(route('supervisor.pedidos.conferencia.update', pedido.pedido.id))
+        Inertia.post(route('supervisor.pedidos.conferencia.update', pedido.pedido.id), {
+            _method: 'put',
+            ...data
+        })
     }
 
     return (

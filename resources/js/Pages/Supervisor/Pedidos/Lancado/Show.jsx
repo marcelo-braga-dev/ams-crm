@@ -2,6 +2,7 @@ import Layout from '@/Layouts/Supervisor/Layout';
 import {Button, Card, Col, Container, Row, Table} from "reactstrap";
 import * as React from 'react';
 import Typography from "@mui/material/Typography";
+import {Inertia} from '@inertiajs/inertia'
 
 import {useForm} from '@inertiajs/inertia-react';
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
@@ -15,7 +16,10 @@ export default function Pedidos({dados}) {
 
     function submit(e) {
         e.preventDefault()
-        put(route('supervisor.pedidos.lancado.update', dados.pedido.id))
+        Inertia.post(route('supervisor.pedidos.lancado.update', dados.pedido.id), {
+            _method: 'put',
+            ...data
+        })
     }
 
     // ConvertMoney

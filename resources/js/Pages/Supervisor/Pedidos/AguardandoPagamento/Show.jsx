@@ -3,16 +3,20 @@ import {Button, Card, Col, Container, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
 import ConvertMoney from "@/Components/ConvertMoney";
 import Paper from "@mui/material/Paper";
+import {Inertia} from '@inertiajs/inertia'
 
 import {useForm} from '@inertiajs/inertia-react'
 
 
 export default function Pedidos({pedido, cliente, img}) {
-    const {put} = useForm()
+    const {data, put} = useForm()
 
     function submit(e) {
         e.preventDefault()
-        put(route('supervisor.aguardando-pagamento.update', pedido.id))
+        Inertia.post(route('admin.pedidos.aguardando-pagamento.update', dados.pedido.id), {
+            _method: 'put',
+            ...data
+        })
     }
 
     return (<Layout titlePage="Pedidos" button={true} url={route('supervisor.pedidos.index')} textButton={'Voltar'}>
