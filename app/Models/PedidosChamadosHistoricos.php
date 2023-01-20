@@ -53,4 +53,11 @@ class PedidosChamadosHistoricos extends Model
             ];
         });
     }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->delete();
+    }
 }

@@ -9,6 +9,7 @@ use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 /**
  *  info_pedido
@@ -154,11 +155,12 @@ class Pedidos extends Model
         return $this->newQuery()
             ->where('users_id', auth()->id())
             ->get([
-            'id', 'users_id', 'status', 'forma_pagamento',
-            'status_data', 'sac', 'preco_venda', 'obs',
-            'fornecedor', 'integrador', 'situacao', 'prazo'
-        ]);
+                'id', 'users_id', 'status', 'forma_pagamento',
+                'status_data', 'sac', 'preco_venda', 'obs',
+                'fornecedor', 'integrador', 'situacao', 'prazo'
+            ]);
     }
+
     public function getIdConsultor($id)
     {
         return $this->newQuery()->find($id)->users_id;
@@ -166,10 +168,23 @@ class Pedidos extends Model
 
     public function remove($id)
     {
-        // Falta deletar outras informacoes
-        $this->newQuery()
-            ->find($id)
-            ->delete();
+        DB::beginTransaction();
+        try {
+            $pedido = $this->newQuery()->find($id);
+            $pedido->delete();
+
+            $cliente = (new PedidosClientes())->getCliente($pedido->id);
+
+            (new PedidosClientes())->remover($cliente->id);
+            (new Enderecos())->remover($cliente->endereco);
+            (new PedidosChamados())->remover($pedido->id);
+            (new PedidosChamadosHistoricos())->remover($pedido->id);
+            (new PedidosHistoricos())->remover($pedido->id);
+            (new PedidosImagens())->remover($pedido->id);
+        } catch (QueryException) {
+            DB::rollBack();
+        }
+        DB::commit();
     }
 
     public function find($id)

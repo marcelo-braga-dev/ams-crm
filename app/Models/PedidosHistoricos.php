@@ -56,4 +56,11 @@ class PedidosHistoricos extends Model
             ->first()
             ->prazo ?? 0;
     }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->delete();
+    }
 }

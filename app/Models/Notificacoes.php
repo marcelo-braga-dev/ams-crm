@@ -70,4 +70,9 @@ class Notificacoes extends Model
             $this->create($user->id, $categoria, $titulo, $msg, $url);
         }
     }
+
+    public function remover($id)
+    {
+        // Implementar Delete
+    }
 }

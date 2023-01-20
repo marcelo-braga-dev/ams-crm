@@ -130,4 +130,11 @@ class PedidosClientes extends Model
         return $this->newQuery()
             ->where('pedidos_id', $idPedido)->first('id')->id;
     }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->delete();
+    }
 }

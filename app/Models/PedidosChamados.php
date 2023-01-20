@@ -94,4 +94,11 @@ class PedidosChamados extends Model
     {
         return $this->newQuery()->get();
     }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->delete();
+    }
 }

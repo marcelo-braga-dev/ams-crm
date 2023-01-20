@@ -122,4 +122,12 @@ class PedidosImagens extends Model
                 ['pedidos_id' => $id], ['url_nota_fiscal' => $url]
             );
     }
+
+    public function remover(mixed $id)
+    {
+        // Falta implementar remocao dos arquivos
+        $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->delete();
+    }
 }

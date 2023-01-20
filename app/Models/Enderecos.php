@@ -81,4 +81,11 @@ class Enderecos extends Model
         return $dados->rua . 'n. ' . $dados->numero . ' ' . $dados->complemento . ', ' .
             $dados->bairro . ' - ' . $dados->cidade . '/' . $dados->estado . ' - Cep: ' . $dados->cep;
     }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->delete();
+    }
 }
