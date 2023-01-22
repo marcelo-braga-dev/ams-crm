@@ -102,7 +102,7 @@ class User extends Authenticatable
             ]);
     }
 
-    public function getConsultoresCard()
+    public function getNomeConsultores()
     {
         $items = $this->newQuery()
             ->where('tipo', (new Consultores())->getTipo())

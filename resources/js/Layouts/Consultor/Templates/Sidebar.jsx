@@ -12,10 +12,10 @@ export default function Sidebar() {
                 {'menu': 'Cadastrar Pedido', 'url': route('consultor.pedidos.create')},
             ]
         }, {
-            'menu': 'Clientes',
+            'menu': 'Leads',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Lista de Clientes', 'url': route('consultor.clientes.index')},
+                {'menu': 'Lista de Leads', 'url': route('consultor.clientes.index')},
             ]
         }, {
             'menu': 'Integradores',

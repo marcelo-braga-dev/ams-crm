@@ -16,16 +16,18 @@ return new class extends Migration
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('users_id')->nullable();
-            $table->string('status', 32);
+            $table->string('status', 32)->default('novo');
             $table->string('status_anotacoes')->nullable();
-            $table->string('nome')->nullable();
-            $table->string('empresa');
-            $table->string('razao_social')->nullable();
-            $table->string('cnpj')->nullable();
+            $table->string('nome');
+            $table->string('atendente')->nullable();
+            $table->boolean('pessoa_fisica')->default(1);
+            $table->string('email')->nullable();
             $table->string('telefone')->nullable();
-            $table->integer('localidade')->nullable();
+            $table->string('cidade')->nullable();
+            $table->string('estado')->nullable();
             $table->timestamp('status_data');
             $table->string('meio_contato')->nullable();
+            $table->string('infos')->nullable();
             $table->timestamps();
         });
     }

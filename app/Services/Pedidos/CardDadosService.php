@@ -31,7 +31,7 @@ class CardDadosService
 
     public function __construct()
     {
-        $this->consultores = (new User())->getConsultoresCard();
+        $this->consultores = (new User())->getNomeConsultores();
         $this->clientes = (new PedidosClientes())->getCardDados();
         $this->fornecedores = (new Fornecedores())->getCardDados();
         $this->integradores = (new Integradores())->getCardDados();

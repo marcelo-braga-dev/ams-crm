@@ -9,14 +9,16 @@ export default function Sidebar() {
             'icone': 'fas fa-angle-double-right',
             'submenu': [
                 {'menu': 'Lista de Pedidos', 'url': route('admin.pedidos.index')},
-                {'menu': 'Historico', 'url': route('admin.pedidos.historico.index')},
+                {'menu': 'Histórico de Pedidos', 'url': route('admin.pedidos.historico.index')},
                 {'menu': 'Configurações', 'url': route('admin.config.index')}
             ]
         }, {
-            'menu': 'Clientes',
+            'menu': 'Leads',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Leads', 'url': route('admin.leads.create')},
+                {'menu': 'Leads Cadastrados', 'url': route('admin.clientes.leads.leads-cadastrados')},
+                {'menu': 'Cadastrar Leads', 'url': route('admin.clientes.leads.leads-main.create')},
+                {'menu': 'Encaminhar Leads', 'url': route('admin.clientes.leads.leads-main.index')},
             ]
         }, {
             'menu': 'Usuários',
