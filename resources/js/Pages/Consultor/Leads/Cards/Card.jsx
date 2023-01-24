@@ -6,7 +6,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export default function CardLeads({dados, btnUrl}) {
+export default function CardLeads({dados, urlBtn, btn}) {
     return (
         <div className="card m-2 mb-3" style={{width: 300}}>
             <div className="card-body pb-0">
@@ -55,14 +55,11 @@ export default function CardLeads({dados, btnUrl}) {
                     </div>
                 }
 
+
                 {/*BOTAO*/}
-                {btnUrl && <div className="row justify-content-end mt-3">
+                {btn && <div className="row justify-content-end mt-3">
                     <div className="col-auto">
-                        <a href={btnUrl}
-                           className="btn btn-primary btn-sm">
-                            ABRIR
-                            <ArrowForwardIcon/>
-                        </a>
+                        {btn}
                     </div>
                 </div>}
 

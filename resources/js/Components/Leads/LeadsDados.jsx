@@ -1,20 +1,21 @@
 export default function LeadsDados({dados}) {
     return (<>
         <div className="row">
-            <div className="col">
-                <p><b>Cliente:</b> {dados.cliente.nome}</p>
-                <p><b>Telefone:</b> {dados.contato.telefone}</p>
-                <p><b>Email:</b> {dados.contato.email}</p>
-                <p><b>Atendente:</b> {dados.contato.atendente}</p>
-                <p><b>Cidade/Estado:</b> {dados.cliente.cidade} / {dados.cliente.estado}</p>
-                <p><b>Status:</b> {dados.infos.status}</p>
-                <p><b>Anotações:</b> {dados.infos.anotacoes}</p>
+            <div className="col mb-2">
+                <span className="d-block"><b>Cliente:</b> {dados.cliente.nome}</span>
+                <span className="d-block"><b>Telefone:</b> {dados.contato.telefone}</span>
+                <span className="d-block"><b>Email:</b> {dados.contato.email}</span>
+                <span className="d-block"><b>Atendente:</b> {dados.contato.atendente}</span>
+                <span className="d-block"><b>Cidade/Estado:</b> {dados.cliente.cidade} / {dados.cliente.estado}</span>
+                <span className="d-block"><b>Status:</b> {dados.infos.status}</span>
+                <span className="d-block"><b>Anotações:</b> {dados.infos.anotacoes}</span>
             </div>
-            <div className="col">
-                <p><b>Meio de Contato:</b> {dados.infos.contato}</p>
-                <p><b>Observações:</b> {dados.infos.status_anotacoes}</p>
-                <p><b>Data de Contato:</b> {dados.infos.status_data}</p>
-                <p><b>Data de Cadastro:</b> {dados.infos.data_criacao}</p>
+            <div className="col mb-2">
+                <span className="d-block"><b>ID:</b> #{dados.id}</span>
+                <span className="d-block"><b>Meio de Contato:</b> {dados.infos.contato}</span>
+                <span className="d-block"><b>Observações:</b> {dados.infos.status_anotacoes}</span>
+                <span className="d-block"><b>Data de Contato:</b> {dados.infos.status_data}</span>
+                <span className="d-block"><b>Data de Cadastro:</b> {dados.infos.data_criacao}</span>
             </div>
         </div>
     </>)

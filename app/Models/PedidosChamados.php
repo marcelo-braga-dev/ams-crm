@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Chamados\ChamadoDadosService;
 use App\src\Chamados\StatusChamados;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -52,15 +53,7 @@ class PedidosChamados extends Model
     {
         $dados = $this->newQuery()->findOrFail($id);
 
-        return [
-            'id' => $id,
-            'id_pedido' => $dados->pedidos_id,
-            'cliente' => getNomeCliente($dados->pedidos_id),
-            'status' => (new StatusChamados())->getNomeStatus($dados->status),
-            'titulo' => $dados->titulo,
-            'prazo' => $dados->prazo,
-            'data' => date('d/m/y H:i', strtotime($dados->status_data))
-        ];
+        return (new ChamadoDadosService())->dados($dados);
     }
 
     // Retorna Chamados do Consultor
@@ -85,9 +78,16 @@ class PedidosChamados extends Model
 
     public function getChamadosPedido($id)
     {
-        return $this->newQuery()
+        $items = $this->newQuery()
             ->where('pedidos_id', $id)
             ->get();
+
+        $chamados = [];
+        foreach ($items as $item) {
+            $chamados[] = (new ChamadoDadosService())->dados($item);
+        }
+
+        return $chamados;
     }
 
     public function dadosCardAdmin()

@@ -15,7 +15,7 @@ export default function Create({dados}) {
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>NOME</th>
+                        <th>CLIENTE</th>
                         <th>CONSULTOR</th>
                         <th>CIDADE/ESTADO</th>
                         <th>ANOTAÇÕES</th>
@@ -26,11 +26,11 @@ export default function Create({dados}) {
                     {dados.map((dado, i) => {
                         return (<tr key={i}>
                             <td>#{dado.id}</td>
-                            <td>{dado.nome}</td>
-                            <td>{dado.consultor}</td>
-                            <td>{dado.cidade}/{dado.estado}</td>
-                            <td>{dado.infos}</td>
-                            <td>{dado.data_criacao}</td>
+                            <td>{dado.cliente.nome}</td>
+                            <td>{dado.consultor.nome}</td>
+                            <td>{dado.cliente.cidade}/{dado.cliente.estado}</td>
+                            <td>{dado.infos.anotacoes}</td>
+                            <td>{dado.infos.data_criacao}</td>
                         </tr>)
                     })}
                     </tbody>

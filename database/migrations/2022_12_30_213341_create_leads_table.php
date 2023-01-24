@@ -28,6 +28,7 @@ return new class extends Migration
             $table->timestamp('status_data');
             $table->string('meio_contato')->nullable();
             $table->string('infos')->nullable();
+            $table->boolean('pedido_emitido')->default(0);
             $table->timestamps();
         });
     }

@@ -13,8 +13,7 @@ class ChamadosPedidoController extends Controller
     public function show($id)
     {
         $chamados = (new PedidosChamados())->getChamadosPedido($id);
-        print_pre($chamados);
 
-        return Inertia::render('Admin/Chamados/Pedidos/Show', compact('dados'));
+        return Inertia::render('Admin/Chamados/Pedidos/Show', compact('chamados'));
     }
 }

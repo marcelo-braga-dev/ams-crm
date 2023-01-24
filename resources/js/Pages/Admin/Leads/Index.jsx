@@ -155,7 +155,8 @@ function EnhancedTableToolbar(props) {
             </div>
             <div className="col-auto mt-3">
                 <div className="col-auto">
-                    <a href={route('admin.clientes.leads.leads-main.create')} className="btn btn-primary">Cadastrar Leads</a>
+                    <a href={route('admin.clientes.leads.leads-main.create')} className="btn btn-primary">Cadastrar
+                        Leads</a>
                 </div>
             </div>
 
@@ -248,6 +249,9 @@ export default function Create({dados, consultores, auth, errors}) {
                 <Box sx={{width: '100%'}}>
                     <Paper sx={{width: '100%', mb: 2}}>
                         <EnhancedTableToolbar numSelected={selected.length} dados={selected}/>
+                        {!dados.length && <div
+                            className="alert alert-info mx-3 text-white">
+                            Não há LEADS disponíveis!</div>}
 
                         <form onSubmit={submit}>
                             <div className="row mx-3">
@@ -307,10 +311,10 @@ export default function Create({dados, consultores, auth, errors}) {
                                                         />
                                                     </TableCell>
                                                     <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                        {row.nome}
+                                                        {row.cliente.nome}
                                                     </TableCell>
-                                                    <TableCell>{row.cidade}/{row.estado}</TableCell>
-                                                    <TableCell align="right">{row.data_criacao}</TableCell>
+                                                    <TableCell>{row.cliente.cidade} / {row.cliente.estado}</TableCell>
+                                                    <TableCell align="right">{row.infos.data_criacao}</TableCell>
                                                 </TableRow>
                                             );
                                         })}

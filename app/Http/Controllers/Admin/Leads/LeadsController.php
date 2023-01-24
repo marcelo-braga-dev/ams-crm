@@ -27,7 +27,6 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
-
         foreach ($request->all() as $item) {
             $pessoa = 1;
             try {
