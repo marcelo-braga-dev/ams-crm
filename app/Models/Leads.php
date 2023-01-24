@@ -15,6 +15,8 @@ class Leads extends Model
         'status',
         'status_anotacoes',
         'nome',
+        'cnpj',
+        'razao_social',
         'atendente',
         'pessoa_fisica',
         'email',
