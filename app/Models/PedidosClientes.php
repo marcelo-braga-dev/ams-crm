@@ -134,7 +134,7 @@ class PedidosClientes extends Model
     public function remover($id)
     {
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->find($id)
             ->delete();
     }
 }
