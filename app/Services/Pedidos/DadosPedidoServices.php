@@ -8,6 +8,7 @@ use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
 use App\Models\User;
 use App\src\Pedidos\StatusPedidos;
+use App\src\Usuarios\Admins;
 use DateTime;
 
 class DadosPedidoServices
@@ -19,6 +20,10 @@ class DadosPedidoServices
         $fornecedor = (new Fornecedores())->getFornecedor($pedido->fornecedor);
         $integrador = (new Integradores())->get($pedido->integrador);
         $files = (new PedidosImagens())->getImagens($pedido->id);
+
+        $precoCusto = auth()->user()->tipo == (new Admins())->getTipo()
+            ? convert_float_money($pedido->preco_custo)
+            : null;
 
         return [
             'pedido' => [
@@ -44,6 +49,7 @@ class DadosPedidoServices
             'preco' => [
                 'preco_float' => $pedido->preco_venda,
                 'convertido' => convert_float_money($pedido->preco_venda),
+                'preco_custo_convertido' => $precoCusto,
             ],
             'fornecedor' => [
                 'nome' => $fornecedor['nome']

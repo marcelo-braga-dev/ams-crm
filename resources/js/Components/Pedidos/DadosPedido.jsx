@@ -10,7 +10,9 @@ export default function DadosPedido({dados}) {
         {dados.integrador.cnpj && <Typography><b>CNPJ do Integrador:</b> {dados.integrador.cnpj}</Typography>}
         {dados.fornecedor.nome && <Typography><b>Fornecedor:</b> {dados.fornecedor.nome}</Typography>}
         {dados.preco.convertido && <Typography><b>Valor:</b> R$ {dados.preco.convertido}</Typography>}
+        {dados.preco.preco_custo_convertido && <Typography><b>Preço de Custo:</b> R$ {dados.preco.preco_custo_convertido}</Typography>}
         {dados.pedido.forma_pagamento && <Typography><b>Forma Pagamento:</b> {dados.pedido.forma_pagamento}</Typography>}
         {dados.pedido.info && <Typography className="mt-3"><b>Anotações:</b> {dados.pedido.info}</Typography>}
+        {console.log(dados)}
     </>)
 }
