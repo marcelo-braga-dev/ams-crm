@@ -13,13 +13,13 @@ import DoubleScrollbar from 'react-double-scrollbar/dist/DoubleScrollbar';
 
 import {Container} from "reactstrap";
 
-export default function Pedidos({chamados}) {
+export default function Pedidos({dados}) {
 
     return (
         <Layout titlePage="SAC">
-            <Container fluid>
+            <div className="container">
                 <DoubleScrollbar>
-                    <Table className={"my-2"}>
+                    <table className={"my-2"}>
                         <thead>
                         <tr className={"text-center text-white"}>
                             <Th color="bg-success">Em Aberto</Th>
@@ -30,25 +30,25 @@ export default function Pedidos({chamados}) {
                         <tbody>
                         <tr className="align-top">
                             <Td color="bg-green-400">
-                                {chamados.novo.map((dados) => {
+                                {dados.novo.map((dados) => {
                                     return <NovoCard key={dados.id} dados={dados}></NovoCard>
                                 })}
                             </Td>
                             <Td color="bg-orange-400">
-                                {chamados.respondido.map((dados) => {
+                                {dados.respondido.map((dados) => {
                                     return <RespondidosCard key={dados.id} dados={dados}></RespondidosCard>
                                 })}
                             </Td>
                             <Td color="bg-black">
-                                {chamados.finalizado.map((dados) => {
+                                {dados.finalizado.map((dados) => {
                                     return <FinalizadosCard key={dados.id} dados={dados}></FinalizadosCard>
                                 })}
                             </Td>
                         </tr>
                         </tbody>
-                    </Table>
+                    </table>
                 </DoubleScrollbar>
-            </Container>
+            </div>
 
         </Layout>
     );

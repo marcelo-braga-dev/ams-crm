@@ -17,30 +17,13 @@ import {
 import {Row, Col} from 'reactstrap';
 import {LegendaNome, Nome} from './styles'
 
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleRight';
-
-
-const ExpandMore = styled((props) => {
-    const {expand, ...other} = props;
-    return <IconButton {...other} />;
-})(({theme, expand}) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
+import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
 
 const ITEM_HEIGHT = 48;
 
 export default function ConferenciaCard({dados}) {
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -62,8 +45,7 @@ export default function ConferenciaCard({dados}) {
                             aria-controls={open ? 'long-menu' : undefined}
                             aria-expanded={open ? 'true' : undefined}
                             aria-haspopup="true"
-                            onClick={handleClick}
-                        >
+                            onClick={handleClick}>
                             <MoreVertIcon/>
                         </IconButton>
                         <Menu
@@ -73,7 +55,7 @@ export default function ConferenciaCard({dados}) {
                             open={open}
                             onClose={handleClose}
                             PaperProps={{style: {maxHeight: ITEM_HEIGHT * 4.5, width: '20ch'},}}>
-                            <Link href={route('supervisor.chamados.show', dados.id)} underline="none" color="inherit">
+                            <Link href={route('supervisor.chamado.show', dados.id)} underline="none" color="inherit">
                                 <MenuItem key={dados.id} onClick={handleClose}>
                                     Ver Informações
                                 </MenuItem>
@@ -83,62 +65,50 @@ export default function ConferenciaCard({dados}) {
                 }
                 title={
                     <>
-                        <LegendaNome>Cliente</LegendaNome>
-                        <Nome>{dados.cliente}</Nome>
+                        <LegendaNome>Consultor</LegendaNome>
+                        <Nome>{dados.consultor}</Nome>
+                        <LegendaNome>Gerência</LegendaNome>
+                        <Nome>{dados.admin}</Nome>
                         <Divider className={"mb-3"}></Divider>
                     </>
                 }
-                subheader={<Row>
-                    <Col md="12">
-                        <Typography variant="caption" component={"p"}>Data: {dados.data}</Typography>
-                        <Typography variant="caption" component={"p"}
-                                    className={dados.prazo_atrasado ? "" : "text-red-600"}>Prazo: {dados.prazo} ({dados.prazo_dias} dias)</Typography>
-                    </Col>
-                </Row>}
+                subheader={
+                    <Row>
+                        <Col>
+                            <Typography variant="caption" component="p" color="text.secondary">
+                                Título: {dados.titulo}
+                            </Typography>
+                            <Typography variant="subtitle2" component="p" color="text.secondary">
+                                {dados.msg}
+                            </Typography>
+                        </Col>
+                    </Row>
+                }
             />
-            {/*Conteudo Card*/}
-            <Row className={"mx-0"}>
-                <Col md="9">
-                    <Typography variant="caption" component="p" color="text.secondary">
-                        Título: {dados.titulo}
+            <Row className="mx-2 text-muted">
+                <Col>
+                    <Typography variant="caption" component={"p"}>
+                        Data: {dados.status_data}
                     </Typography>
-                    <Typography variant="subtitle2" component="p" color="text.secondary">
-                        {dados.msg}
+                    <Typography variant="caption" component={"p"}
+                                className={dados.prazo_atrasado ? "" : "text-red-600"}>
+                        Prazo: {dados.prazo} ({dados.prazo_dias} dias)
                     </Typography>
-                </Col>
-                {/*SHOW*/}
-                <Col md="3" className="mt-1">
-                    {/*SHOW*/}
-                    <Col md="3" className="mt-1">
-                        <Link href={route('supervisor.chamados.edit', dados.id)}>
-                            <ArrowCircleUpIcon style={{cursor: 'pointer'}} fontSize={"large"}/>
-                        </Link>
-                    </Col>
                 </Col>
             </Row>
 
-            <CardActions disableSpacing>
-                <Typography variant="caption" ml={2}>ID: {dados.id}</Typography>
 
-                <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <ExpandMoreIcon/>
-                </ExpandMore>
-            </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography variant="body2" component="p">
-                        Telefone: {dados.telefone}
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                        Email: {dados.email}
-                    </Typography>
-                </CardContent>
-            </Collapse>
+            <div className="row justify-content-between px-3">
+                <div className="col-auto">
+                    <span className="text-sm text-muted">ID: #{dados.id}</span>
+                </div>
+                <div className="col-auto">
+                    <a href={route('supervisor.chamado.edit', dados.id)} className="btn btn-primary btn-sm p-1 px-3">
+                        <QuestionAnswerOutlinedIcon className="me-2"></QuestionAnswerOutlinedIcon>
+                        Abrir
+                    </a>
+                </div>
+            </div>
         </Card>
     )
 }

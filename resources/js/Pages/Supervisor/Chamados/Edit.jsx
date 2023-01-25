@@ -14,7 +14,7 @@ export default function Create({chamado, mensagens}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('supervisor.chamados.update', chamado.id), {
+        Inertia.post(route('supervisor.chamado.update', chamado.id), {
             _method: 'put',
             ...data
         })
@@ -24,7 +24,7 @@ export default function Create({chamado, mensagens}) {
     return (
         <Layout
             titlePage="Abrir SAQ"
-            url={route('supervisor.chamados.index')} textButton={'Voltar'}>
+            url={route('supervisor.chamado.index')} textButton={'Voltar'}>
 
             <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 mb-4">
                 <div className="row justify-content-between">

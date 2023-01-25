@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
 use App\Models\PedidosChamados;
 use App\Models\PedidosChamadosHistoricos;
+use App\Services\Chamados\ChamadoDadosCardService;
 use App\Services\Chamados\ChamadosService;
 use App\Services\Pedidos\PedidosServices;
 use App\src\Chamados\Status\AnaliseChamadosStatus;
@@ -19,37 +20,9 @@ class ChamadosController extends Controller
 {
     public function index()
     {
-        $chamadosAll = (new PedidosChamados())->newQuery()->get();
+        $dados = (new ChamadoDadosCardService())->cardsAdmin();
 
-        $novoStatus = (new NovoChamadoStatus())->getStatus();
-        $analiseStatus = (new AnaliseChamadosStatus())->getStatus();
-        $respondidoStatus = (new RespondidoChamadoStatus())->getStatus();
-        $finalizadosStatus = (new FinalizadosChamadoStatus())->getStatus();
-
-        $service = new ChamadosService();
-        $chamados['novo'] = [];
-        $chamados['analise'] = [];
-        $chamados['respondido'] = [];
-        $chamados['finalizado'] = [];
-
-        foreach ($chamadosAll as $item) {
-            switch ($item->status) {
-                case $novoStatus :
-                    $chamados['novo'][] = $service->chamado($item);
-                    break;
-                case $analiseStatus :
-                    $chamados['analise'][] = $service->chamado($item);
-                    break;
-                case $respondidoStatus :
-                    $chamados['respondido'][] = $service->chamado($item);
-                    break;
-                case $finalizadosStatus :
-                    $chamados['finalizado'][] = $service->chamado($item);
-                    break;
-            }
-        }
-
-        return Inertia::render('Supervisor/Chamados/Index', compact('chamados'));
+        return Inertia::render('Supervisor/Chamados/Index', compact('dados'));
     }
 
     public function show($id)
@@ -74,7 +47,7 @@ class ChamadosController extends Controller
         (new NovoChamadoStatus())->create($request->id, $request->titulo, $request->mensagem);
 
         modalSucesso('Chamado criado com sucesso!');
-        return redirect()->route('admin.chamado.index');
+        return redirect()->route('supervisor.chamado.index');
     }
 
     public function edit($id)
@@ -95,7 +68,7 @@ class ChamadosController extends Controller
             (new FinalizadosChamadoStatus())->updateStatus($request->id_pedido);
             (new Pedidos())->updateChamado($request->id_pedido, 0);
         }
-
-        return redirect()->route('admin.chamado.index');
+        
+        return redirect()->route('supervisor.chamados.index');
     }
 }
