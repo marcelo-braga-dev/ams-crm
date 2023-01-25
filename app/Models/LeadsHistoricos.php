@@ -14,7 +14,8 @@ class LeadsHistoricos extends Model
         'users_id',
         'leads_id',
         'status',
-        'msg'
+        'msg',
+        'meio_contato'
     ];
 
     public function create($id, $dados)
@@ -25,6 +26,7 @@ class LeadsHistoricos extends Model
                 'leads_id' => $id,
                 'status' => $dados->status,
                 'msg' => $dados->msg,
+                'meio_contato' => $dados->meio_contato
             ]);
     }
 private $status;

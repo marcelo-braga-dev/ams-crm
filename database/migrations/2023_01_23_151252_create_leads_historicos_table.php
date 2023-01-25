@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('users_id');
             $table->bigInteger('leads_id');
             $table->string('status', 32);
+            $table->string('meio_contato', 32)->nullable();
             $table->string('msg')->nullable();
             $table->timestamps();
         });

@@ -7,6 +7,13 @@ use App\Models\User;
 
 class LeadsDadosService
 {
+    private array $consultores;
+
+    public function __construct()
+    {
+        $this->consultores = (new User())->getNomeConsultores();
+    }
+
     public function getDisponiveis()
     {
         $dados = (new Leads())->getDisponiveis();
@@ -47,13 +54,12 @@ class LeadsDadosService
 
     private function items($item)
     {
-        $colsultores = (new User())->getNomeConsultores();
 
         return [
             'id' => $item->id,
 
             'consultor' => [
-                'nome' => $colsultores[$item->users_id] ?? '-'
+                'nome' => $this->consultores[$item->users_id] ?? ''
             ],
 
             'cliente' => [

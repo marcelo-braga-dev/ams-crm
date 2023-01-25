@@ -22,21 +22,35 @@ export default function Create() {
                 <span className="h6">Lead {i}</span>
                 <div className="row mt-3">
                     <div className="col mb-3">
-                        <TextField label="Nome/Empresa:" fullWidth
+                        <TextField label="Nome/Nome Fantasia:" fullWidth
                                    onBlur={e => setData('i' + i, {...data['i' + i], nome: e.target.value})}/>
                     </div>
                     <div className="col">
-                        <FormControl>
-                            <RadioGroup
-                                row aria-labelledby="pessoa" defaultValue="pf"
-                                name="row-radio-buttons-group"
-                                onChange={e => setData('i' + i, {...data['i' + i], pessoa: e.target.value})}>
-                                <FormControlLabel value="pf" control={<Radio/>} label="Pessoa Física"/>
-                                <FormControlLabel value="pj" control={<Radio/>} label="Jurídica"/>
-                            </RadioGroup>
-                        </FormControl>
+                        <div className="col mb-3">
+                            <TextField label="Razão Social :" fullWidth
+                                       onBlur={e => setData('i' + i, {...data['i' + i], razao_social: e.target.value})}/>
+                        </div>
+                        {/*<FormControl>*/}
+                        {/*    <RadioGroup*/}
+                        {/*        row aria-labelledby="pessoa" defaultValue="pf"*/}
+                        {/*        name="row-radio-buttons-group"*/}
+                        {/*        onChange={e => setData('i' + i, {...data['i' + i], pessoa: e.target.value})}>*/}
+                        {/*        <FormControlLabel value="pf" control={<Radio/>} label="Pessoa Física"/>*/}
+                        {/*        <FormControlLabel value="pj" control={<Radio/>} label="Jurídica"/>*/}
+                        {/*    </RadioGroup>*/}
+                        {/*</FormControl>*/}
                     </div>
                 </div>
+                {/*PJ*/}
+                {<div className="row">
+                    <div className="col mb-3">
+                        <TextField label="CNPJ :" fullWidth
+                                   onBlur={e => setData('i' + i, {...data['i' + i], cnpj: e.target.value})}/>
+                    </div>
+                    <div className="col mb-3">
+
+                    </div>
+                </div>}
                 <div className="row">
                     <div className="col mb-3">
                         <TextField label="Atendente:" fullWidth

@@ -19,10 +19,12 @@ class AtendimentoController extends Controller
 
         $status = (new StatusAtendimentoLeads())->status();
 
+        $contatos = (new MeioContatoLeads())->status();
+
         $historicos = (new LeadsHistoricos())->get($id);
 
         return Inertia::render('Consultor/Leads/Atendimento/Edit',
-            compact('dados', 'status', 'historicos'));
+            compact('dados', 'status', 'historicos', 'contatos'));
     }
 
     public function update($id, Request $request)

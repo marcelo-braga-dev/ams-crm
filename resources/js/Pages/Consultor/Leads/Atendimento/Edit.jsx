@@ -4,10 +4,11 @@ import {useForm} from "@inertiajs/inertia-react";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Edit({dados, historicos, status}) {
+export default function Edit({dados, historicos, status, contatos}) {
     const {put, setData} = useForm();
 
-    function onSubmit(e) { console.log('xx')
+    function onSubmit(e) {
+        console.log('xx')
         e.preventDefault();
         put(route('consultor.leads.atendimento.update', dados.id));
     }
@@ -39,8 +40,18 @@ export default function Edit({dados, historicos, status}) {
                         <div className="col-md-4 mb-4">
                             <TextField label="Status" select fullWidth required
                                        onChange={e => setData('status', e.target.value)}>
-                                {status.map((option) => (
-                                    <MenuItem key={option.id} value={option.status}>
+                                {status.map((option, index) => (
+                                    <MenuItem key={index} value={option.status}>
+                                        {option.nome}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </div>
+                        <div className="col-md-4 mb-4">
+                            <TextField label="Meio Contato" select fullWidth required
+                                       onChange={e => setData('meio_contato', e.target.value)}>
+                                {contatos.map((option, index) => (
+                                    <MenuItem key={index} value={option.key}>
                                         {option.nome}
                                     </MenuItem>
                                 ))}
@@ -79,7 +90,7 @@ export default function Edit({dados, historicos, status}) {
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">Finalizar Atendimento</h5>
                             <button type="button" className="btn-close bg-dark" data-bs-dismiss="modal"
-                                    aria-label="Close" />
+                                    aria-label="Close"/>
                         </div>
                         <div className="modal-body">
                             Confirmar finalização do atendimento?
@@ -93,7 +104,7 @@ export default function Edit({dados, historicos, status}) {
                                     </button>
                                 </div>
                                 <div className="col">
-                                    <form onSubmit={onSubmit} >
+                                    <form onSubmit={onSubmit}>
                                         <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
                                             Finalizar
                                         </button>

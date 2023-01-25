@@ -13,7 +13,6 @@ class Leads extends Model
     protected $fillable = [
         'users_id',
         'status',
-        'status_anotacoes',
         'nome',
         'cnpj',
         'razao_social',
@@ -25,7 +24,8 @@ class Leads extends Model
         'estado',
         'status_data',
         'meio_contato',
-        'infos'
+        'infos',
+        'created_at_'
     ];
 
     public function getDisponiveis()
@@ -36,7 +36,8 @@ class Leads extends Model
             ->get();
     }
 
-    public function setConsultor($idConsultor, $selecionados)
+    public
+    function setConsultor($idConsultor, $selecionados)
     {
         foreach ($selecionados as $item) {
             $this->newQuery()
@@ -44,7 +45,8 @@ class Leads extends Model
         }
     }
 
-    public function create($dados, $pessoa = null)
+    public
+    function create($dados, $pessoa = null)
     {
         try {
             $this->newQuery()
@@ -53,6 +55,8 @@ class Leads extends Model
                     'atendente' => $dados['atendente'] ?? null,
                     'telefone' => $dados['telefone'] ?? null,
                     'pessoa_fisica' => $pessoa,
+                    'razao_social' => $dados['razao_social'] ?? null,
+                    'cnpj' => $dados['cnpj'] ?? null,
                     'email' => $dados['email'] ?? null,
                     'cidade' => $dados['cidade'] ?? null,
                     'estado' => $dados['estado'] ?? null,
@@ -65,25 +69,29 @@ class Leads extends Model
         }
     }
 
-    public function getAll()
+    public
+    function getAll()
     {
         return $this->newQuery()
             ->orderByDesc('id')->get();
     }
 
-    public function getConsultores()
+    public
+    function getConsultores()
     {
         return $this->newQuery()
             ->where('users_id', auth()->id())
             ->get();
     }
 
-    public function find($id)
+    public
+    function find($id)
     {
         return $this->newQuery()->find($id);
     }
 
-    public function updateStatus($id, $status)
+    public
+    function updateStatus($id, $status)
     {
         $this->newQuery()
             ->find($id)
