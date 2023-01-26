@@ -37,12 +37,11 @@ class Leads extends Model
     }
 
     public
-    function setConsultor($idConsultor, $selecionados)
+    function setConsultor($idLead, $idConsultor)
     {
-        foreach ($selecionados as $item) {
-            $this->newQuery()
-                ->where('id', $item)->update(['users_id' => $idConsultor]);
-        }
+        $this->newQuery()
+            ->where('id', $idLead)
+            ->update(['users_id' => $idConsultor]);
     }
 
     public

@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import {TextField} from "@mui/material";
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/Supervisor/Layout';
+import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/inertia-react";
 
 const FilterComponent = ({filterText, onFilter}) => (
@@ -32,11 +33,6 @@ const columns = [
         sortable: true,
     },
     {
-        name: 'Consultor',
-        selector: row => row.consultor,
-        sortable: true,
-    },
-    {
         name: 'Data',
         selector: row => row.data_criacao,
         sortable: true,
@@ -60,7 +56,6 @@ export default function Filtering({dados, consultores}) {
             id: items.id,
             name: items.cliente.nome,
             razao_social: items.cliente.razao_social,
-            consultor: items.consultor.nome,
             data_criacao: items.infos.data_criacao,
         }
     });
@@ -86,6 +81,25 @@ export default function Filtering({dados, consultores}) {
         <Layout>
             <div className="container bg-white p-2 py-4 rounded">
 
+                <form onSubmit={submit}>
+                    <h5 className="mx-4 mb-3">Enviar Leads para Consultores</h5>
+                    <div className="row mx-3">
+                        <div className="col-md-4 ml-4">
+                            <TextField label="Selecione o Consultor..." select
+                                       fullWidth required size="small"
+                                       onChange={e => setData('consultor', e.target.value)}>
+                                {consultores.map((option) => (
+                                    <MenuItem key={option.id} value={option.id}>
+                                        {option.name}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </div>
+                        <div className="col-auto p-0">
+                            <button className="btn btn-primary" type="submit">Enviar</button>
+                        </div>
+                    </div>
+                </form>
                 <DataTable
                     columns={columns}
                     data={filteredItems}
@@ -93,6 +107,9 @@ export default function Filtering({dados, consultores}) {
                     paginationPerPage={25}
                     subHeader
                     subHeaderComponent={subHeaderComponentMemo}
+                    selectableRows
+                    persistTableHead
+                    onSelectedRowsChange={handleChange}
                 />
 
             </div>

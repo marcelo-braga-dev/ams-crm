@@ -64,6 +64,7 @@ class LeadsDadosService
 
             'cliente' => [
                 'nome' => $item->nome,
+                'razao_social' => $item->razao_social,
                 'cidade' => $item->cidade,
                 'estado' => $item->estado,
                 'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',

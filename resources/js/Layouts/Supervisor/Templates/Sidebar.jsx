@@ -13,10 +13,12 @@ export default function Sidebar() {
                 {'menu': 'Configurações', 'url': route('supervisor.pedidos.config.index')}
             ]
         }, {
-            'menu': 'Clientes',
+            'menu': 'Leads',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Leads', 'url': route('supervisor.leads.create')},
+                {'menu': 'Leads Cadastrados', 'url': route('supervisor.clientes.leads.leads-cadastrados')},
+                {'menu': 'Cadastrar Leads', 'url': route('supervisor.clientes.leads.leads-main.create')},
+                {'menu': 'Encaminhar Leads', 'url': route('supervisor.clientes.leads.leads-main.index')},
             ]
         }, {
             'menu': 'Usuários',

@@ -45,7 +45,9 @@ class LeadsController extends Controller
 
     public function updateConsultor(Request $request)
     {
-        (new Leads())->setConsultor($request->get('consultor'), $request->get('selected'));
+        foreach ($request->leads as $item) {
+            (new Leads())->setConsultor($item['id'], $request->consultor);
+        }
 
         modalSucesso('Informações armazenadas com sucesso!');
         return redirect()->back();

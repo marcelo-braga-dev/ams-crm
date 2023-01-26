@@ -36,6 +36,7 @@
         "jquery-mask-plugin": "^1.14.16",
         "prop-types": "^15.8.1",
         "react-beautiful-dnd": "^13.1.1",
+        "react-data-table-component": "^7.5.3",
         "react-double-scrollbar": "^0.0.15",
         "react-input-mask": "^2.0.4",
         "reactstrap": "^9.1.5",

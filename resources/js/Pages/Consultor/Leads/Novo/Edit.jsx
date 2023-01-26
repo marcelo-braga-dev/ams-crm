@@ -1,13 +1,18 @@
 import Layout from "@/Layouts/Consultor/Layout";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import {useForm} from "@inertiajs/inertia-react";
+import {Inertia} from "@inertiajs/inertia";
 
 export default function Edit({dados}) {
-    const {put} = useForm();
+    const {put, data} = useForm();
 
     function onSubmit(e) {
         e.preventDefault();
-        put(route('consultor.leads.novo.update', dados.id));
+
+        Inertia.post(route('consultor.leads.novo.update', dados.id), {
+            _method: 'put',
+            ...data
+        })
     }
 
     return (
