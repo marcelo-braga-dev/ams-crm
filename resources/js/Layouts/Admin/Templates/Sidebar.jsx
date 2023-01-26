@@ -9,7 +9,7 @@ export default function Sidebar() {
             'icone': 'fas fa-angle-double-right',
             'submenu': [
                 {'menu': 'Lista de Pedidos', 'url': route('admin.pedidos.index')},
-                {'menu': 'Histórico de Pedidos', 'url': route('admin.pedidos.historico.index')},
+                // {'menu': 'Histórico de Pedidos', 'url': route('admin.pedidos.historico.index')},
                 {'menu': 'Configurações', 'url': route('admin.config.index')}
             ]
         }, {
