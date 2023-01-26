@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\User;
 use App\Services\Leads\LeadsDadosService;
+use App\src\Leads\UpdateStatusLeads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -45,8 +46,10 @@ class LeadsController extends Controller
 
     public function updateConsultor(Request $request)
     {
-        foreach ($request->leads as $item) {
-            (new Leads())->setConsultor($item['id'], $request->consultor);
+        if (!empty($request->leads)) {
+            foreach ($request->leads as $item) {
+                (new Leads())->setConsultor($item['id'], $request->consultor);
+            }
         }
 
         modalSucesso('Informações armazenadas com sucesso!');
@@ -59,5 +62,45 @@ class LeadsController extends Controller
 
         return Inertia::render('Admin/Leads/Cadastrados',
             compact('dados'));
+    }
+
+    public function delete(Request $request)
+    {
+        if (!empty($request->leads)) {
+            foreach ($request->leads as $item) {
+                (new Leads())->remover($item['id']);
+            }
+        }
+
+        modalSucesso("Leads removidos com sucesso!");
+    }
+
+    public function ocultar(Request $request)
+    {
+        if (!empty($request->leads)) {
+            foreach ($request->leads as $item) {
+                (new UpdateStatusLeads())->ocultar($item['id']);
+            }
+        }
+
+        modalSucesso("Leads ocultado com sucesso!");
+    }
+
+    public function ocultos()
+    {
+        $dados = (new LeadsDadosService())->getOcultos();
+
+        return Inertia::render('Admin/Leads/Ocultos', compact('dados'));
+    }
+
+    public function restaurar(Request $request)
+    {
+        if (!empty($request->leads)) {
+            foreach ($request->leads as $item) {
+                (new UpdateStatusLeads())->restaurar($item['id']);
+            }
+        }
+
+        modalSucesso("Leads ocultado com sucesso!");
     }
 }

@@ -86,4 +86,11 @@ class LeadsDadosService
             ],
         ];
     }
+
+    public function getOcultos()
+    {
+        $dados = (new Leads())->getOcultos();
+
+        return $this->dados($dados);
+    }
 }

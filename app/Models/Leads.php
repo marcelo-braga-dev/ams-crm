@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\src\Leads\Status\NovoStatusLeads;
+use App\src\Leads\Status\OcultosLeadsStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
@@ -31,6 +33,7 @@ class Leads extends Model
     public function getDisponiveis()
     {
         return $this->newQuery()
+            ->where('status', '=', (new NovoStatusLeads())->getStatus())
             ->where('users_id', '=', null)
             ->orderByDesc('id')
             ->get();
@@ -68,10 +71,10 @@ class Leads extends Model
         }
     }
 
-    public
-    function getAll()
+    public function getAll()
     {
         return $this->newQuery()
+            ->where('status', '!=', (new OcultosLeadsStatus())->getStatus())
             ->orderByDesc('id')->get();
     }
 
@@ -89,13 +92,26 @@ class Leads extends Model
         return $this->newQuery()->find($id);
     }
 
-    public
-    function updateStatus($id, $status)
+    public function updateStatus($id, $status)
     {
         $this->newQuery()
             ->find($id)
             ->update([
                 'status' => $status
             ]);
+    }
+
+    public function remover(int $id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->delete();
+    }
+
+    public function getOcultos()
+    {
+        return $this->newQuery()
+            ->where('status', (new OcultosLeadsStatus())->getStatus())
+            ->get();
     }
 }

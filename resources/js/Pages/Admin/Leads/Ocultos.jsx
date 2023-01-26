@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import {TextField} from "@mui/material";
-import Layout from '@/Layouts/Supervisor/Layout';
+import Layout from '@/Layouts/Admin/Layout';
+import MenuItem from "@mui/material/MenuItem";
+import {useForm} from "@inertiajs/inertia-react";
 
 const FilterComponent = ({filterText, onFilter}) => (
     <TextField
@@ -31,16 +33,6 @@ const columns = [
         sortable: true,
     },
     {
-        name: 'Status',
-        selector: row => row.status,
-        sortable: true,
-    },
-    {
-        name: 'Consultor',
-        selector: row => row.consultor,
-        sortable: true,
-    },
-    {
         name: 'Data',
         selector: row => row.data_criacao,
         sortable: true,
@@ -48,6 +40,9 @@ const columns = [
 ];
 
 export default function Filtering({dados}) {
+    // Form
+    const {data, post, setData} = useForm();
+    // form - fim
 
     // Dados
     const linhas = dados.map(function (items) {
@@ -55,8 +50,6 @@ export default function Filtering({dados}) {
             id: items.id,
             name: items.cliente.nome,
             razao_social: items.cliente.razao_social,
-            status: items.infos.status,
-            consultor: items.consultor.nome,
             data_criacao: items.infos.data_criacao,
         }
     });
@@ -65,7 +58,9 @@ export default function Filtering({dados}) {
     const [filterText, setFilterText] = React.useState('');
 
     const filteredItems = linhas.filter(
-        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()),
+        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
+            || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
+            || item.id && item.id.toString() === filterText,
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
@@ -74,19 +69,30 @@ export default function Filtering({dados}) {
         );
     }, [filterText]);
 
+    const handleChange = row => {
+        setData('leads', row.selectedRows)
+    };
+
+    // Form Restaurar
+    function restaurar() {
+        post(route('admin.clientes.leads.restaurar'))
+    }
+
+    // Form Restaurar - fim
 
     return (
-        <Layout titlePage="Leads">
+        <Layout titlePage="Encaminhar Leads">
             <div className="container bg-white p-2 py-4 rounded">
-                <div className="row justify-content-between px-4">
-                    <div className="col-md-auto">
-                        <h6>Leads</h6>
-                    </div>
-                    <div className="col-md-auto">
-                        <a href={route('supervisor.clientes.leads.ocultos')} className="btn btn-link">Ocultos</a>
+
+                <h5 className="mx-4 mb-3">Leads Ocultos</h5>
+                <div className="row justify-content-between mx-4">
+                    <div className="col-md-auto ">
+                        <button type="button" className="btn btn-primary"
+                                onClick={() => restaurar()}>
+                            Restaurar Selecionados
+                        </button>
                     </div>
                 </div>
-
                 <DataTable
                     columns={columns}
                     data={filteredItems}
@@ -94,9 +100,13 @@ export default function Filtering({dados}) {
                     paginationPerPage={25}
                     subHeader
                     subHeaderComponent={subHeaderComponentMemo}
+                    selectableRows
+                    persistTableHead
+                    onSelectedRowsChange={handleChange}
                 />
 
             </div>
+
         </Layout>
     );
 };

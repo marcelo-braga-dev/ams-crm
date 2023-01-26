@@ -21,7 +21,7 @@ export default function Sidebar() {
                 {'menu': 'Encaminhar Leads', 'url': route('supervisor.clientes.leads.leads-main.index')},
             ]
         }, {
-            'menu': 'Usuários',
+            'menu': 'Contas de Usuários',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
                 {'menu': 'Usuários', 'url': route('supervisor.usuarios.usuario.index')},
