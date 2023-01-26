@@ -41,6 +41,11 @@ const columns = [
         sortable: true,
     },
     {
+        name: 'Telefone',
+        selector: row => row.telefone,
+        sortable: true,
+    },
+    {
         name: 'Data',
         selector: row => row.data_criacao,
         sortable: true,
@@ -58,6 +63,7 @@ export default function Filtering({dados}) {
             status: items.infos.status,
             consultor: items.consultor.nome,
             data_criacao: items.infos.data_criacao,
+            telefone: items.contato.telefone,
         }
     });
     // Dados - fim

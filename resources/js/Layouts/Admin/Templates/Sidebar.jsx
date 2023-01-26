@@ -19,6 +19,7 @@ export default function Sidebar() {
                 {'menu': 'Leads Cadastrados', 'url': route('admin.clientes.leads.leads-cadastrados')},
                 {'menu': 'Cadastrar Leads', 'url': route('admin.clientes.leads.leads-main.create')},
                 {'menu': 'Encaminhar Leads', 'url': route('admin.clientes.leads.leads-main.index')},
+                {'menu': 'Alterar Consultor', 'url': route('admin.clientes.leads.alterar-consultor')},
             ]
         }, {
             'menu': 'Contas de Usuários',

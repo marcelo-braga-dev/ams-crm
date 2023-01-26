@@ -26,6 +26,11 @@ const columns = [
         sortable: true,
     },
     {
+        name: 'Consultor',
+        selector: row => row.consultor,
+        sortable: true,
+    },
+    {
         name: 'Nome/Nome Fantasia',
         selector: row => row.name,
         sortable: true,
@@ -64,6 +69,7 @@ export default function Filtering({dados, consultores}) {
         return {
             id: items.id,
             name: items.cliente.nome,
+            consultor: items.consultor.nome,
             razao_social: items.cliente.razao_social,
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
@@ -112,11 +118,11 @@ export default function Filtering({dados, consultores}) {
     }
 
     return (
-        <Layout titlePage="Encaminhar Leads">
+        <Layout titlePage="Alterar Consultor">
             <div className="container bg-white p-2 py-4 rounded">
 
                 <form onSubmit={submit}>
-                    <h5 className="mx-4 mb-3">Enviar Leads para Consultores</h5>
+                    <h5 className="mx-4 mb-3">Alterar Consultor</h5>
                     <div className="row justify-content-between">
                         <div className="col-md-6">
                             <div className="row mx-3">

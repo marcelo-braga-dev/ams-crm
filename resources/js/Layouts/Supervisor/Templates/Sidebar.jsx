@@ -19,6 +19,7 @@ export default function Sidebar() {
                 {'menu': 'Leads Cadastrados', 'url': route('supervisor.clientes.leads.leads-cadastrados')},
                 {'menu': 'Cadastrar Leads', 'url': route('supervisor.clientes.leads.leads-main.create')},
                 {'menu': 'Encaminhar Leads', 'url': route('supervisor.clientes.leads.leads-main.index')},
+                {'menu': 'Alterar Consultor', 'url': route('supervisor.clientes.leads.alterar-consultor')},
             ]
         }, {
             'menu': 'Contas de Usuários',

@@ -14,4 +14,5 @@ Route::name('supervisor.clientes.leads.')
         Route::post('ocultar', [LeadsController::class, 'ocultar'])->name('ocultar');
         Route::get('ocultos', [LeadsController::class, 'ocultos'])->name('ocultos');
         Route::post('restaurar', [LeadsController::class, 'restaurar'])->name('restaurar');
+        Route::get('alterar-consultor', [LeadsController::class, 'alterarConsultor'])->name('alterar-consultor');
     });

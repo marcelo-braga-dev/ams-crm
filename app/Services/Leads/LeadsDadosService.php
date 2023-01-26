@@ -14,35 +14,28 @@ class LeadsDadosService
         $this->consultores = (new User())->getNomeConsultores();
     }
 
-    public function getDisponiveis()
+    public function getDisponiveis(): array
     {
         $dados = (new Leads())->getDisponiveis();
 
         return $this->dados($dados);
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $dados = (new Leads())->getAll();
 
         return $this->dados($dados);
     }
 
-    public function getConsultor()
-    {
-        $dados = (new Leads())->getConsultores();
-
-        return $this->dados($dados);
-    }
-
-    public function lead($id)
+    public function lead($id): array
     {
         $dados = (new Leads())->find($id);
 
         return $this->items($dados);
     }
 
-    private function dados($items)
+    private function dados($items): array
     {
         $dados = [];
 
@@ -52,9 +45,8 @@ class LeadsDadosService
         return $dados;
     }
 
-    private function items($item)
+    private function items($item): array
     {
-
         return [
             'id' => $item->id,
 
@@ -87,9 +79,16 @@ class LeadsDadosService
         ];
     }
 
-    public function getOcultos()
+    public function getOcultos(): array
     {
         $dados = (new Leads())->getOcultos();
+
+        return $this->dados($dados);
+    }
+
+    public function getLeadsComConsultor(): array
+    {
+        $dados = (new Leads())->getLeadsComConsultor();
 
         return $this->dados($dados);
     }

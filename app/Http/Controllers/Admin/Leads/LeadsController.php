@@ -103,4 +103,13 @@ class LeadsController extends Controller
 
         modalSucesso("Leads ocultado com sucesso!");
     }
+
+    public function alterarConsultor()
+    {
+        $dados = (new LeadsDadosService())->getLeadsComConsultor();
+        $consultores = (new User())->getConsultores();
+
+        return Inertia::render('Admin/Leads/AlterarConsultor',
+            compact('dados', 'consultores'));
+    }
 }

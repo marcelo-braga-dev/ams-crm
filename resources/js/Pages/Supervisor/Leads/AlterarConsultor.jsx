@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import {TextField} from "@mui/material";
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/Supervisor/Layout';
 import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/inertia-react";
 
@@ -23,6 +23,11 @@ const columns = [
     {
         name: 'ID',
         selector: row => row.id,
+        sortable: true,
+    },
+    {
+        name: 'Consultor',
+        selector: row => row.consultor,
         sortable: true,
     },
     {
@@ -49,12 +54,12 @@ const columns = [
 
 export default function Filtering({dados, consultores}) {
     // Form
-    const {data, post, setData} = useForm({
+    const {data, post, setData, reset} = useForm({
         'leads': []
     });
 
     function submit() {
-        if (data.consultor && data.leads) post(route('admin.clientes.leads.update-consultor'))
+        if (data.consultor && data.leads) post(route('supervisor.clientes.leads.update-consultor'))
     }
 
     // form - fim
@@ -64,6 +69,7 @@ export default function Filtering({dados, consultores}) {
         return {
             id: items.id,
             name: items.cliente.nome,
+            consultor: items.consultor.nome,
             razao_social: items.cliente.razao_social,
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
@@ -91,14 +97,14 @@ export default function Filtering({dados, consultores}) {
 
     // Form Excluir
     function excluir() {
-        post(route('admin.clientes.leads.delete'))
+        post(route('supervisor.clientes.leads.delete'))
     }
 
     // Form Excluir - fim
 
     // Form Ocultar
     function ocultar() {
-        post(route('admin.clientes.leads.ocultar'))
+        post(route('supervisor.clientes.leads.ocultar'))
     }
 
     // Form Ocultar - fim
@@ -112,11 +118,11 @@ export default function Filtering({dados, consultores}) {
     }
 
     return (
-        <Layout titlePage="Encaminhar Leads">
+        <Layout titlePage="Alterar Consultor">
             <div className="container bg-white p-2 py-4 rounded">
 
                 <form onSubmit={submit}>
-                    <h5 className="mx-4 mb-3">Enviar Leads para Consultores</h5>
+                    <h5 className="mx-4 mb-3">Alterar Consultor</h5>
                     <div className="row justify-content-between">
                         <div className="col-md-6">
                             <div className="row mx-3">

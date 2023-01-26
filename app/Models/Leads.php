@@ -114,4 +114,11 @@ class Leads extends Model
             ->where('status', (new OcultosLeadsStatus())->getStatus())
             ->get();
     }
+
+    public function getLeadsComConsultor()
+    {
+        return $this->newQuery()
+            ->where('users_id', '>', 0)
+            ->get();
+    }
 }
