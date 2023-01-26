@@ -54,12 +54,14 @@ const columns = [
 
 export default function Filtering({dados, consultores}) {
     // Form
-    const {data, post, setData} = useForm({
+    const {data, post, setData, reset} = useForm({
         'leads': []
     });
 
     function submit() {
-        if (data.consultor && data.leads) post(route('admin.clientes.leads.update-consultor'))
+        if (data.consultor && data.leads) post(route('admin.clientes.leads.update-consultor'), {
+            onSuccess: () => reset(),
+        })
     }
 
     // form - fim

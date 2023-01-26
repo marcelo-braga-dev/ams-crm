@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
+use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
@@ -103,9 +104,14 @@ class Leads extends Model
 
     public function remover(int $id)
     {
-        $this->newQuery()
-            ->find($id)
-            ->delete();
+        try {
+            $this->newQuery()
+                ->find($id)
+                ->delete();
+        } catch (Error) {
+
+        }
+
     }
 
     public function getOcultos()

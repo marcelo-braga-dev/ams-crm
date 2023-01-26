@@ -73,6 +73,8 @@ class LeadsController extends Controller
         }
 
         modalSucesso("Leads removidos com sucesso!");
+
+        return redirect()->back();
     }
 
     public function ocultar(Request $request)
