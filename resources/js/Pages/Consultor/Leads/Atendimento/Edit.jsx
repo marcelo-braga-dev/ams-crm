@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {Inertia} from "@inertiajs/inertia";
 
 export default function Edit({dados, historicos, status, contatos}) {
-    const {put, setData} = useForm();
+    const {data, setData} = useForm();
 
     function onSubmit(e) {
         e.preventDefault();
