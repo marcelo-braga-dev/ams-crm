@@ -11,6 +11,7 @@ class StatusAtendimentoLeads
             'nao_interessado' => 'Não Interessado',
             'atendido' => 'Atendido',
             'ligacao_realizada' => 'Ligação Realizada',
+            'sem_retorno' => 'Sem Retorno',
         ];
     }
 
@@ -21,6 +22,7 @@ class StatusAtendimentoLeads
             ['status' => 'nao_interessado', 'nome' => 'Não Interessado'],
             ['status' => 'atendido', 'nome' => 'Atendido'],
             ['status' => 'ligacao_realizada', 'nome' => 'Ligação Realizada'],
+            ['status' => 'sem_retorno', 'nome' => 'Sem Retorno'],
         ];
     }
 }
