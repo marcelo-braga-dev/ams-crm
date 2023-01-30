@@ -1,8 +1,8 @@
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 import Layout from "@/Layouts/Supervisor/Layout";
 
 import React from 'react';
-import {useForm} from '@inertiajs/inertia-react';
+import {useForm} from '@inertiajs/react';
 import {Container, Row, Col} from 'reactstrap';
 
 import {TextField, Typography} from "@mui/material";
@@ -18,7 +18,7 @@ export default function Create({pedido}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('supervisor.pedidos.aguardando-faturamento.update', pedido.pedido.id), {
+        router.post(route('supervisor.pedidos.aguardando-faturamento.update', pedido.pedido.id), {
             _method: 'put',
             ...data
         })

@@ -1,8 +1,8 @@
 import Layout from '@/Layouts/Consultor/Layout';
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 
 import React, {useState} from 'react';
-import {useForm, usePage} from '@inertiajs/inertia-react';
+import {useForm, usePage} from '@inertiajs/react';
 
 import AlertDanger from "./Partials/AlertDanger";
 import InfoCliente from "./Partials/InfoCliente";
@@ -53,7 +53,7 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco, inte
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('consultor.revisar.update', pedido.id), {
+        router.post(route('consultor.revisar.update', pedido.id), {
             _method: 'put',
             ...data,
         })

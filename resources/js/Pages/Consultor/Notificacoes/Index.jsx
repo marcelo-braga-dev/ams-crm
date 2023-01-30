@@ -1,5 +1,5 @@
 import Layout from '@/Layouts/Consultor/Layout';
-import {Inertia} from "@inertiajs/inertia";
+import { router } from '@inertiajs/react'
 
 import {Typography} from "@mui/material";
 
@@ -19,7 +19,7 @@ function FolderIcon() {
 export default function Create({notificacoes}) {
 
     const alterarNotificar = (id, value) => {
-        Inertia.post(route('consultor.notificacoes.update', id), {
+        router.post(route('consultor.notificacoes.update', id), {
             _method: 'put',
             status: value,
         })

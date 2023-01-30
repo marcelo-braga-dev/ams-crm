@@ -1,16 +1,16 @@
 import Layout from "@/Layouts/Consultor/Layout";
 import LeadsDados from "@/Components/Leads/LeadsDados";
-import {useForm} from "@inertiajs/inertia-react";
+import {useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import {Inertia} from "@inertiajs/inertia";
+import { router } from '@inertiajs/react'
 
 export default function Edit({dados, historicos, status, contatos}) {
     const {data, setData} = useForm();
 
     function onSubmit(e) {
         e.preventDefault();
-        Inertia.post(route('consultor.leads.atendimento.update', dados.id), {
+        router.post(route('consultor.leads.atendimento.update', dados.id), {
             _method: 'put',
             ...data
         })

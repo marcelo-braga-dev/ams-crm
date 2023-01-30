@@ -3,7 +3,7 @@ import Layout from '@/Layouts/Supervisor/Layout';
 import {Button, Card, Col, Container, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
 
-import {useForm} from '@inertiajs/inertia-react'
+import {useForm} from '@inertiajs/react'
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Alert, TextField} from "@mui/material";
@@ -11,7 +11,7 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 
 export default function Pedidos({pedido}) {
 
@@ -38,7 +38,7 @@ export default function Pedidos({pedido}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('supervisor.pedidos.conferencia.update', pedido.pedido.id), {
+        router.post(route('supervisor.pedidos.conferencia.update', pedido.pedido.id), {
             _method: 'put',
             ...data
         })

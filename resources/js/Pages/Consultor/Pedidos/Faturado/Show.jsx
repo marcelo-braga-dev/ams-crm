@@ -1,12 +1,12 @@
 import Layout from '@/Layouts/Consultor/Layout';
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 
 import React from 'react';
-import {useForm, usePage} from '@inertiajs/inertia-react';
+import {useForm} from '@inertiajs/react';
 import {Container, Row, Col, Form, Button} from 'reactstrap';
 
 //step
-import {TextField, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 export default function Create({id, files}) {
     const {data, setData, progress} = useForm({
@@ -14,7 +14,7 @@ export default function Create({id, files}) {
     });
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('consultor.aguardando-pagamento.update', id), {
+        router.post(route('consultor.aguardando-pagamento.update', id), {
             _method: 'put',
             ...data
         })

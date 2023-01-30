@@ -2,7 +2,7 @@ import Layout from '@/Layouts/Supervisor/Layout';
 import {Button, Card, Col, Container, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
 
-import {useForm} from '@inertiajs/inertia-react'
+import {useForm} from '@inertiajs/react'
 import {TextField} from "@mui/material";
 
 export default function Pedidos({prazos}) {

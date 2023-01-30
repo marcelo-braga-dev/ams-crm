@@ -1,7 +1,7 @@
 import Layout from '@/Layouts/Supervisor/Layout';
 
-import React, {useState} from 'react';
-import {useForm, usePage} from '@inertiajs/inertia-react';
+import React from 'react';
+import {useForm} from '@inertiajs/react';
 import {Container, Row, Col, Form, Button} from 'reactstrap';
 import {TextField, Typography} from "@mui/material";
 

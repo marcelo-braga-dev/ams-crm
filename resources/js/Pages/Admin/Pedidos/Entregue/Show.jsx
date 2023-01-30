@@ -4,8 +4,8 @@ import Typography from "@mui/material/Typography";
 import ConvertMoney from "@/Components/ConvertMoney";
 import Paper from "@mui/material/Paper";
 
-import {useForm} from '@inertiajs/inertia-react'
-import {Inertia} from "@inertiajs/inertia";
+import {useForm} from '@inertiajs/react'
+import { router } from '@inertiajs/react'
 
 
 export default function Pedidos({pedido, cliente, img}) {
@@ -13,7 +13,7 @@ export default function Pedidos({pedido, cliente, img}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('admin.entregue.update', pedido.pedido.id), {
+        router.post(route('admin.entregue.update', pedido.pedido.id), {
             _method: 'put',
             ...data
         })

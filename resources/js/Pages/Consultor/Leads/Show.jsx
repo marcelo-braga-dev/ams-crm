@@ -1,6 +1,6 @@
 import IntegradorLayout from '@/Layouts/Consultor/Layout';
 import React, {useState} from 'react';
-import {Inertia} from '@inertiajs/inertia';
+import { router } from '@inertiajs/react';
 import {Container, FormControl, FormHelperText, InputLabel, Select, TextField} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from "@mui/material/Typography";
@@ -25,7 +25,7 @@ export default function Show({auth, errors, cliente}) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        Inertia.post(route('consultor.clientes.index'), values)
+        router.post(route('consultor.clientes.index'), values)
     }
 
     const [age, setAge] = React.useState('');

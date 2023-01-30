@@ -1,8 +1,8 @@
 import Layout from '@/Layouts/Consultor/Layout';
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 
 import React from 'react';
-import {useForm, usePage} from '@inertiajs/inertia-react';
+import {useForm, usePage} from '@inertiajs/react';
 import {Container, Row, Col, Form, Button} from 'reactstrap';
 
 //step
@@ -14,7 +14,7 @@ export default function Create({dados}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('consultor.aguardando-pagamento.update', dados.pedido.id), {
+        router.post(route('consultor.aguardando-pagamento.update', dados.pedido.id), {
             _method: 'put',
             ...data
         })

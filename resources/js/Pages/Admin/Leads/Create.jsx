@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import Layout from "@/Layouts/Admin/Layout";
 import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
-import {useForm} from "@inertiajs/inertia-react";
+import {useForm} from "@inertiajs/react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 export default function Create() {

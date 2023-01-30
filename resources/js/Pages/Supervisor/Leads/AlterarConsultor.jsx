@@ -3,7 +3,7 @@ import DataTable from 'react-data-table-component';
 import {TextField} from "@mui/material";
 import Layout from '@/Layouts/Supervisor/Layout';
 import MenuItem from "@mui/material/MenuItem";
-import {useForm} from "@inertiajs/inertia-react";
+import {useForm} from "@inertiajs/react";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';

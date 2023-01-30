@@ -4,7 +4,7 @@ import EmailIcon from '@mui/icons-material/EmailSharp';
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
 import PushPinIcon from "@mui/icons-material/PushPin";
-import {useForm} from "@inertiajs/inertia-react";
+import {useForm} from "@inertiajs/react";
 
 export default function PinIcon({dados}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -23,7 +23,6 @@ export default function PinIcon({dados}) {
     // Toggle Icon Pin
     const {data} = useForm()
     const togglePin = (id) => {
-        console.log(id)
     }
     // Toggle Icon Pin - fim
 

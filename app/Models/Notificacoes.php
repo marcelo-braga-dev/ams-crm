@@ -75,4 +75,13 @@ class Notificacoes extends Model
     {
         // Implementar Delete
     }
+
+    public function marcarTodasLidas()
+    {
+        $this->newQuery()
+            ->where('users_id', auth()->id())
+            ->update([
+                'notificar' => 0
+            ]);
+    }
 }

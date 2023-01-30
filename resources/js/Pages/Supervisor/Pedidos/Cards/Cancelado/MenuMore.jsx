@@ -25,7 +25,7 @@ import {
 } from '@mui/material';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {Inertia} from "@inertiajs/inertia";
+import { router } from '@inertiajs/react'
 import Box from "@mui/material/Box";
 
 // MoreMenu - fim
@@ -49,13 +49,13 @@ export default function MenuMore({id}) {
     // Modal - fim
 
     function destroy(id) {
-        Inertia.post(route('supervisor.pedidos.destroy', id), {
+        router.post(route('supervisor.pedidos.destroy', id), {
             _method: 'delete',
         })
     }
 
     function restaurar(id) {
-        Inertia.post(route('supervisor.pedidos.retroceder.update', id), {
+        router.post(route('supervisor.pedidos.retroceder.update', id), {
             _method: 'put',
         })
     }

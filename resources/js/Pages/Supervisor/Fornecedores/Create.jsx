@@ -1,4 +1,4 @@
-import {useForm} from '@inertiajs/inertia-react';
+import {useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/Supervisor/Layout";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";

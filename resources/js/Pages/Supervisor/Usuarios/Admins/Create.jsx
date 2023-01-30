@@ -4,7 +4,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import {Head, Link, useForm} from '@inertiajs/inertia-react';
+import {Head, Link, useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/Supervisor/Layout";
 import {Button, Col, Container, Row, Table} from "reactstrap";
 import {TextField} from "@mui/material";

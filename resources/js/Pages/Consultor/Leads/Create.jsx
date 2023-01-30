@@ -1,6 +1,6 @@
 import IntegradorLayout from '@/Layouts/Consultor/Layout';
 import React, {useState} from 'react';
-import {Inertia} from '@inertiajs/inertia';
+import { router } from '@inertiajs/react';
 import {Container, TextField} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import {Button} from 'reactstrap';
@@ -24,7 +24,7 @@ export default function Create({auth, errors}) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        Inertia.post(route('consultor.clientes.index'), values)
+        router.post(route('consultor.clientes.index'), values)
     }
 
     return (

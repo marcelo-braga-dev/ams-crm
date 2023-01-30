@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import Layout from "@/Layouts/Supervisor/Layout";
 import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
-import {useForm} from "@inertiajs/inertia-react";
+import {useForm} from "@inertiajs/react";
 
 export default function Create() {
     const [qtdLeads, setQtdLeads] = useState(3);

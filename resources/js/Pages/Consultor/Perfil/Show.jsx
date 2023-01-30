@@ -1,8 +1,8 @@
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 import Layout from "@/Layouts/Consultor/Layout";
 
-import React, {useState, useEffect} from 'react';
-import {useForm, usePage} from '@inertiajs/inertia-react';
+import React from 'react';
+import {useForm, usePage} from '@inertiajs/react';
 import {TextField, Typography} from "@mui/material";
 import Alert from "@mui/material/Alert";
 
@@ -12,7 +12,7 @@ export default function Create({dados, flash}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('consultor.senha.update', dados.id), {
+        router.post(route('consultor.senha.update', dados.id), {
             _method: 'put',
             ...data,
         },)

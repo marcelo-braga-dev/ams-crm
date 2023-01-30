@@ -13,6 +13,5 @@ export default function DadosPedido({dados}) {
         {dados.preco.preco_custo_convertido && <Typography><b>Preço de Custo:</b> R$ {dados.preco.preco_custo_convertido}</Typography>}
         {dados.pedido.forma_pagamento && <Typography><b>Forma Pagamento:</b> {dados.pedido.forma_pagamento}</Typography>}
         {dados.pedido.info && <Typography className="mt-3"><b>Anotações:</b> {dados.pedido.info}</Typography>}
-        {console.log(dados)}
     </>)
 }

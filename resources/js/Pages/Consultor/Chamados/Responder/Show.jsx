@@ -1,18 +1,18 @@
 import Layout from '@/Layouts/Consultor/Layout';
 
 import React, {useState} from 'react';
-import {useForm} from '@inertiajs/inertia-react'
+import {useForm} from '@inertiajs/react'
 import {Container, Row, Col, Button} from 'reactstrap';
 import {TextField, Typography} from "@mui/material";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
-import {Inertia} from "@inertiajs/inertia";
+import { router } from '@inertiajs/react'
 
 export default function Create({chamado, mensagens}) {
     const {data, setData} = useForm({id: chamado.id});
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('consultor.chamado.responder.update', chamado.id), {
+        router.post(route('consultor.chamado.responder.update', chamado.id), {
             _method: 'put',
             ...data
         })

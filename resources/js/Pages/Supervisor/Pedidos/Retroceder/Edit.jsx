@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/Supervisor/Layout";
-import {Inertia} from '@inertiajs/inertia'
-import {useForm} from '@inertiajs/inertia-react';
+import { router } from '@inertiajs/react'
+import {useForm} from '@inertiajs/react';
 
 import {TextField, Typography} from "@mui/material";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
@@ -13,7 +13,7 @@ export default function Create({dados}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('supervisor.pedidos.retroceder.update', dados.pedido.id), {
+        router.post(route('supervisor.pedidos.retroceder.update', dados.pedido.id), {
             _method: 'put', ...data
         })
     }

@@ -1,5 +1,5 @@
 import Layout from '@/Layouts/Supervisor/Layout';
-import {Inertia} from "@inertiajs/inertia";
+import { router } from '@inertiajs/react'
 
 import {Typography} from "@mui/material";
 
@@ -15,7 +15,7 @@ import Switch from '@mui/material/Switch';
 export default function Create({notificacoes}) {
 
     const alterarNotificar = (id, value) => {
-        Inertia.post(route('supervisor.notificacoes.update', id), {
+        router.post(route('supervisor.notificacoes.update', id), {
             _method: 'put',
             status: value,
         })

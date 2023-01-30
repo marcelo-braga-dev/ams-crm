@@ -1,10 +1,8 @@
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 import Layout from "@/Layouts/Admin/Layout";
 
-import React, {useState} from 'react';
-import {useForm, usePage} from '@inertiajs/inertia-react';
-import {Container, Row, Col, Form, Button} from 'reactstrap';
-import {Typography} from "@mui/material";
+import React from 'react';
+import {useForm} from '@inertiajs/react';
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
 export default function Create({pedido}) {
@@ -12,7 +10,7 @@ export default function Create({pedido}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('admin.faturado.update', pedido.pedido.id), {
+        router.post(route('admin.faturado.update', pedido.pedido.id), {
             _method: 'put',
             ...data
         })
@@ -20,7 +18,7 @@ export default function Create({pedido}) {
 
     return (
         <Layout titlePage="Pedido Faturado">
-            <Container fluid="lg" className="bg-white px-lg-6 py-lg-5">
+            <div className="container bg-white px-lg-6 py-lg-5">
                 <div className="row mb-4">
                     <div className="col">
                         <DadosPedidoMinimo dados={pedido} />
@@ -32,7 +30,7 @@ export default function Create({pedido}) {
                         Atualizar Status para Entregue
                     </button>
                 </form>
-            </Container>
+            </div>
         </Layout>
     )
 }

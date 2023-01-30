@@ -1,4 +1,4 @@
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 import React, {useState} from 'react'
 import {
     Card,

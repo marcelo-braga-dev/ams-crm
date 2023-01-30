@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 import Layout from '@/Layouts/Admin/Layout';
 import {Button, Card, Col, Container, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
 
-import {useForm} from '@inertiajs/inertia-react'
+import {useForm} from '@inertiajs/react'
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Alert, TextField} from "@mui/material";
@@ -38,7 +38,7 @@ export default function Pedidos({pedido}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('admin.conferencia.update', pedido.pedido.id), {
+        router.post(route('admin.conferencia.update', pedido.pedido.id), {
             _method: 'put',
             ...data
         })

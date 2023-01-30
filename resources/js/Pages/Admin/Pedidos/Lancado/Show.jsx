@@ -1,10 +1,10 @@
 import Layout from '@/Layouts/Admin/Layout';
-import {Inertia} from '@inertiajs/inertia'
+import { router } from '@inertiajs/react'
 import {Button, Card, Col, Container, Row, Table} from "reactstrap";
 import * as React from 'react';
 import Typography from "@mui/material/Typography";
 
-import {useForm} from '@inertiajs/inertia-react';
+import {useForm} from '@inertiajs/react';
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
@@ -16,7 +16,7 @@ export default function Pedidos({dados}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('admin.lancado.update', dados.pedido.id), {
+        router.post(route('admin.lancado.update', dados.pedido.id), {
             _method: 'put',
             ...data
         })

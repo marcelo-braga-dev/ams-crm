@@ -1,5 +1,5 @@
 import Layout from '@/Layouts/Admin/Layout';
-import {Inertia} from "@inertiajs/inertia";
+import {router} from '@inertiajs/react'
 
 import {Typography} from "@mui/material";
 
@@ -10,20 +10,35 @@ import Avatar from "@mui/material/Avatar";
 import converterDataHorario from "@/Helpers/converterDataHorario";
 
 import * as React from 'react';
-import Switch from '@mui/material/Switch';
 
 export default function Create({notificacoes}) {
 
     const alterarNotificar = (id, value) => {
-        Inertia.post(route('admin.notificacoes.update', id), {
+        router.post(route('admin.notificacoes.update', id), {
             _method: 'put',
             status: value,
         })
     }
+
+    function marcarComoLidas() {
+        router.post(route('admin.notificacoes.marcar-lidas'), {
+            _method: 'put',
+        })
+
+        window.location.reload();
+    }
+
     return (
         <Layout titlePage="Notificações">
 
             <div className="container bg-wh ite rounded px-3 px-md-6 py-4 mb-4">
+                <div className="row justify-content-end">
+                    <div className="col-auto">
+                        <button type="submit" className="btn btn-link"
+                                onClick={() => marcarComoLidas()}>Marcar como lidas
+                        </button>
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col-12 mb-3 p-3">
 
@@ -72,9 +87,12 @@ export default function Create({notificacoes}) {
                                             </a>
                                         }
                                         <div className="mt-4">
-                                            <Switch
-                                                defaultChecked={!!dados.notificar}
-                                                onChange={e => alterarNotificar(dados.id, e.target.checked)}/>
+                                            <div className="form-check form-switch">
+                                                <input className="form-check-input" type="checkbox"
+                                                       defaultChecked={!!dados.notificar}
+                                                       onChange={e => alterarNotificar(dados.id, e.target.checked)}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

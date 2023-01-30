@@ -1,11 +1,11 @@
-import {Head, Link, useForm} from '@inertiajs/inertia-react';
+import {Head, Link, useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/Supervisor/Layout";
 import {Button, Col, Container, Row, Table} from "reactstrap";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
-import {Inertia} from "@inertiajs/inertia";
+import { router } from '@inertiajs/react'
 
 const currencies = [
     {
@@ -27,7 +27,7 @@ export default function Edit({usuario}) {
     const submit = (e) => {
         e.preventDefault();
 
-        Inertia.post(route('supervisor.usuarios.consultores.update', usuario.id), {
+        router.post(route('supervisor.usuarios.consultores.update', usuario.id), {
             _method: 'put',
             ...data,
         })

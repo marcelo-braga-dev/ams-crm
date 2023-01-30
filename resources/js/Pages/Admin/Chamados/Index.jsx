@@ -4,14 +4,11 @@ import {Table, Td, Th} from "@/Components/Kanban/styles";
 
 // CARDS
 import NovoCard from "./Cards/NovoCard";
-import AnaliseCard from "./Cards/AnaliseCard";
 import FinalizadosCard from "./Cards/FinalizadosCard";
 import RespondidosCard from "./Cards/RespondidosCard";
 // CARDS - fim
 
 import DoubleScrollbar from 'react-double-scrollbar/dist/DoubleScrollbar';
-
-import {Container} from "reactstrap";
 
 export default function Pedidos({dados}) {
 

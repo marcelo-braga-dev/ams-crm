@@ -1,43 +1,53 @@
-// MODAL
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content';
-import {usePage} from '@inertiajs/inertia-react';
-import { useEffect } from 'react';
+import * as React from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import {Alert} from "@mui/material";
+import {usePage} from "@inertiajs/react";
+import {useEffect} from "react";
 
-const MySwal = withReactContent(Swal)
-
-function modalSucesso(msg) {
-    MySwal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-
-        icon: 'success',
-        title: msg,
-    })
-}
-
-function modalErro(msg) {
-    MySwal.fire({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true,
-
-        icon: "error",
-        title: msg,
-    })
-}
 export default function ModalsAllerts() {
     const {flash} = usePage().props
 
     useEffect(() => {
-            if (flash.sucesso) modalSucesso(flash.sucesso)
-            if (flash.erro) modalErro(flash.erro)
+
+        if (flash.sucesso) {
+            setState({
+                open: true,
+                msg: flash.sucesso,
+                alert: 'success'
+            });
+        }
+
+        if (flash.erro) {
+            setState({
+                open: true,
+                msg: flash.erro,
+                alert: 'danger'
+            });
+        }
+
     }, []);
 
+    const [state, setState] = React.useState({
+        open: false,
+    });
+    const {open, msg, alert} = state;
 
+    const handleClose = () => {
+        setState({...state, open: false});
+    };
+
+    return (
+        <div>
+            <Snackbar
+                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                open={open}
+                onClose={handleClose}
+                autoHideDuration={5000}>
+                <Alert onClose={handleClose} severity={alert} sx={{width: '100%'}}>
+                    {msg}
+                </Alert>
+            </Snackbar>
+        </div>
+    );
 }
+

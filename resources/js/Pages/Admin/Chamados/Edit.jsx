@@ -4,8 +4,8 @@ import React, {useState} from 'react';
 import {Container, Row, Col, Button} from 'reactstrap';
 import {TextField, Typography} from "@mui/material";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
-import {useForm} from "@inertiajs/inertia-react";
-import {Inertia} from "@inertiajs/inertia";
+import {useForm} from "@inertiajs/react";
+import { router } from '@inertiajs/react'
 
 export default function Create({chamado, mensagens}) {
     // Envio da Resposta
@@ -14,7 +14,7 @@ export default function Create({chamado, mensagens}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('admin.chamado.update', chamado.id), {
+        router.post(route('admin.chamado.update', chamado.id), {
             _method: 'put',
             ...data
         })

@@ -1,9 +1,9 @@
-import {useForm} from '@inertiajs/inertia-react';
+import {useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/Supervisor/Layout";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
-import {Inertia} from "@inertiajs/inertia";
+import { router } from '@inertiajs/react'
 
 export default function Edit({dados}) {
     const {data, setData, post, processing, errors} = useForm({
@@ -17,7 +17,7 @@ export default function Edit({dados}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('supervisor.fornecedores.update', dados.id), {
+        router.post(route('supervisor.fornecedores.update', dados.id), {
             _method: 'put',
             ...data,
         })

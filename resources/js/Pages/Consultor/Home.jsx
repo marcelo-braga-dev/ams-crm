@@ -1,5 +1,4 @@
 import Layout from '@/Layouts/Consultor/Layout';
-import {Head} from '@inertiajs/inertia-react';
 
 export default function Dashboard(props) {
     return (

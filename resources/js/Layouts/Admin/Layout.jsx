@@ -1,4 +1,4 @@
-import {Head} from '@inertiajs/inertia-react';
+import {Head} from '@inertiajs/react';
 
 import ModalsAllerts from "@/Components/Modals/AlertsModals";
 import Sidebar from "./Templates/Sidebar";

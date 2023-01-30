@@ -1,9 +1,9 @@
-import {useForm} from '@inertiajs/inertia-react';
+import {useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/Consultor/Layout";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
-import {Inertia} from "@inertiajs/inertia";
+import { router } from '@inertiajs/react'
 import InputMask from "react-input-mask";
 
 export default function Edit({integrador}) {
@@ -18,7 +18,7 @@ export default function Edit({integrador}) {
 
     function submit(e) {
         e.preventDefault()
-        Inertia.post(route('consultor.integradores.update', integrador.id), {
+        router.post(route('consultor.integradores.update', integrador.id), {
             _method: 'put',
             ...data,
         })

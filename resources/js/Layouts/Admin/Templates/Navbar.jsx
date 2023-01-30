@@ -9,7 +9,7 @@ import Menu from "@mui/material/Menu";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
-import {useForm} from "@inertiajs/inertia-react";
+import {useForm} from "@inertiajs/react";
 
 export default function Navbar({titlePage}) {
     const [qtdNotificacoes, setQtdNotificacoes] = React.useState();

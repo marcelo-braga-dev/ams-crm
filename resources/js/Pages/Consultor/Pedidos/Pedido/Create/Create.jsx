@@ -1,6 +1,6 @@
 import Layout from '@/Layouts/Consultor/Layout';
 
-import {useForm, usePage} from '@inertiajs/inertia-react';
+import {useForm, usePage} from '@inertiajs/react';
 
 import InfoCliente from './Partials/InfoCliente';
 import Anexos from "./Partials/Anexos";
