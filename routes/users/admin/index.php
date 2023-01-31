@@ -10,4 +10,5 @@ Route::middleware(['auth', 'auth.admins'])
         require __DIR__ . '/pedidos.php';
         require __DIR__ . '/leads.php';
         require __DIR__ . '/notificacoes.php';
+        require __DIR__ . '/emails.php';
     });

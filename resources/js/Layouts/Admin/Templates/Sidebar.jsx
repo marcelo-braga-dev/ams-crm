@@ -22,6 +22,14 @@ export default function Sidebar() {
                 {'menu': 'Alterar Consultor', 'url': route('admin.clientes.leads.alterar-consultor')},
             ]
         }, {
+            'menu': 'E-mails',
+            'icone': 'fas fa-angle-double-right',
+            'submenu': [
+                {'menu': 'Caixa de Entrada', 'url': route('admin.emails.index')},
+                {'menu': 'Enviar Email', 'url': route('admin.emails.create')},
+                {'menu': 'Configurações', 'url': route('admin.emails.config')},
+            ]
+        }, {
             'menu': 'Contas de Usuários',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
