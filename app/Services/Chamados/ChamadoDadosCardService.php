@@ -11,16 +11,26 @@ use App\src\Chamados\Status\RespondidoChamadoStatus;
 
 class ChamadoDadosCardService
 {
-    private $dados;
+    //private $dados;
 
     public function __construct()
     {
-        $this->dados = (new PedidosChamados())->dadosCardAdmin();
+        //$this->dados = (new PedidosChamados())->dadosCardAdmin();
         $this->usuarios = (new User())->getNomes();
         $this->clientes = (new PedidosClientes())->getNomes();
     }
 
     public function cardsAdmin()
+    {
+        return $this->dadosCard((new PedidosChamados())->dadosCardAdmin());
+    }
+
+    public function cardsConsultor()
+    {
+        return $this->dadosCard((new PedidosChamados())->dadosCardConsultor());
+    }
+
+    private function dadosCard($dados): array
     {
         $novoStatus = (new NovoChamadoStatus())->getStatus();
         $respondidoStatus = (new RespondidoChamadoStatus())->getStatus();
@@ -31,7 +41,7 @@ class ChamadoDadosCardService
         $cards[$finalizadoStatus] = [];
 
         // Pedidos
-        foreach ($this->dados as $dado) {
+        foreach ($dados as $dado) {
             $cards[$dado->status][] = [
                 'id' => $dado->id,
                 'consultor' => $this->usuarios[$dado->consultor],

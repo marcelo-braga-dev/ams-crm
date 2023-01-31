@@ -7,7 +7,6 @@ use App\Models\Pedidos;
 use App\Models\PedidosChamados;
 use App\Models\PedidosChamadosHistoricos;
 use App\Services\Chamados\ChamadoDadosCardService;
-use App\Services\Chamados\ChamadosService;
 use App\Services\Pedidos\PedidosServices;
 use App\src\Chamados\Status\AnaliseChamadosStatus;
 use App\src\Chamados\Status\FinalizadosChamadoStatus;
@@ -21,7 +20,7 @@ class ChamadosController extends Controller
     public function index()
     {
         $dados = (new ChamadoDadosCardService())->cardsAdmin();
-        
+
         return Inertia::render('Admin/Chamados/Index', compact('dados'));
     }
 

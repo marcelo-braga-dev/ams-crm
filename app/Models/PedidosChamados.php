@@ -56,13 +56,6 @@ class PedidosChamados extends Model
         return (new ChamadoDadosService())->dados($dados);
     }
 
-    // Retorna Chamados do Consultor
-    public function getConsultor()
-    {
-        return $this->newQuery()
-            ->where('consultor', auth()->id())->get();
-    }
-
     // Atualiza Status do Chamado
     public function updateStatus(int $id, string $status, int $prazo)
     {
@@ -90,9 +83,18 @@ class PedidosChamados extends Model
         return $chamados;
     }
 
+    // Retorna todos chamados
     public function dadosCardAdmin()
     {
         return $this->newQuery()->get();
+    }
+
+    // Retorna chamados do Consultor
+    public function dadosCardConsultor()
+    {
+        return $this->newQuery()
+            ->where('consultor', id_usuario_atual())
+            ->get();
     }
 
     public function remover($id)

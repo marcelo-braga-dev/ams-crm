@@ -7,9 +7,7 @@ use App\Models\Pedidos;
 use App\Models\PedidosChamados;
 use App\Models\PedidosChamadosHistoricos;
 use App\Services\Chamados\ChamadoDadosCardService;
-use App\Services\Chamados\ChamadosService;
 use App\Services\Pedidos\PedidosServices;
-use App\src\Chamados\Status\AnaliseChamadosStatus;
 use App\src\Chamados\Status\FinalizadosChamadoStatus;
 use App\src\Chamados\Status\NovoChamadoStatus;
 use App\src\Chamados\Status\RespondidoChamadoStatus;
@@ -68,7 +66,7 @@ class ChamadosController extends Controller
             (new FinalizadosChamadoStatus())->updateStatus($request->id_pedido);
             (new Pedidos())->updateChamado($request->id_pedido, 0);
         }
-        
+
         return redirect()->route('supervisor.chamados.index');
     }
 }
