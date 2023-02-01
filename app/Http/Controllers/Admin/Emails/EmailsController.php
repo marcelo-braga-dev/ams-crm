@@ -14,8 +14,14 @@ class EmailsController extends Controller
 {
     public function index(Request $request)
     {
-        $emails = (new EmailsService())->getMensagens($request->folder);
-        $folders = (new EmailsService())->getFolders($request->folder);
+        $emails = [];
+        $folders = [];
+        try {
+            $emails = (new EmailsService())->getMensagens($request->folder);
+            $folders = (new EmailsService())->getFolders($request->folder);
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+        }
 
         return Inertia::render('Admin/Mails/Index', compact('emails', 'folders'));
     }

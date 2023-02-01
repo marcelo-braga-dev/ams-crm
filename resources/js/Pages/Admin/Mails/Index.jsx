@@ -3,6 +3,7 @@ import Layout from "@/Layouts/Admin/Layout";
 export default function Index({emails, folders}) {
     return (
         <Layout container titlePage="Caixa de Entrada">
+            <div className="alert alert-warning text-white">Em desenvolvimento</div>
             <div className="row">
                 <div className="col-md-3">
                     <form>
@@ -24,7 +25,7 @@ export default function Index({emails, folders}) {
                     <div className="list-group">
                         {emails.map((email, i) => {
                                 return (
-                                    <a href={route('admin.emails.show', email.id)}
+                                    <a key={i} href={route('admin.emails.show', email.id)}
                                        className="list-group-item list-group-item-action">
                                         <div className="row justify-content-between">
                                             <div className="col">

@@ -1,6 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
-import {TextField} from "@mui/material";
+import TextField from "@mui/material/TextField";
 import Layout from '@/Layouts/Admin/Layout';
 
 const FilterComponent = ({filterText, onFilter}) => (

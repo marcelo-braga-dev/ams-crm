@@ -4,6 +4,7 @@ namespace App\Services\Emails;
 
 use App\Models\Email;
 use App\Models\EmailConfigs;
+use Laminas\Mail\Storage\Exception\RuntimeException;
 use Laminas\Mail\Storage\Imap;
 
 class EmailsService
@@ -20,12 +21,18 @@ class EmailsService
         $usuario = $dados->email;
         $senha = $dados->password;
 
-        $this->emails = new Imap([
-            'host' => $host,
-            'user' => $usuario,
-            'password' => $senha,
-            'ssl' => 'SSL'
-        ]);
+        try {
+            $this->emails = new Imap([
+                'host' => $host,
+                'user' => $usuario,
+                'password' => $senha,
+                'ssl' => 'SSL'
+            ]);
+        } catch (RuntimeException $exception) {
+            if ($exception->getCode() == 0) {
+                throw new \DomainException('Senha ou email inválidos.');
+            }
+        }
     }
 
     public function getMensagens($folder = null)
