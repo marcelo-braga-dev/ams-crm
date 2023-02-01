@@ -16,10 +16,10 @@ class EmailsService
         $dados = (new Email())->dadosUsuario(id_usuario_atual());
         $config = (new EmailConfigs())->dados();
 
-        $host = $config->host;
-        $porta = $config->port_in;
-        $usuario = $dados->email;
-        $senha = $dados->password;
+        $host = $config->host ?? '';
+        $porta = $config->port_in ?? '';
+        $usuario = $dados->email ?? '';
+        $senha = $dados->password ?? '';
 
         try {
             $this->emails = new Imap([
@@ -32,6 +32,8 @@ class EmailsService
             if ($exception->getCode() == 0) {
                 throw new \DomainException('Senha ou email inválidos.');
             }
+        } catch (\Laminas\Mail\Protocol\Exception\RuntimeException $exception) {
+            throw new \DomainException('Configurações inválidas.');
         }
     }
 

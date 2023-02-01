@@ -6,10 +6,10 @@ import {useForm, usePage} from "@inertiajs/react";
 export default function Config({usuario, config}) {
 
     const {data, setData, post} = useForm({
-        email: usuario.email,
-        host: config.host,
-        port_in: config.port_in,
-        port_out: config.port_out,
+        email: usuario?.email,
+        host: config?.host,
+        port_in: config?.port_in,
+        port_out: config?.port_out,
     });
 
     function submit(e) {
