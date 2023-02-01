@@ -7,6 +7,7 @@ use App\src\Usuarios\Admins;
 use App\src\Usuarios\Consultores;
 use App\src\Usuarios\Supervisores;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -93,13 +94,17 @@ class User extends Authenticatable
 
     public function updateDados($id, $dados)
     {
-        $this->newQuery()
-            ->find($id)
-            ->update([
-                'name' => $dados->nome,
-                'email' => $dados->email,
-                'status' => $dados->status,
-            ]);
+        try {
+            $this->newQuery()
+                ->find($id)
+                ->update([
+                    'name' => $dados->nome,
+                    'email' => $dados->email,
+                    'status' => $dados->status,
+                ]);
+        } catch (QueryException) {
+            throw new \DomainException("Este email está em uso.");
+        }
     }
 
     public function getNomeConsultores()

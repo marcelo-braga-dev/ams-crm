@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Services\Pedidos\DadosPedidoServices;
-use App\Services\Pedidos\PedidosServices;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -118,7 +117,9 @@ class Pedidos extends Model
 
     public function getPedidosUsuario(int $id)
     {
-        return (new PedidosServices())->pedidosUsuario($id);
+        return $this->newQuery()
+            ->where('users_id', $id)
+            ->get();
     }
 
     public function insertPrecoCusto(int $id, float $precoCusto)

@@ -21,7 +21,7 @@ export default function ModalsAllerts() {
             setState({
                 open: true,
                 msg: flash.erro,
-                alert: 'danger'
+                alert: 'error'
             });
         }
 

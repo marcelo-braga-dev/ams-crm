@@ -38,9 +38,7 @@ class ConsultoresController extends Controller
     {
         $usuario = (new User())->get($id);
 
-        $pedidos = (new Pedidos())->getPedidosUsuario($id);
-
-        return Inertia::render('Admin/Usuarios/Consultores/Show', compact('usuario', 'pedidos'));
+        return Inertia::render('Admin/Usuarios/Consultores/Show', compact('usuario'));
     }
 
     public function edit($id)
@@ -52,7 +50,12 @@ class ConsultoresController extends Controller
 
     public function update($id, Request $request)
     {
-        (new User())->updateDados($id, $request);
+        try {
+            (new User())->updateDados($id, $request);
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+            return redirect()->route('admin.usuarios.consultores.show', $id);
+        }
 
         modalSucesso("Dados atualizado com sucesso!");
         return redirect()->route('admin.usuarios.consultores.show', $id);
