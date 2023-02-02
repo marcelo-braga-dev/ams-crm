@@ -55,6 +55,7 @@ export default function Filtering({dados, consultores}) {
 
     function submit() {
         if (data.consultor && data.leads) post(route('admin.clientes.leads.update-consultor'))
+        window.location.reload();
     }
 
     // form - fim
@@ -142,12 +143,12 @@ export default function Filtering({dados, consultores}) {
                         <div className="col-md-auto ">
                             <button type="button" className="btn btn-link" data-bs-toggle="modal"
                                     data-bs-target="#modalEsconder">
-                                <VisibilityOffIcon />
+                                <VisibilityOffIcon/>
                                 OCULTAR
                             </button>
                             <button type="button" className="btn btn-link text-danger" data-bs-toggle="modal"
                                     data-bs-target="#modalExcluir">
-                                <DeleteIcon />
+                                <DeleteIcon/>
                                 EXCLUIR
                             </button>
                         </div>
@@ -183,7 +184,7 @@ export default function Filtering({dados, consultores}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                            onClick={() => submit()}>
+                                    onClick={() => submit()}>
                                 Enviar
                             </button>
                         </div>

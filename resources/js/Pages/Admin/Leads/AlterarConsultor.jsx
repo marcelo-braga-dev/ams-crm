@@ -64,9 +64,8 @@ export default function Filtering({dados, consultores}) {
     });
 
     function submit() {
-        if (data.consultor && data.leads) post(route('admin.clientes.leads.update-consultor'), {
-            onSuccess: () => reset(),
-        })
+        if (data.consultor && data.leads) post(route('admin.clientes.leads.update-consultor'))
+        window.location.reload();
     }
 
     // form - fim
@@ -90,6 +89,7 @@ export default function Filtering({dados, consultores}) {
     const filteredItems = linhas.filter(
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
             || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
+            || item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
             || item.id && item.id.toString() === filterText,
     );
 
