@@ -15,4 +15,5 @@ Route::middleware(['auth', 'auth.admins'])
         Route::resource('consultores', ConsultoresController::class);
         Route::resource('supervisores', SupervisoresController::class);
         Route::resource('admins', AdminController::class);
+        Route::put('update-senha/{id}', [UsuariosController::class, 'updateSenha'])->name('update-senha');
     });

@@ -127,4 +127,9 @@ class User extends Authenticatable
         ->orWhere('tipo', (new Supervisores())->getTipo())
         ->get('id');
     }
+
+    public function find($id)
+    {
+        return $this->newQuery()->find($id);
+    }
 }

@@ -41,4 +41,16 @@ class UsuariosController extends Controller
 
         return Inertia::render('Admin/Usuarios/Index', compact('usuarios'));
     }
+
+    public function updateSenha($id, Request $request)
+    {
+        try {
+            (new Usuarios())->alterarSenha($id, $request);
+        } catch (\DomainException $exception) {
+            return redirect()->back()->withErrors($exception->getMessage());
+        }
+
+        modalSucesso('Dados atualizado com sucesso!');
+        return redirect()->route('admin.usuarios.consultores.show', $id);
+    }
 }
