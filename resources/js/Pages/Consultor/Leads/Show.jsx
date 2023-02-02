@@ -25,7 +25,7 @@ export default function Show({auth, errors, cliente}) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        router.post(route('consultor.clientes.index'), values)
+        router.post(route('consultor.leads.main.index'), values)
     }
 
     const [age, setAge] = React.useState('');
@@ -40,7 +40,7 @@ export default function Show({auth, errors, cliente}) {
             errors={errors}
             titlePage="Informações do Cliente"
             button={true}
-            url={route('consultor.clientes.index')} textButton={'Voltar'}>
+            url={route('consultor.leads.main.index')} textButton={'Voltar'}>
 
 
             <Container fixed className="bg-white px-lg-5 py-lg-5 mb-4">

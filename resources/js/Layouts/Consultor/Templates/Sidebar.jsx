@@ -15,7 +15,7 @@ export default function Sidebar() {
             'menu': 'Leads',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Lista de Leads', 'url': route('consultor.clientes.index')},
+                {'menu': 'Lista de Leads', 'url': route('consultor.leads.main.index')},
             ]
         }, {
             'menu': 'Integradores',

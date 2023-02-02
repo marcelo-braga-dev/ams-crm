@@ -32,6 +32,21 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
-        return redirect()->route('consultor.clientes.index');
+        return redirect()->route('consultor.leads.main.index');
+    }
+
+    public function edit($id)
+    {
+        $dados = (new Leads())->newQuery()->find($id);
+
+        return Inertia::render('Consultor/Leads/Atendimento/Edit', compact('dados'));
+    }
+
+    public function update($id, Request $request)
+    {
+        (new Leads())->atualizar($id, $request);
+
+        modalSucesso("Dados atualizado com sucesso!");
+        return redirect()->route('consultor.leads.atendimento.show', 1);
     }
 }

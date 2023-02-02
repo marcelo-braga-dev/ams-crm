@@ -174,7 +174,7 @@ export default function Filtering({dados, consultores}) {
             </div>
 
             {/*MODAL ENVIAR*/}
-            <div className="modal fade" id="modalEnviar" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -198,7 +198,7 @@ export default function Filtering({dados, consultores}) {
             </div>
 
             {/*MODAL EXCLUIR*/}
-            <div className="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade" id="modalExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

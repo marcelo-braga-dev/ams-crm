@@ -13,7 +13,7 @@ use Inertia\Inertia;
 
 class AtendimentoController extends Controller
 {
-    public function edit($id)
+    public function show($id)
     {
         $dados = (new LeadsDadosService())->lead($id);
 
@@ -21,9 +21,9 @@ class AtendimentoController extends Controller
 
         $contatos = (new MeioContatoLeads())->status();
 
-        $historicos = (new LeadsHistoricos())->get($id);
+        $historicos = (new LeadsHistoricos())->dados($id);
 
-        return Inertia::render('Consultor/Leads/Atendimento/Edit',
+        return Inertia::render('Consultor/Leads/Atendimento/Show',
             compact('dados', 'status', 'historicos', 'contatos'));
     }
 

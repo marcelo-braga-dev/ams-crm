@@ -31,6 +31,11 @@ const columns = [
         sortable: true,
     },
     {
+        name: 'Status',
+        selector: row => row.status,
+        sortable: true,
+    },
+    {
         name: 'Nome/Nome Fantasia',
         selector: row => row.name,
         sortable: true,
@@ -71,6 +76,7 @@ export default function Filtering({dados, consultores}) {
         return {
             id: items.id,
             name: items.cliente.nome,
+            status: items.infos.status,
             consultor: items.consultor.nome,
             razao_social: items.cliente.razao_social,
             data_criacao: items.infos.data_criacao,
@@ -150,12 +156,12 @@ export default function Filtering({dados, consultores}) {
                         <div className="col-md-auto ">
                             <button type="button" className="btn btn-link" data-bs-toggle="modal"
                                     data-bs-target="#modalEsconder">
-                                <VisibilityOffIcon />
+                                <VisibilityOffIcon/>
                                 OCULTAR
                             </button>
                             <button type="button" className="btn btn-link text-danger" data-bs-toggle="modal"
                                     data-bs-target="#modalExcluir">
-                                <DeleteIcon />
+                                <DeleteIcon/>
                                 EXCLUIR
                             </button>
                         </div>
@@ -176,7 +182,7 @@ export default function Filtering({dados, consultores}) {
             </div>
 
             {/*MODAL ENVIAR*/}
-            <div className="modal fade" id="modalEnviar" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -191,7 +197,7 @@ export default function Filtering({dados, consultores}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                            onClick={() => submit()}>
+                                    onClick={() => submit()}>
                                 Enviar
                             </button>
                         </div>
@@ -200,7 +206,7 @@ export default function Filtering({dados, consultores}) {
             </div>
 
             {/*MODAL EXCLUIR*/}
-            <div className="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade" id="modalExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -245,7 +251,8 @@ export default function Filtering({dados, consultores}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => ocultar()}>Ocultar
+                                    onClick={() => ocultar()}>
+                                Ocultar
                             </button>
                         </div>
                     </div>

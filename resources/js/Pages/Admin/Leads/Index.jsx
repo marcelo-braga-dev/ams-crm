@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import DataTable from 'react-data-table-component';
 import {TextField} from "@mui/material";
 import Layout from '@/Layouts/Admin/Layout';
@@ -168,7 +168,7 @@ export default function Filtering({dados, consultores}) {
             </div>
 
             {/*MODAL ENVIAR*/}
-            <div className="modal fade" id="modalEnviar" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -192,7 +192,7 @@ export default function Filtering({dados, consultores}) {
             </div>
 
             {/*MODAL EXCLUIR*/}
-            <div className="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade" id="modalExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -237,7 +237,8 @@ export default function Filtering({dados, consultores}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => ocultar()}>Ocultar
+                                    onClick={() => ocultar()}>
+                                Ocultar
                             </button>
                         </div>
                     </div>

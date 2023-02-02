@@ -1,124 +1,84 @@
 import Layout from "@/Layouts/Consultor/Layout";
-import LeadsDados from "@/Components/Leads/LeadsDados";
-import {useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import { router } from '@inertiajs/react'
+import {useForm} from "@inertiajs/react";
 
-export default function Edit({dados, historicos, status, contatos}) {
-    const {data, setData} = useForm();
+import {router} from "@inertiajs/react";
 
-    function onSubmit(e) {
+export default function Edit({dados}) {
+    const {setData, data} = useForm({
+        nome: dados.nome,
+        razao_social: dados.razao_social,
+        cnpj: dados.cnpj,
+        atendente: dados.atendente,
+        telefone: dados.telefone,
+        email: dados.email,
+        cidade: dados.cidade,
+        estado: dados.estado,
+    });
+
+    function submit(e) {
         e.preventDefault();
-        router.post(route('consultor.leads.atendimento.update', dados.id), {
-            _method: 'put',
-            ...data
-        })
+        router.put(route('consultor.leads.main.update', dados.id),
+            {...data}
+        );
     }
 
     return (
-        <Layout titlePage="Lead - Em Atendimento">
+        <Layout container titlePage="Editar LEAD" voltar={route('consultor.leads.atendimento.show', dados.id)}>
+            <span className="h6">Atualizar informações</span>
+            <form onSubmit={submit}>
+                <div className="row mt-3">
+                    <div className="col mb-3">
+                        <TextField label="Nome/Nome Fantasia:" value={data.nome} fullWidth
+                                   onChange={e => setData('nome', e.target.value)}/>
+                    </div>
+                    <div className="col">
+                        <div className="col mb-3">
+                            <TextField label="Razão Social :" value={data.razao_social} fullWidth
+                                       onChange={e => setData('razao_social', e.target.value)}/>
+                        </div>
+                    </div>
+                </div>
+                {/*PJ*/}
+                {<div className="row">
+                    <div className="col mb-3">
+                        <TextField label="CNPJ :" value={data.cnpj} fullWidth
+                                   onChange={e => setData('cnpj', e.target.value)}/>
+                    </div>
+                    <div className="col mb-3">
 
-            <form onSubmit={onSubmit}>
-                <div className="bg-white px-lg-6 py-lg-5 mb-4">
-                    <LeadsDados dados={dados}/>
-                </div>
-                <div className="bg-white px-lg-6 py-lg-5 mb-4">
-                    <div className="row">
-                        {historicos.map((dados) => (
-                            <div className="card mb-3 border">
-                                <div className="card-body">
-                                    <h6 className="card-subtitle text-muted">
-                                        {dados.status}
-                                    </h6>
-                                    <p>{dados.msg}</p>
-                                    <span className="small">Data: {dados.data_criacao}</span>
-                                </div>
-                            </div>
-                        ))}
+                    </div>
+                </div>}
+                <div className="row">
+                    <div className="col mb-3">
+                        <TextField label="Atendente:" value={data.atendente} fullWidth
+                                   onChange={e => setData('atendente', e.target.value)}/>
+                    </div>
+                    <div className="col mb-3">
+                        <TextField label="Telefone:" value={data.telefone} fullWidth
+                                   onChange={e => setData('telefone', e.target.value)}/>
+                    </div>
+                    <div className="col mb-3">
+                        <TextField label="Email:" value={data.email} type="email" fullWidth
+                                   onChange={e => setData('email', e.target.value)}/>
                     </div>
                 </div>
-                <div className="bg-white px-lg-6 py-lg-5 mb-2">
-                    <div className="row">
-                        <div className="col-md-4 mb-4">
-                            <TextField label="Status" select fullWidth required
-                                       onChange={e => setData('status', e.target.value)}>
-                                {status.map((option, index) => (
-                                    <MenuItem key={index} value={option.status}>
-                                        {option.nome}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <div className="col-md-4 mb-4">
-                            <TextField label="Meio Contato" select fullWidth required
-                                       onChange={e => setData('meio_contato', e.target.value)}>
-                                {contatos.map((option, index) => (
-                                    <MenuItem key={index} value={option.key}>
-                                        {option.nome}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
+                <div className="row mb-4">
+                    <div className="col mb-3">
+                        <TextField label="Cidade:" value={data.cidade} fullWidth
+                                   onChange={e => setData('cidade', e.target.value)}/>
                     </div>
-                    <div className="row mb-4">
-                        <div className="col">
-                            <TextField label="Anotações" multiline rows="4" fullWidth
-                                       onChange={e => setData('msg', e.target.value)}/>
-                        </div>
+                    <div className="col mb-3">
+                        <TextField label="Estado:" value={data.estado} fullWidth
+                                   onChange={e => setData('estado', e.target.value)}/>
                     </div>
-                    <div className="row">
-                        <div className="col"></div>
-                        <div className="col mb-3">
-                            <div className="text-center">
-                                <button className="btn btn-primary" onClick={() => setData('salvar_msg', true)}
-                                        type="submit">Enviar
-                                    Anotações
-                                </button>
-                            </div>
-                        </div>
-                        <div className="col mb-3">
-                            <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                Finalizar Atendimento
-                            </button>
-                        </div>
+                </div>
+                <div className="row justify-content-center">
+                    <div className="col-auto">
+                        <button className="btn btn-primary" type="submit">Atualizar</button>
                     </div>
                 </div>
             </form>
-            <div className="modal fade" id="exampleModal" tabIndex="10" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog modal-dialog-center ed">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Finalizar Atendimento</h5>
-                            <button type="button" className="btn-close bg-dark" data-bs-dismiss="modal"
-                                    aria-label="Close"/>
-                        </div>
-                        <div className="modal-body">
-                            Confirmar finalização do atendimento?
-                        </div>
-                        <div className="modal-footer">
-
-                            <div className="row">
-                                <div className="col">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                                        Voltar
-                                    </button>
-                                </div>
-                                <div className="col">
-                                    <form onSubmit={onSubmit}>
-                                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
-                                            Finalizar
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </Layout>
     )
 }

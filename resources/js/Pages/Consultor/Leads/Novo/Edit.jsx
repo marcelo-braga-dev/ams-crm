@@ -21,7 +21,7 @@ export default function Edit({dados}) {
                 <LeadsDados dados={dados}/>
                 <form onSubmit={onSubmit}>
                     <div className="text-center mt-4">
-                        <button className="btn btn-primary" type="submit">Atendimento Iniciado</button>
+                        <button className="btn btn-primary" type="submit">Iniciar Atendimento</button>
                     </div>
                 </form>
             </div>

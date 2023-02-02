@@ -16,7 +16,7 @@ class MeioContatoLeads
         ];
     }
 
-    public function status()
+    public function status(): array
     {
         return [
             ['key' => 'whatsapp', 'nome' => 'Whatsapp'],
@@ -25,5 +25,14 @@ class MeioContatoLeads
             ['key' => 'redes_sociais', 'nome' => 'Redes Sociais'],
             ['key' => 'ads', 'nome' => 'ADS'],
         ];
+    }
+
+    public function getStatusNomes(): array
+    {
+        $status = [];
+        foreach ($this->status() as $item) {
+            $status[$item['key']] = $item['nome'];
+        }
+        return $status;
     }
 }

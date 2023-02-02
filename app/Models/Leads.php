@@ -45,7 +45,10 @@ class Leads extends Model
     {
         $this->newQuery()
             ->where('id', $idLead)
-            ->update(['users_id' => $idConsultor]);
+            ->update([
+                'users_id' => $idConsultor,
+                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
     }
 
     public
@@ -126,5 +129,25 @@ class Leads extends Model
         return $this->newQuery()
             ->where('users_id', '>', 0)
             ->get();
+    }
+
+    public function atualizar($id, $dados)
+    {
+        try {
+            $this->newQuery()
+                ->find($id)
+                ->update([
+                    'nome' => $dados->nome,
+                    'atendente' => $dados->atendente,
+                    'telefone' => $dados->telefone,
+                    'razao_social' => $dados->razao_social,
+                    'cnpj' => $dados->cnpj,
+                    'email' => $dados->email,
+                    'cidade' => $dados->cidade,
+                    'estado' => $dados->estado,
+                ]);
+        } catch (QueryException) {
+            throw new \DomainException();
+        }
     }
 }

@@ -24,7 +24,7 @@ export default function Create({auth, errors}) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        router.post(route('consultor.clientes.index'), values)
+        router.post(route('consultor.leads.main.index'), values)
     }
 
     return (
@@ -33,7 +33,7 @@ export default function Create({auth, errors}) {
             errors={errors}
             titlePage="Cadastrar Clientes"
             button={true}
-            url={route('consultor.clientes.index')} textButton={'Voltar'}>
+            url={route('consultor.leads.main.index')} textButton={'Voltar'}>
 
 
             <Container fixed className="bg-white px-lg-6 py-lg-5">
