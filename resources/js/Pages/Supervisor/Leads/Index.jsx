@@ -60,6 +60,7 @@ export default function Filtering({dados, consultores}) {
 
     function submit() {
         if (data.consultor && data.leads) {
+            setOpen(!open);
             post(route('supervisor.clientes.leads.update-consultor'));
             window.location.reload();
         }
@@ -194,11 +195,15 @@ export default function Filtering({dados, consultores}) {
                         </div>
                         <div className="modal-body">
                             {nomeConsultorSelecionado()}
+                            {!data.leads.length &&
+                                <div className="alert alert-danger text-white">Selecione os Leads</div>}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-outline-secondary me-4"
+                                    data-bs-dismiss="modal">Fechar
+                            </button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => submit()}>
+                                    onClick={() => submit()} disabled={!data.leads.length || !data.consultor}>
                                 Enviar
                             </button>
                         </div>
