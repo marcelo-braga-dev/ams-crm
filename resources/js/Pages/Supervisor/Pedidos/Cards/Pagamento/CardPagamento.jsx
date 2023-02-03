@@ -7,5 +7,6 @@ export default function CardPagamento({dados}) {
     return ( <CardPedidos
         dados={dados}
         menuMore={<MenuMore id={dados.id} />}
+        btnAvancaStatus={<BtnAvancaStatus id={dados.id}/>}
         border="#5e72e4"/> )
 }

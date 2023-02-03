@@ -14,7 +14,7 @@ export default function Create({pedido}) {
 
     function submit(e) {
         e.preventDefault()
-        post(route('supervisor.chamado.store', {id: pedido.id}))
+        post(route('supervisor.chamado.store'))
     }
 
     return (

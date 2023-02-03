@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
 use App\Services\Pedidos\CardDadosService;
-use App\Services\Pedidos\PedidosServices;
 use Inertia\Inertia;
 
 class PedidosController extends Controller
@@ -25,13 +24,6 @@ class PedidosController extends Controller
 
         return Inertia::render('Admin/Pedidos/Show',
             compact('pedido', 'historico'));
-    }
-
-    public function historico()
-    {
-        $pedidos = (new PedidosServices())->pedidos();
-
-        return Inertia::render('Admin/Pedidos/Historico', compact('pedidos'));
     }
 
     public function destroy($id)

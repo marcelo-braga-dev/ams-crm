@@ -4,25 +4,24 @@ namespace App\Http\Controllers\Supervisor\Pedidos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
-use App\src\Pedidos\Pedido;
-use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
+use App\src\Pedidos\PedidoUpdateStatus;
+use Illuminate\Http\Request;
+
 use Inertia\Inertia;
 
 class AguardandoPagamentoController extends Controller
 {
     public function show($id)
     {
-        $pedido = (new Pedidos)->newQuery()->findOrFail($id);
-        $cliente = $pedido->cliente;
-        $img = $pedido->img;
+        $dados = (new Pedidos)->getV2($id);
 
         return Inertia::render('Supervisor/Pedidos/AguardandoPagamento/Show',
-            compact('pedido', 'cliente', 'img'));
+            compact('dados'));
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
-        (new Pedido())->updateStatus($id, new AguardandoFaturamentoStatus());
+        (new PedidoUpdateStatus())->pagamento($id, $request);
 
         modalSucesso('Atualizado com sucesso!');
         return redirect()->route('admin.pedidos.index');

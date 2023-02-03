@@ -4,14 +4,7 @@ namespace App\Http\Controllers\Admin\Pedidos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
-use App\Models\PedidosClientes;
-use App\Models\PedidosHistoricos;
-use App\Models\PedidosImagens;
-use App\Services\Pedidos\PedidosServices;
-use App\src\Pedidos\Pedido;
 use App\src\Pedidos\PedidoUpdateStatus;
-use App\src\Pedidos\Status\AguardandoNotaStatus;
-use App\src\Pedidos\Status\LancadoStatus;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 

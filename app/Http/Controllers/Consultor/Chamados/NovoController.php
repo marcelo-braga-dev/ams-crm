@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Consultor\Chamados;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
-use App\Services\Pedidos\PedidosServices;
 use App\src\Chamados\Status\NovoChamadoStatus;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,8 +12,7 @@ class NovoController extends Controller
 {
     public function create(Request $request)
     {
-        $pedidoDados = (new Pedidos())->newQuery()->findOrFail($request->id);
-        $pedido = (new PedidosServices())->pedido($pedidoDados);
+        $pedido = (new Pedidos())->getV2($request->id);
 
         return Inertia::render('Consultor/Chamados/Novo/Create', compact('pedido'));
     }

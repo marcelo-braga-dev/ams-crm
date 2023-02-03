@@ -28,7 +28,4 @@ Route::name('admin.')
 
         Route::resource('config', ConfigController::class);
         Route::resource('retroceder', RetrocederController::class);
-
-        Route::get('historicos', [PedidosController::class, 'historico'])
-            ->name('pedidos.historico.index');
     });

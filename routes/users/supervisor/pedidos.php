@@ -17,8 +17,6 @@ Route::name('supervisor.')
     ->prefix('supervisor/pedido')
     ->group(function () {
         Route::resource('pedidos', PedidosController::class);
-        Route::get('historicos', [PedidosController::class, 'historico'])
-            ->name('pedidos.historico.index');
     });
 
 Route::name('supervisor.pedidos.')
