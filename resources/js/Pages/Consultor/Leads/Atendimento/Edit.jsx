@@ -18,8 +18,8 @@ export default function Edit({dados}) {
 
     function submit(e) {
         e.preventDefault();
-        router.put(route('consultor.leads.main.update', dados.id),
-            {...data}
+        router.post(route('consultor.leads.main.update', dados.id),
+            {_method: 'put',...data}
         );
     }
 

@@ -13,15 +13,15 @@ export default function Edit({usuario, errors}) {
 
     const submit = (e) => {
         e.preventDefault();
-        router.put(route('admin.usuarios.consultores.update', usuario.id), {
-            ...data
+        router.post(route('admin.usuarios.consultores.update', usuario.id), {
+            _method: 'put', ...data
         })
     };
 
     const submitSenha = (e) => {
         e.preventDefault();
-        router.put(route('admin.usuarios.update-senha', usuario.id), {
-            ...data
+        router.post(route('admin.usuarios.update-senha', usuario.id), {
+            _method: 'put', ...data
         })
     };
 
