@@ -45,8 +45,8 @@ class LeadsController extends Controller
     public function update($id, Request $request)
     {
         (new Leads())->atualizar($id, $request);
-
+        
         modalSucesso("Dados atualizado com sucesso!");
-        return redirect()->route('consultor.leads.atendimento.show', 1);
+        return redirect()->route('consultor.leads.atendimento.show', $id);
     }
 }
