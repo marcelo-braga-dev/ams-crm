@@ -64,7 +64,7 @@ class LeadsDadosService
 
             'contato' => [
                 'email' => $item->email,
-                'telefone' => $item->telefone,
+                'telefone' => converterTelefone($item->telefone),
                 'atendente' => $item->atendente,
             ],
 
@@ -74,7 +74,7 @@ class LeadsDadosService
                 'anotacoes' => $item->infos,
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                 'contato' => $item->meio_contato,
-                'data_criacao' => date('d/m/y H:i', strtotime($item->updated_at)),
+                'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
             ],
         ];
     }

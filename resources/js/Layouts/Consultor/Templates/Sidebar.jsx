@@ -35,12 +35,6 @@ export default function Sidebar() {
             'submenu': [
                 {'menu': 'Sua Conta', 'url': route('consultor.perfil.index')},
             ]
-        }, {
-            'menu': 'Notificações',
-            'icone': 'fas fa-angle-double-right',
-            'submenu': [
-                {'menu': 'Histórico de Notificações', 'url': route('consultor.notificacoes.index')},
-            ]
         },
     ];
 

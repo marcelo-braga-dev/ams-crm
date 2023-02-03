@@ -11,18 +11,22 @@ import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import {useForm} from "@inertiajs/react";
 
+import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
+
 export default function Navbar({titlePage}) {
     const [qtdNotificacoes, setQtdNotificacoes] = React.useState();
+    const [qtdLeads, setQtdLeads] = React.useState();
 
     useEffect(() => {
         NavMenuToglle();
         // Recebe qtd notificacoes
-        fetch(route('consultor.notificacoes.show', 0))
+        fetch(route('consultor.notificacoes.pedidos.show', 0))
             .then(function (response) {
                 return response.json();
             })
             .then(function (data) {
-                setQtdNotificacoes(data);
+                setQtdNotificacoes(data.pedidos);
+                setQtdLeads(data.leads);
             });
         // Recebe qtd notificacoes - fim
     }, []);
@@ -79,17 +83,25 @@ export default function Navbar({titlePage}) {
                                     </div>
                                 </div>
                             </li>
+                            {/*LEADS*/}
+                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
+                                <a href={route('consultor.notificacoes.leads.index')}>
+                                    <Badge badgeContent={qtdLeads} color="error">
+                                        <PermPhoneMsgIcon style={{color: 'white'}}/>
+                                    </Badge>
+                                </a>
+                            </li>
 
                             {/*Notificacoes*/}
-                            <li className="nav-item dropdown mx-4 d-flex align-items-center">
-                                <a href={route('consultor.notificacoes.index')}>
+                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
+                                <a href={route('consultor.notificacoes.pedidos.index')}>
                                     <Badge badgeContent={qtdNotificacoes} color="error">
                                         <NotificationsIcon style={{color: 'white'}}/>
                                     </Badge>
                                 </a>
                             </li>
 
-                            <li className="nav-item d-flex align-items-center mx-2">
+                            <li className="nav-item d-flex align-items-center mx-4">
                                 <Box sx={{flexGrow: 0}}>
                                     <Tooltip title="Open settings">
                                         <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>

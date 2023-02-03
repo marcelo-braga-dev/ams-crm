@@ -21,7 +21,7 @@ export default function Navbar({titlePage}) {
                 return response.json();
             })
             .then(function (data) {
-                setQtdNotificacoes(data);
+                setQtdNotificacoes(data.pedidos);
             });
     }, []);
 

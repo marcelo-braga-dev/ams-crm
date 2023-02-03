@@ -4,7 +4,7 @@ namespace App\src\Pedidos\Status;
 
 use App\Models\Pedidos;
 use App\Models\PedidosPrazos;
-use App\src\Pedidos\Notificacoes\PedidosAdminsNotificar;
+use App\src\Pedidos\Notificacoes\Pedidos\PedidosAdminsNotificar;
 
 class ConferenciaStatusPedido implements PedidosStatus
 {

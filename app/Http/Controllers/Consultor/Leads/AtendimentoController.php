@@ -32,7 +32,7 @@ class AtendimentoController extends Controller
         if ($request->salvar_msg) {
             (new LeadsHistoricos())->create($id, $request);
         } else
-            (new UpdateStatusLeads())->atendimento($id);
+            (new UpdateStatusLeads())->atendimento($id); // Finaliza Atendimento
 
 
         modalSucesso('Status atualizado!');

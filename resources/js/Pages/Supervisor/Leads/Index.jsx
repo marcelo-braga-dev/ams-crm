@@ -7,6 +7,7 @@ import {useForm} from "@inertiajs/react";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Checkbox from "@mui/material/Checkbox";
 
 const FilterComponent = ({filterText, onFilter}) => (
     <TextField
@@ -24,6 +25,7 @@ const columns = [
         name: 'ID',
         selector: row => row.id,
         sortable: true,
+        grow: 0,
     },
     {
         name: 'Nome/Nome Fantasia',
@@ -36,6 +38,11 @@ const columns = [
         sortable: true,
     },
     {
+        name: 'Telefone',
+        selector: row => row.telefone,
+        sortable: true,
+    },
+    {
         name: 'Data',
         selector: row => row.data_criacao,
         sortable: true,
@@ -44,12 +51,15 @@ const columns = [
 
 export default function Filtering({dados, consultores}) {
     // Form
-    const {data, post, setData} = useForm({
+    const {data, post, setData, reset} = useForm({
         'leads': []
     });
 
     function submit() {
-        if (data.consultor && data.leads) post(route('supervisor.clientes.leads.update-consultor'))
+        if (data.consultor && data.leads) {
+            post(route('supervisor.clientes.leads.update-consultor'));
+            window.location.reload();
+        }
     }
 
     // form - fim
@@ -61,6 +71,7 @@ export default function Filtering({dados, consultores}) {
             name: items.cliente.nome,
             razao_social: items.cliente.razao_social,
             data_criacao: items.infos.data_criacao,
+            telefone: items.contato.telefone,
         }
     });
     // Dados - fim
@@ -70,7 +81,9 @@ export default function Filtering({dados, consultores}) {
     const filteredItems = linhas.filter(
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
             || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
-            || item.id && item.id.toString() === filterText,
+            || item.id && item.id.toString() === filterText|| item.telefone && item.telefone
+                .replace(/[^0-9]/g, '').toLowerCase().includes(filterText
+                    .replace(/[^0-9]/g, '').toLowerCase()),
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
@@ -85,14 +98,16 @@ export default function Filtering({dados, consultores}) {
 
     // Form Excluir
     function excluir() {
-        post(route('supervisor.clientes.leads.delete'))
+        post(route('supervisor.clientes.leads.delete'));
+        window.location.reload();
     }
 
     // Form Excluir - fim
 
     // Form Ocultar
-    function ocultar() {
-        post(route('supervisor.clientes.leads.ocultar'))
+    function ocultar() {console.log(data)
+        post(route('supervisor.clientes.leads.ocultar'));
+        window.location.reload();
     }
 
     // Form Ocultar - fim
@@ -157,6 +172,10 @@ export default function Filtering({dados, consultores}) {
                     selectableRows
                     persistTableHead
                     onSelectedRowsChange={handleChange}
+                    striped
+                    highlightOnHover
+                    selectableRowsHighlight
+                    selectableRowsComponent={Checkbox}
                 />
 
             </div>

@@ -12,8 +12,9 @@ import Box from "@mui/material/Box";
 import {useForm} from "@inertiajs/react";
 
 export default function Navbar({titlePage}) {
-    const [qtdNotificacoes, setQtdNotificacoes] = React.useState();
+    const [qtdPedidos, setQtdPedidos] = React.useState();
 
+    // Recebe qtd notificacoes
     useEffect(() => {
         NavMenuToglle();
         fetch(route('admin.notificacoes.show', 0))
@@ -21,13 +22,9 @@ export default function Navbar({titlePage}) {
                 return response.json();
             })
             .then(function (data) {
-                setQtdNotificacoes(data);
+                setQtdPedidos(data.pedidos);
             });
     }, []);
-
-    // Recebe qtd notificacoes
-
-
     // Recebe qtd notificacoes - fim
 
     // MENU PERFIL
@@ -85,7 +82,7 @@ export default function Navbar({titlePage}) {
                             {/*Notificacoes*/}
                             <li className="nav-item dropdown mx-4 d-flex align-items-center">
                                 <a href={route('admin.notificacoes.index')}>
-                                    <Badge badgeContent={qtdNotificacoes} color="error">
+                                    <Badge badgeContent={qtdPedidos} color="error">
                                         <NotificationsIcon style={{color: 'white'}}/>
                                     </Badge>
                                 </a>

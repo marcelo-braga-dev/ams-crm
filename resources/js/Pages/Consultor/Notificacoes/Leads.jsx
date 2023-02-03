@@ -29,6 +29,7 @@ export default function Create({notificacoes}) {
         <Layout titlePage="Notificações">
 
             <div className="container bg-wh ite rounded px-3 px-md-6 py-4 mb-4">
+                <h6>Histórico de Notificações - LEADS</h6>
                 <div className="row">
                     <div className="col-12 mb-3 p-3">
 

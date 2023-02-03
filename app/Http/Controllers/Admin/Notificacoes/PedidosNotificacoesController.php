@@ -4,14 +4,15 @@ namespace App\Http\Controllers\Admin\Notificacoes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notificacoes;
+use App\src\Pedidos\NotificacoesCategorias;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class NotificacoesController extends Controller
+class PedidosNotificacoesController extends Controller
 {
     public function index()
     {
-        $notificacoes = (new Notificacoes())->getUsuario(auth()->id());
+        $notificacoes = (new Notificacoes())->getUsuario((new NotificacoesCategorias())->pedidos());
 
         return Inertia::render('Admin/Notificacoes/Index', compact('notificacoes'));
     }
@@ -19,7 +20,7 @@ class NotificacoesController extends Controller
     public function show()
     {
         // Retorna quantidade de notificoes ativas
-        return (new Notificacoes())->countUsuario(auth()->id());
+        return (new Notificacoes())->countNotificacoes();
     }
 
     public function update($id, Request $request)

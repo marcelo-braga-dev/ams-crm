@@ -19,8 +19,10 @@ class LeadsHistoricos extends Model
         'meio_contato'
     ];
 
-    public function create($id, $dados)
+    public function create(int $id, $dados)
     {
+        (new Leads())->atualizarDataStatus($id);
+
         return $this->newQuery()
             ->create([
                 'users_id' => auth()->id(),

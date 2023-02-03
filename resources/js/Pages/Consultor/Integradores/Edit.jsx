@@ -2,12 +2,11 @@ import {useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/Consultor/Layout";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
-import Typography from "@mui/material/Typography";
-import { router } from '@inertiajs/react'
+import {router} from '@inertiajs/react'
 import InputMask from "react-input-mask";
 
 export default function Edit({integrador}) {
-    const {data, setData, post, processing, errors} = useForm({
+    const {data, setData, errors} = useForm({
         'nome': integrador.nome,
         'cnpj': integrador.cnpj,
         'atendente': integrador.atendente,
@@ -24,16 +23,15 @@ export default function Edit({integrador}) {
         })
     }
 
-    return (<Layout titlePage="Editar Integrador" button={true} url={route('consultor.integradores.index')}
-                    textButton={'Voltar'}>
+    return (
+        <Layout container titlePage="Editar Integrador" voltar={route('consultor.integradores.show', integrador.id)}>
 
-        <div className="container bg-white px-lg-6 py-lg-5 rounded">
             {errors.nome && <Alert severity="error" className={"mb-3"}>{errors.empresa}</Alert>}
             {errors.senha && <Alert severity="error" className={"mb-3"}>{errors.senha}</Alert>}
             {errors.email && <Alert severity="error" className={"mb-3"}>{errors.email}</Alert>}
 
             <form onSubmit={submit}>
-                <Typography component="h5">Editar Informações do Integrador</Typography>
+                <h6>Editar Informações do Integrador</h6>
                 <div className="row mb-3 mt-3 text-right">
                     <div className="col mb-3">
                         <TextField label="Empresa" required value={data.nome}
@@ -74,6 +72,5 @@ export default function Edit({integrador}) {
                     </div>
                 </div>
             </form>
-        </div>
-    </Layout>);
+        </Layout>);
 }

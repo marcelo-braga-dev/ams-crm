@@ -3,14 +3,13 @@ import Typography from "@mui/material/Typography";
 
 export default function Show({integrador}) {
 
-    return (<Layout titlePage="Integrador" button={true} url={route('consultor.integradores.index')}
-                    textButton={'Voltar'}>
+    return (
+        <Layout container titlePage="Informações do Integrador" voltar={route('consultor.integradores.index')}>
 
-        <div className="container bg-white px-lg-6 py-lg-5 rounded">
             <div className="row">
                 <div className="col">
                     <Typography variant="h5" component="h3">Informações do Integrador</Typography></div>
-                <div className="col text-right">
+                <div className="col-auto text-right">
                     <a className="btn btn-primary" href={route('consultor.integradores.edit', integrador.id)}>Editar</a>
                 </div>
             </div>
@@ -28,7 +27,5 @@ export default function Show({integrador}) {
                     <Typography><b>Anotações:</b> {integrador.anotacoes}</Typography>
                 </div>
             </div>
-
-        </div>
-    </Layout>);
+        </Layout>);
 }

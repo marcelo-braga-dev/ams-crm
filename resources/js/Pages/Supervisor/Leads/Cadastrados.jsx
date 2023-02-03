@@ -19,6 +19,7 @@ const columns = [
         name: 'ID',
         selector: row => row.id,
         sortable: true,
+        grow: 0,
     },
     {
         name: 'Nome/Nome Fantasia',
@@ -31,13 +32,19 @@ const columns = [
         sortable: true,
     },
     {
-        name: 'Status',
-        selector: row => row.status,
+        name: 'Consultor',
+        selector: row => row.consultor,
         sortable: true,
     },
     {
-        name: 'Consultor',
-        selector: row => row.consultor,
+        name: 'Status',
+        selector: row => row.status,
+        sortable: true,
+        grow: 0,
+    },
+    {
+        name: 'Telefone',
+        selector: row => row.telefone,
         sortable: true,
     },
     {
@@ -58,6 +65,7 @@ export default function Filtering({dados}) {
             status: items.infos.status,
             consultor: items.consultor.nome,
             data_criacao: items.infos.data_criacao,
+            telefone: items.contato.telefone,
         }
     });
     // Dados - fim
@@ -65,7 +73,12 @@ export default function Filtering({dados}) {
     const [filterText, setFilterText] = React.useState('');
 
     const filteredItems = linhas.filter(
-        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()),
+        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
+            || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
+            || item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
+            || item.id && item.id.toString() === filterText|| item.telefone && item.telefone
+                .replace(/[^0-9]/g, '').toLowerCase().includes(filterText
+                    .replace(/[^0-9]/g, '').toLowerCase()),
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
@@ -94,6 +107,9 @@ export default function Filtering({dados}) {
                     paginationPerPage={25}
                     subHeader
                     subHeaderComponent={subHeaderComponentMemo}
+                    striped
+                    highlightOnHover
+                    selectableRowsHighlight
                 />
 
             </div>

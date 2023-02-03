@@ -32,7 +32,7 @@ export default function CardLeads({dados, urlBtn, btn}) {
                 }
 
                 {/*EMAIL*/}
-                {dados.cliente.cidade &&
+                {dados.contato.email &&
                     <div className="row">
                         <div className="col-1 mb-2">
                             <EmailIcon sx={{fontSize: 18}}/>
@@ -54,7 +54,6 @@ export default function CardLeads({dados, urlBtn, btn}) {
                         </div>
                     </div>
                 }
-
 
                 {/*BOTAO*/}
                 {btn && <div className="row justify-content-end mt-3">

@@ -7,6 +7,7 @@ use App\Models\Leads;
 use App\Models\User;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\UpdateStatusLeads;
+use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -46,10 +47,19 @@ class LeadsController extends Controller
 
     public function updateConsultor(Request $request)
     {
-        if (!empty($request->leads)) {
-            foreach ($request->leads as $item) {
-                (new Leads())->setConsultor($item['id'], $request->consultor);
+        try {
+            $idLeads = [];
+            if (!empty($request->leads)) {
+                foreach ($request->leads as $item) {
+                    $idLeads[] = $item['id'];
+                    (new Leads())->setConsultor($item['id'], $request->consultor);
+                }
             }
+
+            // Notificar Leads
+            if (count($request->leads)) (new LeadsNotificacao())->notificar($request->consultor, count($request->leads), $idLeads);
+        } catch (\DomainException) {
+
         }
 
         modalSucesso('Informações armazenadas com sucesso!');

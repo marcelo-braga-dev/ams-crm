@@ -5,8 +5,7 @@ import Layout from '@/Layouts/Supervisor/Layout';
 import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/react";
 
-import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Checkbox from '@mui/material/Checkbox';
 
 const FilterComponent = ({filterText, onFilter}) => (
     <TextField
@@ -24,6 +23,7 @@ const columns = [
         name: 'ID',
         selector: row => row.id,
         sortable: true,
+        grow: 0,
     },
     {
         name: 'Consultor',
@@ -59,7 +59,10 @@ export default function Filtering({dados, consultores}) {
     });
 
     function submit() {
-        if (data.consultor && data.leads) post(route('supervisor.clientes.leads.update-consultor'))
+        if (data.consultor && data.leads) {
+            post(route('supervisor.clientes.leads.update-consultor'))
+            window.location.reload()
+        }
     }
 
     // form - fim
@@ -82,7 +85,11 @@ export default function Filtering({dados, consultores}) {
     const filteredItems = linhas.filter(
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
             || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
-            || item.id && item.id.toString() === filterText,
+            || item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
+            || item.id && item.id.toString() === filterText
+            || item.telefone && item.telefone
+                .replace(/[^0-9]/g, '').toLowerCase().includes(filterText
+                    .replace(/[^0-9]/g, '').toLowerCase())
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
@@ -94,20 +101,6 @@ export default function Filtering({dados, consultores}) {
     const handleChange = row => {
         setData('leads', row.selectedRows)
     };
-
-    // Form Excluir
-    function excluir() {
-        post(route('supervisor.clientes.leads.delete'))
-    }
-
-    // Form Excluir - fim
-
-    // Form Ocultar
-    function ocultar() {
-        post(route('supervisor.clientes.leads.ocultar'))
-    }
-
-    // Form Ocultar - fim
 
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.consultor)]?.name;
@@ -145,18 +138,6 @@ export default function Filtering({dados, consultores}) {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-auto ">
-                            <button type="button" className="btn btn-link" data-bs-toggle="modal"
-                                    data-bs-target="#modalEsconder">
-                                <VisibilityOffIcon />
-                                OCULTAR
-                            </button>
-                            <button type="button" className="btn btn-link text-danger" data-bs-toggle="modal"
-                                    data-bs-target="#modalExcluir">
-                                <DeleteIcon />
-                                EXCLUIR
-                            </button>
-                        </div>
                     </div>
                 </form>
                 <DataTable
@@ -169,6 +150,10 @@ export default function Filtering({dados, consultores}) {
                     selectableRows
                     persistTableHead
                     onSelectedRowsChange={handleChange}
+                    striped
+                    highlightOnHover
+                    selectableRowsHighlight
+                    selectableRowsComponent={Checkbox}
                 />
 
             </div>
@@ -189,61 +174,8 @@ export default function Filtering({dados, consultores}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                            onClick={() => submit()}>
+                                    onClick={() => submit()}>
                                 Enviar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/*MODAL EXCLUIR*/}
-            <div className="modal fade" id="modalExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Excluir Leads</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            {data.leads.length ?
-                                <>EXCLUIR LEADS SELECIONADOS?</> :
-                                <div className="alert alert-danger text-white">Selecione os leads para excluir.</div>
-                            }
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
-                                    onClick={() => excluir()}>Excluir
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/*MODAL ESCONDER*/}
-            <div className="modal fade" id="modalEsconder" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Ocultar</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            {data.leads.length ?
-                                <>Ocultar Leads Selecionados?</> :
-                                <div className="alert alert-danger text-white">Selecione os leads para ocultar.</div>
-                            }
-
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => ocultar()}>Ocultar
                             </button>
                         </div>
                     </div>

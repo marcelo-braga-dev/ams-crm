@@ -4,8 +4,8 @@ namespace App\src\Pedidos\Status;
 
 use App\Models\Pedidos;
 use App\Models\PedidosPrazos;
-use App\src\Pedidos\Notificacoes\PedidosAdminsNotificar;
-use App\src\Pedidos\Notificacoes\PedidosConsultorNotificar;
+use App\src\Pedidos\Notificacoes\Pedidos\PedidosAdminsNotificar;
+use App\src\Pedidos\Notificacoes\Pedidos\PedidosConsultorNotificar;
 
 class FaturadoStatus implements PedidosStatus
 {
@@ -35,7 +35,7 @@ class FaturadoStatus implements PedidosStatus
     {
         (new Pedidos())->updateStatus($id, $this->getStatus(), $prazo, $alerta);
 
-        (new PedidosConsultorNotificar())->notificarUpdateStatus($id, $this->getNomeStatus());
+        (new PedidosConsultorNotificar())->notificar($id, $this->getNomeStatus());
         (new PedidosAdminsNotificar())->notificar($id, $this->getNomeStatus());
     }
 }

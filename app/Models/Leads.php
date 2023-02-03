@@ -82,16 +82,14 @@ class Leads extends Model
             ->orderByDesc('id')->get();
     }
 
-    public
-    function getConsultores()
+    public function getConsultores()
     {
         return $this->newQuery()
             ->where('users_id', auth()->id())
             ->get();
     }
 
-    public
-    function find($id)
+    public function find($id)
     {
         return $this->newQuery()->find($id);
     }
@@ -112,15 +110,14 @@ class Leads extends Model
                 ->find($id)
                 ->delete();
         } catch (Error) {
-
         }
-
     }
 
     public function getOcultos()
     {
         return $this->newQuery()
             ->where('status', (new OcultosLeadsStatus())->getStatus())
+            ->orderByDesc('id')
             ->get();
     }
 
@@ -128,6 +125,7 @@ class Leads extends Model
     {
         return $this->newQuery()
             ->where('users_id', '>', 0)
+            ->orderByDesc('id')
             ->get();
     }
 
@@ -149,5 +147,12 @@ class Leads extends Model
         } catch (QueryException) {
             throw new \DomainException();
         }
+    }
+
+    public function atualizarDataStatus(int $id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['status_data' => now()]);
     }
 }

@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import DataTable from 'react-data-table-component';
 import {TextField} from "@mui/material";
 import Layout from '@/Layouts/Supervisor/Layout';
-import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/react";
+import Checkbox from "@mui/material/Checkbox";
 
 const FilterComponent = ({filterText, onFilter}) => (
     <TextField
@@ -21,6 +21,7 @@ const columns = [
         name: 'ID',
         selector: row => row.id,
         sortable: true,
+        grow: 0,
     },
     {
         name: 'Nome/Nome Fantasia',
@@ -30,6 +31,11 @@ const columns = [
     {
         name: 'Razão Social',
         selector: row => row.razao_social,
+        sortable: true,
+    },
+    {
+        name: 'Telefone',
+        selector: row => row.telefone,
         sortable: true,
     },
     {
@@ -51,6 +57,7 @@ export default function Filtering({dados}) {
             name: items.cliente.nome,
             razao_social: items.cliente.razao_social,
             data_criacao: items.infos.data_criacao,
+            telefone: items.contato.telefone,
         }
     });
     // Dados - fim
@@ -60,7 +67,10 @@ export default function Filtering({dados}) {
     const filteredItems = linhas.filter(
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
             || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
-            || item.id && item.id.toString() === filterText,
+            || item.id && item.id.toString() === filterText
+            || item.telefone && item.telefone
+                .replace(/[^0-9]/g, '').toLowerCase().includes(filterText
+                    .replace(/[^0-9]/g, '').toLowerCase()),
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
@@ -76,6 +86,7 @@ export default function Filtering({dados}) {
     // Form Restaurar
     function restaurar() {
         post(route('supervisor.clientes.leads.restaurar'))
+        window.location.reload();
     }
 
     // Form Restaurar - fim
@@ -103,6 +114,10 @@ export default function Filtering({dados}) {
                     selectableRows
                     persistTableHead
                     onSelectedRowsChange={handleChange}
+                    striped
+                    highlightOnHover
+                    selectableRowsHighlight
+                    selectableRowsComponent={Checkbox}
                 />
 
             </div>

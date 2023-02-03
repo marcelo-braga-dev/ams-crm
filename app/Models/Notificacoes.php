@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Pedidos\NotificacoesCategorias;
 use App\src\Usuarios\Admins;
 use App\src\Usuarios\Supervisores;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +21,7 @@ class Notificacoes extends Model
         'url'
     ];
 
-    public function create(int $user, string $categoria, string $titulo, ?string $msg, ?string $url)
+    public function create(int $user, string $categoria, string $titulo, ?string $msg, ?string $url = null)
     {
         $this->newQuery()
             ->create([
@@ -32,20 +33,35 @@ class Notificacoes extends Model
             ]);
     }
 
-    public function getUsuario(int $id)
+    public function getUsuario(string $categoria)
     {
         return $this->newQuery()
-            ->where('users_id', $id)
+            ->where('users_id', id_usuario_atual())
+            ->where('categoria', $categoria)
             ->orderByDesc('id')
-            ->paginate(100);
+            ->paginate(50);
     }
 
-    public function countUsuario(int $id)
+    public function countNotificacoes(): array
     {
-        return $this->newQuery()
-            ->where('users_id', $id)
+        $idUsuario = id_usuario_atual();
+
+        $qtdPedidos = $this->newQuery()
+            ->where('users_id', $idUsuario)
+            ->where('categoria', (new NotificacoesCategorias())->pedidos())
             ->where('notificar', 1)
             ->count();
+
+        $qtdLeads = $this->newQuery()
+            ->where('users_id', $idUsuario)
+            ->where('categoria', (new NotificacoesCategorias())->leads())
+            ->where('notificar', 1)
+            ->count();
+
+        return [
+            'pedidos' => $qtdPedidos,
+            'leads' => $qtdLeads
+        ];
     }
 
     public function alterarAlerta(int $id, $valor)
@@ -55,14 +71,14 @@ class Notificacoes extends Model
             ->update(['notificar' => $valor]);
     }
 
-    public function notificarConsultor(int $id, $categoria, string $titulo, $msg = null, $url = null)
+    public function notificarPedidoConsultor(int $id, $categoria, string $titulo, $msg = null, $url = null)
     {
         $idConsultor = (new Pedidos())->getIdConsultor($id);
 
         $this->create($idConsultor, $categoria, $titulo, $msg, $url);
     }
 
-    public function notificarAdmins(int $id, $categoria, string $titulo, $msg = null, $url = null)
+    public function notificarPedidoAdmins(int $id, $categoria, string $titulo, $msg = null, $url = null)
     {
         $users = (new User())->getIdAdmins();
 
@@ -83,5 +99,10 @@ class Notificacoes extends Model
             ->update([
                 'notificar' => 0
             ]);
+    }
+
+    public function countLeads(int $id)
+    {
+        return 28;
     }
 }
