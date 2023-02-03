@@ -34,8 +34,7 @@ class ChamadosController extends Controller
 
     public function create(Request $request)
     {
-        $pedidoDados = (new Pedidos())->newQuery()->findOrFail($request->id);
-        $pedido = (new PedidosServices())->pedido($pedidoDados);
+        $pedido = (new Pedidos())->getV2($request->id);
 
         return Inertia::render('Supervisor/Chamados/Create', compact('pedido'));
     }

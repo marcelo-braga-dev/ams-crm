@@ -4,6 +4,7 @@ import React from 'react';
 import {useForm} from '@inertiajs/react';
 import {Container, Row, Col, Form, Button} from 'reactstrap';
 import {TextField, Typography} from "@mui/material";
+import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
 export default function Create({pedido}) {
 
@@ -23,8 +24,7 @@ export default function Create({pedido}) {
                 <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 mb-4">
                     <Row className="mb-4">
                         <Col>
-                            <Typography className="mb-3" variant="h5">Abrir SAC</Typography>
-                            <Typography><b>Cliente:</b> {pedido.cliente}</Typography>
+                            <DadosPedidoMinimo dados={pedido}/>
                         </Col>
                     </Row>
                     <Row>
