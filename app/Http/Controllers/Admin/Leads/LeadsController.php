@@ -58,8 +58,8 @@ class LeadsController extends Controller
 
             // Notificar Leads
             if (count($request->leads)) (new LeadsNotificacao())->notificar($request->consultor, count($request->leads), $idLeads);
-        } catch (\DomainException) {
-
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
         }
 
         modalSucesso('Informações armazenadas com sucesso!');

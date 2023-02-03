@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import DataTable from 'react-data-table-component';
-import {TextField} from "@mui/material";
+import {Backdrop, CircularProgress, TextField} from "@mui/material";
 import Layout from '@/Layouts/Supervisor/Layout';
 import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/react";
@@ -50,6 +50,9 @@ const columns = [
 ];
 
 export default function Filtering({dados, consultores}) {
+    // loading
+    const [open, setOpen] = React.useState(false);
+
     // Form
     const {data, post, setData, reset} = useForm({
         'leads': []
@@ -82,9 +85,7 @@ export default function Filtering({dados, consultores}) {
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
             || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
             || item.id && item.id.toString() === filterText
-            // || item.telefone && item.telefone
-            //     .replace(/[^0-9]/g, '').toLowerCase().includes(filterText
-            //         .replace(/[^0-9]/g, '').toLowerCase()),
+            || item.telefone && item.telefone.toLowerCase().includes(filterText.toLowerCase())
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
@@ -257,6 +258,11 @@ export default function Filtering({dados, consultores}) {
                     </div>
                 </div>
             </div>
+            <Backdrop
+                sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
+                open={open}>
+                <CircularProgress color="inherit"/>
+            </Backdrop>
         </Layout>
     );
 };

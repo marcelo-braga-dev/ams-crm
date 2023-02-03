@@ -91,9 +91,7 @@ export default function Filtering({dados, consultores}) {
             || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
             || item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
             || item.id && item.id.toString() === filterText
-            // || item.telefone && item.telefone
-            //     .replace(/[^0-9]/g, '').toLowerCase().includes(filterText
-            //         .replace(/[^0-9]/g, '').toLowerCase()),
+            || item.telefone && item.telefone.toLowerCase().includes(filterText.toLowerCase())
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {

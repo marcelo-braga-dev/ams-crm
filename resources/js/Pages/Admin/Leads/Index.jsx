@@ -1,6 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
-import {TextField} from "@mui/material";
+import {Backdrop, CircularProgress, TextField} from "@mui/material";
 import Layout from '@/Layouts/Admin/Layout';
 import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/react";
@@ -50,6 +50,9 @@ const columns = [
 ];
 
 export default function Filtering({dados, consultores}) {
+    // loading
+    const [open, setOpen] = React.useState(false);
+
     // Form
     const {data, post, setData} = useForm({
         'leads': []
@@ -57,6 +60,7 @@ export default function Filtering({dados, consultores}) {
 
     function submit() {
         if (data.consultor && data.leads) {
+            setOpen(!open);
             post(route('admin.clientes.leads.update-consultor'))
             window.location.reload();
         }
@@ -82,9 +86,7 @@ export default function Filtering({dados, consultores}) {
         item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
             || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
             || item.id && item.id.toString() === filterText
-            // || item.telefone && item.telefone
-            //     .replace(/[^0-9]/g, '').toLowerCase().includes(filterText
-            //         .replace(/[^0-9]/g, '').toLowerCase()),
+            || item.telefone && item.telefone.toLowerCase().includes(filterText.toLowerCase())
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
@@ -116,7 +118,7 @@ export default function Filtering({dados, consultores}) {
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.consultor)]?.name;
         return nome ? <>
-            Enviar Leads Selecionados para:<br/>
+            Enviar <b>{data.leads.length}</b> Leads Selecionados para:<br/>
             <h5>{nome}</h5>
         </> : <div className="alert alert-danger text-white">Selecione o Consultor</div>
     }
@@ -193,11 +195,15 @@ export default function Filtering({dados, consultores}) {
                         </div>
                         <div className="modal-body">
                             {nomeConsultorSelecionado()}
+                            {!data.leads.length &&
+                                <div className="alert alert-danger text-white">Selecione os Leads</div>}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-outline-secondary me-4"
+                                    data-bs-dismiss="modal">Fechar
+                            </button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => submit()}>
+                                    onClick={() => submit()} disabled={!data.leads.length || !data.consultor}>
                                 Enviar
                             </button>
                         </div>
@@ -257,6 +263,13 @@ export default function Filtering({dados, consultores}) {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+                <Backdrop
+                    sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
+                    open={open}>
+                    <CircularProgress color="inherit"/>
+                </Backdrop>
             </div>
         </Layout>
     );

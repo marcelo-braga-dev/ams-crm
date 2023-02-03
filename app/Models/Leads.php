@@ -40,8 +40,7 @@ class Leads extends Model
             ->get();
     }
 
-    public
-    function setConsultor($idLead, $idConsultor)
+    public function setConsultor($idLead, $idConsultor)
     {
         $this->newQuery()
             ->where('id', $idLead)
@@ -51,8 +50,7 @@ class Leads extends Model
             ]);
     }
 
-    public
-    function create($dados, $pessoa = null)
+    public function create($dados, $pessoa = null)
     {
         try {
             $this->newQuery()
