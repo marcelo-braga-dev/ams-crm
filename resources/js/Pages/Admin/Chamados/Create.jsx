@@ -3,6 +3,7 @@ import Layout from '@/Layouts/Admin/Layout';
 import React from 'react';
 import {useForm} from '@inertiajs/react';
 import {TextField, Typography} from "@mui/material";
+import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
 export default function Create({pedido}) {
 
@@ -22,8 +23,7 @@ export default function Create({pedido}) {
                 <div className="container bg-white px-lg-6 py-lg-5 mb-4">
                     <div className="row mb-4">
                         <div className="col">
-                            <Typography className="mb-3" variant="h5">Abrir SAC</Typography>
-                            <Typography><b>Cliente:</b> {pedido.cliente}</Typography>
+                            <DadosPedidoMinimo dados={pedido}/>
                         </div>
                     </div>
                     <div className="row">

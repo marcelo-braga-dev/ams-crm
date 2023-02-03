@@ -23,7 +23,7 @@ class AguardandoNotaController extends Controller
     }
 
     public function update($id, Request $request)
-    {
+    {print_pre($request->all());
         (new PedidoUpdateStatus())->aguardandoBoleto($id, $request);
 
         modalSucesso('Atualizado com sucesso!');
