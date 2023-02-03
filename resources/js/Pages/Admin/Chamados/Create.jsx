@@ -7,13 +7,14 @@ import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
 export default function Create({pedido}) {
 
-    const {setData, post} = useForm();
+    const {setData, post} = useForm({
+        id: pedido.pedido.id
+    });
 
     function submit(e) {
         e.preventDefault()
-        post(route('admin.chamado.store', {id: pedido.id}))
+        post(route('admin.chamado.store'))
     }
-
     return (
         <Layout
             titlePage="Abrir SAQ"

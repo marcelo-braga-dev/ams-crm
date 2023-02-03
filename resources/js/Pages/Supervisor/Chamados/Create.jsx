@@ -8,7 +8,9 @@ import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
 export default function Create({pedido}) {
 
-    const {setData, post} = useForm();
+    const {setData, post} = useForm({
+        id: pedido.pedido.id
+    });
 
     function submit(e) {
         e.preventDefault()
