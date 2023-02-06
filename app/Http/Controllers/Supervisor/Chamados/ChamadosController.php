@@ -43,7 +43,7 @@ class ChamadosController extends Controller
         (new NovoChamadoStatus())->create($request->id, $request->titulo, $request->mensagem);
 
         modalSucesso('Chamado criado com sucesso!');
-        return redirect()->route('supervisor.chamado.index');
+        return redirect()->route('supervisor.chamados.index');
     }
 
     public function edit($id)

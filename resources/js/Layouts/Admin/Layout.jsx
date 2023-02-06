@@ -17,7 +17,7 @@ export default function Layout({children, titlePage, container, voltar, errors =
                 <div className="container-fluid py-4 mt-3">
                     {container ?
                         voltar ?
-                            <div className="bg-white px-lg-4 pt-2 mb-4 rounded">
+                            <div className="bg-white px-lg-4 pt-2 pb-4 mb-4 rounded">
                                 <div className="row justify-content-end">
                                     <div className="col-auto">
                                         <a className="btn btn-link btn-sm"
