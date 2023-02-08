@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import DataTable from 'react-data-table-component';
 import {Backdrop, CircularProgress, TextField} from "@mui/material";
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/Supervisor/Layout';
 import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/react";
 
@@ -47,6 +47,15 @@ const columns = [
         selector: row => row.data_criacao,
         sortable: true,
     },
+    {
+        cell: row => <a className="btn btn-link btn-sm" href={route('supervisor.clientes.leads.leads-main.show', row.id)}>
+            Abrir
+        </a>,
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
+        grow: 0,
+    },
 ];
 
 export default function Filtering({dados, consultores}) {
@@ -54,14 +63,14 @@ export default function Filtering({dados, consultores}) {
     const [open, setOpen] = React.useState(false);
 
     // Form
-    const {data, post, setData} = useForm({
+    const {data, post, setData, reset} = useForm({
         'leads': []
     });
 
     function submit() {
         if (data.consultor && data.leads) {
             setOpen(!open);
-            post(route('admin.clientes.leads.update-consultor'))
+            post(route('supervisor.clientes.leads.update-consultor'));
             window.location.reload();
         }
     }
@@ -101,15 +110,15 @@ export default function Filtering({dados, consultores}) {
 
     // Form Excluir
     function excluir() {
-        post(route('admin.clientes.leads.delete'))
+        post(route('supervisor.clientes.leads.delete'));
         window.location.reload();
     }
 
     // Form Excluir - fim
 
     // Form Ocultar
-    function ocultar() {
-        post(route('admin.clientes.leads.ocultar'))
+    function ocultar() {console.log(data)
+        post(route('supervisor.clientes.leads.ocultar'));
         window.location.reload();
     }
 
@@ -118,7 +127,7 @@ export default function Filtering({dados, consultores}) {
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.consultor)]?.name;
         return nome ? <>
-            Enviar <b>{data.leads.length}</b> Leads Selecionados para:<br/>
+            Enviar Leads Selecionados para:<br/>
             <h5>{nome}</h5>
         </> : <div className="alert alert-danger text-white">Selecione o Consultor</div>
     }
@@ -134,7 +143,7 @@ export default function Filtering({dados, consultores}) {
                             <div className="row mx-3">
                                 <div className="col-8 ml-4">
                                     <TextField label="Selecione o Consultor..." select
-                                               fullWidth required size="small" defaultValue=""
+                                               fullWidth required size="small"
                                                onChange={e => setData('consultor', e.target.value)}>
                                         {consultores.map((option) => (
                                             <MenuItem key={option.id} value={option.id}>
@@ -154,12 +163,12 @@ export default function Filtering({dados, consultores}) {
                         <div className="col-md-auto ">
                             <button type="button" className="btn btn-link" data-bs-toggle="modal"
                                     data-bs-target="#modalEsconder">
-                                <VisibilityOffIcon/>
+                                <VisibilityOffIcon />
                                 OCULTAR
                             </button>
                             <button type="button" className="btn btn-link text-danger" data-bs-toggle="modal"
                                     data-bs-target="#modalExcluir">
-                                <DeleteIcon/>
+                                <DeleteIcon />
                                 EXCLUIR
                             </button>
                         </div>
@@ -257,20 +266,17 @@ export default function Filtering({dados, consultores}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => ocultar()}>
-                                Ocultar
+                                    onClick={() => ocultar()}>Ocultar
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
-                <Backdrop
-                    sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
-                    open={open}>
-                    <CircularProgress color="inherit"/>
-                </Backdrop>
-            </div>
+            <Backdrop
+                sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}
+                open={open}>
+                <CircularProgress color="inherit"/>
+            </Backdrop>
         </Layout>
     );
 };

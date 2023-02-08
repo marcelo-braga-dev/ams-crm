@@ -51,6 +51,15 @@ const columns = [
         selector: row => row.data_criacao,
         sortable: true,
     },
+    {
+        cell: row => <a className="btn btn-link btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
+            Abrir
+        </a>,
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
+        grow: 0,
+    },
 ];
 
 export default function Filtering({dados}) {

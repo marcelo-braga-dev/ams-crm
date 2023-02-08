@@ -55,6 +55,15 @@ const columns = [
         selector: row => row.data_criacao,
         sortable: true,
     },
+    {
+        cell: row => <a className="btn btn-link btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
+            Abrir
+        </a>,
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
+        grow: 0,
+    },
 ];
 
 export default function Filtering({dados, consultores}) {
@@ -107,7 +116,7 @@ export default function Filtering({dados, consultores}) {
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.consultor)]?.name;
         return nome ? <>
-            Enviar Leads Selecionados para:<br/>
+            <b>TROCAR</b> o consultor(a) dos Leads Selecionados para:<br/>
             <h5>{nome}</h5>
         </> : <div className="alert alert-danger text-white">Selecione o Consultor</div>
     }
@@ -166,7 +175,7 @@ export default function Filtering({dados, consultores}) {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Enviar Leads</h5>
+                            <h5 className="modal-title" id="exampleModalLabel">ALTERAR CONSULTOR</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>
@@ -177,7 +186,7 @@ export default function Filtering({dados, consultores}) {
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
                                     onClick={() => submit()}>
-                                Enviar
+                                Alterar Consultor(a)
                             </button>
                         </div>
                     </div>

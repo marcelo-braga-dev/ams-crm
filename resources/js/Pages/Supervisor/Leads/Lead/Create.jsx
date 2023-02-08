@@ -29,15 +29,6 @@ export default function Create() {
                             <TextField label="Razão Social :" fullWidth
                                        onBlur={e => setData('i' + i, {...data['i' + i], razao_social: e.target.value})}/>
                         </div>
-                        {/*<FormControl>*/}
-                        {/*    <RadioGroup*/}
-                        {/*        row aria-labelledby="pessoa" defaultValue="pf"*/}
-                        {/*        name="row-radio-buttons-group"*/}
-                        {/*        onChange={e => setData('i' + i, {...data['i' + i], pessoa: e.target.value})}>*/}
-                        {/*        <FormControlLabel value="pf" control={<Radio/>} label="Pessoa Física"/>*/}
-                        {/*        <FormControlLabel value="pj" control={<Radio/>} label="Jurídica"/>*/}
-                        {/*    </RadioGroup>*/}
-                        {/*</FormControl>*/}
                     </div>
                 </div>
                 {/*PJ*/}

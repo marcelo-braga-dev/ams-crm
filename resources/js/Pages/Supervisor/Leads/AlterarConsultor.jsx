@@ -50,6 +50,15 @@ const columns = [
         selector: row => row.data_criacao,
         sortable: true,
     },
+    {
+        cell: row => <a className="btn btn-link btn-sm" href={route('supervisor.clientes.leads.leads-main.show', row.id)}>
+            Abrir
+        </a>,
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
+        grow: 0,
+    },
 ];
 
 export default function Filtering({dados, consultores}) {
@@ -103,7 +112,7 @@ export default function Filtering({dados, consultores}) {
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.consultor)]?.name;
         return nome ? <>
-            Enviar Leads Selecionados para:<br/>
+            <b>TROCAR</b> o consultor(a) dos Leads Selecionados para:<br/>
             <h5>{nome}</h5>
         </> : <div className="alert alert-danger text-white">Selecione o Consultor</div>
     }

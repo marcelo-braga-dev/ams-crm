@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
+use App\Models\LeadsHistoricos;
 use App\Models\User;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\UpdateStatusLeads;
@@ -18,13 +19,13 @@ class LeadsController extends Controller
         $dados = (new LeadsDadosService())->getDisponiveis();
         $consultores = (new User())->getConsultores();
 
-        return Inertia::render('Admin/Leads/Index',
+        return Inertia::render('Admin/Leads/Encaminhar',
             compact('dados', 'consultores'));
     }
 
     public function create()
     {
-        return Inertia::render('Admin/Leads/Create');
+        return Inertia::render('Admin/Leads/Lead/Create');
     }
 
     public function store(Request $request)
@@ -121,5 +122,31 @@ class LeadsController extends Controller
 
         return Inertia::render('Admin/Leads/AlterarConsultor',
             compact('dados', 'consultores'));
+    }
+
+    public function show($id)
+    {
+        $dados = (new LeadsDadosService())->lead($id);
+        $historicos = (new LeadsHistoricos())->dados($id);
+
+        return Inertia::render('Admin/Leads/Lead/Show',
+            compact('dados', 'historicos'));
+    }
+
+    public function edit($id)
+    {
+        $dados = (new Leads())->find($id);
+        $urlAnterior = url()->previous();
+
+        return Inertia::render('Admin/Leads/Lead/Edit',
+            compact('dados', 'urlAnterior'));
+    }
+
+    public function update($id, Request $request)
+    {
+        (new Leads())->atualizar($id, $request);
+
+        modalSucesso("Dados atualizado com sucesso!");
+        return redirect($request->url);
     }
 }
