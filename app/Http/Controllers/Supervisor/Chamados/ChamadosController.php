@@ -25,10 +25,11 @@ class ChamadosController extends Controller
     public function show($id)
     {
         $chamado = (new PedidosChamados())->get($id);
+        $pedido = (new Pedidos())->getV2($chamado['id_pedido']);
         $mensagens = (new PedidosChamadosHistoricos())->getMensagens($id);
 
         return Inertia::render('Supervisor/Chamados/Show',
-            compact('chamado', 'mensagens'));
+            compact('pedido', 'chamado', 'mensagens'));
     }
 
     public function create(Request $request)
@@ -49,20 +50,21 @@ class ChamadosController extends Controller
     public function edit($id)
     {
         $chamado = (new PedidosChamados())->get($id);
+        $pedido = (new Pedidos())->getV2($chamado['id_pedido']);
         $mensagens = (new PedidosChamadosHistoricos())->getMensagens($id);
 
         return Inertia::render('Supervisor/Chamados/Edit',
-            compact('chamado', 'mensagens'));
+            compact('chamado', 'pedido', 'mensagens'));
     }
 
     public function update(Request $request)
     {
-        (new RespondidoChamadoStatus())
-            ->responder($request->id_pedido, $request->id_chamado, $request->mensagem);
-
         if ($request->finalizar) {
-            (new FinalizadosChamadoStatus())->updateStatus($request->id_pedido);
+            (new FinalizadosChamadoStatus())->updateStatus($request->id_pedido, $request->id_chamado, $request->mensagem);
             (new Pedidos())->updateChamado($request->id_pedido, 0);
+        } else {
+            (new RespondidoChamadoStatus())
+                ->responder($request->id_pedido, $request->id_chamado, $request->mensagem);
         }
 
         return redirect()->route('supervisor.chamados.index');

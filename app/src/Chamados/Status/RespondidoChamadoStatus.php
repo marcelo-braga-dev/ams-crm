@@ -27,6 +27,6 @@ class RespondidoChamadoStatus implements ChamadosStatus
     public function responder(int $idPedido, int $idChamado, string $mensagem)
     {
         (new PedidosChamadosHistoricos())->create($idPedido, $idChamado, $this->status, $mensagem, $this->getPrazo());
-        (new PedidosChamados())->updateStatus($idPedido, $this->status, $this->getPrazo());
+        (new PedidosChamados())->updateStatus($idChamado, $this->status, $this->getPrazo());
     }
 }

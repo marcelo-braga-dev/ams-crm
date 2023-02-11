@@ -60,7 +60,7 @@ class PedidosChamados extends Model
     public function updateStatus(int $id, string $status, int $prazo)
     {
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->find($id)
             ->update([
                 'status' => $status,
                 'status_data' => now(),

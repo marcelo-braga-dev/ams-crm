@@ -3,6 +3,7 @@
 namespace App\src\Chamados\Status;
 
 use App\Models\PedidosChamados;
+use App\Models\PedidosChamadosHistoricos;
 
 class FinalizadosChamadoStatus implements ChamadosStatus
 {
@@ -23,8 +24,9 @@ class FinalizadosChamadoStatus implements ChamadosStatus
         return 2;
     }
 
-    public function updateStatus($id)
+    public function updateStatus(int $idPedido, int $idChamado, string $mensagem)
     {
-        (new PedidosChamados())->updateStatus( $id,  $this->getStatus(),  $this->getPrazo());
+        (new PedidosChamados())->updateStatus( $idChamado,  $this->getStatus(),  $this->getPrazo());
+        (new PedidosChamadosHistoricos())->create($idPedido, $idChamado, $this->status, $mensagem, $this->getPrazo());
     }
 }

@@ -6,8 +6,9 @@ import {TextField, Typography} from "@mui/material";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 import {useForm} from "@inertiajs/react";
 import { router } from '@inertiajs/react'
+import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
-export default function Create({chamado, mensagens}) {
+export default function Create({chamado, pedido, mensagens}) {
     // Envio da Resposta
     const {data, setData} = useForm(
         {id_chamado: chamado.id, id_pedido: chamado.id_pedido});
@@ -27,11 +28,9 @@ export default function Create({chamado, mensagens}) {
             url={route('admin.chamado.index')} textButton={'Voltar'}>
 
             <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 mb-4">
-                <div className="row justify-content-between">
+                <div className="row justify-content-between mb-4">
                     <div className="col">
-                        <Typography className="mb-3" variant="h5">Informações do SAC</Typography>
-                        <Typography><b>Cliente:</b> {chamado.cliente}</Typography>
-                        <Typography><b>Status Atual:</b> {chamado.status}</Typography>
+                        <DadosPedidoMinimo dados={pedido} />
                     </div>
                 </div>
                 <Row>

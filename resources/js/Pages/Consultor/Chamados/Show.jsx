@@ -4,8 +4,9 @@ import React, {useState} from 'react';
 import {Container, Row, Col, Form, Button} from 'reactstrap';
 import {TextField, Typography} from "@mui/material";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
+import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
-export default function Create({chamado, mensagens}) {
+export default function Create({chamado, pedido, mensagens}) {
     return (
         <Layout
             titlePage="Abrir SAQ"
@@ -15,8 +16,7 @@ export default function Create({chamado, mensagens}) {
                     <Row>
                         <Col className="mb-4">
                             <Typography className="mb-3" variant="h5">Informações do SAC</Typography>
-                            <Typography><b>Cliente:</b> {chamado.cliente}</Typography>
-                            <Typography><b>Status Atual:</b> {chamado.status}</Typography>
+                            <DadosPedidoMinimo dados={pedido} />
                         </Col>
                     </Row>
                     <Row>
