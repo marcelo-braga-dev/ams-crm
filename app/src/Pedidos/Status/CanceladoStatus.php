@@ -17,7 +17,7 @@ class CanceladoStatus implements PedidosStatus
 
     function getPrazo(): int
     {
-        return 0;
+        return 1;
     }
 
     function getNomeStatus(): string

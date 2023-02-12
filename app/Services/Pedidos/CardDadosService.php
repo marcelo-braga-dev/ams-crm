@@ -59,7 +59,8 @@ class CardDadosService
     private function pedidos()
     {
         foreach ($this->pedidos as $item) {
-            $this->dados($item);
+            $this->verificacao($item);
+
         }
     }
 
@@ -131,5 +132,17 @@ class CardDadosService
         }
 
         return $status;
+    }
+
+    private function verificacao($pedido)
+    {
+        $atrasado = $this->getDiferenca($pedido->status_data, $pedido->prazo);
+
+        if ($pedido->status !== 'cancelado' && $pedido->status !== 'entregue') {
+            $this->dados($pedido);
+
+        } elseif (!$atrasado) {
+            $this->dados($pedido);
+        }
     }
 }

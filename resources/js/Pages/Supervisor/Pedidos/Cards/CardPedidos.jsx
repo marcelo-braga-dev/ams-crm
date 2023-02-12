@@ -12,11 +12,10 @@ import EmailIcon from './Partials/IconsCard/EmailIconPopover';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
-import {Alert} from '@mui/material';
 import TelefoneIcon from "./Partials/IconsCard/TelefoneIcon";
 import HandymanIcon from "@mui/icons-material/Handyman";
 
-export default function CardPedidos({dados, menuMore, btnAvancaStatus, border}) {
+export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, border}) {
 
     return (
         <div className="pesquisar-card shadow bg-white m-2 py-2 px-3 rounded"
@@ -97,9 +96,9 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, border}) 
                     <Chip icon={<SpeakerNotesIcon className='ml-2'/>} label="SAC" color="warning" size="small"/> : ''}
             </Stack>
 
-            {/* Alerts */}
             <div className='row'>
-                {dados.infos.alerta && <Alert severity='warning' className='mb-2'>{dados.infos.alerta}</Alert>}
+                {/* Alerts */}
+                {alerts}
             </div>
 
             {/* Datas */}
