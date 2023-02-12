@@ -117,6 +117,11 @@ export default function Filtering({dados, consultores}) {
         </> : <div className="alert alert-danger text-white">Selecione o Consultor</div>
     }
 
+    function limpar() {
+        if (data.leads) post(route('supervisor.clientes.leads.limpar-consultor'))
+        window.location.reload();
+    }
+
     return (
         <Layout titlePage="Alterar Consultor">
             <div className="container bg-white p-2 py-4 rounded">
@@ -144,6 +149,13 @@ export default function Filtering({dados, consultores}) {
                                     </button>
                                 </div>
                             </div>
+                        </div>
+                        <div className="col-auto">
+                            <button type="button" className="btn btn-link btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalLimpar">
+                                Limpar
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -183,6 +195,30 @@ export default function Filtering({dados, consultores}) {
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
                                     onClick={() => submit()}>
                                 Enviar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*MODAL LIMPAR*/}
+            <div className="modal fade" id="modalLimpar" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title">LIMPAR LEAD</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Remover os Consultores(a) destes LEADS?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
+                                    onClick={() => limpar()}>
+                                Limpar
                             </button>
                         </div>
                     </div>

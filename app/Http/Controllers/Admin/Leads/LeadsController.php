@@ -149,4 +149,20 @@ class LeadsController extends Controller
         modalSucesso("Dados atualizado com sucesso!");
         return redirect($request->url);
     }
+
+    public function limparConsultor(Request $request)
+    {
+        try {
+            if (!empty($request->leads)) {
+                foreach ($request->leads as $item) {
+                    (new Leads())->setConsultor($item['id'], null);
+                }
+            }
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+        }
+
+        modalSucesso('Informações armazenadas com sucesso!');
+        return redirect()->back();
+    }
 }
