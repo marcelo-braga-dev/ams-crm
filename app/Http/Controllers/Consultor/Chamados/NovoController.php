@@ -12,7 +12,7 @@ class NovoController extends Controller
 {
     public function create(Request $request)
     {
-        $pedido = (new Pedidos())->getV2($request->id);
+        $pedido = (new Pedidos())->getDadosPedido($request->id);
 
         return Inertia::render('Consultor/Chamados/Novo/Create', compact('pedido'));
     }

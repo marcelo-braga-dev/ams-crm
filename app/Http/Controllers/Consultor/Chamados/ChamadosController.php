@@ -22,7 +22,7 @@ class ChamadosController extends Controller
     public function show($idChamado)
     {
         $chamado = (new PedidosChamados())->get($idChamado);
-        $pedido = (new Pedidos())->getV2($chamado['id_pedido']);
+        $pedido = (new Pedidos())->getDadosPedido($chamado['id_pedido']);
         $mensagens = (new PedidosChamadosHistoricos())->getMensagens($idChamado);
 
         return Inertia::render('Consultor/Chamados/Show',

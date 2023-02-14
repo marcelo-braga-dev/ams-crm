@@ -25,7 +25,7 @@ class ChamadosController extends Controller
     public function show($id)
     {
         $chamado = (new PedidosChamados())->get($id);
-        $pedido = (new Pedidos())->getV2($chamado['id_pedido']);
+        $pedido = (new Pedidos())->getDadosPedido($chamado['id_pedido']);
         $mensagens = (new PedidosChamadosHistoricos())->getMensagens($id);
 
         return Inertia::render('Admin/Chamados/Show',
@@ -34,7 +34,7 @@ class ChamadosController extends Controller
 
     public function create(Request $request)
     {
-        $pedido = (new Pedidos())->getV2($request->id);
+        $pedido = (new Pedidos())->getDadosPedido($request->id);
 
         return Inertia::render('Admin/Chamados/Create', compact('pedido'));
     }
@@ -50,7 +50,7 @@ class ChamadosController extends Controller
     public function edit($id)
     {
         $chamado = (new PedidosChamados())->get($id);
-        $pedido = (new Pedidos())->getV2($chamado['id_pedido']);
+        $pedido = (new Pedidos())->getDadosPedido($chamado['id_pedido']);
         $mensagens = (new PedidosChamadosHistoricos())->getMensagens($id);
 
         return Inertia::render('Admin/Chamados/Edit',

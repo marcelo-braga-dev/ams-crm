@@ -12,7 +12,7 @@ class CanceladoController extends Controller
 {
     public function show($id)
     {
-        $pedido = (new Pedidos)->getV2($id);
+        $pedido = (new Pedidos)->getDadosPedido($id);
 
         return Inertia::render('Supervisor/Pedidos/Cancelado/Show',
             compact('pedido'));

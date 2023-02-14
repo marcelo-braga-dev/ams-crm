@@ -18,7 +18,7 @@ class AguardandoPagamentoController extends Controller
     {
         (new Pedidos())->updateSituacao($id, (new SituacaoPedido())->getAbertoTag());
 
-        $dados = (new Pedidos())->getV2($id);
+        $dados = (new Pedidos())->getDadosPedido($id);
 
         return Inertia::render('Consultor/Pedidos/AguardandoPagamento/Show',
             compact('dados'));

@@ -19,7 +19,7 @@ class PedidosController extends Controller
 
     public function show($id)
     {
-        $pedido = (new Pedidos())->getV2($id);
+        $pedido = (new Pedidos())->getDadosPedido($id);
         $historico = (new PedidosHistoricos())->historico($id);
 
         return Inertia::render('Supervisor/Pedidos/Show',

@@ -62,7 +62,14 @@ class Pedidos extends Model
         return $pedido->id;
     }
 
-    public function getV2(int $id): array
+    public function pedidos()
+    {
+        return $this->newQuery()
+            ->orderByDesc('id')
+            ->get();
+    }
+
+    public function getDadosPedido(int $id): array
     {
         $pedidoDados = $this->newQuery()->findOrFail($id);
         return (new DadosPedidoServices())->dados($pedidoDados);

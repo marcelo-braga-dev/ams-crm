@@ -20,7 +20,7 @@ class AguardandoFaturamentoController extends Controller
     {
         (new Pedidos())->updateSituacao($id, (new SituacaoPedido())->getAbertoTag());
 
-        $pedido = (new Pedidos)->getV2($id);
+        $pedido = (new Pedidos)->getDadosPedido($id);
 
         return Inertia::render('Admin/Pedidos/AguardandoFaturamento/Show',
             compact('pedido'));

@@ -12,7 +12,7 @@ class AguardandoNotaController extends Controller
 {
     public function show($id)
     {
-        $dados = (new Pedidos)->getV2($id);
+        $dados = (new Pedidos)->getDadosPedido($id);
 
         return Inertia::render('Supervisor/Pedidos/AguardandoNota/Show',
             compact('dados'));

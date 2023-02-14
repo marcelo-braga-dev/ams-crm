@@ -12,7 +12,7 @@ class AguardandoPagamentoController extends Controller
 {
     public function show($id)
     {
-        $dados = (new Pedidos)->getV2($id);
+        $dados = (new Pedidos)->getDadosPedido($id);
 
         return Inertia::render('Admin/Pedidos/AguardandoPagamento/Show',
             compact('dados'));

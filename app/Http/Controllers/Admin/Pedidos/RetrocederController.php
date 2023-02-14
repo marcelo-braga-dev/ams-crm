@@ -12,7 +12,7 @@ class RetrocederController extends Controller
 {
     public function edit($id)
     {
-        $dados = (new Pedidos())->getV2($id);
+        $dados = (new Pedidos())->getDadosPedido($id);
 
         return Inertia::render('Admin/Pedidos/Retroceder/Edit', compact('dados'));
     }

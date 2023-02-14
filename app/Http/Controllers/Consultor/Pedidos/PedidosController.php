@@ -35,7 +35,7 @@ class PedidosController extends Controller
 
     public function show($id)
     {
-        $dados = (new Pedidos())->getV2($id);
+        $dados = (new Pedidos())->getDadosPedido($id);
 
         $historico = (new PedidosHistoricos())->historico($id);
 

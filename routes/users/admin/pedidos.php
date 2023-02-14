@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Pedidos\HistoricoController;
 use App\Http\Controllers\Admin\Pedidos\RetrocederController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Pedidos\AguardandoFaturamentoController;
@@ -28,4 +29,6 @@ Route::name('admin.')
 
         Route::resource('config', ConfigController::class);
         Route::resource('retroceder', RetrocederController::class);
+
+        Route::resource('historico', HistoricoController::class);
     });
