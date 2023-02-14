@@ -73,7 +73,7 @@ export default function Filtering({pedidos}) {
             cliente: items.cliente.nome,
             consultor: items.consultor.nome,
             integrador: items.integrador.nome,
-            valor: items.preco.convertido,
+            valor: 'R$ ' + items.preco.convertido,
             status: items.pedido.status,
             data_criacao: items.pedido.data_criacao,
 
@@ -84,11 +84,10 @@ export default function Filtering({pedidos}) {
     const [filterText, setFilterText] = React.useState('');
 
     const filteredItems = linhas.filter(
-        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
-            || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
+        item => item.cliente && item.cliente.toLowerCase().includes(filterText.toLowerCase())
             || item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
+            || item.integrador && item.integrador.toLowerCase().includes(filterText.toLowerCase())
             || item.id && item.id.toString() === filterText
-            || item.telefone && item.telefone.toLowerCase().includes(filterText.toLowerCase())
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
