@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Supervisor\Usuarios;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\Usuarios\UsuariosService;
 use App\src\Usuarios\Admins;
 use App\src\Usuarios\Consultores;
 use App\src\Usuarios\Supervisores;
@@ -13,7 +14,7 @@ class UsuariosController extends Controller
 {
     public function index()
     {
-        $users = (new User())->getAll();
+        $dados = (new UsuariosService())->todos();
 
         $adminTipo = (new Admins)->getTipo();
         $supervisorTipo = (new Supervisores())->getTipo();
@@ -23,8 +24,8 @@ class UsuariosController extends Controller
         $usuarios['supervisores'] = [];
         $usuarios['consultores'] = [];
 
-        foreach ($users as $user) {
-            switch ($user->tipo) {
+        foreach ($dados as $user) {
+            switch ($user['tipo']) {
                 case $adminTipo:
                     $usuarios['admins'][] = $user;
                     break;

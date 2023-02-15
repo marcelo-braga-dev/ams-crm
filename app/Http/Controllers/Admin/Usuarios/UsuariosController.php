@@ -16,7 +16,6 @@ class UsuariosController extends Controller
 {
     public function index()
     {
-        $users = (new User())->getAll();
         $dados = (new UsuariosService())->todos();
 
         $adminTipo = (new Admins)->getTipo();

@@ -92,7 +92,7 @@ export default function Index({usuarios}) {
                                         {dados.nome}
                                     </td>
                                     <td>
-                                        {dados.setor}
+                                        {dados.setor.nome}
                                     </td>
                                     <td>
                                         {dados.status}
