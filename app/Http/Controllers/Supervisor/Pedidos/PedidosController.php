@@ -14,7 +14,7 @@ class PedidosController extends Controller
 {
     public function index(Request $request)
     {
-        $fornecedorAtual = $request->fornecedor ?? 1;
+        $fornecedorAtual = $request->fornecedor;
         $fornecedores = (new FornecedoresService())->fornecedores();
         $pedidos = (new CardDadosService())->getCards($fornecedorAtual);
 

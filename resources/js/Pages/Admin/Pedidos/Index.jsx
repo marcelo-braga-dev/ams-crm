@@ -29,11 +29,16 @@ export default function Pedidos({pedidos, fornecedores, fornecedorAtual}) {
                 <h6>Fornecedor</h6>
                 <div className="col">
                     <div className="btn-group" role="group" aria-label="Basic outlined example">
+                        <a type="button"
+                           href={route('admin.pedidos.index')}
+                           className={(!fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-primary "}>
+                            Todos
+                        </a>
                         {fornecedores.map((fornecedor, index) => {
                             return (
                                 <a type="button" key={index}
                                    href={route('admin.pedidos.index', {fornecedor: fornecedor.id})}
-                                   className={(fornecedor.id == fornecedorAtual ? 'active' : '') + " btn btn-outline-primary "}>
+                                   className={(fornecedor.id == fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-primary "}>
                                     {fornecedor.nome}
                                 </a>
                             )

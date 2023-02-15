@@ -158,11 +158,12 @@ class Pedidos extends Model
     }
 
     // Dados para os card admin
-    public function getDadosCards(int $fornecedorAtual)
+    public function getDadosCards(?int $fornecedorAtual)
     {
-        return $this->newQuery()
-            ->where('fornecedor', $fornecedorAtual)
-            ->get([
+        $query = $this->newQuery();
+        if ($fornecedorAtual) $query->where('fornecedor', $fornecedorAtual);
+
+        return $query->get([
             'id', 'users_id', 'status', 'forma_pagamento',
             'status_data', 'sac', 'preco_venda', 'obs',
             'fornecedor', 'integrador', 'situacao', 'prazo'
