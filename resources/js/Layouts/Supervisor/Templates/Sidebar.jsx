@@ -9,6 +9,7 @@ export default function Sidebar() {
             'icone': 'fas fa-angle-double-right',
             'submenu': [
                 {'menu': 'Lista de Pedidos', 'url': route('supervisor.pedidos.index')},
+                {'menu': 'Históricos', 'url': route('supervisor.pedidos.historicos.index')},
                 {'menu': 'Configurações', 'url': route('supervisor.pedidos.config.index')}
             ]
         }, {

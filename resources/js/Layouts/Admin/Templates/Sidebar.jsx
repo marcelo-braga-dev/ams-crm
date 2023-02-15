@@ -47,6 +47,12 @@ export default function Sidebar() {
             'submenu': [
                 {'menu': 'Forncedeores', 'url': route('admin.fornecedores.index')},
             ]
+        }, {
+            'menu': 'Configurações',
+            'icone': 'fas fa-angle-double-right',
+            'submenu': [
+                {'menu': 'Setores', 'url': route('admin.config.categorias.index')},
+            ]
         },
     ];
 
@@ -69,14 +75,14 @@ export default function Sidebar() {
                     </a>
                 </div>
                 <div className="horizontal pe-3 ps-2 mt-3">
-                    <div className="acco rdion accord ion-flush w-auto mb-6" id="accordionFlushSidebar">
+                    <div className="accordion accordion-flush w-auto mb-6" id="accordionFlushSidebar">
 
                         {/*ITEMS*/}
                         {pages.map(({menu, icone, submenu}, index) => (
-                            <div key={index} className="accordio n-item text-dark navbar-nav border-bottom">
-                                <div className="accordion-hea der nav-item" id={"flush-heading-" + index}>
+                            <div key={index} className="accordion-item text-dark navbar-nav border-bottom">
+                                <div className="accordion-header nav-item" id={"flush-heading-" + index}>
                                     <div className="accord ion-button collap sed nav-link p-1"
-                                         data-bs-toggle="colla pse"
+                                         data-bs-toggle="collapse"
                                          data-bs-target={"#flush-coll apse-" + index} aria-expanded="false"
                                          aria-controls={"flush-coll apse-" + index}>
                                         <div
@@ -86,8 +92,8 @@ export default function Sidebar() {
                                         <span className="ms-2 p">{menu}</span>
                                     </div>
                                 </div>
-                                <div id={"flush-collapse-" + index} className="accordion-collapse  nav-item"
-                                     aria-labelledby={"flush-headi ng-" + index}
+                                <div id={"flush-collapse-" + index} className="accordion-collapse nav-item"
+                                     aria-labelledby={"flush-heading-" + index}
                                      data-bs-parent="#accordionFlushSidebar">
 
                                     {submenu.map(({menu, url}, i) => (

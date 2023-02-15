@@ -22,6 +22,7 @@ class Pedidos extends Model
         'users_id',
         'status',
         'status_data',
+        'setor',
         'prazo',
         'sac',
         'pin',
@@ -44,6 +45,7 @@ class Pedidos extends Model
             $pedido = $this->newQuery()
                 ->create([
                     'users_id' => auth()->id(),
+                    'setor' => auth()->user()->setor,
                     'status' => $status,
                     'status_data' => now(),
                     'prazo' => $prazo,
@@ -65,6 +67,14 @@ class Pedidos extends Model
     public function pedidos()
     {
         return $this->newQuery()
+            ->orderByDesc('id')
+            ->get();
+    }
+
+    public function pedidosUsuario()
+    {
+        return $this->newQuery()
+            ->where('users_id', id_usuario_atual())
             ->orderByDesc('id')
             ->get();
     }
@@ -148,9 +158,11 @@ class Pedidos extends Model
     }
 
     // Dados para os card admin
-    public function getDadosCards()
+    public function getDadosCards(int $fornecedorAtual)
     {
-        return $this->newQuery()->get([
+        return $this->newQuery()
+            ->where('fornecedor', $fornecedorAtual)
+            ->get([
             'id', 'users_id', 'status', 'forma_pagamento',
             'status_data', 'sac', 'preco_venda', 'obs',
             'fornecedor', 'integrador', 'situacao', 'prazo'

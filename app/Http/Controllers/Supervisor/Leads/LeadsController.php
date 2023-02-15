@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\User;
+use App\Services\Categorias\CategoriasService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\UpdateStatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
@@ -67,12 +68,14 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public function cadastrados()
+    public function cadastrados(Request $request)
     {
-        $dados = (new LeadsDadosService())->getAll();
+        $categoriaAtual = $request->categoria ?? 1;
+        $dados = (new LeadsDadosService())->getAll($categoriaAtual);
+        $categorias = (new CategoriasService())->categorias();
 
         return Inertia::render('Supervisor/Leads/Cadastrados',
-            compact('dados'));
+            compact('dados', 'categorias', 'categoriaAtual'));
     }
 
     public function delete(Request $request)

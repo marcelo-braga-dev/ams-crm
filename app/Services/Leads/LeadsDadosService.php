@@ -21,9 +21,9 @@ class LeadsDadosService
         return $this->dados($dados);
     }
 
-    public function getAll(): array
+    public function getAll(int $categoria): array
     {
-        $dados = (new Leads())->getAll();
+        $dados = (new Leads())->getAll($categoria);
 
         return $this->dados($dados);
     }

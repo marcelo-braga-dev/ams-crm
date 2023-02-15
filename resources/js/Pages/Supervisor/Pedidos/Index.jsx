@@ -20,10 +20,27 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import ScrollControlHorizontal from '@/Helpers/scrollControlHorizontal'
 
-export default function Pedidos({pedidos}) {
+export default function Pedidos({pedidos, fornecedores, fornecedorAtual}) {
 
     return (
         <Layout titlePage="Lista de Pedidos">
+            {/*Fornecedores*/}
+            <div className="row mb-4">
+                <h6>Fornecedor</h6>
+                <div className="col">
+                    <div className="btn-group" role="group" aria-label="Basic outlined example">
+                        {fornecedores.map((fornecedor, index) => {
+                            return (
+                                <a type="button" key={index}
+                                   href={route('supervisor.pedidos.index', {fornecedor: fornecedor.id})}
+                                   className={(fornecedor.id == fornecedorAtual ? 'active' : '') + " btn btn-outline-primary "}>
+                                    {fornecedor.nome}
+                                </a>
+                            )
+                        })}
+                    </div>
+                </div>
+            </div>
 
             {/*Cards*/}
             <div className='container'>

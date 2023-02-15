@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('status', 32)->default((new AtivoStatusUsuario())->getStatus());
+            $table->integer('setor');
             $table->string('tipo', 32);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

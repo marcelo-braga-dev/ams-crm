@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('users_id');
             $table->string('status');
             $table->dateTime('status_data');
+            $table->integer('setor');
             $table->integer('prazo');
             $table->boolean('sac')->default(0);
             $table->boolean('pin')->default(0);

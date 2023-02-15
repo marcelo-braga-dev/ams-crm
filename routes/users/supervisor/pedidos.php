@@ -8,6 +8,7 @@ use App\Http\Controllers\Supervisor\Pedidos\ConferenciaController;
 use App\Http\Controllers\Supervisor\Pedidos\ConfigController;
 use App\Http\Controllers\Supervisor\Pedidos\EntregueController;
 use App\Http\Controllers\Supervisor\Pedidos\FaturadoController;
+use App\Http\Controllers\Supervisor\Pedidos\HistoricoController;
 use App\Http\Controllers\Supervisor\Pedidos\LancadoController;
 use App\Http\Controllers\Supervisor\Pedidos\PedidosController;
 use App\Http\Controllers\Supervisor\Pedidos\RetrocederController;
@@ -32,6 +33,7 @@ Route::name('supervisor.pedidos.')
             'entregue' => EntregueController::class,
             'cancelado' => CanceladoController::class,
             'retroceder' => RetrocederController::class,
-            'config' => ConfigController::class
+            'config' => ConfigController::class,
+            'historicos' => HistoricoController::class
         ]);
     });

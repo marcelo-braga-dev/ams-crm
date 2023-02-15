@@ -13,8 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('leads_categorias', function (Blueprint $table) {
+        Schema::create('setores', function (Blueprint $table) {
             $table->id();
+            $table->string('nome', 32);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leads_categorias');
+        Schema::dropIfExists('setores');
     }
 };

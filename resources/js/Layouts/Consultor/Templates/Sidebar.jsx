@@ -9,6 +9,7 @@ export default function Sidebar() {
             'icone': 'fas fa-angle-double-right',
             'submenu': [
                 {'menu': 'Lista de Pedidos', 'url': route('consultor.pedidos.index')},
+                {'menu': 'Históricos', 'url': route('consultor.historicos.index')},
                 {'menu': 'Cadastrar Pedido', 'url': route('consultor.pedidos.create')},
             ]
         }, {

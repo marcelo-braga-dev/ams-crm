@@ -39,9 +39,9 @@ class CardDadosService
     }
 
     // Retorna todos os cards
-    public function getCards(): array
+    public function getCards(int $fornecedorAtual): array
     {
-        $this->pedidos = (new Pedidos())->getDadosCards();
+        $this->pedidos = (new Pedidos())->getDadosCards($fornecedorAtual);
         $this->pedidos();
 
         return $this->cards;

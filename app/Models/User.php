@@ -24,7 +24,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'setor',
         'tipo',
+        'categoria',
         'status',
         'password',
     ];
@@ -76,7 +78,7 @@ class User extends Authenticatable
     public function getAll()
     {
         return $this->newQuery()
-            ->get(['id', 'name', 'email', 'tipo', 'status'])
+            ->get(['id', 'name', 'setor', 'email', 'tipo', 'status'])
             ->except(['id' => 1])
             ->except(['id' => 2])
             ->except(['id' => 3]);

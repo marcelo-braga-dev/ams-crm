@@ -117,7 +117,7 @@ export default function Filtering({dados, consultores}) {
     // Form Excluir - fim
 
     // Form Ocultar
-    function ocultar() {console.log(data)
+    function ocultar() {
         post(route('supervisor.clientes.leads.ocultar'));
         window.location.reload();
     }

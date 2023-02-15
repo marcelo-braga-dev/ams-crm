@@ -110,6 +110,8 @@ export default function Pedidos({pedido, historico}) {
                     </Table>
                 </TabPanel>
             </Box>
+
+            <a href={route('supervisor.chamado.create', {id: pedido.pedido.id})} className="btn btn-primary">ABRIR SAC</a>
         </div>
     </Layout>);
 }

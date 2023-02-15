@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('users_id')->nullable();
             $table->string('status', 32)->default('novo');
+            $table->integer('setor');
             $table->string('nome');
             $table->string('atendente')->nullable();
             $table->boolean('pessoa_fisica')->default(1);

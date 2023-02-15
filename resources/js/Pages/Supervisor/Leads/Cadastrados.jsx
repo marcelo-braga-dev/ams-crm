@@ -53,7 +53,8 @@ const columns = [
         sortable: true,
     },
     {
-        cell: row => <a className="btn btn-link btn-sm" href={route('supervisor.clientes.leads.leads-main.show', row.id)}>
+        cell: row => <a className="btn btn-link btn-sm"
+                        href={route('supervisor.clientes.leads.leads-main.show', row.id)}>
             Abrir
         </a>,
         ignoreRowClick: true,
@@ -63,7 +64,7 @@ const columns = [
     },
 ];
 
-export default function Filtering({dados}) {
+export default function Filtering({dados, categorias, categoriaAtual}) {
 
     // Dados
     const linhas = dados.map(function (items) {
@@ -97,30 +98,38 @@ export default function Filtering({dados}) {
 
 
     return (
-        <Layout titlePage="Leads">
-            <div className="container bg-white p-2 py-4 rounded">
-                <div className="row justify-content-between px-4">
-                    <div className="col-md-auto">
-                        <h6>Leads</h6>
-                    </div>
-                    <div className="col-md-auto">
-                        <a href={route('supervisor.clientes.leads.ocultos')} className="btn btn-link">Ocultos</a>
-                    </div>
-                </div>
-
-                <DataTable
-                    columns={columns}
-                    data={filteredItems}
-                    pagination
-                    paginationPerPage={25}
-                    subHeader
-                    subHeaderComponent={subHeaderComponentMemo}
-                    striped
-                    highlightOnHover
-                    selectableRowsHighlight
-                />
-
+        <Layout container titlePage="Leads">
+            <h6>Setores</h6>
+            <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
+                {categorias.map((categoria, index) => {
+                    return (
+                        <a type="button" key={index} href={route('supervisor.clientes.leads.leads-cadastrados', {categoria: categoria.id})}
+                           className={(categoria.id == categoriaAtual ? 'active':'') + " btn btn-outline-primary "}>
+                            {categoria.nome}
+                        </a>
+                    )
+                })}
             </div>
+            <div className="row justify-content-between px-4">
+                <div className="col-md-auto">
+                    <h6>Leads</h6>
+                </div>
+                <div className="col-md-auto">
+                    <a href={route('supervisor.clientes.leads.ocultos')} className="btn btn-link">Ocultos</a>
+                </div>
+            </div>
+
+            <DataTable
+                columns={columns}
+                data={filteredItems}
+                pagination
+                paginationPerPage={25}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                striped
+                highlightOnHover
+                selectableRowsHighlight
+            />
         </Layout>
     );
 };

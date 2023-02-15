@@ -11,6 +11,7 @@ class Fornecedores extends Model
 
     protected $fillable = [
         'nome',
+        'setor',
         'cnpj',
         'atendente',
         'telefone',
@@ -45,6 +46,7 @@ class Fornecedores extends Model
         $this->newQuery()
             ->create([
                 'nome' => $dados->get('nome'),
+                'setor' => $dados->get('setor'),
                 'cnpj' => $dados->get('cnpj'),
                 'atendente' => $dados->get('atendente'),
                 'telefone' =>$dados->get('telefone'),
@@ -60,6 +62,7 @@ class Fornecedores extends Model
             ->update([
                 'nome' => $dados->get('nome'),
                 'cnpj' => $dados->get('cnpj'),
+                'setor' => $dados->get('setor'),
                 'atendente' => $dados->get('atendente'),
                 'telefone' =>$dados->get('telefone'),
                 'email' => $dados->get('email'),

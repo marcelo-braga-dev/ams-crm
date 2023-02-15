@@ -17,6 +17,7 @@ class Leads extends Model
         'users_id',
         'status',
         'nome',
+        'setor',
         'cnpj',
         'razao_social',
         'atendente',
@@ -73,10 +74,11 @@ class Leads extends Model
         }
     }
 
-    public function getAll()
+    public function getAll($setor)
     {
         return $this->newQuery()
             ->where('status', '!=', (new OcultosLeadsStatus())->getStatus())
+            ->where('setor', $setor)
             ->orderByDesc('id')->get();
     }
 

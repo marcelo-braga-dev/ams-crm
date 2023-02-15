@@ -3,8 +3,9 @@ import Layout from "@/Layouts/Admin/Layout";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
 import Typography from "@mui/material/Typography";
+import MenuItem from "@mui/material/MenuItem";
 
-export default function Register() {
+export default function Register({setores}) {
     const {data, setData, post, processing, errors} = useForm();
 
     const submit = (e) => {
@@ -12,10 +13,8 @@ export default function Register() {
         post(route('admin.fornecedores.store'))
     };
 
-    return (<Layout titlePage="Cadastrar Fornecedor" button={true} url={route('admin.fornecedores.index')}
-                    textButton={'Voltar'}>
-
-        <div className="container bg-white px-lg-6 py-lg-5 rounded">
+    return (
+        <Layout container titlePage="Cadastrar Fornecedor" voltar={route('admin.fornecedores.index')}>
             {errors.nome && <Alert severity="error" className={"mb-3"}>{errors.empresa}</Alert>}
             {errors.senha && <Alert severity="error" className={"mb-3"}>{errors.senha}</Alert>}
             {errors.email && <Alert severity="error" className={"mb-3"}>{errors.email}</Alert>}
@@ -25,25 +24,37 @@ export default function Register() {
                 <div className="row mb-3 mt-3 text-right">
                     <div className="col mb-3">
                         <TextField label="Empresa" required
-                                   onChange={e => setData('nome', e.target.value)} fullWidth />
+                                   onChange={e => setData('nome', e.target.value)} fullWidth/>
                     </div>
                     <div className="col-md-4 mb-3">
                         <TextField label="CNPJ"
-                                   onChange={e => setData('cnpj', e.target.value)} fullWidth />
+                                   onChange={e => setData('cnpj', e.target.value)} fullWidth/>
                     </div>
                 </div>
                 <div className="row mb-3 text-right">
                     <div className="col mb-3">
                         <TextField label="Atendente"
-                                   onChange={e => setData('atendente', e.target.value)} fullWidth />
+                                   onChange={e => setData('atendente', e.target.value)} fullWidth/>
                     </div>
                     <div className="col mb-3">
                         <TextField label="Telefone"
-                                   onChange={e => setData('telefone', e.target.value)} fullWidth />
+                                   onChange={e => setData('telefone', e.target.value)} fullWidth/>
                     </div>
                     <div className="col mb-3">
                         <TextField label="Email"
-                                   onChange={e => setData('email', e.target.value)} fullWidth />
+                                   onChange={e => setData('email', e.target.value)} fullWidth/>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-4 mb-3">
+                        <TextField label="Setor" select required fullWidth
+                        onChange={e => setData('setor', e.target.value)}>
+                            {setores.map((setor, index) => {
+                                return (
+                                    <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
+                                )
+                            })}
+                        </TextField>
                     </div>
                 </div>
                 <div className="row">
@@ -58,6 +69,6 @@ export default function Register() {
                     </div>
                 </div>
             </form>
-        </div>
-    </Layout>);
+        </Layout>
+    )
 }
