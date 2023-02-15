@@ -31,14 +31,14 @@ export default function Pedidos({pedidos, fornecedores, fornecedorAtual}) {
                     <div className="btn-group" role="group" aria-label="Basic outlined example">
                         <a type="button"
                            href={route('admin.pedidos.index')}
-                           className={(!fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-primary "}>
+                           className={(!fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                             Todos
                         </a>
                         {fornecedores.map((fornecedor, index) => {
                             return (
                                 <a type="button" key={index}
                                    href={route('admin.pedidos.index', {fornecedor: fornecedor.id})}
-                                   className={(fornecedor.id == fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-primary "}>
+                                   className={(fornecedor.id == fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                                     {fornecedor.nome}
                                 </a>
                             )
