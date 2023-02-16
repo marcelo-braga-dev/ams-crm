@@ -71,7 +71,8 @@ class User extends Authenticatable
             'nome' => $dados->name,
             'email' => $dados->email,
             'status' => $dados->status,
-            'tipo' => $dados->tipo
+            'tipo' => $dados->tipo,
+            'setor' => $dados->setor
         ];
     }
 
@@ -103,6 +104,7 @@ class User extends Authenticatable
                     'name' => $dados->nome,
                     'email' => $dados->email,
                     'status' => $dados->status,
+                    'setor' => $dados->setor
                 ]);
         } catch (QueryException) {
             throw new \DomainException("Este email está em uso.");

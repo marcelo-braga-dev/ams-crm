@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Usuarios\Supervisor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setores;
 use App\src\Usuarios\Consultores;
 use App\src\Usuarios\Supervisores;
 use App\src\Usuarios\Usuarios;
@@ -13,7 +14,9 @@ class SupervisoresController extends Controller
 {
     public function create()
     {
-        return Inertia::render('Admin/Usuarios/Supervisores/Create');
+        $setores = (new Setores())->setores();
+
+        return Inertia::render('Admin/Usuarios/Supervisores/Create', compact('setores'));
     }
 
     public function store(Request $request)

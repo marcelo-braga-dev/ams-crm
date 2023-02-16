@@ -58,6 +58,7 @@ export default function Edit({dados, setores}) {
                 </div>
             </div>
 
+            {/*Setores*/}
             <div className="row">
                 <div className="col-md-4 mb-3">
                     <TextField label="Setor" select required fullWidth

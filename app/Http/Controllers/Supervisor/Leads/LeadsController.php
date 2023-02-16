@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Supervisor\Leads;
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
+use App\Models\Setores;
 use App\Models\User;
 use App\Services\Categorias\CategoriasService;
 use App\Services\Leads\LeadsDadosService;
@@ -26,7 +27,9 @@ class LeadsController extends Controller
 
     public function create()
     {
-        return Inertia::render('Supervisor/Leads/Lead/Create');
+        $setores = (new Setores())->setores();
+
+        return Inertia::render('Supervisor/Leads/Lead/Create', compact('setores'));
     }
 
     public function store(Request $request)
@@ -38,7 +41,7 @@ class LeadsController extends Controller
                     if ($item['pessoa'] == 'pj') $pessoa = 0;
                 }
 
-                (new Leads())->create($item, $pessoa);
+                (new Leads())->create($item, $request->setor, $pessoa);
             } catch (\DomainException) {
                 modalErro('Alguns LEADS não cadastrados');
             }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Usuarios\Consultor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
+use App\Models\Setores;
 use App\Models\User;
 use App\src\Pedidos\StatusPedidos;
 use App\src\Usuarios\Consultores;
@@ -23,7 +24,10 @@ class ConsultoresController extends Controller
 
     public function create()
     {
-        return Inertia::render('Admin/Usuarios/Consultores/Create');
+        $setores = (new Setores())->setores();
+
+        return Inertia::render('Admin/Usuarios/Consultores/Create',
+            compact('setores'));
     }
 
     public function store(Request $request)
@@ -44,8 +48,10 @@ class ConsultoresController extends Controller
     public function edit($id)
     {
         $usuario = (new User())->get($id);
+        $setores = (new Setores())->setores();
 
-        return Inertia::render('Admin/Usuarios/Consultores/Edit', compact('usuario'));
+        return Inertia::render('Admin/Usuarios/Consultores/Edit',
+            compact('usuario', 'setores'));
     }
 
     public function update($id, Request $request)

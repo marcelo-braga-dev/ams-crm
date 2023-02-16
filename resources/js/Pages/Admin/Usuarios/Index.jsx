@@ -125,6 +125,7 @@ export default function Index({usuarios}) {
                         <tr>
                             <th>#ID</th>
                             <th>Nome</th>
+                            <th>Setor</th>
                             <th>Status</th>
                             <th>Email</th>
                             {/*<th>Ação</th>*/}
@@ -139,6 +140,9 @@ export default function Index({usuarios}) {
                                     </th>
                                     <td>
                                         {dados.nome}
+                                    </td>
+                                    <td>
+                                        {dados.setor.nome}
                                     </td>
                                     <td>
                                         {dados.status}
@@ -171,6 +175,7 @@ export default function Index({usuarios}) {
                         <tr>
                             <th>#ID</th>
                             <th>Nome</th>
+                            <th>Setor</th>
                             <th>Status</th>
                             <th>Email</th>
                             <th>Ação</th>
@@ -185,6 +190,9 @@ export default function Index({usuarios}) {
                                     </th>
                                     <td>
                                         {dados.nome}
+                                    </td>
+                                    <td>
+                                        {dados.setor.nome}
                                     </td>
                                     <td>
                                         {dados.status}

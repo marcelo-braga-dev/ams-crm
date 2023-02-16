@@ -1,11 +1,5 @@
 import Layout from '@/Layouts/Admin/Layout';
 import {Button, Card, Col, Container, Row, Table} from "reactstrap";
-import Typography from "@mui/material/Typography";
-import ConvertMoney from "@/Components/ConvertMoney";
-import Paper from "@mui/material/Paper";
-
-import {useForm} from '@inertiajs/react'
-
 
 export default function Index({consultores}) {
 

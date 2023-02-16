@@ -2,9 +2,11 @@ import {useState} from 'react';
 import Layout from "@/Layouts/Supervisor/Layout";
 import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
+import MenuItem from "@mui/material/MenuItem";
 
-export default function Create() {
-    const [qtdLeads, setQtdLeads] = useState(3);
+export default function Create({setores}) {
+    const [qtdLeads, setQtdLeads] = useState(2);
+    const [alertSetor, setAlertSetor] = useState(false);
     const {data, setData, post} = useForm();
 
     function onSubmit(e) {
@@ -96,9 +98,22 @@ export default function Create() {
         <Layout titlePage="Cadastro de Leads">
             <div className="bg-white px-lg-6 py-lg-5 mb-4 rounded">
                 <div className="row">
+                    {alertSetor && <div className="alert alert-danger mb-4 text-white">Selecione o SETOR</div>}
                     <div className="col">
                         <TextField label="Quantidade:" value={qtdLeads} type="number" size="small"
                                    onChange={e => setQtdLeads(e.target.value)}/>
+                    </div>
+                    <div className="col">
+                        {/*Setores*/}
+                        <TextField label="Setor" select required fullWidth
+                                   defaultValue={data.setor}
+                                   onChange={e => setData('setor', e.target.value)}>
+                            {setores.map((setor, index) => {
+                                return (
+                                    <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
+                                )
+                            })}
+                        </TextField>
                     </div>
                 </div>
             </div>

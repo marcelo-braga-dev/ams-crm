@@ -51,7 +51,7 @@ class Leads extends Model
             ]);
     }
 
-    public function create($dados, $pessoa = null)
+    public function create($dados, $setor, $pessoa = null)
     {
         try {
             $this->newQuery()
@@ -59,6 +59,7 @@ class Leads extends Model
                     'nome' => $dados['nome'] ?? null,
                     'atendente' => $dados['atendente'] ?? null,
                     'telefone' => $dados['telefone'] ?? null,
+                    'setor' => $setor,
                     'pessoa_fisica' => $pessoa,
                     'razao_social' => $dados['razao_social'] ?? null,
                     'cnpj' => $dados['cnpj'] ?? null,

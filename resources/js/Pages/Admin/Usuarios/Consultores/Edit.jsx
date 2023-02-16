@@ -4,11 +4,12 @@ import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from '@inertiajs/react'
 
-export default function Edit({usuario, errors}) {
+export default function Edit({usuario, setores, errors}) {
     const {data, setData, } = useForm({
         nome: usuario.nome,
         email: usuario.email,
         status: usuario.status,
+        setor: usuario.setor
     });
 
     const submit = (e) => {
@@ -50,6 +51,20 @@ export default function Edit({usuario, errors}) {
                             <MenuItem value="bloqueado">
                                 Bloqueado
                             </MenuItem>
+                        </TextField>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-4">
+                        {/*Setores*/}
+                        <TextField label="Setor" select required fullWidth
+                                   defaultValue={data.setor}
+                                   onChange={e => setData('setor', e.target.value)}>
+                            {setores.map((setor, index) => {
+                                return (
+                                    <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
+                                )
+                            })}
                         </TextField>
                     </div>
                 </div>
