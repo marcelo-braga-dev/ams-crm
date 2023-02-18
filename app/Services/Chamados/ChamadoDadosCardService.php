@@ -44,6 +44,7 @@ class ChamadoDadosCardService
         foreach ($dados as $dado) {
             $cards[$dado->status][] = [
                 'id' => $dado->id,
+                'id_pedido' => $dado->pedidos_id,
                 'consultor' => $this->usuarios[$dado->consultor],
                 'admin' => $this->usuarios[$dado->admin],
                 'cliente' => getNomeCliente($dado->pedidos_id),
