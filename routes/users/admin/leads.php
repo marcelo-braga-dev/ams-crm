@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Leads\LeadsController;
+use App\Http\Controllers\Admin\Leads\RelatoriosController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.clientes.leads.')
@@ -16,4 +17,8 @@ Route::name('admin.clientes.leads.')
         Route::post('restaurar', [LeadsController::class, 'restaurar'])->name('restaurar');
         Route::get('alterar-consultor', [LeadsController::class, 'alterarConsultor'])->name('alterar-consultor');
         Route::post('limpar-consultor', [LeadsController::class, 'limparConsultor'])->name('limpar-consultor');
+
+        Route::resource('relatorios', RelatoriosController::class);
+        Route::get('relatorio/{id}', [RelatoriosController::class, 'leadsUsuarios'])
+            ->name('leads-usuario');
     });

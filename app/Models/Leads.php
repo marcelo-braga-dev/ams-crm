@@ -83,10 +83,10 @@ class Leads extends Model
             ->orderByDesc('id')->get();
     }
 
-    public function getConsultores()
+    public function getConsultores(int $id)
     {
         return $this->newQuery()
-            ->where('users_id', auth()->id())
+            ->where('users_id', $id)
             ->get();
     }
 
@@ -155,5 +155,12 @@ class Leads extends Model
         $this->newQuery()
             ->find($id)
             ->update(['status_data' => now()]);
+    }
+
+    public function qtdLeadsUsuarios()
+    {
+        return $this->newQuery()
+            ->where('users_id', '>', 0)
+            ->get();
     }
 }

@@ -19,9 +19,9 @@ class CardLeadsService
         $this->colsultores = (new User())->getNomeConsultores();
     }
 
-    public function getConsultor()
+    public function getConsultor(int $id)
     {
-        $dados = (new Leads())->getConsultores();
+        $dados = (new Leads())->getConsultores($id);
         $this->cards($dados);
 
         return $this->cards;

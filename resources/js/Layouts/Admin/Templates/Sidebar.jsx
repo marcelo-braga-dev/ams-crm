@@ -16,6 +16,7 @@ export default function Sidebar() {
             'menu': 'Leads',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
+                {'menu': 'Relatórios', 'url': route('admin.clientes.leads.relatorios.index')},
                 {'menu': 'Leads Cadastrados', 'url': route('admin.clientes.leads.leads-cadastrados')},
                 {'menu': 'Cadastrar Leads', 'url': route('admin.clientes.leads.leads-main.create')},
                 {'menu': 'Encaminhar Leads', 'url': route('admin.clientes.leads.leads-main.index')},
@@ -52,6 +53,13 @@ export default function Sidebar() {
             'icone': 'fas fa-angle-double-right',
             'submenu': [
                 {'menu': 'Setores', 'url': route('admin.config.categorias.index')},
+            ]
+        },{
+            'menu': 'Desenvolvimento',
+            'icone': 'fas fa-angle-double-right',
+            'submenu': [
+                {'menu': 'Registros', 'url': route('admin.dev.index')},
+                {'menu': 'Cadastrar', 'url': route('admin.dev.create')},
             ]
         },
     ];
