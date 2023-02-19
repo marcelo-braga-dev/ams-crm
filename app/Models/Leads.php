@@ -32,10 +32,11 @@ class Leads extends Model
         'created_at_'
     ];
 
-    public function getDisponiveis()
+    public function getDisponiveis($setor)
     {
         return $this->newQuery()
             ->where('status', '=', (new NovoStatusLeads())->getStatus())
+            ->where('setor', $setor)
             ->where('users_id', '=', null)
             ->orderByDesc('id')
             ->get();
@@ -114,18 +115,20 @@ class Leads extends Model
         }
     }
 
-    public function getOcultos()
+    public function getOcultos($setor)
     {
         return $this->newQuery()
             ->where('status', (new OcultosLeadsStatus())->getStatus())
+            ->where('setor', $setor)
             ->orderByDesc('id')
             ->get();
     }
 
-    public function getLeadsComConsultor()
+    public function getLeadsComConsultor($setor)
     {
         return $this->newQuery()
             ->where('users_id', '>', 0)
+            ->where('setor', $setor)
             ->orderByDesc('id')
             ->get();
     }

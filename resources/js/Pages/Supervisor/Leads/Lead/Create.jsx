@@ -97,6 +97,7 @@ export default function Create({setores}) {
     return (
         <Layout titlePage="Cadastro de Leads">
             <div className="bg-white px-lg-6 py-lg-5 mb-4 rounded">
+                <h4 className="mb-4">Cadastrar Leads</h4>
                 <div className="row">
                     {alertSetor && <div className="alert alert-danger mb-4 text-white">Selecione o SETOR</div>}
                     <div className="col">

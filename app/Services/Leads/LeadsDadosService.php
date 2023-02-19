@@ -14,9 +14,9 @@ class LeadsDadosService
         $this->consultores = (new User())->getNomeConsultores();
     }
 
-    public function getDisponiveis(): array
+    public function getDisponiveis($setor): array
     {
-        $dados = (new Leads())->getDisponiveis();
+        $dados = (new Leads())->getDisponiveis($setor);
 
         return $this->dados($dados);
     }
@@ -79,16 +79,16 @@ class LeadsDadosService
         ];
     }
 
-    public function getOcultos(): array
+    public function getOcultos($setor): array
     {
-        $dados = (new Leads())->getOcultos();
+        $dados = (new Leads())->getOcultos($setor);
 
         return $this->dados($dados);
     }
 
-    public function getLeadsComConsultor(): array
+    public function getLeadsComConsultor($setor): array
     {
-        $dados = (new Leads())->getLeadsComConsultor();
+        $dados = (new Leads())->getLeadsComConsultor($setor);
 
         return $this->dados($dados);
     }

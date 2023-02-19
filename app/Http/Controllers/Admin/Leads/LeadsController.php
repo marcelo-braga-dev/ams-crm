@@ -16,13 +16,17 @@ use Inertia\Inertia;
 
 class LeadsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dados = (new LeadsDadosService())->getDisponiveis();
+        $categoriaAtual = $request->categoria ?? 1;
+        $categorias = (new CategoriasService())->categorias();
+
+
+        $dados = (new LeadsDadosService())->getDisponiveis($categoriaAtual);
         $consultores = (new User())->getConsultores();
 
         return Inertia::render('Admin/Leads/Encaminhar',
-            compact('dados', 'consultores'));
+            compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
     }
 
     public function create()
@@ -101,13 +105,18 @@ class LeadsController extends Controller
         }
 
         modalSucesso("Leads ocultado com sucesso!");
+        return redirect()->back();
     }
 
     public function ocultos()
     {
-        $dados = (new LeadsDadosService())->getOcultos();
+        $categoriaAtual = $request->categoria ?? 1;
 
-        return Inertia::render('Admin/Leads/Ocultos', compact('dados'));
+        $categorias = (new CategoriasService())->categorias();
+        $dados = (new LeadsDadosService())->getOcultos($categoriaAtual);
+
+        return Inertia::render('Admin/Leads/Ocultos',
+            compact('dados', 'categorias', 'categoriaAtual'));
     }
 
     public function restaurar(Request $request)
@@ -119,15 +128,18 @@ class LeadsController extends Controller
         }
 
         modalSucesso("Leads ocultado com sucesso!");
+        return redirect()->back();
     }
 
-    public function alterarConsultor()
+    public function alterarConsultor(Request $request)
     {
-        $dados = (new LeadsDadosService())->getLeadsComConsultor();
+        $categoriaAtual = $request->categoria ?? 1;
+        $dados = (new LeadsDadosService())->getLeadsComConsultor($categoriaAtual);
         $consultores = (new User())->getConsultores();
+        $categorias = (new CategoriasService())->categorias();
 
         return Inertia::render('Admin/Leads/AlterarConsultor',
-            compact('dados', 'consultores'));
+            compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
     }
 
     public function show($id)

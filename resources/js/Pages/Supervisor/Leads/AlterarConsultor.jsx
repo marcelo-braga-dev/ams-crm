@@ -1,21 +1,51 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import DataTable from 'react-data-table-component';
 import {TextField} from "@mui/material";
 import Layout from '@/Layouts/Supervisor/Layout';
 import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/react";
+import Checkbox from "@mui/material/Checkbox";
 
-import Checkbox from '@mui/material/Checkbox';
+const FilterComponent = ({filterText, onFilter, setFiltro}) => (
+    <>
+        <TextField
+            id="outlined-select-currency"
+            select
+            placeholder="asas"
+            label="Filtro"
+            defaultValue="nome"
+            size="small"
+            onChange={event => setFiltro(event.target.value)}
+        >
+            <MenuItem value="id">
+                ID
+            </MenuItem>
+            <MenuItem value="nome">
+                Nome/Razão Social
+            </MenuItem>
+            <MenuItem value="consultor">
+                Consultor
+            </MenuItem>
+            <MenuItem value="cidade">
+                Cidade
+            </MenuItem>
+            <MenuItem value="ddd">
+                DDD
+            </MenuItem>
+            <MenuItem value="telefone">
+                Telefone
+            </MenuItem>
 
-const FilterComponent = ({filterText, onFilter}) => (
-    <TextField
-        id="search"
-        type="text"
-        placeholder="Pesquisar..."
-        value={filterText}
-        onChange={onFilter}
-        size="small"
-    />
+        </TextField>
+        <TextField
+            id="search"
+            type="text"
+            placeholder="Pesquisar..."
+            value={filterText}
+            onChange={onFilter}
+            size="small"
+        />
+    </>
 );
 
 const columns = [
@@ -26,9 +56,24 @@ const columns = [
         grow: 0,
     },
     {
+        cell: row => <a className="btn btn-link btn-sm" href={route('supervisor.clientes.leads.leads-main.show', row.id)}>
+            Abrir
+        </a>,
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
+        grow: 0,
+    },
+    {
         name: 'Consultor',
         selector: row => row.consultor,
         sortable: true,
+    },
+    {
+        name: 'Status',
+        selector: row => row.status,
+        sortable: true,
+        grow: 0,
     },
     {
         name: 'Nome/Nome Fantasia',
@@ -41,6 +86,11 @@ const columns = [
         sortable: true,
     },
     {
+        name: 'Cidade',
+        selector: row => row.cidade,
+        sortable: true,
+    },
+    {
         name: 'Telefone',
         selector: row => row.telefone,
         sortable: true,
@@ -49,29 +99,18 @@ const columns = [
         name: 'Data',
         selector: row => row.data_criacao,
         sortable: true,
-    },
-    {
-        cell: row => <a className="btn btn-link btn-sm" href={route('supervisor.clientes.leads.leads-main.show', row.id)}>
-            Abrir
-        </a>,
-        ignoreRowClick: true,
-        allowOverflow: true,
-        button: true,
-        grow: 0,
-    },
+    }
 ];
 
-export default function Filtering({dados, consultores}) {
+export default function Filtering({dados, consultores, categorias, categoriaAtual}) {
     // Form
-    const {data, post, setData, reset} = useForm({
+    const {data, post, setData} = useForm({
         'leads': []
     });
 
     function submit() {
-        if (data.consultor && data.leads) {
-            post(route('supervisor.clientes.leads.update-consultor'))
-            window.location.reload()
-        }
+        if (data.consultor && data.leads) post(route('supervisor.clientes.leads.update-consultor'))
+        window.location.reload();
     }
 
     // form - fim
@@ -81,27 +120,49 @@ export default function Filtering({dados, consultores}) {
         return {
             id: items.id,
             name: items.cliente.nome,
+            status: items.infos.status,
             consultor: items.consultor.nome,
             razao_social: items.cliente.razao_social,
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
+            cidade: items.cliente.cidade,
         }
     });
     // Dados - fim
 
-    const [filterText, setFilterText] = React.useState('');
+    const [filterText, setFilterText] = useState('');
+
+    const [filtro, setFiltro] = useState('nome');
 
     const filteredItems = linhas.filter(
-        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
-            || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
-            || item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
-            || item.id && item.id.toString() === filterText
-            || item.telefone && item.telefone.toLowerCase().includes(filterText.toLowerCase())
+        item => filtro === 'id' &&
+            item.id && item.id.toString() === filterText
+            || filtro === 'id' && filterText === ''
+
+            || filtro === 'nome' &&
+            item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
+            || filtro === 'nome' &&
+            item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'telefone' &&
+            item.telefone && item.telefone.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'cidade' &&
+            item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'consultor' &&
+            item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'ddd' &&
+            item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
+            || filtro === 'ddd' && filterText === ''
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
         return (
-            <FilterComponent onFilter={e => setFilterText(e.target.value)} filterText={filterText}/>
+            <FilterComponent onFilter={e => setFilterText(e.target.value)}
+                             filterText={filterText}
+                             setFiltro={setFiltro}/>
         );
     }, [filterText]);
 
@@ -123,59 +184,70 @@ export default function Filtering({dados, consultores}) {
     }
 
     return (
-        <Layout titlePage="Alterar Consultor">
-            <div className="container bg-white p-2 py-4 rounded">
+        <Layout container titlePage="Alterar Consultor">
+            <h4 className="mb-4">Alterar Consultor</h4>
+            <h6>Setores</h6>
+            <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
+                {categorias.map((categoria, index) => {
+                    return (
+                        <a type="button" key={index}
+                           href={route('supervisor.clientes.leads.alterar-consultor', {categoria: categoria.id})}
+                           className={(categoria.id == categoriaAtual ? 'active' : '') + " btn btn-outline-dark"}>
+                            {categoria.nome}
+                        </a>
+                    )
+                })}
+            </div>
 
-                <form onSubmit={submit}>
-                    <h5 className="mx-4 mb-3">Alterar Consultor</h5>
-                    <div className="row justify-content-between">
-                        <div className="col-md-6">
-                            <div className="row mx-3">
-                                <div className="col-8 ml-4">
-                                    <TextField label="Selecione o Consultor..." select
-                                               fullWidth required size="small" defaultValue=""
-                                               onChange={e => setData('consultor', e.target.value)}>
-                                        {consultores.map((option) => (
-                                            <MenuItem key={option.id} value={option.id}>
-                                                {option.name}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </div>
-                                <div className="col-4 p-0">
-                                    <button type="button" className="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#modalEnviar">
-                                        ENVIAR
-                                    </button>
-                                </div>
+            <form onSubmit={submit}>
+                <div className="row justify-content-between">
+                    <div className="col-md-6">
+                        <div className="row mx-3">
+                            <div className="col-8 ml-4">
+                                <TextField label="Selecione o Consultor..." select
+                                           fullWidth required size="small" defaultValue=""
+                                           onChange={e => setData('consultor', e.target.value)}>
+                                    {consultores.map((option) => (
+                                        <MenuItem key={option.id} value={option.id}>
+                                            {option.name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <div className="col-4 p-0">
+                                <button type="button" className="btn btn-dark" data-bs-toggle="modal"
+                                        data-bs-target="#modalEnviar">
+                                    ENVIAR
+                                </button>
                             </div>
                         </div>
-                        <div className="col-auto">
-                            <button type="button" className="btn btn-link btn-sm"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalLimpar">
-                                Limpar
-                            </button>
-                        </div>
                     </div>
-                </form>
-                <DataTable
-                    columns={columns}
-                    data={filteredItems}
-                    pagination
-                    paginationPerPage={25}
-                    subHeader
-                    subHeaderComponent={subHeaderComponentMemo}
-                    selectableRows
-                    persistTableHead
-                    onSelectedRowsChange={handleChange}
-                    striped
-                    highlightOnHover
-                    selectableRowsHighlight
-                    selectableRowsComponent={Checkbox}
-                />
+                    <div className="col-auto">
+                        <button type="button" className="btn btn-dark btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalLimpar"
+                        >
+                            Limpar
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <DataTable
+                columns={columns}
+                data={filteredItems}
+                pagination
+                paginationPerPage={25}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                selectableRows
+                persistTableHead
+                onSelectedRowsChange={handleChange}
+                striped
+                highlightOnHover
+                selectableRowsHighlight
+                selectableRowsComponent={Checkbox}
+            />
 
-            </div>
 
             {/*MODAL ENVIAR*/}
             <div className="modal fade" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
@@ -183,7 +255,7 @@ export default function Filtering({dados, consultores}) {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Enviar Leads</h5>
+                            <h5 className="modal-title" id="exampleModalLabel">ALTERAR CONSULTOR</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>
@@ -194,7 +266,7 @@ export default function Filtering({dados, consultores}) {
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
                                     onClick={() => submit()}>
-                                Enviar
+                                Alterar Consultor(a)
                             </button>
                         </div>
                     </div>

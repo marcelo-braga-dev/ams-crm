@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import DataTable from 'react-data-table-component';
 import {Backdrop, CircularProgress, TextField} from "@mui/material";
 import Layout from '@/Layouts/Admin/Layout';
@@ -9,15 +9,46 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Checkbox from "@mui/material/Checkbox";
 
-const FilterComponent = ({filterText, onFilter}) => (
-    <TextField
-        id="search"
-        type="text"
-        placeholder="Pesquisar..."
-        value={filterText}
-        onChange={onFilter}
-        size="small"
-    />
+const FilterComponent = ({filterText, onFilter, setFiltro}) => (
+    <>
+        <TextField
+            id="outlined-select-currency"
+            select
+            placeholder="asas"
+            label="Filtro"
+            defaultValue="nome"
+            size="small"
+            onChange={event => setFiltro(event.target.value)}
+        >
+            <MenuItem value="id">
+                ID
+            </MenuItem>
+            <MenuItem value="nome">
+                Nome/Razão Social
+            </MenuItem>
+            <MenuItem value="consultor">
+                Consultor
+            </MenuItem>
+            <MenuItem value="cidade">
+                Cidade
+            </MenuItem>
+            <MenuItem value="ddd">
+                DDD
+            </MenuItem>
+            <MenuItem value="telefone">
+                Telefone
+            </MenuItem>
+
+        </TextField>
+        <TextField
+            id="search"
+            type="text"
+            placeholder="Pesquisar..."
+            value={filterText}
+            onChange={onFilter}
+            size="small"
+        />
+    </>
 );
 
 const columns = [
@@ -25,6 +56,15 @@ const columns = [
         name: 'ID',
         selector: row => row.id,
         sortable: true,
+        grow: 0,
+    },
+    {
+        cell: row => <a className="btn btn-link btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
+            Abrir
+        </a>,
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
         grow: 0,
     },
     {
@@ -58,9 +98,9 @@ const columns = [
     },
 ];
 
-export default function Filtering({dados, consultores}) {
+export default function Filtering({dados, consultores, categorias, categoriaAtual}) {
     // loading
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     // Form
     const {data, post, setData} = useForm({
@@ -85,22 +125,44 @@ export default function Filtering({dados, consultores}) {
             razao_social: items.cliente.razao_social,
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
+            cidade: items.cliente.cidade,
         }
     });
     // Dados - fim
 
     const [filterText, setFilterText] = React.useState('');
 
+    const [filtro, setFiltro] = useState('nome');
+
     const filteredItems = linhas.filter(
-        item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
-            || item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
-            || item.id && item.id.toString() === filterText
-            || item.telefone && item.telefone.toLowerCase().includes(filterText.toLowerCase())
+        item => filtro === 'id' &&
+            item.id && item.id.toString() === filterText
+            || filtro === 'id' && filterText === ''
+
+            || filtro === 'nome' &&
+            item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
+            || filtro === 'nome' &&
+            item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'telefone' &&
+            item.telefone && item.telefone.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'cidade' &&
+            item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'consultor' &&
+            item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'ddd' &&
+            item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
+            || filtro === 'ddd' && filterText === ''
     );
 
     const subHeaderComponentMemo = React.useMemo(() => {
         return (
-            <FilterComponent onFilter={e => setFilterText(e.target.value)} filterText={filterText}/>
+            <FilterComponent onFilter={e => setFilterText(e.target.value)}
+                             filterText={filterText}
+                             setFiltro={setFiltro}/>
         );
     }, [filterText]);
 
@@ -133,12 +195,24 @@ export default function Filtering({dados, consultores}) {
     }
 
     return (
-        <Layout titlePage="Encaminhar Leads">
-            <div className="container bg-white p-2 py-4 rounded">
+        <Layout container titlePage="Encaminhar Leads">
+
+            <h4 className="mb-4">Enviar Leads para Consultores</h4>
+            <h6>Setores</h6>
+            <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
+                {categorias.map((categoria, index) => {
+                    return (
+                        <a type="button" key={index}
+                           href={route('admin.clientes.leads.leads-main.index', {categoria: categoria.id})}
+                           className={(categoria.id == categoriaAtual ? 'active' : '') + " btn btn-outline-dark"}>
+                            {categoria.nome}
+                        </a>
+                    )
+                })}
+            </div>
 
                 <form onSubmit={submit}>
-                    <h5 className="mx-4 mb-3">Enviar Leads para Consultores</h5>
-                    <div className="row justify-content-between">
+                    <div className="row justify-content-between mb-4">
                         <div className="col-md-6">
                             <div className="row mx-3">
                                 <div className="col-8 ml-4">
@@ -153,7 +227,7 @@ export default function Filtering({dados, consultores}) {
                                     </TextField>
                                 </div>
                                 <div className="col-4 p-0">
-                                    <button type="button" className="btn btn-primary" data-bs-toggle="modal"
+                                    <button type="button" className="btn btn-dark" data-bs-toggle="modal"
                                             data-bs-target="#modalEnviar">
                                         ENVIAR
                                     </button>
@@ -189,8 +263,6 @@ export default function Filtering({dados, consultores}) {
                     selectableRowsHighlight
                     selectableRowsComponent={Checkbox}
                 />
-
-            </div>
 
             {/*MODAL ENVIAR*/}
             <div className="modal fade" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"

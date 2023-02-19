@@ -43,7 +43,8 @@ export default function Sidebar() {
     ];
 
     function pageCurrent(url) {
-        if (url === window.location.href) {
+        const urlAtual = window.location.protocol + '//' + window.location.host + window.location.pathname
+        if (url === urlAtual) {
             return {color: 'black', fontWeight: 600};
         }
     }

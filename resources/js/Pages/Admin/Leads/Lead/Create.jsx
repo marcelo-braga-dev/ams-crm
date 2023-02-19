@@ -36,15 +36,6 @@ export default function Create({setores}) {
                                            razao_social: e.target.value
                                        })}/>
                         </div>
-                        {/*<FormControl>*/}
-                        {/*    <RadioGroup*/}
-                        {/*        row aria-labelledby="pessoa" defaultValue="pf"*/}
-                        {/*        name="row-radio-buttons-group"*/}
-                        {/*        onChange={e => setData('i' + i, {...data['i' + i], pessoa: e.target.value})}>*/}
-                        {/*        <FormControlLabel value="pf" control={<Radio/>} label="Pessoa Física"/>*/}
-                        {/*        <FormControlLabel value="pj" control={<Radio/>} label="Jurídica"/>*/}
-                        {/*    </RadioGroup>*/}
-                        {/*</FormControl>*/}
                     </div>
                 </div>
                 {/*PJ*/}
@@ -111,6 +102,7 @@ export default function Create({setores}) {
     return (
         <Layout titlePage="Cadastro de Leads">
             <div className="bg-white px-lg-6 py-lg-5 mb-4 rounded">
+                <h4 className="mb-4">Cadastrar Leads</h4>
                 <div className="row">
 
                     {alertSetor && <div className="alert alert-danger mb-4 text-white">Selecione o SETOR</div>}
