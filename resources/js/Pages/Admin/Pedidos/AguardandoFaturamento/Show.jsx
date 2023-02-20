@@ -1,4 +1,4 @@
-import { router } from '@inertiajs/react'
+import {router} from '@inertiajs/react'
 import Layout from "@/Layouts/Admin/Layout";
 
 import React from 'react';
@@ -8,6 +8,7 @@ import {Container, Row, Col} from 'reactstrap';
 import {TextField, Typography} from "@mui/material";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
+import BoxShadow from "@/Components/Layout/BoxShadow";
 
 export default function Create({pedido}) {
 
@@ -24,12 +25,11 @@ export default function Create({pedido}) {
         })
     }
 
-    return (<Layout titlePage="Pedidos">
-
-            <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 mb-4">
+    return (<Layout container voltar={route('admin.pedidos.index')} titlePage="Pedidos">
+            <BoxShadow>
                 <div className="row">
                     <div className="col mb-4">
-                        <DadosPedidoMinimo dados={pedido} />
+                        <DadosPedidoMinimo dados={pedido}/>
                     </div>
                 </div>
                 <Typography variant={"h6"} component="h5">Baixar Comprovante Pagamento/Recibo</Typography>
@@ -41,8 +41,8 @@ export default function Create({pedido}) {
                         <ImagePdf url={pedido.pedido_files.recibo_2}/>
                     </div>
                 </div>
-            </Container>
-            <Container fluid="lg" className="bg-white px-lg-6 py-lg-5">
+            </BoxShadow>
+            <BoxShadow>
                 <form onSubmit={submit}>
                     <Typography variant="h6">Enviar Nota Fiscal do Pedido</Typography>
                     <Row className={"mt-3"}>
@@ -65,7 +65,7 @@ export default function Create({pedido}) {
                         Enviar
                     </button>
                 </form>
-            </Container>
+            </BoxShadow>
 
         </Layout>
     )

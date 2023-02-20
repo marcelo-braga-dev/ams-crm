@@ -8,7 +8,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default function CardLeads({dados, urlBtn, btn}) {
     return (
-        <div className="card m-2 mb-3" style={{width: 300}}>
+        <div className="pesquisar-card card m-2 mb-3" style={{width: 300}}>
             <div className="card-body pb-0">
                 <div className="row border-bottom pb-2 mb-2">
                     <div className="col-1 text-dark">

@@ -2,9 +2,9 @@
 
 namespace App\src\Usuarios\Status;
 
-class AtivoStatusUsuario
+class BloqueadoUsuarioStatus
 {
-    private string $status = 'ativo';
+    private string $status = 'bloqueado';
 
     public function getStatus(): string
     {

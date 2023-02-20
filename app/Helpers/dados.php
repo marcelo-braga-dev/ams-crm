@@ -15,7 +15,7 @@ if (!function_exists('getEnderecoCompleto')) {
 }
 
 if (!function_exists('converterTelefone')) {
-    function converterTelefone($dados)
+    function converterTelefone($dados = '')
     {
         $res = $dados;
         $dados = preg_replace("/\D/","", $dados);

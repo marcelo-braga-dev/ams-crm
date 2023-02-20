@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { router } from '@inertiajs/react'
+import {router} from '@inertiajs/react'
 import Layout from '@/Layouts/Admin/Layout';
 import {Button, Card, Col, Container, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
@@ -12,6 +12,7 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
+import BoxShadow from "@/Components/Layout/BoxShadow";
 
 export default function Pedidos({pedido}) {
 
@@ -45,44 +46,46 @@ export default function Pedidos({pedido}) {
     }
 
     return (
-        <Layout titlePage="Pedidos" button={true} url={route('admin.pedidos.index')} textButton={'Voltar'}>
-
-            <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 rounded">
+        <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedidos">
+            <BoxShadow>
                 {pedido.pedido.alerta && <Alert severity="info">
                     <b>PEDIDO PASSOU POR REVISÃO</b><br/>
                     {pedido.pedido.alerta}
                 </Alert>}
                 <Row>
                     <Col className={"mb-3"}>
-                        <DadosPedido dados={pedido} />
+                        <DadosPedido dados={pedido}/>
                     </Col>
                     <Col className={"mb-3"}>
-                        <DadosPedidoCliente dados={pedido} />
+                        <DadosPedidoCliente dados={pedido}/>
                     </Col>
                 </Row>
-                <hr/>
+            </BoxShadow>
+            <BoxShadow>
                 <Row>
                     <Col className={"mb-3"}>
                         <Typography variant={"h6"}>Documentos:</Typography>
                     </Col>
                 </Row>
-                <DadosPedidoFiles dados={pedido} />
-                <DadosPedidoClienteFiles dados={pedido} />
-                <hr/>
-                <form onSubmit={submit}>
-                    <Row className={"mt-4 text-center"}>
-                        <Col></Col>
-                        <Col>
-                            <Button color={"primary"} component={"button"} type={"submit"}>Aprovar Pedido</Button>
-                        </Col>
-                        <Col>
-                            <Button color="danger" onClick={handleOpen}>Reprovar Pedido</Button>
-                        </Col>
-                    </Row>
-                </form>
-            </Container>
+                <DadosPedidoFiles dados={pedido}/>
+                <DadosPedidoClienteFiles dados={pedido}/>
+            </BoxShadow>
+        <BoxShadow>
+            <form onSubmit={submit}>
+                <Row className={"mt-4 text-center"}>
+                    <Col></Col>
+                    <Col>
+                        <Button color={"primary"} component={"button"} type={"submit"}>Aprovar Pedido</Button>
+                    </Col>
+                    <Col>
+                        <Button color="danger" onClick={handleOpen}>Reprovar Pedido</Button>
+                    </Col>
+                </Row>
+            </form>
+        </BoxShadow>
 
-            {/*MODAL*/}
+            {/*MODAL*/
+            }
             <Modal
                 open={open}
                 onClose={handleClose}>
@@ -102,6 +105,8 @@ export default function Pedidos({pedido}) {
                     </form>
                 </Box>
             </Modal>
-            {/*MODAL - fim*/}
-        </Layout>);
+            {/*MODAL - fim*/
+            }
+        </Layout>)
+        ;
 }

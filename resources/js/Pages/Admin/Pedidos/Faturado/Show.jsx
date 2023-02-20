@@ -1,4 +1,4 @@
-import { router } from '@inertiajs/react'
+import {router} from '@inertiajs/react'
 import Layout from "@/Layouts/Admin/Layout";
 
 import React from 'react';
@@ -17,20 +17,18 @@ export default function Create({pedido}) {
     }
 
     return (
-        <Layout titlePage="Pedido Faturado">
-            <div className="container bg-white px-lg-6 py-lg-5">
-                <div className="row mb-4">
-                    <div className="col">
-                        <DadosPedidoMinimo dados={pedido} />
-                    </div>
+        <Layout titlePage="Pedido Faturado" container voltar={route('admin.pedidos.index')}>
+            <div className="row mb-4">
+                <div className="col">
+                    <DadosPedidoMinimo dados={pedido}/>
                 </div>
-
-                <form onSubmit={submit}>
-                    <button className="btn btn-primary" type='submit'>
-                        Atualizar Status para Entregue
-                    </button>
-                </form>
             </div>
+
+            <form onSubmit={submit}>
+                <button className="btn btn-primary" type='submit'>
+                    Atualizar Status para Entregue
+                </button>
+            </form>
         </Layout>
     )
 }

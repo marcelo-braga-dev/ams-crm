@@ -1,8 +1,6 @@
 import Layout from '@/Layouts/Admin/Layout';
-import { router } from '@inertiajs/react'
-import {Button, Card, Col, Container, Row, Table} from "reactstrap";
+import {router} from '@inertiajs/react'
 import * as React from 'react';
-import Typography from "@mui/material/Typography";
 
 import {useForm} from '@inertiajs/react';
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
@@ -36,39 +34,42 @@ export default function Pedidos({dados}) {
 
     // ConvertMoney - fim
 
-    return (<Layout titlePage="Pedidos" button={true} url={route('admin.pedidos.index')} textButton={'Voltar'}>
-
-        <Container fluid="lg" className="bg-white px-lg-6 py-lg-4 mb-4 rounded">
-            <Row>
-                <Col>
+    return (
+        <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedidos">
+            <div className="row mb-4 shadow p-2">
+                <div className="col">
                     <DadosPedido dados={dados}/>
-                </Col>
-                <Col>
+                </div>
+                <div className="col">
                     <DadosPedidoCliente dados={dados}/>
-                </Col>
-            </Row>
-        </Container>
-        <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 rounded">
+                </div>
+            </div>
+
+
             <form onSubmit={submit}>
-                <Row>
-                    <Col className={"mb-4"} lg={"4"}>
-                        <Typography variant={"body1"}>Preço de Venda: {dados.preco.convertido}</Typography>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className={"mb-4"} lg={"4"}>
-                        <TextFieldMoney required
-                                        label="Preço Custo" value={data.preco_custo}
-                                        setData={setData} index="preco_custo"></TextFieldMoney>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className={"mb-3"} lg={"4"}>
-                        <Typography>Preço Bruto: R$ {precoBruto(dados.preco.preco_float)}</Typography>
-                    </Col>
-                </Row>
-                <Button className={"mt-3"} color={"primary"}>Salvar</Button>
+                <div className="row shadow p-2">
+                    <div className="row mb-4">
+                        <h6>Preço de Venda: R$ {dados.preco.convertido}</h6>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-4 mb-4">
+                            <TextFieldMoney
+                                label="Preço Custo" value={data.preco_custo} required
+                                setData={setData} index="preco_custo"></TextFieldMoney>
+                        </div>
+                    </div>
+                    <div className="row mb-4">
+                        <div className="mb-3">
+                            <span>Preço Bruto: R$ {precoBruto(dados.preco.preco_float)}</span>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="mb-3">
+                            <button className="btn btn-primary" color={"primary"}>Salvar</button></div>
+                    </div>
+                </div>
             </form>
-        </Container>
-    </Layout>);
+
+        </Layout>
+    )
 }

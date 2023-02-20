@@ -1,8 +1,8 @@
 import Layout from "@/Layouts/Admin/Layout";
-import { router } from '@inertiajs/react'
+import {router} from '@inertiajs/react'
 import {useForm} from '@inertiajs/react';
 
-import {TextField, Typography} from "@mui/material";
+import {TextField} from "@mui/material";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 
@@ -18,11 +18,8 @@ export default function Create({dados}) {
         })
     }
 
-    return (<Layout titlePage="Pedido Aguardando Nota/Boleto">
-
-        <div className="container bg-white px-lg-6 py-lg-5 mb-4">
-
-            <div className="row">
+    return (<Layout container voltar={route('admin.pedidos.index')} titlePage="Pedidos">
+            <div className="row shadow p-2 mb-4">
                 <div className="col">
                     <DadosPedido dados={dados}/>
                 </div>
@@ -30,24 +27,23 @@ export default function Create({dados}) {
                     <DadosPedidoCliente dados={dados}/>
                 </div>
             </div>
-        </div>
-        <div className="container bg-white px-lg-6 py-lg-5">
-            <Typography variant="h6">Enviar Nota/Boleto</Typography>
-            <form onSubmit={submit}>
-                <div className="row mt-4">
-                    <div className="col-md-6 mb-3">
-                        <TextField
-                            type="file" fullWidth required
-                            onChange={e => setData('file_nota', e.target.files[0])}>
-                        </TextField>
+            <div className="row shadow p-2 mb-4">
+                <h6 className="mb-4">Enviar Nota/Boleto</h6>
+                <form onSubmit={submit}>
+                    <div className="row mb-4">
+                        <div className="col-md-6 mb-3">
+                            <TextField
+                                type="file" fullWidth required
+                                onChange={e => setData('file_nota', e.target.files[0])}>
+                            </TextField>
+                        </div>
                     </div>
-                </div>
 
-                <button className="btn btn-primary" type='submit'>
-                    Salvar
-                </button>
-            </form>
-        </div>
-
-    </Layout>)
+                    <button className="btn btn-primary" type='submit'>
+                        Salvar
+                    </button>
+                </form>
+            </div>
+        </Layout>
+    )
 }

@@ -73,7 +73,7 @@ class CardLeadsService
 
             'contato' => [
                 'email' => $item->email,
-                'telefone' => $item->telefone,
+                'telefone' => converterTelefone($item->telefone),
                 'atendente' => $item->atendente,
             ],
 

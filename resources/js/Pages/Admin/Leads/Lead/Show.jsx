@@ -9,7 +9,7 @@ export default function Show({dados, historicos}) {
                     <div className="col-auto"><h6>Lead em Atendimento</h6></div>
                     <div className="col-auto">
                         <a href={route('admin.clientes.leads.leads-main.edit', dados.id)}
-                           className="btn btn-outline-primary btn-sm">Editar Dados</a>
+                           className="btn btn-primary btn-sm">Editar Dados</a>
                     </div>
                 </div>
                 <LeadsDados dados={dados}/>

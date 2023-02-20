@@ -60,23 +60,16 @@ export default function Dashboard({leads}) {
                                         <div
                                             className='row bg-success justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Em Atendimento</div>
-                                            <div className='col-auto'>Qdt: {leads.novo.length}</div>
+                                            <div className='col-auto'>Qdt: {leads.atendimento.length}</div>
                                         </div>
                                     </th>
                                     <th id="th-3">
                                         <div
                                             className='row bg-warning justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Finalizados</div>
-                                            <div className='col-auto'>Qdt: {leads.novo.length}</div>
+                                            <div className='col-auto'>Qdt: {leads.finalizado.length}</div>
                                         </div>
                                     </th>
-                                    {/*<th id="th-3">*/}
-                                    {/*    <div*/}
-                                    {/*        className='row bg-dark justify-content-between rounded-top text-white mx-1 p-2'>*/}
-                                    {/*        <div className='col-auto'>Cancelados</div>*/}
-                                    {/*        <div className='col-auto'>Qdt: {leads.novo.length}</div>*/}
-                                    {/*    </div>*/}
-                                    {/*</th>*/}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -86,21 +79,16 @@ export default function Dashboard({leads}) {
                                             return (<NovoCards key={i} dados={dado} />)
                                         })}
                                     </td>
-                                    <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
+                                    <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
                                         {leads.atendimento.map((dado) => {
                                             return (<AtendimentoCards key={dado.id} dados={dado}/>)
                                         })}
                                     </td>
-                                    <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
+                                    <td id="td-3" className="shadow-sm" style={{minWidth: 300}}>
                                         {leads.finalizado.map((dado) => {
                                             return (<FinalizadoCard key={dado.id} dados={dado}/>)
                                         })}
                                     </td>
-                                    {/*<td id="td-1" className="shadow-sm" style={{minWidth: 300}}>*/}
-                                    {/*    {leads.cancelado.map((dado) => {*/}
-                                    {/*        // return (<CardReprovado key={dado.id} dados={dado}/>)*/}
-                                    {/*    })}*/}
-                                    {/*</td>*/}
                                 </tr>
                                 </tbody>
                             </table>

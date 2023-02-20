@@ -51,69 +51,70 @@ export default function Pedidos({pedido, historico}) {
         setValue(newValue);
     };
 
-    return (<Layout titlePage="Pedidos" button={true} url={route('admin.pedidos.index')} textButton={'Voltar'}>
-
-        <div className="container bg-white px-lg-6 py-lg-5 rounded">
-            <Box sx={{width: '100%'}}>
-                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="Pedido" {...a11yProps(0)} />
-                        <Tab label="Cliente" {...a11yProps(1)} />
-                        <Tab label="Anexos" {...a11yProps(2)} />
-                        <Tab label="Histórico" {...a11yProps(3)} />
-                    </Tabs>
-                </Box>
-                <TabPanel value={value} index={0}>
-                    <DadosPedido dados={pedido}></DadosPedido>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <DadosPedidoCliente dados={pedido}></DadosPedidoCliente>
-
-                    <hr/>
-                    <Typography variant={"h6"}>Arquivos do Cliente</Typography>
-                    <DadosPedidoClienteFiles dados={pedido}></DadosPedidoClienteFiles>
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <Typography variant={"h6"}>Documentos</Typography>
-                    <DadosPedidoFiles dados={pedido}></DadosPedidoFiles>
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                    <Typography variant="h6" className="mb-3">Histórico do Pedido</Typography>
-                    <Table hover responsive>
-                        <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Prazo</th>
-                            <th>Status</th>
-                            <th>Anotações</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {historico.map((dado) => {
-                            return (
-                                <tr key={dado.id} className={"align-middle"}>
-                                    <th scope="row">
-                                        {dado.data}
-                                    </th>
-                                    <td>
-                                        {dado.prazo} dias
-                                    </td>
-                                    <td>
-                                        {dado.status}
-                                    </td>
-                                    <td>
-                                        {dado.obs}
-                                    </td>
-                                </tr>)
-                        })}
-                        </tbody>
-                    </Table>
-                </TabPanel>
+    return (<Layout titlePage="Pedidos" container>
+        <Box sx={{width: '100%'}}>
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tab label="Pedido" {...a11yProps(0)} />
+                    <Tab label="Cliente" {...a11yProps(1)} />
+                    <Tab label="Anexos" {...a11yProps(2)} />
+                    <Tab label="Histórico" {...a11yProps(3)} />
+                </Tabs>
             </Box>
+            <TabPanel value={value} index={0}>
+                <DadosPedido dados={pedido}></DadosPedido>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <DadosPedidoCliente dados={pedido}></DadosPedidoCliente>
 
-            <a href={route('admin.chamado.create', {id: pedido.pedido.id})} className="btn btn-primary">ABRIR SAC</a>
-        </div>
-    </Layout>);
+                <hr/>
+                <Typography variant={"h6"}>Arquivos do Cliente</Typography>
+                <DadosPedidoClienteFiles dados={pedido}></DadosPedidoClienteFiles>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <Typography variant={"h6"}>Documentos</Typography>
+                <DadosPedidoFiles dados={pedido}></DadosPedidoFiles>
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+                <Typography variant="h6" className="mb-3">Histórico do Pedido</Typography>
+                <Table hover responsive>
+                    <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Prazo</th>
+                        <th>Status</th>
+                        <th>Anotações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {historico.map((dado) => {
+                        return (
+                            <tr key={dado.id} className={"align-middle"}>
+                                <th scope="row">
+                                    {dado.data}
+                                </th>
+                                <td>
+                                    {dado.prazo} dias
+                                </td>
+                                <td>
+                                    {dado.status}
+                                </td>
+                                <td>
+                                    {dado.obs}
+                                </td>
+                            </tr>)
+                    })}
+                    </tbody>
+                </Table>
+            </TabPanel>
+        </Box>
+
+        <a href={route('admin.chamado.create', {id: pedido.pedido.id})}
+           className="btn btn-primary">
+            ABRIR SAC
+        </a>
+
+    </Layout>)
 }
 
 

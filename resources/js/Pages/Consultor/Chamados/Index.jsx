@@ -3,10 +3,9 @@ import Layout from '@/Layouts/Consultor/Layout';
 import {Table, Td, Th} from "@/Components/Kanban/styles";
 
 // CARDS
-import NovoCard from "./Cards/NovoCard";
-import AnaliseCard from "./Cards/AnaliseCard";
-import FinalizadosCard from "./Cards/FinalizadosCard";
-import RespondidosCard from "./Cards/RespondidosCard";
+import NovoCard from "./Cards/Novo/NovoCard";
+import FinalizadosCard from "./Cards/Finalizado/FinalizadosCard";
+import AndamentoCard from "./Cards/Andamento/AndamentoCard";
 // CARDS - fim
 
 import DoubleScrollbar from 'react-double-scrollbar/dist/DoubleScrollbar';
@@ -31,17 +30,17 @@ export default function Pedidos({chamados}) {
                         <tr className="align-top">
                             <Td color="bg-success">
                                 {chamados.novo.map((dados) => {
-                                   return <NovoCard key={dados.id} dados={dados}></NovoCard>
+                                   return <NovoCard key={dados.id} dados={dados} />
                                 })}
                             </Td>
                             <Td color="bg-warning">
                                 {chamados.respondido.map((dados) => {
-                                    return <RespondidosCard key={dados.id} dados={dados}></RespondidosCard>
+                                    return <AndamentoCard key={dados.id} dados={dados} />
                                 })}
                             </Td>
                             <Td color="bg-dark">
                                 {chamados.finalizado.map((dados) => {
-                                    return <FinalizadosCard key={dados.id} dados={dados}></FinalizadosCard>
+                                    return <FinalizadosCard key={dados.id} dados={dados} />
                                 })}
                             </Td>
                         </tr>

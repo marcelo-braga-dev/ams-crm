@@ -1,11 +1,10 @@
 import {useEffect} from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import {Head, Link, useForm} from '@inertiajs/react';
+import {Head, useForm} from '@inertiajs/react';
 import {TextField} from "@mui/material";
 
 export default function Login({status, canResetPassword}) {
-    const {data, setData, post, processing, errors, reset} = useForm({
+    const {data, setData, post, errors, reset} = useForm({
         email: '',
         password: '',
         remember: '',
@@ -30,6 +29,10 @@ export default function Login({status, canResetPassword}) {
 
             <div className="row justify-content-center m-3">
                 <div className="col-md-4 shadow p-5 pb-3 bg-white rounded">
+
+                    {errors[0] &&
+                        <div className="alert alert-danger text-white mb-4">{errors[0]}</div>}
+
                     <form onSubmit={submit}>
                         <div className="row">
                             <div className="col-12">
