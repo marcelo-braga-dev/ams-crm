@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -127,13 +128,48 @@ class User extends Authenticatable
     public function getIdAdmins()
     {
         return $this->newQuery()
-        ->where('tipo', (new Admins())->getTipo())
-        ->orWhere('tipo', (new Supervisores())->getTipo())
-        ->get('id');
+            ->where('tipo', (new Admins())->getTipo())
+            ->orWhere('tipo', (new Supervisores())->getTipo())
+            ->get('id');
     }
 
     public function find($id)
     {
         return $this->newQuery()->find($id);
+    }
+
+    public function migrar(int $antigo, int $novo)
+    {
+        DB::beginTransaction();
+        try {
+            (new Pedidos())->newQuery()
+                ->where('users_id', $antigo)
+                ->update(['users_id' => $novo]);
+
+            (new Integradores())->newQuery()
+                ->where('users_id', $antigo)
+                ->update(['users_id' => $novo]);
+
+            (new Leads())->newQuery()
+                ->where('users_id', $antigo)
+                ->update(['users_id' => $novo]);
+
+            (new LeadsHistoricos())->newQuery()
+                ->where('users_id', $antigo)
+                ->update(['users_id' => $novo]);
+
+            (new PedidosHistoricos())->newQuery()
+                ->where('users_id', $antigo)
+                ->update(['users_id' => $novo]);
+
+            (new PedidosChamadosHistoricos())->newQuery()
+                ->where('users_id', $antigo)
+                ->update(['users_id' => $novo]);
+
+        } catch (QueryException) {
+            DB::rollBack();
+            throw new \DomainException('Falha na migração!');
+        }
+        DB::commit();
     }
 }

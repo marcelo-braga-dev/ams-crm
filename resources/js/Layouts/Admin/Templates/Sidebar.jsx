@@ -35,6 +35,7 @@ export default function Sidebar() {
             'icone': 'fas fa-angle-double-right',
             'submenu': [
                 {'menu': 'Usuários', 'url': route('admin.usuarios.usuario.index')},
+                {'menu': 'Migrar Conteúdo', 'url': route('admin.usuarios.migrar.index')},
             ]
         }, {
             'menu': 'SAC',
