@@ -32,6 +32,7 @@ const columns = [
         name: 'Cliente',
         selector: row => row.cliente,
         sortable: true,
+        grow: 4,
     },
     {
         name: 'Consultor',
@@ -42,7 +43,7 @@ const columns = [
         name: 'Integrador',
         selector: row => row.integrador,
         sortable: true,
-        grow: 2,
+        grow: 3,
     },
     {
         name: 'Valor',
@@ -53,7 +54,7 @@ const columns = [
         name: 'Data',
         selector: row => row.data_criacao,
         sortable: true,
-        grow: 2,
+        grow: 3,
     },
     {
         cell: row => <a className="btn btn-link btn-sm" href={route('supervisor.pedidos.show', row.id)}>
@@ -106,7 +107,7 @@ export default function Filtering({pedidos}) {
                         <h6>Histórico de Pedidos</h6>
                     </div>
                 </div>
-
+<div className="table-responsive">
                 <DataTable
                     columns={columns}
                     data={filteredItems}
@@ -117,7 +118,7 @@ export default function Filtering({pedidos}) {
                     striped
                     highlightOnHover
                     selectableRowsHighlight
-                />
+                /></div>
 
             </div>
         </Layout>

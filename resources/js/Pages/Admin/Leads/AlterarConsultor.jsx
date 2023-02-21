@@ -185,7 +185,6 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
 
     return (
         <Layout container titlePage="Alterar Consultor">
-            <h4 className="mb-4">Alterar Consultor</h4>
             <h6>Setores</h6>
             <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
                 {categorias.map((categoria, index) => {

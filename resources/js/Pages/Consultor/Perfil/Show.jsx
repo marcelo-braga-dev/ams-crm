@@ -1,4 +1,4 @@
-import { router } from '@inertiajs/react'
+import {router} from '@inertiajs/react'
 import Layout from "@/Layouts/Consultor/Layout";
 
 import React from 'react';
@@ -19,21 +19,19 @@ export default function Create({dados, flash}) {
     }
 
     return (
-        <Layout titlePage="Perfil">
-            <div className="container bg-white px-lg-6 py-lg-5 mb-4 ">
-                <div className="row mb-4">
-                    <div className="col">
-                        <Typography className="mb-2" variant={"h6"}>Seus Dados</Typography>
-                        <Typography variant={"body1"}><b>Nome:</b> {dados.nome}</Typography>
-                        <Typography variant={"body1"}><b>Email:</b> {dados.email}</Typography>
-                        <Typography variant={"body1"}><b>Função:</b> {dados.tipo}</Typography>
-                    </div>
+        <Layout container titlePage="Perfil">
+            <div className="row mb-4 p-2 border-bottom shadow rounded">
+                <div className="col">
+                    <h5 className="mb-2">Seus Dados</h5>
+                    <span className="d-block"><b>Nome:</b> {dados.nome}</span>
+                    <span className="d-block"><b>Email:</b> {dados.email}</span>
+                    <span className="d-block"><b>Função:</b> {dados.tipo}</span>
                 </div>
             </div>
 
             {/*Alterar Senha*/}
-            <div className="container bg-white px-lg-6 py-lg-5">
-                <Typography className="mb-2" variant={"h6"}>Alterar Senha</Typography>
+            <div className="row mb-4 p-2 border-bottom shadow rounded">
+                <h5 className="mb-2 mb-4">Alterar Senha</h5>
                 {flash.erro && <Alert className="mb-3" severity="error">{flash.erro}</Alert>}
                 {errors.nova_senha && <Alert className="mb-3" severity="error">{errors.nova_senha}</Alert>}
                 {flash.sucesso && <Alert className="mb-3" severity="success">{flash.sucesso}</Alert>}

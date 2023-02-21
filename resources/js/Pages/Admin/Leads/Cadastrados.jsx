@@ -156,7 +156,6 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
 
     return (
         <Layout container titlePage="Leads Cadastrados">
-            <h4 className="mb-4">Leads Cadastrados</h4>
             <h6>Setores</h6>
             <div className="btn-group" role="group" aria-label="Basic outlined example">
                 {categorias.map((categoria, index) => {

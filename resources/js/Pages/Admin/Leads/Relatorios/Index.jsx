@@ -2,7 +2,7 @@ import Layout from "@/Layouts/Admin/Layout";
 
 export default function ({qtdLeads}) {
     return (
-        <Layout container>
+        <Layout container titlePage="Relatórios dos Leads">
             <div className="row">
                 <div className="col">
                     <div className="table table-responsive">

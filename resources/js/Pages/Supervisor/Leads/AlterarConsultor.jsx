@@ -102,7 +102,7 @@ const columns = [
     }
 ];
 
-export default function Filtering({dados, consultores, categorias, categoriaAtual}) {
+export default function Filtering({dados, consultores}) {
     // Form
     const {data, post, setData} = useForm({
         'leads': []
@@ -186,18 +186,6 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     return (
         <Layout container titlePage="Alterar Consultor">
             <h4 className="mb-4">Alterar Consultor</h4>
-            <h6>Setores</h6>
-            <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
-                {categorias.map((categoria, index) => {
-                    return (
-                        <a type="button" key={index}
-                           href={route('supervisor.clientes.leads.alterar-consultor', {categoria: categoria.id})}
-                           className={(categoria.id == categoriaAtual ? 'active' : '') + " btn btn-outline-dark"}>
-                            {categoria.nome}
-                        </a>
-                    )
-                })}
-            </div>
 
             <form onSubmit={submit}>
                 <div className="row justify-content-between">

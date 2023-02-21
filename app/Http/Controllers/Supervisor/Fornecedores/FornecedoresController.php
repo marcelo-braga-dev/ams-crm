@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Supervisor\Fornecedores;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
+use App\Services\Fornecedores\FornecedoresService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -11,7 +12,7 @@ class FornecedoresController extends Controller
 {
     public function index()
     {
-        $fornecedores = (new Fornecedores())->newQuery()->orderByDesc('id')->get();
+        $fornecedores = (new FornecedoresService())->fornecedores(auth()->user()->setor);
 
         return Inertia::render('Supervisor/Fornecedores/Index', compact('fornecedores'));
     }
@@ -40,13 +41,13 @@ class FornecedoresController extends Controller
         (new Fornecedores())->create($request);
 
         modalSucesso("Fornecedor cadastrado com sucesso!");
-        return redirect()->route('admin.fornecedores.index');
+        return redirect()->route('supervisor.fornecedores.index');
     }
 
     public function update($id, Request $request)
     {
         (new Fornecedores())->atualizar($id, $request);
 
-        return redirect()->route('admin.fornecedores.index');
+        return redirect()->route('supervisor.fornecedores.index');
     }
 }

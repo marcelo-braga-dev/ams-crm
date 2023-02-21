@@ -51,9 +51,8 @@ export default function Index({usuarios}) {
         setValue(newValue);
     };
     // Tab - fim
-    return (<Layout titlePage="Consultores">
-
-        <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 rounded">
+    return (
+        <Layout container titlePage="Consultores">
             <Box sx={{width: '100%'}}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -64,62 +63,67 @@ export default function Index({usuarios}) {
                 </Box>
                 {/*Consultores*/}
                 <TabPanel value={value} index={0}>
-                    <Row className={"mb-3 text-right"}>
-                        <Col>
-                            <Button color={"warning"} href={route('supervisor.usuarios.consultores.create')}>Cadastrar
-                                Consultor</Button>
-                        </Col>
-                    </Row>
-                    <Table hover responsive>
-                        <thead>
-                        <tr>
-                            <th>#ID</th>
-                            <th>Nome</th>
-                            <th>Setor</th>
-                            <th>Status</th>
-                            <th>Email</th>
-                            <th>Ação</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {usuarios.consultores.map((dados) => {
-                            return (
-                                <tr key={dados.id} className={"align-middle"}>
-                                    <th scope="row">
-                                        {dados.id}
-                                    </th>
-                                    <td>
-                                        {dados.nome}
-                                    </td>
-                                    <td>
-                                        {dados.setor.nome}
-                                    </td>
-                                    <td>
-                                        {dados.status}
-                                    </td>
-                                    <td>
-                                        {dados.email}
-                                    </td>
-                                    <td>
-                                        <Button color={"primary"}
-                                                href={route('supervisor.usuarios.consultores.show', dados.id)}
-                                                size="sm">Ver</Button>
-                                    </td>
-                                </tr>)
-                        })}
-                        </tbody>
-                    </Table>
+                    <div className="row mb-3 text-right justify-content-end">
+                        <div className="col-auto">
+                            <a className="btn btn-dark" href={route('supervisor.usuarios.consultores.create')}>
+                                Cadastrar Consultor
+                            </a>
+                        </div>
+                    </div>
+                    <div className="table-responsive">
+                        <table className="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>#ID</th>
+                                <th>Nome</th>
+                                <th>Setor</th>
+                                <th>Status</th>
+                                <th>Email</th>
+                                <th>Ação</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {usuarios.consultores.map((dados) => {
+                                return (
+                                    <tr key={dados.id} className={"align-middle"}>
+                                        <th scope="row">
+                                            {dados.id}
+                                        </th>
+                                        <td>
+                                            {dados.nome}
+                                        </td>
+                                        <td>
+                                            {dados.setor.nome}
+                                        </td>
+                                        <td>
+                                            {dados.status}
+                                        </td>
+                                        <td>
+                                            {dados.email}
+                                        </td>
+                                        <td>
+                                            <a className="btn btn-dark btn-sm"
+                                               href={route('supervisor.usuarios.consultores.show', dados.id)}>
+                                                Ver
+                                            </a>
+                                        </td>
+                                    </tr>)
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
                 </TabPanel>
                 {/*Consultores - fim */}
                 {/*Supervisores*/}
                 <TabPanel value={value} index={1}>
-                    <Row className={"mb-3 text-right"}>
-                        <Col>
-                            <Button color={"warning"} href={route('supervisor.usuarios.supervisores.create')}>
+                    <div className="row mb-3 text-right justify-content-end">
+                        <div className="col-auto">
+                            <a className="btn btn-dark" href={route('supervisor.usuarios.supervisores.create')}>
                                 Cadastrar Supervisor
-                            </Button>
-                        </Col>
-                    </Row>
+                            </a>
+                        </div>
+                    </div>
+
                     <Table hover responsive>
                         <thead>
                         <tr>
@@ -159,13 +163,14 @@ export default function Index({usuarios}) {
                 {/*Supervisores - fim*/}
                 {/*Admins*/}
                 <TabPanel value={value} index={2}>
-                    <Row className={"mb-3 text-right"}>
-                        <Col>
-                            <Button color={"warning"} href={route('supervisor.usuarios.admins.create')}>
+                    <div className="row mb-3 text-right justify-content-end">
+                        <div className="col-auto">
+                            <a className="btn btn-dark" href={route('supervisor.usuarios.admins.create')}>
                                 Cadastrar Admin
-                            </Button>
-                        </Col>
-                    </Row>
+                            </a>
+                        </div>
+                    </div>
+
                     <Table hover responsive>
                         <thead>
                         <tr>
@@ -204,7 +209,5 @@ export default function Index({usuarios}) {
                 </TabPanel>
                 {/*Admins - fim*/}
             </Box>
-
-        </Container>
-    </Layout>);
+        </Layout>);
 }

@@ -7,31 +7,30 @@ use App\Models\Setores;
 
 class FornecedoresService
 {
-    private $nomeSetores;
+    private array $setores;
 
     public function __construct()
     {
-        $this->nomeSetores = (new Setores())->nomes();
+        $this->setores = (new Setores())->nomes();
     }
 
-    public function todos()
+    public function fornecedores(?int $setor = null)
     {
-        $dados = (new Fornecedores())->getAll();
+        $dados = [];
+        $items = (new Fornecedores())->getAll($setor);
 
-        $items = [];
-        foreach ($dados as $dado) {
-            $items[] = $this->dados($dado);
+        foreach ($items as $item) {
+            $dados[] = $this->dados($item);
         }
-        return $items;
+        return $dados;
     }
 
-    public function dados($dado)
+    private function dados($item)
     {
         return [
-            'id' => $dado->id,
-            'nome' => $dado->nome,
-            'setor' => $this->nomeSetores[$dado->setor]['nome'],
-            'cnpj' => $dado->cnpj,
+            'id' => $item->id,
+            'nome' => $item->nome,
+            'setor' => $this->setores[$item->setor]['nome']
         ];
     }
 }

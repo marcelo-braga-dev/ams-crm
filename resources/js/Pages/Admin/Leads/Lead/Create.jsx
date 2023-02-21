@@ -21,7 +21,7 @@ export default function Create({setores}) {
     const rows = [];
     for (let i = 1; i <= qtdLeads; i++) {
         rows.push(
-            <div key={i} className="bg-white px-lg-6 py-lg-5 mb-4 rounded">
+            <div key={i} className="bg-white shadow p-3 mb-4">
                 <span className="h6">Lead {i}</span>
                 <div className="row mt-3">
                     <div className="col mb-3">
@@ -100,11 +100,9 @@ export default function Create({setores}) {
     }
 
     return (
-        <Layout titlePage="Cadastro de Leads">
-            <div className="bg-white px-lg-6 py-lg-5 mb-4 rounded">
-                <h4 className="mb-4">Cadastrar Leads</h4>
+        <Layout container titlePage="Cadastro de Leads">
+            <div className="shadow p-3 mb-4">
                 <div className="row">
-
                     {alertSetor && <div className="alert alert-danger mb-4 text-white">Selecione o SETOR</div>}
 
                     <div className="col">
@@ -125,10 +123,11 @@ export default function Create({setores}) {
                     </div>
                 </div>
             </div>
+
             <form onSubmit={onSubmit}>
                 {rows}
 
-                <div className="bg-white px-lg-6 py-lg-5 mb-4 rounded">
+                <div className="">
                     <div className="text-center">
                         <button className="btn btn-primary">Salvar</button>
                     </div>

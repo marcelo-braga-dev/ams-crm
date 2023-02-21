@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Pedidos;
+namespace App\Http\Controllers\Supervisor\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
@@ -14,7 +14,7 @@ class LancadoController extends Controller
     {
         $dados = (new Pedidos())->getDadosPedido($id);
 
-        return Inertia::render('Admin/Pedidos/Lancado/Show',
+        return Inertia::render('Supervisor/Pedidos/Lancado/Show',
             compact('dados'));
     }
 

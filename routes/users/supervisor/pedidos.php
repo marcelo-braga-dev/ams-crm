@@ -1,17 +1,17 @@
 <?php
 
-use App\Http\Controllers\Supervisor\Pedidos\AguardandoFaturamentoController;
-use App\Http\Controllers\Supervisor\Pedidos\AguardandoNotaController;
-use App\Http\Controllers\Supervisor\Pedidos\AguardandoPagamentoController;
-use App\Http\Controllers\Supervisor\Pedidos\CanceladoController;
-use App\Http\Controllers\Supervisor\Pedidos\ConferenciaController;
 use App\Http\Controllers\Supervisor\Pedidos\ConfigController;
-use App\Http\Controllers\Supervisor\Pedidos\EntregueController;
-use App\Http\Controllers\Supervisor\Pedidos\FaturadoController;
 use App\Http\Controllers\Supervisor\Pedidos\HistoricoController;
-use App\Http\Controllers\Supervisor\Pedidos\LancadoController;
 use App\Http\Controllers\Supervisor\Pedidos\PedidosController;
-use App\Http\Controllers\Supervisor\Pedidos\RetrocederController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\AguardandoFaturamentoController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\AguardandoNotaController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\AguardandoPagamentoController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\CanceladoController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\ConferenciaController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\EntregueController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\FaturadoController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\LancadoController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\RetrocederController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('supervisor.')

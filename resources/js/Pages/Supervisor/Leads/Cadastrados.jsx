@@ -54,7 +54,8 @@ const columns = [
         grow: 0,
     },
     {
-        cell: row => <a className="btn btn-link btn-sm m-0 p-0" href={route('supervisor.clientes.leads.leads-main.show', row.id)}>
+        cell: row => <a className="btn btn-link btn-sm m-0 p-0"
+                        href={route('supervisor.clientes.leads.leads-main.show', row.id)}>
             Ver
         </a>,
         ignoreRowClick: true,
@@ -66,11 +67,13 @@ const columns = [
         name: 'Nome/Nome Fantasia',
         selector: row => row.name,
         sortable: true,
+        grow: 2,
     },
     {
         name: 'Razão Social',
         selector: row => row.razao_social,
         sortable: true,
+        grow: 2,
     },
     {
         name: 'Status',
@@ -81,6 +84,7 @@ const columns = [
         name: 'Consultor',
         selector: row => row.consultor,
         sortable: true,
+        grow: 2,
     },
     {
         name: 'Cidade',
@@ -91,17 +95,17 @@ const columns = [
         name: 'Telefone',
         selector: row => row.telefone,
         sortable: true,
-        grow: 1,
+        grow: 2,
     },
     {
         name: 'Data',
         selector: row => row.data_criacao,
         sortable: true,
-        grow: 1,
+        grow: 2,
     },
 ];
 
-export default function Filtering({dados, categorias, categoriaAtual}) {
+export default function Filtering({dados}) {
 
     // Dados
     const linhas = dados.map(function (items) {
@@ -150,30 +154,19 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
         return (
             <FilterComponent onFilter={e => setFilterText(e.target.value)}
                              filterText={filterText}
-                             setFiltro={setFiltro} />
+                             setFiltro={setFiltro}/>
         );
     }, [filterText]);
 
     return (
         <Layout container titlePage="Leads Cadastrados">
-            <h4 className="mb-4">Leads Cadastrados</h4>
-            <h6>Setores</h6>
-            <div className="btn-group" role="group" aria-label="Basic outlined example">
-                {categorias.map((categoria, index) => {
-                    return (
-                        <a type="button" key={index}
-                           href={route('supervisor.clientes.leads.leads-cadastrados', {categoria: categoria.id})}
-                           className={(categoria.id == categoriaAtual ? 'active' : '') + " btn btn-outline-dark "}>
-                            {categoria.nome}
-                        </a>
-                    )
-                })}
-            </div>
+
             <div className="row justify-content-between px-4">
-                <div className="col-md-auto"></div>
+                <div className="col-md-auto"><h4 className="mb-4">Leads Cadastrados</h4></div>
                 <div className="col-md-auto">
                     <a href={route('supervisor.clientes.leads.ocultos')} className="btn btn-dark btn-sm">
-                        Ocultos</a>
+                        Ocultos
+                    </a>
                 </div>
             </div>
 

@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Admin\Pedidos;
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
-use App\Services\Notificacoes\FornecedoresService;
+use App\Services\Fornecedores\FornecedoresService;
 use App\Services\Pedidos\CardDadosService;
+use App\Services\Setores\SetoresService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,13 +15,16 @@ class PedidosController extends Controller
 {
     public function index(Request $request)
     {
-        $fornecedorAtual = $request->fornecedor;
-        $fornecedores = (new FornecedoresService())->fornecedores();
+        $setorAtual = $request->setor;
+        $setores = (new SetoresService())->setores();
 
-        $pedidos = (new CardDadosService())->getCards($fornecedorAtual);
+        $fornecedorAtual = $request->fornecedor;
+        $fornecedores = (new FornecedoresService())->fornecedores($setorAtual);
+
+        $pedidos = (new CardDadosService())->getCards($fornecedorAtual, $setorAtual);
 
         return Inertia::render('Admin/Pedidos/Index',
-            compact('pedidos', 'fornecedores', 'fornecedorAtual'));
+            compact('pedidos', 'fornecedores', 'fornecedorAtual', 'setores', 'setorAtual'));
     }
 
     public function show($id)

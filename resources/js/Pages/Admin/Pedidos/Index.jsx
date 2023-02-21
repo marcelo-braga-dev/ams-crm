@@ -20,24 +20,47 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import ScrollControlHorizontal from '@/Helpers/scrollControlHorizontal'
 
-export default function Pedidos({pedidos, fornecedores, fornecedorAtual}) {
+export default function Pedidos({pedidos, setores, setorAtual, fornecedores, fornecedorAtual}) {
 
     return (
         <Layout titlePage="Lista de Pedidos">
-            {/*Fornecedores*/}
-            <div className="row mb-4">
-                <h6>Fornecedor</h6>
+            {/*Setores*/}
+            <div className="row mb-2">
+                <h6>Setores</h6>
                 <div className="col">
                     <div className="btn-group" role="group" aria-label="Basic outlined example">
                         <a type="button"
                            href={route('admin.pedidos.index')}
+                           className={(!setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
+                            Todos
+                        </a>
+                        {setores.map((setor, index) => {
+                            return (
+                                <a type="button" key={index}
+                                   href={route('admin.pedidos.index', {setor: setor.id})}
+                                   className={(setor.id == setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
+                                    {setor.nome}
+                                </a>
+                            )
+                        })}
+                    </div>
+                </div>
+            </div>
+
+            {/*Fornecedores*/}
+            <div className="row mb-4">
+                <h6>Fornecedores</h6>
+                <div className="col">
+                    <div className="btn-group" role="group" aria-label="Basic outlined example">
+                        <a type="button"
+                           href={route('admin.pedidos.index', {setor: setorAtual})}
                            className={(!fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                             Todos
                         </a>
                         {fornecedores.map((fornecedor, index) => {
                             return (
                                 <a type="button" key={index}
-                                   href={route('admin.pedidos.index', {fornecedor: fornecedor.id})}
+                                   href={route('admin.pedidos.index', {setor: setorAtual, fornecedor: fornecedor.id})}
                                    className={(fornecedor.id == fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                                     {fornecedor.nome}
                                 </a>

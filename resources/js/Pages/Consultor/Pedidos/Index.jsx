@@ -1,5 +1,3 @@
-import IntegradorLayout from '@/Layouts/Consultor/Layout';
-
 import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
 import CardReprovado from './Cards/Reprovado/ReprovadoCard';
 import CardLancado from './Cards/Lancado/CardLancado';
@@ -19,11 +17,12 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import pesquisaCards from "@/Helpers/pesquisaCards";
 import React from "react";
 import ScrollControlHorizontal from "@/Helpers/scrollControlHorizontal";
+import Layout from "@/Layouts/Consultor/Layout";
 
 export default function Dashboard({auth, errors, pedidos}) {
 
     return (
-        <IntegradorLayout
+        <Layout
             auth={auth}
             errors={errors}
             titlePage="Lista de Pedidos"
@@ -198,7 +197,7 @@ export default function Dashboard({auth, errors, pedidos}) {
                     <ScrollControlHorizontal/>
                 </div>
             </div>
-        </IntegradorLayout>
+        </Layout>
     )
 }
 

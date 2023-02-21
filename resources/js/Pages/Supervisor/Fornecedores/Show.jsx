@@ -1,37 +1,30 @@
-import {useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/Supervisor/Layout";
-import {TextField} from "@mui/material";
-import Alert from "@mui/material/Alert";
-import Typography from "@mui/material/Typography";
 
 export default function Show({dados}) {
 
-    return (<Layout titlePage="Cadastrar Fornecedor" button={true} url={route('supervisor.fornecedores.index')}
-                    textButton={'Voltar'}>
-
-        <div className="container bg-white px-lg-6 py-lg-5 rounded">
+    return (
+        <Layout titlePage="Cadastrar Fornecedor" container voltar={route('supervisor.fornecedores.index')}>
             <div className="row">
                 <div className="col">
-                    <Typography variant="h5" component="h3">Informações do Fornecedor</Typography></div>
+                    <h5 className="mb-4">Informações do Fornecedor</h5></div>
                 <div className="col text-right">
                     <a className="btn btn-primary" href={route('supervisor.fornecedores.edit', dados.id)}>Editar</a>
                 </div>
             </div>
             <div className="row mt-4">
                 <div className="col">
-                    <Typography><b>Empresa:</b> {dados.nome}</Typography>
-                    <Typography><b>CNPJ:</b> {dados.cnpj}</Typography>
-                    <Typography><b>Atendente:</b> {dados.atendente}</Typography>
-                    <Typography><b>Telefone:</b> {dados.telefone}</Typography>
-                    <Typography><b>Email:</b> {dados.email}</Typography>
+                    <p><b>Empresa:</b> {dados.nome}</p>
+                    <p><b>CNPJ:</b> {dados.cnpj}</p>
+                    <p><b>Atendente:</b> {dados.atendente}</p>
+                    <p><b>Telefone:</b> {dados.telefone}</p>
+                    <p><b>Email:</b> {dados.email}</p>
                 </div>
             </div>
             <div className="row mt-4">
                 <div className="col">
-                    <Typography><b>Anotações:</b> {dados.anotacoes}</Typography>
+                    <p><b>Anotações:</b> {dados.anotacoes}</p>
                 </div>
             </div>
-
-        </div>
-    </Layout>);
+        </Layout>
+    );
 }

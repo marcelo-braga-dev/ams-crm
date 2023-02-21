@@ -7,7 +7,8 @@ use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\Setores;
 use App\Models\User;
-use App\Services\Categorias\CategoriasService;
+use App\Services\Leads\HistoricoDadosService;
+use App\Services\Setores\SetoresService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\UpdateStatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
@@ -18,14 +19,12 @@ class LeadsController extends Controller
 {
     public function index(Request $request)
     {
-        $categoriaAtual = $request->categoria ?? 1;
-        $categorias = (new CategoriasService())->categorias();
-
-        $dados = (new LeadsDadosService())->getDisponiveis($categoriaAtual);
         $consultores = (new User())->getConsultores();
 
+        $dados = (new LeadsDadosService())->getAll(setor_usuario_atual());
+
         return Inertia::render('Supervisor/Leads/Encaminhar',
-            compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
+            compact('dados', 'consultores'));
     }
 
     public function create()
@@ -44,7 +43,7 @@ class LeadsController extends Controller
                     if ($item['pessoa'] == 'pj') $pessoa = 0;
                 }
 
-                (new Leads())->create($item, $request->setor, $pessoa);
+                (new Leads())->create($item, setor_usuario_atual(), $pessoa);
             } catch (\DomainException) {
                 modalErro('Alguns LEADS não cadastrados');
             }
@@ -74,14 +73,12 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public function cadastrados(Request $request)
+    public function cadastrados()
     {
-        $categoriaAtual = $request->categoria ?? 1;
-        $dados = (new LeadsDadosService())->getAll($categoriaAtual);
-        $categorias = (new CategoriasService())->categorias();
+        $dados = (new LeadsDadosService())->getAll(setor_usuario_atual());
 
         return Inertia::render('Supervisor/Leads/Cadastrados',
-            compact('dados', 'categorias', 'categoriaAtual'));
+            compact('dados'));
     }
 
     public function delete(Request $request)
@@ -112,7 +109,7 @@ class LeadsController extends Controller
     {
         $categoriaAtual = $request->categoria ?? 1;
 
-        $categorias = (new CategoriasService())->categorias();
+        $categorias = (new SetoresService())->setores();
         $dados = (new LeadsDadosService())->getOcultos($categoriaAtual);
 
         return Inertia::render('Supervisor/Leads/Ocultos',
@@ -131,21 +128,19 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public function alterarConsultor(Request $request)
+    public function alterarConsultor()
     {
-        $categoriaAtual = $request->categoria ?? 1;
-        $dados = (new LeadsDadosService())->getLeadsComConsultor($categoriaAtual);
         $consultores = (new User())->getConsultores();
-        $categorias = (new CategoriasService())->categorias();
+        $dados = (new LeadsDadosService())->getAll(setor_usuario_atual());
 
         return Inertia::render('Supervisor/Leads/AlterarConsultor',
-            compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
+            compact('dados', 'consultores'));
     }
 
     public function show($id)
     {
         $dados = (new LeadsDadosService())->lead($id);
-        $historicos = (new LeadsHistoricos())->dados($id);
+        $historicos = (new HistoricoDadosService())->dados($id);
 
         return Inertia::render('Supervisor/Leads/Lead/Show',
             compact('dados', 'historicos'));

@@ -11,7 +11,7 @@ class HistoricoController extends Controller
 {
     public function index()
     {
-        $pedidos = (new PedidosService())->todosPedidos();
+        $pedidos = (new PedidosService())->todosPedidos(setor_usuario_atual());
 
         return Inertia::render('Supervisor/Pedidos/Historicos/Index', compact('pedidos'));
     }

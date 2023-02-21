@@ -1,9 +1,5 @@
 import Layout from '@/Layouts/Admin/Layout';
-
-import React, {useState} from 'react';
-import {Container, Row, Col, Button} from 'reactstrap';
-import {TextField, Typography} from "@mui/material";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import {router} from '@inertiajs/react'
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
@@ -30,47 +26,55 @@ export default function Create({chamado, pedido, mensagens}) {
                     <DadosPedidoMinimo dados={pedido}/>
                 </div>
             </div>
-            <Row>
-                <Col md="12" className="mb-3">
-                    <Typography variant="subtitle1">
-                        <b>Título:</b> {chamado.titulo}
-                    </Typography>
-                </Col>
-            </Row>
+            <div className="row">
+                <div className="col mb-3">
+                    <h5>Título: {chamado.titulo}</h5>
+                </div>
+            </div>
             {/*Historico de Mensagens*/}
             {mensagens.map((dado, i) => {
-                return (<Row key={i} className="border rounded p-2 mb-3">
-                    <Col className="mb-2" md="12">
-                        <Typography variant="caption" component="p">
-                            <b>Data:</b> {dado.data}
-                        </Typography>
-                        <Typography variant="caption">
-                            <b>Status:</b> {dado.status}
-                        </Typography>
-                    </Col>
-                    <Col md="12">
-                        <Typography variant="body1"><b>Mensagem:</b> {dado.msg}</Typography>
-                        <ImagePdf url={dado.img}></ImagePdf>
-                    </Col>
-                </Row>)
+                return (
+                    <div key={i} className="shadow rounded p-3 mb-3">
+                        <div className="row">
+                            <div className="col mb-2">
+                                <span><b>Autor:</b> {dado.nome}</span>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col mb-2">
+                                <small className="d-block">
+                                    <b>Data:</b> {dado.data}
+                                </small>
+                                <small className="d-block">
+                                    <b>Status:</b> {dado.status}
+                                </small>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <span><b>Mensagem:</b> {dado.msg}</span>
+                            </div>
+                        </div>
+                    </div>
+                )
             })}
             {/*Historico de Mensagens - fim */}
 
             {/*Resposta*/}
             <form onSubmit={submit}>
-                <Row className="pt-4">
-                    <Col>
+                <div className="row pt-4">
+                    <div className="col">
                         <TextField
                             multiline rows={6} label="Resposta" fullWidth required
                             onChange={e => setData('mensagem', e.target.value)}/>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
 
-                <Row className="pt-4 text-center">
+                <div className="row pt-4 text-center">
                     <div className="col-lg-4 text-right">
                     </div>
                     <div className="col mb-3">
-                        <Button color="primary">Enviar Resposta</Button>
+                        <button type="submit" className="btn btn-primary">Enviar Resposta</button>
                     </div>
 
                     <div className="col text-right">
@@ -78,7 +82,7 @@ export default function Create({chamado, pedido, mensagens}) {
                                 onClick={e => setData('finalizar', true)}>Finalizar SAC
                         </button>
                     </div>
-                </Row>
+                </div>
             </form>
             {/*Resposta - fim */}
         </Layout>

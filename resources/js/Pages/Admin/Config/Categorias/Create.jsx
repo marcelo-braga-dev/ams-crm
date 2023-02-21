@@ -10,16 +10,12 @@ export default function ({dados}) {
         post(route('admin.config.categorias.store'))
     }
     return (
-        <Layout container titlePage="Cadastrar Categoria" voltar={route('admin.config.categorias.index')}>
-            <div className="row justify-content-between mb-4">
-                <div className="col-auto"><h5>Cadastrar Categoria</h5></div>
-                <div className="col-auto">
-                </div>
-            </div>
+        <Layout container titlePage="Cadastrar Setor" voltar={route('admin.config.categorias.index')}>
+
             <form onSubmit={submit}>
                 <div className="row mb-4">
                     <div className="col-md-6">
-                        <TextField label="Nome" onChange={e => setData('nome', e.target.value)} required fullWidth/>
+                        <TextField label="Nome do Setor" onChange={e => setData('nome', e.target.value)} required fullWidth/>
                     </div>
                 </div>
                 <div className="row justify-content-center">

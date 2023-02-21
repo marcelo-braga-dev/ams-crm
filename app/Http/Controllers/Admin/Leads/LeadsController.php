@@ -7,7 +7,8 @@ use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\Setores;
 use App\Models\User;
-use App\Services\Categorias\CategoriasService;
+use App\Services\Leads\HistoricoDadosService;
+use App\Services\Setores\SetoresService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\UpdateStatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
@@ -19,9 +20,7 @@ class LeadsController extends Controller
     public function index(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
-        $categorias = (new CategoriasService())->categorias();
-
-
+        $categorias = (new SetoresService())->setores();
         $dados = (new LeadsDadosService())->getDisponiveis($categoriaAtual);
         $consultores = (new User())->getConsultores();
 
@@ -79,7 +78,7 @@ class LeadsController extends Controller
     {
         $categoriaAtual = $request->categoria ?? 1;
         $dados = (new LeadsDadosService())->getAll($categoriaAtual);
-        $categorias = (new CategoriasService())->categorias();
+        $categorias = (new SetoresService())->setores();
 
         return Inertia::render('Admin/Leads/Cadastrados',
             compact('dados', 'categorias', 'categoriaAtual'));
@@ -112,7 +111,7 @@ class LeadsController extends Controller
     {
         $categoriaAtual = $request->categoria ?? 1;
 
-        $categorias = (new CategoriasService())->categorias();
+        $categorias = (new SetoresService())->setores();
         $dados = (new LeadsDadosService())->getOcultos($categoriaAtual);
 
         return Inertia::render('Admin/Leads/Ocultos',
@@ -136,7 +135,7 @@ class LeadsController extends Controller
         $categoriaAtual = $request->categoria ?? 1;
         $dados = (new LeadsDadosService())->getLeadsComConsultor($categoriaAtual);
         $consultores = (new User())->getConsultores();
-        $categorias = (new CategoriasService())->categorias();
+        $categorias = (new SetoresService())->setores();
 
         return Inertia::render('Admin/Leads/AlterarConsultor',
             compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
@@ -145,7 +144,7 @@ class LeadsController extends Controller
     public function show($id)
     {
         $dados = (new LeadsDadosService())->lead($id);
-        $historicos = (new LeadsHistoricos())->dados($id);
+        $historicos = (new HistoricoDadosService())->dados($id);
 
         return Inertia::render('Admin/Leads/Lead/Show',
             compact('dados', 'historicos'));

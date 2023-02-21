@@ -22,19 +22,17 @@ export default function Create({fornecedores, integradores}) {
     }
 
     return (
-        <Layout
-            titlePage="Cadastrar Pedido"
-            url={route('consultor.pedidos.index')} textButton="Voltar">
+        <Layout container titlePage="Cadastrar Pedido" voltar={route('consultor.pedidos.index')}>
 
             <form onSubmit={submit}>
-                <div className="container bg-white px-lg-6 py-lg-5 mb-4">
+                <div className="row mb-5 pb-4 border-bottom">
                     <AlertDanger errors={errors}></AlertDanger>
                     <InfoCliente setData={setData} data={data}></InfoCliente>
                 </div>
-                <div className="container bg-white px-lg-6 py-lg-5 mb-4">
+                <div className="row mb-5 border-bottom">
                     <Anexos setData={setData} data={data}></Anexos>
                 </div>
-                <div className="container bg-white px-lg-6 py-lg-5">
+                <div className="">
                     <Pedidos fornecedores={fornecedores} integradores={integradores} setData={setData} data={data}/>
 
                     <div className="row text-center mb-3">

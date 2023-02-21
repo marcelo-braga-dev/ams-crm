@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\Admin\Pedidos\HistoricoController;
-use App\Http\Controllers\Admin\Pedidos\RetrocederController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\Pedidos\AguardandoFaturamentoController;
-use App\Http\Controllers\Admin\Pedidos\AguardandoNotaController;
-use App\Http\Controllers\Admin\Pedidos\AguardandoPagamentoController;
-use App\Http\Controllers\Admin\Pedidos\CanceladoController;
-use App\Http\Controllers\Admin\Pedidos\ConferenciaController;
 use App\Http\Controllers\Admin\Pedidos\ConfigController;
-use App\Http\Controllers\Admin\Pedidos\EntregueController;
-use App\Http\Controllers\Admin\Pedidos\FaturadoController;
-use App\Http\Controllers\Admin\Pedidos\LancadoController;
+use App\Http\Controllers\Admin\Pedidos\HistoricoController;
 use App\Http\Controllers\Admin\Pedidos\PedidosController;
+use App\Http\Controllers\Admin\Pedidos\Status\AguardandoFaturamentoController;
+use App\Http\Controllers\Admin\Pedidos\Status\AguardandoNotaController;
+use App\Http\Controllers\Admin\Pedidos\Status\AguardandoPagamentoController;
+use App\Http\Controllers\Admin\Pedidos\Status\CanceladoController;
+use App\Http\Controllers\Admin\Pedidos\Status\ConferenciaController;
+use App\Http\Controllers\Admin\Pedidos\Status\EntregueController;
+use App\Http\Controllers\Admin\Pedidos\Status\FaturadoController;
+use App\Http\Controllers\Admin\Pedidos\Status\LancadoController;
+use App\Http\Controllers\Admin\Pedidos\Status\RetrocederController;
+use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
     ->prefix('admin/pedido')

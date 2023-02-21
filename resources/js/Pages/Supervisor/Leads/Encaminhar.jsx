@@ -198,18 +198,6 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         <Layout container titlePage="Encaminhar Leads">
 
             <h4 className="mb-4">Enviar Leads para Consultores</h4>
-            <h6>Setores</h6>
-            <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
-                {categorias.map((categoria, index) => {
-                    return (
-                        <a type="button" key={index}
-                           href={route('supervisor.clientes.leads.leads-main.index', {categoria: categoria.id})}
-                           className={(categoria.id == categoriaAtual ? 'active' : '') + " btn btn-outline-dark"}>
-                            {categoria.nome}
-                        </a>
-                    )
-                })}
-            </div>
 
             <form onSubmit={submit}>
                 <div className="row justify-content-between mb-4">

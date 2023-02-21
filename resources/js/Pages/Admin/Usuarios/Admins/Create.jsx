@@ -26,13 +26,12 @@ export default function Register({setores}) {
         post(route('admin.usuarios.admins.store'));
     };
 
-    return (<Layout titlePage="Cadastrar Admin" voltar={route('admin.usuarios.usuario.index')}>
+    return (<Layout titlePage="Cadastrar Admin" container voltar={route('admin.usuarios.usuario.index')}>
 
         {errors.nome && <Alert severity="error" className={"mb-3"}>{errors.nome}</Alert>}
         {errors.senha && <Alert severity="error" className={"mb-3"}>{errors.senha}</Alert>}
         {errors.email && <Alert severity="error" className={"mb-3"}>{errors.email}</Alert>}
         <form onSubmit={submit}>
-            <h6 className="mb-4">Cadastro de Administrador</h6>
             <div className="row">
                 <div className="col-md-4">
                     {/*Setores*/}

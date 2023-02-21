@@ -3,19 +3,16 @@ import Layout from '@/Layouts/Consultor/Layout';
 export default function Create({integradores}) {
 
     return (
-        <Layout container titlePage="Integradores">
-            <div className="row">
-                <div className="col mb-4">
-                    <h6>Integradores Cadastrados</h6>
-                </div>
+        <Layout container titlePage="Integradores Cadastrados">
+            <div className="row justify-content-end">
                 <div className="col-auto text-right">
-                    <a href={route('consultor.integradores.create')} className="btn btn-primary">
+                    <a href={route('consultor.integradores.create')} className="btn btn-dark">
                         Cadastrar Integrador
                     </a>
                 </div>
             </div>
             <div className="row">
-                <div className="col-12 mb-3 p-3 shadow rounded">
+                <div className="col-12 mb-3 p-3">
                     <table className="table" width="100%">
                         <thead>
                         <tr>
@@ -40,7 +37,9 @@ export default function Create({integradores}) {
                                     </td>
                                     <td className="text-right">
                                         <a href={route('consultor.integradores.show', dados.id)}
-                                           className="btn btn-primary btn-sm">Ver</a>
+                                           className="btn btn-primary btn-sm">
+                                            Ver
+                                        </a>
                                     </td>
                                 </tr>
                             )

@@ -4,25 +4,25 @@ import Layout from "@/Layouts/Admin/Layout";
 export default function Show({dados, historicos}) {
     return (
         <Layout container titlePage="Lead - Em Atendimento">
-            <div className="mb-4 border-bottom">
-                <div className="row justify-content-between">
-                    <div className="col-auto"><h6>Lead em Atendimento</h6></div>
+            <div className="mb-4">
+                <div className="row justify-content-end">
                     <div className="col-auto">
                         <a href={route('admin.clientes.leads.leads-main.edit', dados.id)}
-                           className="btn btn-primary btn-sm">Editar Dados</a>
+                           className="btn btn-dark btn-sm">Editar Dados</a>
                     </div>
                 </div>
+
                 <LeadsDados dados={dados}/>
-                <div className="row mt-4">
+
+                <div className="mt-4 p-4">
+                    <h6 className="mb-3">Histórico de Atendimento</h6>
                     {historicos.map((dado, index) => (
-                        <div key={index} className="card mb-3 border">
-                            <div className="card-body">
-                                <h6 className="card-subtitle text-muted">
-                                    {index + 1}. {dado.status}
-                                </h6>
+                        <div key={index} className="row shadow p-2 mb-3 rounded">
+                            <div className="col">
+                                <h6 className="mb-2">{index + 1}. {dado.status}</h6>
+                                <span className="d-block"><b>Autor:</b> {dado.nome}</span>
                                 <span className="d-block"><b>Meio de Contato:</b> {dado.meio_contato}</span>
                                 <span className="d-block"><b>Anotações:</b> {dado.msg}</span>
-
                                 <span className="small">Data: {dado.data_criacao}</span>
                             </div>
                         </div>

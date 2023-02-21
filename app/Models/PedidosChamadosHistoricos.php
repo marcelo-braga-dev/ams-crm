@@ -41,17 +41,7 @@ class PedidosChamadosHistoricos extends Model
 
     public function getMensagens($id)
     {
-        $dados = $this->newQuery()->where('chamados_id', $id)->get();
-
-        return $dados->map(function ($dados) {
-            return [
-                'status' => (new StatusChamados())->getNomeStatus($dados->status),
-                'msg' => $dados->msg,
-                'img' => $dados->url_img_1,
-                'prazo' => $dados->prazo,
-                'data' => date('d/m/y H:i', strtotime($dados->updated_at))
-            ];
-        });
+        return $this->newQuery()->where('chamados_id', $id)->get();
     }
 
     public function remover($id)

@@ -17,8 +17,7 @@ export default function ({dados}) {
     }
 
     return (
-        <Layout container titlePage="Migrar Conteúdo do Usuário">
-            <h4 className="mb-5">Migrar Dados de Consultor(a)</h4>
+        <Layout container titlePage="Migrar Conteúdo de Consultor(a)">
             <h6 className="text-danger d-block mb-3">ESSA OPERAÇÃO É IRREVERSÍVEL!</h6>
 
             <form>

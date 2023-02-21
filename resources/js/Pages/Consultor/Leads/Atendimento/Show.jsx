@@ -26,17 +26,18 @@ export default function Show({dados, status, contatos, historicos}) {
                            className="btn btn-primary btn-sm">Editar Dados</a>
                     </div>
                 </div>
+
                 <LeadsDados dados={dados}/>
-                <div className="row mt-4">
+
+                <div className="mt-4 p-4">
+                    <h6 className="mb-3">Histórico de Atendimento</h6>
                     {historicos.map((dado, index) => (
-                        <div key={index} className="card mb-3 border">
-                            <div className="card-body">
-                                <h6 className="card-subtitle text-muted">
-                                    {index + 1}. {dado.status}
-                                </h6>
+                        <div key={index} className="row shadow p-2 mb-3 rounded">
+                            <div className="col">
+                                <h6 className="mb-2">{index + 1}. {dado.status}</h6>
+                                <span className="d-block"><b>Autor:</b> {dado.nome}</span>
                                 <span className="d-block"><b>Meio de Contato:</b> {dado.meio_contato}</span>
                                 <span className="d-block"><b>Anotações:</b> {dado.msg}</span>
-
                                 <span className="small">Data: {dado.data_criacao}</span>
                             </div>
                         </div>

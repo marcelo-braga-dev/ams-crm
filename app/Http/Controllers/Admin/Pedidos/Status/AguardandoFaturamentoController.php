@@ -1,16 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Pedidos;
+namespace App\Http\Controllers\Admin\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
-use App\Models\PedidosImagens;
-use App\src\Pedidos\Pedido;
 use App\src\Pedidos\PedidoUpdateStatus;
 use App\src\Pedidos\SituacaoPedido;
-use App\src\Pedidos\Status\AguardandoPagamentoStatus;
-use App\src\Pedidos\Status\EntregueStatus;
-use App\src\Pedidos\Status\FaturadoStatus;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 

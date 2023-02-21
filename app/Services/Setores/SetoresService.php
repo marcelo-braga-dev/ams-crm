@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services\Notificacoes;
+namespace App\Services\Setores;
 
-use App\Models\Fornecedores;
+use App\Models\Setores;
 
-class FornecedoresService
+class SetoresService
 {
-    public function fornecedores()
+    public function setores()
     {
         $dados = [];
-        $items = (new Fornecedores())->getAll();
+        $categorias = (new Setores())->get();
 
-        foreach ($items as $item) {
+        foreach ($categorias as $item) {
             $dados[] = $this->dados($item);
         }
         return $dados;

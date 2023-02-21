@@ -98,27 +98,19 @@ export default function Filtering({pedidos}) {
 
 
     return (
-        <Layout titlePage="Histórico de Pedidos">
-            <div className="container bg-white p-2 py-4 rounded">
-                <div className="row justify-content-between px-4">
-                    <div className="col-md-auto">
-                        <h6>Histórico de Pedidos</h6>
-                    </div>
-                </div>
+        <Layout container titlePage="Histórico de Pedidos">
 
-                <DataTable
-                    columns={columns}
-                    data={filteredItems}
-                    pagination
-                    paginationPerPage={25}
-                    subHeader
-                    subHeaderComponent={subHeaderComponentMemo}
-                    striped
-                    highlightOnHover
-                    selectableRowsHighlight
-                />
-
-            </div>
+            <DataTable
+                columns={columns}
+                data={filteredItems}
+                pagination
+                paginationPerPage={25}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                striped
+                highlightOnHover
+                selectableRowsHighlight
+            />
         </Layout>
     );
 };

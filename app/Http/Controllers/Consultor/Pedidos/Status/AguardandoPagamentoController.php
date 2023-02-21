@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Supervisor\Pedidos;
+namespace App\Http\Controllers\Consultor\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
 use App\src\Pedidos\PedidoUpdateStatus;
+use App\src\Pedidos\SituacaoPedido;
 use Illuminate\Http\Request;
-
 use Inertia\Inertia;
 
 class AguardandoPagamentoController extends Controller
 {
     public function show($id)
     {
-        $dados = (new Pedidos)->getDadosPedido($id);
+        (new Pedidos())->updateSituacao($id, (new SituacaoPedido())->getAbertoTag());
 
-        return Inertia::render('Supervisor/Pedidos/AguardandoPagamento/Show',
+        $dados = (new Pedidos())->getDadosPedido($id);
+
+        return Inertia::render('Consultor/Pedidos/AguardandoPagamento/Show',
             compact('dados'));
     }
 
@@ -24,6 +26,6 @@ class AguardandoPagamentoController extends Controller
         (new PedidoUpdateStatus())->pagamento($id, $request);
 
         modalSucesso('Atualizado com sucesso!');
-        return redirect()->route('admin.pedidos.index');
+        return redirect()->route('consultor.pedidos.index');
     }
 }

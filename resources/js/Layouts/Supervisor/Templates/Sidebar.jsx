@@ -21,12 +21,12 @@ export default function Sidebar() {
                 {'menu': 'Encaminhar Leads', 'url': route('supervisor.clientes.leads.leads-main.index')},
                 {'menu': 'Alterar Consultor', 'url': route('supervisor.clientes.leads.alterar-consultor')},
             ]
-        }, {
-            'menu': 'Contas de Usuários',
-            'icone': 'fas fa-angle-double-right',
-            'submenu': [
-                {'menu': 'Usuários', 'url': route('supervisor.usuarios.usuario.index')},
-            ]
+        // }, {
+        //     'menu': 'Contas de Usuários',
+        //     'icone': 'fas fa-angle-double-right',
+        //     'submenu': [
+        //         {'menu': 'Usuários', 'url': route('supervisor.usuarios.usuario.index')},
+        //     ]
         }, {
             'menu': 'SAC',
             'icone': 'fas fa-angle-double-right',

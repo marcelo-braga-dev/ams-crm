@@ -11,9 +11,9 @@ export default function InfoCliente({setData, data}) {
     maskJquery()
 
     return <>
-        <Row className={"mt-4"}>
+        <div className="row mt-4">
             {/*Check Pessoa*/}
-            <Col>
+            <div className="col">
                 <FormControl>
                     <RadioGroup
                         row aria-labelledby="pessoa" defaultValue="Pessoa Física"
@@ -22,8 +22,8 @@ export default function InfoCliente({setData, data}) {
                         <FormControlLabel value="Jurídica" control={<Radio/>} label="Jurídica"/>
                     </RadioGroup>
                 </FormControl>
-            </Col>
-        </Row>
+            </div>
+        </div>
         <Row className={"mt-3"}>
             {data.pessoa === 'Pessoa Física' && (<Col className={"mb-3"} lg={"6"}>
                 <TextField required label="Nome" id="nome" fullWidth

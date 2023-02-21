@@ -6,9 +6,9 @@ use App\Models\Pedidos;
 
 class PedidosService
 {
-    public function todosPedidos()
+    public function todosPedidos(?int $setor = null)
     {
-        $pedidos = (new Pedidos())->pedidos();
+        $pedidos = (new Pedidos())->pedidos($setor);
         return $this->dados($pedidos);
     }
 

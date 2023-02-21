@@ -2,19 +2,19 @@ import Layout from "@/Layouts/Admin/Layout";
 
 export default function ({dados}) {
     return (
-        <Layout container titlePage="Categorias">
-            <div className="row justify-content-between">
-                <div className="col-auto"><h5>Categorias</h5></div>
+        <Layout container titlePage="Setores">
+            <div className="row justify-content-end">
                 <div className="col-auto">
-                    <a href={route('admin.config.categorias.create')} className="btn btn-primary">Cadastrar Categoria</a>
+                    <a href={route('admin.config.categorias.create')} className="btn btn-dark">
+                        Cadastrar Setor</a>
                 </div>
             </div>
             <div className="table table-responsive">
-                <table width="100%">
+                <table className="table">
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Categoria</th>
+                        <th>Setor</th>
                         <th></th>
                     </tr>
                     </thead>

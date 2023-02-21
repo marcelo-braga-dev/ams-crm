@@ -7,6 +7,7 @@ use App\Models\Pedidos;
 use App\Models\PedidosChamados;
 use App\Models\PedidosChamadosHistoricos;
 use App\Services\Chamados\ChamadoDadosCardService;
+use App\Services\Chamados\MensagensChamadosService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -23,7 +24,7 @@ class ChamadosController extends Controller
     {
         $chamado = (new PedidosChamados())->get($idChamado);
         $pedido = (new Pedidos())->getDadosPedido($chamado['id_pedido']);
-        $mensagens = (new PedidosChamadosHistoricos())->getMensagens($idChamado);
+        $mensagens = (new MensagensChamadosService())->mensagens($idChamado);
 
         return Inertia::render('Consultor/Chamados/Show',
             compact('chamado', 'pedido', 'mensagens'));

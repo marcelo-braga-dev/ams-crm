@@ -7,6 +7,7 @@ use App\Models\Pedidos;
 use App\Models\PedidosChamados;
 use App\Models\PedidosChamadosHistoricos;
 use App\Services\Chamados\ChamadoDadosCardService;
+use App\Services\Chamados\MensagensChamadosService;
 use App\src\Chamados\Status\FinalizadosChamadoStatus;
 use App\src\Chamados\Status\NovoChamadoStatus;
 use App\src\Chamados\Status\RespondidoChamadoStatus;
@@ -26,7 +27,7 @@ class ChamadosController extends Controller
     {
         $chamado = (new PedidosChamados())->get($id);
         $pedido = (new Pedidos())->getDadosPedido($chamado['id_pedido']);
-        $mensagens = (new PedidosChamadosHistoricos())->getMensagens($id);
+        $mensagens = (new MensagensChamadosService())->mensagens($id);
 
         return Inertia::render('Supervisor/Chamados/Show',
             compact('pedido', 'chamado', 'mensagens'));
@@ -51,7 +52,7 @@ class ChamadosController extends Controller
     {
         $chamado = (new PedidosChamados())->get($id);
         $pedido = (new Pedidos())->getDadosPedido($chamado['id_pedido']);
-        $mensagens = (new PedidosChamadosHistoricos())->getMensagens($id);
+        $mensagens = (new MensagensChamadosService())->mensagens($id);
 
         return Inertia::render('Supervisor/Chamados/Edit',
             compact('chamado', 'pedido', 'mensagens'));

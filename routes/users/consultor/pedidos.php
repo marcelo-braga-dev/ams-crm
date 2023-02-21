@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Consultor\Pedidos\AguardandoPagamentoController;
 use App\Http\Controllers\Consultor\Pedidos\FaturadoController;
 use App\Http\Controllers\Consultor\Pedidos\HistoricoController;
-use App\Http\Controllers\Consultor\Pedidos\RevisarController;
 use App\Http\Controllers\Consultor\Pedidos\PedidosController;
+use App\Http\Controllers\Consultor\Pedidos\Status\AguardandoPagamentoController;
+use App\Http\Controllers\Consultor\Pedidos\Status\RevisarController;
 use Illuminate\Support\Facades\Route;
 
 // Pedidos

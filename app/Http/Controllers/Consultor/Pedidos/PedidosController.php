@@ -26,7 +26,7 @@ class PedidosController extends Controller
 
     public function create()
     {
-        $fornecedores = (new Fornecedores())->getAll();
+        $fornecedores = (new Fornecedores())->getAll(auth()->user()->setor);
         $integradores = (new Integradores())->getUsuario();
 
         return Inertia::render('Consultor/Pedidos/Pedido/Create/Create',

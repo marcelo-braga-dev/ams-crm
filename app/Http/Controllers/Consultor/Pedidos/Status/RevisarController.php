@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Consultor\Pedidos;
+namespace App\Http\Controllers\Consultor\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
-use App\Models\Fornecedores;
 use App\Models\Integradores;
 use App\Models\Pedidos;
 use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
+use App\Services\Fornecedores\FornecedoresService;
 use App\src\Pedidos\PedidoUpdateStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use Illuminate\Database\QueryException;
@@ -20,12 +20,14 @@ class RevisarController extends Controller
 {
     public function edit($id)
     {
-        $pedido = (new Pedidos())->newQuery()->findOrFail($id);
+        $pedido = (new Pedidos())->find($id);
         $cliente = (new PedidosClientes())->getCliente($pedido->id);
         $img = (new PedidosImagens())->getImagens($pedido->id);
-        $fornecedores = (new Fornecedores())->newQuery()->get();
+
         $endereco = (new Enderecos())->get($cliente->endereco);
         $integradores = (new Integradores())->getUsuario();
+
+        $fornecedores = (new FornecedoresService())->fornecedores(auth()->user()->setor);
 
         return Inertia::render('Consultor/Pedidos/Revisar/Edit',
             compact('pedido', 'cliente', 'img', 'fornecedores', 'endereco', 'integradores'));

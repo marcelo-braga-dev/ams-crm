@@ -1,30 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Pedidos;
+namespace App\Http\Controllers\Admin\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
-use App\src\Pedidos\Pedido;
 use App\src\Pedidos\PedidoUpdateStatus;
-use App\src\Pedidos\Status\CanceladoStatus;
-use App\src\Pedidos\Status\LancadoStatus;
-use App\src\Pedidos\Status\RevisarStatusPedido;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class CanceladoController extends Controller
+class FaturadoController extends Controller
 {
     public function show($id)
     {
         $pedido = (new Pedidos)->getDadosPedido($id);
 
-        return Inertia::render('Admin/Pedidos/Cancelado/Show',
-            compact('pedido'));
+        return Inertia::render('Admin/Pedidos/Faturado/Show', compact('pedido'));
     }
 
     public function update($id, Request $request)
     {
-        (new PedidoUpdateStatus())->cancelado($id, $request);
+        (new PedidoUpdateStatus())->faturado($id);
 
         modalSucesso('Atualizado com sucesso!');
         return redirect()->route('admin.pedidos.index');

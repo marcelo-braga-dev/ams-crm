@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Supervisor\Pedidos;
+namespace App\Http\Controllers\Admin\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
@@ -14,7 +14,7 @@ class ConferenciaController extends Controller
     {
         $pedido = (new Pedidos())->getDadosPedido($id);
 
-        return Inertia::render('Supervisor/Pedidos/Conferencia/Show',
+        return Inertia::render('Admin/Pedidos/Conferencia/Show',
             compact('pedido'));
     }
 

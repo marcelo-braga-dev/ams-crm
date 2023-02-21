@@ -6,16 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
 use App\Models\Setores;
 use App\Services\Fornecedores\FornecedoresService;
+use App\Services\Setores\SetoresService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use function GuzzleHttp\Promise\all;
 
 class FornecedoresController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $fornecedores = (new FornecedoresService())->todos();
-        return Inertia::render('Admin/Fornecedores/Index', compact('fornecedores'));
+        $setorAtual = $request->setor;
+        $setores = (new SetoresService())->setores();
+
+        $fornecedores = (new FornecedoresService())->fornecedores($setorAtual);
+
+        return Inertia::render('Admin/Fornecedores/Index',
+            compact('fornecedores', 'setores', 'setorAtual'));
     }
 
     public function create()

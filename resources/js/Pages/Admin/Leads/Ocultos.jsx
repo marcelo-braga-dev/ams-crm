@@ -163,14 +163,14 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
 
     return (
         <Layout container titlePage="Leads Ocultos" voltar={route('admin.clientes.leads.leads-cadastrados')}>
-            <h4 className="mb-4">Leads Ocultos</h4>
+
             <h6>Setores</h6>
             <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
                 {categorias.map((categoria, index) => {
                     return (
                         <a type="button" key={index}
                            href={route('admin.clientes.leads.leads-cadastrados', {categoria: categoria.id})}
-                           className={(categoria.id == categoriaAtual ? 'active' : '') + " btn btn-outline-primary "}>
+                           className={(categoria.id == categoriaAtual ? 'active' : '') + " btn btn-outline-dark"}>
                             {categoria.nome}
                         </a>
                     )
@@ -178,7 +178,7 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
             </div>
             <div className="row justify-content-between mx-4">
                 <div className="col-md-auto ">
-                    <button type="button" className="btn btn-primary"
+                    <button type="button" className="btn btn-dark"
                             onClick={() => restaurar()}>
                         Restaurar Selecionados
                     </button>

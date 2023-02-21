@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Supervisor\Pedidos;
+namespace App\Http\Controllers\Admin\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
@@ -12,7 +12,7 @@ class EntregueController extends Controller
     {
         $pedido = (new Pedidos)->newQuery()->findOrFail($id);
 
-        return Inertia::render('Supervisor/Pedidos/Entregue/Show',
+        return Inertia::render('Admin/Pedidos/Entregue/Show',
             compact('pedido'));
     }
 }

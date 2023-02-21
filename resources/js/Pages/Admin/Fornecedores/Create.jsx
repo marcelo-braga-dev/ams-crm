@@ -20,7 +20,6 @@ export default function Register({setores}) {
             {errors.email && <Alert severity="error" className={"mb-3"}>{errors.email}</Alert>}
 
             <form onSubmit={submit}>
-                <Typography component="h5">Cadastro de Fornecedores</Typography>
                 <div className="row mb-3 mt-3 text-right">
                     <div className="col mb-3">
                         <TextField label="Empresa" required

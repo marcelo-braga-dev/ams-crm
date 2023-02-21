@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Pedidos;
+namespace App\Http\Controllers\Admin\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;

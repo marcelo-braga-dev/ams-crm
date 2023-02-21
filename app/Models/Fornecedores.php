@@ -36,17 +36,22 @@ class Fornecedores extends Model
         return $dados;
     }
 
-    public function getAll()
+    public function getAll(?int $setor)
     {
-        return $this->newQuery()->get();
+        $query = $this->newQuery();
+        if ($setor) $query->where('setor', $setor);
+
+        return $query->orderByDesc('id')->get();
     }
 
     public function create($dados)
     {
+        $setor = $dados->get('setor') ?? auth()->user()->setor;
+
         $this->newQuery()
             ->create([
                 'nome' => $dados->get('nome'),
-                'setor' => $dados->get('setor'),
+                'setor' => $setor,
                 'cnpj' => $dados->get('cnpj'),
                 'atendente' => $dados->get('atendente'),
                 'telefone' =>$dados->get('telefone'),

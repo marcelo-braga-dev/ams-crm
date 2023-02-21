@@ -64,10 +64,13 @@ class Pedidos extends Model
         return $pedido->id;
     }
 
-    public function pedidos()
+    public function pedidos(?int $setor)
     {
-        return $this->newQuery()
-            ->orderByDesc('id')
+        $query = $this->newQuery();
+
+        if ($setor) $query->where('setor', $setor);
+
+        return $query->orderByDesc('id')
             ->get();
     }
 
@@ -158,9 +161,10 @@ class Pedidos extends Model
     }
 
     // Dados para os card admin
-    public function getDadosCards(?int $fornecedorAtual)
+    public function getDadosCards(?int $fornecedorAtual, ?int $setorAtual)
     {
         $query = $this->newQuery();
+        if ($setorAtual) $query->where('setor', $setorAtual);
         if ($fornecedorAtual) $query->where('fornecedor', $fornecedorAtual);
 
         return $query->get([
