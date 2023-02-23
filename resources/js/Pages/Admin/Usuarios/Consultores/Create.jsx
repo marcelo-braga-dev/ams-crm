@@ -14,13 +14,13 @@ export default function Register({setores}) {
     };
 
     return (
-        <Layout container titlePage="Cadastrar Consultor" voltar={route('admin.usuarios.usuario.index')}>
+        <Layout container titlePage="Cadastrar Consultor" voltar={route('admin.usuarios.usuario.index')}
+                menu="usuarios" submenu="contas">
 
             {errors.nome && <Alert severity="error" className={"mb-3"}>{errors.nome}</Alert>}
             {errors.senha && <Alert severity="error" className={"mb-3"}>{errors.senha}</Alert>}
             {errors.email && <Alert severity="error" className={"mb-3"}>{errors.email}</Alert>}
             <form onSubmit={submit}>
-                <h6>Cadastro de Consultor</h6>
                 <div className="row">
                     <div className="col-md-4">
                         {/*Setores*/}

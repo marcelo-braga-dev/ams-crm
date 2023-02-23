@@ -22,7 +22,8 @@ export default function Pedidos({prazos}) {
     }
 
     return (
-        <Layout container voltar={route('admin.pedidos.index')} titlePage="Consfigurações de Pedidos">
+        <Layout container voltar={route('admin.pedidos.index')} titlePage="Consfigurações de Pedidos"
+                menu="pedidos" submenu="config">
 
             <Typography variant={"h6"} className={"mb-4"}>Prazos dos Status</Typography>
             <form onSubmit={submit}>

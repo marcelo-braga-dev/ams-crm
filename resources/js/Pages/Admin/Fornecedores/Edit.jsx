@@ -25,7 +25,9 @@ export default function Edit({dados, setores}) {
         })
     }
 
-    return (<Layout container voltar={route('admin.fornecedores.index')} titlePage="Cadastrar Fornecedor">
+    return (
+        <Layout container voltar={route('admin.fornecedores.index')} titlePage="Cadastrar Fornecedor"
+                menu="fornecedores" submenu="lista">
 
         {errors.nome && <Alert severity="error" className={"mb-3"}>{errors.empresa}</Alert>}
         {errors.senha && <Alert severity="error" className={"mb-3"}>{errors.senha}</Alert>}

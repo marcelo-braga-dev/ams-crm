@@ -24,12 +24,12 @@ export default function ScrollControlHorizontal({lateral = null}) {
 
     function toggleBtn(posicaoFinal, posicaoAtual, larguraTabela) {
         // Botao Direito
-        if (posicaoAtual > larguraTabela) $('.btn-scroll-right').removeClass('btn-primary');
-        else $('.btn-scroll-right').addClass('btn-primary');
+        if (posicaoAtual > larguraTabela) $('.btn-scroll-right').removeClass('btn-dark');
+        else $('.btn-scroll-right').addClass('btn-dark');
 
         // Botao Esquerdo
-        if (posicaoFinal < 10) $('.btn-scroll-left').removeClass('btn-primary');
-        else $('.btn-scroll-left').addClass('btn-primary');
+        if (posicaoFinal < 10) $('.btn-scroll-left').removeClass('btn-dark');
+        else $('.btn-scroll-left').addClass('btn-dark');
 
         // Encontra elemento na tela
         // const x = document.getElementById('lancado');
@@ -65,7 +65,7 @@ export default function ScrollControlHorizontal({lateral = null}) {
                     onMouseEnter={() => moveScroll(1)}
                     onClick={() => moveScroll(1)}>
             <div className="col" style={{minHeight: '100%'}}>
-                <button className="btn btn-primary btn-scroll-right" type="button">
+                <button className="btn btn-dark btn-scroll-right" type="button">
                     <i className="fas fa-arrow-right"></i>
                 </button>
             </div>
@@ -73,10 +73,10 @@ export default function ScrollControlHorizontal({lateral = null}) {
     }
 
     return <>
-        <button className="btn btn-primary mx-2 btn-scroll-left" onClick={() => moveScroll(0)} type="button">
+        <button className="btn btn-dark mx-2 btn-scroll-left" onClick={() => moveScroll(0)} type="button">
             <i className="fas fa-arrow-left"></i>
         </button>
-        <button className="btn btn-primary mx-2 btn-scroll-right" onClick={() => moveScroll(1)}>
+        <button className="btn btn-dark mx-2 btn-scroll-right" onClick={() => moveScroll(1)}>
             <i className="fas fa-arrow-right"></i>
         </button>
     </>

@@ -1,30 +1,48 @@
 import * as React from "react";
 
-export default function Sidebar() {
+export default function Sidebar({menuSidebar, submenuSidebar}) {
     const logo = "/storage/crm/imagens/logo_ams.png";
 
     const pages = [
         {
             'menu': 'Pedidos',
+            'tag': 'pedidos',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Lista de Pedidos', 'url': route('admin.pedidos.index')},
-                {'menu': 'Histórico', 'url': route('admin.historico.index')},
-                {'menu': 'Configurações', 'url': route('admin.config.index')}
+                {'menu': 'Lista de Pedidos', 'url': route('admin.pedidos.index'), 'tag': 'lista'},
+                {'menu': 'Histórico', 'url': route('admin.historico.index'), 'tag': 'historico'},
+                {'menu': 'Configurações', 'url': route('admin.config.index'), 'tag': 'config'}
+            ]
+        }, {
+            'menu': 'Chat Interno',
+            'tag': 'chat-interno',
+            'icone': 'fas fa-angle-double-right',
+            'submenu': [
+                {'menu': 'Mensagens', 'url': route('admin.chat-interno.index'), 'tag': 'mensagens'},
             ]
         }, {
             'menu': 'Leads',
+            'tag': 'leads',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Relatórios', 'url': route('admin.clientes.leads.relatorios.index')},
-                {'menu': 'Leads Cadastrados', 'url': route('admin.clientes.leads.leads-cadastrados')},
-                {'menu': 'Cadastrar Leads', 'url': route('admin.clientes.leads.leads-main.create')},
-                {'menu': 'Encaminhar Leads', 'url': route('admin.clientes.leads.leads-main.index')},
-                {'menu': 'Alterar Consultor', 'url': route('admin.clientes.leads.alterar-consultor')},
+                {'menu': 'Relatórios', 'url': route('admin.clientes.leads.relatorios.index'), 'tag': 'relatorios'},
+                {
+                    'menu': 'Leads Cadastrados',
+                    'url': route('admin.clientes.leads.leads-cadastrados'),
+                    'tag': 'cadastrados'
+                },
+                {'menu': 'Cadastrar Leads', 'url': route('admin.clientes.leads.leads-main.create'), 'tag': 'cadastrar'},
+                {
+                    'menu': 'Encaminhar Leads',
+                    'url': route('admin.clientes.leads.leads-main.index'),
+                    'tag': 'encaminhar'
+                },
+                {'menu': 'Alterar Consultor', 'url': route('admin.clientes.leads.alterar-consultor'), 'tag': 'alterar'},
             ]
         }, {
             'menu': 'E-mails',
             'icone': 'fas fa-angle-double-right',
+            'tag': 'emails',
             'submenu': [
                 {'menu': 'Caixa de Entrada', 'url': route('admin.emails.index')},
                 {'menu': 'Enviar Email', 'url': route('admin.emails.create')},
@@ -32,51 +50,52 @@ export default function Sidebar() {
             ]
         }, {
             'menu': 'Contas de Usuários',
+            'tag': 'usuarios',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Usuários', 'url': route('admin.usuarios.usuario.index')},
-                {'menu': 'Migrar Conteúdo', 'url': route('admin.usuarios.migrar.index')},
+                {'menu': 'Usuários', 'url': route('admin.usuarios.usuario.index'), 'tag': 'contas'},
+                {'menu': 'Migrar Conteúdo', 'url': route('admin.usuarios.migrar.index'), 'tag': 'migrar'},
             ]
         }, {
             'menu': 'SAC',
+            'tag': 'sac',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Chamados', 'url': route('admin.chamado.index')},
+                {'menu': 'Chamados', 'url': route('admin.chamado.index'), 'tag': 'chamados'},
             ]
         }, {
             'menu': 'Fornecedores',
+            'tag': 'fornecedores',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Forncedeores', 'url': route('admin.fornecedores.index')},
+                {'menu': 'Forncedeores', 'url': route('admin.fornecedores.index'), 'tag': 'lista'},
             ]
         }, {
             'menu': 'Configurações',
+            'tag': 'config',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Setores', 'url': route('admin.config.categorias.index')},
+                {'menu': 'Setores', 'url': route('admin.config.categorias.index'), 'tag': 'setores'},
             ]
-        },{
+        }, {
             'menu': 'Desenvolvimento',
+            'tag': 'dev',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Registros', 'url': route('admin.dev.index')},
-                {'menu': 'Cadastrar', 'url': route('admin.dev.create')},
+                {'menu': 'Registros', 'url': route('admin.dev.index'), 'tag': 'registros'},
+                {'menu': 'Cadastrar', 'url': route('admin.dev.create'), 'tag': 'cadastrar'},
             ]
         },
     ];
 
     function pageCurrent(url) {
-        const urlAtual = window.location.protocol + '//' + window.location.host + window.location.pathname
-        if (url === urlAtual) {
-            return {color: 'black', fontWeight: 600};
-        }
+        return {color: 'black', fontWeight: 600};
     }
 
     return (<>
             <div className="position-absolute w-100" style={{minHeight: 80, "backgroundColor": "#252525"}}></div>
-            <aside
-                className="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-radius-xl my-3 fixed-start ms-4"
-                id="sidenav-main">
+            <aside id="sidenav-main"
+                   className="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-radius-xl my-3 fixed-start ms-4">
                 <div style={{"backgroundColor": "#252525"}}>
                     <a href="/">
                         <div className="text-center py-3">
@@ -84,32 +103,38 @@ export default function Sidebar() {
                         </div>
                     </a>
                 </div>
-                <div className="horizontal pe-3 ps-2 mt-3">
+                <div className="horizontal px-1 mt-3">
                     <div className="accordion accordion-flush w-auto mb-6" id="accordionFlushSidebar">
 
                         {/*ITEMS*/}
-                        {pages.map(({menu, icone, submenu}, index) => (
-                            <div key={index} className="accordion-item text-dark navbar-nav border-bottom">
+                        {pages.map(({menu, icone, submenu, tag}, index) => (
+                            <div key={index} className="accordion-item text-dark navbar-nav border-bottom py-1">
                                 <div className="accordion-header nav-item" id={"flush-heading-" + index}>
-                                    <div className="accord ion-button collap sed nav-link p-1"
-                                         data-bs-toggle="collapse"
-                                         data-bs-target={"#flush-coll apse-" + index} aria-expanded="false"
-                                         aria-controls={"flush-coll apse-" + index}>
+                                    <div
+                                        className={(tag === menuSidebar ? '' : 'collapsed ') + "accordion-button nav-link p-1 m-0"}
+                                        data-bs-toggle="collapse"
+                                        data-bs-target={"#flush-collapse-" + index} aria-expanded="false"
+                                        aria-controls={"flush-collapse-" + index}>
                                         <div
-                                            className="icon icon-shape icon-sm border-radius-md text-center d-flex align-items-center justify-content-center">
-                                            <i className={icone + " text-primary text-sm opacity-10"}></i>
+                                            className="icon icon-sm border-radius-md d-flex align-items-center">
+                                            <i className={icone + " text-dark text-sm opacity-10"}></i>
                                         </div>
-                                        <span className="ms-2 p">{menu}</span>
+                                        <span className="ms-2 font-weight-bold">{menu}</span>
                                     </div>
                                 </div>
-                                <div id={"flush-collapse-" + index} className="accordion-collapse nav-item"
+
+                                <div id={"flush-collapse-" + index}
+                                     className={(tag === menuSidebar ? 'show ' : 'x') + "accordion-collapse nav-item collapse"}
                                      aria-labelledby={"flush-heading-" + index}
                                      data-bs-parent="#accordionFlushSidebar">
 
-                                    {submenu.map(({menu, url}, i) => (
+                                    {submenu.map(({menu, url, tag}, i) => (
                                         <a href={url} key={i} className="text-sm text-muted">
                                             <div className="accordion-body p-0 ms-5 mb-2">
-                                                <span className="nav-link-text" style={pageCurrent(url)}>{menu}</span>
+                                                <span className="nav-link-text"
+                                                      style={tag === submenuSidebar ? pageCurrent() : {}}>
+                                                    {menu}
+                                                </span>
                                             </div>
                                         </a>
                                     ))}

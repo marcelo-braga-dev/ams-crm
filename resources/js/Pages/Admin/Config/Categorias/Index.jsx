@@ -2,7 +2,8 @@ import Layout from "@/Layouts/Admin/Layout";
 
 export default function ({dados}) {
     return (
-        <Layout container titlePage="Setores">
+        <Layout container titlePage="Setores"
+                menu="config" submenu="setores">
             <div className="row justify-content-end">
                 <div className="col-auto">
                     <a href={route('admin.config.categorias.create')} className="btn btn-dark">

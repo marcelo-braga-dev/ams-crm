@@ -10,14 +10,14 @@ export default function Create({pedido}) {
     const {setData, post} = useForm({
         id: pedido.pedido.id
     });
-
     function submit(e) {
         e.preventDefault()
         post(route('admin.chamado.store'))
     }
 
     return (
-        <Layout container titlePage="Abrir SAQ" voltar={route('admin.pedidos.index')}>
+        <Layout container titlePage="Abrir SAQ" voltar={route('admin.pedidos.index')}
+                menu="sac" submenu="chamados">
             <form onSubmit={submit}>
                 <div className="row mb-4">
                     <div className="col">

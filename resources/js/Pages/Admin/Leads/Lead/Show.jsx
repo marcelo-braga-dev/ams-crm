@@ -3,7 +3,7 @@ import Layout from "@/Layouts/Admin/Layout";
 
 export default function Show({dados, historicos}) {
     return (
-        <Layout container titlePage="Lead - Em Atendimento">
+        <Layout container titlePage="Informações do Lead" menu="leads" submenu="cadastrados">
             <div className="mb-4">
                 <div className="row justify-content-end">
                     <div className="col-auto">

@@ -14,7 +14,8 @@ export default function Register({setores}) {
     };
 
     return (
-        <Layout container titlePage="Cadastrar Fornecedor" voltar={route('admin.fornecedores.index')}>
+        <Layout container titlePage="Cadastrar Fornecedor" voltar={route('admin.fornecedores.index')}
+                menu="fornecedores" submenu="lista">
             {errors.nome && <Alert severity="error" className={"mb-3"}>{errors.empresa}</Alert>}
             {errors.senha && <Alert severity="error" className={"mb-3"}>{errors.senha}</Alert>}
             {errors.email && <Alert severity="error" className={"mb-3"}>{errors.email}</Alert>}

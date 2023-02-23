@@ -2,7 +2,7 @@ import React from 'react'
 import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
 
 export default function CardChamados({dados, urlAbrir}) {
-console.log(dados)
+
     return (
         <>
             <div className="row bg-white shadow p-1 py-2 m-1 mb-4 rounded" style={{minWidth: 200}}>

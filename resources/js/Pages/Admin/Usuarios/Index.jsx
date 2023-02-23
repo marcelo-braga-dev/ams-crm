@@ -51,7 +51,8 @@ export default function Index({usuarios}) {
         setValue(newValue);
     };
     // Tab - fim
-    return (<Layout container titlePage="Usuários">
+    return (<Layout container titlePage="Usuários"
+                    menu="usuarios" submenu="contas">
         <Box sx={{width: '100%'}}>
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

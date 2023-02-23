@@ -162,7 +162,8 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
     // Form Restaurar - fim
 
     return (
-        <Layout container titlePage="Leads Ocultos" voltar={route('admin.clientes.leads.leads-cadastrados')}>
+        <Layout container titlePage="Leads Ocultos" voltar={route('admin.clientes.leads.leads-cadastrados')}
+                menu="leads" submenu="ocultos">
 
             <h6>Setores</h6>
             <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">

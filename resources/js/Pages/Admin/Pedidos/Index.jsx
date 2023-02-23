@@ -18,12 +18,12 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-import ScrollControlHorizontal from '@/Helpers/scrollControlHorizontal'
+import ScrollControlHorizontal from '@/Helpers/scrollControlHorizontal';
 
 export default function Pedidos({pedidos, setores, setorAtual, fornecedores, fornecedorAtual}) {
 
     return (
-        <Layout titlePage="Lista de Pedidos">
+        <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="lista">
             {/*Setores*/}
             <div className="row mb-2">
                 <h6>Setores</h6>
@@ -77,13 +77,14 @@ export default function Pedidos({pedidos, setores, setorAtual, fornecedores, for
                     <div className="col-auto  text-right">
                         <FormControl variant="outlined" className="bg-white" size="small">
                             <InputLabel htmlFor="search">Pesquisar...</InputLabel>
-                            <OutlinedInput id="search" label="Pesquisar..."
-                                           endAdornment={
-                                               <InputAdornment position="end">
-                                                   <SearchOutlinedIcon></SearchOutlinedIcon>
-                                               </InputAdornment>
-                                           }
-                                           onChange={e => pesquisaCards(e.target.value)}/>
+                            <OutlinedInput
+                                id="search" label="Pesquisar..."
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <SearchOutlinedIcon></SearchOutlinedIcon>
+                                    </InputAdornment>
+                                }
+                                onChange={e => pesquisaCards(e.target.value)}/>
                         </FormControl>
                     </div>
                     <div className="col-auto">

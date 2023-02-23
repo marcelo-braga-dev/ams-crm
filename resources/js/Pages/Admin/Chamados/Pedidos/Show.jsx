@@ -4,13 +4,12 @@ import * as React from 'react';
 export default function Show({chamados, idPedido}) {
 
     return (
-        <Layout titlePage="Pedidos SAC" container voltar={route('admin.pedidos.index')}>
-            <div className="row justify-content-between mb-3">
+        <Layout titlePage="SAC" container voltar={route('admin.pedidos.index')}
+                menu="sac" submenu="chamados">
+            <div className="row justify-content-end mb-3">
                 <div className="col-auto">
-                    <h5 className="mb-4">Chamados</h5>
-                </div>
-                <div className="col-auto">
-                    <a href={route('admin.chamado.create', {id: idPedido})} className="btn btn-primary btn-sm">Abrir SAC</a>
+                    <a href={route('admin.chamado.create', {id: idPedido})} className="btn btn-dark btn-sm">Abrir
+                        SAC</a>
                 </div>
             </div>
 

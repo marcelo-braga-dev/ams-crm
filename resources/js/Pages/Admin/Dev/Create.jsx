@@ -15,7 +15,8 @@ export default function Create({dataAtual}) {
     }
 
     return (
-        <Layout container titlePage="Cadastrar - Desenvolvimento">
+        <Layout container titlePage="Cadastrar - Desenvolvimento"
+                menu="dev" submenu="cadastrar">
             <form onSubmit={submit}>
                 <div className="row">
                     <div className="col mb-4">

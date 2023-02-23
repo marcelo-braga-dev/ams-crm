@@ -13,4 +13,5 @@ Route::middleware(['auth', 'auth.admins'])
         require __DIR__ . '/emails.php';
         require __DIR__ . '/config.php';
         require __DIR__ . '/dev.php';
+        require __DIR__ . '/chat-interno.php';
     });

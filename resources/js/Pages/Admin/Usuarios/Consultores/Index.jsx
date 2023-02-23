@@ -3,7 +3,8 @@ import {Button, Card, Col, Container, Row, Table} from "reactstrap";
 
 export default function Index({consultores}) {
 
-    return (<Layout titlePage="Consultores">
+    return (<Layout titlePage="Consultores"
+                    menu="usuarios" submenu="contas">
 
         <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 rounded">
             <Row className={"mb-3 text-right"}>

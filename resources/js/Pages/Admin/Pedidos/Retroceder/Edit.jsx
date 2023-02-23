@@ -7,10 +7,9 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 
 export default function Create({dados}) {
-    const {data, setData, progress} = useForm({
+    const {data, setData} = useForm({
         file_nota: ''
     });
-
     function submit(e) {
         e.preventDefault()
         router.post(route('admin.retroceder.update', dados.pedido.id), {
@@ -18,7 +17,8 @@ export default function Create({dados}) {
         })
     }
 
-    return (<Layout titlePage="Retroceder Pedido">
+    return (<Layout titlePage="Retroceder Pedido" container voltar={route('admin.pedidos.index')}
+                    menu="pedidos" submenu="lista">
 
             <div className="container bg-white px-lg-6 py-lg-5">
                 <form onSubmit={submit}>

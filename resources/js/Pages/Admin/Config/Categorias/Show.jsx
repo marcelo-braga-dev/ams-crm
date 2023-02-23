@@ -2,7 +2,8 @@ import Layout from "@/Layouts/Admin/Layout";
 
 export default function ({dados}) {
     return (
-        <Layout container titlePage="Informações do Setor" voltar={route('admin.config.categorias.index')}>
+        <Layout container titlePage="Informações do Setor" voltar={route('admin.config.categorias.index')}
+                menu="config" submenu="setores">
 
             <div className="row justify-content-between">
                 <div className="col mb-4">

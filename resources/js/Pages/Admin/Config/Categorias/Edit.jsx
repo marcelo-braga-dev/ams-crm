@@ -7,7 +7,6 @@ export default function ({dados}) {
         nome: dados.nome
     });
 
-
     function submit(e) {
         e.preventDefault()
         router.post(route('admin.config.categorias.update', dados.id), {
@@ -17,7 +16,8 @@ export default function ({dados}) {
     }
 
     return (
-        <Layout container titlePage="Cadastrar Categoria" voltar={route('admin.config.categorias.index')}>
+        <Layout container titlePage="Cadastrar Categoria" voltar={route('admin.config.categorias.index')}
+                menu="config" submenu="setores">
 
             <form onSubmit={submit}>
                 <div className="row mb-4">

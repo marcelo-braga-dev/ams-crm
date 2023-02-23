@@ -46,7 +46,7 @@ export default function Pedidos({pedido}) {
     }
 
     return (
-        <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedidos">
+        <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido em Conferência" menu="pedidos" submenu="lista">
             <BoxShadow>
                 {pedido.pedido.alerta && <Alert severity="info">
                     <b>PEDIDO PASSOU POR REVISÃO</b><br/>

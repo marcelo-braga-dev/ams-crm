@@ -3,7 +3,9 @@ import Typography from "@mui/material/Typography";
 
 export default function Index({usuario}) {
 
-    return (<Layout titlePage="Informações do Consultor" container voltar={route('admin.usuarios.usuario.index')}>
+    return (<Layout titlePage="Informações do Consultor" container
+                    voltar={route('admin.usuarios.usuario.index')}
+                    menu="usuarios" submenu="contas">
         <div className="row p-4 justify-content-between">
             <div className="col">
                 <Typography>Nome: {usuario.nome}</Typography>

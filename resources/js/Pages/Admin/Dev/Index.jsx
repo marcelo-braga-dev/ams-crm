@@ -14,7 +14,8 @@ import DoubleScrollbar from 'react-double-scrollbar/dist/DoubleScrollbar';
 export default function Pedidos({dados}) {
 
     return (
-        <Layout titlePage="Desenvolvimento">
+        <Layout titlePage="Desenvolvimento"
+                menu="dev" submenu="registros">
             <div className="container">
                 <DoubleScrollbar>
                     <table className="my-2">

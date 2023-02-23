@@ -17,7 +17,8 @@ export default function ({dados}) {
     }
 
     return (
-        <Layout container titlePage="Migrar Conteúdo de Consultor(a)">
+        <Layout container titlePage="Migrar Conteúdo de Consultor(a)"
+                menu="usuarios" submenu="migrar">
             <h6 className="text-danger d-block mb-3">ESSA OPERAÇÃO É IRREVERSÍVEL!</h6>
 
             <form>

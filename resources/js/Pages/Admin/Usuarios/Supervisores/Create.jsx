@@ -20,7 +20,9 @@ export default function Register({setores}) {
         post(route('admin.usuarios.supervisores.store'));
     };
 
-    return (<Layout titlePage="Cadastrar Supervisor" container voltar={route('admin.usuarios.usuario.index')}>
+    return (<Layout titlePage="Cadastrar Supervisor" container
+                    voltar={route('admin.usuarios.usuario.index')}
+                    menu="usuarios" submenu="contas">
 
         {errors.nome && <Alert severity="error" className={"mb-3"}>{errors.nome}</Alert>}
         {errors.senha && <Alert severity="error" className={"mb-3"}>{errors.senha}</Alert>}

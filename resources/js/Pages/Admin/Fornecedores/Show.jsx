@@ -2,7 +2,8 @@ import Layout from "@/Layouts/Admin/Layout";
 
 export default function Show({dados}) {
     return (
-        <Layout container titlePage="Informações do Fornecedor" voltar={route('admin.fornecedores.index')}>
+        <Layout container titlePage="Informações do Fornecedor" voltar={route('admin.fornecedores.index')}
+                menu="fornecedores" submenu="lista">
 
             <div className="row">
                 <div className="col">

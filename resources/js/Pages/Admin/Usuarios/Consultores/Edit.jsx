@@ -27,7 +27,9 @@ export default function Edit({usuario, setores, errors}) {
     };
 
     return (
-        <Layout container errors={errors} titlePage="Atualizar Dados" voltar={route('admin.usuarios.consultores.show', usuario.id)}>
+        <Layout container errors={errors} titlePage="Atualizar Dados"
+                voltar={route('admin.usuarios.consultores.show', usuario.id)}
+                menu="usuarios" submenu="contas">
 
             <form onSubmit={submit} className="border-bottom">
                 <h6>Atualizar dados do usuário</h6>

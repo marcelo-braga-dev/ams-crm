@@ -25,7 +25,8 @@ export default function Create({pedido}) {
         })
     }
 
-    return (<Layout container voltar={route('admin.pedidos.index')} titlePage="Pedidos">
+    return (<Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido Aguardando Faturamento"
+                    menu="pedidos" submenu="lista">
             <BoxShadow>
                 <div className="row">
                     <div className="col mb-4">

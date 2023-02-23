@@ -13,6 +13,13 @@ export default function Sidebar() {
                 {'menu': 'Históricos', 'url': route('consultor.historicos.index')},
             ]
         }, {
+            'menu': 'Chat Interno',
+            'tag': 'chat-interno',
+            'icone': 'fas fa-angle-double-right',
+            'submenu': [
+                {'menu': 'Mensagens', 'url': route('consultor.chat-interno.index'), 'tag': 'mensagens'},
+            ]
+        }, {
             'menu': 'Leads',
             'icone': 'fas fa-angle-double-right',
             'submenu': [

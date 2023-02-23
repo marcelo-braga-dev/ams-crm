@@ -23,7 +23,8 @@ export default function Pedidos({dados}) {
     }
 
     return (
-        <Layout container titlePage="Pedidos" voltar={route('admin.pedidos.index')}>
+        <Layout container titlePage="Pedido Aguardando Pagamento" voltar={route('admin.pedidos.index')}
+                menu="pedidos" submenu="lista">
             <div className="row shadow p-2 mb-4">
                 <div className="row mb-4">
                     <div className="col">

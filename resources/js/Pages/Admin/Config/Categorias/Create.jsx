@@ -10,7 +10,8 @@ export default function ({dados}) {
         post(route('admin.config.categorias.store'))
     }
     return (
-        <Layout container titlePage="Cadastrar Setor" voltar={route('admin.config.categorias.index')}>
+        <Layout container titlePage="Cadastrar Setor" voltar={route('admin.config.categorias.index')}
+                menu="config" submenu="setores">
 
             <form onSubmit={submit}>
                 <div className="row mb-4">

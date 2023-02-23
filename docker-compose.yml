@@ -8,7 +8,7 @@ services:
             args:
                 WWWGROUP: 1000
                 NODE_VERSION: '18'
-        image: sail-8.1/app
+        image: sail-8.2.30/app
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:

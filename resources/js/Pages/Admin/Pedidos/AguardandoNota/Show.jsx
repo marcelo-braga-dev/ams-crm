@@ -18,7 +18,8 @@ export default function Create({dados}) {
         })
     }
 
-    return (<Layout container voltar={route('admin.pedidos.index')} titlePage="Pedidos">
+    return (<Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido Aguardando Nota"
+                    menu="pedidos" submenu="lista">
             <div className="row shadow p-2 mb-4">
                 <div className="col">
                     <DadosPedido dados={dados}/>

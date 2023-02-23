@@ -19,7 +19,8 @@ export default function Create({chamado, pedido, mensagens}) {
     // Envio da Resposta - fim
 
     return (
-        <Layout container voltar={route('admin.chamado.index')} titlePage="Abrir SAQ">
+        <Layout container voltar={route('admin.chamado.index')} titlePage="Abrir SAQ"
+                menu="sac" submenu="chamados">
             <div className="row justify-content-between mb-4">
                 <div className="col">
                     <DadosPedidoMinimo dados={pedido}/>

@@ -195,7 +195,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     }
 
     return (
-        <Layout container titlePage="Enviar Leads para Consultores">
+        <Layout container titlePage="Enviar Leads para Consultores" menu="leads" submenu="encaminhar">
             <h6>Setores</h6>
             <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
                 {categorias.map((categoria, index) => {

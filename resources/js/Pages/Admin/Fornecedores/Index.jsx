@@ -3,7 +3,8 @@ import Layout from '@/Layouts/Admin/Layout';
 export default function Create({fornecedores, setores, setorAtual}) {
 
     return (
-        <Layout container titlePage="Fornecedores Cadastrados">
+        <Layout container titlePage="Fornecedores Cadastrados"
+                menu="fornecedores" submenu="lista">
 
             <div className="row justify-content-end">
                 <div className="col-auto text-right">

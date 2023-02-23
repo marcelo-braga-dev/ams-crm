@@ -13,6 +13,13 @@ export default function Sidebar() {
                 {'menu': 'Configurações', 'url': route('supervisor.pedidos.config.index')}
             ]
         }, {
+            'menu': 'Chat Interno',
+            'tag': 'chat-interno',
+            'icone': 'fas fa-angle-double-right',
+            'submenu': [
+                {'menu': 'Mensagens', 'url': route('supervisor.chat-interno.index'), 'tag': 'mensagens'},
+            ]
+        }, {
             'menu': 'Leads',
             'icone': 'fas fa-angle-double-right',
             'submenu': [

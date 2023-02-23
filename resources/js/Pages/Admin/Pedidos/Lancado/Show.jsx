@@ -35,7 +35,8 @@ export default function Pedidos({dados}) {
     // ConvertMoney - fim
 
     return (
-        <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedidos">
+        <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido Lançado"
+                menu="pedidos" submenu="lista">
             <div className="row mb-4 shadow p-2">
                 <div className="col">
                     <DadosPedido dados={dados}/>
