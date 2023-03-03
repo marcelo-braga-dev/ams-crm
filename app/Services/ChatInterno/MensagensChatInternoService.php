@@ -47,7 +47,7 @@ class MensagensChatInternoService
                 'mensagem' => $mensagem->mensagem,
                 'resposta' => id_usuario_atual() == $mensagem->destinatario ? 1 : 0,
                 'data' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
-
+                'tipo' => $mensagem->tipo
             ];
         }
         return $dados;

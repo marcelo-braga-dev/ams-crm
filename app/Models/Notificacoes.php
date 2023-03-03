@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\ChatInterno\NotificacoesChatInterno;
 use App\src\Pedidos\NotificacoesCategorias;
 use App\src\Usuarios\Admins;
 use App\src\Usuarios\Supervisores;
@@ -58,9 +59,12 @@ class Notificacoes extends Model
             ->where('notificar', 1)
             ->count();
 
+        $qtsChatInterno = (new NotificacoesChatInterno())->qtdNovas();
+
         return [
             'pedidos' => $qtdPedidos,
-            'leads' => $qtdLeads
+            'leads' => $qtdLeads,
+            'chat_interno' => $qtsChatInterno
         ];
     }
 

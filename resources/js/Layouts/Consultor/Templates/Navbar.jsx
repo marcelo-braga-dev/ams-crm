@@ -12,24 +12,13 @@ import Box from "@mui/material/Box";
 import {useForm} from "@inertiajs/react";
 
 import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
+import NotificacoesNav from "@/Components/Alerts/NotificacoesNav";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 
 export default function Navbar({titlePage}) {
-    const [qtdNotificacoes, setQtdNotificacoes] = React.useState();
     const [qtdLeads, setQtdLeads] = React.useState();
-
-    useEffect(() => {
-        NavMenuToglle();
-        // Recebe qtd notificacoes
-        fetch(route('consultor.notificacoes.pedidos.show', 0))
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                setQtdNotificacoes(data.pedidos);
-                setQtdLeads(data.leads);
-            });
-        // Recebe qtd notificacoes - fim
-    }, []);
+    const [qtdPedidos, setQtdPedidos] = React.useState();
+    const [qtdChatInterno, setChatInterno] = React.useState();
 
     // MENU PERFIL
     const settings = [
@@ -63,6 +52,9 @@ export default function Navbar({titlePage}) {
     // MENU PERFIL - FIM
 
     return (<>
+            <NotificacoesNav url={route('consultor.notificacoes.pedidos.show', 0)}
+                             urlPageChat={route('consultor.chat-interno.index')}
+                             setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads}/>
             <nav className="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
                  data-scroll="false">
                 <div className="container-fluid py-1 px-3 mt-2">
@@ -83,6 +75,16 @@ export default function Navbar({titlePage}) {
                                     </div>
                                 </div>
                             </li>
+
+                            {/*ChatInterno*/}
+                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
+                                <a href={route('consultor.chat-interno.index')}>
+                                    <Badge badgeContent={qtdChatInterno} color="error">
+                                        <QuestionAnswerIcon style={{color: 'white'}}/>
+                                    </Badge>
+                                </a>
+                            </li>
+
                             {/*LEADS*/}
                             <li className="nav-item dropdown mx-3 d-flex align-items-center">
                                 <a href={route('consultor.notificacoes.leads.index')}>
@@ -95,7 +97,7 @@ export default function Navbar({titlePage}) {
                             {/*Notificacoes*/}
                             <li className="nav-item dropdown mx-3 d-flex align-items-center">
                                 <a href={route('consultor.notificacoes.pedidos.index')}>
-                                    <Badge badgeContent={qtdNotificacoes} color="error">
+                                    <Badge badgeContent={qtdPedidos} color="error">
                                         <NotificationsIcon style={{color: 'white'}}/>
                                     </Badge>
                                 </a>

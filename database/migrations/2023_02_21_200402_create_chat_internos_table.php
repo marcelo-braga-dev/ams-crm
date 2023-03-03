@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('destinatario');
             $table->string('status', 32);
             $table->string('mensagem');
+            $table->string('tipo', 16);
             $table->timestamps();
         });
     }

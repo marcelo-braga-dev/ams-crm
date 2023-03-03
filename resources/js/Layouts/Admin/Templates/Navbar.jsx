@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
-import NavMenuToglle from "../../../../assets/argon/bootstrap5/js/nav-menu-toglle";
 import Badge from "@mui/material/Badge";
-import NotificationsIcon from "@mui/icons-material/NotificationsNone";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
@@ -10,22 +9,13 @@ import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import {useForm} from "@inertiajs/react";
+import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+
+import NotificacoesNav from "@/Components/Alerts/NotificacoesNav";
 
 export default function Navbar({titlePage}) {
     const [qtdPedidos, setQtdPedidos] = React.useState();
-
-    // Recebe qtd notificacoes
-    useEffect(() => {
-        NavMenuToglle();
-        fetch(route('admin.notificacoes.show', 0))
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                setQtdPedidos(data.pedidos);
-            });
-    }, []);
-    // Recebe qtd notificacoes - fim
+    const [qtdChatInterno, setChatInterno] = React.useState();
 
     // MENU PERFIL
     const settings = [];
@@ -57,7 +47,10 @@ export default function Navbar({titlePage}) {
 
     // MENU PERFIL - FIM
 
+
     return (<>
+            <NotificacoesNav url={route('admin.notificacoes.show', 0)} urlPageChat={route('admin.chat-interno.index')}
+                             setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno}/>
             <nav className="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
                  data-scroll="false">
                 <div className="container-fluid py-1 px-3 mt-2">
@@ -79,8 +72,17 @@ export default function Navbar({titlePage}) {
                                 </div>
                             </li>
 
+                            {/*ChatInterno*/}
+                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
+                                <a href={route('admin.chat-interno.index')}>
+                                    <Badge badgeContent={qtdChatInterno} color="error">
+                                        <QuestionAnswerIcon style={{color: 'white'}}/>
+                                    </Badge>
+                                </a>
+                            </li>
+
                             {/*Notificacoes*/}
-                            <li className="nav-item dropdown mx-4 d-flex align-items-center">
+                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
                                 <a href={route('admin.notificacoes.index')}>
                                     <Badge badgeContent={qtdPedidos} color="error">
                                         <NotificationsIcon style={{color: 'white'}}/>

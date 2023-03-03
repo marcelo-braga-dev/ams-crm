@@ -31,6 +31,7 @@
         "@mui/utils": "^5.10.16",
         "@mui/x-data-grid": "^5.17.14",
         "bootstrap": "^5.2.3",
+        "emoji-picker-react": "^4.4.7",
         "html-react-parser": "^3.0.8",
         "jquery-mask-plugin": "^1.14.16",
         "prop-types": "^15.8.1",

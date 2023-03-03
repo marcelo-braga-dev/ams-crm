@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\ChatInterno;
 use App\Http\Controllers\Controller;
 use App\Models\ChatInterno;
 use App\Services\ChatInterno\MensagensChatInternoService;
+use App\Services\ChatInterno\NotificacoesChatInterno;
 use App\Services\Usuarios\UsuariosService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

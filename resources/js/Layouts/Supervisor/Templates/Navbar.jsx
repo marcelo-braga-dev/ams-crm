@@ -10,20 +10,12 @@ import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import {useForm} from "@inertiajs/react";
+import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
+import NotificacoesNav from "@/Components/Alerts/NotificacoesNav";
 
 export default function Navbar({titlePage}) {
-    const [qtdNotificacoes, setQtdNotificacoes] = React.useState();
-
-    useEffect(() => {
-        NavMenuToglle();
-        fetch(route('supervisor.notificacoes.show', 0))
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                setQtdNotificacoes(data.pedidos);
-            });
-    }, []);
+    const [qtdPedidos, setQtdPedidos] = React.useState();
+    const [qtdChatInterno, setChatInterno] = React.useState();
 
     // MENU PERFIL
     const settings = [];
@@ -56,6 +48,8 @@ export default function Navbar({titlePage}) {
     // MENU PERFIL - FIM
 
     return (<>
+            <NotificacoesNav url={route('supervisor.notificacoes.show', 0)} urlPageChat={route('supervisor.chat-interno.index')}
+                             setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno}/>
             <nav className="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
                  data-scroll="false">
                 <div className="container-fluid py-1 px-3 mt-2">
@@ -77,10 +71,19 @@ export default function Navbar({titlePage}) {
                                 </div>
                             </li>
 
+                            {/*ChatInterno*/}
+                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
+                                <a href={route('supervisor.chat-interno.index')}>
+                                    <Badge badgeContent={qtdChatInterno} color="error">
+                                        <QuestionAnswerIcon style={{color: 'white'}}/>
+                                    </Badge>
+                                </a>
+                            </li>
+
                             {/*Notificacoes*/}
                             <li className="nav-item dropdown mx-4 d-flex align-items-center">
                                 <a href={route('supervisor.notificacoes.index')}>
-                                    <Badge badgeContent={qtdNotificacoes} color="error">
+                                    <Badge badgeContent={qtdPedidos} color="error">
                                         <NotificationsIcon style={{color: 'white'}}/>
                                     </Badge>
                                 </a>
