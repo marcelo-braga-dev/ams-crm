@@ -17,6 +17,7 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
     const {data, setData, post} = useForm({
         mensagem: '', anexo: ''
     });
+
     // Enviar Mensagem
     function submit() {
         if (data.mensagem || data.anexo) {
@@ -25,6 +26,7 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
             data.anexo = ''
         }
         limparCaixaMensagem()
+        setScroll(true)
     }
 
     // Scroll bottom mensagem
@@ -44,14 +46,13 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
             axios.get(route(getUrl, {destinatario: data.destinatario}))
                 .then((response) => {
                     setMensagens(response.data)
-                    setScroll(true)
+                    if (!scroll) scrollBox()
                 }).catch(window.location.reload)
         }
     }
 
     setTimeout(function () {
         getMensagens()
-        scrollBox()
     }, 1000)
 
 
@@ -111,6 +112,7 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
                         </div>
                     </div>
                     <div className="col-12 bg-dark rounded pt-3 height-400 border text-end"
+                         onMouseEnter={() => setScroll(true)} onMouseLeave={() => setScroll(false)}
                          id="mensagens" style={{overflowY: 'scroll', flexDirection: 'row-reverse'}}>
                         {mensagens.map((mensagem, index) => {
                             return (<div key={index}
