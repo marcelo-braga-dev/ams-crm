@@ -20,9 +20,9 @@ class UsuariosService
 
         return $this->dados($dado);
     }
-    public function todos()
+    public function todos($exceto = null)
     {
-        $dados = (new User())->getAll();
+        $dados = (new User())->getAll($exceto);
 
         $items = [];
         foreach ($dados as $dado) {

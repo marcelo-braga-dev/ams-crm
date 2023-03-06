@@ -8,11 +8,13 @@ import {useForm} from "@inertiajs/react";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import EmojiPicker from "emoji-picker-react";
+import $ from 'jquery'
+
 
 export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
     const [mensagens, setMensagens] = useState([]);
     const [nomeDestinatario, setNomeDestinatario] = useState();
-    const [scroll, setScroll] = useState(false);
+    const [chats, setChats] = useState(conversas);
 
     const {data, setData, post} = useForm({
         mensagem: '', anexo: ''
@@ -26,7 +28,6 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
             data.anexo = ''
         }
         limparCaixaMensagem()
-        setScroll(true)
     }
 
     // Scroll bottom mensagem
@@ -41,19 +42,22 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
         if (input) input.value = ''
     }
 
-    function getMensagens() {
-        if (data.destinatario) {
-            axios.get(route(getUrl, {destinatario: data.destinatario}))
-                .then((response) => {
-                    setMensagens(response.data)
-                    if (!scroll) scrollBox()
-                }).catch(window.location.reload)
+    async function getMensagens() {
+        try {
+            const response = await axios.get(route(getUrl, {destinatario: data.destinatario}));
+
+            setMensagens(response.data.mensagens)
+            setChats(response.data.chats)
+            $('.mensagem-chat').removeClass('d-none')
+            scrollBox()
+        } catch (error) {
+            console.error(error);
         }
     }
 
     setTimeout(function () {
         getMensagens()
-    }, 1000)
+    }, 200)
 
 
     function buscarMensagens(dadosDestinatario) {
@@ -62,9 +66,22 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
         getMensagens()
     }
 
+    function buscarMensagensx(dadosDestinatario) {
+
+        buscarMensagens(dadosDestinatario)
+    }
+
     function emoji(e) {
         data.mensagem = data.mensagem + e.emoji
     }
+
+    useEffect(() => {
+
+
+        getMensagens()
+
+    }, []);
+
 
     // Recebe Mensagem - fim
     return (
@@ -83,15 +100,16 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
 
                 {/*Seleciona conversas*/}
                 <span className="small">Conversas</span>
-                {conversas.map((item, index) => {
-                    return (<div key={index} onClick={() => buscarMensagens(item)}
+                {chats.map((item, index) => {
+                    return (<div key={index} onClick={() => buscarMensagensx(item)}
                                  className={(data.destinatario === item.id ? 'bg-dark text-white ' : '') + "shadow p-3 px-3 mb-3  rounded cursor-pointer"}>
                         <div className="row justify-content-between">
                             <div className="col text-truncate">
                                 {item.nome}
                             </div>
                             <div className="col-auto">
-                                {/*<span className="badge rounded-pill bg-success">5</span>*/}
+                                {item.qtd_nova > 0 &&
+                                    <span className="badge rounded-pill bg-success">{item.qtd_nova}</span>}
                             </div>
                         </div>
                         {/*<span className="d-block small font-italic">Off-line</span>*/}
@@ -100,7 +118,7 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
             </div>
             {/*Caixa de Mensagens*/}
             <div className="col-md-8">
-                {data.destinatario ? <div className="row shadow rounded border px-3">
+                <div className="row shadow rounded border px-3">
                     <div className="row py-2 font-weight-bold justify-content-between">
                         <div className="col pt-2">{nomeDestinatario}</div>
                         <div className="col-auto">
@@ -112,11 +130,10 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
                         </div>
                     </div>
                     <div className="col-12 bg-dark rounded pt-3 height-400 border text-end"
-                         onMouseEnter={() => setScroll(true)} onMouseLeave={() => setScroll(false)}
                          id="mensagens" style={{overflowY: 'scroll', flexDirection: 'row-reverse'}}>
                         {mensagens.map((mensagem, index) => {
                             return (<div key={index}
-                                         className={"row m-0 mb-3 " + (mensagem.resposta ? "" : ' justify-content-end')}>
+                                         className={"row mensagem-chat d-none m-0 mb-3 " + (mensagem.resposta ? "" : ' justify-content-end')}>
                                 <div
                                     className={"col-8 bg-white shadow rounded p-2 px-3" + (mensagem.resposta ? "" : ' text-end')}>
 
@@ -160,11 +177,7 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
                             </div>
                         </div>
                     </div>
-                </div> : <div className="row p-4 justify-content-center">
-                    <div className="col-auto">
-                        Selecione uma conversa.
-                    </div>
-                </div>}
+                </div>
             </div>
 
             <div className="modal fade" id="modalEmoji" tabIndex="-1" aria-labelledby="modalEmojiLabel"

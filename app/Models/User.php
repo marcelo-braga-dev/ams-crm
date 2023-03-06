@@ -77,13 +77,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function getAll()
+    public function getAll($exceto = null)
     {
+        if ($exceto) return $this->newQuery()
+            ->get(['id', 'name', 'setor', 'email', 'tipo', 'status'])
+            ->except(['id' => $exceto]);
         return $this->newQuery()
             ->get(['id', 'name', 'setor', 'email', 'tipo', 'status']);
-//            ->except(['id' => 1])
-//            ->except(['id' => 2])
-//            ->except(['id' => 3]);
     }
 
     public function getConsultores()

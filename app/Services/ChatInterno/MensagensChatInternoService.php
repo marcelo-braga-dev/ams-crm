@@ -13,19 +13,23 @@ class MensagensChatInternoService
         $nomes = (new User())->getNomes();
         $usuarioAtual = id_usuario_atual();
 
-        $users = [];
+        $users = [];$n = [];
         foreach ($mensagens as $mensagem) {
             $id = $mensagem->destinatario === $usuarioAtual ? $mensagem->users_id : $mensagem->destinatario;
+
+            if($mensagem->destinatario === $usuarioAtual &&
+                $mensagem->status === 'novo') $n[$id][] = 'x';
 
             $users[$id] = [
                 'id' => $id,
                 'nome' => $nomes[$id],
+                'qtd_nova' => '$ovan'
             ];
         }
 
         $dados = [];
         foreach ($users as $item) {
-            $dados[] = $item;
+            $dados[] = array_merge($item, ['qtd_nova' => empty($n[$item['id']]) ? 0 : count($n[$item['id']])]);
         }
 
         return $dados;
