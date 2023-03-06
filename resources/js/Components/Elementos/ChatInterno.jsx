@@ -10,7 +10,6 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import EmojiPicker from "emoji-picker-react";
 import $ from 'jquery'
 
-
 export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
     const [mensagens, setMensagens] = useState([]);
     const [nomeDestinatario, setNomeDestinatario] = useState();
@@ -47,14 +46,13 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
         try {
             const response = await axios.get(route(getUrl, {destinatario: data.destinatario}));
 
-            setMensagens(response.data.mensagens)
             setChats(response.data.chats)
             if (qtdMensagens !== response.data.mensagens.length) {
+                setMensagens(response.data.mensagens)
                 setQtdMensagens(response.data.mensagens.length)
-                $('.mensagem-chat').removeClass('d-none')
-                scrollBox()
-            }
 
+
+            }
         } catch (error) {
             console.error(error);
         }
@@ -62,13 +60,18 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
 
     setTimeout(function () {
         getMensagens()
-    }, 50)
+    }, 100)
 
+    useEffect(() => {
+        $('.mensagem-chat').removeClass('d-none')
+        scrollBox()
+    }, [mensagens]);
 
     function buscarMensagens(dadosDestinatario) {
         setData('destinatario', dadosDestinatario.id)
         setNomeDestinatario(dadosDestinatario.nome)
         getMensagens()
+
     }
 
     function buscarMensagensx(dadosDestinatario) {
@@ -79,14 +82,6 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
     function emoji(e) {
         data.mensagem = data.mensagem + e.emoji
     }
-
-    useEffect(() => {
-
-
-        getMensagens()
-
-    }, []);
-
 
     // Recebe Mensagem - fim
     return (
