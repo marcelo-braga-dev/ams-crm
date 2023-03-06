@@ -36,11 +36,14 @@ class PedidosHistoricos extends Model
         $historico = $this->newQuery()
             ->where('pedidos_id', $id)->get();
 
-        return $historico->map(function ($dados) {
+        $nomes = (new User())->getNomes();
+
+        return $historico->map(function ($dados) use ($nomes) {
             return [
                 'id' => $dados->id,
                 'data' => date('d/m/y H:i', strtotime($dados->created_at)),
                 'status' => (new StatusPedidos())->getNomeStatus($dados->status),
+                'usuario' => $nomes[$dados->users_id] ?? '-',
                 'prazo' => $dados->prazo,
                 'obs' => $dados->obs
             ];

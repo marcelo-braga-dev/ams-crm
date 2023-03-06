@@ -42,25 +42,23 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
         if (input) input.value = ''
     }
 
-    async function getMensagens() {
+    async function getMensagens(idDest) {
         try {
-            const response = await axios.get(route(getUrl, {destinatario: data.destinatario}));
+            const response = await axios.get(route(getUrl, {destinatario: idDest}));
 
             setChats(response.data.chats)
             if (qtdMensagens !== response.data.mensagens.length) {
                 setMensagens(response.data.mensagens)
                 setQtdMensagens(response.data.mensagens.length)
-
-
             }
         } catch (error) {
             console.error(error);
         }
     }
 
-    setTimeout(function () {
-        getMensagens()
-    }, 100)
+    // setTimeout(function () {
+    //     getMensagens()
+    // }, 100)
 
     useEffect(() => {
         $('.mensagem-chat').removeClass('d-none')
@@ -70,7 +68,7 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
     function buscarMensagens(dadosDestinatario) {
         setData('destinatario', dadosDestinatario.id)
         setNomeDestinatario(dadosDestinatario.nome)
-        getMensagens()
+        getMensagens(dadosDestinatario.id)
 
     }
 

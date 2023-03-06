@@ -82,6 +82,7 @@ export default function Pedidos({pedido, historico}) {
                     <tr>
                         <th>Data</th>
                         <th>Prazo</th>
+                        <th>Responsável</th>
                         <th>Status</th>
                         <th>Anotações</th>
                     </tr>
@@ -93,8 +94,11 @@ export default function Pedidos({pedido, historico}) {
                                 <th scope="row">
                                     {dado.data}
                                 </th>
-                                <td>
+                                <td className="col-1">
                                     {dado.prazo} dias
+                                </td>
+                                <td>
+                                    {dado.usuario}
                                 </td>
                                 <td>
                                     {dado.status}
