@@ -15,6 +15,7 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
     const [mensagens, setMensagens] = useState([]);
     const [nomeDestinatario, setNomeDestinatario] = useState();
     const [chats, setChats] = useState(conversas);
+    const [qtdMensagens, setQtdMensagens] = useState(0);
 
     const {data, setData, post} = useForm({
         mensagem: '', anexo: ''
@@ -48,8 +49,12 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
 
             setMensagens(response.data.mensagens)
             setChats(response.data.chats)
-            $('.mensagem-chat').removeClass('d-none')
-            scrollBox()
+            if (qtdMensagens !== response.data.mensagens.length) {
+                setQtdMensagens(response.data.mensagens.length)
+                $('.mensagem-chat').removeClass('d-none')
+                scrollBox()
+            }
+
         } catch (error) {
             console.error(error);
         }
@@ -57,7 +62,7 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
 
     setTimeout(function () {
         getMensagens()
-    }, 200)
+    }, 50)
 
 
     function buscarMensagens(dadosDestinatario) {
