@@ -2,6 +2,7 @@ import {Box, Avatar, Typography, Card, styled, Divider} from '@mui/material';
 import {useEffect, useState} from 'react'
 
 import DoneAllIcon from "@mui/icons-material/DoneAll";
+import ImagePdf from "@/Components/Inputs/ImagePdf";
 
 const DividerWrapper = styled(Divider)(
     ({theme}) => `
@@ -44,20 +45,14 @@ const CaixaMensagem = styled(Box)(
 `
 );
 
-function ChatContent({mensagens}) {
+function ChatContent({mensagens, chatSelecionado}) {
     const user = {
         name: 'Catherine Pike',
-        avatar: '/static/images/avatars/1.jpg'
+        avatar: ''
     };
 
-    useEffect(() => {
-        const scrollingElement = document.getElementById('mensagens');
-        if (scrollingElement) {
-            scrollingElement.scrollTop = scrollingElement.scrollHeight
-        }
-    }, []);
 
-    console.log(mensagens)
+
     return (
         <div id="mensagens" style={{height: '100%', overflowY: 'scroll', flexDirection: 'row-reverse'}}>
 
@@ -112,7 +107,12 @@ function ChatContent({mensagens}) {
                                      mr={2}
                                 >
                                     <CardWrapperPrimary>
+                                        {item.tipo === 'msg' && <span className="mb-2 d-block">
                                         {item.mensagem}
+                                    </span>}
+                                        {item.tipo === 'file' && <span className="mb-2 d-block">
+                                        <ImagePdf url={item.mensagem}/>
+                                    </span>}
                                     </CardWrapperPrimary>
                                     <small className="font-italic pt-1" style={{fontSize: 12}}>
                                         <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}

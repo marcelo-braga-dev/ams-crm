@@ -82,7 +82,7 @@ const AccordionSummaryWrapper = styled(AccordionSummary)(
 `
 );
 
-function TopBarContent() {
+function TopBarContent({nomeChatsSelecionado}) {
     const theme = useTheme();
 
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -108,14 +108,13 @@ function TopBarContent() {
                             height: 48
                         }}
                         alt="Zain Baptista"
-                        src="/static/images/avatars/1.jpg"
+                        src=""
                     />
 
                     <div className="row px-2">
                         <span className="d-block font-weight-bold text-dark text-lg">
-                            Zain Baptista
+                            {nomeChatsSelecionado}
                         </span>
-                        <small>Consultor</small>
                     </div>
                 </Box>
                 <Box
@@ -160,7 +159,7 @@ function TopBarContent() {
                             }}
                             variant="rounded"
                             alt="Zain Baptista"
-                            src="/static/images/avatars/1.jpg"
+                            src=""
                         />
                         <Typography variant="h4">Zain Baptista</Typography>
                         <Typography variant="subtitle2"></Typography>

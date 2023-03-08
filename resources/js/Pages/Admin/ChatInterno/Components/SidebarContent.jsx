@@ -58,45 +58,17 @@ const RootWrapper = styled(Box)(
 
 const ListItemWrapper = styled(ListItemButton)(
     ({theme}) => `
-        &.MuiButtonBase-root {
-            margin: 1px 5 0;
-        }
+        // &.MuiButtonBase-root {
+        //     margin: 1px 5 0;
+        // }
   `
 );
 
-const TabsContainerWrapper = styled(Box)(
-    ({theme}) => `
-        .MuiTabs-indicator {
-            min-height: 4px;
-            height: 4px;
-            box-shadow: none;
-            border: 0;
-        }
 
-        .MuiTab-root {
-            &.MuiButtonBase-root {
-                padding: 0;
-                margin-right: 3px;
-                font-size: 16px;
-                color: black;
-
-                .MuiTouchRipple-root {
-                    display: none;
-                }
-            }
-
-            &.Mui-selected:hover,
-            &.Mui-selected {
-                color: black;
-            }
-        }
-  `
-);
-
-function SidebarContent({chats}) {
+function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeChatsSelecionado}) {
     const user = {
         name: 'Chat Interno',
-        avatar: '/static/images/avatars/1.jpg',
+        avatar: '',
         jobtitle: 'AMS360'
     };
 
@@ -107,6 +79,12 @@ function SidebarContent({chats}) {
         {value: 'unread', label: 'Unread'},
         {value: 'archived', label: 'Archived'}
     ];
+
+    function selecionarChat(dados) {
+        setChatsSelecionado(dados.id)
+        setNomeChatsSelecionado(dados.nome)
+
+    }
 
     return (
         <RootWrapper>
@@ -138,7 +116,7 @@ function SidebarContent({chats}) {
                             size="small"
                             color="primary"
                         >
-                            <SettingsTwoToneIcon fontSize="small"/>
+                            {/*<SettingsTwoToneIcon fontSize="small"/>*/}
                         </IconButton>
                     </Box>
                 </Box>
@@ -163,12 +141,15 @@ function SidebarContent({chats}) {
             />
 
             <Box mt={2}>
-                {currentTab === 'all' && (
-                    <List disablePadding component="div" className="mb-4">
-                        {chats.map((dados, index) => {
-                            return (<ListItemWrapper key={index}>
+
+                <List disablePadding component="div" className="mb-4">
+                    {chats.map((dados, index) => {
+                        console.log(dados)
+                        return (
+                            <ListItemButton selected={chatSelecionado === dados.id}
+                                            onClick={() => selecionarChat(dados)} key={index}>
                                 <ListItemAvatar>
-                                    <Avatar src="/static/images/avatars/1.jpg"/>
+                                    <Avatar src=""/>
                                 </ListItemAvatar>
                                 <ListItemText
                                     sx={{mr: 1}}
@@ -186,12 +167,13 @@ function SidebarContent({chats}) {
                                 />
                                 {dados.qtd_nova > 0 &&
                                     <span className="badge rounded-pill bg-success">{dados.qtd_nova}</span>}
-                            </ListItemWrapper>)
-                        })}
+                            </ListItemButton>
+                        )
+                    })}
 
-                        {/*<ListItemWrapper selected>*/}
-                    </List>
-                )}
+                    <ListItemWrapper selected/>
+                </List>
+
             </Box>
         </RootWrapper>
     );
