@@ -67,6 +67,12 @@ const ListItemWrapper = styled(ListItemButton)(
   `
 );
 
+const chatAtivo = {
+    backgroundColor: '#222222',
+}
+const chatAtivoColor = {
+    color: 'white',
+}
 
 function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeChatsSelecionado, pessoas}) {
     const user = {
@@ -104,10 +110,10 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
                         justifyContent="space-between"
                     >
                         <Box>
-                            <Typography variant="h5" noWrap>
+                            <Typography variant="h6" noWrap>
                                 {user.name}
                             </Typography>
-                            <Typography variant="subtitle1" noWrap>
+                            <Typography variant="caption" noWrap>
                                 {user.jobtitle}
                             </Typography>
                         </Box>
@@ -137,9 +143,9 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
 
                 <List disablePadding component="div" className="mb-4">
                     {chats.map((dados, index) => {
-                        console.log(chats)
+                        const selecionado = chatSelecionado === dados.id
                         return (
-                            <ListItemButton selected={chatSelecionado === dados.id}
+                            <ListItemButton style={selecionado ? chatAtivo : {}}
                                             onClick={() => selecionarChat(dados)} key={index}>
                                 <ListItemAvatar>
                                     <Avatar src=""/>
@@ -147,31 +153,32 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
                                 <ListItemText
                                     sx={{mr: 1}}
                                     primaryTypographyProps={{
-                                        color: 'textPrimary',
+                                        color: selecionado ? 'white' : 'black',
                                         variant: 'subtitle1',
                                         noWrap: true
                                     }}
                                     secondaryTypographyProps={{
-                                        color: 'textSecondary',
+                                        color: selecionado ? 'white' : 'black',
                                         noWrap: true
                                     }}
                                     primary={dados.nome}
                                     secondary={<>
-                                        <DoneAllIcon color={dados.status === 'lido' ? 'info' : 'disabled'}
+                                        <DoneAllIcon color={
+                                            selecionado ?
+                                                (dados.status === 'lido' ? 'info' : 'white') :
+                                                (dados.status === 'lido' ? 'info' : 'disabled')}
                                                      style={{fontSize: 14}} className="me-1"/>
-                                        {dados.tipo === 'file' ? <ImageIcon style={{fontSize: 14}}/> : dados.ultima_mensagem}
+                                        {dados.tipo === 'file' ?
+                                            <ImageIcon style={{fontSize: 14}}/> : dados.ultima_mensagem}
                                     </>
-                                }
+                                    }
                                 />
                                 {dados.qtd_nova > 0 &&
                                     <span className="badge rounded-pill bg-success">{dados.qtd_nova}</span>}
                             </ListItemButton>
                         )
                     })}
-
-                    <ListItemWrapper selected/>
                 </List>
-
             </Box>
         </RootWrapper>
     );

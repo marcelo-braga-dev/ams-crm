@@ -3,9 +3,14 @@ import {Alert} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
 import NavMenuToglle from "../../../assets/argon/bootstrap5/js/nav-menu-toglle";
 
+import useSound from 'use-sound';
+import boopSfx from '../../../assets/sounds/2.wav';
+// import boopSfx from '../../../../assets/sounds/2.wav';
+// import boopSfx from '../../../../assets/sounds/3.wav';
+
 export default function NotificacoesNav({url, urlPageChat, setQtdPedidos, setChatInterno, setQtdLeads}) {
     let qtdNotifiChatInterno;
-
+    const [play] = useSound(boopSfx);
     function buscaQtnNotificacoes() {
         fetch(url)
             .then(function (response) {
@@ -15,9 +20,9 @@ export default function NotificacoesNav({url, urlPageChat, setQtdPedidos, setCha
                 setQtdPedidos(data.pedidos);
                 setChatInterno(data.chat_interno);
                 if (setQtdLeads) setQtdLeads(data.leads)
-                if (data.chat_interno > qtdNotifiChatInterno &&
-                    window.location.href !== urlPageChat) {
+                if (data.chat_interno > qtdNotifiChatInterno) {
                     alertChatInterno()
+                    play()
                 }
                 qtdNotifiChatInterno = data.chat_interno;
             });
@@ -52,6 +57,7 @@ export default function NotificacoesNav({url, urlPageChat, setQtdPedidos, setCha
             anchorOrigin={{vertical: 'top', horizontal: 'center'}}
             open={open}
             severity="success"
+            autoHideDuration={3000}
             onClose={handleClose}
         >
             <Alert className="text-end" onClose={handleClose} severity="success" sx={{width: '100%'}}>

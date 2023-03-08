@@ -16,7 +16,7 @@ class ChatInternoController extends Controller
         $conversas = (new MensagensChatInternoService())->conversas();
         $pessoas = (new UsuariosService())->todos(id_usuario_atual());
 
-        return Inertia::render('Admin/ChatInterno/Mensenger',
+        return Inertia::render('Admin/ChatInterno/Index',
             compact('conversas', 'pessoas'));
     }
 

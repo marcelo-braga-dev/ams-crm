@@ -51,8 +51,6 @@ function ChatContent({mensagens, chatSelecionado}) {
         avatar: ''
     };
 
-
-
     return (
         <div id="mensagens" style={{height: '100%', overflowY: 'scroll', flexDirection: 'row-reverse'}}>
 

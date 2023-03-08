@@ -1,17 +1,13 @@
 import {
-    Avatar,
     Tooltip,
     IconButton,
     Box,
     Button,
     styled,
     InputBase,
-    useTheme
 } from '@mui/material';
 import AttachFileTwoToneIcon from '@mui/icons-material/AttachFileTwoTone';
 import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
-import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined';
-import SpeakerNotesOutlinedIcon from '@mui/icons-material/SpeakerNotesOutlined';
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import {useForm} from "@inertiajs/react";
 import {useEffect} from "react";
@@ -30,9 +26,14 @@ const Input = styled('input')({
     display: 'none'
 });
 
-function BottomBarContent({chatSelecionado, chatsAtualizado, setChats}) {
-    const theme = useTheme();
+document.addEventListener("keypress", function (e) {
+    if (e.key === 'Enter') {
+        const btn = document.querySelector("#btn-enviar-mensagem");
+        btn.click();
+    }
+});
 
+function BottomBarContent({chatSelecionado, urlSubmit}) {
     const {data, setData, post} = useForm({
         mensagem: '', anexo: '', destinatario: chatSelecionado
     });
@@ -42,12 +43,16 @@ function BottomBarContent({chatSelecionado, chatsAtualizado, setChats}) {
     }, [chatSelecionado]);
 
     function scroll() {
+        const scrollingElement = document.getElementById('mensagens');
+        if (scrollingElement) {
+            scrollingElement.scrollTop = scrollingElement.scrollHeight
+        }
         setTimeout(() => {
             const scrollingElement = document.getElementById('mensagens');
             if (scrollingElement) {
                 scrollingElement.scrollTop = scrollingElement.scrollHeight
             }
-        }, 500)
+        }, 5000)
     }
 
     useEffect(() => {
@@ -56,7 +61,8 @@ function BottomBarContent({chatSelecionado, chatsAtualizado, setChats}) {
 
     function submit() {
         if ((data.mensagem || data.anexo) && data.destinatario) {
-            post(route('admin.chat-interno.store'));
+            post(urlSubmit);
+
             data.mensagem = ''
             data.anexo = ''
         }
@@ -73,11 +79,14 @@ function BottomBarContent({chatSelecionado, chatsAtualizado, setChats}) {
         setData('mensagem', data.mensagem + e.emoji)
     }
 
-    return (
-        <>{data.anexo && <small className="pt-2">
-            <AttachFileIcon style={{fontSize: 18}}/>
-            <b>{data.anexo.name}</b>
-        </small>}
+    return (chatSelecionado &&
+        <>
+            {
+                data.anexo && <small className="pt-2">
+                    <AttachFileIcon style={{fontSize: 18}}/>
+                    <b>{data.anexo.name}</b>
+                </small>
+            }
             <Box
                 sx={{
                     background: 'white',
@@ -116,7 +125,7 @@ function BottomBarContent({chatSelecionado, chatsAtualizado, setChats}) {
                             </IconButton>
                         </label>
                     </Tooltip>
-                    <Button startIcon={<SendTwoToneIcon/>} variant="contained" autoFocus
+                    <Button startIcon={<SendTwoToneIcon/>} variant="contained" id="btn-enviar-mensagem"
                             onClick={submit}>
                         Enviar
                     </Button>
@@ -125,7 +134,7 @@ function BottomBarContent({chatSelecionado, chatsAtualizado, setChats}) {
                      aria-hidden="true">
                     <div className="modal-dialog modal-sm">
                         <div className="modal-content">
-                            <EmojiPicker onEmojiClick={emoji}/>
+                            <EmojiPicker theme="google" onEmojiClick={emoji}/>
                         </div>
                     </div>
                 </div>

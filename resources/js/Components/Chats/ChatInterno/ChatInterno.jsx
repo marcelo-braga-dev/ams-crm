@@ -11,7 +11,6 @@ import {
     Box, styled, Divider, Drawer, IconButton, useTheme
 } from '@mui/material';
 
-import Layout from "@/Layouts/Admin/Layout";
 import axios from "axios";
 
 const RootWrapper = styled(Box)(({theme}) => `
@@ -60,24 +59,24 @@ const DrawerWrapperMobile = styled(Drawer)(() => `
 let id = 0;
 let novaMensagem = []
 let chatsAtualizado = []
-
+let getUrlRes = ''
 
 async function atualizaMensagens() {
 
     if (id) {
-        await axios.get(route('admin.chat-interno.mensagens', {destinatario: id})).then(results => {
+        await axios.get(route(getUrlRes, {destinatario: id})).then(results => {
             novaMensagem = results.data.mensagens
             chatsAtualizado = results.data.chats
 
         })
     }
-    setTimeout(atualizaMensagens, 100)
+    setTimeout(atualizaMensagens, 200)
 }
 
 atualizaMensagens()
 
 // setTimeout(x, 3000)
-function ApplicationsMessenger({pessoas}) {
+function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
 
     const [mensagens, setMensagens] = useState([]);
     const [chats, setChats] = useState([]);
@@ -85,15 +84,16 @@ function ApplicationsMessenger({pessoas}) {
     const [nomeChatsSelecionado, setNomeChatsSelecionado] = useState();
 
     id = chatsSelecionado
+    getUrlRes = getUrl
 
     function temporizador() {
         setMensagens(novaMensagem)
 
-        setTimeout(temporizador, 150)
+        setTimeout(temporizador, 250)
     }
 
     useEffect(() => {
-        if(chatsAtualizado.length) setChats(chatsAtualizado)
+        if (chatsAtualizado.length) setChats(chatsAtualizado)
     }, [chatsAtualizado]);
 
     useEffect(() => {
@@ -109,15 +109,13 @@ function ApplicationsMessenger({pessoas}) {
         setQtdAtual(mensagens.length)
     }
 
-    if (qtdChats !== chats.length && chatsSelecionado) {
+    if (qtdChats && qtdChats !== chats.length && chatsSelecionado) {
         setChats(chatsAtualizado)
         setQtdChats(chats.length)
     }
-// TEste fim
 
 
     // MENSAGENS
-    //  OK
     useEffect(() => {
         setMensagens(novaMensagem) // printa as mensagens
     }, [novaMensagem]);
@@ -127,15 +125,14 @@ function ApplicationsMessenger({pessoas}) {
 
     // busca chats
     async function axiosFunc() {
-        await axios.get(route('admin.chat-interno.mensagens', {destinatario: 0})).then(results => {
-           setChats(results.data.chats)
+        await axios.get(route(getUrl, {destinatario: 0})).then(results => {
+            setChats(results.data.chats)
         })
     }
 
     useEffect(() => {
         axiosFunc()
     }, [])
-//  OK -fim
 // MENSAGENS - FIM
 
     const theme = useTheme();
@@ -145,67 +142,68 @@ function ApplicationsMessenger({pessoas}) {
         setMobileOpen(!mobileOpen);
     };
 
-    return (<Layout>
-        <RootWrapper className="Mui-FixedWrapper">
-            <DrawerWrapperMobile
-                sx={{
-                    display: {lg: 'none', xs: 'inline-block'}
-                }}
-                variant="temporary"
-                anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-            >
-                <Scrollbar>
-                    <SidebarContent/>
-                </Scrollbar>
-            </DrawerWrapperMobile>
-            <Sidebar
-                sx={{
-                    display: {xs: 'none', lg: 'inline-block'}
-                }}
-            >
-                {/*CHAT*/}
-                <Scrollbar>
-                    <SidebarContent
-                        setNomeChatsSelecionado={setNomeChatsSelecionado}
-                        chats={chats}
-                        chatSelecionado={chatsSelecionado}
-                        setChatsSelecionado={setChatsSelecionado}
-                        pessoas={pessoas}/>
-                </Scrollbar>
-            </Sidebar>
-            <ChatWindow>
-                <ChatTopBar
+    return (
+        <Layout titlePage="Chat Interno" menu="chat-interno" submenu="mensagens">
+            <RootWrapper className="Mui-FixedWrapper">
+                <DrawerWrapperMobile
                     sx={{
-                        display: {xs: 'flex', lg: 'inline-block'}
+                        display: {lg: 'none', xs: 'inline-block'}
+                    }}
+                    variant="temporary"
+                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                >
+                    <Scrollbar>
+                        <SidebarContent/>
+                    </Scrollbar>
+                </DrawerWrapperMobile>
+                <Sidebar
+                    sx={{
+                        display: {xs: 'none', lg: 'inline-block'}
                     }}
                 >
-                    <IconButtonToggle
-                        sx={{
-                            display: {lg: 'none', xs: 'flex'}, mr: 2
-                        }}
-                        color="primary"
-                        onClick={handleDrawerToggle}
-                        size="small"
-                    >
-                        {/*<MenuTwoToneIcon/>*/}
-                    </IconButtonToggle>
-                    <TopBarContent nomeChatsSelecionado={nomeChatsSelecionado}/>
-                </ChatTopBar>
-                <Box flex={1}>
+                    {/*CHAT*/}
                     <Scrollbar>
-                        <ChatContent mensagens={mensagens} chatSelecionado={chatsSelecionado}/>
+                        <SidebarContent
+                            setNomeChatsSelecionado={setNomeChatsSelecionado}
+                            chats={chats}
+                            chatSelecionado={chatsSelecionado}
+                            setChatsSelecionado={setChatsSelecionado}
+                            pessoas={pessoas}/>
                     </Scrollbar>
-                </Box>
-                <Divider/>
-                <BottomBarContent
-                    chatSelecionado={chatsSelecionado}
-                    chatsAtualizado={chatsAtualizado}
-                    setChats={setChats}/>
-            </ChatWindow>
-        </RootWrapper>
-    </Layout>);
+                </Sidebar>
+                <ChatWindow>
+                    <ChatTopBar
+                        sx={{
+                            display: {xs: 'flex', lg: 'inline-block'}
+                        }}
+                    >
+                        <IconButtonToggle
+                            sx={{
+                                display: {lg: 'none', xs: 'flex'}, mr: 2
+                            }}
+                            color="primary"
+                            onClick={handleDrawerToggle}
+                            size="small"
+                        >
+                        </IconButtonToggle>
+                        <TopBarContent nomeChatsSelecionado={nomeChatsSelecionado}/>
+                    </ChatTopBar>
+                    <Box flex={1}>
+                        <Scrollbar>
+                            <ChatContent mensagens={mensagens} chatSelecionado={chatsSelecionado}/>
+                        </Scrollbar>
+                    </Box>
+                    <Divider/>
+                    <BottomBarContent
+                        chatSelecionado={chatsSelecionado}
+                        chatsAtualizado={chatsAtualizado}
+                        setChats={setChats}
+                        urlSubmit={(urlSubmit)}/>
+                </ChatWindow>
+            </RootWrapper>
+        </Layout>);
 }
 
-export default ApplicationsMessenger;
+export default ChatInterno;
