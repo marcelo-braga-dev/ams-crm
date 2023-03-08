@@ -10,11 +10,11 @@ export default function Layout({children, titlePage, container, voltar, menu, su
         <>
             <Head><title>{titlePage}</title></Head>
             <ModalsAllerts/>
-            <Sidebar menuSidebar={menu} submenuSidebar={submenu} />
+            <Sidebar menuSidebar={menu} submenuSidebar={submenu}/>
 
             <main className="main-content position-relative border-radius-lg ">
                 <Navbar titlePage={titlePage}/>
-                <div className="container-fluid py-4 mt-3">
+                <div className="container-fluid py-4">
                     {container ?
                         voltar ?
                             <div className="bg-white px-lg-4 pt-2 pb-4 mb-4 rounded">
@@ -41,9 +41,6 @@ export default function Layout({children, titlePage, container, voltar, menu, su
                                 {children}
                             </div>
                         : <div className="row">
-                            <div className="row border-bot tom mb-3">
-                                <h5 className="">{titlePage}</h5>
-                            </div>
                             {children}
                         </div>
                     }

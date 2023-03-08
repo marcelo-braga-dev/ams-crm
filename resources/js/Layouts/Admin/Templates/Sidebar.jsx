@@ -93,9 +93,9 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
     }
 
     return (<>
-            <div className="position-absolute w-100" style={{minHeight: 80, "backgroundColor": "#252525"}}></div>
+            <div className="position-absolute w-100" style={{minHeight: '10vh', "backgroundColor": "#252525"}}></div>
             <aside id="sidenav-main"
-                   className="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-radius-xl my-3 fixed-start ms-4">
+                   className="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-radius-xl my-3 fixed-start ms-4 bg-warning">
                 <div style={{"backgroundColor": "#252525"}}>
                     <a href="/">
                         <div className="text-center py-3">
