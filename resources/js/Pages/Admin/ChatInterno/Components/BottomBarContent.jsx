@@ -30,17 +30,13 @@ const Input = styled('input')({
     display: 'none'
 });
 
-function BottomBarContent({chatSelecionado}) {
+function BottomBarContent({chatSelecionado, chatsAtualizado, setChats}) {
     const theme = useTheme();
 
     const {data, setData, post} = useForm({
         mensagem: '', anexo: '', destinatario: chatSelecionado
     });
 
-    const user = {
-        name: 'Catherine Pike',
-        avatar: ''
-    };
     useEffect(() => {
         setData('destinatario', chatSelecionado)
     }, [chatSelecionado]);
@@ -59,7 +55,6 @@ function BottomBarContent({chatSelecionado}) {
     }, [chatSelecionado]);
 
     function submit() {
-        console.log(data)
         if ((data.mensagem || data.anexo) && data.destinatario) {
             post(route('admin.chat-interno.store'));
             data.mensagem = ''

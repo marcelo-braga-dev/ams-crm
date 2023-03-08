@@ -28,6 +28,9 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import Label from './Label';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import AlarmTwoToneIcon from '@mui/icons-material/AlarmTwoTone';
+import MenuItem from "@mui/material/MenuItem";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import ImageIcon from '@mui/icons-material/Image';
 
 
 const AvatarSuccess = styled(Avatar)(
@@ -65,14 +68,13 @@ const ListItemWrapper = styled(ListItemButton)(
 );
 
 
-function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeChatsSelecionado}) {
+function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeChatsSelecionado, pessoas}) {
     const user = {
         name: 'Chat Interno',
         avatar: '',
         jobtitle: 'AMS360'
     };
 
-    const [currentTab, setCurrentTab] = useState('all');
 
     const tabs = [
         {value: 'all', label: 'All'},
@@ -121,30 +123,21 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
                     </Box>
                 </Box>
             </Box>
-
-            <TextField
-                sx={{
-                    mt: 2,
-                    mb: 1
-                }}
-                className="px-3"
-                size="small"
-                fullWidth
-                InputProps={{
-                    startAdornment: (
-                        <InputAdornment position="start">
-                            <SearchTwoToneIcon/>
-                        </InputAdornment>
-                    )
-                }}
-                placeholder="Pesquisar..."
-            />
+            <TextField className="mb-3 px-2" size="small" select fullWidth
+                       placeholder="Pesquisar..." defaultValue=""
+                       onChange={e => selecionarChat(e.target.value)}>
+                {pessoas.map((option) => {
+                    return (<MenuItem key={option.id} value={option}>
+                        #{option.id} - {option.nome}
+                    </MenuItem>)
+                })}
+            </TextField>
 
             <Box mt={2}>
 
                 <List disablePadding component="div" className="mb-4">
                     {chats.map((dados, index) => {
-                        console.log(dados)
+                        console.log(chats)
                         return (
                             <ListItemButton selected={chatSelecionado === dados.id}
                                             onClick={() => selecionarChat(dados)} key={index}>
@@ -163,7 +156,12 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
                                         noWrap: true
                                     }}
                                     primary={dados.nome}
-                                    secondary="ultima mensagem"
+                                    secondary={<>
+                                        <DoneAllIcon color={dados.status === 'lido' ? 'info' : 'disabled'}
+                                                     style={{fontSize: 14}} className="me-1"/>
+                                        {dados.tipo === 'file' ? <ImageIcon style={{fontSize: 14}}/> : dados.ultima_mensagem}
+                                    </>
+                                }
                                 />
                                 {dados.qtd_nova > 0 &&
                                     <span className="badge rounded-pill bg-success">{dados.qtd_nova}</span>}

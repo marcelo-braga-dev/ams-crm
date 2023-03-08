@@ -59,24 +59,25 @@ const DrawerWrapperMobile = styled(Drawer)(() => `
 
 let id = 0;
 let novaMensagem = []
+let chatsAtualizado = []
 
 
-async function x() {
+async function atualizaMensagens() {
 
     if (id) {
-        // console.log(id)
         await axios.get(route('admin.chat-interno.mensagens', {destinatario: id})).then(results => {
-            // console.log(results.data)
             novaMensagem = results.data.mensagens
+            chatsAtualizado = results.data.chats
+
         })
     }
-    setTimeout(x, 100)
+    setTimeout(atualizaMensagens, 100)
 }
 
-x()
+atualizaMensagens()
 
 // setTimeout(x, 3000)
-function ApplicationsMessenger() {
+function ApplicationsMessenger({pessoas}) {
 
     const [mensagens, setMensagens] = useState([]);
     const [chats, setChats] = useState([]);
@@ -85,21 +86,32 @@ function ApplicationsMessenger() {
 
     id = chatsSelecionado
 
-    function xs() {
+    function temporizador() {
         setMensagens(novaMensagem)
-        setTimeout(xs, 150)
+
+        setTimeout(temporizador, 150)
     }
 
     useEffect(() => {
-        xs()
+        if(chatsAtualizado.length) setChats(chatsAtualizado)
+    }, [chatsAtualizado]);
+
+    useEffect(() => {
+        temporizador()
     }, []);
 
     // Teste
     const [qtdAtual, setQtdAtual] = useState();
+    const [qtdChats, setQtdChats] = useState();
 
     if (qtdAtual !== mensagens.length) {
         setMensagens(novaMensagem)
         setQtdAtual(mensagens.length)
+    }
+
+    if (qtdChats !== chats.length && chatsSelecionado) {
+        setChats(chatsAtualizado)
+        setQtdChats(chats.length)
     }
 // TEste fim
 
@@ -116,7 +128,7 @@ function ApplicationsMessenger() {
     // busca chats
     async function axiosFunc() {
         await axios.get(route('admin.chat-interno.mensagens', {destinatario: 0})).then(results => {
-            setChats(results.data.chats)
+           setChats(results.data.chats)
         })
     }
 
@@ -159,7 +171,8 @@ function ApplicationsMessenger() {
                         setNomeChatsSelecionado={setNomeChatsSelecionado}
                         chats={chats}
                         chatSelecionado={chatsSelecionado}
-                        setChatsSelecionado={setChatsSelecionado}/>
+                        setChatsSelecionado={setChatsSelecionado}
+                        pessoas={pessoas}/>
                 </Scrollbar>
             </Sidebar>
             <ChatWindow>
@@ -186,7 +199,10 @@ function ApplicationsMessenger() {
                     </Scrollbar>
                 </Box>
                 <Divider/>
-                <BottomBarContent chatSelecionado={chatsSelecionado}/>
+                <BottomBarContent
+                    chatSelecionado={chatsSelecionado}
+                    chatsAtualizado={chatsAtualizado}
+                    setChats={setChats}/>
             </ChatWindow>
         </RootWrapper>
     </Layout>);

@@ -23,7 +23,10 @@ class MensagensChatInternoService
             $users[$id] = [
                 'id' => $id,
                 'nome' => $nomes[$id],
-                'qtd_nova' => '$ovan'
+                'qtd_nova' => '$ovan',
+                'ultima_mensagem' => $mensagem->mensagem,
+                'tipo' => $mensagem->tipo,
+                'status' => $mensagem->status,
             ];
         }
 
