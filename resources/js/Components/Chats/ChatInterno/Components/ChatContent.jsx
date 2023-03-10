@@ -82,7 +82,14 @@ function ChatContent({mensagens, chatSelecionado}) {
                                     justifyContent="flex-start"
                                     ml={2}
                                 >
-                                    <CardWrapperSecondary>{item.mensagem}</CardWrapperSecondary>
+                                    <CardWrapperSecondary>
+                                        {item.tipo === 'msg' && <span className="mb-2 d-block">
+                                        {item.mensagem}
+                                    </span>}
+                                        {item.tipo === 'file' && <span className="mb-2 d-block">
+                                        <ImagePdf url={item.mensagem}/>
+                                    </span>}
+                                    </CardWrapperSecondary>
                                     <small className="font-italic pt-1" style={{fontSize: 12}}>
                                         <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
                                                      style={{fontSize: 14}}/>
