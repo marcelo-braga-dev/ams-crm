@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import TopBarContent from './Components/TopBarContent';
 import BottomBarContent from './Components/BottomBarContent';
 import SidebarContent from './Components/SidebarContent';
-import ChatContent from './Components/ChatContent';
+// import ChatContent from './Components/ChatContent';
 
 import Scrollbar from './Components/Scrollbar';
 
@@ -12,6 +12,8 @@ import {
 } from '@mui/material';
 
 import axios from "axios";
+//import Chat from "@/Pages/Admin/ChatInterno/Test/Chat";
+import ChatContent from "@/Components/Chats/ChatInterno/Components/ChatContent";
 
 const RootWrapper = styled(Box)(({theme}) => `
        height: 87vh;
@@ -74,8 +76,6 @@ async function atualizaMensagens() {
 }
 
 atualizaMensagens()
-
-// setTimeout(x, 3000)
 function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
 
     const [mensagens, setMensagens] = useState([]);
@@ -190,11 +190,11 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                         </IconButtonToggle>
                         <TopBarContent nomeChatsSelecionado={nomeChatsSelecionado}/>
                     </ChatTopBar>
-                    <Box flex={1}>
-                        <Scrollbar>
-                            <ChatContent mensagens={mensagens} chatSelecionado={chatsSelecionado}/>
-                        </Scrollbar>
-                    </Box>
+                    {/*<Box flex={1}>*/}
+                    {/*    <Scrollbar>*/}
+                    <ChatContent mensagens={mensagens}/>
+                    {/*</Scrollbar>*/}
+                    {/*</Box>*/}
                     <Divider/>
                     <BottomBarContent
                         chatSelecionado={chatsSelecionado}

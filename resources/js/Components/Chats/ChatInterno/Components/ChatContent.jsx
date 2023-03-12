@@ -1,20 +1,10 @@
-import {Box, Avatar, Typography, Card, styled, Divider} from '@mui/material';
-import {useEffect, useState} from 'react'
-
+import React, {useCallback, useState} from 'react';
+import {Virtuoso} from 'react-virtuoso';
+import {Box, Card, styled} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 
-const DividerWrapper = styled(Divider)(
-    ({theme}) => `
-      .MuiDivider-wrapper {
-        border-radius: 10;
-        text-transform: none;
-        background: white;
-        font-size: 16px;
-        color: black;
-      }
-`
-);
 
 const CardWrapperPrimary = styled(Card)(
     ({theme}) => `
@@ -39,108 +29,105 @@ const CardWrapperSecondary = styled(Card)(
 `
 );
 
-const CaixaMensagem = styled(Box)(
-    ({theme}) => `
-      flex-direction: column-reverse;
-`
-);
-
-function ChatContent({mensagens, chatSelecionado}) {
-    const user = {
-        name: 'Catherine Pike',
-        avatar: ''
-    };
+export default function ChatContent({mensagens}) {
+    const itemContent = useCallback(
+        (index, item) => (
+            <div className="p-3">
+                {item.is_resposta ?
+                    <Box
+                        key={index}
+                        display="flex"
+                        alignItems="flex-start"
+                        justifyContent="flex-start"
+                    >
+                        <Avatar
+                            variant="rounded"
+                            sx={{
+                                width: 50,
+                                height: 50
+                            }}
+                            alt={item.nome_usuario}
+                            // src={user.avatar}
+                        />
+                        <Box
+                            display="flex"
+                            alignItems="flex-start"
+                            flexDirection="column"
+                            justifyContent="flex-start"
+                            ml={2}
+                        >
+                            <CardWrapperSecondary>
+                                {item.tipo === 'msg' && <span className="mb-2 d-block">
+                                            {item.mensagem}
+                                        </span>}
+                                {item.tipo === 'file' && <span className="mb-2 d-block">
+                                            <ImagePdf url={item.mensagem}/>
+                                        </span>}
+                            </CardWrapperSecondary>
+                            <small className="font-italic pt-1" style={{fontSize: 12}}>
+                                <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
+                                             style={{fontSize: 14}}/>
+                                {item.data}
+                            </small>
+                        </Box>
+                    </Box> :
+                    <Box
+                        key={index}
+                        display="flex"
+                        alignItems="flex-start"
+                        justifyContent="flex-end"
+                        py={1}
+                    >
+                        <Box id="mensagens"
+                             display="flex"
+                             alignItems="flex-end"
+                             flexDirection="column"
+                             justifyContent="flex-end"
+                             mr={2}
+                        >
+                            <CardWrapperPrimary>
+                                {item.tipo === 'msg' && <span className="mb-2 d-block">
+                                            {item.mensagem}
+                                        </span>}
+                                {item.tipo === 'file' && <span className="mb-2 d-block">
+                                            <ImagePdf url={item.mensagem}/>
+                                        </span>}
+                            </CardWrapperPrimary>
+                            <small className="font-italic pt-1" style={{fontSize: 12}}>
+                                <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
+                                             style={{fontSize: 14}}/>
+                                {item.data}
+                            </small>
+                        </Box>
+                        <Avatar
+                            variant="rounded"
+                            sx={{
+                                width: 50,
+                                height: 50
+                            }}
+                            alt={item.nome_destinatario}
+                            // src={user.avatar}
+                        />
+                    </Box>}
+            </div>
+        ),
+        []
+    );
 
     return (
-        <div id="mensagens" style={{height: '100%', overflowY: 'scroll', flexDirection: 'row-reverse'}}>
-
-            <CaixaMensagem p={3}>
-                {/*CAIXA DE MENSAGEM ESQ*/}
-                {mensagens.map((item, index) => {
-                    return (
-                        item.is_resposta ?
-                            <Box
-                                key={index}
-                                display="flex"
-                                alignItems="flex-start"
-                                justifyContent="flex-start"
-                                py={1}
-                            >
-                                <Avatar
-                                    variant="rounded"
-                                    sx={{
-                                        width: 50,
-                                        height: 50
-                                    }}
-                                    alt={item.nome_usuario}
-                                    src={user.avatar}
-                                />
-                                <Box
-                                    display="flex"
-                                    alignItems="flex-start"
-                                    flexDirection="column"
-                                    justifyContent="flex-start"
-                                    ml={2}
-                                >
-                                    <CardWrapperSecondary>
-                                        {item.tipo === 'msg' && <span className="mb-2 d-block">
-                                        {item.mensagem}
-                                    </span>}
-                                        {item.tipo === 'file' && <span className="mb-2 d-block">
-                                        <ImagePdf url={item.mensagem}/>
-                                    </span>}
-                                    </CardWrapperSecondary>
-                                    <small className="font-italic pt-1" style={{fontSize: 12}}>
-                                        <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
-                                                     style={{fontSize: 14}}/>
-                                        {item.data}
-                                    </small>
-                                </Box>
-                            </Box> :
-                            <Box
-                                key={index}
-                                display="flex"
-                                alignItems="flex-start"
-                                justifyContent="flex-end"
-                                py={1}
-                            >
-                                <Box id="mensagens"
-                                     display="flex"
-                                     alignItems="flex-end"
-                                     flexDirection="column"
-                                     justifyContent="flex-end"
-                                     mr={2}
-                                >
-                                    <CardWrapperPrimary>
-                                        {item.tipo === 'msg' && <span className="mb-2 d-block">
-                                        {item.mensagem}
-                                    </span>}
-                                        {item.tipo === 'file' && <span className="mb-2 d-block">
-                                        <ImagePdf url={item.mensagem}/>
-                                    </span>}
-                                    </CardWrapperPrimary>
-                                    <small className="font-italic pt-1" style={{fontSize: 12}}>
-                                        <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
-                                                     style={{fontSize: 14}}/>
-                                        {item.data}
-                                    </small>
-                                </Box>
-                                <Avatar
-                                    variant="rounded"
-                                    sx={{
-                                        width: 50,
-                                        height: 50
-                                    }}
-                                    alt={item.nome_destinatario}
-                                    src={user.avatar}
-                                />
-                            </Box>
-                    )
-                })}
-                {/*CAIXA DE MENSAGEM - FIM*/}
-            </CaixaMensagem>
+        <div
+            style={{
+                display: 'flex',
+                flexFlow: 'column',
+                height: '100%',
+            }}
+        >
+            <Virtuoso
+                itemContent={itemContent}
+                data={mensagens}
+                followOutput="auto"
+                style={{flex: '1 1 auto'}}
+            />
         </div>
     );
 }
-
-export default ChatContent;
