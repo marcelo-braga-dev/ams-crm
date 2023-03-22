@@ -5,8 +5,8 @@ import {Table, Td, Th} from "@/Components/Kanban/styles";
 // CARDS
 import NovoCard from "./Cards/NovoCard";
 import AndamentoCard from "./Cards/AndamentoCard";
+import AprovandoCard from "./Cards/AprovandoCard";
 import FinalizadosCard from "./Cards/FinalizadosCard";
-import AprovandoCard from "./Cards/AndamentoCard";
 // CARDS - fim
 
 import DoubleScrollbar from 'react-double-scrollbar/dist/DoubleScrollbar';

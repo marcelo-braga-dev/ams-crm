@@ -41,11 +41,12 @@ export default function Create({setores}) {
                 {/*PJ*/}
                 {<div className="row">
                     <div className="col mb-3">
-                        <TextField label="CNPJ :" fullWidth
+                        <TextField label="CPF/CNPJ:" fullWidth
                                    onBlur={e => setData('i' + i, {...data['i' + i], cnpj: e.target.value})}/>
                     </div>
                     <div className="col mb-3">
-
+                        <TextField label="Inscrição Estadual:" fullWidth
+                                   onBlur={e => setData('i' + i, {...data['i' + i], inscricao_estadual: e.target.value})}/>
                     </div>
                 </div>}
                 <div className="row">

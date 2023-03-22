@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Dev;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dev;
+use App\Models\DevHistoricos;
 use App\Services\Dev\DadosCardService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,11 +18,6 @@ class DevController extends Controller
         return Inertia::render('Admin/Dev/Index', compact('dados'));
     }
 
-    public function show($id)
-    {
-
-    }
-
     public function create()
     {
         $dataAtual = date(now());
@@ -31,9 +27,10 @@ class DevController extends Controller
 
     public function store(Request $request)
     {
-        (new Dev())->create($request);
+        $id = (new Dev())->create($request);
+        (new DevHistoricos())->create($id, $request->tarefas);
 
-        modalSucesso('Ação realzada com sucesso!');
+        modalSucesso('Ação realizada com sucesso!');
         return redirect()->route('admin.dev.index');
     }
 }

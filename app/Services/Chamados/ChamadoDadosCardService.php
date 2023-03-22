@@ -50,7 +50,7 @@ class ChamadoDadosCardService
         }
         return $this->cards;
     }
-    public function dados(mixed $dado): array
+    public function dados(mixed $dado)
     {
         $this->cards[$dado->status][] = [
             'id' => $dado->id,

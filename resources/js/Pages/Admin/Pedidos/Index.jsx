@@ -157,12 +157,20 @@ export default function Pedidos({pedidos, setores, setorAtual, fornecedores, for
                                 <th id="th-8">
                                     <div
                                         className='row justify-content-between rounded-top text-white mx-1 p-2'
+                                        style={{backgroundColor: 'orange'}}>
+                                        <div className='col-auto'>Acompanhamento</div>
+                                        <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
+                                    </div>
+                                </th>
+                                <th id="th-9">
+                                    <div
+                                        className='row justify-content-between rounded-top text-white mx-1 p-2'
                                         style={{backgroundColor: 'darkgreen'}}>
                                         <div className='col-auto'>Entregue</div>
                                         <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
                                     </div>
                                 </th>
-                                <th id="th-9">
+                                <th id="th-10">
                                     <div
                                         className='row bg-dark justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Cancelados</div>

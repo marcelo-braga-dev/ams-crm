@@ -18,9 +18,6 @@ import {
     useTheme
 } from '@mui/material';
 
-import CallTwoToneIcon from '@mui/icons-material/CallTwoTone';
-import VideoCameraFrontTwoToneIcon from '@mui/icons-material/VideoCameraFrontTwoTone';
-import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import ColorLensTwoToneIcon from '@mui/icons-material/ColorLensTwoTone';
@@ -30,6 +27,7 @@ import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 import BlockTwoToneIcon from '@mui/icons-material/BlockTwoTone';
 import WarningTwoToneIcon from '@mui/icons-material/WarningTwoTone';
 import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const RootWrapper = styled(Box)(
     ({theme}) => `
@@ -122,11 +120,9 @@ function TopBarContent({nomeChatsSelecionado}) {
                         display: {xs: 'none', lg: 'flex'}
                     }}
                 >
-                    {/*<Tooltip placement="bottom" title="Start a video call">*/}
-                    {/*    <IconButton color="primary">*/}
-                    {/*        <VideoCameraFrontTwoToneIcon/>*/}
-                    {/*    </IconButton>*/}
-                    {/*</Tooltip>*/}
+                    <IconButton aria-label="delete" size="small" color="error">
+                        <DeleteIcon fontSize="small"  />
+                    </IconButton>
                 </Box>
             </RootWrapper>
             <Drawer
