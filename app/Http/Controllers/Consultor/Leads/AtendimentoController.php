@@ -28,9 +28,12 @@ class AtendimentoController extends Controller
     public function update($id, Request $request)
     {
         if ($request->salvar_msg) {
-            (new LeadsHistoricos())->create($id, $request);
-        } else
+            (new LeadsHistoricos())->create($id, $request, $request->status);
+        } else {
             (new UpdateStatusLeads())->atendimento($id); // Finaliza Atendimento
+            (new LeadsHistoricos())->create($id, $request, 'finalizado');
+        }
+
 
 
         modalSucesso('Status atualizado!');

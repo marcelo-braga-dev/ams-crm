@@ -6,7 +6,9 @@ import MenuItem from "@mui/material/MenuItem";
 import {router} from '@inertiajs/react'
 
 export default function Show({dados, status, contatos, historicos}) {
-    const {data, setData} = useForm();
+    const {data, setData} = useForm({
+        msg: ''
+    });
 
     function onSubmit(e) {
         e.preventDefault();
@@ -48,7 +50,7 @@ export default function Show({dados, status, contatos, historicos}) {
                 <h6>Atualizar Status</h6>
                 <div className="row">
                     <div className="col-md-4 mb-4">
-                        <TextField label="Status" select fullWidth required
+                        <TextField label="Status" select fullWidth required defaultValue=""
                                    onChange={e => setData('status', e.target.value)}>
                             {status.map((option, index) => (
                                 <MenuItem key={index} value={option.status}>
@@ -58,7 +60,7 @@ export default function Show({dados, status, contatos, historicos}) {
                         </TextField>
                     </div>
                     <div className="col-md-4 mb-4">
-                        <TextField label="Meio Contato" select fullWidth required
+                        <TextField label="Meio Contato" select fullWidth required defaultValue=""
                                    onChange={e => setData('meio_contato', e.target.value)}>
                             {contatos.map((option, index) => (
                                 <MenuItem key={index} value={option.key}>
@@ -103,6 +105,8 @@ export default function Show({dados, status, contatos, historicos}) {
                         </div>
                         <div className="modal-body">
                             Confirmar finalização do atendimento?
+                            <TextField className="mt-3" label="Motivo/Anotações (min. 150 caracteres)" multiline rows="6" fullWidth required
+                                       onChange={e => setData('msg', e.target.value)}/>
                         </div>
                         <div className="modal-footer">
 
@@ -114,7 +118,7 @@ export default function Show({dados, status, contatos, historicos}) {
                                 </div>
                                 <div className="col">
                                     <form onSubmit={onSubmit}>
-                                        <button type="submit" className="btn btn-primary" data-bs-dismiss="modal">
+                                        <button disabled={data.msg.length < 150} type="submit" className="btn btn-primary" data-bs-dismiss="modal">
                                             Finalizar
                                         </button>
                                     </form>

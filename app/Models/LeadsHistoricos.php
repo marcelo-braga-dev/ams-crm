@@ -17,7 +17,7 @@ class LeadsHistoricos extends Model
         'meio_contato'
     ];
 
-    public function create(int $id, $dados)
+    public function create(int $id, $dados, $status)
     {
         (new Leads())->atualizarDataStatus($id);
 
@@ -25,7 +25,7 @@ class LeadsHistoricos extends Model
             ->create([
                 'users_id' => auth()->id(),
                 'leads_id' => $id,
-                'status' => $dados->status,
+                'status' => $status,
                 'msg' => $dados->msg,
                 'meio_contato' => $dados->meio_contato
             ]);
