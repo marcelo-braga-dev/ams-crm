@@ -3,16 +3,13 @@ import React, {useEffect, useState} from 'react';
 import TopBarContent from './Components/TopBarContent';
 import BottomBarContent from './Components/BottomBarContent';
 import SidebarContent from './Components/SidebarContent';
-// import ChatContent from './Components/ChatContent';
-
-import Scrollbar from './Components/Scrollbar';
 
 import {
     Box, styled, Divider, Drawer, IconButton, useTheme
 } from '@mui/material';
 
 import axios from "axios";
-//import Chat from "@/Pages/Admin/ChatInterno/Test/Chat";
+
 import ChatContent from "@/Components/Chats/ChatInterno/Components/ChatContent";
 
 const RootWrapper = styled(Box)(({theme}) => `
@@ -76,6 +73,7 @@ async function atualizaMensagens() {
 }
 
 atualizaMensagens()
+
 function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
 
     const [mensagens, setMensagens] = useState([]);
@@ -154,9 +152,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
                 >
-                    <Scrollbar>
-                        <SidebarContent/>
-                    </Scrollbar>
+                    <SidebarContent/>
                 </DrawerWrapperMobile>
                 <Sidebar
                     sx={{
@@ -164,14 +160,12 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                     }}
                 >
                     {/*CHAT*/}
-                    <Scrollbar>
-                        <SidebarContent
-                            setNomeChatsSelecionado={setNomeChatsSelecionado}
-                            chats={chats}
-                            chatSelecionado={chatsSelecionado}
-                            setChatsSelecionado={setChatsSelecionado}
-                            pessoas={pessoas}/>
-                    </Scrollbar>
+                    <SidebarContent
+                        setNomeChatsSelecionado={setNomeChatsSelecionado}
+                        chats={chats}
+                        chatSelecionado={chatsSelecionado}
+                        setChatsSelecionado={setChatsSelecionado}
+                        pessoas={pessoas}/>
                 </Sidebar>
                 <ChatWindow>
                     <ChatTopBar
@@ -190,11 +184,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                         </IconButtonToggle>
                         <TopBarContent nomeChatsSelecionado={nomeChatsSelecionado}/>
                     </ChatTopBar>
-                    {/*<Box flex={1}>*/}
-                    {/*    <Scrollbar>*/}
                     <ChatContent mensagens={mensagens}/>
-                    {/*</Scrollbar>*/}
-                    {/*</Box>*/}
                     <Divider/>
                     <BottomBarContent
                         chatSelecionado={chatsSelecionado}

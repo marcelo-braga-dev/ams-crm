@@ -21,6 +21,13 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
                 {'menu': 'Mensagens', 'url': route('admin.chat-interno.index'), 'tag': 'mensagens'},
             ]
         }, {
+            'menu': 'Agenda',
+            'tag': 'calendario',
+            'icone': 'fas fa-angle-double-right',
+            'submenu': [
+                {'menu': 'Calendário', 'url': route('admin.agenda.calendario.index'), 'tag': 'calendario'},
+            ]
+        }, {
             'menu': 'Leads',
             'tag': 'leads',
             'icone': 'fas fa-angle-double-right',

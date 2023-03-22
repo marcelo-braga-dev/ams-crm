@@ -8,14 +8,17 @@ use App\Models\User;
 use App\src\Chamados\Status\FinalizadosChamadoStatus;
 use App\src\Chamados\Status\NovoChamadoStatus;
 use App\src\Chamados\Status\RespondidoChamadoStatus;
+use DateTime;
 
 class ChamadoDadosCardService
 {
     //private $dados;
+    private $cards;
 
     public function __construct()
     {
         //$this->dados = (new PedidosChamados())->dadosCardAdmin();
+        $this->cards = [];
         $this->usuarios = (new User())->getNomes();
         $this->clientes = (new PedidosClientes())->getNomes();
     }
@@ -36,23 +39,48 @@ class ChamadoDadosCardService
         $respondidoStatus = (new RespondidoChamadoStatus())->getStatus();
         $finalizadoStatus = (new FinalizadosChamadoStatus())->getStatus();
 
-        $cards[$novoStatus] = [];
-        $cards[$respondidoStatus] = [];
-        $cards[$finalizadoStatus] = [];
+        $this->cards[$novoStatus] = [];
+        $this->cards[$respondidoStatus] = [];
+        $this->cards[$finalizadoStatus] = [];
 
         // Pedidos
         foreach ($dados as $dado) {
-            $cards[$dado->status][] = [
-                'id' => $dado->id,
-                'id_pedido' => $dado->pedidos_id,
-                'consultor' => $this->usuarios[$dado->consultor],
-                'admin' => $this->usuarios[$dado->admin],
-                'cliente' => getNomeCliente($dado->pedidos_id),
-                'status_data' => date('d/m/y H:i', strtotime($dado->status_data)),
-                'titulo' => $dado->titulo,
-                'prazo' => $dado->prazo
-            ];
+
+            $this->dados($dado);
         }
-        return $cards;
+        return $this->cards;
+    }
+    public function dados(mixed $dado): array
+    {
+        $this->cards[$dado->status][] = [
+            'id' => $dado->id,
+            'id_pedido' => $dado->pedidos_id,
+            'consultor' => $this->usuarios[$dado->consultor],
+            'admin' => $this->usuarios[$dado->admin],
+            'cliente' => getNomeCliente($dado->pedidos_id),
+            'status_data' => date('d/m/y H:i', strtotime($dado->status_data)),
+            'titulo' => $dado->titulo,
+            'prazo' => $dado->prazo
+        ];
+    }
+
+    private function verificacao($pedido)
+    {
+        $atrasado = $this->getDiferenca($pedido->status_data, $pedido->prazo);
+
+        if ($pedido->status !== 'cancelado' && $pedido->status !== 'entregue') {
+            $this->dados($pedido);
+
+        } elseif (!$atrasado) {
+            $this->dados($pedido);
+        }
+    }
+
+    private function getDiferenca(mixed $prazoData, int $prazoLimite): ?int
+    {
+        $entrada = new DateTime(now());
+        $saida = new DateTime(date('Y-m-d H:i:s', strtotime("+$prazoLimite days", strtotime($prazoData))));
+
+        return $saida->diff($entrada)->invert ? null : 1;
     }
 }
