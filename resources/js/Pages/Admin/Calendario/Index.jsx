@@ -97,9 +97,10 @@ export default function ({prazosPedidos}) {
                                             alert.push(prazosPedidos[activeDate.getFullYear()][activeDate.getMonth()][dia])
                                         } catch (e) {
                                         }
-                                          return (alert[0]?.map((x) => {
+                                          return (alert[0]?.map((id) => {
                                             return <small className="badge d-block rounded-pill bg-danger mt-2">
-                                                Prazo Pedido #{x}
+                                                <a href={route('admin.pedidos.show', id)} className="text-white">
+                                                    Prazo Pedido #{id}</a>
                                             </small>
                                         }))
                                     }

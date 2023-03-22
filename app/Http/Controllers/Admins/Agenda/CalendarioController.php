@@ -17,9 +17,10 @@ class CalendarioController extends Controller
         foreach ($pedidos as $pedido) {
             $ano = date('Y', strtotime($pedido->status_data));
             $mes = date('m', strtotime($pedido->status_data));
-            $dia = date('d', strtotime($pedido->status_data));
+            $dia = date('d', strtotime('+'.$pedido->prazo.' days', strtotime($pedido->status_data)));
 
-            $prazosPedidos[$ano][$mes == 10 ? $mes : str_replace('0', '', $mes)][$dia][] = $pedido->id;
+            $prazosPedidos[$ano][$mes == 10 ? $mes : str_replace('0', '', $mes)]
+            [$dia][] = $pedido->id;
         }
 
         return Inertia::render('Admin/Calendario/Index', compact('prazosPedidos'));
