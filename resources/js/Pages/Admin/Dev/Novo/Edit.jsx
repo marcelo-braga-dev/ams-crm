@@ -11,7 +11,7 @@ export default function ({dados, tarefas}) {
     });
 
     function avancarStatus() {
-        router.post(route('admin.dev-andamento.update', dados.id), {
+        router.post(route('admin.dev-novo.update', dados.id), {
             _method: 'put',
             ...data
         })
@@ -24,7 +24,7 @@ export default function ({dados, tarefas}) {
     }
 
     return (
-        <Layout titlePage="Suporte em Andamento" container menu="dev" submenu="registros">
+        <Layout titlePage="Suporte em Aberto" container menu="dev" submenu="registros">
             <div className="row">
                 <div className="col">
                     <span className="d-block">Título: {dados.titulo}</span>

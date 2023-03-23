@@ -4,7 +4,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 export default function ({dados, tarefas}) {
     return (
-        <Layout titlePage="Suporte em Andamento" container menu="dev" submenu="registros">
+        <Layout titlePage="Suporte em Aberto" container menu="dev" submenu="registros">
             <div className="row">
                 <div className="col">
                     <span className="d-block">Título: {dados.titulo}</span>
@@ -20,15 +20,15 @@ export default function ({dados, tarefas}) {
                 <div className="col-12">
 
                     <ul className="list-group">
-                    {tarefas.map((dados, index) => {
-                        return (
+                        {tarefas.map((dados, index) => {
+                            return (
                                 <li key={index} className="list-group-item">
                                     {dados.status === 'novo' ?
-                                        <AccessTimeIcon /> : <CheckCircleOutlineIcon className="text-success"/>}
+                                        <AccessTimeIcon/> : <CheckCircleOutlineIcon className="text-success"/>}
                                     <span className="ps-3">{dados.texto}</span>
                                 </li>
-                        )
-                    })}
+                            )
+                        })}
                     </ul>
                 </div>
             </div>

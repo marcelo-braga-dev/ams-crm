@@ -33,7 +33,7 @@ export default function ({dados, tarefas}) {
                     <ul className="list-group">
                     {tarefas.map((dados, index) => {
                         return (
-                                <li className="list-group-item">
+                                <li key={index} className="list-group-item">
                                     {dados.status === 'novo' ?
                                         <AccessTimeIcon /> : <CheckCircleOutlineIcon className="text-success"/>}
                                     <span className="ps-3">{dados.texto}</span>

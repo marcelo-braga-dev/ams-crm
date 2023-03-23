@@ -3,16 +3,18 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import axios from "axios";
-import {useForm} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
 
 export default function ({dados, tarefas}) {
-    const {put} = useForm({
+    const {data} = useForm({
         avancarStatus: true,
-        _method: 'put'
     });
 
     function avancarStatus() {
-        put(route('admin.dev-andamento.update', dados.id))
+        router.post(route('admin.dev-andamento.update', dados.id), {
+            _method: 'put',
+            ...data
+        })
     }
 
     function atualizarStatus(id, status) {
