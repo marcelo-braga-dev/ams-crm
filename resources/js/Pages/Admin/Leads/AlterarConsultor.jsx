@@ -6,8 +6,27 @@ import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/react";
 import Checkbox from "@mui/material/Checkbox";
 
-const FilterComponent = ({filterText, onFilter, setFiltro}) => (
+const FilterComponent = ({filterText, onFilter, setFiltro, setStatus}) => (
     <>
+        <TextField className="me-4" style={{minWidth: 150}}
+                   id="outlined-select-currency"
+                   select
+                   label="Status"
+                   defaultValue=""
+                   size="small"
+                   onChange={event => setStatus(event.target.value)}
+        >
+            <MenuItem value="">
+                Todos
+            </MenuItem>
+            <MenuItem value="novo">
+                Novo
+            </MenuItem>
+            <MenuItem value="finalizado">
+                Finalizado
+            </MenuItem>
+        </TextField>
+
         <TextField
             id="outlined-select-currency"
             select
@@ -131,8 +150,16 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     // Dados - fim
 
     const [filterText, setFilterText] = useState('');
+    const [filterTextStatus, setFilterTextStatus] = useState('');
 
     const [filtro, setFiltro] = useState('nome');
+    const [status, setStatus] = useState('');
+
+    useEffect(() => {
+        if (status) setFiltro('status')
+        console.log(status)
+    }, [status]);
+
 
     const filteredItems = linhas.filter(
         item => filtro === 'id' &&
@@ -153,6 +180,9 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             || filtro === 'consultor' &&
             item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
 
+            || filtro === 'status' &&
+            item.status && item.status.toLowerCase().includes(status)
+
             || filtro === 'ddd' &&
             item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
             || filtro === 'ddd' && filterText === ''
@@ -162,7 +192,9 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         return (
             <FilterComponent onFilter={e => setFilterText(e.target.value)}
                              filterText={filterText}
-                             setFiltro={setFiltro}/>
+                             setFiltro={setFiltro}
+                             setStatus={setStatus}
+            />
         );
     }, [filterText]);
 
