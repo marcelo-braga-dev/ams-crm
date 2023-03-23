@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('status', 32);
             $table->string('categoria', 32);
             $table->string('msg');
+            $table->timestamp('data');
             $table->timestamps();
         });
     }

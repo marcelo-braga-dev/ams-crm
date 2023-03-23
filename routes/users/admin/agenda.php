@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admins\Agenda\CalendarioController;
+use App\Http\Controllers\Admin\Agenda\CalendarioController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'auth.admins'])

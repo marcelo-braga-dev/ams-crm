@@ -31,7 +31,7 @@ class UsuariosService
         return $items;
     }
 
-    public function dados($dado)
+    private function dados($dado)
     {
         return [
             'id' => $dado->id,

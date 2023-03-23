@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('users_id')->nullable();
             $table->string('status', 32);
             $table->string('area', 32);
+            $table->integer('setor');
             $table->string('prioridade', 32);
             $table->string('titulo');
             $table->string('descricao')->nullable();
