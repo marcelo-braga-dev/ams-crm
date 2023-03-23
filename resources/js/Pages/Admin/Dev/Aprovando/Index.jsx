@@ -2,16 +2,18 @@ import Layout from "@/Layouts/Admin/Layout";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import React from "react";
-import {useForm} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
 
 export default function ({dados, tarefas}) {
-    const {put} = useForm({
+    const {data} = useForm({
         avancarStatus: true,
-        _method: 'put'
     });
 
     function submit() {
-        put(route('admin.dev-aprovando.update', dados.id))
+        router.post(route('admin.dev-aprovando.update', dados.id), {
+            _method: 'put',
+            ...data
+        })
     }
 
     return (
