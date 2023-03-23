@@ -22,6 +22,9 @@ const FilterComponent = ({filterText, onFilter, setFiltro, setStatus}) => (
             <MenuItem value="novo">
                 Novo
             </MenuItem>
+            <MenuItem value="atendimento">
+                Atendimento
+            </MenuItem>
             <MenuItem value="finalizado">
                 Finalizado
             </MenuItem>
