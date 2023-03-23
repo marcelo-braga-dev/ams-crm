@@ -17,7 +17,8 @@ class Dev extends Model
         'anotacoes',
         'data_prazo',
         'area',
-        'prioridade'
+        'prioridade',
+        'setor'
     ];
 
     public function create($request)
@@ -29,7 +30,8 @@ class Dev extends Model
                 'data_prazo' => $request->prazo,
                 'status' => 'novo',
                 'area' => $request->area,
-                'prioridade' => $request->prioridade
+                'prioridade' => $request->prioridade,
+                'setor' => $request->setor
             ]);
         return $dados->id;
     }

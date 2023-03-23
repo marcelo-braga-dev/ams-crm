@@ -6,7 +6,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Create({dataAtual}) {
+export default function Create({dataAtual, setores}) {
     const [qtdTarefas, setQtdTarefas] = useState(3);
 
     const {data, setData, post} = useForm({
@@ -24,7 +24,7 @@ export default function Create({dataAtual}) {
     let rows = [];
     for (let i = 1; i <= qtdTarefas; i++) {
         rows.push(
-            <div className="row mt-3">
+            <div key={i} className="row mt-3">
                 <div className="col">
                     <TextField fullWidth
                                onChange={e => setData('tarefas', {...data.tarefas, [i]: e.target.value})}/>
@@ -32,7 +32,7 @@ export default function Create({dataAtual}) {
             </div>
         )
     }
-    console.log(data)
+
     return (
         <Layout container titlePage="Cadastrar - Desenvolvimento"
                 menu="dev" submenu="cadastrar">
@@ -44,21 +44,31 @@ export default function Create({dataAtual}) {
                     </div>
                 </div>
                 <div className="row">
-                <div className="col-md-4 mb-4">
-                    <TextField label="Área" select fullWidth required defaultValue=""
-                               onChange={e => setData('area', e.target.value)}>
-                        <MenuItem value="pedidos">Pedidos</MenuItem>
-                        <MenuItem value="chat_interno">Chat Interno</MenuItem>
-                        <MenuItem value="agenda">Agenda</MenuItem>
-                        <MenuItem value="leads">Leads</MenuItem>
-                        <MenuItem value="emails">Emails</MenuItem>
-                        <MenuItem value="contas_usuarios">Contas Usuários</MenuItem>
-                        <MenuItem value="sac">SAC</MenuItem>
-                        <MenuItem value="fornecedores">Fornecedores</MenuItem>
-                        <MenuItem value="outros">Outros</MenuItem>
-                    </TextField>
-                </div>
-                    <div className="col-md-4 mb-4">
+                    <div className="col-md-3 mb-4">
+                        <TextField label="Área" select fullWidth required defaultValue=""
+                                   onChange={e => setData('area', e.target.value)}>
+                            <MenuItem value="pedidos">Pedidos</MenuItem>
+                            <MenuItem value="chat_interno">Chat Interno</MenuItem>
+                            <MenuItem value="agenda">Agenda</MenuItem>
+                            <MenuItem value="leads">Leads</MenuItem>
+                            <MenuItem value="emails">Emails</MenuItem>
+                            <MenuItem value="contas_usuarios">Contas Usuários</MenuItem>
+                            <MenuItem value="sac">SAC</MenuItem>
+                            <MenuItem value="fornecedores">Fornecedores</MenuItem>
+                            <MenuItem value="outros">Outros</MenuItem>
+                        </TextField>
+                    </div>
+                    <div className="col-md-3 mb-4">
+                        <TextField label="Setor" select fullWidth required defaultValue=""
+                                   onChange={e => setData('setor', e.target.value)}>
+                            {setores.map((item, index) => {
+                                return (
+                                    <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
+                                )
+                            })}
+                        </TextField>
+                    </div>
+                    <div className="col-md-3 mb-4">
                         <TextField label="Prioridade" select fullWidth required defaultValue=""
                                    onChange={e => setData('prioridade', e.target.value)}>
                             <MenuItem value="normal">Normal</MenuItem>

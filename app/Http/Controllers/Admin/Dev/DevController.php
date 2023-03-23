@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Dev;
 use App\Http\Controllers\Controller;
 use App\Models\Dev;
 use App\Models\DevHistoricos;
+use App\Models\Setores;
 use App\Services\Dev\DadosCardService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,8 +22,9 @@ class DevController extends Controller
     public function create()
     {
         $dataAtual = date(now());
+        $setores = (new Setores())->get();
 
-        return Inertia::render('Admin/Dev/Create', compact('dataAtual'));
+        return Inertia::render('Admin/Dev/Create', compact('dataAtual', 'setores'));
     }
 
     public function store(Request $request)

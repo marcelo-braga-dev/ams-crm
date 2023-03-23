@@ -56,8 +56,6 @@ class Setores extends Model
         return $dados;
     }
 
-
-
     public function setores()
     {
         $items = $this->newQuery()->get();
