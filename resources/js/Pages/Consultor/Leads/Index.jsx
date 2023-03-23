@@ -14,6 +14,7 @@ import ScrollControlHorizontal from "@/Helpers/scrollControlHorizontal";
 import NovoCards from './Cards/NovoCard';
 import AtendimentoCards from './Cards/AtendimentoCard';
 import FinalizadoCard from "./Cards/FinalizadoCard";
+import AtivoCard from "./Cards/AtivoCard";
 
 export default function Dashboard({leads}) {
 
@@ -58,12 +59,20 @@ export default function Dashboard({leads}) {
                                     </th>
                                     <th id="th-2">
                                         <div
-                                            className='row bg-success justify-content-between rounded-top text-white mx-1 p-2'>
+                                            className='row bg-warning justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Em Atendimento</div>
                                             <div className='col-auto'>Qdt: {leads.atendimento.length}</div>
                                         </div>
                                     </th>
+
                                     <th id="th-3">
+                                        <div
+                                            className='row bg-success justify-content-between rounded-top text-white mx-1 p-2'>
+                                            <div className='col-auto'>Ativo</div>
+                                            <div className='col-auto'>Qdt: {leads.ativo.length}</div>
+                                        </div>
+                                    </th>
+                                    <th id="th-4">
                                         <div
                                             className='row bg-warning justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Finalizados</div>
@@ -85,6 +94,11 @@ export default function Dashboard({leads}) {
                                         })}
                                     </td>
                                     <td id="td-3" className="shadow-sm" style={{minWidth: 300}}>
+                                        {leads.ativo.map((dado) => {
+                                            return (<AtivoCard key={dado.id} dados={dado}/>)
+                                        })}
+                                    </td>
+                                    <td id="td-4" className="shadow-sm" style={{minWidth: 300}}>
                                         {leads.finalizado.map((dado) => {
                                             return (<FinalizadoCard key={dado.id} dados={dado}/>)
                                         })}

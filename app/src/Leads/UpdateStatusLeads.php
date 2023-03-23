@@ -3,6 +3,7 @@
 namespace App\src\Leads;
 
 use App\src\Leads\Status\AtendimentoStatusLeads;
+use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\CanceladoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
@@ -13,6 +14,11 @@ class UpdateStatusLeads
     public function novo($id)
     {
         (new AtendimentoStatusLeads())->updateStatus($id);
+    }
+
+    public function ativar($id)
+    {
+        (new AtivoStatusLeads())->updateStatus($id);
     }
 
     public function atendimento($id)

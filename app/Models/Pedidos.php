@@ -226,4 +226,18 @@ class Pedidos extends Model
 
         $this->updateStatus($id, $dados->status, $dados->prazo);
     }
+
+    public function getPeloStatus($idUsuario, string $status, $configs, DadosPedidoServices $objeto)
+    {
+        $query = $this->newQuery()->where('status', $status);
+
+        if ($idUsuario) $query->where('users_id', $idUsuario);
+        if ($configs['setor']) $query->where('setor', $configs['setor']);
+        if ($configs['fornecedor']) $query->where('fornecedor', $configs['fornecedor']);
+
+        return $query->get()
+            ->transform(function ($pedido) use ($objeto) {
+                return $objeto->dadosCard($pedido);
+            });
+    }
 }

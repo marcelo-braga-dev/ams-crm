@@ -5,7 +5,7 @@ function btn(id) {
 
     return (
         <a href={route('consultor.leads.atendimento.show', id)}
-           className="btn btn-warning btn-sm">
+           className="btn btn-success btn-sm">
             ABRIR
         </a>
     )

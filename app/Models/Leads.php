@@ -166,4 +166,50 @@ class Leads extends Model
             ->where('users_id', '>', 0)
             ->get();
     }
+
+    public function getPeloStatus($id, string $status, string $order = 'desc')
+    {
+        return $this->newQuery()
+            ->where('users_id', $id)
+            ->where('status', $status)
+            ->orderBy('status_data', $order)
+            ->get()
+            ->transform(function ($item) {
+                return $this->dados($item);
+            });
+    }
+
+    private function dados($item)
+    {
+        $nomes = (new User())->getNomeConsultores();
+        return [
+            'id' => $item->id,
+
+            'consultor' => [
+                        'nome' => $nomes[$item->users_id] ?? '-'
+            ],
+
+            'cliente' => [
+                'nome' => $item->nome,
+                'cidade' => $item->cidade,
+                'estado' => $item->estado,
+                'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
+            ],
+
+            'contato' => [
+                'email' => $item->email,
+                'telefone' => converterTelefone($item->telefone),
+                'atendente' => $item->atendente,
+            ],
+
+            'infos' => [
+                'status' => $item->status,
+                'status_anotacoes' => $item->status_anotacoes,
+                'anotacoes' => $item->infos,
+                'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
+                'contato' => $item->meio_contato,
+                'data_criacao' => date('d/m/y H:i', strtotime($item->updated_at)),
+            ],
+        ];
+    }
 }

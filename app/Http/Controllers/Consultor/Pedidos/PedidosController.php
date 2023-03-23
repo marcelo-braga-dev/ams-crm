@@ -19,7 +19,7 @@ class PedidosController extends Controller
 {
     public function index()
     {
-        $pedidos = (new CardDadosService())->getCardsConsultor();
+        $pedidos = (new CardDadosService())->getCards(id_usuario_atual());
 
         return Inertia::render('Consultor/Pedidos/Index', compact('pedidos'));
     }

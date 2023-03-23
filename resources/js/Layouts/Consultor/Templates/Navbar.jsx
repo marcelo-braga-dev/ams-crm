@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import NavMenuToglle from "../../../../assets/argon/bootstrap5/js/nav-menu-toglle";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/NotificationsNone";
 import Tooltip from "@mui/material/Tooltip";
@@ -55,9 +54,9 @@ export default function Navbar({titlePage}) {
             <NotificacoesNav url={route('consultor.notificacoes.pedidos.show', 0)}
                              urlPageChat={route('consultor.chat-interno.index')}
                              setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads}/>
-            <nav className="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur"
-                 data-scroll="false">
-                <div className="container-fluid py-1 px-3 mt-2">
+            <nav className="navbar navbar-main navbar-expand-lg pb-3" id="navbarBlur"
+                 data-scroll="false"  style={{"backgroundColor": "#252525"}}>
+                <div className="container-fluid py-1 mt-2">
                     <nav aria-label="breadcrumb">
                         <h6 className="font-weight-bolder text-white mb-0">{titlePage}</h6>
                     </nav>

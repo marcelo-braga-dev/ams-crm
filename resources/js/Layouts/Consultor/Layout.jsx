@@ -12,7 +12,7 @@ export default function Layout({children, titlePage, container, voltar, errors =
             <ModalsAllerts/>
             <Sidebar/>
 
-            <main className="main-content position-relative border-radius-lg ">
+            <main className="main-content">
                 <Navbar titlePage={titlePage}/>
                 <div className="container-fluid py-4">
                     {container ?

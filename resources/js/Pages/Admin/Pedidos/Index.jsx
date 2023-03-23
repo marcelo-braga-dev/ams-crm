@@ -19,59 +19,47 @@ import InputAdornment from "@mui/material/InputAdornment";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import ScrollControlHorizontal from '@/Helpers/scrollControlHorizontal';
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
 
 export default function Pedidos({pedidos, setores, setorAtual, fornecedores, fornecedorAtual}) {
+
+    function atualizarPagina(forcededorId, setorId) {
+        window.location.href = route('admin.pedidos.index', {setor: setorId, fornecedor: forcededorId})
+    }
 
     return (
         <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="lista">
             {/*Setores*/}
-            <div className="row mb-2">
-                <h6>Setores</h6>
-                <div className="col">
-                    <div className="btn-group" role="group" aria-label="Basic outlined example">
-                        <a type="button"
-                           href={route('admin.pedidos.index')}
-                           className={(!setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
-                            Todos
-                        </a>
-                        {setores.map((setor, index) => {
-                            return (
-                                <a type="button" key={index}
-                                   href={route('admin.pedidos.index', {setor: setor.id})}
-                                   className={(setor.id == setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
-                                    {setor.nome}
-                                </a>
-                            )
-                        })}
+            <div className="container">
+                <div className="row mb-2 bg-white p-3 shadow rounded">
+                    <div className="col-md-4">
+                        <TextField select label="Setores" fullWidth defaultValue={setorAtual ?? ''}
+                                   onChange={e => atualizarPagina(null, e.target.value)}>
+                            <MenuItem value="">Todos</MenuItem>
+                            {setores.map((setor, index) => {
+                                return (
+                                    <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
+                                )
+                            })}
+                        </TextField>
                     </div>
-                </div>
-            </div>
-
-            {/*Fornecedores*/}
-            <div className="row mb-4">
-                <h6>Fornecedores</h6>
-                <div className="col">
-                    <div className="btn-group" role="group" aria-label="Basic outlined example">
-                        <a type="button"
-                           href={route('admin.pedidos.index', {setor: setorAtual})}
-                           className={(!fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
-                            Todos
-                        </a>
-                        {fornecedores.map((fornecedor, index) => {
-                            return (
-                                <a type="button" key={index}
-                                   href={route('admin.pedidos.index', {setor: setorAtual, fornecedor: fornecedor.id})}
-                                   className={(fornecedor.id == fornecedorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
-                                    {fornecedor.nome}
-                                </a>
-                            )
-                        })}
+                    <div className="col-md-4">
+                        <TextField select label="Fornecedores" fullWidth defaultValue={fornecedorAtual ?? ''}
+                                   onChange={e => atualizarPagina(e.target.value , setorAtual)}>
+                            <MenuItem value="">Todos</MenuItem>
+                            {fornecedores.map((item, index) => {
+                                return (
+                                    <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
+                                )
+                            })}
+                        </TextField>
                     </div>
                 </div>
             </div>
 
             {/*Cards*/}
-            <div className='container'>
+            <div className='container mt-4'>
                 {/*Pesquisa*/}
                 <div className="row justify-content-between">
                     <div className="col-auto  text-right">

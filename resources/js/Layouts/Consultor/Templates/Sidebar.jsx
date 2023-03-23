@@ -54,10 +54,9 @@ export default function Sidebar() {
     }
 
     return (<>
-            <div className="position-absolute w-100" style={{minHeight: 80, "backgroundColor": "#252525"}}></div>
-            <aside
-                className="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-radius-xl my-3 fixed-start ms-4"
-                id="sidenav-main">
+            {/*<div className="position-absolute w-100" style={{minHeight: 80, "backgroundColor": "#252525"}}></div>*/}
+            <aside id="sidenav-main"
+                   className="sidenav bg-white navbar navbar-vertical navbar-expand-xs fixed-start">
                 <div style={{"backgroundColor": "#252525"}}>
                     <a href="/">
                         <div className="text-center py-3">

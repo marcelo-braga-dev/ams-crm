@@ -13,7 +13,7 @@ class LeadsController extends Controller
 {
     public function index()
     {
-        $leads = (new CardLeadsService())->getConsultor(auth()->id());
+        $leads = (new CardLeadsService())->getConsultor(id_usuario_atual());
 
         return Inertia::render('Consultor/Leads/Index',
             compact('leads'));

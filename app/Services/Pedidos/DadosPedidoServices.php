@@ -13,6 +13,51 @@ use DateTime;
 
 class DadosPedidoServices
 {
+    private array $consultores;
+    private array $clientes;
+    private array $fornecedores;
+    private array $integradores;
+
+    public function __construct()
+    {
+        $this->consultores = (new User())->getNomeConsultores();
+        $this->clientes = (new PedidosClientes())->getCardDados();
+        $this->fornecedores = (new Fornecedores())->getCardDados();
+        $this->integradores = (new Integradores())->getCardDados();
+    }
+
+    public function dadosCard($pedido)
+    {
+        if ($this->status($pedido->status) || $this->prazo($pedido))
+        return [
+            'id' => $pedido->id,
+            'cliente' => $this->clientes[$pedido->id]['nome'],
+            'consultor' => $this->consultores[$pedido->users_id],
+            'preco' => convert_float_money($pedido->preco_venda),
+            'fornecedor' => $this->fornecedores[$pedido->fornecedor],
+            'integrador' => $this->integradores[$pedido->integrador],
+            'status' => $pedido->status,
+            'forma_pagamento' => $pedido->forma_pagamento,
+            'contato' => [
+                'telefone' => $this->clientes[$pedido->id]['telefone'],
+                'email' => $this->clientes[$pedido->id]['email']
+            ],
+            'prazos' => [
+                'data_status' => date('d/m/y H:i', strtotime($pedido->status_data)),
+                'data_prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),
+                'prazo_atrasado' => $this->getDiferenca($pedido->status_data, $pedido->prazo)
+            ],
+            'icones' => [
+                'pin' => '',
+            ],
+            'infos' => [
+                'situacao' => $pedido->situacao,
+                'alerta' => $pedido->alerta,
+                'sac' => $pedido->sac,
+            ],
+        ];
+    }
+
     public function dados($pedido): array
     {
         $cliente = (new PedidosClientes())->getCliente($pedido->id);
@@ -94,5 +139,15 @@ class DadosPedidoServices
         $saida = new DateTime(date('Y-m-d H:i:s', strtotime("+$prazoLimite days", strtotime($prazoData))));
 
         return $saida->diff($entrada)->invert ? null : 1;
+    }
+
+    private function status($status): bool
+    {
+        return $status !== 'cancelado' && $status !== 'entregue';
+    }
+
+    private function prazo($pedido): bool
+    {
+        return !$this->getDiferenca($pedido->status_data, $pedido->prazo);
     }
 }

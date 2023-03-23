@@ -125,6 +125,7 @@ class User extends Authenticatable
         foreach ($items as $item) {
             $dados[$item->id] = $item->name;
         }
+
         return $dados;
     }
 
