@@ -16,7 +16,8 @@ class ChatInterno extends Model
         'destinatario',
         'status',
         'mensagem',
-        'tipo'
+        'tipo',
+        'status_chat'
     ];
 
     public function create($dados)
@@ -56,8 +57,9 @@ class ChatInterno extends Model
             ->where([
                 ['users_id', $usuario], ['destinatario', $destinatarios]
             ])
+            ->where('status_chat', 1)
             ->orWhere([
-                ['users_id', $destinatarios], ['destinatario', $usuario]
+                ['users_id', $destinatarios], ['destinatario', $usuario], ['status_chat', 1]
             ])->get();
     }
 
@@ -67,7 +69,8 @@ class ChatInterno extends Model
 
         return $this->newQuery()
             ->where('users_id', $usuario)
-            ->orWhere('destinatario', $usuario)
+            ->where('status_chat', 1)
+            ->orWhere([['destinatario', $usuario], ['status_chat', 1]])
             ->get();
     }
 
@@ -77,5 +80,19 @@ class ChatInterno extends Model
             ->where('destinatario', $id)
             ->where('status', (new NovoStatusChatInterno())->getStatus())
             ->count();
+    }
+
+    public function excluirConversa($idDestinatario)
+    {
+        $this->newQuery()
+            ->where([
+                ['users_id', id_usuario_atual()], ['destinatario', $idDestinatario]
+            ])
+            ->where('status_chat', 1)
+            ->orWhere([
+                ['users_id', $idDestinatario], ['destinatario', id_usuario_atual()], ['status_chat', 1]
+            ])->update([
+                'status_chat' => 0
+            ]);
     }
 }

@@ -80,11 +80,14 @@ class User extends Authenticatable
     public function getAll($exceto = null)
     {
         if ($exceto) return $this->newQuery()
+            ->where('status', 'ativo')
             ->get(['id', 'name', 'setor', 'email', 'tipo', 'status'])
             ->except(['id' => $exceto]);
         return $this->newQuery()
+            ->where('status', 'ativo')
             ->get(['id', 'name', 'setor', 'email', 'tipo', 'status']);
     }
+
 
     public function getConsultores()
     {

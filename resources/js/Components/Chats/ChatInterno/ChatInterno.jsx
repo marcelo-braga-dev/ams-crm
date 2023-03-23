@@ -182,7 +182,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                             size="small"
                         >
                         </IconButtonToggle>
-                        <TopBarContent nomeChatsSelecionado={nomeChatsSelecionado}/>
+                        <TopBarContent nomeChatsSelecionado={nomeChatsSelecionado} idDestinatario={id}/>
                     </ChatTopBar>
                     <ChatContent mensagens={mensagens}/>
                     <Divider/>

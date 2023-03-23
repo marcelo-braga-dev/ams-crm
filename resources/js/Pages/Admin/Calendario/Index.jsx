@@ -106,7 +106,7 @@ export default function ({prazosPedidos, avisosCalendario}) {
                                         return (alert[0]?.map((id, index) => {
                                             return (
                                                 <small key={index}
-                                                       className="badge d-block rounded-pill bg-danger mt-2">
+                                                       className="badge d-block rounded-pill bg-danger mt-2 text-wrap">
                                                     <a href={route('admin.pedidos.show', id)} className="text-white">
                                                         Prazo Pedido #{id}</a>
                                                 </small>

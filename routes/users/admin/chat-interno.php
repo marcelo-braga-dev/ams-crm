@@ -9,4 +9,6 @@ Route::name('admin.')
         Route::resource('chat-interno', ChatInternoController::class);
         Route::get('chat-interno-mensagens', [ChatInternoController::class, 'mensagens'])
             ->name('chat-interno.mensagens');
+        Route::post('chat-interno-excluir-mensagens', [ChatInternoController::class, 'excluirConversa'])
+            ->name('chat-interno-excluir-mensagens');
     });

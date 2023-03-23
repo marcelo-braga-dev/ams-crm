@@ -38,4 +38,9 @@ class ChatInternoController extends Controller
             'chats' => $conversas
         ];
     }
+
+    public function excluirConversa(Request $request)
+    {
+        (new ChatInterno())->excluirConversa($request->idDestinatario);
+    }
 }

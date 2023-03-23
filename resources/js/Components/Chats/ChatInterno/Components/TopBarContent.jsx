@@ -80,7 +80,7 @@ const AccordionSummaryWrapper = styled(AccordionSummary)(
 `
 );
 
-function TopBarContent({nomeChatsSelecionado}) {
+function TopBarContent({nomeChatsSelecionado, idDestinatario}) {
     const theme = useTheme();
 
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -95,35 +95,39 @@ function TopBarContent({nomeChatsSelecionado}) {
         setExpanded(isExpanded ? section : false);
     };
 
+    function excluirConversa() {
+        axios.post(route('admin.chat-interno-excluir-mensagens', {idDestinatario: idDestinatario}))
+    }
+
     return (
         <>
             <RootWrapper>
-                <Box display="flex" className="ms-3 p-1" alignItems="center">
-                    <Avatar
-                        variant="rounded"
-                        sx={{
-                            width: 48,
-                            height: 48
-                        }}
-                        alt="Zain Baptista"
-                        src=""
-                    />
+                {nomeChatsSelecionado &&
+                    <>
+                        <Box display="flex" className="ms-3 p-1" alignItems="center">
+                            <Avatar
+                                variant="rounded"
+                                sx={{
+                                    width: 48,
+                                    height: 48
+                                }}
+                                alt="Zain Baptista"
+                                src=""
+                            />
 
-                    <div className="row px-2">
+                            <div className="row px-2">
                         <span className="d-block font-weight-bold text-dark text-lg">
                             {nomeChatsSelecionado}
                         </span>
-                    </div>
-                </Box>
-                <Box
-                    sx={{
-                        display: {xs: 'none', lg: 'flex'}
-                    }}
-                >
-                    <IconButton aria-label="delete" size="small" color="error">
-                        <DeleteIcon fontSize="small"  />
-                    </IconButton>
-                </Box>
+                            </div>
+                        </Box>
+                        <Box sx={{display: {xs: 'none', lg: 'flex'}}}>
+                            <IconButton aria-label="delete" size="small" color="error" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <DeleteIcon fontSize="small"/>
+                            </IconButton>
+                        </Box>
+                    </>
+                }
             </RootWrapper>
             <Drawer
                 sx={{
@@ -314,6 +318,28 @@ function TopBarContent({nomeChatsSelecionado}) {
                     </Accordion>
                 </Box>
             </Drawer>
+
+            {/*<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">*/}
+            {/*    Launch demo modal*/}
+            {/*</button>*/}
+
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Excluir Conversa</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Confirmar exclusão de conversa
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => excluirConversa()}>Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
