@@ -78,7 +78,7 @@ export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
             case 'faturado':
                 return {backgroundColor: coresPedidos.faturado};
                 break;
-            case 'revisar':
+            case 'acompanhamento':
                 return {backgroundColor: coresPedidos.acompanhamento};
                 break;
             case 'entregue':
