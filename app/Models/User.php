@@ -77,15 +77,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function getAll($exceto = null)
+    public function getAll($exceto = null, $setor = null)
     {
-        if ($exceto) return $this->newQuery()
-            ->where('status', 'ativo')
-            ->get(['id', 'name', 'setor', 'email', 'tipo', 'status'])
-            ->except(['id' => $exceto]);
-        return $this->newQuery()
-            ->where('status', 'ativo')
-            ->get(['id', 'name', 'setor', 'email', 'tipo', 'status']);
+        $query = $this->newQuery()
+            ->where('status', 'ativo');
+
+        if ($setor) $query->where('setor', $setor);
+
+        if ($exceto) return
+            $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status'])
+                ->except(['id' => $exceto]);
+
+        return $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status']);
     }
 
 
