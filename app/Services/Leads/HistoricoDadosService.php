@@ -23,7 +23,7 @@ class HistoricoDadosService
                 'id' => $item['id'],
                 'nome' => $usuarios[$item['users_id']],
                 'status' => $status[$item['status']] ?? 'Inderteminado',
-                'meio_contato' => $statusNomes[$item['meio_contato']],
+                'meio_contato' => $statusNomes[$item['meio_contato']] ?? '',
                 'msg' => $item->msg,
                 'data_criacao' => date('d/m/Y H:i', strtotime($item->updated_at))
             ];

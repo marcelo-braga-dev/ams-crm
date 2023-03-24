@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import {useForm} from '@inertiajs/react'
 import {TextField} from "@mui/material";
 
-export default function Pedidos({prazos}) {
+export default function Pedidos({prazos, coresPedidos}) {
     const {post, data, setData} = useForm({
         'novo': prazos.novo,
         'conferencia': prazos.conferencia,
@@ -14,13 +14,29 @@ export default function Pedidos({prazos}) {
         'pagamento': prazos.pagamento,
         'faturando': prazos.faturando,
         'faturado': prazos.faturado,
+
+        'cor_reprovado': coresPedidos.reprovado,
+        'cor_conferencia': coresPedidos.conferencia,
+        'cor_lancado': coresPedidos.lancado,
+        'cor_nota': coresPedidos.boleto,
+        'cor_pagamento': coresPedidos.pagamento,
+        'cor_faturamento': coresPedidos.faturamento,
+        'cor_faturado': coresPedidos.faturado,
+        'cor_acompanhamento': coresPedidos.acompanhamento,
+        'cor_entregue': coresPedidos.entregue,
+        'cor_cancelados': coresPedidos.cancelados,
     })
 
     function submit(e) {
         e.preventDefault()
         post(route('admin.config.store'))
     }
+    function atualizarCoresPedidos(e) {
+        e.preventDefault()
+        post(route('admin.pedidos.config-cores-pedidos'))
+    }
 
+console.log(data)
     return (
         <Layout container voltar={route('admin.pedidos.index')} titlePage="Consfigurações de Pedidos"
                 menu="pedidos" submenu="config">
@@ -62,7 +78,62 @@ export default function Pedidos({prazos}) {
                 <div className="text-center">
                     <Button color={"primary"}>Atualizar Prazos</Button>
                 </div>
+            </form>
 
+            {/*Cores Pedidos*/}
+            <form onSubmit={atualizarCoresPedidos} className="border-top pt-4 mt-4">
+                <h6>Cores das Abas dos PEDIDOS</h6>
+                <div className="row">
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Reprovados" fullWidth defaultValue={data.cor_reprovado}
+                                   onChange={e => setData('cor_reprovado', e.target.value)}/>
+                    </div>
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Conferência" fullWidth defaultValue={data.cor_conferencia}
+                                   onChange={e => setData('cor_conferencia', e.target.value)}/>
+                    </div>
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Lançado" fullWidth defaultValue={data.cor_lancado}
+                                   onChange={e => setData('cor_lancado', e.target.value)}/>
+                    </div>
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Aguard. Nota/Boleto" fullWidth defaultValue={data.cor_nota}
+                                   onChange={e => setData('cor_nota', e.target.value)}/>
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Aguard. Pagamento" fullWidth defaultValue={data.cor_pagamento}
+                                   onChange={e => setData('cor_pagamento', e.target.value)}/>
+                    </div>
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Aguard. Faturamento" fullWidth defaultValue={data.cor_faturamento}
+                                   onChange={e => setData('cor_faturamento', e.target.value)}/>
+                    </div>
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Faturado" fullWidth defaultValue={data.cor_faturado}
+                                   onChange={e => setData('cor_faturado', e.target.value)}/>
+                    </div>
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Acompanhamento" fullWidth defaultValue={data.cor_acompanhamento}
+                                   onChange={e => setData('cor_acompanhamento', e.target.value)}/>
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Entregue" fullWidth defaultValue={data.cor_entregue}
+                                   onChange={e => setData('cor_entregue', e.target.value)}/>
+                    </div>
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Cancelados" fullWidth defaultValue={data.cor_cancelados}
+                                   onChange={e => setData('cor_cancelados', e.target.value)}/>
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col-auto mx-auto">
+                        <button type="submit" className="btn btn-primary">Atualizar Cores</button>
+                    </div>
+                </div>
             </form>
         </Layout>
     )

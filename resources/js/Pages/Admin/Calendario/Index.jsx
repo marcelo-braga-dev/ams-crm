@@ -3,7 +3,7 @@ import {useState} from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-export default function ({prazosPedidos, avisosCalendario}) {
+export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
 
     const months = [
         "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -55,8 +55,75 @@ export default function ({prazosPedidos, avisosCalendario}) {
     const dataAtual = (new Date()).getDate()
     const mesAtual = (new Date()).getMonth()
 
+    function corPedidos(valor) {
+        switch (valor) {
+            case 'revisar':
+                return {backgroundColor: coresPedidos.reprovado};
+                break;
+            case 'conferencia':
+                return {backgroundColor: coresPedidos.conferencia};
+                break;
+            case 'lancado':
+                return {backgroundColor: coresPedidos.lancado};
+                break;
+            case 'aguardando_nota':
+                return {backgroundColor: coresPedidos.boleto};
+                break;
+            case 'aguardando_pagamento':
+                return {backgroundColor: coresPedidos.pagamento};
+                break;
+            case 'aguardando_faturamento':
+                return {backgroundColor: coresPedidos.faturamento};
+                break;
+            case 'faturado':
+                return {backgroundColor: coresPedidos.faturado};
+                break;
+            case 'revisar':
+                return {backgroundColor: coresPedidos.acompanhamento};
+                break;
+            case 'entregue':
+                return {backgroundColor: coresPedidos.entregue};
+                break;
+            case 'cancelado':
+                return {backgroundColor: coresPedidos.cancelados};
+                break;
+        }
+    }
+
     return (
         <Layout container titlePage="Calendário" menu="calendario" submenu="calendario">
+            <div className="">
+                <small style={{backgroundColor: coresPedidos.reprovado}} className="badge rounded-pill mb-2 me-2 text-white">
+                        Reprovado
+                </small>
+                <small style={{backgroundColor: coresPedidos.conferencia}} className="badge rounded-pill mb-2 me-2 text-white">
+                    Conferência
+                </small>
+                <small style={{backgroundColor: coresPedidos.lancado}} className="badge rounded-pill mb-2 me-2 text-white">
+                    Lançado
+                </small>
+                <small style={{backgroundColor: coresPedidos.boleto}} className="badge rounded-pill mb-2 me-2 text-white">
+                    Nota/Boleto
+                </small>
+                <small style={{backgroundColor: coresPedidos.pagamento}} className="badge rounded-pill mb-2 me-2 text-white">
+                    Aguard. Pagamento
+                </small>
+                <small style={{backgroundColor: coresPedidos.faturamento}} className="badge rounded-pill mb-2 me-2 text-white">
+                    Aguard. Faturamento
+                </small>
+                <small style={{backgroundColor: coresPedidos.faturado}} className="badge rounded-pill mb-2 me-2 text-white">
+                    Faturado
+                </small>
+                <small style={{backgroundColor: coresPedidos.acompanhamento}} className="badge rounded-pill mb-2 me-2 text-white">
+                    Acompanhamento
+                </small>
+                <small style={{backgroundColor: coresPedidos.entregue}} className="badge rounded-pill mb-2 me-2 text-white">
+                    Entregue
+                </small>
+                <small style={{backgroundColor: coresPedidos.cancelados}} className="badge rounded-pill mb-2 me-2 text-white">
+                    Cancelados
+                </small>
+            </div>
             <div className="row mb-3 justify-content-between">
                 <div className="col-md-6">
                     <div className="row">
@@ -98,25 +165,28 @@ export default function ({prazosPedidos, avisosCalendario}) {
                                 {row.map((dia, indexCol) => {
                                     let alert = []
 
-                                    function alertDiv() {
+                                    function pedidosPrazo() {
                                         try {
-                                            alert.push(prazosPedidos[activeDate.getFullYear()][activeDate.getMonth()+1][dia])
+                                            alert.push(prazosPedidos[activeDate.getFullYear()][activeDate.getMonth() + 1][dia])
                                         } catch (e) {
                                         }
-                                        return (alert[0]?.map((id, index) => {
+                                        return (alert[0]?.map((dado, index) => {
                                             return (
-                                                <small key={index}
-                                                       className="badge d-block rounded-pill bg-danger mt-2 text-wrap">
-                                                    <a href={route('admin.pedidos.show', id)} className="text-white">
-                                                        Prazo Pedido #{id}</a>
+                                                <small key={index} style={corPedidos(dado.status)}
+                                                       className="badge d-block rounded-pill mt-2 text-wrap">
+                                                    <a href={route('admin.pedidos.show', dado.id)}
+                                                       className="text-white">
+                                                        Prazo Pedido #{dado.id}</a>
                                                 </small>
                                             )
                                         }))
                                     }
+
                                     let avisosTag = []
+
                                     function avisosCalendarioTag() {
                                         try {
-                                            avisosTag.push(avisosCalendario[activeDate.getFullYear()][activeDate.getMonth()+1][dia])
+                                            avisosTag.push(avisosCalendario[activeDate.getFullYear()][activeDate.getMonth() + 1][dia])
                                         } catch (e) {
                                         }
                                         return (avisosTag[0]?.map(({msg, nome}, index) => {
@@ -129,15 +199,16 @@ export default function ({prazosPedidos, avisosCalendario}) {
                                             )
                                         }))
                                     }
+
                                     return (
-                                        <td key={indexCol} className="border" style={{maxWidth: 10}} >
+                                        <td key={indexCol} className="border" style={{maxWidth: 10}}>
                                             <div className="row px-1 mb-4">
                                                 <small
                                                     className={(indexCol === 0 ? 'text-danger ' : '') + "d-block text-end"}>
                                                     {dia === dataAtual && activeDate.getMonth() === mesAtual ?
                                                         <span className="badge rounded-pill bg-dark">{dia}</span> : dia}
 
-                                                    {alertDiv()}
+                                                    {pedidosPrazo()}
                                                     {avisosCalendarioTag()}
                                                 </small>
                                             </div>

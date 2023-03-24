@@ -46,7 +46,7 @@ class ChamadoDadosCardService
         // Pedidos
         foreach ($dados as $dado) {
 
-            $this->dados($dado);
+            $this->verificacao($dado);
         }
         return $this->cards;
     }
@@ -66,9 +66,9 @@ class ChamadoDadosCardService
 
     private function verificacao($pedido)
     {
-        $atrasado = $this->getDiferenca($pedido->status_data, $pedido->prazo);
+        $atrasado = $this->getDiferenca($pedido->status_data, 3);
 
-        if ($pedido->status !== 'cancelado' && $pedido->status !== 'entregue') {
+        if ($pedido->status !== 'finalizado') {
             $this->dados($pedido);
 
         } elseif (!$atrasado) {

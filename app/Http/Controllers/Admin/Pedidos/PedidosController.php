@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Pedidos;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConfigCores;
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
 use App\Services\Fornecedores\FornecedoresService;
@@ -23,8 +24,10 @@ class PedidosController extends Controller
 
         $pedidos = (new CardDadosService())->getCards($fornecedorAtual, $setorAtual);
 
+        $coresAbas = (new ConfigCores())->getPedidos();
+
         return Inertia::render('Admin/Pedidos/Index',
-            compact('pedidos', 'fornecedores', 'fornecedorAtual', 'setores', 'setorAtual'));
+            compact('pedidos', 'fornecedores', 'fornecedorAtual', 'setores', 'setorAtual' ,'coresAbas'));
     }
 
     public function show($id)

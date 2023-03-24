@@ -31,6 +31,17 @@ export default function Show({dados, status, contatos, historicos}) {
 
                 <LeadsDados dados={dados}/>
 
+                <div className="row justify-content-end">
+                    <div className="col-auto">
+                        <a href={route('consultor.integradores.create', {idLeads:dados.id})} className="btn btn-success">Ativar Lead</a>
+                    </div>
+                    <div className="col-auto mb-3">
+                        <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                            Finalizar Atendimento
+                        </button>
+                    </div>
+                </div>
                 <div className="mt-4 p-4">
                     <h6 className="mb-3">Histórico de Atendimento</h6>
                     {historicos.map((dado, index) => (
@@ -86,12 +97,6 @@ export default function Show({dados, status, contatos, historicos}) {
                             </button>
                         </div>
                     </div>
-                    <div className="col mb-3">
-                        <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
-                            Finalizar Atendimento
-                        </button>
-                    </div>
                 </div>
             </form>
             <div className="modal fade" id="exampleModal" tabIndex="10" aria-labelledby="exampleModalLabel"
@@ -105,11 +110,11 @@ export default function Show({dados, status, contatos, historicos}) {
                         </div>
                         <div className="modal-body">
                             Confirmar finalização do atendimento?
-                            <TextField className="mt-3" label="Motivo/Anotações (min. 150 caracteres)" multiline rows="6" fullWidth required
+                            <TextField className="mt-3" label="Motivo/Anotações (min. 150 caracteres)" multiline
+                                       rows="6" fullWidth required
                                        onChange={e => setData('msg', e.target.value)}/>
                         </div>
                         <div className="modal-footer">
-
                             <div className="row">
                                 <div className="col">
                                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
@@ -118,7 +123,8 @@ export default function Show({dados, status, contatos, historicos}) {
                                 </div>
                                 <div className="col">
                                     <form onSubmit={onSubmit}>
-                                        <button disabled={data.msg.length < 150} type="submit" className="btn btn-primary" data-bs-dismiss="modal">
+                                        <button disabled={data.msg.length < 150} type="submit"
+                                                className="btn btn-primary" data-bs-dismiss="modal">
                                             Finalizar
                                         </button>
                                     </form>

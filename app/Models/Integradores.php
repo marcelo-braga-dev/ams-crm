@@ -46,9 +46,9 @@ class Integradores extends Model
         return [
             'id' => $dados->id,
             'nome' => $dados->nome,
-            'cnpj' => $dados->cnpj,
+            'cnpj' => converterCNPJ($dados->cnpj),
             'atendente' => $dados->atendente,
-            'telefone' =>$dados->telefone,
+            'telefone' => converterTelefone($dados->telefone),
             'email' => $dados->email,
             'anotacoes' => $dados->anotacoes
         ];

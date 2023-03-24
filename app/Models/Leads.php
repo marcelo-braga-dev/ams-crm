@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use Error;

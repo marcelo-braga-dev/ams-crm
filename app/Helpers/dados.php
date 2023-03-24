@@ -18,7 +18,7 @@ if (!function_exists('converterTelefone')) {
     function converterTelefone($dados = '')
     {
         $res = $dados;
-        $dados = preg_replace("/\D/","", $dados);
+        $dados = preg_replace("/\D/", "", $dados);
         $qtd = mb_strlen($dados);
 
         if ($qtd == 13) {
@@ -46,5 +46,21 @@ if (!function_exists('converterTelefone')) {
         }
 
         return $res;
+    }
+}
+
+if (!function_exists('converterCNPJ')) {
+    function converterCNPJ($dados = '')
+    {
+        if (!$dados) return '';
+        if (is_numeric($dados)) {
+            $dados = preg_replace("/\D/", '', $dados);
+
+            $res = substr_replace($dados, '-', -2, 0);
+            $res = substr_replace($res, '/', -7, 0);
+            $res = substr_replace($res, '.', -11, 0);
+            return substr_replace($res, '.', -15, 0);
+        }
+        return $dados;
     }
 }

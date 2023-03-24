@@ -31,4 +31,13 @@ Route::name('admin.')
         Route::resource('retroceder', RetrocederController::class);
 
         Route::resource('historico', HistoricoController::class);
+
+
+    });
+
+Route::name('admin.pedidos.')
+    ->prefix('admin/pedidos')
+    ->group(function () {
+        Route::post('config-cores-pedidos', [ConfigController::class, 'atualizarCoresPedidos'])
+            ->name('config-cores-pedidos');
     });

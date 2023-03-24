@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Pedidos;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConfigCores;
 use App\Models\PedidosPrazos;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,7 +22,10 @@ class ConfigController extends Controller
         $prazos['faturando'] = $cls->getFaturando();
         $prazos['faturado'] = $cls->getFaturado();
 
-        return Inertia::render('Admin/Pedidos/Config/Index', compact('prazos'));
+        $coresPedidos = (new ConfigCores())->getPedidos();
+
+        return Inertia::render('Admin/Pedidos/Config/Index',
+            compact('prazos', 'coresPedidos'));
     }
 
     public function store(Request $request)
@@ -37,5 +41,21 @@ class ConfigController extends Controller
 
         modalSucesso('Atualizações Realizadas com Sucesso');
         return redirect()->route('admin.config.index');
+    }
+
+    public function atualizarCoresPedidos(Request $request)
+    {
+       // print_pre($request->all());
+
+        (new ConfigCores())->reprovado($request->cor_reprovado);
+        (new ConfigCores())->conferencia($request->cor_conferencia);
+        (new ConfigCores())->lancado($request->cor_lancado);
+        (new ConfigCores())->boleto($request->cor_nota);
+        (new ConfigCores())->pagamento($request->cor_pagamento);
+        (new ConfigCores())->faturamento($request->cor_faturamento);
+        (new ConfigCores())->faturado($request->cor_faturado);
+        (new ConfigCores())->acompanhamento($request->cor_acompanhamento);
+        (new ConfigCores())->entregue($request->cor_entregue);
+        (new ConfigCores())->cancelados($request->cor_cancelados);
     }
 }

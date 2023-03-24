@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Consultor\Leads\AtendimentoController;
+use App\Http\Controllers\Consultor\Leads\AtivoController;
 use App\Http\Controllers\Consultor\Leads\CanceladosController;
 use App\Http\Controllers\Consultor\Leads\FinalizadosController;
 use App\Http\Controllers\Consultor\Leads\LeadsController;
@@ -15,6 +16,7 @@ Route::middleware(['auth', 'auth.consultores'])
         Route::resources([
             'main' => LeadsController::class,
             'atendimento' => AtendimentoController::class,
+            'ativo' => AtivoController::class,
             'novo' => NovoController::class,
             'finalizado' => FinalizadosController::class,
             'cancelado' => CanceladosController::class

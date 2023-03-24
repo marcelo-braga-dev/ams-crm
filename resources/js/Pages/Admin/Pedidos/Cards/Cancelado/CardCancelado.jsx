@@ -5,10 +5,10 @@ import BtnAvancaStatus from "./BtnAvancaStatus";
 
 
 
-export default function CardCancelado({dados}) {
+export default function CardCancelado({dados, cor}) {
 
     return ( <CardPedidos
         dados={dados}
         menuMore={<MenuMore id={dados.id}/>}
-        border="black"/> )
+        border={cor}/> )
 }

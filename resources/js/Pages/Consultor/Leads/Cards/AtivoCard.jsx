@@ -4,7 +4,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 function btn(id) {
 
     return (
-        <a href={route('consultor.leads.atendimento.show', id)}
+        <a href={route('consultor.leads.ativo.show', id)}
            className="btn btn-success btn-sm">
             ABRIR
         </a>

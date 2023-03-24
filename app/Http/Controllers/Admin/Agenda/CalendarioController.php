@@ -4,19 +4,18 @@ namespace App\Http\Controllers\Admin\Agenda;
 
 use App\Http\Controllers\Controller;
 use App\Models\Calendario;
+use App\Models\ConfigCores;
 use App\Models\Pedidos;
 use App\Models\User;
 use App\Services\Usuarios\UsuariosService;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use function GuzzleHttp\Promise\all;
 
 class CalendarioController extends Controller
 {
     public function index()
     {
-        $pedidos = (new Pedidos())->newQuery()->get();
-        $calendario = (new Calendario())->newQuery()->get();
+        $pedidos = (new Pedidos())->newQuery()->get(['id', 'status', 'status_data', 'prazo']);
 
         $prazosPedidos = [];
         foreach ($pedidos as $pedido) {
@@ -24,8 +23,13 @@ class CalendarioController extends Controller
             $mes = date('m', strtotime($pedido->status_data));
             $dia = date('d', strtotime('+' . $pedido->prazo . ' days', strtotime($pedido->status_data)));
 
-            $prazosPedidos[$ano][intval($mes)][intval($dia)][] = $pedido->id;
+            $prazosPedidos[$ano][intval($mes)][intval($dia)][] = [
+                'id' => $pedido->id,
+                'status' => $pedido->status
+            ];
         }
+
+        $calendario = (new Calendario())->newQuery()->get();
         $nomes = (new User())->getNomes();
         $avisosCalendario = [];
         foreach ($calendario as $item) {
@@ -39,8 +43,10 @@ class CalendarioController extends Controller
             ];
         }
 
+        $coresPedidos = (new ConfigCores())->getPedidos();
+
         return Inertia::render('Admin/Calendario/Index',
-            compact('prazosPedidos', 'avisosCalendario'));
+            compact('prazosPedidos', 'avisosCalendario', 'coresPedidos'));
     }
 
     public function create()

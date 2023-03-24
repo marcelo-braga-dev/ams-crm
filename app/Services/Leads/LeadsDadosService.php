@@ -49,25 +49,22 @@ class LeadsDadosService
     {
         return [
             'id' => $item->id,
-
             'consultor' => [
                 'nome' => $this->consultores[$item->users_id] ?? ''
             ],
-
             'cliente' => [
                 'nome' => $item->nome,
                 'razao_social' => $item->razao_social,
+                'cnpj' => converterCNPJ($item->cnpj),
                 'cidade' => $item->cidade,
                 'estado' => $item->estado,
                 'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
             ],
-
             'contato' => [
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
                 'atendente' => $item->atendente,
             ],
-
             'infos' => [
                 'status' => $item->status,
                 'status_anotacoes' => $item->status_anotacoes,
