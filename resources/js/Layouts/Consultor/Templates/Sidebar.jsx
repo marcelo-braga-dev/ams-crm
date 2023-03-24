@@ -1,6 +1,9 @@
 import * as React from "react";
+import {usePage} from "@inertiajs/react";
 
 export default function Sidebar() {
+    const {props} = usePage();
+    console.log(props.setorUsuario.nome)
     const logo = "/storage/crm/imagens/logo_ams.png";
 
     const pages = [
@@ -57,14 +60,16 @@ export default function Sidebar() {
             {/*<div className="position-absolute w-100" style={{minHeight: 80, "backgroundColor": "#252525"}}></div>*/}
             <aside id="sidenav-main"
                    className="sidenav bg-white navbar navbar-vertical navbar-expand-xs fixed-start">
-                <div style={{"backgroundColor": "#252525"}}>
-                    <a href="/">
-                        <div className="text-center py-3">
-                            <img src={logo} className="" width={100} alt="main_logo"/>
-                        </div>
-                    </a>
+                <div>
+                    <div style={{"backgroundColor": "#252525"}}>
+                        <a href="/">
+                            <div className="text-center py-3">
+                                <img src={logo} className="" width={100} alt="main_logo"/>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div className="horizontal pe-3 ps-2 mt-3">
+                <div className="horizontal pe-2 ps-2 mt-0">
                     <div className="acco rdion accord ion-flush w-auto mb-6" id="accordionFlushSidebar">
 
                         {/*ITEMS*/}
@@ -97,6 +102,14 @@ export default function Sidebar() {
                             </div>
                         ))}
                         {/*ITEMS - FIM*/}
+                        <div className="row py-2 mt-4"
+                            >
+                            <div className=" text-center sticky-bottom text-white">
+                                <small className="" style={{color: props.setorUsuario.cor}}>
+                                    Setor: {props.setorUsuario.nome}
+                                </small>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </aside>

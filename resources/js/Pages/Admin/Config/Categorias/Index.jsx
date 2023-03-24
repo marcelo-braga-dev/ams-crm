@@ -16,6 +16,7 @@ export default function ({dados}) {
                     <tr>
                         <th>ID</th>
                         <th>Setor</th>
+                        <th>Cor</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -25,6 +26,9 @@ export default function ({dados}) {
                             <tr key={index}>
                                 <td>#{dado.id}</td>
                                 <td>{dado.nome}</td>
+                                <td>
+                                    <span className="badge rounded-circle p-2" style={{backgroundColor: dado.cor}}> </span>
+                                </td>
                                 <td>
                                     <a href={route('admin.config.categorias.show', dado.id)}
                                     className="btn btn-primary btn-sm mt-3">Ver</a>

@@ -10,7 +10,8 @@ class Setores extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome'
+        'nome',
+        'cor'
     ];
 
     public function get()
@@ -22,7 +23,8 @@ class Setores extends Model
     {
         $this->newQuery()
             ->create([
-                'nome' => $dados->nome
+                'nome' => $dados->nome,
+                'cor' => $dados->cor
             ]);
     }
 
@@ -37,7 +39,8 @@ class Setores extends Model
         $this->newQuery()
             ->find($id)
             ->update([
-                'nome' => $request->nome
+                'nome' => $request->nome,
+                'cor' => $request->cor
             ]);
     }
 
@@ -49,7 +52,8 @@ class Setores extends Model
         foreach ($items as $item) {
             $dados[$item->id] = [
                 'id' => $item->id,
-                'nome' => $item->nome
+                'nome' => $item->nome,
+                'cor' => $item->cor
             ];
         }
 
@@ -64,7 +68,8 @@ class Setores extends Model
         foreach ($items as $item) {
             $dados[] = [
                 'id' => $item->id,
-                'nome' => $item->nome
+                'nome' => $item->nome,
+                'cor' => $item->cor
             ];
         }
 

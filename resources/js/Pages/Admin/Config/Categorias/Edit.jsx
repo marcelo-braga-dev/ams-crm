@@ -4,7 +4,8 @@ import {useForm} from "@inertiajs/react";
 import { router } from '@inertiajs/react'
 export default function ({dados}) {
     const {data, setData} = useForm({
-        nome: dados.nome
+        nome: dados.nome,
+        cor: dados.cor
     });
 
     function submit(e) {
@@ -22,8 +23,12 @@ export default function ({dados}) {
             <form onSubmit={submit}>
                 <div className="row mb-4">
                     <div className="col-md-6">
-                        <TextField label="Nome" value={data.nome}
+                        <TextField label="Nome" defaultValue={data.nome}
                                    onChange={e => setData('nome', e.target.value)} required fullWidth/>
+                    </div>
+                    <div className="col-md-2">
+                        <TextField label="Cor" defaultValue={data.cor} type="color"
+                                   onChange={e => setData('cor', e.target.value)} required fullWidth/>
                     </div>
                 </div>
                 <div className="row justify-content-center">

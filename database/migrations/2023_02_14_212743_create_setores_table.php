@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('setores', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 32);
+            $table->string('cor', 16)->nullable();
             $table->timestamps();
         });
     }

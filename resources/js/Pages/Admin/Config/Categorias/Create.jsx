@@ -18,6 +18,10 @@ export default function ({dados}) {
                     <div className="col-md-6">
                         <TextField label="Nome do Setor" onChange={e => setData('nome', e.target.value)} required fullWidth/>
                     </div>
+                    <div className="col-md-2">
+                        <TextField label="Cor" type="color"
+                                   onChange={e => setData('cor', e.target.value)} required fullWidth/>
+                    </div>
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-auto">

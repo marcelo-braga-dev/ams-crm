@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setores;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -34,7 +35,14 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
-        //$sucesso = ;
+        $setorNome = '';
+        $setorCor = '';
+        if ($request->user()) {
+            $setorUsuario = (new Setores())->find($request->user()['setor']);
+            $setorNome = $setorUsuario->nome;
+            $setorCor = $setorUsuario->cor;
+        }
+
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
@@ -48,6 +56,10 @@ class HandleInertiaRequests extends Middleware
                 'sucesso' => session('sucesso'),
                 'erro' => session('erro'),
             ],
+            'setorUsuario' => [
+                'nome' => $setorNome,
+                'cor' => $setorCor
+            ]
         ]);
     }
 }

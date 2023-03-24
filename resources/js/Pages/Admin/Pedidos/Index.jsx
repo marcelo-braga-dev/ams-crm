@@ -34,7 +34,7 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
             <div className="container">
                 <div className="row mb-2 bg-white p-3 shadow rounded">
                     <div className="col-md-4">
-                        <TextField select label="Setores" fullWidth defaultValue={setorAtual ?? ''}
+                        <TextField select label="Setores" size="small" fullWidth defaultValue={setorAtual ?? ''}
                                    onChange={e => atualizarPagina(null, e.target.value)}>
                             <MenuItem value="">Todos</MenuItem>
                             {setores.map((setor, index) => {
@@ -45,7 +45,7 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                         </TextField>
                     </div>
                     <div className="col-md-4">
-                        <TextField select label="Fornecedores" fullWidth defaultValue={fornecedorAtual ?? ''}
+                        <TextField select size="small" label="Fornecedores" fullWidth defaultValue={fornecedorAtual ?? ''}
                                    onChange={e => atualizarPagina(e.target.value, setorAtual)}>
                             <MenuItem value="">Todos</MenuItem>
                             {fornecedores.map((item, index) => {
