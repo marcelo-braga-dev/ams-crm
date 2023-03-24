@@ -28,7 +28,6 @@ class CardDadosService
         $entregueStatus = (new EntregueStatus())->getStatus();
         $canceladoStatus = (new CanceladoStatus())->getStatus();
 
-        $query = (new Pedidos());
 
         $configs = [
             'fornecedor' => $fornecedorAtual,
@@ -36,6 +35,7 @@ class CardDadosService
         ];
 
         $objeto = (new DadosPedidoServices());
+        $query = (new Pedidos());
 
         $cards['reprovado'] = $query->getPeloStatus($id, $reprovado, $configs, $objeto);
         $cards['conferencia'] = $query->getPeloStatus($id, $conferenciaStatus, $configs, $objeto);

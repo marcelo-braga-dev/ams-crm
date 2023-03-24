@@ -235,9 +235,13 @@ class Pedidos extends Model
         if ($configs['setor']) $query->where('setor', $configs['setor']);
         if ($configs['fornecedor']) $query->where('fornecedor', $configs['fornecedor']);
 
-        return $query->get()
-            ->transform(function ($pedido) use ($objeto) {
-                return $objeto->dadosCard($pedido);
-            });
+        $dados = $query->get();
+
+        $res = [];
+        foreach ($dados as $dado) {
+            $card = $objeto->dadosCard($dado);
+            if($card) $res[] = $card;
+        }
+        return $res;
     }
 }

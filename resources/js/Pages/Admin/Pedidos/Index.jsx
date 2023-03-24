@@ -140,23 +140,23 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                         <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
                                     </div>
                                 </th>
+                                {/*<th id="th-8">*/}
+                                {/*    <div style={{backgroundColor: coresAbas.acompanhamento}}*/}
+                                {/*         className='row justify-content-between rounded-top text-white mx-1 p-2'>*/}
+                                {/*        <div className='col-auto'>Acompanhamento</div>*/}
+                                {/*        <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>*/}
+                                {/*    </div>*/}
+                                {/*</th>*/}
                                 <th id="th-8">
-                                    <div style={{backgroundColor: coresAbas.acompanhamento}}
-                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                        <div className='col-auto'>Acompanhamento</div>
-                                        <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
-                                    </div>
-                                </th>
-                                <th id="th-9">
                                     <div style={{backgroundColor: coresAbas.entregue}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Entregue</div>
                                         <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
                                     </div>
                                 </th>
-                                <th id="th-10">
-                                    <div style={{backgroundColor: coresAbas.cancelado}}
-                                         className='rowjustify-content-between rounded-top text-white mx-1 p-2'>
+                                <th id="th-9">
+                                    <div style={{backgroundColor: coresAbas.cancelados}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Cancelados</div>
                                         <div className='col-auto'>Qdt: {pedidos.cancelado.length}</div>
                                     </div>
@@ -201,9 +201,9 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                     })}
                                 </td>
                                 <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.entregue.map((dados) => {
-                                        return (<CardEntregue key={dados.id} dados={dados} cor={coresAbas.entregue}/>)
-                                    })}
+                                    {/*{pedidos.entregue.map((dados) => {*/}
+                                    {/*    return (<CardEntregue key={dados.id} dados={dados} cor={coresAbas.entregue}/>)*/}
+                                    {/*})}*/}
                                 </td>
                                 <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.cancelado.map((dados) => {
