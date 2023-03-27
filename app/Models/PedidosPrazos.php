@@ -66,6 +66,11 @@ class PedidosPrazos extends Model
             ->where('prazo', 'faturado')->first('valor')->valor ?? 0;
     }
 
+    public function getAcompanhamento()
+    {
+        return $this->newQuery()
+            ->where('prazo', 'acompanhamento')->first('valor')->valor ?? 0;
+    }
 
     public function setRevisar(int $valor)
     {
@@ -126,6 +131,15 @@ class PedidosPrazos extends Model
         $this->newQuery()
             ->updateOrCreate(
                 ['prazo' => 'faturado'],
+                ['valor' => $valor]
+            );
+    }
+
+    public function setAcompanhamento(int $valor)
+    {
+        $this->newQuery()
+            ->updateOrCreate(
+                ['prazo' => 'acompanhamento'],
                 ['valor' => $valor]
             );
     }

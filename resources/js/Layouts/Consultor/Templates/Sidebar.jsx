@@ -3,7 +3,7 @@ import {usePage} from "@inertiajs/react";
 
 export default function Sidebar() {
     const {props} = usePage();
-    console.log(props.setorUsuario.nome)
+
     const logo = "/storage/crm/imagens/logo_ams.png";
 
     const pages = [
@@ -69,7 +69,7 @@ export default function Sidebar() {
                         </a>
                     </div>
                 </div>
-                <div className="horizontal pe-2 ps-2 mt-0">
+                <div className="horizontal pe-2 ps-2 mt-3">
                     <div className="acco rdion accord ion-flush w-auto mb-6" id="accordionFlushSidebar">
 
                         {/*ITEMS*/}

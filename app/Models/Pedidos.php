@@ -214,7 +214,7 @@ class Pedidos extends Model
 
     public function find($id)
     {
-        return $this->newQuery()->find($id);
+        return $this->newQuery()->findOrFail($id);
     }
 
     public function restaurar($id)

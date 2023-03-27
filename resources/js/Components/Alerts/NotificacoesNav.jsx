@@ -5,12 +5,12 @@ import NavMenuToglle from "../../../assets/argon/bootstrap5/js/nav-menu-toglle";
 
 import useSound from 'use-sound';
 import boopSfx from '../../../assets/sounds/2.wav';
-// import boopSfx from '../../../../assets/sounds/2.wav';
-// import boopSfx from '../../../../assets/sounds/3.wav';
+
 
 export default function NotificacoesNav({url, urlPageChat, setQtdPedidos, setChatInterno, setQtdLeads}) {
     let qtdNotifiChatInterno;
     const [play] = useSound(boopSfx);
+
     function buscaQtnNotificacoes() {
         fetch(url)
             .then(function (response) {
@@ -26,17 +26,17 @@ export default function NotificacoesNav({url, urlPageChat, setQtdPedidos, setCha
                 }
                 qtdNotifiChatInterno = data.chat_interno;
             });
+        setTimeout(function () {
+            buscaQtnNotificacoes();
+        }, 5000)
     }
 
     useEffect(() => {
         NavMenuToglle();
         buscaQtnNotificacoes();
-
-        setInterval(function () {
-            buscaQtnNotificacoes();
-        }, 10000)
     }, []);
 // NOTIFICACAO
+
     const [open, setOpen] = React.useState(false);
 
     const alertChatInterno = () => {

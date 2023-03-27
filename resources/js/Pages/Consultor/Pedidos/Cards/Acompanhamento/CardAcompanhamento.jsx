@@ -3,7 +3,7 @@ import MenuMore from './MenuMore';
 import BtnAvancaStatus from "./BtnAvancaStatus";
 import AlertsCard from "./AlertsCard";
 
-export default function CardAndamento({dados}) {
+export default function CardAcompanhamento({dados, cor}) {
 
     return (
         <CardPedidos
@@ -11,6 +11,7 @@ export default function CardAndamento({dados}) {
             menuMore={<MenuMore id={dados.id}/>}
             btnAvancaStatus={<BtnAvancaStatus dados={dados}/>}
             alerts={<AlertsCard dados={dados}/>}
-            border="pink"/>
+            border={cor}
+        />
     )
 }

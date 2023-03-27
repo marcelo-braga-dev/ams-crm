@@ -4,6 +4,7 @@ namespace App\src\Pedidos;
 
 use App\Models\Pedidos;
 use App\Models\PedidosImagens;
+use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
 use App\src\Pedidos\Status\AguardandoNotaStatus;
 use App\src\Pedidos\Status\AguardandoPagamentoStatus;
@@ -53,7 +54,7 @@ class PedidoUpdateStatus
 
     public function faturado($id)
     {
-        (new EntregueStatus())->updateStatus($id);
+        (new AcompanhamentoStatus())->updateStatus($id);
     }
 
     public function cancelado($id, $request)
@@ -63,5 +64,10 @@ class PedidoUpdateStatus
     public function revisar($id, $alerta)
     {
         (new ConferenciaStatusPedido())->updateStatus($id, $alerta);
+    }
+
+    public function acompanhamento($id, $alerta)
+    {
+        (new EntregueStatus())->updateStatus($id, $alerta);
     }
 }

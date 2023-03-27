@@ -7,34 +7,33 @@ import {useEffect} from "react";
 export default function ModalsAllerts() {
     const {flash} = usePage().props
 
-    useEffect(() => {
-
-        if (flash.sucesso) {
-            setState({
-                open: true,
-                msg: flash.sucesso,
-                alert: 'success'
-            });
-        }
-
-        if (flash.erro) {
-            setState({
-                open: true,
-                msg: flash.erro,
-                alert: 'error'
-            });
-        }
-
-    }, []);
-
     const [state, setState] = React.useState({
         open: false,
     });
+
     const {open, msg, alert} = state;
 
     const handleClose = () => {
         setState({...state, open: false});
     };
+
+    if (flash.sucesso) {
+        setState({
+            open: true,
+            msg: flash.sucesso,
+            alert: 'success'
+        });
+        flash.sucesso = null
+    }
+
+    if (flash.erro) {
+        setState({
+            open: true,
+            msg: flash.erro,
+            alert: 'error'
+        });
+        flash.erro = null
+    }
 
     return (
         <div>

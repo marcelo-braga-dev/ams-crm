@@ -19,8 +19,8 @@ class PedidosNotificacoesController extends Controller
 
     public function show()
     {
-        // Retorna quantidade de notificoes ativas
-        return (new Notificacoes())->countNotificacoes(auth()->id());
+        return response()->json((new Notificacoes())->countNotificacoes())
+            ->header('x-inertia', true);
     }
 
     public function update($id, Request $request)

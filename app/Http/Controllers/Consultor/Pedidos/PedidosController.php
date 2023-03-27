@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Consultor\Pedidos;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConfigCores;
 use App\Models\Fornecedores;
 use App\Models\Integradores;
 use App\Models\Pedidos;
@@ -20,8 +21,10 @@ class PedidosController extends Controller
     public function index()
     {
         $pedidos = (new CardDadosService())->getCards(id_usuario_atual());
+        $coresAbas = (new ConfigCores())->getPedidos();
 
-        return Inertia::render('Consultor/Pedidos/Index', compact('pedidos'));
+        return Inertia::render('Consultor/Pedidos/Index',
+            compact('pedidos', 'coresAbas'));
     }
 
     public function create()
