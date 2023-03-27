@@ -19,14 +19,16 @@ class CalendarioController extends Controller
 
         $prazosPedidos = [];
         foreach ($pedidos as $pedido) {
-            $ano = date('Y', strtotime($pedido->status_data));
-            $mes = date('m', strtotime($pedido->status_data));
-            $dia = date('d', strtotime('+' . $pedido->prazo . ' days', strtotime($pedido->status_data)));
+            if ($pedido->status !== 'entregue' && $pedido->status !== 'cancelado') {
+                $ano = date('Y', strtotime($pedido->status_data));
+                $mes = date('m', strtotime($pedido->status_data));
+                $dia = date('d', strtotime('+' . $pedido->prazo . ' days', strtotime($pedido->status_data)));
 
-            $prazosPedidos[$ano][intval($mes)][intval($dia)][] = [
-                'id' => $pedido->id,
-                'status' => $pedido->status
-            ];
+                $prazosPedidos[$ano][intval($mes)][intval($dia)][] = [
+                    'id' => $pedido->id,
+                    'status' => $pedido->status
+                ];
+            }
         }
 
         $calendario = (new Calendario())->newQuery()->get();
