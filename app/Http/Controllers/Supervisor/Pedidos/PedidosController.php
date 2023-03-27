@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Supervisor\Pedidos;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConfigCores;
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
 use App\Services\Fornecedores\FornecedoresService;
@@ -19,9 +20,10 @@ class PedidosController extends Controller
 
         $fornecedores = (new FornecedoresService())->fornecedores($setor);
         $pedidos = (new CardDadosService())->getCards($fornecedorAtual, $setor);
+        $coresAbas = (new ConfigCores())->getPedidos();
 
         return Inertia::render('Supervisor/Pedidos/Index',
-            compact('pedidos', 'fornecedores', 'fornecedorAtual'));
+            compact('pedidos', 'fornecedores', 'fornecedorAtual', 'coresAbas'));
     }
 
     public function show($id)

@@ -5,10 +5,10 @@ import BtnAvancaStatus from "./BtnAvancaStatus";
 
 
 
-export default function CardEntregue({dados}) {
+export default function CardEntregue({dados, cor}) {
 
     return ( <CardPedidos
         dados={dados}
         menuMore={<MenuMore id={dados.id}/>}
-        border="green"/> )
+        border={cor}/> )
 }

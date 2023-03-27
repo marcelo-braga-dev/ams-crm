@@ -3,6 +3,7 @@
 use App\Http\Controllers\Supervisor\Pedidos\ConfigController;
 use App\Http\Controllers\Supervisor\Pedidos\HistoricoController;
 use App\Http\Controllers\Supervisor\Pedidos\PedidosController;
+use App\Http\Controllers\Supervisor\Pedidos\Status\AcompanhamentoController;
 use App\Http\Controllers\Supervisor\Pedidos\Status\AguardandoFaturamentoController;
 use App\Http\Controllers\Supervisor\Pedidos\Status\AguardandoNotaController;
 use App\Http\Controllers\Supervisor\Pedidos\Status\AguardandoPagamentoController;
@@ -30,6 +31,7 @@ Route::name('supervisor.pedidos.')
             'aguardando-pagamento' => AguardandoPagamentoController::class,
             'aguardando-faturamento' => AguardandoFaturamentoController::class,
             'faturado' => FaturadoController::class,
+            'acompanhamento' => AcompanhamentoController::class,
             'entregue' => EntregueController::class,
             'cancelado' => CanceladoController::class,
             'retroceder' => RetrocederController::class,

@@ -9,6 +9,7 @@ import CardPagamento from './Cards/Pagamento/CardPagamento';
 import CardFaturando from './Cards/Faturando/CardFaturando';
 import CardFaturado from './Cards/Faturado/CardFaturado';
 import CardEntregue from './Cards/Entregue/CardEntregue';
+import CardAcompanhamento from "./Cards/Acompanhamento/CardAcompanhamento";
 import CardCancelado from './Cards/Cancelado/CardCancelado';
 
 import pesquisaCards from "@/Helpers/pesquisaCards";
@@ -18,9 +19,9 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
-import ScrollControlHorizontal from '@/Helpers/scrollControlHorizontal'
+import ScrollControlHorizontal from '@/Helpers/scrollControlHorizontal';
 
-export default function Pedidos({pedidos, fornecedores, fornecedorAtual}) {
+export default function Pedidos({pedidos, coresAbas, fornecedores, fornecedorAtual}) {
 
     return (
         <Layout titlePage="Lista de Pedidos">
@@ -80,67 +81,71 @@ export default function Pedidos({pedidos, fornecedores, fornecedorAtual}) {
                             <thead>
                             <tr>
                                 <th id="th-1">
-                                    <div
-                                        className='row bg-danger justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div style={{backgroundColor: coresAbas.reprovado}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Reprovados</div>
                                         <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
                                     </div>
                                 </th>
                                 <th id="th-2">
-                                    <div
-                                        className='row bg-warning justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div style={{backgroundColor: coresAbas.conferencia}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Conferência</div>
                                         <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
                                     </div>
                                 </th>
                                 <th id="th-3">
-                                    <div
-                                        className='row bg-success justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div style={{backgroundColor: coresAbas.lancado}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Lançado</div>
                                         <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
                                     </div>
                                 </th>
                                 <th id="th-4">
-                                    <div
-                                        className='row bg-info justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div style={{backgroundColor: coresAbas.boleto}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Nota/Boleto</div>
                                         <div className='col-auto'>Qdt: {pedidos.nota.length}</div>
                                     </div>
                                 </th>
                                 <th id="th-5">
-                                    <div
-                                        className='row bg-primary justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div style={{backgroundColor: coresAbas.pagamento}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Pagamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.pagamento.length}</div>
                                     </div>
                                 </th>
                                 <th id="th-6">
-                                    <div
-                                        className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'
-                                        style={{backgroundColor: 'hotpink'}}>
+                                    <div style={{backgroundColor: coresAbas.faturamento}}
+                                         className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Faturamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.faturamento.length}</div>
                                     </div>
                                 </th>
                                 <th id="th-7">
-                                    <div
-                                        className='row justify-content-between rounded-top text-white mx-1 p-2'
-                                        style={{backgroundColor: 'purple'}}>
+                                    <div style={{backgroundColor: coresAbas.faturado}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Faturado</div>
                                         <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
                                     </div>
                                 </th>
                                 <th id="th-8">
-                                    <div
-                                        className='row justify-content-between rounded-top text-white mx-1 p-2'
-                                        style={{backgroundColor: 'darkgreen'}}>
+                                    <div style={{backgroundColor: coresAbas.acompanhamento}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                        <div className='col-auto'>Acompanhamento</div>
+                                        <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
+                                    </div>
+                                </th>
+                                <th id="th-9">
+                                    <div style={{backgroundColor: coresAbas.entregue}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Entregue</div>
                                         <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
                                     </div>
                                 </th>
-                                <th id="th-9">
-                                    <div
-                                        className='row bg-dark justify-content-between rounded-top text-white mx-1 p-2'>
+                                <th id="th-10">
+                                    <div style={{backgroundColor: coresAbas.cancelados}}
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Cancelados</div>
                                         <div className='col-auto'>Qdt: {pedidos.cancelado.length}</div>
                                     </div>
@@ -151,55 +156,52 @@ export default function Pedidos({pedidos, fornecedores, fornecedorAtual}) {
                             <tr className="align-top">
                                 <td id="td-1" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.reprovado.map((dados) => {
-                                        return (<CardReprovado key={dados.id} dados={dados}/>)
+                                        return (<CardReprovado key={dados.id} dados={dados} cor={coresAbas.reprovado}/>)
                                     })}
                                 </td>
                                 <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.conferencia.map((dados) => {
-                                        return (<ConferenciaCard key={dados.id} dados={dados}/>
-                                        )
+                                        return (<ConferenciaCard key={dados.id} dados={dados} cor={coresAbas.conferencia}/>)
                                     })}
                                 </td>
                                 <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.lancado.map((dados) => {
-                                        return (<CardLancado key={dados.id} dados={dados}/>
-                                        )
+                                        return (<CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
                                     })}
                                 </td>
                                 <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.nota.map((dados) => {
-                                        return (<CardBoleto key={dados.id} dados={dados}/>
-                                        )
+                                        return (<CardBoleto key={dados.id} dados={dados} cor={coresAbas.boleto}/>)
                                     })}
                                 </td>
                                 <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.pagamento.map((dados) => {
-                                        return (<CardPagamento key={dados.id} dados={dados}/>
-                                        )
+                                        return (<CardPagamento key={dados.id} dados={dados} cor={coresAbas.pagamento}/>)
                                     })}
                                 </td>
                                 <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.faturamento.map((dados) => {
-                                        return (<CardFaturando key={dados.id} dados={dados}/>
-                                        )
+                                        return (<CardFaturando key={dados.id} dados={dados} cor={coresAbas.faturamento}/>)
                                     })}
                                 </td>
                                 <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.faturado.map((dados) => {
-                                        return (<CardFaturado key={dados.id} dados={dados}/>
-                                        )
+                                        return (<CardFaturado key={dados.id} dados={dados} cor={coresAbas.faturado}/>)
                                     })}
                                 </td>
                                 <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.entregue.map((dados) => {
-                                        return (<CardEntregue key={dados.id} dados={dados}/>
-                                        )
+                                    {pedidos.acompanhamento.map((dados) => {
+                                        return (<CardAcompanhamento key={dados.id} dados={dados} cor={coresAbas.acompanhamento}/>)
                                     })}
                                 </td>
                                 <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
+                                    {pedidos.entregue.map((dados) => {
+                                        return (<CardEntregue key={dados.id} dados={dados} cor={coresAbas.entregue}/>)
+                                    })}
+                                </td>
+                                <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.cancelado.map((dados) => {
-                                        return (<CardCancelado key={dados.id} dados={dados}/>
-                                        )
+                                        return (<CardCancelado key={dados.id} dados={dados} cor={coresAbas.cancelados}/>)
                                     })}
                                 </td>
                             </tr>

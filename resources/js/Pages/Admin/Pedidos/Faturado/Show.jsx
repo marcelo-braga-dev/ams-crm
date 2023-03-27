@@ -27,7 +27,7 @@ export default function Create({pedido}) {
 
             <form onSubmit={submit}>
                 <button className="btn btn-primary" type='submit'>
-                    Atualizar Status para Entregue
+                    Atualizar Status para Acompanhamento
                 </button>
             </form>
         </Layout>
