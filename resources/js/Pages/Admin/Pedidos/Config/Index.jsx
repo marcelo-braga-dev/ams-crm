@@ -14,6 +14,7 @@ export default function Pedidos({prazos, coresPedidos}) {
         'pagamento': prazos.pagamento,
         'faturando': prazos.faturando,
         'faturado': prazos.faturado,
+        'acompanhamento': prazos.acompanhamento,
 
         'cor_reprovado': coresPedidos.reprovado,
         'cor_conferencia': coresPedidos.conferencia,
@@ -36,16 +37,15 @@ export default function Pedidos({prazos, coresPedidos}) {
         post(route('admin.pedidos.config-cores-pedidos'))
     }
 
-console.log(data)
     return (
         <Layout container voltar={route('admin.pedidos.index')} titlePage="Consfigurações de Pedidos"
                 menu="pedidos" submenu="config">
 
-            <Typography variant={"h6"} className={"mb-4"}>Prazos dos Status</Typography>
+            <Typography variant={"h6"} className={"mb-4"}>Prazos dos Status de Enegia Solar (dias)</Typography>
             <form onSubmit={submit}>
                 <Row>
                     <Col lg="3" className="mb-5">
-                        <TextField required type="number" value={data.novo} label="Novo"
+                        <TextField required type="number" value={data.novo} label="Revisar"
                                    onChange={e => setData('novo', e.target.value)}></TextField>
                     </Col>
                     <Col lg="3" className="mb-5">
@@ -73,6 +73,10 @@ console.log(data)
                     <Col lg="3" className="mb-5">
                         <TextField required type="number" value={data.faturado} label="Faturado"
                                    onChange={e => setData('faturado', e.target.value)}></TextField>
+                    </Col>
+                    <Col lg="3" className="mb-5">
+                        <TextField required type="number" value={data.acompanhamento} label="Acompanhamento"
+                                   onChange={e => setData('acompanhamento', e.target.value)}></TextField>
                     </Col>
                 </Row>
                 <div className="text-center">

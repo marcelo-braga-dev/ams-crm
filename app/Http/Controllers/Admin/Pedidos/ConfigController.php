@@ -20,6 +20,7 @@ class ConfigController extends Controller
         $prazos['boleto'] = $cls->getBoleto();
         $prazos['pagamento'] = $cls->getPagamento();
         $prazos['faturando'] = $cls->getFaturando();
+        $prazos['acompanhamento'] = $cls->getAcompanhamento();
         $prazos['faturado'] = $cls->getFaturado();
 
         $coresPedidos = (new ConfigCores())->getPedidos();
@@ -38,6 +39,7 @@ class ConfigController extends Controller
         $prazos->setPagamento($request->pagamento);
         $prazos->setFaturando($request->faturando);
         $prazos->setFaturado($request->faturado);
+        $prazos->setAcompanhamento($request->acompanhamento);
 
         modalSucesso('Atualizações Realizadas com Sucesso');
         return redirect()->route('admin.config.index');

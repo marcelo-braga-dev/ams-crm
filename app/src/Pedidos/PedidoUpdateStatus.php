@@ -52,9 +52,9 @@ class PedidoUpdateStatus
         (new Pedidos())->updatePrazo($id, $request->prazo);
     }
 
-    public function faturado($id)
+    public function faturado($id, $msg)
     {
-        (new AcompanhamentoStatus())->updateStatus($id);
+        (new AcompanhamentoStatus())->updateStatus($id, $msg);
     }
 
     public function cancelado($id, $request)

@@ -20,7 +20,8 @@ export default function Create({id, files}) {
         })
     }
 
-    return (<Layout url={route('consultor.pedidos.index')} textButton="Voltar" titlePage="Pedido Faturado" >
+    return (
+        <Layout container voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado" >
             <Container fluid="lg" className="bg-white px-lg-6 py-lg-5">
                 <Row>
                     <Col>
