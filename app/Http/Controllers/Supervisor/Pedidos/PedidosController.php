@@ -19,7 +19,7 @@ class PedidosController extends Controller
         $fornecedorAtual = $request->fornecedor;
 
         $fornecedores = (new FornecedoresService())->fornecedores($setor);
-        $pedidos = (new CardDadosService())->getCards($fornecedorAtual, $setor);
+        $pedidos = (new CardDadosService())->getCards(null, $fornecedorAtual, $setor);
         $coresAbas = (new ConfigCores())->getPedidos();
 
         return Inertia::render('Supervisor/Pedidos/Index',

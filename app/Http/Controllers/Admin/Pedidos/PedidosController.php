@@ -22,7 +22,7 @@ class PedidosController extends Controller
         $fornecedorAtual = $request->fornecedor;
         $fornecedores = (new FornecedoresService())->fornecedores($setorAtual);
 
-        $pedidos = (new CardDadosService())->getCards($fornecedorAtual, $setorAtual);
+        $pedidos = (new CardDadosService())->getCards(null, $fornecedorAtual, $setorAtual);
 
         $coresAbas = (new ConfigCores())->getPedidos();
 
