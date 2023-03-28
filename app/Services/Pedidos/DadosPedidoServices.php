@@ -26,7 +26,7 @@ class DadosPedidoServices
         $this->integradores = (new Integradores())->getCardDados();
     }
 
-    public function dadosCard($pedido)
+    public function dadosCard($pedido, $faturamento = null)
     {
         if ($this->status($pedido->status) || $this->prazo($pedido))
         return [
@@ -38,6 +38,7 @@ class DadosPedidoServices
             'integrador' => $this->integradores[$pedido->integrador],
             'status' => $pedido->status,
             'forma_pagamento' => $pedido->forma_pagamento,
+            'faturamento' => $faturamento,
             'contato' => [
                 'telefone' => $this->clientes[$pedido->id]['telefone'],
                 'email' => $this->clientes[$pedido->id]['email']

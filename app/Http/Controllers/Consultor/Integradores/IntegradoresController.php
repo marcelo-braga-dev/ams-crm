@@ -28,8 +28,13 @@ class IntegradoresController extends Controller
 
     public function store(Request $request)
     {
-        (new Integradores())->create($request);
-        if ($request->idLead) (new AtivoStatusLeads())->updateStatus($request->idLead);
+        try {
+            (new Integradores())->create($request);
+            if ($request->idLead) (new AtivoStatusLeads())->updateStatus($request->idLead);
+        } catch (\DomainException $e) {
+            modalErro($e->getMessage());
+            return redirect()->back();
+        }
 
         modalSucesso("Ação realizada com sucesso!");
         return redirect()->route('consultor.integradores.index');

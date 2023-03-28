@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 
 class Integradores extends Model
 {
@@ -27,16 +28,20 @@ class Integradores extends Model
     }
     public function create($dados)
     {
-        $this->newQuery()
-            ->create([
-                'users_id'=> auth()->id(),
-                'nome' => $dados->get('nome'),
-                'cnpj' => $dados->get('cnpj'),
-                'atendente' => $dados->get('atendente'),
-                'telefone' =>$dados->get('telefone'),
-                'email' => $dados->get('email'),
-                'anotacoes' => $dados->get('anotacoes')
-            ]);
+        try {
+            $this->newQuery()
+                ->create([
+                    'users_id'=> auth()->id(),
+                    'nome' => $dados->get('nome'),
+                    'cnpj' => $dados->get('cnpj'),
+                    'atendente' => $dados->get('atendente'),
+                    'telefone' =>$dados->get('telefone'),
+                    'email' => $dados->get('email'),
+                    'anotacoes' => $dados->get('anotacoes')
+                ]);
+        } catch (QueryException $e) {
+            throw new \DomainException('Integrador duplicado, contacte um superior!');
+        }
     }
 
     public function get(int $id)

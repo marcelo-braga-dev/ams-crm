@@ -237,10 +237,12 @@ class Pedidos extends Model
 
         $dados = $query->get();
 
+        $faturamento = convert_float_money($query->groupBy('status')->sum('preco_venda'));
+
         $res = [];
         foreach ($dados as $dado) {
-            $card = $objeto->dadosCard($dado);
-            if($card) $res[] = $card;
+            $card = $objeto->dadosCard($dado, $faturamento);
+            if ($card) $res[] = $card;
         }
         return $res;
     }

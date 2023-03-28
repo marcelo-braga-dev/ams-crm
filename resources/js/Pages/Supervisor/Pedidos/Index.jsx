@@ -85,6 +85,7 @@ export default function Pedidos({pedidos, coresAbas, fornecedores, fornecedorAtu
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Reprovados</div>
                                         <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
+                                        <small className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-2">
@@ -92,6 +93,7 @@ export default function Pedidos({pedidos, coresAbas, fornecedores, fornecedorAtu
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Conferência</div>
                                         <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
+                                        <small className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-3">
@@ -99,6 +101,7 @@ export default function Pedidos({pedidos, coresAbas, fornecedores, fornecedorAtu
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Lançado</div>
                                         <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
+                                        <small className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-4">
@@ -106,6 +109,7 @@ export default function Pedidos({pedidos, coresAbas, fornecedores, fornecedorAtu
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Nota/Boleto</div>
                                         <div className='col-auto'>Qdt: {pedidos.nota.length}</div>
+                                        <small className="d-block text-end">R$ {(pedidos.nota[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-5">
@@ -113,6 +117,7 @@ export default function Pedidos({pedidos, coresAbas, fornecedores, fornecedorAtu
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Pagamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.pagamento.length}</div>
+                                        <small className="d-block text-end">R$ {(pedidos.pagamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-6">
@@ -120,6 +125,7 @@ export default function Pedidos({pedidos, coresAbas, fornecedores, fornecedorAtu
                                          className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Faturamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.faturamento.length}</div>
+                                        <small className="d-block text-end">R$ {(pedidos.faturamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-7">
@@ -127,13 +133,15 @@ export default function Pedidos({pedidos, coresAbas, fornecedores, fornecedorAtu
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Faturado</div>
                                         <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
+                                        <small className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-8">
                                     <div style={{backgroundColor: coresAbas.acompanhamento}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Acompanhamento</div>
-                                        <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
+                                        <div className='col-auto'>Qdt: {pedidos.acompanhamento.length}</div>
+                                        <small className="d-block text-end">R$ {(pedidos.acompanhamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-9">
@@ -141,6 +149,7 @@ export default function Pedidos({pedidos, coresAbas, fornecedores, fornecedorAtu
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Entregue</div>
                                         <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
+                                        <small className="d-block text-end">TOTAL R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-10">
