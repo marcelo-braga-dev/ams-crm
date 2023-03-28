@@ -92,11 +92,14 @@ class User extends Authenticatable
     }
 
 
-    public function getConsultores()
+    public function getConsultores($setor = null)
     {
-        return $this->newQuery()
-            ->where('tipo', (new Consultores())->getTipo())
-            ->get(['id', 'name', 'email', 'tipo', 'status'])
+        $query = $this->newQuery()
+            ->where('tipo', (new Consultores())->getTipo());
+
+        if ($setor) $query->where('setor', $setor);
+
+        return $query->get(['id', 'name', 'email', 'tipo', 'status'])
             ->except(['id' => 1])
             ->except(['id' => 2])
             ->except(['id' => 3]);

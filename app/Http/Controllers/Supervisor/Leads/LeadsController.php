@@ -19,8 +19,7 @@ class LeadsController extends Controller
 {
     public function index(Request $request)
     {
-        $consultores = (new User())->getConsultores();
-
+        $consultores = (new User())->getConsultores(setor_usuario_atual());
         $dados = (new LeadsDadosService())->getAll(setor_usuario_atual());
 
         return Inertia::render('Supervisor/Leads/Encaminhar',
