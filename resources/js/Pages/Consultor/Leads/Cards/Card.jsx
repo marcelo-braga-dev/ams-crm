@@ -55,6 +55,12 @@ export default function CardLeads({dados, urlBtn, btn}) {
                     </div>
                 }
 
+                {dados.infos.ultima_msg &&
+                    <div className="div border p-1 px-2 mt-2 border-gray-300 rounded">
+                        <small><b>Última Mensagem:</b><br/>{dados.infos.ultima_msg}</small>
+                    </div>
+                }
+
                 {/*BOTAO*/}
                 {btn && <div className="row justify-content-end mt-3">
                     <div className="col-auto">

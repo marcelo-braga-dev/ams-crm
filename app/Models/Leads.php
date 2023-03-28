@@ -170,17 +170,19 @@ class Leads extends Model
 
     public function getPeloStatus($id, string $status, string $order = 'desc')
     {
+        $msg = (new LeadsHistoricos())->ultimaMsg();
+
         return $this->newQuery()
             ->where('users_id', $id)
             ->where('status', $status)
             ->orderBy('status_data', $order)
             ->get()
-            ->transform(function ($item) {
-                return $this->dados($item);
+            ->transform(function ($item) use ($msg) {
+                return $this->dados($item, $msg);
             });
     }
 
-    private function dados($item)
+    private function dados($item, $msg = [])
     {
         $nomes = (new User())->getNomeConsultores();
         return [
@@ -207,6 +209,7 @@ class Leads extends Model
                 'status' => $item->status,
                 'status_anotacoes' => $item->status_anotacoes,
                 'anotacoes' => $item->infos,
+                'ultima_msg' => $msg[$item->id] ?? null,
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                 'contato' => $item->meio_contato,
                 'data_criacao' => date('d/m/y H:i', strtotime($item->updated_at)),

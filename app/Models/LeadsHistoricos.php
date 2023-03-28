@@ -37,4 +37,17 @@ class LeadsHistoricos extends Model
             ->where('leads_id', $id)
             ->get();
     }
+
+    public function ultimaMsg()
+    {
+        $dados = $this->newQuery()
+            ->orderBy('id')
+            ->get(['leads_id', 'msg']);
+
+        $items = [];
+        foreach ($dados as $dado) {
+            $items[$dado->leads_id] = $dado->msg;
+        }
+        return $items;
+    }
 }

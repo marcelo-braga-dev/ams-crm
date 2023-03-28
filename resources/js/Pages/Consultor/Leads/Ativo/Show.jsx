@@ -19,7 +19,7 @@ export default function Show({dados, status, contatos, historicos}) {
     }
 
     return (
-        <Layout container voltar={route('consultor.leads.main.index')} titlePage="Lead - Em Atendimento">
+        <Layout container voltar={route('consultor.leads.main.index')} titlePage="Lead - Ativo">
             <div className="mb-4 border-bottom">
 
                 <LeadsDados dados={dados}/>
