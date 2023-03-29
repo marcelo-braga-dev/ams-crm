@@ -9,7 +9,8 @@ export default function Edit({usuario, setores, errors}) {
         nome: usuario.nome,
         email: usuario.email,
         status: usuario.status,
-        setor: usuario.setor
+        setor: usuario.setor,
+        funcao: usuario.tipo
     });
 
     const submit = (e) => {
@@ -67,6 +68,15 @@ export default function Edit({usuario, setores, errors}) {
                                     <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
                                 )
                             })}
+                        </TextField>
+                    </div>
+                    <div className="col-md-4">
+                        <TextField label="Função" select required fullWidth
+                                   defaultValue={data.funcao}
+                                   onChange={e => setData('funcao', e.target.value)}>
+                            <MenuItem value="consultor">Consultor</MenuItem>
+                            <MenuItem value="supervisor">Supervisor</MenuItem>
+                            <MenuItem value="admin">Admin</MenuItem>
                         </TextField>
                     </div>
                 </div>
