@@ -62,6 +62,7 @@ export default function Create({dataAtual, setores}) {
                     <div className="col-md-3 mb-4">
                         <TextField label="Setor" select fullWidth required defaultValue=""
                                    onChange={e => setData('setor', e.target.value)}>
+                            <MenuItem value="Todos">Todos</MenuItem>
                             {setores.map((item, index) => {
                                 return (
                                     <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
