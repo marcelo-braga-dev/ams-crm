@@ -30,6 +30,8 @@ class AndamentoController extends Controller
     {
         if ($request->avancarStatus) {
             (new Dev())->updateStatus($id, 'aprovando');
+            (new Dev())->updateAndamento($id, $request);
+
             return redirect()->route('admin.dev.index');
         } else (new DevHistoricos())->atualizarStatus($id, $request->status);
     }

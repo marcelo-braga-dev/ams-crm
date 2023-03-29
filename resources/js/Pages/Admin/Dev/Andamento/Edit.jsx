@@ -4,9 +4,10 @@ import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 import axios from "axios";
 import {router, useForm} from "@inertiajs/react";
+import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 
 export default function ({dados, tarefas}) {
-    const {data} = useForm({
+    const {data, setData} = useForm({
         avancarStatus: true,
     });
 
@@ -33,6 +34,22 @@ export default function ({dados, tarefas}) {
                     <span className="d-block">Área: {dados.area}</span>
                     <span className="d-block">Prioridade: {dados.prioridade}</span>
                     <span className="d-block">ID: #{dados.id}</span>
+                </div>
+            </div>
+            <div className="row mt-4">
+                <div className="col-md-3">
+                    <TextField type="number" label="Sequência" fullWidth
+                    onChange={e => setData('sequencia', e.target.value)}/>
+                </div>
+                <div className="col-md-3">
+                    <TextField type="datetime-local" label="Data Final" fullWidth
+                               onChange={e => setData('data_final', e.target.value)}/>
+                </div>
+
+                <div className="col-md-3">
+                    <TextFieldMoney label="Valor Final" fullWidth setData={setData} index="valor_final"
+                                    value={data.valor_final}
+                    />
                 </div>
             </div>
             <div className="row mt-4">

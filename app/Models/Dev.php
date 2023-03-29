@@ -74,12 +74,23 @@ class Dev extends Model
         ];
     }
 
-    public function updateStatus($id, string $string)
+    public function updateStatus($id, string $status)
     {
         $this->newQuery()
             ->find($id)
             ->update([
-                'status'=>$string
+                'status'=>$status
+            ]);
+    }
+
+    public function updateAndamento($id, $dados)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'sequencia' => $dados->sequencia,
+                'data_prazo_final' => $dados->data_final,
+                'valor_final' => convert_money_float($dados->valor_final),
             ]);
     }
 }
