@@ -32,9 +32,9 @@ class UsuariosService
         return $items;
     }
 
-    public function ativos($exceto = null, $setor = null)
+    public function ativos($exceto = null, $setor = null, $superiores = false)
     {
-        $dados = (new User())->getAll($exceto, $setor);
+        $dados = (new User())->getAll($exceto, $setor, $superiores);
 
         $items = [];
         foreach ($dados as $dado) {
