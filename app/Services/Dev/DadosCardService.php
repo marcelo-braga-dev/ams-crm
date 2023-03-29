@@ -3,6 +3,7 @@
 namespace App\Services\Dev;
 
 use App\Models\Dev;
+use App\Models\Setores;
 
 class DadosCardService
 {
@@ -28,12 +29,22 @@ class DadosCardService
 
     private function dados($dados)
     {
+        $setor = (new Setores())->getNome();
+
         foreach ($dados as $dado) {
             $this->cards[$dado->status][] = [
                 'id' => $dado->id,
                 'titulo' => $dado->titulo,
                 'descricao' => $dado->descricao,
-                'prazo' => date('d/m/y', strtotime($dado->data_prazo))
+                'prazo_inicial' => date('d/m/y', strtotime($dado->data_prazo)),
+                'area' => $dado->area,
+                'setor' => $setor[$dado->setor] ?? '-',
+                'prioridade' => $dado->prioridade,
+                'sequencia' => $dado->sequencia,
+                'valor_inicial' => convert_float_money($dado->valor_inicial),
+                'valor_final' => convert_float_money($dado->valor_final),
+                'prazo_final' => $dado->data_prazo_dev ? date('d/m/y', strtotime($dado->data_prazo_dev)) : null,
+                'status_pagamento' => $dado->status_pagamento
             ];
         }
     }

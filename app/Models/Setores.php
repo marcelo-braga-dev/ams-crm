@@ -75,4 +75,16 @@ class Setores extends Model
 
         return $dados;
     }
+
+    public function getNome()
+    {
+        $dados = $this->newQuery()->get();
+
+        $res = [];
+        foreach ($dados as $dado) {
+            $res[$dado->id] = $dado->nome;
+        }
+
+        return $res;
+    }
 }

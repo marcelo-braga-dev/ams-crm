@@ -5,6 +5,7 @@ import {useForm} from "@inertiajs/react";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MenuItem from "@mui/material/MenuItem";
+import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 
 export default function Create({dataAtual, setores}) {
     const [qtdTarefas, setQtdTarefas] = useState(3);
@@ -47,15 +48,15 @@ export default function Create({dataAtual, setores}) {
                     <div className="col-md-3 mb-4">
                         <TextField label="Área" select fullWidth required defaultValue=""
                                    onChange={e => setData('area', e.target.value)}>
-                            <MenuItem value="pedidos">Pedidos</MenuItem>
-                            <MenuItem value="chat_interno">Chat Interno</MenuItem>
-                            <MenuItem value="agenda">Agenda</MenuItem>
-                            <MenuItem value="leads">Leads</MenuItem>
-                            <MenuItem value="emails">Emails</MenuItem>
-                            <MenuItem value="contas_usuarios">Contas Usuários</MenuItem>
-                            <MenuItem value="sac">SAC</MenuItem>
-                            <MenuItem value="fornecedores">Fornecedores</MenuItem>
-                            <MenuItem value="outros">Outros</MenuItem>
+                            <MenuItem value="Pedidos">Pedidos</MenuItem>
+                            <MenuItem value="Chat Interno">Chat Interno</MenuItem>
+                            <MenuItem value="Agenda">Agenda</MenuItem>
+                            <MenuItem value="Leads">Leads</MenuItem>
+                            <MenuItem value="Emails">Emails</MenuItem>
+                            <MenuItem value="Contas Usuários">Contas Usuários</MenuItem>
+                            <MenuItem value="SAC">SAC</MenuItem>
+                            <MenuItem value="Fornecedores">Fornecedores</MenuItem>
+                            <MenuItem value="Outros">Outros</MenuItem>
                         </TextField>
                     </div>
                     <div className="col-md-3 mb-4">
@@ -100,6 +101,9 @@ export default function Create({dataAtual, setores}) {
                 {rows}
 
                 <div className="row mt-4">
+                    <div className="col-md-3 mb-4 mt-4">
+                        <TextFieldMoney label="Valor do Serviço" value={data.valor_servico} setData={setData} index="valor_servico" />
+                    </div>
                     <div className="col-md-4 mb-4 mt-4">
                         <TextField type="datetime-local" label="Prazo" fullWidth required
                                    defaultValue={data.prazo} onChange={e => setData('prazo', e.target.value)}/>

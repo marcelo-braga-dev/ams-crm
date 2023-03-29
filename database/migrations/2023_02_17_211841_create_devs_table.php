@@ -23,7 +23,12 @@ return new class extends Migration
             $table->string('titulo');
             $table->string('descricao')->nullable();
             $table->string('anotacoes')->nullable();
-            $table->timestamp('data_prazo');
+            $table->integer('sequencia')->nullable();
+            $table->timestamp('data_prazo')->nullable();
+            $table->timestamp('data_prazo_dev')->nullable();
+            $table->float('valor_inicial')->nullable();
+            $table->float('valor_final')->nullable();
+            $table->string('status_pagamento', 16)->nullable();
             $table->timestamps();
         });
     }

@@ -36,6 +36,7 @@ if (!function_exists('convert_float_money')) {
         if (is_numeric($arg)) {
             $arg = number_format($arg, $decimais, ',', '.');
         }
+        if (empty($arg)) return '0,00';
         return $arg;
     }
 }

@@ -19,12 +19,14 @@ class DevHistoricos extends Model
     {
         $query = $this->newQuery();
 
-        foreach ($dados as $dado) {
-            $query->create([
-                'devs_id' => $id,
-                'status' => 'novo',
-                'texto' => $dado,
-            ]);
+        if ($dados) {
+            foreach ($dados as $dado) {
+                $query->create([
+                    'devs_id' => $id,
+                    'status' => 'novo',
+                    'texto' => $dado,
+                ]);
+            }
         }
     }
 

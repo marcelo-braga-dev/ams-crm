@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from '@/Layouts/Admin/Layout';
-import {Table, Td, Th} from "@/Components/Kanban/styles";
+import {Td, Th} from "@/Components/Kanban/styles";
 
 // CARDS
 import NovoCard from "./Cards/NovoCard";

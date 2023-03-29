@@ -18,7 +18,12 @@ class Dev extends Model
         'data_prazo',
         'area',
         'prioridade',
-        'setor'
+        'setor',
+        'valor_inicial',
+        'valor_final',
+        'data_prazo_dev',
+        'sequencia',
+        'status_pagamento'
     ];
 
     public function create($request)
@@ -31,7 +36,8 @@ class Dev extends Model
                 'status' => 'novo',
                 'area' => $request->area,
                 'prioridade' => $request->prioridade,
-                'setor' => $request->setor
+                'setor' => $request->setor,
+                'valor_inicial' => convert_money_float($request->valor_servico)
             ]);
         return $dados->id;
     }
@@ -39,6 +45,7 @@ class Dev extends Model
     public function get()
     {
         return $this->newQuery()
+            ->orderBy('sequencia')
             ->get();
     }
 
@@ -46,6 +53,7 @@ class Dev extends Model
     {
         $nomes = (new User())->getNomes();
         $dado = $this->newQuery()->find($id);
+        $setor = (new Setores())->getNome();
 
         return [
             'id' => $dado->id,
@@ -54,9 +62,15 @@ class Dev extends Model
             'titulo' => $dado->titulo,
             'descricao' => $dado->descricao,
             'anotacoes' => $dado->anotacoes,
-            'data_prazo' => date('d/m/Y', strtotime($dado->data_prazo)),
+            'data_inicial' => date('d/m/Y', strtotime($dado->data_prazo)),
             'area' => $dado->area,
-            'prioridade' => $dado->prioridade
+            'prioridade' => $dado->prioridade,
+            'setor' => $setor[$dado->setor] ?? '-',
+            'valor_inicial' => convert_float_money($dado->valor_inicial),
+            'valor_final' => convert_float_money($dado->valor_final),
+            'data_final' => date('d/m/Y', strtotime($dado->data_prazo_dev)),
+            'sequencia' => $dado->sequencia,
+            'status_pagamento' => $dado->status_pagamento,
         ];
     }
 

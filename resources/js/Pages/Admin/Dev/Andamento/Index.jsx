@@ -1,20 +1,14 @@
 import Layout from "@/Layouts/Admin/Layout";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import DadosDev from "@/Components/Dados/Dev";
 
 export default function ({dados, tarefas}) {
     return (
-        <Layout titlePage="Suporte em Andamento" container menu="dev" submenu="registros">
-            <div className="row">
-                <div className="col">
-                    <span className="d-block">Título: {dados.titulo}</span>
-                    <span className="d-block">Descrição: {dados.descricao}</span>
-                    <span className="d-block">Anotações: {dados.anotacoes}</span>
-                    <span className="d-block">Área: {dados.area}</span>
-                    <span className="d-block">Prioridade: {dados.prioridade}</span>
-                    <span className="d-block">ID: #{dados.id}</span>
-                </div>
-            </div>
+        <Layout container titlePage="Suporte em Andamento" voltar={route('admin.dev.index')} menu="dev" submenu="registros">
+
+            <DadosDev dados={dados}/>
+            
             <div className="row mt-4">
                 <h6>Tarefas:</h6>
                 <div className="col-12">

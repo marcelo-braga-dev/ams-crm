@@ -8,7 +8,7 @@ export const Table = styled.table`
 export function Th({ children, color }) {
     return (
         <th>
-            <Row className={color + " mx-2 py-2 rounded"}>
+            <Row className={color + " mx-2 py-2 rounded"} style={{minWidth: 300}}>
                 <Col>{ children }</Col>
             </Row>
         </th>
