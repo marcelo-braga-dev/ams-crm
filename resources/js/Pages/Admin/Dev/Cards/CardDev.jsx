@@ -62,6 +62,14 @@ export default function CardDev({dados, btn}) {
                 </div>
 
                 <div className="row row-cols-2">
+                    {dados.valor_inicial !== '0,00' && <div className="col">
+                        <small className="d-block mb-3">
+                            <b>Pagamento:</b><br/>{dados.status_pagamento}
+                        </small>
+                    </div>}
+                </div>
+
+                <div className="row row-cols-2">
                     <div className="col">
                         <small className="d-block mb-3">
                             <b>Prazo Inicial:</b><br/>{dados.prazo_inicial}
@@ -71,20 +79,6 @@ export default function CardDev({dados, btn}) {
                         <div className="col">
                             <small className="d-block mb-3">
                                 <b>Prazo Final:</b><br/>{dados.prazo_final}
-                            </small>
-                        </div>}
-                </div>
-
-                <div className="row row-cols-2">
-                    <div className="col">
-                        <small className="d-block mb-3">
-                            <b>Pagamento:</b><br/>{dados.status_pagamento}
-                        </small>
-                    </div>
-                    {dados.data_prazo_dev &&
-                        <div className="col">
-                            <small className="d-block mb-3">
-                                <b>Prazo Final:</b><br/>{dados.data_prazo_dev}
                             </small>
                         </div>}
                 </div>

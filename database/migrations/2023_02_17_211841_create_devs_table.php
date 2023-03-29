@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('descricao')->nullable();
             $table->string('anotacoes')->nullable();
             $table->integer('sequencia')->nullable();
-            $table->timestamp('data_prazo')->nullable();
-            $table->timestamp('data_prazo_dev')->nullable();
+            $table->timestamp('data_prazo_inicial')->nullable();
+            $table->timestamp('data_prazo_final')->nullable();
             $table->float('valor_inicial')->nullable();
             $table->float('valor_final')->nullable();
             $table->string('status_pagamento', 16)->nullable();

@@ -36,14 +36,14 @@ class DadosCardService
                 'id' => $dado->id,
                 'titulo' => $dado->titulo,
                 'descricao' => $dado->descricao,
-                'prazo_inicial' => date('d/m/y', strtotime($dado->data_prazo)),
                 'area' => $dado->area,
                 'setor' => $setor[$dado->setor] ?? '-',
                 'prioridade' => $dado->prioridade,
                 'sequencia' => $dado->sequencia,
                 'valor_inicial' => convert_float_money($dado->valor_inicial),
                 'valor_final' => convert_float_money($dado->valor_final),
-                'prazo_final' => $dado->data_prazo_dev ? date('d/m/y', strtotime($dado->data_prazo_dev)) : null,
+                'prazo_inicial' => date('d/m/y', strtotime($dado->data_prazo_inicial)),
+                'prazo_final' => $dado->data_prazo_final ? date('d/m/y', strtotime($dado->data_prazo_final)) : null,
                 'status_pagamento' => $dado->status_pagamento
             ];
         }
