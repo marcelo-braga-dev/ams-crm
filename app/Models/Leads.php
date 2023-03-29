@@ -30,7 +30,7 @@ class Leads extends Model
         'status_data',
         'meio_contato',
         'infos',
-        'created_at_'
+        'classificacao'
     ];
 
     public function getDisponiveis($setor)
@@ -197,6 +197,7 @@ class Leads extends Model
                 'cidade' => $item->cidade,
                 'estado' => $item->estado,
                 'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
+                'classificacao' => $item->classificacao
             ],
 
             'contato' => [
@@ -215,5 +216,14 @@ class Leads extends Model
                 'data_criacao' => date('d/m/y H:i', strtotime($item->updated_at)),
             ],
         ];
+    }
+
+    public function updateClassificacao($id, $valor)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'classificacao' => $valor
+            ]);
     }
 }

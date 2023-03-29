@@ -1,5 +1,5 @@
 export default function LeadsDados({dados}) {
-    return (<>{console.log(dados)}
+    return (<>
         <div className="row">
             <div className="col mb-2">
                 <span className="d-block"><b>Cliente:</b> {dados.cliente.nome}</span>

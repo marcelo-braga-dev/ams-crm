@@ -59,6 +59,7 @@ class LeadsDadosService
                 'cidade' => $item->cidade,
                 'estado' => $item->estado,
                 'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
+                'classificacao' => $item->classificacao
             ],
             'contato' => [
                 'email' => $item->email,

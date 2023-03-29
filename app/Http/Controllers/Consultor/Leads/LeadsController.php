@@ -49,4 +49,12 @@ class LeadsController extends Controller
         modalSucesso("Dados atualizado com sucesso!");
         return redirect()->route('consultor.leads.atendimento.show', $id);
     }
+
+    public function updateClassificacao(Request $request)
+    {
+        (new Leads())->updateClassificacao($request->id, $request->valor);
+
+        modalSucesso("Classificação atualizada!");
+        return redirect()->back();
+    }
 }

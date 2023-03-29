@@ -18,6 +18,7 @@ export default function CardLeads({dados, urlBtn, btn}) {
                         <b>{dados.cliente.nome.toUpperCase()}</b>
                     </div>
                 </div>
+                {dados.cliente.classificacao && <><small>Classificação: </small>{dados.cliente.classificacao}</>}
 
                 {/*TELEFONE*/}
                 {dados.cliente.cidade &&

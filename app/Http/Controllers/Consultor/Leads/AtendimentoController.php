@@ -34,8 +34,6 @@ class AtendimentoController extends Controller
             (new LeadsHistoricos())->create($id, $request, 'finalizado');
         }
 
-
-
         modalSucesso('Status atualizado!');
         return redirect()->route('consultor.leads.main.index');
     }

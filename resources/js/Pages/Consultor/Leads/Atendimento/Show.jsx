@@ -6,8 +6,9 @@ import MenuItem from "@mui/material/MenuItem";
 import {router} from '@inertiajs/react'
 
 export default function Show({dados, status, contatos, historicos}) {
-    const {data, setData} = useForm({
-        msg: ''
+    const {data, setData, post} = useForm({
+        msg: '',
+        classificacao: dados.cliente.classificacao
     });
 
     function onSubmit(e) {
@@ -16,6 +17,13 @@ export default function Show({dados, status, contatos, historicos}) {
             _method: 'put',
             ...data
         })
+    }
+
+    function updateClassificacao(id, valor) {
+        post(route('consultor.leads.update-classificacao', {id: id, valor: valor}), {
+            preserveScroll: true
+        })
+        setData('classificacao', valor)
     }
 
     return (
@@ -31,17 +39,31 @@ export default function Show({dados, status, contatos, historicos}) {
 
                 <LeadsDados dados={dados}/>
 
-                <div className="row justify-content-end">
-                    <div className="col-auto">
-                        <a href={route('consultor.integradores.create', {idLeads:dados.id})} className="btn btn-success">Ativar Lead</a>
+                <div className="row justify-content-between">
+                    <div className="col-auto pt-4">
+                        Classificação:
+                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '❌' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '❌')}>❌</span>
+                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '☹️' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '☹️')}>☹️</span>
+                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '😐' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '😐')}>😐</span>
+                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '🙂' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '🙂')}>🙂</span>
+                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '😁' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
                     </div>
-                    <div className="col-auto mb-3">
-                        <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
-                            Finalizar Atendimento
-                        </button>
+                    <div className="col-auto">
+                        <div className="row justify-content-end">
+                            <div className="col-auto">
+                                <a href={route('consultor.integradores.create', {idLeads: dados.id})}
+                                   className="btn btn-success">Ativar Lead</a>
+                            </div>
+                            <div className="col-auto mb-3">
+                                <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                    Finalizar Atendimento
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 <div className="mt-4 p-4">
                     <h6 className="mb-3">Histórico de Atendimento</h6>
                     {historicos.map((dado, index) => (

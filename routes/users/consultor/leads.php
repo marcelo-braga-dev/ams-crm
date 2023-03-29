@@ -21,4 +21,7 @@ Route::middleware(['auth', 'auth.consultores'])
             'finalizado' => FinalizadosController::class,
             'cancelado' => CanceladosController::class
         ]);
+
+        Route::post('update-classificacao', [LeadsController::class, 'updateClassificacao'])
+            ->name('update-classificacao');
     });
