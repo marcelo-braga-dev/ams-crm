@@ -4,8 +4,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import BlockIcon from '@mui/icons-material/Block';
 
 // Tab
 function TabPanel(props) {
@@ -50,167 +51,175 @@ export default function Index({usuarios}) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
     // Tab - fim
-    return (<Layout container titlePage="Usuários"
-                    menu="usuarios" submenu="contas">
-        <Box sx={{width: '100%'}}>
-            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Consultores" {...a11yProps(0)} />
-                    <Tab label="Supervisores" {...a11yProps(1)} />
-                    <Tab label="Admins" {...a11yProps(2)} />
-                </Tabs>
+
+    function iconeStatus(status) {
+        return status === 'ativo' ? <CheckCircleOutlineIcon color="success" /> :
+            <BlockIcon color="error" />
+    }
+
+    return (
+        <Layout container titlePage="Usuários" menu="usuarios" submenu="contas">
+            <Box sx={{width: '100%'}}>
+                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tab label="Consultores" {...a11yProps(0)} />
+                        <Tab label="Supervisores" {...a11yProps(1)} />
+                        <Tab label="Admins" {...a11yProps(2)} />
+                    </Tabs>
+                </Box>
+                {/*Consultores*/}
+                <TabPanel value={value} index={0}>
+                    <Row className={"mb-3 text-right"}>
+                        <Col>
+                            <a className="btn btn-dark" href={route('admin.usuarios.consultores.create')}>
+                                Cadastrar Consultor
+                            </a>
+                        </Col>
+                    </Row>
+                    <Table hover responsive>
+                        <thead>
+                        <tr>
+                            <th>#ID</th>
+                            <th>Nome</th>
+                            <th>Setor</th>
+                            <th>Status</th>
+                            <th>Email</th>
+                            <th>Ação</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {usuarios.consultores.map((dados) => {
+                            return (
+                                <tr key={dados.id} className={"align-middle"}>
+                                    <th scope="row">
+                                        {dados.id}
+                                    </th>
+                                    <td>
+                                        {dados.nome}
+                                    </td>
+                                    <td>
+                                        {dados.setor.nome}
+                                    </td>
+                                    <td className="text-center">
+                                        {iconeStatus(dados.status)}
+                                    </td>
+                                    <td>
+                                        {dados.email}
+                                    </td>
+                                    <td>
+                                        <Button color={"primary"}
+                                                href={route('admin.usuarios.consultores.show', dados.id)}
+                                                size="sm">Ver</Button>
+                                    </td>
+                                </tr>)
+                        })}
+                        </tbody>
+                    </Table>
+                </TabPanel>
+                {/*Consultores - fim */}
+                {/*Supervisores*/}
+                <TabPanel value={value} index={1}>
+                    <Row className={"mb-3 text-right"}>
+                        <Col>
+                            <a className="btn btn-dark" href={route('admin.usuarios.supervisores.create')}>
+                                Cadastrar Supervisor
+                            </a>
+                        </Col>
+                    </Row>
+                    <Table hover responsive>
+                        <thead>
+                        <tr>
+                            <th>#ID</th>
+                            <th>Nome</th>
+                            <th>Setor</th>
+                            <th>Status</th>
+                            <th>Email</th>
+                            <th>Ação</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {usuarios.supervisores.map((dados) => {
+                            return (
+                                <tr key={dados.id} className={"align-middle"}>
+                                    <th scope="row">
+                                        {dados.id}
+                                    </th>
+                                    <td>
+                                        {dados.nome}
+                                    </td>
+                                    <td>
+                                        {dados.setor.nome}
+                                    </td>
+                                    <td className="text-center">
+                                        {iconeStatus(dados.status)}
+                                    </td>
+                                    <td>
+                                        {dados.email}
+                                    </td>
+                                    <td>
+                                        <Button color={"primary"}
+                                                href={route('admin.usuarios.supervisores.show', dados.id)}
+                                                size="sm">Ver</Button>
+                                    </td>
+                                </tr>)
+                        })}
+                        </tbody>
+                    </Table>
+                </TabPanel>
+                {/*Supervisores - fim*/}
+                {/*Admins*/}
+                <TabPanel value={value} index={2}>
+                    <Row className={"mb-3 text-right"}>
+                        <Col>
+                            <a className="btn btn-dark" href={route('admin.usuarios.admins.create')}>
+                                Cadastrar Admin
+                            </a>
+                        </Col>
+                    </Row>
+                    <Table hover responsive>
+                        <thead>
+                        <tr>
+                            <th>#ID</th>
+                            <th>Nome</th>
+                            <th>Setor</th>
+                            <th>Status</th>
+                            <th>Email</th>
+                            <th>Ação</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {usuarios.admins.map((dados) => {
+                            return (
+                                <tr key={dados.id} className={"align-middle"}>
+                                    <th scope="row">
+                                        {dados.id}
+                                    </th>
+                                    <td>
+                                        {dados.nome}
+                                    </td>
+                                    <td>
+                                        {dados.setor.nome}
+                                    </td>
+                                    <td className="text-center">
+                                        {iconeStatus(dados.status)}
+                                    </td>
+                                    <td>
+                                        {dados.email}
+                                    </td>
+                                    <td>
+                                        <Button color={"primary"}
+                                                href={route('admin.usuarios.consultores.show', dados.id)}
+                                                size="sm">Ver</Button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                        </tbody>
+                    </Table>
+                </TabPanel>
+                {/*Admins - fim*/}
             </Box>
-            {/*Consultores*/}
-            <TabPanel value={value} index={0}>
-                <Row className={"mb-3 text-right"}>
-                    <Col>
-                        <a className="btn btn-dark" href={route('admin.usuarios.consultores.create')}>
-                            Cadastrar Consultor
-                        </a>
-                    </Col>
-                </Row>
-                <Table hover responsive>
-                    <thead>
-                    <tr>
-                        <th>#ID</th>
-                        <th>Nome</th>
-                        <th>Setor</th>
-                        <th>Status</th>
-                        <th>Email</th>
-                        <th>Ação</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {usuarios.consultores.map((dados) => {
-                        return (
-                            <tr key={dados.id} className={"align-middle"}>
-                                <th scope="row">
-                                    {dados.id}
-                                </th>
-                                <td>
-                                    {dados.nome}
-                                </td>
-                                <td>
-                                    {dados.setor.nome}
-                                </td>
-                                <td>
-                                    {dados.status}
-                                </td>
-                                <td>
-                                    {dados.email}
-                                </td>
-                                <td>
-                                    <Button color={"primary"}
-                                            href={route('admin.usuarios.consultores.show', dados.id)}
-                                            size="sm">Ver</Button>
-                                </td>
-                            </tr>)
-                    })}
-                    </tbody>
-                </Table>
-            </TabPanel>
-            {/*Consultores - fim */}
-            {/*Supervisores*/}
-            <TabPanel value={value} index={1}>
-                <Row className={"mb-3 text-right"}>
-                    <Col>
-                        <a className="btn btn-dark" href={route('admin.usuarios.supervisores.create')}>
-                            Cadastrar Supervisor
-                        </a>
-                    </Col>
-                </Row>
-                <Table hover responsive>
-                    <thead>
-                    <tr>
-                        <th>#ID</th>
-                        <th>Nome</th>
-                        <th>Setor</th>
-                        <th>Status</th>
-                        <th>Email</th>
-                        {/*<th>Ação</th>*/}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {usuarios.supervisores.map((dados) => {
-                        return (
-                            <tr key={dados.id} className={"align-middle"}>
-                                <th scope="row">
-                                    {dados.id}
-                                </th>
-                                <td>
-                                    {dados.nome}
-                                </td>
-                                <td>
-                                    {dados.setor.nome}
-                                </td>
-                                <td>
-                                    {dados.status}
-                                </td>
-                                <td>
-                                    {dados.email}
-                                </td>
-                                {/*<td>*/}
-                                {/*    <Button color={"primary"}*/}
-                                {/*            href={route('admin.usuarios.consultores.show', dados.id)}*/}
-                                {/*            size="sm">Ver</Button>*/}
-                                {/*</td>*/}
-                            </tr>)
-                    })}
-                    </tbody>
-                </Table>
-            </TabPanel>
-            {/*Supervisores - fim*/}
-            {/*Admins*/}
-            <TabPanel value={value} index={2}>
-                <Row className={"mb-3 text-right"}>
-                    <Col>
-                        <a className="btn btn-dark" href={route('admin.usuarios.admins.create')}>
-                            Cadastrar Admin
-                        </a>
-                    </Col>
-                </Row>
-                <Table hover responsive>
-                    <thead>
-                    <tr>
-                        <th>#ID</th>
-                        <th>Nome</th>
-                        <th>Setor</th>
-                        <th>Status</th>
-                        <th>Email</th>
-                        <th>Ação</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {usuarios.admins.map((dados) => {
-                        return (
-                            <tr key={dados.id} className={"align-middle"}>
-                                <th scope="row">
-                                    {dados.id}
-                                </th>
-                                <td>
-                                    {dados.nome}
-                                </td>
-                                <td>
-                                    {dados.setor.nome}
-                                </td>
-                                <td>
-                                    {dados.status}
-                                </td>
-                                <td>
-                                    {dados.email}
-                                </td>
-                                <td>
-                                    <Button color={"primary"}
-                                            href={route('admin.usuarios.consultores.show', dados.id)}
-                                            size="sm">Ver</Button>
-                                </td>
-                            </tr>)
-                    })}
-                    </tbody>
-                </Table>
-            </TabPanel>
-            {/*Admins - fim*/}
-        </Box>
-    </Layout>);
+        </Layout>);
 }

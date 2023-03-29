@@ -21,7 +21,18 @@ class UsuariosService
         return $this->dados($dado);
     }
 
-    public function todos($exceto = null, $setor = null)
+    public function usuarios()
+    {
+        $dados = (new User())->usuarios();
+
+        $items = [];
+        foreach ($dados as $dado) {
+            $items[] = $this->dados($dado);
+        }
+        return $items;
+    }
+
+    public function ativos($exceto = null, $setor = null)
     {
         $dados = (new User())->getAll($exceto, $setor);
 

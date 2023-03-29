@@ -53,7 +53,7 @@ class CalendarioController extends Controller
 
     public function create()
     {
-        $usuarios = (new UsuariosService())->todos();
+        $usuarios = (new UsuariosService())->ativos();
 
         return Inertia::render('Admin/Calendario/Create', compact('usuarios'));
     }

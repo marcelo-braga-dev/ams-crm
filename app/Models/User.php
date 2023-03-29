@@ -63,6 +63,11 @@ class User extends Authenticatable
         return $dados;
     }
 
+    public function usuarios()
+    {
+        return $this->newQuery()->get();
+    }
+
     public function get(int $id)
     {
         $dados = $this->newQuery()->findOrFail($id);
