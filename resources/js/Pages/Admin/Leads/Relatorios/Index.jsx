@@ -14,7 +14,7 @@ export default function ({qtdLeads}) {
                                 <th>Novo</th>
                                 <th>Atendimento</th>
                                 <th>Finalizado</th>
-                                {/*<th></th>*/}
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -26,9 +26,12 @@ export default function ({qtdLeads}) {
                                         <td>{dado.novo ?? 0}</td>
                                         <td>{dado.atendimento ?? 0}</td>
                                         <td>{dado.finalizado ?? 0}</td>
-                                        {/*<td>*/}
-                                        {/*    <a href={route('admin.clientes.leads.leads-usuario', dado.id)} className="btn btn-link mt-2">Ver</a>*/}
-                                        {/*</td>*/}
+                                        <td>
+                                            <a className="btn btn-primary btn-sm mt-3"
+                                               href={route('admin.leads.relatorios.show', dado.id)}>
+                                                Ver
+                                            </a>
+                                        </td>
                                     </tr>
                                 )
                             })}

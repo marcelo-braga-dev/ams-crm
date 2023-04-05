@@ -50,7 +50,8 @@ class LeadsDadosService
         return [
             'id' => $item->id,
             'consultor' => [
-                'nome' => $this->consultores[$item->users_id] ?? ''
+                'nome' => $this->consultores[$item->users_id] ?? '',
+                'id' => $item->users_id
             ],
             'cliente' => [
                 'nome' => $item->nome,

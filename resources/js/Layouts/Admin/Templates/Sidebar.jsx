@@ -32,7 +32,7 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
             'tag': 'leads',
             'icone': 'fas fa-angle-double-right',
             'submenu': [
-                {'menu': 'Relatórios', 'url': route('admin.clientes.leads.relatorios.index'), 'tag': 'relatorios'},
+                {'menu': 'Relatórios', 'url': route('admin.leads.relatorios.index'), 'tag': 'relatorios'},
                 {
                     'menu': 'Leads Cadastrados',
                     'url': route('admin.clientes.leads.leads-cadastrados'),

@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\Leads\Consultores\AtendimentoController;
+use App\Http\Controllers\Admin\Leads\Consultores\AtivoController;
+use App\Http\Controllers\Admin\Leads\Consultores\CardsController;
+use App\Http\Controllers\Admin\Leads\Consultores\NovoController;
 use App\Http\Controllers\Admin\Leads\LeadsController;
 use App\Http\Controllers\Admin\Leads\RelatoriosController;
 use Illuminate\Support\Facades\Route;
@@ -17,8 +21,15 @@ Route::name('admin.clientes.leads.')
         Route::post('restaurar', [LeadsController::class, 'restaurar'])->name('restaurar');
         Route::get('alterar-consultor', [LeadsController::class, 'alterarConsultor'])->name('alterar-consultor');
         Route::post('limpar-consultor', [LeadsController::class, 'limparConsultor'])->name('limpar-consultor');
+    });
 
+Route::name('admin.leads.')
+    ->prefix('admin/leads/relatorios')
+    ->group(function () {
         Route::resource('relatorios', RelatoriosController::class);
-        Route::get('relatorio/{id}', [RelatoriosController::class, 'leadsUsuarios'])
-            ->name('leads-usuario');
+        Route::resource('consultores-cards', CardsController::class);
+
+        Route::resource('cards-aberto', NovoController::class);
+        Route::resource('cards-atendimento', AtendimentoController::class);
+        Route::resource('cards-ativo', AtivoController::class);
     });
