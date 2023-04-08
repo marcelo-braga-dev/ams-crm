@@ -57,15 +57,34 @@ class Leads extends Model
     public function create($dados, $setor, $pessoa = null)
     {
         try {
-            $this->newQuery()
+            $verificacaoCnpj = null;
+            $verificacaoTel = null;
+
+            $telefone = preg_replace('/[^0-9]/', '', $dados['telefone'] ?? null);
+            $telefone = preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null);
+            $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
+
+            if ($cnpj) {
+                $verificacaoCnpj = $this->newQuery()
+                ->where('cnpj', $cnpj)
+                ->exists();
+            }
+            if ($telefone) {
+                $verificacaoTel = $this->newQuery()
+                ->orWhere('telefone', $telefone)
+                ->exists();
+            }
+            print_pre(!($verificacaoCnpj || $verificacaoTel));
+
+            if (!$verificacaoCnpj && $verificacaoTel) $this->newQuery()
                 ->create([
                     'nome' => $dados['nome'] ?? null,
                     'atendente' => $dados['atendente'] ?? null,
-                    'telefone' => $dados['telefone'] ?? null,
+                    'telefone' => $telefone,
                     'setor' => $setor,
                     'pessoa_fisica' => $pessoa,
                     'razao_social' => $dados['razao_social'] ?? null,
-                    'cnpj' => $dados['cnpj'] ?? null,
+                    'cnpj' => $cnpj ?? null,
                     'email' => $dados['email'] ?? null,
                     'cidade' => $dados['cidade'] ?? null,
                     'estado' => $dados['estado'] ?? null,
@@ -73,6 +92,7 @@ class Leads extends Model
                     'status_data' => now(),
                     'infos' => $dados['infos'] ?? null,
                 ]);
+
         } catch (QueryException) {
             throw new \DomainException();
         }
