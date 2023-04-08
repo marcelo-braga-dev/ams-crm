@@ -58,6 +58,7 @@ class ConsultoresController extends Controller
     {
         try {
             (new User())->updateDados($id, $request);
+            (new User())->setFoto($id, $request);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->route('admin.usuarios.consultores.show', $id);

@@ -19,7 +19,7 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determine the current asset version.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return string|null
      */
     public function version(Request $request)
@@ -30,7 +30,7 @@ class HandleInertiaRequests extends Middleware
     /**
      * Define the props that are shared by default.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return mixed[]
      */
     public function share(Request $request)
@@ -43,9 +43,11 @@ class HandleInertiaRequests extends Middleware
             $setorCor = $setorUsuario->cor;
         }
 
+        $auth = $request->user();
+
         return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user(),
+                'user' => $auth,
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
@@ -59,7 +61,8 @@ class HandleInertiaRequests extends Middleware
             'setorUsuario' => [
                 'nome' => $setorNome,
                 'cor' => $setorCor
-            ]
+            ],
+            'foto_usuario' => $auth?->foto ? asset('storage/' . $auth->foto) : null
         ]);
     }
 }

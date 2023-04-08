@@ -7,6 +7,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import BlockIcon from '@mui/icons-material/Block';
+import {Avatar} from "@mui/material";
 
 // Tab
 function TabPanel(props) {
@@ -55,8 +56,8 @@ export default function Index({usuarios}) {
     // Tab - fim
 
     function iconeStatus(status) {
-        return status === 'ativo' ? <CheckCircleOutlineIcon color="success" /> :
-            <BlockIcon color="error" />
+        return status === 'ativo' ? <CheckCircleOutlineIcon color="success"/> :
+            <BlockIcon color="error"/>
     }
 
     return (
@@ -78,48 +79,51 @@ export default function Index({usuarios}) {
                             </a>
                         </Col>
                     </Row>
-                    <Table hover responsive>
-                        <thead>
-                        <tr>
-                            <th>#ID</th>
-                            <th>Nome</th>
-                            <th>Setor</th>
-                            <th>Status</th>
-                            <th>Email</th>
-                            <th>Ação</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {usuarios.consultores.map((dados) => {
-                            return (
-                                <tr key={dados.id} className={"align-middle"}>
-                                    <th scope="row">
-                                        {dados.id}
-                                    </th>
-                                    <td>
-                                        {dados.nome}
-                                    </td>
-                                    <td>
-                                        {dados.setor.nome}
-                                    </td>
-                                    <td className="text-center">
-                                        {iconeStatus(dados.status)}
-                                    </td>
-                                    <td>
-                                        {dados.email}
-                                    </td>
-                                    <td>
-                                        <Button color={"primary"}
-                                                href={route('admin.usuarios.consultores.show', dados.id)}
-                                                size="sm">Ver</Button>
-                                    </td>
-                                </tr>)
-                        })}
-                        </tbody>
-                    </Table>
+                    <div className="table-responsive">
+                        <table className="table table-hover">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nome</th>
+                                <th>Status</th>
+                                <th>Setor</th>
+                                <th>Email</th>
+                                <th>Ação</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {usuarios.consultores.map((dados, index) => {
+                                return (
+                                    <tr className="cursor-pointer"
+                                        key={index} onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
+                                        <td>
+                                            <Avatar src={dados.foto} />
+                                        </td>
+                                        <td className="text-wrap">
+                                            {dados.nome}<br/>
+                                            <small>ID: #{dados.id}</small>
+                                        </td>
+                                        <td className="text-center">
+                                            {iconeStatus(dados.status)}
+                                        </td>
+                                        <td>
+                                            <small>{dados.setor.nome}</small>
+                                        </td>
+                                        <td>
+                                            <small>{dados.email}</small>
+                                        </td>
+                                        <td>
+                                            <Button color={"primary"}
+                                                    href={route('admin.usuarios.consultores.show', dados.id)}
+                                                    size="sm">Ver</Button>
+                                        </td>
+                                    </tr>)
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
                 </TabPanel>
-                {/*Consultores - fim */}
-                {/*Supervisores*/}
+
                 <TabPanel value={value} index={1}>
                     <Row className={"mb-3 text-right"}>
                         <Col>
@@ -131,32 +135,34 @@ export default function Index({usuarios}) {
                     <Table hover responsive>
                         <thead>
                         <tr>
-                            <th>#ID</th>
+                            <th></th>
                             <th>Nome</th>
-                            <th>Setor</th>
                             <th>Status</th>
+                            <th>Setor</th>
                             <th>Email</th>
                             <th>Ação</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {usuarios.supervisores.map((dados) => {
+                        {usuarios.supervisores.map((dados, index) => {
                             return (
-                                <tr key={dados.id} className={"align-middle"}>
-                                    <th scope="row">
-                                        {dados.id}
-                                    </th>
+                                <tr className="cursor-pointer"
+                                    key={index} onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
                                     <td>
-                                        {dados.nome}
+                                        <Avatar src={dados.foto} />
                                     </td>
-                                    <td>
-                                        {dados.setor.nome}
+                                    <td className="text-wrap">
+                                        {dados.nome}<br/>
+                                        <small>ID: #{dados.id}</small>
                                     </td>
                                     <td className="text-center">
                                         {iconeStatus(dados.status)}
                                     </td>
                                     <td>
-                                        {dados.email}
+                                        <small>{dados.setor.nome}</small>
+                                    </td>
+                                    <td>
+                                        <small>{dados.email}</small>
                                     </td>
                                     <td>
                                         <Button color={"primary"}
@@ -168,8 +174,7 @@ export default function Index({usuarios}) {
                         </tbody>
                     </Table>
                 </TabPanel>
-                {/*Supervisores - fim*/}
-                {/*Admins*/}
+
                 <TabPanel value={value} index={2}>
                     <Row className={"mb-3 text-right"}>
                         <Col>
@@ -181,37 +186,40 @@ export default function Index({usuarios}) {
                     <Table hover responsive>
                         <thead>
                         <tr>
-                            <th>#ID</th>
+                            <th></th>
                             <th>Nome</th>
-                            <th>Setor</th>
                             <th>Status</th>
+                            <th>Setor</th>
                             <th>Email</th>
                             <th>Ação</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {usuarios.admins.map((dados) => {
+                        {usuarios.admins.map((dados, index) => {
                             return (
-                                <tr key={dados.id} className={"align-middle"}>
-                                    <th scope="row">
-                                        {dados.id}
-                                    </th>
+                                <tr className="cursor-pointer"
+                                    key={index} onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
                                     <td>
-                                        {dados.nome}
+                                        <Avatar src={dados.foto} />
                                     </td>
-                                    <td>
-                                        {dados.setor.nome}
+                                    <td className="text-wrap">
+                                        {dados.nome}<br/>
+                                        <small>ID: #{dados.id}</small>
                                     </td>
                                     <td className="text-center">
                                         {iconeStatus(dados.status)}
                                     </td>
                                     <td>
-                                        {dados.email}
+                                        <small>{dados.setor.nome}</small>
                                     </td>
                                     <td>
-                                        <Button color={"primary"}
-                                                href={route('admin.usuarios.consultores.show', dados.id)}
-                                                size="sm">Ver</Button>
+                                        <small>{dados.email}</small>
+                                    </td>
+                                    <td>
+                                        <a className="btn btn-primary btn-sm"
+                                                href={route('admin.usuarios.consultores.show', dados.id)}>
+                                            Ver
+                                        </a>
                                     </td>
                                 </tr>
                             )
@@ -219,7 +227,6 @@ export default function Index({usuarios}) {
                         </tbody>
                     </Table>
                 </TabPanel>
-                {/*Admins - fim*/}
             </Box>
         </Layout>);
 }

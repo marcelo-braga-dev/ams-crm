@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Services\Images;
 use App\src\Usuarios\Admins;
 use App\src\Usuarios\Consultores;
 use App\src\Usuarios\Supervisores;
@@ -30,6 +31,7 @@ class User extends Authenticatable
         'categoria',
         'status',
         'password',
+        'foto'
     ];
 
     /**
@@ -88,15 +90,14 @@ class User extends Authenticatable
             ->where('status', 'ativo');
 
         if ($setor) $query->where('setor', $setor);
-
         if ($superiores) $query->orWhere('tipo', 'admin');
         if ($superiores) $query->orWhere('tipo', 'supervisor');
 
         if ($exceto) return
-            $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status'])
+            $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto'])
                 ->except(['id' => $exceto]);
 
-        return $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status']);
+        return $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto']);
     }
 
 
@@ -191,5 +192,37 @@ class User extends Authenticatable
             throw new \DomainException('Falha na migração!');
         }
         DB::commit();
+    }
+
+    public function setFoto($id, $request)
+    {
+        if ($request->foto) {
+            $url = (new Images())->armazenar($request, 'foto', 'fotos_usuarios');
+
+            $this->newQuery()
+                ->find($id)
+                ->update([
+                    'foto' => $url
+                ]);
+        }
+    }
+
+    public function getFoto($id)
+    {
+        $foto = $this->newQuery()
+            ->find($id, 'foto')->foto ?? null;
+
+        return $foto ? asset('storage/' . $foto) : null;
+    }
+
+    public function getFotos(): array
+    {
+        $dados = $this->newQuery()->get(['id', 'foto']);
+
+        $items = [];
+        foreach ($dados as $dado) {
+            $items[$dado->id] = $dado->foto ? asset('storage/' . $dado->foto) : null;
+        }
+        return $items;
     }
 }

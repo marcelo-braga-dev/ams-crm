@@ -8,16 +8,19 @@ import Menu from "@mui/material/Menu";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
-import {useForm} from "@inertiajs/react";
+import {useForm, usePage} from "@inertiajs/react";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import NotificacoesNav from "@/Components/Alerts/NotificacoesNav";
 
 export default function Navbar({titlePage}) {
+    const {props} = usePage()
     const [qtdPedidos, setQtdPedidos] = React.useState();
     const [qtdChatInterno, setChatInterno] = React.useState();
 
     // MENU PERFIL
-    const settings = [];
+    const settings = [
+        {title: 'Perfil', url: route('supervisor.perfil.config.edit', 0)}
+    ];
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -47,10 +50,11 @@ export default function Navbar({titlePage}) {
     // MENU PERFIL - FIM
 
     return (<>
-            <NotificacoesNav url={route('supervisor.notificacoes.show', 0)} urlPageChat={route('supervisor.chat-interno.index')}
+            <NotificacoesNav url={route('supervisor.notificacoes.show', 0)}
+                             urlPageChat={route('supervisor.chat-interno.index')}
                              setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno}/>
             <nav className="navbar navbar-main navbar-expand-lg pb-3" id="navbarBlur"
-                 data-scroll="false"  style={{"backgroundColor": "#252525"}}>
+                 data-scroll="false" style={{"backgroundColor": "#252525"}}>
                 <div className="container-fluid py-1 mt-2">
                     <nav aria-label="breadcrumb">
                         <h6 className="font-weight-bolder text-white mb-0">{titlePage}</h6>
@@ -90,9 +94,19 @@ export default function Navbar({titlePage}) {
 
                             <li className="nav-item d-flex align-items-center mx-2">
                                 <Box sx={{flexGrow: 0}}>
-                                    <Tooltip title="Open settings">
+                                    <Tooltip title="Configurações">
                                         <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                            <Avatar src=""/>
+                                            <Badge
+                                                overlap="circular"
+                                                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                                                badgeContent={
+                                                    <span className="badge rounded-pill bg-white">
+                                                        <i style={{fontSize: 12}}
+                                                           className=" text-dark fas fa-user-cog"/>
+                                                    </span>
+                                                }>
+                                                <Avatar src={props.foto_usuario}/>
+                                            </Badge>
                                         </IconButton>
                                     </Tooltip>
                                     <Menu

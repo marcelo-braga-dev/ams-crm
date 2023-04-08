@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {router} from '@inertiajs/react'
 
 export default function Edit({usuario, setores, errors}) {
-    const {data, setData, } = useForm({
+    const {data, setData,} = useForm({
         nome: usuario.nome,
         email: usuario.email,
         status: usuario.status,
@@ -26,7 +26,7 @@ export default function Edit({usuario, setores, errors}) {
             _method: 'put', ...data
         })
     };
-
+    console.log(data)
     return (
         <Layout container errors={errors} titlePage="Atualizar Dados"
                 voltar={route('admin.usuarios.consultores.show', usuario.id)}
@@ -37,11 +37,11 @@ export default function Edit({usuario, setores, errors}) {
                 <div className="row mb-3 mt-4">
                     <div className="col">
                         <TextField label="Nome" id="nome" value={data.nome} required
-                                   onChange={e => setData('nome', e.target.value)} fullWidth />
+                                   onChange={e => setData('nome', e.target.value)} fullWidth/>
                     </div>
                     <div className="col">
                         <TextField label="Email" id="email" value={data.email} type={'email'} required
-                                   onChange={e => setData('email', e.target.value)} fullWidth />
+                                   onChange={e => setData('email', e.target.value)} fullWidth/>
                     </div>
                     <div className="col">
                         <TextField
@@ -79,6 +79,11 @@ export default function Edit({usuario, setores, errors}) {
                             <MenuItem value="admin">Admin</MenuItem>
                         </TextField>
                     </div>
+                    <div className="col-md-4">
+                        <TextField type="file" label="Foto"
+                                   inputProps={{accept: 'image/*'}}  InputLabelProps={{shrink: true}}
+                                   onChange={e => setData('foto', e.target.files[0])}/>
+                    </div>
                 </div>
                 <div className="row mb-3 text-right">
                     <div className={'text-center mt-4'}>
@@ -87,13 +92,13 @@ export default function Edit({usuario, setores, errors}) {
                 </div>
             </form>
 
-            <hr />
+            <hr/>
             <form onSubmit={submitSenha}>
                 <h6>Alterar Senha</h6>
                 <div className="row">
                     <div className="col">
                         <TextField label="Nova Senha" type="password" fullWidth required
-                            onChange={e => setData('nova_senha', e.target.value)}/>
+                                   onChange={e => setData('nova_senha', e.target.value)}/>
                     </div>
                     <div className="col">
                         <TextField label="Confirmar Nova Senha" type="password" fullWidth required

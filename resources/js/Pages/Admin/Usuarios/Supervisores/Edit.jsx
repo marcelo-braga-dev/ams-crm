@@ -79,6 +79,11 @@ export default function Edit({usuario, setores, errors}) {
                             <MenuItem value="admin">Admin</MenuItem>
                         </TextField>
                     </div>
+                    <div className="col-md-4">
+                        <TextField type="file" label="Foto"
+                                   inputProps={{accept: 'image/*'}}  InputLabelProps={{shrink: true}}
+                                   onChange={e => setData('foto', e.target.files[0])}/>
+                    </div>
                 </div>
                 <div className="row mb-3 text-right">
                     <div className={'text-center mt-4'}>

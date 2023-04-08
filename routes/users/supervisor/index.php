@@ -10,4 +10,5 @@ Route::middleware(['auth', 'auth.supervisores'])
         require __DIR__ . '/leads.php';
         require __DIR__ . '/notificacoes.php';
         require __DIR__ . '/chat-interno.php';
+        require __DIR__ . '/perfil.php';
     });

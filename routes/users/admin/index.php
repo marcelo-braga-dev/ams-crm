@@ -16,4 +16,5 @@ Route::middleware(['auth', 'auth.admins'])
         require __DIR__ . '/chat-interno.php';
         require __DIR__ . '/agenda.php';
         require __DIR__ . '/metas-vendas.php';
+        require __DIR__ . '/perfil.php';
     });

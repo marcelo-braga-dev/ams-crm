@@ -51,7 +51,8 @@ class UsuariosService
             'setor' => $this->nomeSetores[$dado->setor],
             'email' => $dado->email,
             'tipo' => $dado->tipo,
-            'status' => $dado->status
+            'status' => $dado->status,
+            'foto' => $dado->foto ? asset('storage/' . $dado->foto) : null
         ];
     }
 }

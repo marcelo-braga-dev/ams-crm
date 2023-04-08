@@ -80,6 +80,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
     const [chats, setChats] = useState([]);
     const [chatsSelecionado, setChatsSelecionado] = useState();
     const [nomeChatsSelecionado, setNomeChatsSelecionado] = useState();
+    const [fotoChatsSelecionado, setFotoChatsSelecionado] = useState();
 
     id = chatsSelecionado
     getUrlRes = getUrl
@@ -143,48 +144,45 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
     return (
         <Layout titlePage="Chat Interno" menu="chat-interno" submenu="mensagens">
             <RootWrapper className="Mui-FixedWrapper">
-                <DrawerWrapperMobile
-                    sx={{
-                        display: {lg: 'none', xs: 'inline-block'}
-                    }}
-                    variant="temporary"
-                    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                >
-                    <SidebarContent/>
+                <DrawerWrapperMobile sx={{display: {lg: 'none', xs: 'inline-block'}}}
+                                     variant="temporary"
+                                     anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+                                     open={mobileOpen}
+                                     onClose={handleDrawerToggle}>
+                    <SidebarContent
+                        setNomeChatsSelecionado={setNomeChatsSelecionado}
+                        setFotoChatsSelecionado={setFotoChatsSelecionado}
+                        chats={chats}
+                        chatSelecionado={chatsSelecionado}
+                        setChatsSelecionado={setChatsSelecionado}
+                        pessoas={pessoas}/>
                 </DrawerWrapperMobile>
-                <Sidebar
-                    sx={{
-                        display: {xs: 'none', lg: 'inline-block'}
-                    }}
-                >
+                <Sidebar sx={{display: {xs: 'none', lg: 'inline-block'}}}>
                     {/*CHAT*/}
                     <SidebarContent
                         setNomeChatsSelecionado={setNomeChatsSelecionado}
+                        setFotoChatsSelecionado={setFotoChatsSelecionado}
                         chats={chats}
                         chatSelecionado={chatsSelecionado}
                         setChatsSelecionado={setChatsSelecionado}
                         pessoas={pessoas}/>
                 </Sidebar>
                 <ChatWindow>
-                    <ChatTopBar
-                        sx={{
-                            display: {xs: 'flex', lg: 'inline-block'}
-                        }}
-                    >
+                    <ChatTopBar sx={{display: {xs: 'flex', lg: 'inline-block'}}}>
                         <IconButtonToggle
-                            sx={{
-                                display: {lg: 'none', xs: 'flex'}, mr: 2
-                            }}
+                            sx={{display: {lg: 'none', xs: 'flex'}, mr: 2}}
                             color="primary"
                             onClick={handleDrawerToggle}
-                            size="small"
-                        >
+                            size="small">
                         </IconButtonToggle>
-                        <TopBarContent nomeChatsSelecionado={nomeChatsSelecionado} idDestinatario={id}/>
+                        <TopBarContent
+                            nomeChatsSelecionado={nomeChatsSelecionado}
+                            fotoChatsSelecionado={fotoChatsSelecionado}
+                            idDestinatario={id}/>
                     </ChatTopBar>
-                    <ChatContent mensagens={mensagens}/>
+                    <ChatContent
+                        mensagens={mensagens}
+                        fotoChatsSelecionado={fotoChatsSelecionado}/>
                     <Divider/>
                     <BottomBarContent
                         chatSelecionado={chatsSelecionado}

@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {
     Box,
     IconButton,
-    Tooltip,
     Avatar,
     Accordion,
     AccordionSummary,
@@ -80,7 +79,7 @@ const AccordionSummaryWrapper = styled(AccordionSummary)(
 `
 );
 
-function TopBarContent({nomeChatsSelecionado, idDestinatario}) {
+function TopBarContent({nomeChatsSelecionado, idDestinatario, fotoChatsSelecionado}) {
     const theme = useTheme();
 
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -111,8 +110,8 @@ function TopBarContent({nomeChatsSelecionado, idDestinatario}) {
                                     width: 48,
                                     height: 48
                                 }}
-                                alt="Zain Baptista"
-                                src=""
+                                alt="Foto"
+                                src={fotoChatsSelecionado}
                             />
 
                             <div className="row px-2">

@@ -2,56 +2,20 @@ import {useState} from 'react';
 import {
     Box,
     Typography,
-    FormControlLabel,
-    Switch,
-    Tabs,
-    Tab,
     TextField,
     IconButton,
-    InputAdornment,
     Avatar,
     List,
-    Button,
-    Tooltip,
-    Divider,
-    AvatarGroup,
     ListItemButton,
     ListItemAvatar,
     ListItemText,
-    lighten,
     styled
 } from '@mui/material';
 
-import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import Label from './Label';
-import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
-import AlarmTwoToneIcon from '@mui/icons-material/AlarmTwoTone';
 import MenuItem from "@mui/material/MenuItem";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ImageIcon from '@mui/icons-material/Image';
-
-
-const AvatarSuccess = styled(Avatar)(
-    ({theme}) => `
-          background-color: white;
-          color: green;
-          width: 8px;
-          height: 8px;
-          margin-left: auto;
-          margin-right: auto;
-    `
-);
-
-const MeetingBox = styled(Box)(
-    ({theme}) => `
-          background-color: black;
-          margin: 2px 0;
-          border-radius: 10};
-          padding: 2;
-    `
-);
 
 const RootWrapper = styled(Box)(
     ({theme}) => `
@@ -59,39 +23,21 @@ const RootWrapper = styled(Box)(
   `
 );
 
-const ListItemWrapper = styled(ListItemButton)(
-    ({theme}) => `
-        // &.MuiButtonBase-root {
-        //     margin: 1px 5 0;
-        // }
-  `
-);
-
 const chatAtivo = {
     backgroundColor: '#222222',
 }
-const chatAtivoColor = {
-    color: 'white',
-}
 
-function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeChatsSelecionado, pessoas}) {
+function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeChatsSelecionado, pessoas, setFotoChatsSelecionado}) {
     const user = {
         name: 'Chat Interno',
         avatar: '',
         jobtitle: 'AMS360'
     };
 
-
-    const tabs = [
-        {value: 'all', label: 'All'},
-        {value: 'unread', label: 'Unread'},
-        {value: 'archived', label: 'Archived'}
-    ];
-
     function selecionarChat(dados) {
         setChatsSelecionado(dados.id)
         setNomeChatsSelecionado(dados.nome)
-
+        setFotoChatsSelecionado(dados.foto)
     }
 
     return (
@@ -124,7 +70,6 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
                             size="small"
                             color="primary"
                         >
-                            {/*<SettingsTwoToneIcon fontSize="small"/>*/}
                         </IconButton>
                     </Box>
                 </Box>
@@ -132,15 +77,18 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
             <TextField className="mb-3 px-2" size="small" select fullWidth
                        placeholder="Pesquisar..." defaultValue=""
                        onChange={e => selecionarChat(e.target.value)}>
+
                 {pessoas.map((option) => {
-                    return (<MenuItem key={option.id} value={option}>
-                        #{option.id} - {option.nome}
+                    return (<MenuItem key={option.id} value={option} className="border-bottom">
+                        <Avatar className="me-3 "
+                                src={option.foto}
+                                sx={{width: 30, height: 30}}/>
+                        <small className="text-muted">{option.nome}</small>
                     </MenuItem>)
                 })}
             </TextField>
 
             <Box mt={2}>
-
                 <List disablePadding component="div" className="mb-4">
                     {chats.map((dados, index) => {
                         const selecionado = chatSelecionado === dados.id
@@ -148,7 +96,7 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
                             <ListItemButton style={selecionado ? chatAtivo : {}}
                                             onClick={() => selecionarChat(dados)} key={index}>
                                 <ListItemAvatar>
-                                    <Avatar src=""/>
+                                    <Avatar src={dados.foto}/>
                                 </ListItemAvatar>
                                 <ListItemText
                                     sx={{mr: 1}}

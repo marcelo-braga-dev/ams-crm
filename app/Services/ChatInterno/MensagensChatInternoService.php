@@ -11,6 +11,7 @@ class MensagensChatInternoService
     {
         $mensagens = (new ChatInterno())->getDestinatarios();
         $nomes = (new User())->getNomes();
+        $fotos = (new User())->getFotos();
         $usuarioAtual = id_usuario_atual();
 
         $users = [];$n = [];
@@ -27,6 +28,7 @@ class MensagensChatInternoService
                 'ultima_mensagem' => $mensagem->mensagem,
                 'tipo' => $mensagem->tipo,
                 'status' => $mensagem->status,
+                'foto' => $fotos[$id]
             ];
         }
 
@@ -42,6 +44,7 @@ class MensagensChatInternoService
     {
         $mensagens = (new ChatInterno())->getMensagens($usuario, $destinatario);
         $usuarios = (new User())->getNomes();
+        $fotos = (new User())->getFotos();
 
         $dados = [];
         foreach ($mensagens as $mensagem) {
@@ -55,6 +58,7 @@ class MensagensChatInternoService
                 'is_resposta' => id_usuario_atual() == $mensagem->destinatario ? 1 : 0,
                 'data' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
                 'tipo' => $mensagem->tipo,
+                'foto' => $fotos[$mensagem->users_id]
             ];
         }
         return $dados;

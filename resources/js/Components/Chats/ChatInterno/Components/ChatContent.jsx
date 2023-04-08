@@ -1,9 +1,10 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Virtuoso} from 'react-virtuoso';
 import {Box, Card, styled} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
+import {usePage} from "@inertiajs/react";
 
 
 const CardWrapperPrimary = styled(Card)(
@@ -30,6 +31,9 @@ const CardWrapperSecondary = styled(Card)(
 );
 
 export default function ChatContent({mensagens}) {
+    const {props} = usePage()
+    const [fotoUsuario, setFotoUsuario] = useState(props.foto_usuario);
+
     const itemContent = useCallback(
         (index, item) => (
             <div className="p-3">
@@ -38,16 +42,11 @@ export default function ChatContent({mensagens}) {
                         key={index}
                         display="flex"
                         alignItems="flex-start"
-                        justifyContent="flex-start"
-                    >
+                        justifyContent="flex-start">
                         <Avatar
                             variant="rounded"
-                            sx={{
-                                width: 50,
-                                height: 50
-                            }}
-                            alt={item.nome_usuario}
-                            // src={user.avatar}
+                            sx={{width: 50, height: 50}}
+                            src={item.foto}
                         />
                         <Box
                             display="flex"
@@ -105,9 +104,10 @@ export default function ChatContent({mensagens}) {
                                 width: 50,
                                 height: 50
                             }}
-                            alt={item.nome_destinatario}
-                            // src={user.avatar}
+                            alt="foto"
+                            src={fotoUsuario}
                         />
+
                     </Box>}
             </div>
         ),

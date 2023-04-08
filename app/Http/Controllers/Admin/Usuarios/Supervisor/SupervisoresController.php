@@ -48,6 +48,7 @@ class SupervisoresController extends Controller
     {
         try {
             (new User())->updateDados($id, $request);
+            (new User())->setFoto($id, $request);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->route('admin.usuarios.supervisores.show', $id);
