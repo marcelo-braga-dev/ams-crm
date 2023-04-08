@@ -1,2 +1,4 @@
 *
 !.gitignore
+!importacao/
+!importacao/modelo_importacao_leads.xlsx

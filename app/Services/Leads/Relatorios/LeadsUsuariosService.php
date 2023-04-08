@@ -9,13 +9,13 @@ class LeadsUsuariosService
 {
     public function get()
     {
-        $users = (new User())->getNomes();
+        $nomes = (new User())->getNomes();
         $leads = (new Leads())->qtdLeadsUsuarios();
 
         $dados = [];
         foreach ($leads as $lead) {
             $dados[$lead->users_id]['status'][$lead->status][] = [];
-            $dados[$lead->users_id]['nome'] = $users[$lead->users_id] ?? 'Não Encontrado';
+            $dados[$lead->users_id]['nome'] = $nomes[$lead->users_id] ?? 'Não Encontrado';
             $dados[$lead->users_id]['id'] = $lead->users_id;
         }
 

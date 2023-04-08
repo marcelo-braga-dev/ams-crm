@@ -9,6 +9,7 @@ use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class Leads extends Model
 {
@@ -189,7 +190,7 @@ class Leads extends Model
             'id' => $item->id,
 
             'consultor' => [
-                        'nome' => $nomes[$item->users_id] ?? '-'
+                'nome' => $nomes[$item->users_id] ?? '-'
             ],
 
             'cliente' => [
@@ -210,7 +211,8 @@ class Leads extends Model
                 'status' => $item->status,
                 'status_anotacoes' => $item->status_anotacoes,
                 'anotacoes' => $item->infos,
-                'ultima_msg' => $msg[$item->id] ?? null,
+                'ultima_msg' => $msg[$item->id]['msg'] ?? null,
+                'data_ultima_msg' => $msg[$item->id]['data'] ?? null,
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                 'contato' => $item->meio_contato,
                 'data_criacao' => date('d/m/y H:i', strtotime($item->updated_at)),
@@ -225,5 +227,28 @@ class Leads extends Model
             ->update([
                 'classificacao' => $valor
             ]);
+    }
+
+    public function qtdLeads()
+    {
+        return $this->newQuery()
+            ->select('users_id', DB::raw('count(*) as qtdUsers'))
+            ->groupBy('users_id')
+            ->get();
+    }
+
+    public function qtdLeadsStatusConsultor($idConsultor): array
+    {
+        $dados = $this->newQuery()
+            ->where('users_id', $idConsultor)
+            ->select('status', DB::raw('COUNT(*) as qtd'))
+            ->groupBy('status')
+            ->get();
+
+        $items = [];
+        foreach ($dados as $dado) {
+            $items[$dado->status] = $dado->qtd ?? 0;
+        }
+        return $items;
     }
 }

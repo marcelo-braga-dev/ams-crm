@@ -59,6 +59,7 @@ export default function CardLeads({dados, urlBtn, btn}) {
                 {dados.infos.ultima_msg &&
                     <div className="div border p-1 px-2 mt-2 border-gray-300 rounded">
                         <small><b>Última Mensagem:</b><br/>{dados.infos.ultima_msg}</small>
+                        <small className="d-block text-end font-italic">{dados.infos.data_ultima_msg}</small>
                     </div>
                 }
 

@@ -100,12 +100,13 @@ class User extends Authenticatable
     }
 
 
-    public function getConsultores($setor = null)
+    public function getConsultores($setor = null, $status = false)
     {
         $query = $this->newQuery()
             ->where('tipo', (new Consultores())->getTipo());
 
         if ($setor) $query->where('setor', $setor);
+        if ($status) $query->where('status', 'ativo');
 
         return $query->get(['id', 'name', 'email', 'tipo', 'status'])
             ->except(['id' => 1])

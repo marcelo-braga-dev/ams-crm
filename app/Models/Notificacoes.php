@@ -43,6 +43,23 @@ class Notificacoes extends Model
             ->paginate(50);
     }
 
+    public function getHistorico($id = null)
+    {
+        $query = $this->newQuery()
+            ->where('categoria', 'leads')
+            ->orderByDesc('id');
+
+        if ($id) $query->where('users_id', $id);
+
+        return $query->get()
+            ->transform(function ($item) {
+                return [
+                    'msg' => $item->msg,
+                    'data' => date('d/m/y H:i', strtotime($item->created_at))
+                ];
+            });
+    }
+
     public function countNotificacoes(): array
     {
         $idUsuario = id_usuario_atual();

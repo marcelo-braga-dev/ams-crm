@@ -18,18 +18,19 @@ export default function Dashboard({leads, usuario}) {
 
     return (
         <Layout titlePage="Lista de Leads" menu="leads" submenu="relatorios">
-            <div className="container ">
-            <div className="row justify-content-between bg-white shadow rounded p-3 mb-4">
-                <div className="col-auto">
-                    <small className="d-block">Consultor(a)</small>
-                    <span className="d-block">{usuario.nome}</span>
+            <div className="container">
+                <div className="row justify-content-between bg-white shadow rounded p-3 mb-4">
+                    <div className="col-auto">
+                        <small className="d-block">Consultor(a)</small>
+                        <span className="d-block">{usuario.nome}</span>
+                    </div>
+                    <div className="col-auto">
+                        <a href={route('admin.leads.relatorios.show', usuario.id)} className="btn btn-link mb-0">
+                            <i className="fas fa-arrow-left me-1"></i> Voltar
+                        </a>
+                    </div>
                 </div>
-                <div className="col-auto">
-                    <a href={route('admin.leads.relatorios.show', usuario.id)} className="btn btn-link mb-0">
-                        <i className="fas fa-arrow-left me-1"></i> Voltar
-                    </a>
-                </div>
-            </div></div>
+            </div>
             {/*Pesquisa*/}
             <div className="row justify-content-end">
                 <div className="col-auto text-right">
