@@ -10,7 +10,7 @@ import AttachFileTwoToneIcon from '@mui/icons-material/AttachFileTwoTone';
 import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import {useForm} from "@inertiajs/react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import EmojiPicker from "emoji-picker-react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 
@@ -22,10 +22,6 @@ const MessageInputWrapper = styled(InputBase)(
 `
 );
 
-const Input = styled('input')({
-    display: 'none'
-});
-
 document.addEventListener("keypress", function (e) {
     if (e.key === 'Enter') {
         const btn = document.querySelector("#btn-enviar-mensagem");
@@ -33,31 +29,16 @@ document.addEventListener("keypress", function (e) {
     }
 });
 
-function BottomBarContent({chatSelecionado, urlSubmit}) {
+function BottomBarContent({idChatSelecionado, urlSubmit}) {
     const {data, setData, post} = useForm({
-        mensagem: '', anexo: '', destinatario: chatSelecionado
+        mensagem: '', anexo: '', destinatario: idChatSelecionado
     });
 
-    useEffect(() => {
-        setData('destinatario', chatSelecionado)
-    }, [chatSelecionado]);
-
-    function scroll() {
-        const scrollingElement = document.getElementById('mensagens');
-        if (scrollingElement) {
-            scrollingElement.scrollTop = scrollingElement.scrollHeight
-        }
-        setTimeout(() => {
-            const scrollingElement = document.getElementById('mensagens');
-            if (scrollingElement) {
-                scrollingElement.scrollTop = scrollingElement.scrollHeight
-            }
-        }, 5000)
-    }
+    const [abrirEmojis, setAbrirEmojis] = useState(false)
 
     useEffect(() => {
-        scroll()
-    }, [chatSelecionado]);
+        setData('destinatario', idChatSelecionado)
+    }, [idChatSelecionado]);
 
     function submit() {
         if ((data.mensagem || data.anexo) && data.destinatario) {
@@ -67,7 +48,6 @@ function BottomBarContent({chatSelecionado, urlSubmit}) {
             data.anexo = ''
         }
         limparCaixaMensagem()
-        scroll()
     }
 
     function limparCaixaMensagem() {
@@ -79,7 +59,7 @@ function BottomBarContent({chatSelecionado, urlSubmit}) {
         setData('mensagem', data.mensagem + e.emoji)
     }
 
-    return (chatSelecionado &&
+    return (idChatSelecionado ?
         <>
             {
                 data.anexo && <small className="pt-2">
@@ -106,16 +86,12 @@ function BottomBarContent({chatSelecionado, urlSubmit}) {
                 </Box>
                 <Box>
                     <Tooltip arrow placement="top" title="Choose an emoji" data-bs-toggle="modal"
-                             data-bs-target="#modalEmoji">
-
-                        <IconButton
-                            sx={{fontSize: '16px'}}
-                            color="primary"
-                        >
+                             data-bs-target="#modalEmoji" onClick={() => setAbrirEmojis(true)}>
+                        <IconButton sx={{fontSize: '16px'}} color="primary">
                             😀
                         </IconButton>
                     </Tooltip>
-                    <Input accept="image/*" id="messenger-upload-file" type="file"/>
+                    <input className="d-none" accept="image/*" id="messenger-upload-file" type="file"/>
                     <Tooltip arrow placement="top" title="Anexo">
                         <label htmlFor="messenger-upload-file">
                             <IconButton sx={{mx: 1}} color="primary" aria-label="upload picture" component="label">
@@ -134,12 +110,12 @@ function BottomBarContent({chatSelecionado, urlSubmit}) {
                      aria-hidden="true">
                     <div className="modal-dialog modal-sm">
                         <div className="modal-content">
-                            <EmojiPicker theme="google" onEmojiClick={emoji}/>
+                            {abrirEmojis && <EmojiPicker theme="google" onEmojiClick={emoji}/>}
                         </div>
                     </div>
                 </div>
             </Box>
-        </>
+        </> : ''
     )
 }
 

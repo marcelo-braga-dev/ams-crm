@@ -82,12 +82,12 @@ export default function Index({usuarios}) {
                     <div className="table-responsive">
                         <table className="table table-hover">
                             <thead>
-                            <tr>
+                            <tr className="text-sm">
                                 <th></th>
                                 <th>Nome</th>
-                                <th>Status</th>
+                                <th className="text-center">Status</th>
                                 <th>Setor</th>
-                                <th>Email</th>
+                                <th className="text-center">Último Acesso</th>
                                 <th>Ação</th>
                             </tr>
                             </thead>
@@ -101,19 +101,21 @@ export default function Index({usuarios}) {
                                         </td>
                                         <td className="text-wrap">
                                             {dados.nome}<br/>
+                                            <small className="d-block">{dados.email}</small>
                                             <small>ID: #{dados.id}</small>
                                         </td>
                                         <td className="text-center">
                                             {iconeStatus(dados.status)}
                                         </td>
                                         <td>
-                                            <small>{dados.setor.nome}</small>
+                                            <small className="badge rounded-pill"
+                                             style={{backgroundColor: dados.setor.cor ?? 'black'}}>{dados.setor.nome}</small>
+                                        </td>
+                                        <td className="text-center">
+                                            <small>{dados.ultimo_login}</small>
                                         </td>
                                         <td>
-                                            <small>{dados.email}</small>
-                                        </td>
-                                        <td>
-                                            <Button color={"primary"}
+                                            <Button color="primary"
                                                     href={route('admin.usuarios.consultores.show', dados.id)}
                                                     size="sm">Ver</Button>
                                         </td>
@@ -134,12 +136,12 @@ export default function Index({usuarios}) {
                     </Row>
                     <Table hover responsive>
                         <thead>
-                        <tr>
+                        <tr className="text-sm">
                             <th></th>
                             <th>Nome</th>
-                            <th>Status</th>
+                            <th className="text-center">Status</th>
                             <th>Setor</th>
-                            <th>Email</th>
+                            <th className="text-center">Último Acesso</th>
                             <th>Ação</th>
                         </tr>
                         </thead>
@@ -153,16 +155,18 @@ export default function Index({usuarios}) {
                                     </td>
                                     <td className="text-wrap">
                                         {dados.nome}<br/>
+                                        <small className="d-block">{dados.email}</small>
                                         <small>ID: #{dados.id}</small>
                                     </td>
                                     <td className="text-center">
                                         {iconeStatus(dados.status)}
                                     </td>
                                     <td>
-                                        <small>{dados.setor.nome}</small>
+                                        <small className="badge rounded-pill"
+                                               style={{backgroundColor: dados.setor.cor ?? 'black'}}>{dados.setor.nome}</small>
                                     </td>
-                                    <td>
-                                        <small>{dados.email}</small>
+                                    <td className="text-center">
+                                        <small>{dados.ultimo_login}</small>
                                     </td>
                                     <td>
                                         <Button color={"primary"}
@@ -185,12 +189,12 @@ export default function Index({usuarios}) {
                     </Row>
                     <Table hover responsive>
                         <thead>
-                        <tr>
+                        <tr className="text-sm">
                             <th></th>
                             <th>Nome</th>
-                            <th>Status</th>
+                            <th className="text-center">Status</th>
                             <th>Setor</th>
-                            <th>Email</th>
+                            <th className="text-center">Último Acesso</th>
                             <th>Ação</th>
                         </tr>
                         </thead>
@@ -204,16 +208,18 @@ export default function Index({usuarios}) {
                                     </td>
                                     <td className="text-wrap">
                                         {dados.nome}<br/>
-                                        <small>ID: #{dados.id}</small>
+                                        <small className="d-block">{dados.email}</small>
+                                        <small>ID: #{dados.id}</small> log: {dados.logado}
                                     </td>
                                     <td className="text-center">
                                         {iconeStatus(dados.status)}
                                     </td>
                                     <td>
-                                        <small>{dados.setor.nome}</small>
+                                        <small className="badge rounded-pill"
+                                               style={{backgroundColor: dados.setor.cor ?? 'black'}}>{dados.setor.nome}</small>
                                     </td>
-                                    <td>
-                                        <small>{dados.email}</small>
+                                    <td className="text-center">
+                                        <small>{dados.ultimo_login}</small>
                                     </td>
                                     <td>
                                         <a className="btn btn-primary btn-sm"

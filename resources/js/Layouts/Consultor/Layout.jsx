@@ -3,9 +3,10 @@ import {Head} from '@inertiajs/react';
 import ModalsAllerts from "@/Components/Modals/AlertsModals";
 import Sidebar from "./Templates/Sidebar";
 import Navbar from "./Templates/Navbar";
+import setUltimoLoginUsuario from "@/Helpers/setUltimoLoginUsuario";
 
 export default function Layout({children, titlePage, container, voltar, errors = []}) {
-
+    setUltimoLoginUsuario()
     return (
         <>
             <Head><title>{titlePage}</title></Head>

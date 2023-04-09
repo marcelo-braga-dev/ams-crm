@@ -9,13 +9,15 @@ import {
     ListItemButton,
     ListItemAvatar,
     ListItemText,
-    styled
+    styled,
+    Autocomplete
 } from '@mui/material';
 
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import MenuItem from "@mui/material/MenuItem";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ImageIcon from '@mui/icons-material/Image';
+import Badge from '@mui/material/Badge';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const RootWrapper = styled(Box)(
     ({theme}) => `
@@ -27,7 +29,44 @@ const chatAtivo = {
     backgroundColor: '#222222',
 }
 
-function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeChatsSelecionado, pessoas, setFotoChatsSelecionado}) {
+const StyledBadge = styled(Badge)(({theme}) => ({
+    '& .MuiBadge-badge': {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: 'ripple 1.2s infinite ease-in-out',
+            border: '1px solid currentColor',
+            content: '""',
+        },
+    },
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
+            opacity: 1,
+        },
+        '100%': {
+            transform: 'scale(2.4)',
+            opacity: 0,
+        },
+    },
+}));
+
+const StyledBadgeOffiline = styled(Badge)(() => ({
+    '& .MuiBadge-badge': {
+        backgroundColor: '#6a6c69',
+        color: '#6a6c69',
+        boxShadow: `0 0 0 2px white`,
+    }
+}));
+
+function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecionado}) {
     const user = {
         name: 'Chat Interno',
         avatar: '',
@@ -35,26 +74,25 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
     };
 
     function selecionarChat(dados) {
-        setChatsSelecionado(dados.id)
-        setNomeChatsSelecionado(dados.nome)
-        setFotoChatsSelecionado(dados.foto)
+        if (dados ?? null) {
+            setInfoChatSelecionado({
+                id: dados.id,
+                nome: dados.nome,
+                foto: dados.foto,
+                online: dados.online
+            })
+        }
     }
 
     return (
         <RootWrapper>
             <Box display="flex" alignItems="flex-start" className="p-2">
                 <QuestionAnswerIcon className="mt-2" style={{fontSize: 42}}/>
-                <Box
-                    sx={{
-                        ml: 1.5,
-                        flex: 1
-                    }}
-                >
+                <Box sx={{ml: 1.5, flex: 1}}>
                     <Box
                         display="flex"
                         alignItems="flex-start"
-                        justifyContent="space-between"
-                    >
+                        justifyContent="space-between">
                         <Box>
                             <Typography variant="h6" noWrap>
                                 {user.name}
@@ -64,39 +102,58 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
                             </Typography>
                         </Box>
                         <IconButton
-                            sx={{
-                                p: 1
-                            }}
+                            sx={{p: 1}}
                             size="small"
-                            color="primary"
-                        >
+                            color="primary">
                         </IconButton>
                     </Box>
                 </Box>
             </Box>
-            <TextField className="mb-3 px-2" size="small" select fullWidth
-                       placeholder="Pesquisar..." defaultValue=""
-                       onChange={e => selecionarChat(e.target.value)}>
-
-                {pessoas.map((option) => {
-                    return (<MenuItem key={option.id} value={option} className="border-bottom">
+            <Autocomplete
+                className="mb-3 px-2" size="small"
+                disablePortal
+                onChange={(event, newValue) => {
+                    selecionarChat(newValue)
+                }}
+                options={pessoas}
+                getOptionLabel={(option) => option.nome}
+                renderOption={(props, option) => (
+                    <div key={option.id} className="border-bottom py-2 d-flex w-100"  {...props}>
                         <Avatar className="me-3 "
                                 src={option.foto}
                                 sx={{width: 30, height: 30}}/>
                         <small className="text-muted">{option.nome}</small>
-                    </MenuItem>)
-                })}
-            </TextField>
+                    </div>
+                )}
+                renderInput={(params) =>
+                    <TextField  {...params} />
+                }
+            />
 
             <Box mt={2}>
                 <List disablePadding component="div" className="mb-4">
                     {chats.map((dados, index) => {
-                        const selecionado = chatSelecionado === dados.id
+                        const selecionado = infoChatSelecionado.id === dados.id
+                        if (selecionado) infoChatSelecionado.online = dados.online
+
                         return (
-                            <ListItemButton style={selecionado ? chatAtivo : {}}
+                            <ListItemButton className="border-bottom" style={selecionado ? chatAtivo : {}}
                                             onClick={() => selecionarChat(dados)} key={index}>
                                 <ListItemAvatar>
-                                    <Avatar src={dados.foto}/>
+                                    {dados.online ?
+                                        <StyledBadge
+                                            overlap="circular"
+                                            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                                            variant="dot">
+                                            <Avatar sx={{width: 50, height: 50}} alt={dados.nome} src={dados.foto}/>
+                                        </StyledBadge> :
+                                        <StyledBadgeOffiline
+                                            overlap="circular"
+                                            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                                            variant="dot">
+                                            <Avatar sx={{width: 50, height: 50}} alt={dados.nome} src={dados.foto}/>
+                                        </StyledBadgeOffiline>
+                                    }
                                 </ListItemAvatar>
                                 <ListItemText
                                     sx={{mr: 1}}
@@ -110,15 +167,20 @@ function SidebarContent({chats, setChatsSelecionado, chatSelecionado, setNomeCha
                                         noWrap: true
                                     }}
                                     primary={dados.nome}
-                                    secondary={<>
-                                        <DoneAllIcon color={
-                                            selecionado ?
-                                                (dados.status === 'lido' ? 'info' : 'white') :
-                                                (dados.status === 'lido' ? 'info' : 'disabled')}
-                                                     style={{fontSize: 14}} className="me-1"/>
-                                        {dados.tipo === 'file' ?
-                                            <ImageIcon style={{fontSize: 14}}/> : dados.ultima_mensagem}
-                                    </>
+                                    secondary={
+                                        <>
+                                            <DoneAllIcon color={
+                                                selecionado ?
+                                                    (dados.status === 'lido' ? 'info' : 'white') :
+                                                    (dados.status === 'lido' ? 'info' : 'disabled')}
+                                                         style={{fontSize: 14}} className="me-1"/>
+                                            {dados.tipo === 'file' ?
+                                                <ImageIcon style={{fontSize: 14}}/> : dados.ultima_mensagem}
+                                            <small
+                                                className={(selecionado ? 'text-white ' : 'text-muted ') + "d-block text-end font-italic"}>
+                                                {dados.data_mensagem}
+                                            </small>
+                                        </>
                                     }
                                 />
                                 {dados.qtd_nova > 0 &&

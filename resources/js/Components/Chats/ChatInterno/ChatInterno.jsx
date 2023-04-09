@@ -69,7 +69,7 @@ async function atualizaMensagens() {
 
         })
     }
-    setTimeout(atualizaMensagens, 200)
+    setTimeout(atualizaMensagens, 500)
 }
 
 atualizaMensagens()
@@ -78,17 +78,19 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
 
     const [mensagens, setMensagens] = useState([]);
     const [chats, setChats] = useState([]);
-    const [chatsSelecionado, setChatsSelecionado] = useState();
-    const [nomeChatsSelecionado, setNomeChatsSelecionado] = useState();
-    const [fotoChatsSelecionado, setFotoChatsSelecionado] = useState();
+    const [infoChatSelecionado, setInfoChatSelecionado] = useState({
+        id: 0,
+        nome: '',
+        foto: '',
+        online: 0
+    });
 
-    id = chatsSelecionado
+    id = infoChatSelecionado.id
     getUrlRes = getUrl
 
     function temporizador() {
         setMensagens(novaMensagem)
-
-        setTimeout(temporizador, 250)
+        setTimeout(temporizador, 500)
     }
 
     useEffect(() => {
@@ -108,7 +110,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
         setQtdAtual(mensagens.length)
     }
 
-    if (qtdChats && qtdChats !== chats.length && chatsSelecionado) {
+    if (qtdChats && qtdChats !== chats.length && infoChatSelecionado.id) {
         setChats(chatsAtualizado)
         setQtdChats(chats.length)
     }
@@ -150,21 +152,16 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                                      open={mobileOpen}
                                      onClose={handleDrawerToggle}>
                     <SidebarContent
-                        setNomeChatsSelecionado={setNomeChatsSelecionado}
-                        setFotoChatsSelecionado={setFotoChatsSelecionado}
+                        setInfoChatSelecionado={setInfoChatSelecionado}
                         chats={chats}
-                        chatSelecionado={chatsSelecionado}
-                        setChatsSelecionado={setChatsSelecionado}
                         pessoas={pessoas}/>
                 </DrawerWrapperMobile>
                 <Sidebar sx={{display: {xs: 'none', lg: 'inline-block'}}}>
                     {/*CHAT*/}
                     <SidebarContent
-                        setNomeChatsSelecionado={setNomeChatsSelecionado}
-                        setFotoChatsSelecionado={setFotoChatsSelecionado}
+                        setInfoChatSelecionado={setInfoChatSelecionado}
+                        infoChatSelecionado={infoChatSelecionado}
                         chats={chats}
-                        chatSelecionado={chatsSelecionado}
-                        setChatsSelecionado={setChatsSelecionado}
                         pessoas={pessoas}/>
                 </Sidebar>
                 <ChatWindow>
@@ -176,16 +173,15 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                             size="small">
                         </IconButtonToggle>
                         <TopBarContent
-                            nomeChatsSelecionado={nomeChatsSelecionado}
-                            fotoChatsSelecionado={fotoChatsSelecionado}
-                            idDestinatario={id}/>
+                            infoChatSelecionado={infoChatSelecionado}/>
                     </ChatTopBar>
                     <ChatContent
                         mensagens={mensagens}
-                        fotoChatsSelecionado={fotoChatsSelecionado}/>
+                        infoChatSelecionado={infoChatSelecionado}
+                    />
                     <Divider/>
                     <BottomBarContent
-                        chatSelecionado={chatsSelecionado}
+                        idChatSelecionado={infoChatSelecionado.id}
                         chatsAtualizado={chatsAtualizado}
                         setChats={setChats}
                         urlSubmit={(urlSubmit)}/>

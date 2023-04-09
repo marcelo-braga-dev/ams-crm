@@ -31,7 +31,8 @@ class User extends Authenticatable
         'categoria',
         'status',
         'password',
-        'foto'
+        'foto',
+        'ultimo_login'
     ];
 
     /**
@@ -94,10 +95,10 @@ class User extends Authenticatable
         if ($superiores) $query->orWhere('tipo', 'supervisor');
 
         if ($exceto) return
-            $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto'])
+            $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto', 'ultimo_login'])
                 ->except(['id' => $exceto]);
 
-        return $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto']);
+        return $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto', 'ultimo_login']);
     }
 
 
@@ -207,14 +208,6 @@ class User extends Authenticatable
         }
     }
 
-    public function getFoto($id)
-    {
-        $foto = $this->newQuery()
-            ->find($id, 'foto')->foto ?? null;
-
-        return $foto ? asset('storage/' . $foto) : null;
-    }
-
     public function getFotos(): array
     {
         $dados = $this->newQuery()->get(['id', 'foto']);
@@ -224,5 +217,24 @@ class User extends Authenticatable
             $items[$dado->id] = $dado->foto ? asset('storage/' . $dado->foto) : null;
         }
         return $items;
+    }
+
+    public function setUltimoLoginUsuario()
+    {
+        $this->newQuery()
+            ->find(id_usuario_atual())
+            ->update([
+                'ultimo_login' => now()
+            ]);
+    }
+
+    public function usuariosOnline()
+    {
+        $intervalo = date('Y-m-d H:i:s', (strtotime(now()) - 31));
+
+        return $this->newQuery()
+            ->where('ultimo_login', '>', $intervalo)
+            ->where('id', '!=', id_usuario_atual())
+            ->get();
     }
 }

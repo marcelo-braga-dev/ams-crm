@@ -3,9 +3,10 @@ import {Head} from '@inertiajs/react';
 import ModalsAllerts from "@/Components/Modals/AlertsModals";
 import Sidebar from "./Templates/Sidebar";
 import Navbar from "./Templates/Navbar";
+import setUltimoLoginUsuario from "@/Helpers/setUltimoLoginUsuario";
 
 export default function Layout({children, titlePage, container, voltar, menu, submenu, errors = []}) {
-
+    setUltimoLoginUsuario()
     return (
         <>
             <Head><title>{titlePage}</title></Head>
@@ -14,7 +15,7 @@ export default function Layout({children, titlePage, container, voltar, menu, su
 
             <main className="main-content">
                 <Navbar titlePage={titlePage}/>
-                <div className="container-fluid py-4 mb-8">
+                <div className="container-fluid mb-8 mt-3">
                     {container ?
                         voltar ?
                             <div className="bg-white px-lg-4 pt-2 pb-4 mb-4 mt-4 rounded">
@@ -40,7 +41,7 @@ export default function Layout({children, titlePage, container, voltar, menu, su
                                 {errors[0] && <div className="alert alert-danger text-white">{errors[0]}</div>}
                                 {children}
                             </div>
-                        : <div className="row">
+                        : <div className="row ">
                             {children}
                         </div>
                     }

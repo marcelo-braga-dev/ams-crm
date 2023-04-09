@@ -10,14 +10,54 @@ import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import {useForm, usePage} from "@inertiajs/react";
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
+import PeopleIcon from '@mui/icons-material/People';
+
+import Popover from '@mui/material/Popover';
 
 
 import NotificacoesNav from "@/Components/Alerts/NotificacoesNav";
+import {List} from "@mui/material";
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import {styled} from '@mui/material/styles';
+
+const StyledBadge = styled(Badge)(({theme}) => ({
+    '& .MuiBadge-badge': {
+        backgroundColor: '#44b700',
+        color: '#44b700',
+        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+        '&::after': {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '50%',
+            animation: 'ripple 1.2s infinite ease-in-out',
+            border: '1px solid currentColor',
+            content: '""',
+        },
+    },
+    '@keyframes ripple': {
+        '0%': {
+            transform: 'scale(.8)',
+            opacity: 1,
+        },
+        '100%': {
+            transform: 'scale(2.4)',
+            opacity: 0,
+        },
+    },
+}));
 
 export default function Navbar({titlePage}) {
     const {props} = usePage()
-    const [qtdPedidos, setQtdPedidos] = React.useState();
-    const [qtdChatInterno, setChatInterno] = React.useState();
+    const [qtdPedidos, setQtdPedidos] = useState();
+    const [qtdChatInterno, setChatInterno] = useState();
+    // const [qtdOnline, setQtdOnline] = useState(0);
+    const [usuariosOnline, setUsuariosOnline] = useState([]);
 
     // MENU PERFIL
     const settings = [
@@ -45,12 +85,39 @@ export default function Navbar({titlePage}) {
     const {post} = useForm();
 
     function submit(e) {
-        // e.preventDefault()
         post(route('logout'));
     }
 
     // MENU PERFIL - FIM
 
+    // Online
+    function getUsuariosOnline() {
+        axios.post(route('geral.usuarios.usuarios-online')).then(response => {
+            setUsuariosOnline(response.data)
+        })
+
+        setTimeout(function () {
+            getUsuariosOnline();
+
+        }, 60000)
+    }
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handlePopoverOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handlePopoverClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
+
+    useEffect(function () {
+        getUsuariosOnline()
+    }, [])
+    // Online - fim
 
     return (<>
             <NotificacoesNav url={route('admin.notificacoes.show', 0)} urlPageChat={route('admin.chat-interno.index')}
@@ -73,6 +140,63 @@ export default function Navbar({titlePage}) {
                                         <i className="sidenav-toggler-line bg-white"></i>
                                         <i className="sidenav-toggler-line bg-white"></i>
                                     </div>
+                                </div>
+                            </li>
+
+                            {/*Usuarios Online*/}
+                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
+                                <div>
+                                    <Typography
+                                        aria-owns={open ? 'mouse-over-popover' : undefined}
+                                        aria-haspopup="true"
+                                        onMouseEnter={handlePopoverOpen}
+                                        onMouseLeave={handlePopoverClose}
+                                    >
+                                        <Badge badgeContent={usuariosOnline.length} color="success">
+                                            <PeopleIcon style={{color: 'white'}}/>
+                                        </Badge>
+                                    </Typography>
+                                    <Popover
+                                        id="mouse-over-popover"
+                                        sx={{
+                                            pointerEvents: 'none',
+                                        }}
+                                        open={open}
+                                        anchorEl={anchorEl}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'left',
+                                        }}
+                                        onClose={handlePopoverClose}
+                                        disableRestoreFocus
+                                    >
+                                        {usuariosOnline.length ? <List>
+                                                {usuariosOnline.map((dado, index) => {
+                                                    return (
+                                                        <ListItem key={index} className=" pb-0">
+                                                            <ListItemAvatar>
+                                                                <StyledBadge
+                                                                    overlap="circular"
+                                                                    anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                                                                    variant="dot">
+                                                                    <Avatar src={dado.foto}/>
+                                                                </StyledBadge>
+
+                                                            </ListItemAvatar>
+                                                            <ListItemText
+                                                                primary={dado.nome}
+                                                                secondary={dado.setor_nome}
+                                                            />
+                                                        </ListItem>
+                                                    )
+                                                })}
+                                            </List> :
+                                            <small className="m-3">0 online</small>}
+                                    </Popover>
                                 </div>
                             </li>
 

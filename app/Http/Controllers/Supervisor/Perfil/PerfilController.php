@@ -13,7 +13,7 @@ class PerfilController extends Controller
 {
     public function edit()
     {
-        $dados = (new DadosUsuariosService())->get(id_usuario_atual());
+        $dados = (new DadosUsuariosService())->usuario(id_usuario_atual());
 
         return Inertia::render('Supervisor/Perfil/Edit', compact('dados'));
     }

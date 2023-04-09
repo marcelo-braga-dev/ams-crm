@@ -36,11 +36,12 @@ export default function Create({dados}) {
                     <span className="d-block"><b>Função:</b> {dados.tipo}</span>
                 </div>
                 <div className="col">
-                    <Avatar src={dados.foto} sx={{width: 100, height: 100}}
+                    <Avatar className="cursor-pointer"
+                        src={dados.foto} sx={{width: 80, height: 80}}
                             onClick={() => {
                                 document.getElementById('file_foto').click()
                             }}/>
-                    <label className="px-3" htmlFor="file_foto">Alterar foto</label>
+                    <label className="px-2 cursor-pointer" htmlFor="file_foto">Alterar foto</label>
                     <input className="d-none" type="file" id="file_foto" accept="image/*"
                            onChange={e => atualizarFoto(e.target.files[0])}/>
                 </div>

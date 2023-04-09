@@ -6,7 +6,6 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 import {usePage} from "@inertiajs/react";
 
-
 const CardWrapperPrimary = styled(Card)(
     ({theme}) => `
       background: rgb(0, 0, 0);
@@ -44,7 +43,7 @@ export default function ChatContent({mensagens}) {
                         alignItems="flex-start"
                         justifyContent="flex-start">
                         <Avatar
-                            variant="rounded"
+                            variant="circular"
                             sx={{width: 50, height: 50}}
                             src={item.foto}
                         />
@@ -99,11 +98,8 @@ export default function ChatContent({mensagens}) {
                             </small>
                         </Box>
                         <Avatar
-                            variant="rounded"
-                            sx={{
-                                width: 50,
-                                height: 50
-                            }}
+                            variant="circular"
+                            sx={{width: 50, height: 50}}
                             alt="foto"
                             src={fotoUsuario}
                         />

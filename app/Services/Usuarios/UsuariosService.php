@@ -52,7 +52,9 @@ class UsuariosService
             'email' => $dado->email,
             'tipo' => $dado->tipo,
             'status' => $dado->status,
-            'foto' => $dado->foto ? asset('storage/' . $dado->foto) : null
+            'foto' => $dado->foto ? asset('storage/' . $dado->foto) : null,
+            'ultimo_login' => $dado->ultimo_login ? date('d/m/y H:i', strtotime($dado->ultimo_login)) : '',
+            'logado' =>  strtotime(now()) - strtotime($dado->ultimo_login) < 61 ? 1 : 0,
         ];
     }
 }
