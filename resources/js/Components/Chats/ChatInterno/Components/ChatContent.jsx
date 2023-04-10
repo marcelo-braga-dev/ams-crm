@@ -1,129 +1,28 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {Virtuoso} from 'react-virtuoso';
-import {Box, Card, styled} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
-import {usePage} from "@inertiajs/react";
+import AreaChat from "./AreaMensagens/AreaChat";
+import AreaAviso from "./AreaMensagens/AreaAviso";
 
-const CardWrapperPrimary = styled(Card)(
-    ({theme}) => `
-      background: rgb(0, 0, 0);
-      color: white;
-      padding: 10px;
-      border-radius: 15px;
-      border-top-right-radius: 5px;
-      max-width: 380px;
-      display: inline-flex;`
-);
+export default function ChatContent({mensagens, infoChatSelecionado}) {
 
-const CardWrapperSecondary = styled(Card)(
-    ({theme}) => `
-      background: rgba(34, 51, 84, 0.1);
-      color: black;
-      padding:  10px;
-      border-radius: 15px;
-      border-top-left-radius: 5px;
-      max-width: 380px;
-      display: inline-flex;
-`
-);
-
-export default function ChatContent({mensagens}) {
-    const {props} = usePage()
-    const [fotoUsuario, setFotoUsuario] = useState(props.foto_usuario);
-
-    const itemContent = useCallback(
-        (index, item) => (
-            <div className="p-3">
-                {item.is_resposta ?
-                    <Box
-                        key={index}
-                        display="flex"
-                        alignItems="flex-start"
-                        justifyContent="flex-start">
-                        <Avatar
-                            variant="circular"
-                            sx={{width: 50, height: 50}}
-                            src={item.foto}
-                        />
-                        <Box
-                            display="flex"
-                            alignItems="flex-start"
-                            flexDirection="column"
-                            justifyContent="flex-start"
-                            ml={2}
-                        >
-                            <CardWrapperSecondary>
-                                {item.tipo === 'msg' && <span className="mb-2 d-block">
-                                            {item.mensagem}
-                                        </span>}
-                                {item.tipo === 'file' && <span className="mb-2 d-block">
-                                            <ImagePdf url={item.mensagem}/>
-                                        </span>}
-                            </CardWrapperSecondary>
-                            <small className="font-italic pt-1" style={{fontSize: 12}}>
-                                <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
-                                             style={{fontSize: 14}}/>
-                                {item.data}
-                            </small>
-                        </Box>
-                    </Box> :
-                    <Box
-                        key={index}
-                        display="flex"
-                        alignItems="flex-start"
-                        justifyContent="flex-end"
-                        py={1}
-                    >
-                        <Box id="mensagens"
-                             display="flex"
-                             alignItems="flex-end"
-                             flexDirection="column"
-                             justifyContent="flex-end"
-                             mr={2}
-                        >
-                            <CardWrapperPrimary>
-                                {item.tipo === 'msg' && <span className="mb-2 d-block">
-                                            {item.mensagem}
-                                        </span>}
-                                {item.tipo === 'file' && <span className="mb-2 d-block">
-                                            <ImagePdf url={item.mensagem}/>
-                                        </span>}
-                            </CardWrapperPrimary>
-                            <small className="font-italic pt-1" style={{fontSize: 12}}>
-                                <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
-                                             style={{fontSize: 14}}/>
-                                {item.data}
-                            </small>
-                        </Box>
-                        <Avatar
-                            variant="circular"
-                            sx={{width: 50, height: 50}}
-                            alt="foto"
-                            src={fotoUsuario}
-                        />
-
-                    </Box>}
-            </div>
-        ),
-        []
-    );
+    const itemContent = useCallback((index, item) => {
+        return infoChatSelecionado.categoria === 'chat' ?
+            <AreaChat item={item} index={index}/> :
+            <AreaAviso item={item} index={index}/>
+    }, [infoChatSelecionado]);
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexFlow: 'column',
-                height: '100%',
-            }}
-        >
+        <div style={{
+            display: 'flex',
+            flexFlow: 'column',
+            height: '100%'
+        }}>
             <Virtuoso
                 itemContent={itemContent}
                 data={mensagens}
                 followOutput="auto"
-                style={{flex: '1 1 auto'}}
-            />
+                style={{flex: '1 1 auto'}}/>
+            <div></div>
         </div>
     );
 }

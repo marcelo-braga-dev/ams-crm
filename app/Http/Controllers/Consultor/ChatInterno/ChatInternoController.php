@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ChatInterno;
 use App\Services\ChatInterno\MensagensChatInternoService;
 use App\Services\Usuarios\UsuariosService;
+use App\src\ChatInterno\Cadastrar;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,20 +23,22 @@ class ChatInternoController extends Controller
 
     public function store(Request $request)
     {
-        (new ChatInterno())->create($request);
+        (new Cadastrar())->mensagem($request);
 
         return redirect()->back();
     }
 
     public function mensagens(Request $request)
     {
-        $destinatarios = (new MensagensChatInternoService())
-            ->mensagens($request->usuario, $request->destinatario);
-        $conversas = (new MensagensChatInternoService())->conversas();
+        $mensagens = (new MensagensChatInternoService())
+            ->mensagens($request->usuario, $request->destinatario, $request->categoria);
+        $chats = (new MensagensChatInternoService())->conversas();
+        $chatAlerta = (new MensagensChatInternoService())->chatAlertas();
 
         return [
-            'mensagens' => $destinatarios,
-            'chats' => $conversas
+            'mensagens' => $mensagens,
+            'chats' => $chats,
+            'qtdAlertas' => $chatAlerta
         ];
     }
 }

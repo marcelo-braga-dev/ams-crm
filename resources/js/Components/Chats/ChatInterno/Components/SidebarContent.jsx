@@ -1,9 +1,7 @@
 import {useState} from 'react';
 import {
     Box,
-    Typography,
     TextField,
-    IconButton,
     Avatar,
     List,
     ListItemButton,
@@ -17,13 +15,7 @@ import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ImageIcon from '@mui/icons-material/Image';
 import Badge from '@mui/material/Badge';
-import InputAdornment from '@mui/material/InputAdornment';
-
-const RootWrapper = styled(Box)(
-    ({theme}) => `
-        padding: 3px;
-  `
-);
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const chatAtivo = {
     backgroundColor: '#222222',
@@ -43,7 +35,6 @@ const StyledBadge = styled(Badge)(({theme}) => ({
             borderRadius: '50%',
             animation: 'ripple 1.2s infinite ease-in-out',
             border: '1px solid currentColor',
-            content: '""',
         },
     },
     '@keyframes ripple': {
@@ -66,56 +57,41 @@ const StyledBadgeOffiline = styled(Badge)(() => ({
     }
 }));
 
-function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecionado}) {
-    const user = {
-        name: 'Chat Interno',
-        avatar: '',
-        jobtitle: 'AMS360'
-    };
+function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecionado, qtdAlertas}) {
 
-    function selecionarChat(dados) {
+    function selecionarChat(dados, categoriaSelecionada) {
+
         if (dados ?? null) {
             setInfoChatSelecionado({
                 id: dados.id,
                 nome: dados.nome,
                 foto: dados.foto,
-                online: dados.online
+                online: dados.online,
+                categoria: categoriaSelecionada
             })
         }
     }
 
     return (
-        <RootWrapper>
-            <Box display="flex" alignItems="flex-start" className="p-2">
-                <QuestionAnswerIcon className="mt-2" style={{fontSize: 42}}/>
+        <Box>
+            <Box display="flex" alignItems="flex-start" className="p-3">
+                <QuestionAnswerIcon style={{fontSize: 50}}/>
                 <Box sx={{ml: 1.5, flex: 1}}>
                     <Box
                         display="flex"
                         alignItems="flex-start"
                         justifyContent="space-between">
                         <Box>
-                            <Typography variant="h6" noWrap>
-                                {user.name}
-                            </Typography>
-                            <Typography variant="caption" noWrap>
-                                {user.jobtitle}
-                            </Typography>
+                            <h6 className="mb-0">AMS360</h6>
+                            <small>Chat Interno</small>
                         </Box>
-                        <IconButton
-                            sx={{p: 1}}
-                            size="small"
-                            color="primary">
-                        </IconButton>
                     </Box>
                 </Box>
             </Box>
             <Autocomplete
                 className="mb-3 px-2" size="small"
-                disablePortal
-                onChange={(event, newValue) => {
-                    selecionarChat(newValue)
-                }}
-                options={pessoas}
+                onChange={(event, newValue) => selecionarChat(newValue, 'chat')}
+                options={pessoas} disablePortal
                 getOptionLabel={(option) => option.nome}
                 renderOption={(props, option) => (
                     <div key={option.id} className="border-bottom py-2 d-flex w-100"  {...props}>
@@ -125,21 +101,45 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                         <small className="text-muted">{option.nome}</small>
                     </div>
                 )}
-                renderInput={(params) =>
-                    <TextField  {...params} />
-                }
+                renderInput={(params) => <TextField  {...params} />}
             />
 
             <Box mt={2}>
                 <List disablePadding component="div" className="mb-4">
+                    {/*Avisos*/}
+                    <ListItemButton className="border-bottom"
+                                    style={infoChatSelecionado.categoria === 'avisos' ? chatAtivo : {}}
+                                    onClick={() => selecionarChat('dados', 'avisos')}>
+                        <ListItemAvatar>
+                            <Avatar sx={{width: 50, height: 50, backgroundColor: 'white'}} alt={"dados.nome"} src={""}>
+                                <NotificationsIcon style={{fontSize: 40, color: 'black'}}/>
+                            </Avatar>
+                        </ListItemAvatar>
+                        <div className="row d-flex w-100 m x-0 py-3">
+                            <div className="col ms-1 mt-1">
+                                <span
+                                    className={infoChatSelecionado.categoria === 'avisos' ? 'text-white' : 'text-dark'}>
+                                        AVISOS INTERNOS
+                                </span>
+                            </div>
+                            <div className="col-auto">
+                                {qtdAlertas > 0 && <span className="badge rounded-pill bg-success">{qtdAlertas}</span>}
+                            </div>
+                        </div>
+
+                        {/**/}
+
+                    </ListItemButton>
+
                     {chats.map((dados, index) => {
                         const selecionado = infoChatSelecionado.id === dados.id
                         if (selecionado) infoChatSelecionado.online = dados.online
 
                         return (
                             <ListItemButton className="border-bottom" style={selecionado ? chatAtivo : {}}
-                                            onClick={() => selecionarChat(dados)} key={index}>
+                                            onClick={() => selecionarChat(dados, 'chat')} key={index}>
                                 <ListItemAvatar>
+
                                     {dados.online ?
                                         <StyledBadge
                                             overlap="circular"
@@ -156,7 +156,7 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                                     }
                                 </ListItemAvatar>
                                 <ListItemText
-                                    sx={{mr: 1}}
+                                    sx={{mr: 1, ml: 1}}
                                     primaryTypographyProps={{
                                         color: selecionado ? 'white' : 'black',
                                         variant: 'subtitle1',
@@ -190,7 +190,7 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                     })}
                 </List>
             </Box>
-        </RootWrapper>
+        </Box>
     );
 }
 

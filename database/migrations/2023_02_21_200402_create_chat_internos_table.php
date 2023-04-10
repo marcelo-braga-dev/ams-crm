@@ -21,6 +21,7 @@ return new class extends Migration
             $table->boolean('status_chat')->default(1);
             $table->string('mensagem');
             $table->string('tipo', 16);
+            $table->string('categoria', 16);
             $table->timestamps();
         });
     }

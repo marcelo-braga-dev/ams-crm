@@ -54,39 +54,46 @@ const DrawerWrapperMobile = styled(Drawer)(() => `
   }
 `);
 
-
 let id = 0;
 let novaMensagem = []
 let chatsAtualizado = []
 let getUrlRes = ''
+let categoria = ''
 
 async function atualizaMensagens() {
-
-    if (id) {
-        await axios.get(route(getUrlRes, {destinatario: id})).then(results => {
+    if (categoria === 'chat') {
+        await axios.get(route(getUrlRes, {destinatario: id, categoria: 'chat'})).then(results => {
             novaMensagem = results.data.mensagens
             chatsAtualizado = results.data.chats
-
         })
     }
-    setTimeout(atualizaMensagens, 500)
+    if (categoria === 'avisos') {
+        await axios.get(route(getUrlRes, {categoria: 'avisos'})).then(results => {
+            novaMensagem = results.data.mensagens
+            chatsAtualizado = results.data.chats
+        })
+    }
+    setTimeout(atualizaMensagens, 250)
 }
 
 atualizaMensagens()
 
-function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
+function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
 
     const [mensagens, setMensagens] = useState([]);
     const [chats, setChats] = useState([]);
+    const [qtdAlertas, setQtdAlertas] = useState(0);
     const [infoChatSelecionado, setInfoChatSelecionado] = useState({
         id: 0,
         nome: '',
         foto: '',
-        online: 0
+        online: 0,
+        categoria: ''
     });
 
     id = infoChatSelecionado.id
     getUrlRes = getUrl
+    categoria = infoChatSelecionado.categoria
 
     function temporizador() {
         setMensagens(novaMensagem)
@@ -101,7 +108,6 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
         temporizador()
     }, []);
 
-    // Teste
     const [qtdAtual, setQtdAtual] = useState();
     const [qtdChats, setQtdChats] = useState();
 
@@ -115,24 +121,20 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
         setQtdChats(chats.length)
     }
 
-
     // MENSAGENS
-    useEffect(() => {
-        setMensagens(novaMensagem) // printa as mensagens
-    }, [novaMensagem]);
     useEffect(() => {
         setMensagens(novaMensagem) // printa as mensagens
     }, [novaMensagem]);
 
     // busca chats
-    async function axiosFunc() {
+    async function buscaMensagens() {
         await axios.get(route(getUrl, {destinatario: 0})).then(results => {
             setChats(results.data.chats)
         })
     }
 
     useEffect(() => {
-        axiosFunc()
+        buscaMensagens()
     }, [])
 // MENSAGENS - FIM
 
@@ -153,6 +155,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                                      onClose={handleDrawerToggle}>
                     <SidebarContent
                         setInfoChatSelecionado={setInfoChatSelecionado}
+                        infoChatSelecionado={infoChatSelecionado}
                         chats={chats}
                         pessoas={pessoas}/>
                 </DrawerWrapperMobile>
@@ -162,6 +165,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                         setInfoChatSelecionado={setInfoChatSelecionado}
                         infoChatSelecionado={infoChatSelecionado}
                         chats={chats}
+                        qtdAlertas={qtdAlertas}
                         pessoas={pessoas}/>
                 </Sidebar>
                 <ChatWindow>
@@ -172,8 +176,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                             onClick={handleDrawerToggle}
                             size="small">
                         </IconButtonToggle>
-                        <TopBarContent
-                            infoChatSelecionado={infoChatSelecionado}/>
+                        <TopBarContent infoChatSelecionado={infoChatSelecionado}/>
                     </ChatTopBar>
                     <ChatContent
                         mensagens={mensagens}
@@ -181,10 +184,9 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout}) {
                     />
                     <Divider/>
                     <BottomBarContent
-                        idChatSelecionado={infoChatSelecionado.id}
-                        chatsAtualizado={chatsAtualizado}
-                        setChats={setChats}
-                        urlSubmit={(urlSubmit)}/>
+                        infoChatSelecionado={infoChatSelecionado}
+                        urlSubmit={(urlSubmit)}
+                        admin={admin}/>
                 </ChatWindow>
             </RootWrapper>
         </Layout>);

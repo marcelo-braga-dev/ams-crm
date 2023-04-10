@@ -8,6 +8,7 @@ export default function ({pessoas}) {
             getUrl={'admin.chat-interno.mensagens'}
             urlSubmit={route('admin.chat-interno.store')}
             Layout={Layout}
+            admin={true}
         />
     )
 }

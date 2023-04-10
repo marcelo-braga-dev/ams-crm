@@ -20,7 +20,7 @@ class MensagensChatInternoService
         foreach ($mensagens as $mensagem) {
             $id = $mensagem->destinatario === $usuarioAtual ? $mensagem->users_id : $mensagem->destinatario;
 
-            if($mensagem->destinatario === $usuarioAtual &&
+            if ($mensagem->destinatario === $usuarioAtual &&
                 $mensagem->status === 'novo') $qtnNova[$id][] = 'x';
 
             $users[$id] = [
@@ -43,9 +43,17 @@ class MensagensChatInternoService
         return $dados;
     }
 
-    public function mensagens($usuario, $destinatario)
+    public function chatAlertas()
     {
-        $mensagens = (new ChatInterno())->getMensagens($usuario, $destinatario);
+        return (new ChatInterno())->chatAlerta();
+    }
+
+    public function mensagens($usuario, $destinatario, $categoria = 'chat')
+    {
+        $mensagens = $categoria === 'chat'
+            ? (new ChatInterno())->getMensagens($usuario, $destinatario)
+            : (new ChatInterno())->getAvisos($usuario);
+
         $usuarios = (new User())->getNomes();
         $fotos = (new User())->getFotos();
 
