@@ -16,7 +16,15 @@ class PedidosController extends Controller
 {
     public function index(Request $request)
     {
-        $setorAtual = $request->setor;
+        if ($request->setor == 'todos') {
+            session(['sessaoSetor' => null]);
+        } else {
+            $setorAtual = $request->setor;
+            if ($setorAtual) session(['sessaoSetor' => $setorAtual]);
+        }
+
+        $setorAtual = session('sessaoSetor') ?? null;
+
         $setores = (new SetoresService())->setores();
 
         $fornecedorAtual = $request->fornecedor;
@@ -27,11 +35,12 @@ class PedidosController extends Controller
         $coresAbas = (new ConfigCores())->getPedidos();
 
         return Inertia::render('Admin/Pedidos/Index',
-            compact('pedidos', 'fornecedores', 'fornecedorAtual', 'setores', 'setorAtual' ,'coresAbas'));
+            compact('pedidos', 'fornecedores', 'fornecedorAtual', 'setores', 'setorAtual', 'coresAbas'));
     }
 
     public function show($id)
     {
+//        print_pre(session('sessaoSetor'));
         $pedido = (new Pedidos())->getDadosPedido($id);
         $historico = (new PedidosHistoricos())->historico($id);
 

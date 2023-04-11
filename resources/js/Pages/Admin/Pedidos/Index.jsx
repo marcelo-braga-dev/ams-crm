@@ -37,7 +37,7 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                     <div className="col-md-4">
                         <TextField select label="Setores" size="small" fullWidth defaultValue={setorAtual ?? ''}
                                    onChange={e => atualizarPagina(null, e.target.value)}>
-                            <MenuItem value="">Todos</MenuItem>
+                            <MenuItem value="todos">Todos</MenuItem>
                             {setores.map((setor, index) => {
                                 return (
                                     <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>

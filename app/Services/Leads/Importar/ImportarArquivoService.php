@@ -34,7 +34,7 @@ class ImportarArquivoService
     private function armazenaArquivo($file)
     {
         $extension = $file->getClientOriginalExtension();
-        if ($extension != 'csv') throw new \DomainException('Arquivo Inválido');
+        if ($extension != 'xlsx') throw new \DomainException('Arquivo Inválido');
 
         return $file->move(storage_path('importacao'), uniqid() . '.' . $extension);
     }
