@@ -22,11 +22,12 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import ScrollControlHorizontal from '@/Helpers/scrollControlHorizontal';
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
+import {useForm, usePage} from "@inertiajs/react";
 
-export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornecedores, fornecedorAtual}) {
-
+export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornecedores, fornecedorAtual, dadosSetor}) {
+    const {get} = useForm();
     function atualizarPagina(forcededorId, setorId) {
-        window.location.href = route('admin.pedidos.index', {setor: setorId, fornecedor: forcededorId})
+        get(route('admin.pedidos.index', {setor: setorId, fornecedor: forcededorId}))
     }
 
     return (
@@ -46,7 +47,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                         </TextField>
                     </div>
                     <div className="col-md-4">
-                        <TextField select size="small" label="Fornecedores" fullWidth defaultValue={fornecedorAtual ?? ''}
+                        <TextField select size="small" label="Fornecedores" fullWidth
+                                   defaultValue={fornecedorAtual ?? ''}
                                    onChange={e => atualizarPagina(e.target.value, setorAtual)}>
                             <MenuItem value="">Todos</MenuItem>
                             {fornecedores.map((item, index) => {
@@ -63,7 +65,7 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
             <div className='container mt-4'>
                 {/*Pesquisa*/}
                 <div className="row justify-content-between">
-                    <div className="col-auto  text-right">
+                    <div className="col-auto  text-right d-flex">
                         <FormControl variant="outlined" className="bg-white" size="small">
                             <InputLabel htmlFor="search">Pesquisar...</InputLabel>
                             <OutlinedInput
@@ -75,6 +77,9 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                 }
                                 onChange={e => pesquisaCards(e.target.value)}/>
                         </FormControl>
+                        <div className="text-end mt-2 ms-4">
+                            <span className="badge" style={{backgroundColor: dadosSetor?.cor}}>{dadosSetor?.nome}</span>
+                        </div>
                     </div>
                     <div className="col-auto">
                         <ScrollControlHorizontal/>
@@ -97,7 +102,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Reprovados</div>
                                         <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
+                                        <small
+                                            className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-2">
@@ -105,7 +111,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Conferência</div>
                                         <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
+                                        <small
+                                            className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-3">
@@ -113,7 +120,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Lançado</div>
                                         <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
+                                        <small
+                                            className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-4">
@@ -121,7 +129,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Nota/Boleto</div>
                                         <div className='col-auto'>Qdt: {pedidos.nota.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.nota[0]?.faturamento ?? '0,00')}</small>
+                                        <small
+                                            className="d-block text-end">R$ {(pedidos.nota[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-5">
@@ -129,7 +138,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Pagamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.pagamento.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.pagamento[0]?.faturamento ?? '0,00')}</small>
+                                        <small
+                                            className="d-block text-end">R$ {(pedidos.pagamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-6">
@@ -137,7 +147,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                          className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Faturamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.faturamento.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.faturamento[0]?.faturamento ?? '0,00')}</small>
+                                        <small
+                                            className="d-block text-end">R$ {(pedidos.faturamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-7">
@@ -145,7 +156,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Faturado</div>
                                         <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
+                                        <small
+                                            className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-8">
@@ -153,7 +165,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Acompanhamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.acompanhamento.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.acompanhamento[0]?.faturamento ?? '0,00')}</small>
+                                        <small
+                                            className="d-block text-end">R$ {(pedidos.acompanhamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-9">
@@ -161,7 +174,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Entregue</div>
                                         <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
+                                        <small
+                                            className="d-block text-end">R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
                                 <th id="th-10">
@@ -182,7 +196,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                 </td>
                                 <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.conferencia.map((dados) => {
-                                        return (<ConferenciaCard key={dados.id} dados={dados} cor={coresAbas.conferencia}/>)
+                                        return (
+                                            <ConferenciaCard key={dados.id} dados={dados} cor={coresAbas.conferencia}/>)
                                     })}
                                 </td>
                                 <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>
@@ -202,7 +217,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                 </td>
                                 <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.faturamento.map((dados) => {
-                                        return (<CardFaturando key={dados.id} dados={dados} cor={coresAbas.faturamento}/>)
+                                        return (
+                                            <CardFaturando key={dados.id} dados={dados} cor={coresAbas.faturamento}/>)
                                     })}
                                 </td>
                                 <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
@@ -212,7 +228,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                 </td>
                                 <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.acompanhamento.map((dados) => {
-                                        return (<CardAcompanhamento key={dados.id} dados={dados} cor={coresAbas.acompanhamento}/>)
+                                        return (<CardAcompanhamento key={dados.id} dados={dados}
+                                                                    cor={coresAbas.acompanhamento}/>)
                                     })}
                                 </td>
                                 <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
@@ -222,7 +239,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                 </td>
                                 <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.cancelado.map((dados) => {
-                                        return (<CardCancelado key={dados.id} dados={dados} cor={coresAbas.cancelados}/>)
+                                        return (
+                                            <CardCancelado key={dados.id} dados={dados} cor={coresAbas.cancelados}/>)
                                     })}
                                 </td>
                             </tr>

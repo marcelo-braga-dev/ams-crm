@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ConfigCores;
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
+use App\Models\Setores;
 use App\Services\Fornecedores\FornecedoresService;
 use App\Services\Pedidos\CardDadosService;
 use App\Services\Setores\SetoresService;
@@ -16,14 +17,17 @@ class PedidosController extends Controller
 {
     public function index(Request $request)
     {
+        $dadosSetor = session('sessaoSetor');
         if ($request->setor == 'todos') {
             session(['sessaoSetor' => null]);
-        } else {
+        }
+        if ($request->setor) {
             $setorAtual = $request->setor;
-            if ($setorAtual) session(['sessaoSetor' => $setorAtual]);
+            $dadosSetor = (new Setores())->find($setorAtual);
+            session(['sessaoSetor' => $dadosSetor]);
         }
 
-        $setorAtual = session('sessaoSetor') ?? null;
+        $setorAtual = session('sessaoSetor')['id'] ?? null;
 
         $setores = (new SetoresService())->setores();
 
@@ -35,7 +39,7 @@ class PedidosController extends Controller
         $coresAbas = (new ConfigCores())->getPedidos();
 
         return Inertia::render('Admin/Pedidos/Index',
-            compact('pedidos', 'fornecedores', 'fornecedorAtual', 'setores', 'setorAtual', 'coresAbas'));
+            compact('pedidos', 'fornecedores', 'fornecedorAtual', 'setores', 'setorAtual', 'coresAbas', 'dadosSetor'));
     }
 
     public function show($id)

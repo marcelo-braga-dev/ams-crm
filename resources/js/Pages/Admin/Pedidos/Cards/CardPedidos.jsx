@@ -69,6 +69,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                     <div className="col-1 px-1 mx-1 mr-2"><HandymanIcon className='mr-2' sx={{fontSize: 20}}/></div>
                     <div className="col-10 p-0 ps-2 pt-1 text-truncate">{dados.integrador.toUpperCase()}</div>
                 </div>
+
             </div>
             {/* Btn Avanca Status */}
             <div className='col-3 pt-4 text-right'>
@@ -76,6 +77,9 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
             </div>
         </div>
 
+        <div className="text-end">
+            <span className="badge" style={{backgroundColor: dados.setor.cor}}>{dados.setor.nome}</span>
+        </div>
         {/*Icons Buttons*/}
         <div className="row justify-content-between mb-2">
             <div className="col-auto">

@@ -62,7 +62,8 @@ class HandleInertiaRequests extends Middleware
                 'nome' => $setorNome,
                 'cor' => $setorCor
             ],
-            'foto_usuario' => $auth?->foto ? asset('storage/' . $auth->foto) : null
+            'foto_usuario' => $auth?->foto ? asset('storage/' . $auth->foto) : null,
+            '_setor' => session('sessaoSetor') ?? null
         ]);
     }
 }

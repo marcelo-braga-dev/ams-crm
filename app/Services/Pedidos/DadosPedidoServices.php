@@ -6,6 +6,7 @@ use App\Models\Fornecedores;
 use App\Models\Integradores;
 use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
+use App\Models\Setores;
 use App\Models\User;
 use App\src\Pedidos\StatusPedidos;
 use App\src\Usuarios\Admins;
@@ -17,6 +18,7 @@ class DadosPedidoServices
     private array $clientes;
     private array $fornecedores;
     private array $integradores;
+    private array $setores;
 
     public function __construct()
     {
@@ -24,6 +26,7 @@ class DadosPedidoServices
         $this->clientes = (new PedidosClientes())->getCardDados();
         $this->fornecedores = (new Fornecedores())->getCardDados();
         $this->integradores = (new Integradores())->getCardDados();
+        $this->setores = (new Setores())->nomes();
     }
 
     public function dadosCard($pedido, $faturamento = null)
@@ -35,7 +38,8 @@ class DadosPedidoServices
             'consultor' => $this->consultores[$pedido->users_id],
             'preco' => convert_float_money($pedido->preco_venda),
             'fornecedor' => $this->fornecedores[$pedido->fornecedor],
-            'integrador' => $this->integradores[$pedido->integrador],
+            'integrador' => $this->integradores[$pedido->integrador] ?? '',
+            'setor' => $this->setores[$pedido->setor] ?? '',
             'status' => $pedido->status,
             'forma_pagamento' => $pedido->forma_pagamento,
             'faturamento' => $faturamento,
