@@ -13,6 +13,7 @@ export default function Sidebar() {
             'submenu': [
                 {'menu': 'Lista de Pedidos', 'url': route('consultor.pedidos.index')},
                 {'menu': 'Cadastrar Pedido', 'url': route('consultor.pedidos.create')},
+                {'menu': 'Clientes', 'url': route('consultor.clientes.index')},
                 {'menu': 'Históricos', 'url': route('consultor.historicos.index')},
             ]
         }, {
@@ -58,7 +59,7 @@ export default function Sidebar() {
 
     return (<>
             {/*<div className="position-absolute w-100" style={{minHeight: 80, "backgroundColor": "#252525"}}></div>*/}
-            <aside id="sidenav-main"
+            <aside id="sidenav-main" style={{zIndex: 100}}
                    className="sidenav bg-white navbar navbar-vertical navbar-expand-xs fixed-start">
                 <div>
                     <div style={{"backgroundColor": "#252525"}}>

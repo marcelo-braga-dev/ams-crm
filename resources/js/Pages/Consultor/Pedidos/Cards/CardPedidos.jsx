@@ -58,10 +58,10 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                         <div className="col-10 p-0 pt-1 text-truncate">{dados.fornecedor}</div>
                     </div>
                     {/*Integrador*/}
-                    <div className="row">
+                    {dados.integrador && <div className="row">
                         <div className="col-1 px-1 mx-1 mr-2"><HandymanIcon className='mr-2' sx={{fontSize: 20}}/></div>
                         <div className="col-10 p-0 pt-1 text-truncate">{dados.integrador.toUpperCase()}</div>
-                    </div>
+                    </div>}
                 </div>
                 {/* Btn Avanca Status */}
                 <div className='col-auto pt-4 text-right'>

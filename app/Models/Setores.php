@@ -11,7 +11,8 @@ class Setores extends Model
 
     protected $fillable = [
         'nome',
-        'cor'
+        'cor',
+        'modelo_cadastro_pedido'
     ];
 
     public function get()
@@ -86,5 +87,12 @@ class Setores extends Model
         }
 
         return $res;
+    }
+
+    public function getModeloCadastroPedido($id)
+    {
+        return $this->newQuery()
+            ->find($id)
+            ->modelo_cadastro_pedido;
     }
 }

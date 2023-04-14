@@ -7,7 +7,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import Avatar from "@mui/material/Avatar";
 
-import converterDataHorario from "@/Helpers/converterDataHorario";
+import {converterDataHorario} from "@/Helpers/converterDataHorario";
 
 import * as React from 'react';
 import Switch from '@mui/material/Switch';

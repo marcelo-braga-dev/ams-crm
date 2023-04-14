@@ -74,9 +74,8 @@ class Leads extends Model
                 ->orWhere('telefone', $telefone)
                 ->exists();
             }
-            print_pre(!($verificacaoCnpj || $verificacaoTel));
 
-            if (!$verificacaoCnpj && $verificacaoTel) $this->newQuery()
+            if (!$verificacaoCnpj && !$verificacaoTel) $this->newQuery()
                 ->create([
                     'nome' => $dados['nome'] ?? null,
                     'atendente' => $dados['atendente'] ?? null,
@@ -91,7 +90,7 @@ class Leads extends Model
                     'anotacoes' => $dados['anotacoes'] ?? null,
                     'status_data' => now(),
                     'infos' => $dados['infos'] ?? null,
-                ]);
+                ]); else print_pre('x');;
 
         } catch (QueryException) {
             throw new \DomainException();

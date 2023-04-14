@@ -20,6 +20,7 @@ class Pedidos extends Model
 
     protected $fillable = [
         'users_id',
+        'cliente',
         'status',
         'status_data',
         'setor',
@@ -36,7 +37,7 @@ class Pedidos extends Model
         'obs',
     ];
 
-    function create($dados)
+    function create($dados, $idCliente = null)
     {
         $prazo = (new ConferenciaStatusPedido())->getPrazo();
         $status = (new ConferenciaStatusPedido())->getStatus();
@@ -45,7 +46,8 @@ class Pedidos extends Model
             $pedido = $this->newQuery()
                 ->create([
                     'users_id' => auth()->id(),
-                    'setor' => auth()->user()->setor,
+                    'cliente' => $idCliente,
+                    'setor' => setor_usuario_atual(),
                     'status' => $status,
                     'status_data' => now(),
                     'prazo' => $prazo,

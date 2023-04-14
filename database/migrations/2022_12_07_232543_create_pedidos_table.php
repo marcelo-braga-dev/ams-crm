@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('users_id');
+            $table->integer('cliente');
             $table->string('status');
             $table->dateTime('status_data');
             $table->integer('setor');

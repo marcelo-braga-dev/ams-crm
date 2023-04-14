@@ -2,12 +2,15 @@
 
 namespace App\Services\Pedidos;
 
+use App\Models\Clientes;
+use App\Models\ClientesArquivos;
 use App\Models\Fornecedores;
 use App\Models\Integradores;
 use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
 use App\Models\Setores;
 use App\Models\User;
+use App\src\Pedidos\Arquivos\ChavesArquivosPedidos;
 use App\src\Pedidos\StatusPedidos;
 use App\src\Usuarios\Admins;
 use DateTime;
@@ -15,6 +18,7 @@ use DateTime;
 class DadosPedidoServices
 {
     private array $consultores;
+    private array $clientesPedidos;
     private array $clientes;
     private array $fornecedores;
     private array $integradores;
@@ -23,7 +27,8 @@ class DadosPedidoServices
     public function __construct()
     {
         $this->consultores = (new User())->getNomeConsultores();
-        $this->clientes = (new PedidosClientes())->getCardDados();
+        $this->clientesPedidos = (new PedidosClientes())->getCardDados();
+        $this->clientes = (new Clientes())->getCardDados();
         $this->fornecedores = (new Fornecedores())->getCardDados();
         $this->integradores = (new Integradores())->getCardDados();
         $this->setores = (new Setores())->nomes();
@@ -34,7 +39,7 @@ class DadosPedidoServices
         if ($this->status($pedido->status) || $this->prazo($pedido))
         return [
             'id' => $pedido->id,
-            'cliente' => $this->clientes[$pedido->id]['nome'],
+            'cliente' => $pedido->cliente ? $this->clientes[$pedido->cliente]['nome'] : $this->clientesPedidos[$pedido->id]['nome'],
             'consultor' => $this->consultores[$pedido->users_id],
             'preco' => convert_float_money($pedido->preco_venda),
             'fornecedor' => $this->fornecedores[$pedido->fornecedor],
@@ -44,8 +49,8 @@ class DadosPedidoServices
             'forma_pagamento' => $pedido->forma_pagamento,
             'faturamento' => $faturamento,
             'contato' => [
-                'telefone' => $this->clientes[$pedido->id]['telefone'],
-                'email' => $this->clientes[$pedido->id]['email']
+                'telefone' => $pedido->cliente ? $this->clientes[$pedido->cliente]['telefone'] : $this->clientesPedidos[$pedido->id]['telefone'],
+                'email' => $pedido->cliente ? $this->clientes[$pedido->cliente]['email'] : $this->clientesPedidos[$pedido->id]['email']
             ],
             'prazos' => [
                 'data_status' => date('d/m/y H:i', strtotime($pedido->status_data)),
@@ -65,13 +70,15 @@ class DadosPedidoServices
 
     public function dados($pedido): array
     {
-        $cliente = (new PedidosClientes())->getCliente($pedido->id);
+        $cliente = $pedido->cliente ? (new Clientes())->getCliente($pedido->cliente) : (new PedidosClientes())->getCliente($pedido->id);
         $consultor = (new User)->get($pedido->users_id);
         $fornecedor = (new Fornecedores())->getFornecedor($pedido->fornecedor);
-        $integrador = (new Integradores())->get($pedido->integrador);
+        $integrador = $pedido->integrador ? (new Integradores())->get($pedido->integrador):'';
         $files = (new PedidosImagens())->getImagens($pedido->id);
+        $filesCliente = (new ClientesArquivos())->get($pedido->cliente);
+        $chavesArquivos = (new ChavesArquivosPedidos());
 
-        $precoCusto = auth()->user()->tipo == (new Admins())->getTipo()
+        $precoCusto = funcao_usuario_atual() == (new Admins())->getTipo()
             ? convert_float_money($pedido->preco_custo)
             : null;
 
@@ -105,8 +112,8 @@ class DadosPedidoServices
                 'nome' => $fornecedor['nome']
             ],
             'integrador' => [
-                'nome' => $integrador['nome'],
-                'cnpj' => $integrador['cnpj']
+                'nome' => $integrador['nome'] ?? '',
+                'cnpj' => $integrador['cnpj'] ?? ''
             ],
             'cliente' => [
                 'nome' => $cliente->nome ?? $cliente->razao_social,
@@ -121,19 +128,19 @@ class DadosPedidoServices
                 'inscricao_estadual' => $cliente->inscricao_estadual,
             ],
             'pedido_files' => [
-                'orcamento' => $files->url_orcamento,
-                'boleto' => $files->url_boleto,
-                'recibo_1' => $files->url_recibo_1,
-                'recibo_2' => $files->url_recibo_2,
-                'nota_fiscal' => $files->url_nota_fiscal,
-                'carta_autorizacao' => $files->url_carta_autorizacao,
+                'orcamento' => $files->url_orcamento ?? null,
+                'boleto' => $files->url_boleto ?? null,
+                'recibo_1' => $files->url_recibo_1 ?? null,
+                'recibo_2' => $files->url_recibo_2 ?? null,
+                'nota_fiscal' => $files->url_nota_fiscal ?? null,
+                'carta_autorizacao' => $files->url_carta_autorizacao ?? null,
             ],
             'cliente_files' => [
-                'rg' => $files->url_rg,
-                'cpf' => $files->url_cpf,
-                'cnh' => $files->url_cnh,
-                'cnpj' => $files->url_cnpj,
-                'comprovante_residencia' => $files->url_comprovante_residencia,
+                'rg' => $files->url_rg ?? $filesCliente[$chavesArquivos->rg()] ?? null,
+                'cpf' => $files->url_cpf ?? $filesCliente[$chavesArquivos->cpf()] ?? null,
+                'cnh' => $files->url_cnh ?? $filesCliente[$chavesArquivos->cnh()] ?? null,
+                'cnpj' => $files->url_cnpj ?? $filesCliente[$chavesArquivos->cnpj()] ?? null,
+                'comprovante_residencia' => $files->url_comprovante_residencia ?? null,
             ]
         ];
     }

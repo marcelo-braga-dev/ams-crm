@@ -13,7 +13,10 @@ class PedidosClientes extends Model
     public $timestamps = false;
     protected $fillable = [
         'pedidos_id',
+        'users_id',
+        'setor',
         'nome',
+        'data_nascimento',
         'razao_social',
         'endereco',
         'telefone',
@@ -22,7 +25,6 @@ class PedidosClientes extends Model
         'rg',
         'cnpj',
         'inscricao_estadual',
-        'data_nascimento',
     ];
 
     public function create($id, $dados)
@@ -33,6 +35,7 @@ class PedidosClientes extends Model
             $this->newQuery()
                 ->create([
                     'pedidos_id' => $id,
+                    'users_id' => id_usuario_atual(),
                     'nome' => $dados->nome,
                     'razao_social' => $dados->razao_social,
                     'endereco' => $idEndereco,
@@ -43,6 +46,7 @@ class PedidosClientes extends Model
                     'cnpj' => $dados->cnpj,
                     'inscricao_estadual' => $dados->inscricao_estadual,
                     'data_nascimento' => $dados->nascimento,
+                    'setor' => setor_usuario_atual()
                 ]);
         } catch (QueryException $exception) {
             throw new \DomainException('Falha no cadastro do cliente.');
@@ -53,22 +57,6 @@ class PedidosClientes extends Model
     {
         return $this->newQuery()
             ->where('pedidos_id', $id)->first();
-    }
-
-    public function dados(): array
-    {
-        $items = $this->newQuery()->get();
-
-        $dados = [];
-        foreach ($items as $cliente) {
-            $dados[$cliente->pedidos_id]['nome'] = $cliente->nome ?? $cliente->razao_social;
-            $dados[$cliente->pedidos_id]['telefone'] = $cliente->telefone;
-            $dados[$cliente->pedidos_id]['email'] = $cliente->email;
-            $dados[$cliente->pedidos_id]['endereco'] = getEnderecoCompleto($cliente->endereco);
-            $dados[$cliente->pedidos_id]['nascimento'] = date('d/m/Y', strtotime($cliente->data_nascimento));
-        }
-
-        return $dados;
     }
 
     public function updateDados(int $id, $dados)

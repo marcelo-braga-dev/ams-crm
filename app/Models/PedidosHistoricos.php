@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\src\Pedidos\Status\FaturadoStatus;
+use App\src\Pedidos\Status\PedidosStatus;
 use App\src\Pedidos\StatusPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -48,6 +49,14 @@ class PedidosHistoricos extends Model
                 'obs' => $dados->obs
             ];
         });
+    }
+
+    public function getMsg($idPedido, PedidosStatus $status)
+    {
+        return $this->newQuery()
+            ->where('pedidos_id', $idPedido)
+            ->where('status', $status->getStatus())
+            ->first()->obs ?? '';
     }
 
     public function getPrazoEntreguaRetroceder($id)

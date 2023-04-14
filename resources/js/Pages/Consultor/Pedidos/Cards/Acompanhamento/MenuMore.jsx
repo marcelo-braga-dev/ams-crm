@@ -15,10 +15,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 export default function MenuMore({id}) {
     // MoreMenu
 const moreMenu = [
-    {title: 'Ver Informações', url: route('admin.pedidos.show', id)},
-    {title: 'Carcelar Pedido', url: route('admin.cancelado.show', id)},
-    {title: 'Retroceder Pedido', url: route('admin.retroceder.edit', id)},
-    {title: 'Abrir SAC', url: route('admin.chamado.create', {id: id})},
+    {title: 'Ver Informações', url: route('consultor.pedidos.show', id)},
 ];
 const [anchorEl, setAnchorEl] = React.useState(null);
 const open = Boolean(anchorEl);

@@ -100,7 +100,7 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
 
     return (<>
         {/*<div className="position-absolute w-100" style={{minHeight: '10vh', "backgroundColor": "#252525"}}></div>*/}
-        <aside id="sidenav-main"
+        <aside id="sidenav-main" style={{zIndex: 100}}
                className="sidenav bg-white navbar navbar-vertical navbar-expand-xs fixed-start">
             <div style={{"backgroundColor": "#252525"}}>
                 <a href="/">
