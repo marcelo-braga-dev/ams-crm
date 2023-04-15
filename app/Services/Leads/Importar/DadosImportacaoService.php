@@ -9,7 +9,7 @@ class DadosImportacaoService
         $items = [];
         foreach ($dados as $dado) {
             try {
-                $items[] = $this->dados($dado);
+                if ($dado[0] || $dado[1]) $items[] = $this->dados($dado);
             } catch (\ErrorException $exception) {
                 throw new \DomainException();
             }

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Leads\Consultores\AtivoController;
 use App\Http\Controllers\Admin\Leads\Consultores\CardsController;
 use App\Http\Controllers\Admin\Leads\Consultores\NovoController;
 use App\Http\Controllers\Admin\Leads\ImportarController;
+use App\Http\Controllers\Admin\Leads\ImportarHistoricoController;
 use App\Http\Controllers\Admin\Leads\LeadsController;
 use App\Http\Controllers\Admin\Leads\RelatoriosController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,7 @@ Route::name('admin.clientes.leads.')
     ->group(function () {
         Route::resource('leads-main', LeadsController::class);
         Route::resource('importar', ImportarController::class);
+        Route::resource('importar-historico', ImportarHistoricoController::class);
 
         Route::post('update-consultor', [LeadsController::class, 'updateConsultor'])->name('update-consultor');
         Route::get('leads-cadastrados', [LeadsController::class, 'cadastrados'])->name('leads-cadastrados');

@@ -24,7 +24,7 @@ class ImportarArquivoService
         $i = 0;
         while (($data = fgetcsv($file, null, ';')) !== FALSE) {
             $i++;
-            if ($i >= 1) $linhas[] = $data;
+            if ($i > 1) $linhas[] = $data;
         }
         fclose($file);
 
@@ -34,7 +34,8 @@ class ImportarArquivoService
     private function armazenaArquivo($file)
     {
         $extension = $file->getClientOriginalExtension();
-        if ($extension != 'csv') throw new \DomainException('Arquivo Inválido');
+        if ($extension != 'csv')
+            throw new \DomainException('Arquivo Inválido! (formato: '. $extension . ')');
 
         return $file->move(storage_path('importacao'), uniqid() . '.' . $extension);
     }

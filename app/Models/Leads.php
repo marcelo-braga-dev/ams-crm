@@ -66,34 +66,35 @@ class Leads extends Model
 
             if ($cnpj) {
                 $verificacaoCnpj = $this->newQuery()
-                ->where('cnpj', $cnpj)
-                ->exists();
+                    ->where('cnpj', $cnpj)
+                    ->exists();
             }
             if ($telefone) {
                 $verificacaoTel = $this->newQuery()
-                ->orWhere('telefone', $telefone)
-                ->exists();
+                    ->orWhere('telefone', $telefone)
+                    ->exists();
             }
 
-            if (!$verificacaoCnpj && !$verificacaoTel) $this->newQuery()
-                ->create([
-                    'nome' => $dados['nome'] ?? null,
-                    'atendente' => $dados['atendente'] ?? null,
-                    'telefone' => $telefone,
-                    'setor' => $setor,
-                    'pessoa_fisica' => $pessoa,
-                    'razao_social' => $dados['razao_social'] ?? null,
-                    'cnpj' => $cnpj ?? null,
-                    'email' => $dados['email'] ?? null,
-                    'cidade' => $dados['cidade'] ?? null,
-                    'estado' => $dados['estado'] ?? null,
-                    'anotacoes' => $dados['anotacoes'] ?? null,
-                    'status_data' => now(),
-                    'infos' => $dados['infos'] ?? null,
-                ]); else print_pre('x');;
-
-        } catch (QueryException) {
-            throw new \DomainException();
+            if (!$verificacaoCnpj && !$verificacaoTel) {
+                $this->newQuery()
+                    ->create([
+                        'nome' => $dados['nome'] ?? null,
+                        'atendente' => $dados['atendente'] ?? null,
+                        'telefone' => $telefone,
+                        'setor' => $setor,
+                        'razao_social' => $dados['razao_social'] ?? null,
+                        'cnpj' => $cnpj ?? null,
+                        'email' => $dados['email'] ?? null,
+                        'cidade' => $dados['cidade'] ?? null,
+                        'estado' => $dados['estado'] ?? null,
+                        'anotacoes' => $dados['anotacoes'] ?? null,
+                        'status_data' => now(),
+                        'infos' => $dados['infos'] ?? null,
+                    ]);
+                return 1;
+            }
+        } catch (QueryException $exception) {
+            throw new \DomainException('Falha na importação');
         }
     }
 
