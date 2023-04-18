@@ -70,7 +70,7 @@ class DadosPedidoServices
 
     public function dados($pedido): array
     {
-        $cliente = $pedido->cliente ? (new Clientes())->getCliente($pedido->cliente) : (new PedidosClientes())->getCliente($pedido->id);
+        $cliente = $pedido->cliente ? (new Clientes())->find($pedido->cliente) : (new PedidosClientes())->getCliente($pedido->id);
         $consultor = (new User)->get($pedido->users_id);
         $fornecedor = (new Fornecedores())->getFornecedor($pedido->fornecedor);
         $integrador = $pedido->integrador ? (new Integradores())->get($pedido->integrador):'';
@@ -81,7 +81,7 @@ class DadosPedidoServices
         $precoCusto = funcao_usuario_atual() == (new Admins())->getTipo()
             ? convert_float_money($pedido->preco_custo)
             : null;
-
+        
         return [
             'pedido' => [
                 'id' => $pedido->id,

@@ -9,7 +9,7 @@ export default function ({consultores, metas}) {
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
-                        <th>Meta de Venda</th>
+                        <th>Meta de Venda<br/>Semestral</th>
                         <th></th>
                     </tr>
                     </thead>

@@ -82,6 +82,8 @@ class Clientes extends Model
         return $dados;
     }
 
+
+
     public function getCliente(int $id)
     {
         $dados = $this->newQuery()->find($id);
@@ -103,5 +105,11 @@ class Clientes extends Model
             'inscricao_estadual' => $dados->inscricao_estadual,
             'data_nascimento' => date('d/m/Y', strtotime($dados->data_nascimento)),
         ];
+    }
+
+    public function find($id)
+    {
+        return $this->newQuery()
+            ->find($id);
     }
 }
