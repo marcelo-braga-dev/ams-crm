@@ -32,6 +32,16 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
+        $count = false;
+
+        foreach ($request->all() as $item) {
+            try {
+                $count = (new Leads())->create($item, setor_usuario_atual(), id_usuario_atual());
+            } catch (\DomainException) {
+                modalErro('Alguns LEADS não cadastrados');
+            }
+        }
+        if (!$count) return redirect()->back();
         return redirect()->route('consultor.leads.main.index');
     }
 

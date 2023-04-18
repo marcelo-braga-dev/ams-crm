@@ -4,9 +4,8 @@ import PinDropIcon from '@mui/icons-material/PinDrop';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
-export default function CardLeads({dados, urlBtn, btn}) {
+export default function CardLeads({dados, btn}) {
     return (
         <div className="pesquisar-card card m-2 mb-3" style={{width: 300}}>
             <div className="card-body pb-0">
@@ -21,7 +20,7 @@ export default function CardLeads({dados, urlBtn, btn}) {
                 {dados.cliente.classificacao && <><small>Classificação: </small>{dados.cliente.classificacao}</>}
 
                 {/*TELEFONE*/}
-                {dados.cliente.cidade &&
+                {dados.contato.telefone &&
                     <div className="row">
                         <div className="col-1 mb-2">
                             <PhoneIcon sx={{fontSize: 18}}/>

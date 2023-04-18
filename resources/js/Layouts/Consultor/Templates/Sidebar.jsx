@@ -28,6 +28,7 @@ export default function Sidebar() {
             'icone': 'fas fa-angle-double-right',
             'submenu': [
                 {'menu': 'Lista de Leads', 'url': route('consultor.leads.main.index')},
+                {'menu': 'Cadastrar', 'url': route('consultor.leads.main.create')},
             ]
         }, {
             'menu': 'Integradores',

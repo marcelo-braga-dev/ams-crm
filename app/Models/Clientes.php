@@ -84,6 +84,24 @@ class Clientes extends Model
 
     public function getCliente(int $id)
     {
-        return $this->newQuery()->find($id);
+        $dados = $this->newQuery()->find($id);
+        return $this->dados($dados);
+    }
+
+    private function dados($dados) : array
+    {
+        return [
+            'users_id' => $dados->users_id,
+            'setor' => $dados->setor,
+            'nome' => $dados->nome ?? $dados->razao_social,
+            'endereco' => getEnderecoCompleto($dados->endereco),
+            'telefone' => converterTelefone($dados->telefone),
+            'email' => $dados->email,
+            'cpf' => $dados->cpf,
+            'rg' => $dados->rg,
+            'cnpj' => $dados->cnpj,
+            'inscricao_estadual' => $dados->inscricao_estadual,
+            'data_nascimento' => date('d/m/Y', strtotime($dados->data_nascimento)),
+        ];
     }
 }

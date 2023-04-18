@@ -54,7 +54,7 @@ class Leads extends Model
             ]);
     }
 
-    public function create($dados, $setor, $pessoa = null)
+    public function create($dados, $setor, $usuario = null)
     {
         try {
             $verificacaoCnpj = null;
@@ -64,20 +64,14 @@ class Leads extends Model
             $telefone = preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null);
             $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
-            if ($cnpj) {
-                $verificacaoCnpj = $this->newQuery()
-                    ->where('cnpj', $cnpj)
-                    ->exists();
-            }
-            if ($telefone) {
-                $verificacaoTel = $this->newQuery()
-                    ->orWhere('telefone', $telefone)
-                    ->exists();
-            }
+            if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
+            if ($telefone) $verificacaoTel = $this->newQuery()->orWhere('telefone', $telefone)->exists();
 
-            if (!$verificacaoCnpj && !$verificacaoTel) {
+            if (!$verificacaoCnpj && !$verificacaoTel &&
+                (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))) {
                 $this->newQuery()
                     ->create([
+                        'users_id' => $usuario,
                         'nome' => $dados['nome'] ?? null,
                         'atendente' => $dados['atendente'] ?? null,
                         'telefone' => $telefone,

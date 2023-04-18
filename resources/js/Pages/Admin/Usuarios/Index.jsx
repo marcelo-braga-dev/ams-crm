@@ -209,7 +209,7 @@ export default function Index({usuarios}) {
                                     <td className="text-wrap">
                                         {dados.nome}<br/>
                                         <small className="d-block">{dados.email}</small>
-                                        <small>ID: #{dados.id}</small> log: {dados.logado}
+                                        <small>ID: #{dados.id}</small>
                                     </td>
                                     <td className="text-center">
                                         {iconeStatus(dados.status)}

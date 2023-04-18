@@ -19,9 +19,9 @@ class ClientesController extends Controller
 
     public function show($id)
     {
-        $cliente = (new Clientes())->getCliente($id);
+        $dados = (new Clientes())->getCliente($id);
 
-        return Inertia::render('Consultor/Pedidos/Clientes/Index',
-            compact('cliente'));
+        return Inertia::render('Consultor/Pedidos/Clientes/Show',
+            compact('dados'));
     }
 }
