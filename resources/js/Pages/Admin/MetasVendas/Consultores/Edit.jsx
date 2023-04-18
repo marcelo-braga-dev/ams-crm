@@ -9,7 +9,7 @@ export default function ({consultor, meta}) {
 
     function submit(e) {
         e.preventDefault()
-        router.put(route('admin.metas-vendas.consultores.update', consultor.id), {
+        router.post(route('admin.metas-vendas.consultores.update', consultor.id), {
             '_method': 'put',
             ...data
         });
