@@ -23,6 +23,17 @@ class MetasVendas extends Model
             );
     }
 
+    public function metas()
+    {
+        $dados = $this->newQuery()->get();
+
+        $metas = [];
+        foreach ($dados as $dado) {
+            $metas[$dado->users_id] = $dado->meta;
+        }
+        return $metas;
+    }
+
     public function metasConsultores()
     {
         $dados = $this->newQuery()->get();

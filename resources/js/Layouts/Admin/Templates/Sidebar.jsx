@@ -22,6 +22,15 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
         'icone': 'fas fa-angle-double-right',
         'submenu': [{'menu': 'Mensagens', 'url': route('admin.chat-interno.index'), 'tag': 'mensagens'},]
     }, {
+        'menu': 'Dashboard',
+        'tag': 'dashboard',
+        'icone': 'fas fa-angle-double-right',
+        'submenu': [
+            {'menu': 'Indicadores de Vendas', 'url': route('admin.dashboard.vendas.index'), 'tag': 'vendas'},
+            {'menu': 'Indicadores de Econômicos', 'url': route('admin.dashboard.economicos.index'), 'tag': 'economicos'},
+            {'menu': 'Indicadores de Financeiros', 'url': route('admin.dashboard.financeiros.index'), 'tag': 'financeiros'},
+        ]
+    },{
         'menu': 'Agenda',
         'tag': 'calendario',
         'icone': 'fas fa-angle-double-right',

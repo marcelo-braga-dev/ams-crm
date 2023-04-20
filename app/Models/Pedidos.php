@@ -4,7 +4,12 @@ namespace App\Models;
 
 use App\Services\Pedidos\DadosPedidoServices;
 use App\src\Pedidos\SituacaoPedido;
+use App\src\Pedidos\Status\AcompanhamentoStatus;
+use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
+use App\src\Pedidos\Status\EntregueStatus;
+use App\src\Pedidos\Status\FaturadoStatus;
+use App\src\Pedidos\Status\RevisarStatusPedido;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;

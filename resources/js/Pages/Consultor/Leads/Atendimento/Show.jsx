@@ -42,11 +42,21 @@ export default function Show({dados, status, contatos, historicos}) {
                 <div className="row justify-content-between">
                     <div className="col-auto pt-4">
                         Classificação:
-                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '❌' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '❌')}>❌</span>
-                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '☹️' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '☹️')}>☹️</span>
-                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '😐' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '😐')}>😐</span>
-                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '🙂' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '🙂')}>🙂</span>
-                        <span className={'mx-1 cursor-pointer' + (data.classificacao === '😁' ? " border p-2 rounded bg-dark" : '')} onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '❌' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '❌')}>❌</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '☹️' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '☹️')}>☹️</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '😐' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '😐')}>😐</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '🙂' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '🙂')}>🙂</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '😁' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
                     </div>
                     <div className="col-auto">
                         <div className="row justify-content-end">
@@ -131,6 +141,10 @@ export default function Show({dados, status, contatos, historicos}) {
                                     aria-label="Close"/>
                         </div>
                         <div className="modal-body">
+                            {historicos.length < 4 ?
+                                <div className="alert alert-danger text-white">
+                                    Realize no mínimo 4 contatos com o cliente.</div> : ''}
+
                             Confirmar finalização do atendimento?
                             <TextField className="mt-3" label="Motivo/Anotações (min. 150 caracteres)" multiline
                                        rows="6" fullWidth required
@@ -145,7 +159,7 @@ export default function Show({dados, status, contatos, historicos}) {
                                 </div>
                                 <div className="col">
                                     <form onSubmit={onSubmit}>
-                                        <button disabled={data.msg.length < 150} type="submit"
+                                        <button disabled={data.msg.length < 150 || historicos.length < 4} type="submit"
                                                 className="btn btn-primary" data-bs-dismiss="modal">
                                             Finalizar
                                         </button>

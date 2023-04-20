@@ -11,7 +11,7 @@ class UsuariosService
 
     public function __construct()
     {
-        $this->nomeSetores = (new Setores())->nomes();
+        $this->nomeSetores = (new Setores())->getNomes();
     }
 
     public function usuario(int $id)

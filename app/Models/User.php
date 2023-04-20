@@ -235,6 +235,11 @@ class User extends Authenticatable
         return $this->newQuery()
             ->where('ultimo_login', '>', $intervalo)
             ->where('id', '!=', id_usuario_atual())
+            ->where([
+                ['id', '!=', 1],
+                ['id', '!=', 2],
+                ['id', '!=', 3],
+            ])
             ->get();
     }
 }

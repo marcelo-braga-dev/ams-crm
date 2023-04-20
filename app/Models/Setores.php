@@ -45,7 +45,7 @@ class Setores extends Model
             ]);
     }
 
-    public function nomes(): array
+    public function getNomes(): array
     {
         $items = $this->newQuery()->get();
         $dados = [];

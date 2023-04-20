@@ -11,7 +11,7 @@ class FornecedoresService
 
     public function __construct()
     {
-        $this->setores = (new Setores())->nomes();
+        $this->setores = (new Setores())->getNomes();
     }
 
     public function fornecedores(?int $setor = null)

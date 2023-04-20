@@ -31,7 +31,7 @@ class DadosPedidoServices
         $this->clientes = (new Clientes())->getCardDados();
         $this->fornecedores = (new Fornecedores())->getCardDados();
         $this->integradores = (new Integradores())->getCardDados();
-        $this->setores = (new Setores())->nomes();
+        $this->setores = (new Setores())->getNomes();
     }
 
     public function dadosCard($pedido, $faturamento = null)
@@ -81,7 +81,7 @@ class DadosPedidoServices
         $precoCusto = funcao_usuario_atual() == (new Admins())->getTipo()
             ? convert_float_money($pedido->preco_custo)
             : null;
-        
+
         return [
             'pedido' => [
                 'id' => $pedido->id,

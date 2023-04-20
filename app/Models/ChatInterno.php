@@ -76,6 +76,7 @@ class ChatInterno extends Model
         return $this->newQuery()
             ->where('destinatario', $id)
             ->where('status', (new NovoStatusChatInterno())->getStatus())
+            ->where('categoria', 'chat')
             ->count();
     }
 
