@@ -48,7 +48,7 @@ export default function ({qtdLeads, historicoLeads}) {
         })
         setQtsStatus(varQtdLeads ?? qtd)
     }
-    
+
     // Dados
     const linhas = historicoLeads.map(function (items) {
         return {

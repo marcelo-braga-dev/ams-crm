@@ -80,17 +80,7 @@ const columns = [
     {
         name: 'ID',
         selector: row => <div className="py-3">#{row.id}<br/>{row.data_criacao}</div>,
-        grow: 1,
-    }, {
-        name: 'Status',
-        selector: row => row.status,
-        sortable: true,
-        grow: 0,
-    },
-    {
-        name: 'Consultor',
-        selector: row => <span className="text-wrap"><b>{row.consultor}</b></span>,
-        sortable: true,
+        grow: 0.8,
     },
     {
         name: 'Cliente',
@@ -102,7 +92,17 @@ const columns = [
             {row.cidade && <span>{row.cidade}/{row.estado}</span>}
         </div>,
         sortable: true,
-        grow: 1.5,
+        grow: 2,
+    }, {
+        name: 'Status',
+        selector: row => row.status,
+        sortable: true,
+        grow: 0,
+    },
+    {
+        name: 'Consultor',
+        selector: row => <span className="text-wrap"><b>{row.consultor}</b></span>,
+        sortable: true,
     }, {
         cell: row => <a className="btn btn-primary btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
             Abrir

@@ -6,15 +6,8 @@ import MenuItem from "@mui/material/MenuItem";
 
 const FilterComponent = ({filterText, onFilter, setFiltro}) => (
     <>
-        <TextField
-            id="outlined-select-currency"
-            select
-            placeholder="asas"
-            label="Filtro"
-            defaultValue="nome"
-            size="small"
-            onChange={event => setFiltro(event.target.value)}
-        >
+        <TextField select label="Filtro" defaultValue="nome" size="small"
+            onChange={event => setFiltro(event.target.value)}>
             <MenuItem value="id">
                 ID
             </MenuItem>
@@ -36,7 +29,6 @@ const FilterComponent = ({filterText, onFilter, setFiltro}) => (
             <MenuItem value="telefone">
                 Telefone
             </MenuItem>
-
         </TextField>
         <TextField
             id="search"
@@ -57,7 +49,7 @@ const columns = [
             {row.data_criacao}
         </div>,
         sortable: true,
-        grow: 1,
+        grow: 0.5,
     },
     {
         name: 'Cliente',
