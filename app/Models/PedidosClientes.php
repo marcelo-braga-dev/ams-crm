@@ -61,7 +61,9 @@ class PedidosClientes extends Model
 
     public function updateDados(int $id, $dados)
     {
-        (new Enderecos())->updateDados($id, $dados->get('endereco'));
+        $dadosAtualCliente = (new PedidosClientes())->getCliente($id);
+
+        (new Enderecos())->updateDados($dadosAtualCliente->endereco, $dados->get('endereco'));
 
         $this->newQuery()
             ->where('pedidos_id', $id)
