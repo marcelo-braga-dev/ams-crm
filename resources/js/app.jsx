@@ -9,6 +9,7 @@ import '../assets/argon/bootstrap5/css/nucleo-icons.css';
 import '../assets/argon/bootstrap5/css/nucleo-svg.css';
 import '../assets/argon/bootstrap5/css/nucleo-icons.css';
 import '../assets/argon/bootstrap5/css/argon-dashboard.css';
+import '../css/style.css';
 
 // {/* <!--   Core JS Files   --> */}
 import '../assets/argon/bootstrap5/js/core/popper.min';

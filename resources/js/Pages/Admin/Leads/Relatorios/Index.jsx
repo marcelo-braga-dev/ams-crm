@@ -48,10 +48,11 @@ export default function ({qtdLeads, historicoLeads}) {
         })
         setQtsStatus(varQtdLeads ?? qtd)
     }
-
+    {console.log(historicoLeads)}
     // Dados
     const linhas = historicoLeads.map(function (items) {
         return {
+            nome: items.nome,
             data: items.data,
             msg: items.msg
         }
@@ -62,6 +63,11 @@ export default function ({qtdLeads, historicoLeads}) {
         {
             name: 'Data',
             selector: row => row.data,
+            sortable: true,
+            grow: 0.08,
+        }, {
+            name: 'Consultor(a)',
+            selector: row => <b>{row.nome}</b>,
             sortable: true,
             grow: 0.1,
         }, {

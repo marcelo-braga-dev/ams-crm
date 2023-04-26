@@ -14,7 +14,6 @@ import PeopleIcon from '@mui/icons-material/People';
 
 import Popover from '@mui/material/Popover';
 
-
 import NotificacoesNav from "@/Components/Alerts/NotificacoesNav";
 import {List} from "@mui/material";
 import ListItem from '@mui/material/ListItem';
@@ -54,9 +53,10 @@ const StyledBadge = styled(Badge)(({theme}) => ({
 
 export default function Navbar({titlePage}) {
     const {props} = usePage()
+    const {post} = useForm()
+
     const [qtdPedidos, setQtdPedidos] = useState();
     const [qtdChatInterno, setChatInterno] = useState();
-    // const [qtdOnline, setQtdOnline] = useState(0);
     const [usuariosOnline, setUsuariosOnline] = useState([]);
 
     // MENU PERFIL
@@ -64,25 +64,15 @@ export default function Navbar({titlePage}) {
         {title: 'Perfil', url: route('admin.perfil.config.edit', 0)}
     ];
 
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
-    };
-
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
     };
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
-    const {post} = useForm();
 
     function submit(e) {
         post(route('logout'));
@@ -122,11 +112,10 @@ export default function Navbar({titlePage}) {
     return (<>
             <NotificacoesNav url={route('admin.notificacoes.show', 0)} urlPageChat={route('admin.chat-interno.index')}
                              setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno}/>
-            <nav className="navbar navbar-main navbar-expand-lg pb-3" id="navbarBlur"
-                 data-scroll="false" style={{"backgroundColor": "#252525"}}>
-                <div className="container-fluid py-1 mt-2">
+            <nav className="navbar navbar-main navbar-expand-lg bg-white" id="navbarBlur">
+                <div className="container-fluid py-1">
                     <nav aria-label="breadcrumb">
-                        <h6 className="font-weight-bolder text-white mb-0">{titlePage}</h6>
+                        <h6 className="font-weight-bolder text-primary mb-0">{titlePage}</h6>
                     </nav>
                     <div className="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                         <div className="ms-md-auto pe-md-3 d-flex align-items-center"></div>
@@ -153,7 +142,7 @@ export default function Navbar({titlePage}) {
                                         onMouseLeave={handlePopoverClose}
                                     >
                                         <Badge badgeContent={usuariosOnline.length} color="success">
-                                            <PeopleIcon style={{color: 'white'}}/>
+                                            <PeopleIcon className="text-primary"/>
                                         </Badge>
                                     </Typography>
                                     <Popover
@@ -204,7 +193,7 @@ export default function Navbar({titlePage}) {
                             <li className="nav-item dropdown mx-3 d-flex align-items-center">
                                 <a href={route('admin.chat-interno.index')}>
                                     <Badge badgeContent={qtdChatInterno} color="error">
-                                        <QuestionAnswerIcon style={{color: 'white'}}/>
+                                        <QuestionAnswerIcon className="text-primary" />
                                     </Badge>
                                 </a>
                             </li>
@@ -213,7 +202,7 @@ export default function Navbar({titlePage}) {
                             <li className="nav-item dropdown mx-3 d-flex align-items-center">
                                 <a href={route('admin.notificacoes.index')}>
                                     <Badge badgeContent={qtdPedidos} color="error">
-                                        <NotificationsIcon style={{color: 'white'}}/>
+                                        <NotificationsIcon className="text-primary"/>
                                     </Badge>
                                 </a>
                             </li>

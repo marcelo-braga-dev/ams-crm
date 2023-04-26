@@ -25,19 +25,12 @@ export default function Navbar({titlePage}) {
         {'title': 'Perfil', 'url': route('consultor.perfil.index')}
     ];
 
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
@@ -55,11 +48,10 @@ export default function Navbar({titlePage}) {
             <NotificacoesNav url={route('consultor.notificacoes.pedidos.show', 0)}
                              urlPageChat={route('consultor.chat-interno.index')}
                              setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads}/>
-            <nav className="navbar navbar-main navbar-expand-lg pb-3" id="navbarBlur"
-                 data-scroll="false"  style={{"backgroundColor": "#252525"}}>
-                <div className="container-fluid py-1 mt-2">
+            <nav className="navbar navbar-main navbar-expand-lg bg-white" id="navbarBlur">
+                <div className="container-fluid py-1">
                     <nav aria-label="breadcrumb">
-                        <h6 className="font-weight-bolder text-white mb-0">{titlePage}</h6>
+                        <h6 className="font-weight-bolder text-primary mb-0">{titlePage}</h6>
                     </nav>
                     <div className="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                         <div className="ms-md-auto pe-md-3 d-flex align-items-center"></div>
@@ -80,7 +72,7 @@ export default function Navbar({titlePage}) {
                             <li className="nav-item dropdown mx-3 d-flex align-items-center">
                                 <a href={route('consultor.chat-interno.index')}>
                                     <Badge badgeContent={qtdChatInterno} color="error">
-                                        <QuestionAnswerIcon style={{color: 'white'}}/>
+                                        <QuestionAnswerIcon className="text-primary"/>
                                     </Badge>
                                 </a>
                             </li>
@@ -89,7 +81,7 @@ export default function Navbar({titlePage}) {
                             <li className="nav-item dropdown mx-3 d-flex align-items-center">
                                 <a href={route('consultor.notificacoes.leads.index')}>
                                     <Badge badgeContent={qtdLeads} color="error">
-                                        <PermPhoneMsgIcon style={{color: 'white'}}/>
+                                        <PermPhoneMsgIcon className="text-primary"/>
                                     </Badge>
                                 </a>
                             </li>
@@ -98,7 +90,7 @@ export default function Navbar({titlePage}) {
                             <li className="nav-item dropdown mx-3 d-flex align-items-center">
                                 <a href={route('consultor.notificacoes.pedidos.index')}>
                                     <Badge badgeContent={qtdPedidos} color="error">
-                                        <NotificationsIcon style={{color: 'white'}}/>
+                                        <NotificationsIcon className="text-primary"/>
                                     </Badge>
                                 </a>
                             </li>

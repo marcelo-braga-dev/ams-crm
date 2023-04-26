@@ -45,6 +45,8 @@ class Notificacoes extends Model
 
     public function getHistorico($id = null)
     {
+        $nomes = (new User())->getNomes();
+
         $query = $this->newQuery()
             ->where('categoria', 'leads')
             ->orderByDesc('id');
@@ -52,8 +54,9 @@ class Notificacoes extends Model
         if ($id) $query->where('users_id', $id);
 
         return $query->get()
-            ->transform(function ($item) {
+            ->transform(function ($item) use ($nomes) {
                 return [
+                    'nome' => $nomes[$item->users_id],
                     'msg' => $item->msg,
                     'data' => date('d/m/y H:i', strtotime($item->created_at))
                 ];

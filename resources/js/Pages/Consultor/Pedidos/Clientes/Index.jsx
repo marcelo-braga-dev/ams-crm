@@ -2,7 +2,7 @@ import Layout from "@/Layouts/Consultor/Layout";
 
 export default function ({clientes}) {
     return (
-        <Layout container titlePage="Clientes">
+        <Layout container titlePage="Clientes" menu="pedidos" submenu="clientes">
             <div className="table-responsive">
                 <table className="table table-hover">
                     <thead>

@@ -49,6 +49,7 @@ export default function ScrollControlHorizontal({lateral = null}) {
             <div className="row h-100"
                  onMouseEnter={() => moveScroll(0)}
                  onClick={() => moveScroll(0)}>
+
                 <div className="col" style={{minHeight: '100%'}}>
                     <button className="btn btn-scroll-left" type="button">
                         <i className="fas fa-arrow-left"></i>
@@ -62,7 +63,7 @@ export default function ScrollControlHorizontal({lateral = null}) {
             <div className="row h-100"
                  onMouseEnter={() => moveScroll(1)}
                  onClick={() => moveScroll(1)}>
-                <div className="col" style={{minHeight: '100%'}}>
+                <div className="col">
                     <button className="btn btn-dark btn-scroll-right" type="button">
                         <i className="fas fa-arrow-right"></i>
                     </button>

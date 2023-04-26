@@ -1,5 +1,11 @@
 import * as React from "react";
 import {usePage} from "@inertiajs/react";
+import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
+import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
+import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
+import SpeakerNotesOutlinedIcon from "@mui/icons-material/SpeakerNotesOutlined";
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 
 export default function Sidebar() {
     const {props} = usePage();
@@ -9,7 +15,7 @@ export default function Sidebar() {
     const pages = [
         {
             'menu': 'Pedidos',
-            'icone': 'fas fa-angle-double-right',
+            'icone': <RequestPageOutlinedIcon/>,
             'submenu': [
                 {'menu': 'Lista de Pedidos', 'url': route('consultor.pedidos.index')},
                 {'menu': 'Cadastrar Pedido', 'url': route('consultor.pedidos.create')},
@@ -19,32 +25,32 @@ export default function Sidebar() {
         }, {
             'menu': 'Chat Interno',
             'tag': 'chat-interno',
-            'icone': 'fas fa-angle-double-right',
+            'icone': <QuestionAnswerOutlinedIcon/>,
             'submenu': [
                 {'menu': 'Mensagens', 'url': route('consultor.chat-interno.index'), 'tag': 'mensagens'},
             ]
         }, {
             'menu': 'Leads',
-            'icone': 'fas fa-angle-double-right',
+            'icone': <PeopleAltOutlinedIcon/>,
             'submenu': [
                 {'menu': 'Lista de Leads', 'url': route('consultor.leads.main.index')},
                 {'menu': 'Cadastrar', 'url': route('consultor.leads.main.create')},
             ]
         }, {
             'menu': 'Integradores',
-            'icone': 'fas fa-angle-double-right',
+            'icone': <LocalShippingOutlinedIcon/>,
             'submenu': [
                 {'menu': 'Integradores', 'url': route('consultor.integradores.index')},
             ]
         }, {
             'menu': 'SAC',
-            'icone': 'fas fa-angle-double-right',
+            'icone': <SpeakerNotesOutlinedIcon/>,
             'submenu': [
                 {'menu': 'Chamados', 'url': route('consultor.chamados.index')},
             ]
         }, {
             'menu': 'Perfil',
-            'icone': 'fas fa-angle-double-right',
+            'icone': <ManageAccountsOutlinedIcon/>,
             'submenu': [
                 {'menu': 'Sua Conta', 'url': route('consultor.perfil.index')},
             ]
@@ -59,40 +65,32 @@ export default function Sidebar() {
     }
 
     return (<>
-            {/*<div className="position-absolute w-100" style={{minHeight: 80, "backgroundColor": "#252525"}}></div>*/}
             <aside id="sidenav-main" style={{zIndex: 100}}
                    className="sidenav bg-white navbar navbar-vertical navbar-expand-xs fixed-start">
-                <div>
-                    <div style={{"backgroundColor": "#252525"}}>
-                        <a href="/">
-                            <div className="text-center py-3">
-                                <img src={logo} className="" width={100} alt="main_logo"/>
-                            </div>
-                        </a>
-                    </div>
+                <div style={{"backgroundColor": "#252525"}}>
+                    <a href="/">
+                        <div className="text-center py-2">
+                            <img src={logo} width="130" alt="main_logo"/>
+                        </div>
+                    </a>
                 </div>
                 <div className="horizontal pe-2 ps-2 mt-3">
-                    <div className="acco rdion accord ion-flush w-auto mb-6" id="accordionFlushSidebar">
+                    <div className="w-auto mb-6" id="accordionFlushSidebar">
 
                         {/*ITEMS*/}
                         {pages.map(({menu, icone, submenu}, index) => (
-                            <div key={index} className="accordio n-item text-dark navbar-nav border-bottom">
+                            <div key={index} className="accordio n-item text-dark navbar-nav">
                                 <div className="accordion-hea der nav-item" id={"flush-heading-" + index}>
-                                    <div className="accord ion-button collap sed nav-link p-1"
-                                         data-bs-toggle="colla pse"
-                                         data-bs-target={"#flush-coll apse-" + index} aria-expanded="false"
-                                         aria-controls={"flush-coll apse-" + index}>
-                                        <div
-                                            className="icon icon-shape icon-sm border-radius-md text-center d-flex align-items-center justify-content-center">
-                                            <i className={icone + " text-primary text-sm opacity-10"}></i>
+                                    <div className="nav-link p-1"
+                                         data-bs-target={"#flush-coll apse-" + index} aria-expanded="false">
+                                        <div className="icon icon-sm d-flex align-items-center me-2">
+                                            {icone}
                                         </div>
-                                        <span className="ms-2 p">{menu}</span>
+                                        <span className="text-wrap pt-1 text-primary">{menu}</span>
                                     </div>
                                 </div>
                                 <div id={"flush-collapse-" + index} className="accordion-collapse  nav-item"
-                                     aria-labelledby={"flush-headi ng-" + index}
                                      data-bs-parent="#accordionFlushSidebar">
-
                                     {submenu.map(({menu, url}, i) => (
                                         <a href={url} key={i} className="text-sm text-muted">
                                             <div className="accordion-body p-0 ms-5 mb-2">
@@ -104,8 +102,7 @@ export default function Sidebar() {
                             </div>
                         ))}
                         {/*ITEMS - FIM*/}
-                        <div className="row py-2 mt-4"
-                            >
+                        <div className="row py-2 mt-4">
                             <div className=" text-center sticky-bottom text-white">
                                 <small className="" style={{color: props.setorUsuario.cor}}>
                                     Setor: {props.setorUsuario.nome}

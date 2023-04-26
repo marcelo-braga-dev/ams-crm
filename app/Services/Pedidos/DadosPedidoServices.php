@@ -88,6 +88,7 @@ class DadosPedidoServices
                 'status' => (new StatusPedidos())->getNomeStatus($pedido->status),
                 'status_data' => date('d/m/y H:i:s', strtotime($pedido->status_data)),
                 'alerta' => $pedido->obs,
+                'setor' => $this->setores[$pedido->setor] ?? '',
                 'situacao' => $pedido->situacao,
                 'info' => $pedido->info_pedido,
                 'forma_pagamento' => $pedido->forma_pagamento,

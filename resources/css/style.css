@@ -1,0 +1,15 @@
+:root {
+    --cor-principal: #252525
+}
+.text-primary {
+    color: #000 !important;
+}
+
+.btn-primary {
+    background-color: var(--cor-principal);
+    padding: 8px 20px;
+}
+
+.btn-primary:hover {
+    background-color: var(--cor-principal);
+}
