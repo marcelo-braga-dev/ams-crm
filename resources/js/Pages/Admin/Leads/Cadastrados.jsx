@@ -21,6 +21,9 @@ const FilterComponent = ({filterText, onFilter, setFiltro}) => (
             <MenuItem value="nome">
                 Nome/Razão Social
             </MenuItem>
+            <MenuItem value="cnpj">
+                CNPJ
+            </MenuItem>
             <MenuItem value="consultor">
                 Consultor
             </MenuItem>
@@ -49,55 +52,41 @@ const FilterComponent = ({filterText, onFilter, setFiltro}) => (
 const columns = [
     {
         name: 'ID',
-        selector: row => row.id,
+        selector: row => <div>
+            {row.id}<br/>
+            {row.data_criacao}
+        </div>,
         sortable: true,
-        grow: 0,
+        grow: 1,
     },
     {
-        cell: row => <a className="btn btn-link btn-sm m-0 p-0" href={route('admin.clientes.leads.leads-main.show', row.id)}>
-            Ver
-        </a>,
-        ignoreRowClick: true,
-        allowOverflow: true,
-        button: true,
-        grow: 0,
-    },
-    {
-        name: 'Nome/Nome Fantasia',
-        selector: row => row.name,
-        sortable: true,
-    },
-    {
-        name: 'Razão Social',
-        selector: row => row.razao_social,
+        name: 'Cliente',
+        selector: row => <div className="py-3">
+            <b>{row.name}</b><br/>
+            {row.razao_social && <span className="d-block">{row.razao_social}</span>}
+            {row.telefone && <span className="d-block">{row.telefone}</span>}
+            {row.cidade && <span className="d-block">{row.cidade}</span>}
+        </div> ,
         sortable: true,
     },
     {
         name: 'Status',
         selector: row => row.status,
         sortable: true,
+        grow: 0,
     },
     {
         name: 'Consultor',
-        selector: row => row.consultor,
+        selector: row => <b>{row.consultor}</b>,
         sortable: true,
-    },
-    {
-        name: 'Cidade',
-        selector: row => row.cidade,
-        sortable: true,
-    },
-    {
-        name: 'Telefone',
-        selector: row => row.telefone,
-        sortable: true,
-        grow: 1,
-    },
-    {
-        name: 'Data',
-        selector: row => row.data_criacao,
-        sortable: true,
-        grow: 1,
+    }, {
+        cell: row => <a className="btn btn-primary btn-sm m-0" href={route('admin.clientes.leads.leads-main.show', row.id)}>
+            Ver
+        </a>,
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
+        grow: 0,
     },
 ];
 
@@ -137,6 +126,9 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
 
             || filtro === 'cidade' &&
             item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'cnpj' &&
+            item.cnpj && item.cnpj.toLowerCase().includes(filterText.toLowerCase())
 
             || filtro === 'consultor' &&
             item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())

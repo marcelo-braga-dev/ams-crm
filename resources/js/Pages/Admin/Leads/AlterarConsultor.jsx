@@ -48,6 +48,9 @@ const FilterComponent = ({filterText, onFilter, setFiltro, setStatus}) => (
             <MenuItem value="nome">
                 Nome/Razão Social
             </MenuItem>
+            <MenuItem value="cnpj">
+                CNPJ
+            </MenuItem>
             <MenuItem value="consultor">
                 Consultor
             </MenuItem>
@@ -76,12 +79,32 @@ const FilterComponent = ({filterText, onFilter, setFiltro, setStatus}) => (
 const columns = [
     {
         name: 'ID',
-        selector: row => row.id,
+        selector: row => <div className="py-3">#{row.id}<br/>{row.data_criacao}</div>,
+        grow: 1,
+    }, {
+        name: 'Status',
+        selector: row => row.status,
         sortable: true,
         grow: 0,
     },
     {
-        cell: row => <a className="btn btn-link btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
+        name: 'Consultor',
+        selector: row => <span className="text-wrap"><b>{row.consultor}</b></span>,
+        sortable: true,
+    },
+    {
+        name: 'Cliente',
+        selector: row => <div className="text-wrap py-3">
+            <b>{row.name}</b><br/>
+            {row.razao_social}<br/>
+            {row.cnpj && <span className="d-block">CNPJ: {row.cnpj}</span>}
+            {row.telefone}<br/>
+            {row.cidade && <span>{row.cidade}/{row.estado}</span>}
+        </div>,
+        sortable: true,
+        grow: 1.5,
+    }, {
+        cell: row => <a className="btn btn-primary btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
             Abrir
         </a>,
         ignoreRowClick: true,
@@ -89,42 +112,6 @@ const columns = [
         button: true,
         grow: 0,
     },
-    {
-        name: 'Consultor',
-        selector: row => row.consultor,
-        sortable: true,
-    },
-    {
-        name: 'Status',
-        selector: row => row.status,
-        sortable: true,
-        grow: 0,
-    },
-    {
-        name: 'Nome/Nome Fantasia',
-        selector: row => row.name,
-        sortable: true,
-    },
-    {
-        name: 'Razão Social',
-        selector: row => row.razao_social,
-        sortable: true,
-    },
-    {
-        name: 'Cidade',
-        selector: row => row.cidade,
-        sortable: true,
-    },
-    {
-        name: 'Telefone',
-        selector: row => row.telefone,
-        sortable: true,
-    },
-    {
-        name: 'Data',
-        selector: row => row.data_criacao,
-        sortable: true,
-    }
 ];
 
 export default function Filtering({dados, consultores, categorias, categoriaAtual}) {
@@ -145,25 +132,25 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         return {
             id: items.id,
             name: items.cliente.nome,
+            cnpj: items.cliente.cnpj,
             status: items.infos.status,
             consultor: items.consultor.nome,
             razao_social: items.cliente.razao_social,
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
             cidade: items.cliente.cidade,
+            estado: items.cliente.estado,
         }
     });
     // Dados - fim
 
     const [filterText, setFilterText] = useState('');
-    const [filterTextStatus, setFilterTextStatus] = useState('');
 
     const [filtro, setFiltro] = useState('nome');
     const [status, setStatus] = useState('');
 
     useEffect(() => {
         if (status) setFiltro('status')
-        console.log(status)
     }, [status]);
 
 
@@ -182,6 +169,9 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
 
             || filtro === 'cidade' &&
             item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'cnpj' &&
+            item.cnpj && item.cnpj.toLowerCase().includes(filterText.toLowerCase())
 
             || filtro === 'consultor' &&
             item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())

@@ -26,6 +26,9 @@ const FilterComponent = ({filterText, onFilter, setFiltro}) => (
             <MenuItem value="nome">
                 Nome/Razão Social
             </MenuItem>
+            <MenuItem value="cnpj">
+                CNPJ
+            </MenuItem>
             <MenuItem value="consultor">
                 Consultor
             </MenuItem>
@@ -54,41 +57,28 @@ const FilterComponent = ({filterText, onFilter, setFiltro}) => (
 const columns = [
     {
         name: 'ID',
-        selector: row => row.id,
-        sortable: true,
-        grow: 0,
-    },
-    {
-        cell: row => <a className="btn btn-link btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
-            Abrir
-        </a>,
+        selector: row => <>
+            #{row.id}<br/>
+            {row.data_criacao}
+        </>,
         ignoreRowClick: true,
         allowOverflow: true,
         button: true,
         grow: 0,
     },
     {
-        name: 'Nome/Nome Fantasia',
-        selector: row => row.name,
+        name: 'Cliente',
+        selector: row => <div className="py-3 text-wrap">
+            <b>{row.name}</b>,<br/>
+            {row.razao_social}<br/>
+            {row.cnpj && <span className="d-block">{row.cnpj}</span>}
+            { row.telefone}
+        </div>,
         sortable: true,
+        grow: 3,
     },
     {
-        name: 'Razão Social',
-        selector: row => row.razao_social,
-        sortable: true,
-    },
-    {
-        name: 'Telefone',
-        selector: row => row.telefone,
-        sortable: true,
-    },
-    {
-        name: 'Data',
-        selector: row => row.data_criacao,
-        sortable: true,
-    },
-    {
-        cell: row => <a className="btn btn-link btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
+        cell: row => <a className="btn btn-primary btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
             Abrir
         </a>,
         ignoreRowClick: true,
@@ -123,6 +113,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             id: items.id,
             name: items.cliente.nome,
             razao_social: items.cliente.razao_social,
+            cnpj: items.cliente.cnpj,
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
             cidade: items.cliente.cidade,
@@ -152,6 +143,9 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
 
             || filtro === 'consultor' &&
             item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'cnpj' &&
+            item.cnpj && item.cnpj.toLowerCase().includes(filterText.toLowerCase())
 
             || filtro === 'ddd' &&
             item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
