@@ -70,7 +70,7 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
             </div>
 
             <div className="row mb-4">
-                <div className="col">
+                <div className="col-md-6">
                     <div className="card">
                         <div className="card-body">
                             <h6>Top 5 Consultores(as)</h6>
@@ -78,7 +78,7 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                         </div>
                     </div>
                 </div>
-                <div className="col">
+                <div className="col-md-6">
                     <div className="card">
                         <div className="card-body">
                             <h6>Top 5 Integradores</h6>

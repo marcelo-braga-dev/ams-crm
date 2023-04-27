@@ -24,6 +24,7 @@ export default function Lucro({dados}) {
             {
                 label: "Lucro",
                 backgroundColor: "rgb(59,189,13)",
+                borderColor: "rgb(59,189,13)",
                 data: lucros(),
             }
         ],
@@ -51,6 +52,6 @@ export default function Lucro({dados}) {
     };
 
     return (
-        <Bar options={options} data={data}/>
+        <Line options={options} data={data}/>
     )
 }
