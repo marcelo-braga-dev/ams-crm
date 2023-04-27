@@ -1,31 +1,28 @@
-import {Bar} from "react-chartjs-2";
 import React from "react";
+import {Bar} from "react-chartjs-2";
 
-export default function MetaVendas({dados}) {
+export default function TopVendas({dados, cor}) {
 
     const nomes = dados.map((item) => {
         return item.nome
     })
-    const meta = dados.map((item) => {
-        return item.meta
-    })
+
     const venda = dados.map((item) => {
-        return item.vendas
+        return item.valor
     })
 
     const data = {
         labels: nomes,
         datasets: [
             {
-                label: "Meta",
-                backgroundColor: "#3bbd0daa",
-                data: meta,
-            }, {
-                label: "Venda",
-                backgroundColor: "#0000FFaa",
+                label: "Vendas",
+                backgroundColor: cor ?? "#000",
+                // borderColor: "rgb(255, 99, 132)",
                 data: venda,
             },
+
         ],
+        height: 1000,
     };
 
     const options = {
@@ -42,6 +39,7 @@ export default function MetaVendas({dados}) {
     };
 
     return (
-        <Bar options={options} data={data}/>
+        <Bar options={options} data={data}
+             height={300}/>
     )
 }

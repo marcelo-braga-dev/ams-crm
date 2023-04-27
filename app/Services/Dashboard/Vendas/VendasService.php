@@ -35,6 +35,7 @@ class VendasService
                     'meta' => $metas[$item->users_id] ?? 0,
                     'meta_money' => convert_float_money($metas[$item->users_id] ?? 0),
                     'margem_money' => '',
+                    'diferenca_meta' => (($metas[$item->users_id] ?? 0) - $item->vendas),
                     'diferenca_meta_money' => convert_float_money(($metas[$item->users_id] ?? 0) - $item->vendas),
                     'setor' => $setores[$item->setor]
                 ];

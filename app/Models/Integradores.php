@@ -72,16 +72,14 @@ class Integradores extends Model
             ]);
     }
 
-    public function getNomeIntegradores()
+    public function getNomes(): array
     {
-        $items = $this->newQuery()->get();
+        $items = $this->newQuery()->get(['id', 'nome']);
 
         $dados = [];
         foreach ($items as $dado) {
-            $dados[$dado->id]['nome'] = $dado->nome;
-            $dados[$dado->id]['cnpj'] = $dado->cnpj;
+            $dados[$dado->id] = $dado->nome;
         }
-
         return $dados;
     }
 
