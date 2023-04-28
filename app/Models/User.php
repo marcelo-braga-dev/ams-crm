@@ -102,10 +102,11 @@ class User extends Authenticatable
     }
 
 
-    public function getConsultores($setor = null, $status = false)
+    public function getConsultores($setor = null, $status = true)
     {
         $query = $this->newQuery()
-            ->where('tipo', (new Consultores())->getTipo());
+            ->where('tipo', (new Consultores())->getTipo())
+            ->orderBy('name');
 
         if ($setor) $query->where('setor', $setor);
         if ($status) $query->where('status', 'ativo');

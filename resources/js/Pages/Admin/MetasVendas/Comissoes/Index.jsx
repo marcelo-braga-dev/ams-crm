@@ -1,9 +1,9 @@
 import Layout from "@/Layouts/Admin/Layout";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
-export default function ({consultores, metasMensal, metasPeriodo}) {
+export default function ({consultores, comissoes}) {
     return (
-        <Layout container titlePage="Metas dos Consultores" menu="meta-vendas" submenu="consultores">
+        <Layout container titlePage="Comissões" menu="meta-vendas" submenu="comissoes">
             <div className="table-responsive">
                 <table className="table align-items-center">
                     <thead>
@@ -27,31 +27,27 @@ export default function ({consultores, metasMensal, metasPeriodo}) {
                                         <tbody>
                                         <tr>
                                             <td className="pe-3"><b>JAN:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.jan)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.jan)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>FEV:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.fev)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.fev)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>MAR:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.mar)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.mar)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>ABR:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.abr)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.abr)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>MAI:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.mai)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.mai)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>JUN:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.jun)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>TOTAL:</b></td>
-                                            <td><b className="ms-3">R$ {convertFloatToMoney(metasPeriodo[consultor.id]?.sem_1)}</b></td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.jun)}%</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -61,40 +57,33 @@ export default function ({consultores, metasMensal, metasPeriodo}) {
                                         <tbody>
                                         <tr>
                                             <td className="pe-3"><b>JUL:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.jul)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.jul)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>AGO:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.ago)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.ago)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>SET:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.set)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.set)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>OUT:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.out)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.out)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>NOV:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.nov)}</td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.nov)}%</td>
                                         </tr>
                                         <tr>
                                             <td><b>DEZ:</b></td>
-                                            <td> R$ {convertFloatToMoney(metasMensal[consultor.id]?.dez)}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>TOTAL:</b></td>
-                                            <td><b className="ms-3">R$ {convertFloatToMoney(metasPeriodo[consultor.id]?.sem_2)}</b></td>
+                                            <td>{convertFloatToMoney(comissoes[consultor.id]?.dez)}%</td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </td>
                                 <td>
-                                    <div className="mt-2 mb-4">
-                                        <b>META ANUAL</b><br/>R$ {convertFloatToMoney(metasPeriodo[consultor.id]?.total)}
-                                    </div>
-                                    <a href={route('admin.metas-vendas.consultores.edit', consultor.id)}
+                                    <a href={route('admin.metas-vendas.comissoes.edit', consultor.id)}
                                        className="btn btn-primary btn-sm">Editar</a>
                                 </td>
                             </tr>

@@ -22,7 +22,7 @@ class LeadsController extends Controller
         $categoriaAtual = $request->categoria ?? 1;
         $categorias = (new SetoresService())->setores();
         $dados = (new LeadsDadosService())->getDisponiveis($categoriaAtual);
-        $consultores = (new User())->getConsultores($categoriaAtual, true);
+        $consultores = (new User())->getConsultores($categoriaAtual, false);
 
         return Inertia::render('Admin/Leads/Encaminhar',
             compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
@@ -134,7 +134,7 @@ class LeadsController extends Controller
     {
         $categoriaAtual = $request->categoria ?? 1;
         $dados = (new LeadsDadosService())->getLeadsComConsultor($categoriaAtual);
-        $consultores = (new User())->getConsultores($categoriaAtual, true);
+        $consultores = (new User())->getConsultores($categoriaAtual, false);
         $categorias = (new SetoresService())->setores();
 
         return Inertia::render('Admin/Leads/AlterarConsultor',

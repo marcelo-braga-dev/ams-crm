@@ -19,10 +19,9 @@ class VendasController extends Controller
         $topConsultores = (new TopVendasService())->consultores();
         $topCompradores = (new TopVendasService())->integradores();
         $vendasMensais = (new VendasMensaisService())->vendas($valores['meta_float']);
-//print_pre($vendasMensais);
 
         return Inertia::render('Admin/Dashboard/Vendas/Index',
             compact('metaVendas', 'topConsultores', 'topCompradores', 'valores',
-            'vendasMensais'));
+                'vendasMensais'));
     }
 }

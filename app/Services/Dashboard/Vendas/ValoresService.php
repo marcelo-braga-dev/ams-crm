@@ -4,6 +4,7 @@ namespace App\Services\Dashboard\Vendas;
 
 use App\Models\MetasVendas;
 use App\Models\Pedidos;
+use Illuminate\Support\Facades\DB;
 
 class ValoresService
 {
@@ -30,6 +31,7 @@ class ValoresService
     private function metas()
     {
         return (new MetasVendas())->newQuery()
-            ->sum('meta');
+            ->select(DB::raw('SUM(jan + fev + mar + abr + mai + jun + jul + ago + `set` + `out` + nov + dez) as soma'))
+            ->first()->soma;
     }
 }

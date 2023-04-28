@@ -4,22 +4,49 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class MetasVendas extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
-        'meta'
+        'user_id',
+        'ano',
+        'jan',
+        'fev',
+        'mar',
+        'abr',
+        'mai',
+        'jun',
+        'jul',
+        'ago',
+        'set',
+        'out',
+        'nov',
+        'dez',
     ];
 
-    public function createOrUpdate($id, $meta)
+    public function createOrUpdate($id, $dados)
     {
         $this->newQuery()
             ->updateOrCreate(
-                ['users_id' => $id],
-                ['meta' => convert_money_float($meta)]
+                ['user_id' => $id],
+                [
+                    'ano' => 2023,
+                    'jan' => convert_money_float($dados->jan),
+                    'fev' => convert_money_float($dados->fev),
+                    'mar' => convert_money_float($dados->mar),
+                    'abr' => convert_money_float($dados->abr),
+                    'mai' => convert_money_float($dados->mai),
+                    'jun' => convert_money_float($dados->jun),
+                    'jul' => convert_money_float($dados->jul),
+                    'ago' => convert_money_float($dados->ago),
+                    'set' => convert_money_float($dados->set),
+                    'out' => convert_money_float($dados->out),
+                    'nov' => convert_money_float($dados->nov),
+                    'dez' => convert_money_float($dados->dez),
+                ]
             );
     }
 
@@ -29,7 +56,7 @@ class MetasVendas extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado->users_id] = $dado->meta;
+            $metas[$dado->user_id] = $dado->meta;
         }
         return $metas;
     }
@@ -40,17 +67,36 @@ class MetasVendas extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado->users_id] = convert_float_money($dado->meta);
+            $metas[$dado['user_id']] = $dado;
         }
+        return $metas;
+    }
+
+    public function metasConsultoresPeriodo()
+    {
+        $dados = $this->newQuery()
+            ->select('user_id', DB::raw(
+                '(jan + fev + mar + abr + mai + jun) as sem_1,
+                (jul + ago + `set` + `out` + nov + dez) as sem_2'
+            ))
+            ->get();
+
+        $metas = [];
+        foreach ($dados as $dado) {
+            $metas[$dado['user_id']] = [
+                'sem_1' => $dado->sem_1 ?? 0,
+                'sem_2' => $dado->sem_2 ?? 0,
+                'total' => $dado->sem_1 + $dado->sem_2,
+            ];
+        }
+
         return $metas;
     }
 
     public function getMeta($id)
     {
-        $dado = $this->newQuery()
-            ->where('users_id', $id)
+        return $this->newQuery()
+            ->where('user_id', $id)
             ->first();
-
-        return convert_float_money($dado->meta ?? 0);
     }
 }

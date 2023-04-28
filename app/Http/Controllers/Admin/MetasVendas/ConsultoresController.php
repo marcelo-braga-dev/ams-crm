@@ -12,26 +12,28 @@ class ConsultoresController extends Controller
 {
     public function index()
     {
-        $metas = (new MetasVendas())->metasConsultores();
         $consultores = (new User())->getConsultores();
+        $metasMensal = (new MetasVendas())->metasConsultores();
+        $metasPeriodo = (new MetasVendas())->metasConsultoresPeriodo();
 
         return Inertia::render('Admin/MetasVendas/Consultores/Index',
-            compact('consultores', 'metas'));
+            compact('consultores', 'metasMensal', 'metasPeriodo'));
     }
 
     public function edit($id)
     {
-        $meta = (new MetasVendas())->getMeta($id);
+        $metas = (new MetasVendas())->getMeta($id);
         $consultor = (new User())->get($id);
 
         return Inertia::render('Admin/MetasVendas/Consultores/Edit',
-            compact('consultor', 'meta'));
+            compact('consultor', 'metas'));
     }
 
     public function update($id, Request $request)
     {
-        (new MetasVendas())->createOrUpdate($id, $request->meta);
+        (new MetasVendas())->createOrUpdate($id, $request);
 
+        modalSucesso('Dados atualizados com sucesso!');
         return redirect()->route('admin.metas-vendas.consultores.index');
     }
 }
