@@ -11,7 +11,7 @@ class MetasVendas extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'users_id',
         'ano',
         'jan',
         'fev',
@@ -31,7 +31,7 @@ class MetasVendas extends Model
     {
         $this->newQuery()
             ->updateOrCreate(
-                ['user_id' => $id],
+                ['users_id' => $id],
                 [
                     'ano' => 2023,
                     'jan' => convert_money_float($dados->jan),
@@ -56,7 +56,7 @@ class MetasVendas extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado->user_id] = $dado->meta;
+            $metas[$dado->users_id] = $dado->meta;
         }
         return $metas;
     }
@@ -67,7 +67,7 @@ class MetasVendas extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado['user_id']] = $dado;
+            $metas[$dado['users_id']] = $dado;
         }
         return $metas;
     }
@@ -75,7 +75,7 @@ class MetasVendas extends Model
     public function metasConsultoresPeriodo()
     {
         $dados = $this->newQuery()
-            ->select('user_id', DB::raw(
+            ->select('users_id', DB::raw(
                 '(jan + fev + mar + abr + mai + jun) as sem_1,
                 (jul + ago + `set` + `out` + nov + dez) as sem_2'
             ))
@@ -83,7 +83,7 @@ class MetasVendas extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado['user_id']] = [
+            $metas[$dado['users_id']] = [
                 'sem_1' => $dado->sem_1 ?? 0,
                 'sem_2' => $dado->sem_2 ?? 0,
                 'total' => $dado->sem_1 + $dado->sem_2,
@@ -96,7 +96,7 @@ class MetasVendas extends Model
     public function getMeta($id)
     {
         return $this->newQuery()
-            ->where('user_id', $id)
+            ->where('users_id', $id)
             ->first();
     }
 }
