@@ -18,6 +18,7 @@ class Leads extends Model
     protected $fillable = [
         'users_id',
         'status',
+        'importacao',
         'nome',
         'setor',
         'cnpj',
@@ -54,7 +55,7 @@ class Leads extends Model
             ]);
     }
 
-    public function create($dados, $setor, $usuario = null)
+    public function create($dados, $setor, $usuario = null, $importacao = null)
     {
         try {
             $verificacaoCnpj = null;
@@ -73,6 +74,7 @@ class Leads extends Model
                     ->create([
                         'users_id' => $usuario,
                         'nome' => $dados['nome'] ?? null,
+                        'importacao' => $importacao,
                         'atendente' => $dados['atendente'] ?? null,
                         'telefone' => $telefone,
                         'setor' => $setor,

@@ -17,8 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('users_id');
             $table->integer('setor');
-            $table->integer('qtd');
-            $table->integer('id_importacao');
+            $table->integer('qtd')->nullable();
             $table->timestamps();
         });
     }

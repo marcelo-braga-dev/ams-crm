@@ -16,17 +16,17 @@ export default function ({setores, modelo}) {
         <Layout container titlePage="Importar Planilhas de Leads" menu="leads" submenu="importar">
             <div className="row justify-content-between">
                 <div className="col-auto">
-                    <a className="btn btn-primary btn-sm" href={route('admin.clientes.leads.importar-historico.index')}>Histórico</a>
+                    <a href={modelo} className="btn btn-link">Baixar Modelo</a>
                 </div>
                 <div className="col-auto">
-                    <a href={modelo} className="btn btn-link">Baixar Modelo</a>
+                    <a className="btn btn-primary btn-sm" href={route('admin.clientes.leads.importar-historico.index')}>Histórico</a>
                 </div>
             </div>
             <form onSubmit={submit}>
                 <div className="row">
                     <div className="col mb-4">
                         <span className="d-block">Arquivo de Importação (.csv)</span>
-                        <TextField type="file" required inputProps={{accept: '.csv'}}
+                        <TextField type="file" required inputProps={{accept: '.csv'}} fullWidth
                                    onChange={e => setData('arquivo', e.target.files[0])}/>
                     </div>
                     <div className="col mb-4">

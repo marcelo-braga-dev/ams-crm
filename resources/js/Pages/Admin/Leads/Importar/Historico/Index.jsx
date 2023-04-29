@@ -15,9 +15,9 @@ export default function ({historicos}) {
                     </tr>
                     </thead>
                     <tbody>
-                    {historicos.map((dado) => {
+                    {historicos.map((dado, index) => {
                         return (
-                            <tr>
+                            <tr key={index}>
                                 <td>{dado.data}</td>
                                 <td>{dado.nome}</td>
                                 <td>{dado.setor}</td>
@@ -25,7 +25,6 @@ export default function ({historicos}) {
                             </tr>
                         )
                     })}
-
                     </tbody>
                 </table>
             </div>

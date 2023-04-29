@@ -26,16 +26,14 @@ class ImportarController extends Controller
     {
         try {
             $dados = (new ImportarArquivoService())->dados($request);
-
             $dadosSeparados = (new DadosImportacaoService())->executar($dados);
+            $idHistorico = (new LeadsImportarHistoricos())->create($request->setor);
 
             $qtd = 0;
             foreach ($dadosSeparados as $item) {
-                $qtd += (new Leads())->create($item, $request->setor);
+                $qtd += (new Leads())->create($item, $request->setor, null, $idHistorico);
             }
-
-            (new LeadsImportarHistoricos())->create($request->setor, $qtd);
-
+            (new LeadsImportarHistoricos())->atualizar($idHistorico, $qtd);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

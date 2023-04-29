@@ -13,18 +13,22 @@ class LeadsImportarHistoricos extends Model
         'users_id',
         'setor',
         'qtd',
-        'id_importacao',
     ];
 
-    public function create($setor, $qtd)
+    public function create($setor)
     {
-        $this->newQuery()
+        return $this->newQuery()
             ->create([
                 'users_id' => id_usuario_atual(),
                 'setor' => $setor,
-                'qtd' => $qtd,
-                'id_importacao' => uniqid(),
-            ]);
+            ])->id;
+    }
+
+    public function atualizar($id, $qtd)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['qtd' => $qtd]);
     }
 
     public function historicos()
