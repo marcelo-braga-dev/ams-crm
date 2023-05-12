@@ -11,7 +11,7 @@ import AndamentoCard from "./Cards/Andamento/AndamentoCard";
 export default function ({dados}) {
 
     return (
-        <Layout titlePage="SAC">
+        <Layout titlePage="SAC" menu="sac" submenu="chamados">
             <div className="container">
                 <table className={"my-2"}>
                     <thead>

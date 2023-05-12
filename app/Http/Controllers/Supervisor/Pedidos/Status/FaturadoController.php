@@ -19,9 +19,9 @@ class FaturadoController extends Controller
 
     public function update($id, Request $request)
     {
-        (new PedidoUpdateStatus())->faturado($id);
+        (new PedidoUpdateStatus())->faturado($id, $request->msg);
 
         modalSucesso('Atualizado com sucesso!');
-        return redirect()->route('admin.pedidos.index');
+        return redirect()->route('supervisor.pedidos.index');
     }
 }

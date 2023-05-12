@@ -100,7 +100,7 @@ export default function Filtering({pedidos}) {
 
 
     return (
-        <Layout titlePage="Histórico de Pedidos">
+        <Layout titlePage="Histórico de Pedidos" menu="pedidos" submenu="historico">
             <div className="container bg-white p-2 py-4 rounded">
                 <div className="row justify-content-between px-4">
                     <div className="col-md-auto">

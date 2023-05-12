@@ -5,7 +5,7 @@ import {Typography} from "@mui/material";
 export default function Create({fornecedores}) {
 
     return (
-        <Layout titlePage="Fornecedores" container>
+        <Layout titlePage="Fornecedores" container menu="fornecedores" submenu="fornecedores">
             <div className="row">
                 <div className="col mb-4">
                     <Typography className="mb-3" variant="h6">Fornecedores Cadastrados</Typography>

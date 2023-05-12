@@ -195,7 +195,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     }
 
     return (
-        <Layout container titlePage="Encaminhar Leads">
+        <Layout container titlePage="Encaminhar Leads" menu="leads" submenu="encaminhar">
 
             <h4 className="mb-4">Enviar Leads para Consultores</h4>
 

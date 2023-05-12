@@ -21,7 +21,8 @@ export default function Pedidos({prazos}) {
         post(route('supervisor.pedidos.config.store'))
     }
 
-    return (<Layout titlePage="Pedidos" url={route('supervisor.pedidos.index')} textButton={'Voltar'}>
+    return (
+        <Layout titlePage="Pedidos" menu="pedidos" submenu="config">
 
         <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 rounded">
             <Typography variant={"h6"} className={"mb-4"}>Prazos dos Status</Typography>

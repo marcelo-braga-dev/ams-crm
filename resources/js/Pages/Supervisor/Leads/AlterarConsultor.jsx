@@ -184,7 +184,7 @@ export default function Filtering({dados, consultores}) {
     }
 
     return (
-        <Layout container titlePage="Alterar Consultor">
+        <Layout container titlePage="Alterar Consultor" menu="leads" submenu="alterar">
             <h4 className="mb-4">Alterar Consultor</h4>
 
             <form onSubmit={submit}>

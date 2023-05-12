@@ -159,7 +159,7 @@ export default function Filtering({dados}) {
     }, [filterText]);
 
     return (
-        <Layout container titlePage="Leads Cadastrados">
+        <Layout container titlePage="Leads Cadastrados" menu="leads" submenu="cadastrados">
 
             <div className="row justify-content-between px-4">
                 <div className="col-md-auto"><h4 className="mb-4">Leads Cadastrados</h4></div>

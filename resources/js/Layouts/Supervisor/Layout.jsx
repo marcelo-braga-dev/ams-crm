@@ -5,13 +5,13 @@ import Sidebar from "./Templates/Sidebar";
 import Navbar from "./Templates/Navbar";
 import setUltimoLoginUsuario from "@/Helpers/setUltimoLoginUsuario";
 
-export default function Layout({children, titlePage, container, voltar, errors = []}) {
+export default function Layout({children, titlePage, container, voltar, menu, submenu}) {
     setUltimoLoginUsuario()
     return (
         <>
             <Head><title>{titlePage}</title></Head>
             <ModalsAllerts/>
-            <Sidebar/>
+            <Sidebar menuSidebar={menu} submenuSidebar={submenu}/>
 
             <main className="main-content">
                 <Navbar titlePage={titlePage}/>
@@ -29,7 +29,6 @@ export default function Layout({children, titlePage, container, voltar, errors =
                                         </a>
                                     </div>
                                 </div>
-                                {errors[0] && <div className="alert alert-danger text-white">{errors[0]}</div>}
                                 {children}
                             </div> :
                             <div className="bg-white px-lg-4 py-2 pb-4 rounded">
@@ -38,7 +37,6 @@ export default function Layout({children, titlePage, container, voltar, errors =
                                         <h5>{titlePage}</h5>
                                     </div>
                                 </div>
-                                {errors[0] && <div className="alert alert-danger text-white">{errors[0]}</div>}
                                 {children}
                             </div>
                         : <div className="row">
