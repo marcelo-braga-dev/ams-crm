@@ -3,6 +3,8 @@ import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import {router} from '@inertiajs/react'
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
+import React from "react";
+import ImagePdf from "@/Components/Inputs/ImagePdf";
 
 export default function Create({chamado, pedido, mensagens}) {
     // Envio da Resposta
@@ -15,6 +17,7 @@ export default function Create({chamado, pedido, mensagens}) {
             _method: 'put',
             ...data
         })
+        window.location.reload()
     }
 
     // Envio da Resposta - fim
@@ -52,8 +55,16 @@ export default function Create({chamado, pedido, mensagens}) {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col">
+                            <div className="col mb-2">
                                 <span><b>Mensagem:</b> {dado.msg}</span>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-auto">
+                                <ImagePdf url={dado.anexo_1}/>
+                            </div>
+                            <div className="col">
+                                <ImagePdf url={dado.anexo_2}/>
                             </div>
                         </div>
                     </div>
@@ -63,17 +74,28 @@ export default function Create({chamado, pedido, mensagens}) {
 
             {/*Resposta*/}
             <form onSubmit={submit}>
-                <div className="row pt-4">
+                <div className="row pt-4 mb-3">
                     <div className="col">
                         <TextField
                             multiline rows={6} label="Resposta" fullWidth required
                             onChange={e => setData('mensagem', e.target.value)}/>
                     </div>
                 </div>
+                <div className="row">
+                    <div className="col-md-6 mb-3">
+                        <TextField type="file" fullWidth
+                                   onChange={e => setData('anexo_1', e.target.files[0])}>
+                        </TextField>
+                    </div>
+                    <div className="col-md-6 mb-3">
+                        <TextField type="file" fullWidth
+                                   onChange={e => setData('anexo_2', e.target.files[0])}>
+                        </TextField>
+                    </div>
+                </div>
 
                 <div className="row pt-4 text-center">
-                    <div className="col-lg-4 text-right">
-                    </div>
+                    <div className="col-lg-4 text-right"></div>
                     <div className="col mb-3">
                         <button type="submit" className="btn btn-primary">Enviar Resposta</button>
                     </div>

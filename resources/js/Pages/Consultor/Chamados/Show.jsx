@@ -1,5 +1,7 @@
 import Layout from '@/Layouts/Consultor/Layout';
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
+import ImagePdf from "@/Components/Inputs/ImagePdf";
+import React from "react";
 
 export default function Create({chamado, pedido, mensagens}) {
     return (
@@ -37,6 +39,15 @@ export default function Create({chamado, pedido, mensagens}) {
                         <div className="row">
                             <div className="col">
                                 <span><b>Mensagem:</b> {dado.msg}</span>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-auto">
+                                <ImagePdf url={dado.anexo_1}/>
+                            </div>
+                            <div className="col">
+                                <ImagePdf url={dado.anexo_2}/>
                             </div>
                         </div>
                     </div>

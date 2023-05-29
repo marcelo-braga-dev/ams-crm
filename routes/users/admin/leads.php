@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Leads\ImportarController;
 use App\Http\Controllers\Admin\Leads\ImportarHistoricoController;
 use App\Http\Controllers\Admin\Leads\LeadsController;
 use App\Http\Controllers\Admin\Leads\RelatoriosController;
+use App\Http\Controllers\Admin\Leads\StatusController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.clientes.leads.')
@@ -16,6 +17,7 @@ Route::name('admin.clientes.leads.')
         Route::resource('leads-main', LeadsController::class);
         Route::resource('importar', ImportarController::class);
         Route::resource('importar-historico', ImportarHistoricoController::class);
+        Route::resource('status', StatusController::class);
 
         Route::post('update-consultor', [LeadsController::class, 'updateConsultor'])->name('update-consultor');
         Route::get('leads-cadastrados', [LeadsController::class, 'cadastrados'])->name('leads-cadastrados');
@@ -25,6 +27,7 @@ Route::name('admin.clientes.leads.')
         Route::post('restaurar', [LeadsController::class, 'restaurar'])->name('restaurar');
         Route::get('alterar-consultor', [LeadsController::class, 'alterarConsultor'])->name('alterar-consultor');
         Route::post('limpar-consultor', [LeadsController::class, 'limparConsultor'])->name('limpar-consultor');
+
     });
 
 Route::name('admin.leads.')

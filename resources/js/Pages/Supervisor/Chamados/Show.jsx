@@ -50,8 +50,16 @@ export default function Create({chamado, pedido, mensagens}) {
                     </Col>
                     <Col md="12">
                         <Typography variant="body1"><b>Mensagem:</b> {dado.msg}</Typography>
-                        <ImagePdf url={dado.img}></ImagePdf>
                     </Col>
+
+                    <div className="row">
+                        <div className="col-auto">
+                            <ImagePdf url={dado.anexo_1}/>
+                        </div>
+                        <div className="col">
+                            <ImagePdf url={dado.anexo_2}/>
+                        </div>
+                    </div>
                 </Row>)
             })}
             {/*Historico de Mensagens - fim */}

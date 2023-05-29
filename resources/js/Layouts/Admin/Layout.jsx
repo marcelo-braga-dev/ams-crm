@@ -18,7 +18,7 @@ export default function Layout({children, titlePage, container, voltar, menu, su
                 <div className="container-fluid mb-8">
                     {container ?
                         voltar ?
-                            <div className="bg-white px-lg-4 pt-2 pb-4 mb-4 rounded">
+                            <div className="bg-white px-lg-4 pt-2 pb-4 mb-4 mt-4 rounded">
                                 <div className="row justify-content-between border-bottom mb-3 p-2">
                                     <div className="col">
                                         <h5>{titlePage}</h5>
@@ -31,7 +31,7 @@ export default function Layout({children, titlePage, container, voltar, menu, su
                                 </div>
                                 {children}
                             </div> :
-                            <div className="bg-white px-lg-4 py-2 pb-4 rounded">
+                            <div className="bg-white mt-3 px-lg-4 py-2 pb-4 rounded">
                                 <div className="row  border-bottom mb-4 p-1">
                                     <div className="col">
                                         <h5>{titlePage}</h5>

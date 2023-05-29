@@ -2,6 +2,8 @@ import Layout from '@/Layouts/Admin/Layout';
 import {useForm} from "@inertiajs/react";
 import {router} from '@inertiajs/react'
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
+import ImagePdf from "@/Components/Inputs/ImagePdf";
+import React from "react";
 
 export default function Create({chamado, pedido, mensagens}) {
     // Envio da Resposta
@@ -50,9 +52,17 @@ export default function Create({chamado, pedido, mensagens}) {
                                 </small>
                             </div>
                         </div>
-                        <div className="row">
+                        <div className="row mb-2">
                             <div className="col">
                                 <span><b>Mensagem:</b> {dado.msg}</span>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-auto">
+                                <ImagePdf url={dado.anexo_1}/>
+                            </div>
+                            <div className="col">
+                                <ImagePdf url={dado.anexo_2}/>
                             </div>
                         </div>
                     </div>

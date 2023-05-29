@@ -20,7 +20,8 @@ return new class extends Migration
             $table->bigInteger('chamados_id');
             $table->string('status', 32);
             $table->string('msg', 1024)->nullable();
-            $table->string('url_img_1')->nullable();
+            $table->string('anexo_1')->nullable();
+            $table->string('anexo_2')->nullable();
             $table->integer('prazo')->default(0);
             $table->timestamps();
         });

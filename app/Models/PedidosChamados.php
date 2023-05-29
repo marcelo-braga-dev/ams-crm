@@ -22,7 +22,7 @@ class PedidosChamados extends Model
         'prazo'
     ];
 
-    public function create($idPedido, $titulo, $status, $prazo, $mensagem)
+    public function create($idPedido, $titulo, $status, $prazo, $mensagem, $anexos)
     {
         $idConsultor = (new Pedidos())->getIdConsultor($idPedido);
         $idCliente = (new PedidosClientes())->getIdCliente($idPedido);
@@ -40,7 +40,7 @@ class PedidosChamados extends Model
             ]);
 
         // Cria historico
-        (new PedidosChamadosHistoricos())->create($idPedido, $dados->id, $status, $mensagem, $prazo);
+        (new PedidosChamadosHistoricos())->create($idPedido, $dados->id, $status, $mensagem, $prazo, $anexos);
 
         // Seta SAC no pedido
         (new Pedidos())->updateChamado($idPedido, 1);

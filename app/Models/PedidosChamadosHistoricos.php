@@ -17,13 +17,15 @@ class PedidosChamadosHistoricos extends Model
         'chamados_id',
         'status',
         'msg',
-        'url_img_1',
+        'anexo_1',
+        'anexo_2',
         'prazo'
     ];
 
-    public function create($idPedidos, $idChamado, $status, $msg, $prazo)
+    public function create($idPedidos, $idChamado, $status, $msg, $prazo, $dados)
     {
-        // $img_1 = (new Images())->armazenar($dados, 'img_1', 'chamados/' . $dados->id);
+        $anexo1 = (new Images())->armazenar($dados, 'anexo_1', 'chamados-anexos');
+        $anexo2 = (new Images())->armazenar($dados, 'anexo_2', 'chamados-anexos');
 
         $this->newQuery()
             ->create([
@@ -32,7 +34,8 @@ class PedidosChamadosHistoricos extends Model
                 'chamados_id' => $idChamado,
                 'status' => $status,
                 'msg' => $msg,
-                'url_img_1' => null,
+                'anexo_1' => $anexo1,
+                'anexo_2' => $anexo2,
                 'prazo' => $prazo,
             ]);
 

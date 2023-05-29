@@ -24,9 +24,10 @@ class FinalizadosChamadoStatus implements ChamadosStatus
         return 2;
     }
 
-    public function updateStatus(int $idPedido, int $idChamado, string $mensagem)
+    public function updateStatus(int $idPedido, int $idChamado, string $mensagem, $dados)
     {
+        (new PedidosChamadosHistoricos())
+            ->create($idPedido, $idChamado, $this->status, $mensagem, $this->getPrazo(), $dados);
         (new PedidosChamados())->updateStatus( $idChamado,  $this->getStatus(),  $this->getPrazo());
-        (new PedidosChamadosHistoricos())->create($idPedido, $idChamado, $this->status, $mensagem, $this->getPrazo());
     }
 }

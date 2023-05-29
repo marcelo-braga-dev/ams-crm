@@ -80,7 +80,9 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
                     'url': route('admin.clientes.leads.alterar-consultor'),
                     'tag': 'alterar'
                 },
-                {'menu': 'Importar Planilhas', 'url': route('admin.clientes.leads.importar.index'), 'tag': 'importar'},]
+                {'menu': 'Importar Planilhas', 'url': route('admin.clientes.leads.importar.index'), 'tag': 'importar'},
+                {'menu': 'Status dos Leads', 'url': route('admin.clientes.leads.status.index'), 'tag': 'status'},
+            ]
         }, {
             'menu': 'Metas de Vendas',
             'icone': <TrendingUpOutlinedIcon/>,

@@ -42,7 +42,8 @@ class ChamadosController extends Controller
 
     public function store(Request $request)
     {
-        (new NovoChamadoStatus())->create($request->id, $request->titulo, $request->mensagem);
+        (new NovoChamadoStatus())
+            ->create($request->id, $request->titulo, $request->mensagem, $request);
 
         modalSucesso('Chamado criado com sucesso!');
         return redirect()->route('admin.chamado.index');
@@ -61,13 +62,15 @@ class ChamadosController extends Controller
     public function update(Request $request)
     {
         if ($request->finalizar) {
-            (new FinalizadosChamadoStatus())->updateStatus($request->id_pedido, $request->id_chamado, $request->mensagem);
+            (new FinalizadosChamadoStatus())
+                ->updateStatus($request->id_pedido, $request->id_chamado, $request->mensagem, $request);
             (new Pedidos())->updateChamado($request->id_pedido, 0);
+            return redirect()->route('admin.chamado.index');
         } else {
             (new RespondidoChamadoStatus())
-                ->responder($request->id_pedido, $request->id_chamado, $request->mensagem);
+                ->responder($request->id_pedido, $request->id_chamado, $request->mensagem, $request);
         }
 
-        return redirect()->route('admin.chamado.index');
+        return redirect()->back();
     }
 }

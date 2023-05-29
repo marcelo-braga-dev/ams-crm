@@ -9,6 +9,7 @@ use App\src\Chamados\StatusChamados;
 class MensagensChamadosService
 {
     private array $usuarios;
+
     public function __construct()
     {
         $this->usuarios = (new User())->getNomes();
@@ -23,7 +24,8 @@ class MensagensChamadosService
                 'nome' => $this->usuarios[$dados->users_id],
                 'status' => (new StatusChamados())->getNomeStatus($dados->status),
                 'msg' => $dados->msg,
-                'img' => $dados->url_img_1,
+                'anexo_1' => $dados->anexo_1,
+                'anexo_2' => $dados->anexo_2,
                 'prazo' => $dados->prazo,
                 'data' => date('d/m/y H:i', strtotime($dados->updated_at))
             ];
