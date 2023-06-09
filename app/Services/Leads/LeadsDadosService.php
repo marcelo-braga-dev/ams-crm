@@ -47,6 +47,8 @@ class LeadsDadosService
 
     private function items($item): array
     {
+        if (!$item) return [];
+
         return [
             'id' => $item->id,
             'consultor' => [

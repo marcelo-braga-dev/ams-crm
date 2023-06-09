@@ -19,7 +19,7 @@ return new class extends Migration
             $table->bigInteger('destinatario');
             $table->string('status', 32);
             $table->boolean('status_chat')->default(1);
-            $table->string('mensagem');
+            $table->text('mensagem');
             $table->string('tipo', 16);
             $table->string('categoria', 16);
             $table->timestamps();

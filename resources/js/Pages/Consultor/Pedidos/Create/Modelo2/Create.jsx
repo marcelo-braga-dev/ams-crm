@@ -9,13 +9,14 @@ import AlertDanger from "./Partials/AlertDanger";
 import {useState} from "react";
 
 
-export default function Create({fornecedores, integradores, clientes, errors}) {
+export default function Create({fornecedores, integradores, clientes, lead, errors}) {
 
     const [cliente, setCliente] = useState(true)
     const {data, setData, post, progress, processing} = useForm({
         pessoa: 'Pessoa Física',
         documentos_check: 'cnh',
-        idCliente: ''
+        idCliente: '',
+        integrador: lead.id
     });
 
     function submit(e) {

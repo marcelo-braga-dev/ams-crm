@@ -8,12 +8,13 @@ import Pedidos from "./Partials/Pedido";
 import AlertDanger from "./Partials/AlertDanger";
 
 
-export default function Create({fornecedores, integradores}) {
+export default function Create({fornecedores, integradores, lead}) {
     const {errors} = usePage().props;
 
     const {data, setData, post, progress, processing} = useForm({
         pessoa: 'Pessoa Física',
-        documentos_check: 'cnh'
+        documentos_check: 'cnh',
+        integrador: lead.id
     });
 
     function submit(e) {
@@ -23,7 +24,9 @@ export default function Create({fornecedores, integradores}) {
 
     return (
         <Layout container titlePage="Cadastrar Pedido" voltar={route('consultor.pedidos.index')}>
-
+            <p>
+                Lead: {lead.nome} (#{lead.id})
+            </p>
             <form onSubmit={submit}>
                 <div className="row mb-5 pb-4 border-bottom">
                     <AlertDanger errors={errors}></AlertDanger>

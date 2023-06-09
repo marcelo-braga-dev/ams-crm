@@ -10,6 +10,7 @@ use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
 use App\Models\Setores;
 use App\Models\User;
+use App\Services\Leads\LeadsDadosService;
 use App\src\Pedidos\Arquivos\ChavesArquivosPedidos;
 use App\src\Pedidos\StatusPedidos;
 use App\src\Usuarios\Admins;
@@ -73,7 +74,7 @@ class DadosPedidoServices
         $cliente = $pedido->cliente ? (new Clientes())->find($pedido->cliente) : (new PedidosClientes())->getCliente($pedido->id);
         $consultor = (new User)->get($pedido->users_id);
         $fornecedor = (new Fornecedores())->getFornecedor($pedido->fornecedor);
-        $integrador = $pedido->integrador ? (new Integradores())->get($pedido->integrador):'';
+        $integrador = $pedido->integrador ? (new LeadsDadosService())->lead($pedido->integrador):'';
         $files = (new PedidosImagens())->getImagens($pedido->id);
         $filesCliente = (new ClientesArquivos())->get($pedido->cliente);
         $chavesArquivos = (new ChavesArquivosPedidos());
@@ -113,8 +114,8 @@ class DadosPedidoServices
                 'nome' => $fornecedor['nome']
             ],
             'integrador' => [
-                'nome' => $integrador['nome'] ?? '',
-                'cnpj' => $integrador['cnpj'] ?? ''
+                'nome' => $integrador['cliente']['nome'] ?? '',
+                'cnpj' => $integrador['cliente']['cnpj'] ?? ''
             ],
             'cliente' => [
                 'nome' => $cliente->nome ?? $cliente->razao_social,

@@ -8,6 +8,7 @@ use App\Models\ClientesArquivos;
 use App\Models\ConfigCores;
 use App\Models\Fornecedores;
 use App\Models\Integradores;
+use App\Models\Leads;
 use App\Models\Pedidos;
 use App\Models\PedidosClientes;
 use App\Models\PedidosHistoricos;
@@ -30,20 +31,21 @@ class PedidosController extends Controller
             compact('pedidos', 'coresAbas'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $setor = setor_usuario_atual();
         $fornecedores = (new Fornecedores())->getAll($setor);
         $integradores = (new Integradores())->getUsuario();
         $clientes = (new Clientes())->getClientes($setor);
+        $lead = (new Leads())->find($request->lead);
 
         switch ((new Setores())->getModeloCadastroPedido($setor)) {
             case 1:
                 return Inertia::render('Consultor/Pedidos/Create/Modelo1/Create',
-                    compact('fornecedores', 'integradores'));
+                    compact('fornecedores', 'integradores', 'lead'));
             case 2:
                 return Inertia::render('Consultor/Pedidos/Create/Modelo2/Create',
-                    compact('fornecedores', 'integradores', 'clientes'));
+                    compact('fornecedores', 'integradores', 'clientes', 'lead'));
             default:
             {
                 modalErro('Falha no formulário de cadastro.');

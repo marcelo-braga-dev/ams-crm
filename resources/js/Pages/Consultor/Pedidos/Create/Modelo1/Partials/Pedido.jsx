@@ -20,17 +20,17 @@ export default function Pedido({fornecedores, integradores, setData, data}) {
             <Col className="mb-3 col-md-4">
                 <TextFieldMoney label="Preço" value={data.preco} setData={setData} index="preco" required/>
             </Col>
-            <Col className="mb-3 text-red-600">
-                <TextField label="Integrador" select fullWidth required defaultValue={""}
-                           onChange={e => setData('integrador', e.target.value)}>
-                    {integradores.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </Col>
-            <Col className="mb-3 text-red-600">
+            {/*<Col className="mb-3 text-red-600">*/}
+            {/*    <TextField label="Integrador" select fullWidth required defaultValue={""}*/}
+            {/*               onChange={e => setData('integrador', e.target.value)}>*/}
+            {/*        {integradores.map((option, index) => (*/}
+            {/*            <MenuItem key={index} value={option.id}>*/}
+            {/*                {option.nome}*/}
+            {/*            </MenuItem>*/}
+            {/*        ))}*/}
+            {/*    </TextField>*/}
+            {/*</Col>*/}
+            <Col className="mb-3 col-md-4 text-red-600">
                 <TextField label="Fornecedor" select fullWidth required defaultValue={""}
                            onChange={e => setData('fornecedor', e.target.value)}>
                     {fornecedores.map((option, index) => (

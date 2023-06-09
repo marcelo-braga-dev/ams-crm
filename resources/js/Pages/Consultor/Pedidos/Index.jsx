@@ -28,7 +28,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                 <div className="card-body">
                     <div className='container'>
                         {/*Pesquisa*/}
-                        <div className="row justify-content-between">
+                        <div className="row justify-content-end mb-3">
                             <div className="col-auto text-right">
                                 <FormControl variant="outlined" className="bg-white" size="small">
                                     <InputLabel htmlFor="search">Pesquisar...</InputLabel>
@@ -40,10 +40,6 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                    }
                                                    onChange={e => pesquisaCards(e.target.value)}/>
                                 </FormControl>
-                            </div>
-                            <div className="col-auto">
-                                <a href={route('consultor.pedidos.create')} className="btn btn-dark">Cadastrar
-                                    Pedido</a>
                             </div>
                         </div>
                     </div>
