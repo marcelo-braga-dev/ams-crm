@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pedidos_chamados_statuses', function (Blueprint $table) {
+        Schema::create('leads_statuses', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('setores_id');
             $table->string('nome', 64);
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pedidos_chamados_statuses');
+        Schema::dropIfExists('leads_statuses');
     }
 };

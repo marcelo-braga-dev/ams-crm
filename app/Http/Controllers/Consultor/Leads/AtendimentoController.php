@@ -35,6 +35,6 @@ class AtendimentoController extends Controller
         }
 
         modalSucesso('Status atualizado!');
-        return redirect()->route('consultor.leads.main.index');
+        return redirect()->back();
     }
 }

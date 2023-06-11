@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Services\Leads\CardLeadsService;
 use App\Services\Leads\LeadsDadosService;
+use App\src\Leads\Status\AtendimentoStatusLeads;
+use App\src\Leads\Status\AtivoStatusLeads;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 
 class LeadsController extends Controller
@@ -49,15 +53,19 @@ class LeadsController extends Controller
     {
         $dados = (new Leads())->newQuery()->find($id);
 
-        return Inertia::render('Consultor/Leads/Atendimento/Edit', compact('dados'));
+        return Inertia::render('Consultor/Leads/Edit', compact('dados'));
     }
 
     public function update($id, Request $request)
     {
         (new Leads())->atualizar($id, $request);
+        $leads = (new Leads())->find($id);
 
         modalSucesso("Dados atualizado com sucesso!");
-        return redirect()->route('consultor.leads.atendimento.show', $id);
+
+        if ($leads->status == (new AtendimentoStatusLeads())->getStatus()) return redirect()->route('consultor.leads.atendimento.show', $id);
+        if ($leads->status == (new AtivoStatusLeads())->getStatus()) return redirect()->route('consultor.leads.ativo.show', $id);
+        return redirect()->route('consultor.leads.main.index');
     }
 
     public function updateClassificacao(Request $request)

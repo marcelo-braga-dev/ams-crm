@@ -36,6 +36,7 @@ class LeadsHistoricos extends Model
     {
         return $this->newQuery()
             ->where('leads_id', $id)
+            ->orderByDesc('id')
             ->get();
     }
 

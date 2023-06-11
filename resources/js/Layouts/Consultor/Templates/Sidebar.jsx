@@ -18,16 +18,8 @@ export default function Sidebar() {
             'icone': <RequestPageOutlinedIcon/>,
             'submenu': [
                 {'menu': 'Lista de Pedidos', 'url': route('consultor.pedidos.index')},
-                {'menu': 'Cadastrar Pedido', 'url': route('consultor.pedidos.create')},
                 {'menu': 'Clientes', 'url': route('consultor.clientes.index')},
                 {'menu': 'Históricos', 'url': route('consultor.historicos.index')},
-            ]
-        }, {
-            'menu': 'Chat Interno',
-            'tag': 'chat-interno',
-            'icone': <QuestionAnswerOutlinedIcon/>,
-            'submenu': [
-                {'menu': 'Mensagens', 'url': route('consultor.chat-interno.index'), 'tag': 'mensagens'},
             ]
         }, {
             'menu': 'Leads',
@@ -36,11 +28,12 @@ export default function Sidebar() {
                 {'menu': 'Lista de Leads', 'url': route('consultor.leads.main.index')},
                 {'menu': 'Cadastrar', 'url': route('consultor.leads.main.create')},
             ]
-        }, {
-            'menu': 'Integradores',
-            'icone': <LocalShippingOutlinedIcon/>,
+        },{
+            'menu': 'Chat Interno',
+            'tag': 'chat-interno',
+            'icone': <QuestionAnswerOutlinedIcon/>,
             'submenu': [
-                {'menu': 'Integradores', 'url': route('consultor.integradores.index')},
+                {'menu': 'Mensagens', 'url': route('consultor.chat-interno.index'), 'tag': 'mensagens'},
             ]
         }, {
             'menu': 'SAC',

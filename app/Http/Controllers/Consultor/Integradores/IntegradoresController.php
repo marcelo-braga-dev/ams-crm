@@ -18,12 +18,17 @@ class IntegradoresController extends Controller
         return Inertia::render('Consultor/Integradores/Index', compact('integradores'));
     }
 
-    public function create(Request $request): \Inertia\Response
+    public function create(Request $request)
     {
-        $dadosLead = [];
-        if ($request->idLeads) $dadosLead = (new Leads())->find($request->idLeads);
+        if ($request->idLeads) (new AtivoStatusLeads())->updateStatus($request->idLeads);
 
-        return Inertia::render('Consultor/Integradores/Create', compact('dadosLead'));
+        modalSucesso('LEAD Ativo com Sucesso!');
+        return redirect()->route('consultor.leads.ativo.show', $request->idLeads);
+
+//        $dadosLead = [];
+//        if ($request->idLeads) $dadosLead = (new Leads())->find($request->idLeads);
+//
+//        return Inertia::render('Consultor/Integradores/Create', compact('dadosLead'));
     }
 
     public function store(Request $request)

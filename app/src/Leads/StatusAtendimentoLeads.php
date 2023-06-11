@@ -2,15 +2,16 @@
 
 namespace App\src\Leads;
 
-use App\Models\PedidosChamadosStatus;
+use App\Models\LeadsStatus;
 
 class StatusAtendimentoLeads
 {
     public function getStatus()
     {
-        $status = (new PedidosChamadosStatus())->statusCategorias();
+        $status = (new LeadsStatus())->statusCategorias();
 
         $items = [
+            'pedido_emitido' =>  'Pedido Emitito',
             'nao_encontrado' => 'Não encontrado',
             'nao_interessado' => 'Não Interessado',
             'atendido' => 'Atendido',
@@ -28,7 +29,7 @@ class StatusAtendimentoLeads
 
     public function status()
     {
-        $status = (new PedidosChamadosStatus())->statusCategoria(setor_usuario_atual());
+        $status = (new LeadsStatus())->statusCategoria(setor_usuario_atual());
 
         $items = [];
         foreach ($status as $item) {

@@ -15,6 +15,7 @@ class PedidosHistoricos extends Model
     protected $fillable = [
         'pedidos_id',
         'users_id',
+        'pedidos_id',
         'status',
         'prazo',
         'obs'
