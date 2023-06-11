@@ -42,17 +42,8 @@ export default function Show({dados, status, contatos, historicos}) {
             <div className="card mb-3">
                 <div className="card-body">
                     <LeadsDados dados={dados}/>
-                    <div className="text-end">
-                        <a href={route('consultor.leads.main.edit', dados.id)}
-                           className="btn btn-primary btn-sm mb-0">Editar Dados</a>
-                    </div>
-                </div>
-            </div>
-
-            <div className="row justify-content-between">
-                <div className="col">
-                    <div className="card mb-3">
-                        <div className="card-body">
+                    <div className="row">
+                        <div className="col">
                             <span className="text-bold pe-2">Classificação:</span>
                             <span
                                 className={'mx-1 cursor-pointer' + (data.classificacao === '❌' ? " border p-2 rounded bg-dark" : '')}
@@ -70,6 +61,9 @@ export default function Show({dados, status, contatos, historicos}) {
                                 className={'mx-1 cursor-pointer' + (data.classificacao === '😁' ? " border p-2 rounded bg-dark" : '')}
                                 onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
                         </div>
+                        <div className="col text-end">
+                            <a href={route('consultor.leads.main.edit', dados.id)}
+                               className="btn btn-primary btn-sm mb-0">Editar Dados</a></div>
                     </div>
                 </div>
             </div>
