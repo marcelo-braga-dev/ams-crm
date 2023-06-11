@@ -36,15 +36,15 @@ export default function Show({dados, status, contatos, historicos}) {
 
             <div className="row justify-content-between">
                 <div className="col-auto"><h6>Lead em Atendimento</h6></div>
-                <div className="col-auto">
-                    <a href={route('consultor.leads.main.edit', dados.id)}
-                       className="btn btn-primary btn-sm">Editar Dados</a>
-                </div>
             </div>
 
             <div className="card mb-3">
                 <div className="card-body">
                     <LeadsDados dados={dados}/>
+                    <div className="text-end">
+                        <a href={route('consultor.leads.main.edit', dados.id)}
+                           className="btn btn-primary btn-sm mb-0">Editar Dados</a>
+                    </div>
                 </div>
             </div>
 

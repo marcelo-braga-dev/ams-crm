@@ -20,44 +20,34 @@ const columns = [
         selector: row => row.id,
         sortable: true,
         grow: 0,
-    },
-    {
+    }, {
         name: 'Status',
-        selector: row => row.status,
+        selector: row => <>
+            <span>
+                {row.status}<br/>
+                {row.data_criacao}
+            </span>
+        </>,
         sortable: true,
+    }, {
+        name: '',
+        selector: row => <>
+            <span className="text-bold">Cliente: </span>{row.cliente}<br/>
+            <span className="text-bold">Consultor: </span>{row.consultor}<br/>
+            <span className="text-bold">Integrador: </span>{row.integrador}<br/>
+        </>,
+        sortable: false,
         grow: 2,
-    },
-    {
-        name: 'Cliente',
-        selector: row => row.cliente,
-        sortable: true,
-    },
-    {
-        name: 'Consultor',
-        selector: row => row.consultor,
-        sortable: true,
-    },
-    {
-        name: 'Integrador',
-        selector: row => row.integrador,
-        sortable: true,
-        grow: 2,
-    },
-    {
+    }, {
         name: 'Valor',
         selector: row => row.valor,
         sortable: true,
-    },
-    {
-        name: 'Data',
-        selector: row => row.data_criacao,
-        sortable: true,
-        grow: 2,
-    },
-    {
-        cell: row => <a className="btn btn-link btn-sm" href={route('admin.pedidos.show', row.id)}>
-            Ver
-        </a>,
+    }, {
+        cell: row =>
+            <a className="btn btn-primary btn-sm py-1 px-2 mt-3"
+               href={route('consultor.pedidos.show', row.id)}>
+                Ver
+            </a>,
         ignoreRowClick: true,
         allowOverflow: true,
         button: true,

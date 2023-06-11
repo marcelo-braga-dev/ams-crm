@@ -30,7 +30,7 @@ const columns = [
         </>,
         sortable: true,
     }, {
-        name: 'Cliente',
+        name: '',
         selector: row => <>
             <span className="text-bold">Cliente: </span>{row.cliente}<br/>
             <span className="text-bold">Consultor: </span>{row.consultor}<br/>

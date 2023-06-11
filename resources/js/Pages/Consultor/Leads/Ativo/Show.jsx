@@ -42,6 +42,10 @@ export default function Show({dados, status, contatos, historicos}) {
             <div className="card mb-3">
                 <div className="card-body">
                     <LeadsDados dados={dados}/>
+                    <div className="text-end">
+                        <a href={route('consultor.leads.main.edit', dados.id)}
+                           className="btn btn-primary btn-sm mb-0">Editar Dados</a>
+                    </div>
                 </div>
             </div>
 
@@ -67,10 +71,6 @@ export default function Show({dados, status, contatos, historicos}) {
                                 onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
                         </div>
                     </div>
-                </div>
-                <div className="col text-end">
-                    <a href={route('consultor.leads.main.edit', dados.id)}
-                       className="btn btn-primary btn-sm">Editar Dados</a>
                 </div>
             </div>
 
