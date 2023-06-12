@@ -32,7 +32,7 @@ class LeadsStatus extends Model
 
         $dados = [];
         foreach ($items as $item) {
-            $dados[$item['setores_id']]['nome'] = $setores[$item['setores_id']]['nome'];
+            $dados[$item['setores_id']]['nome'] = $setores[$item['setores_id']]['nome'] ?? null;
             $dados[$item['setores_id']]['id'] = $item['setores_id'];
             $dados[$item['setores_id']]['itens'][] = [
                 'id' => $item['id'],

@@ -267,4 +267,16 @@ class Leads extends Model
         }
         return $items;
     }
+
+    public function getCardDados(): array
+    {
+        $items = $this->newQuery()->get(['id', 'nome']);
+
+        $dados = [];
+        foreach ($items as $item) {
+            $dados[$item->id] = $item->nome;
+        }
+
+        return $dados;
+    }
 }

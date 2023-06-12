@@ -6,6 +6,7 @@ use App\Models\Clientes;
 use App\Models\ClientesArquivos;
 use App\Models\Fornecedores;
 use App\Models\Integradores;
+use App\Models\Leads;
 use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
 use App\Models\Setores;
@@ -31,7 +32,7 @@ class DadosPedidoServices
         $this->clientesPedidos = (new PedidosClientes())->getCardDados();
         $this->clientes = (new Clientes())->getCardDados();
         $this->fornecedores = (new Fornecedores())->getCardDados();
-        $this->integradores = (new Integradores())->getCardDados();
+        $this->integradores = (new Leads())->getCardDados();
         $this->setores = (new Setores())->getNomes();
     }
 
