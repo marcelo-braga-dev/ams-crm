@@ -15,10 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
-/**
- *  info_pedido
- *      informacoes de pagamento e instalacao
- */
 class Pedidos extends Model
 {
     use HasFactory;
@@ -50,7 +46,7 @@ class Pedidos extends Model
         try {
             $pedido = $this->newQuery()
                 ->create([
-                    'users_id' => auth()->id(),
+                    'users_id' => id_usuario_atual(),
                     'cliente' => $idCliente,
                     'setor' => setor_usuario_atual(),
                     'status' => $status,
@@ -67,6 +63,7 @@ class Pedidos extends Model
         }
 
         (new PedidosHistoricos())->create($pedido->id, $status, $prazo, null);
+        (new LeadsHistoricos())->createPedido($dados->integrador, $pedido->id);
 
         return $pedido->id;
     }
@@ -77,8 +74,7 @@ class Pedidos extends Model
 
         if ($setor) $query->where('setor', $setor);
 
-        return $query->orderByDesc('id')
-            ->get();
+        return $query->orderByDesc('id')->get();
     }
 
     public function pedidosUsuario()
@@ -137,7 +133,8 @@ class Pedidos extends Model
     public function updateSituacao($id, $code)
     {
         $this->newQuery()
-            ->find($id)->update([
+            ->find($id)
+            ->update([
                 'situacao' => $code
             ]);
     }
@@ -165,32 +162,6 @@ class Pedidos extends Model
         $this->newQuery()
             ->find($id)
             ->update(['prazo' => $prazo]);
-    }
-
-    // Dados para os card admin
-    public function getDadosCards(?int $fornecedorAtual, ?int $setorAtual)
-    {
-        $query = $this->newQuery();
-        if ($setorAtual) $query->where('setor', $setorAtual);
-        if ($fornecedorAtual) $query->where('fornecedor', $fornecedorAtual);
-
-        return $query->get([
-            'id', 'users_id', 'status', 'forma_pagamento',
-            'status_data', 'sac', 'preco_venda', 'obs',
-            'fornecedor', 'integrador', 'situacao', 'prazo'
-        ]);
-    }
-
-    // Dados para os card do consultor
-    public function getDadosCardsConsultor()
-    {
-        return $this->newQuery()
-            ->where('users_id', auth()->id())
-            ->get([
-                'id', 'users_id', 'status', 'forma_pagamento',
-                'status_data', 'sac', 'preco_venda', 'obs',
-                'fornecedor', 'integrador', 'situacao', 'prazo'
-            ]);
     }
 
     public function getIdConsultor($id)

@@ -22,9 +22,17 @@ export default function Layout({children, titlePage, container, voltar, menu, su
                                 <div className="card-body py-1 pb-6">
                                     <div className="row justify-content-end">
                                         <div className="col-auto">
-                                            <a className="btn btn-link text-dark btn-sm m-0 p-0" href={voltar}>
-                                                <i className="fas fa-arrow-left me-1"></i> Voltar
-                                            </a>
+                                            {
+                                                voltar === "back" ?
+                                                    <button className="btn btn-link text-dark btn-sm m-0 p-0"
+                                                            onClick={() => history.back()}>
+                                                        <i className="fas fa-arrow-left me-1"></i> Voltar
+                                                    </button> :
+                                                    <a className="btn btn-link text-dark btn-sm m-0 p-0"
+                                                       href={voltar === "back" ? () => history.back() : voltar}>
+                                                        <i className="fas fa-arrow-left me-1"></i> Voltar
+                                                    </a>
+                                            }
                                         </div>
                                     </div>
 

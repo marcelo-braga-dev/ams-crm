@@ -149,14 +149,15 @@ export default function Show({dados, status, contatos, historicos}) {
                                         {qtdHistorico - index}.
                                     </div>
                                     <div className="col">
-                                        <span className="h6 mb-6">{dado.status}</span>
+                                        <span className="h6 mb-6">{dado.id_pedido ? dado.msg : dado.status}</span>
                                         <span className="d-block"><b>Autor:</b> {dado.nome}</span>
                                         {dado.meio_contato &&
-                                            <span
-                                                className="d-block"><b>Meio de Contato:</b> {dado.meio_contato}</span>}
-                                        <span className="d-block"><b>Anotações:</b> {dado.msg}</span>
+                                            <span className="d-block">
+                                                <b>Meio de Contato:</b> {dado.meio_contato}</span>}
+                                        {dado.id_pedido ? '' :
+                                            <span className="d-block"><b>Anotações:</b> {dado.msg}</span>}
                                         {dado.id_pedido && <a href={route('consultor.pedidos.show', dado.id_pedido)}
-                                                              className="btn btn-warning btn-sm">Ver Pedido</a>}
+                                                              className="btn btn-success btn-sm">Ver Pedido</a>}
                                         <span className="small d-block">Data: {dado.data_criacao}</span>
                                     </div>
                                 </div>

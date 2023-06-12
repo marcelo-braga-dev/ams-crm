@@ -24,7 +24,7 @@ export default function Edit({dados}) {
     }
 
     return (
-        <Layout container titlePage="Editar LEAD" voltar={route('consultor.leads.atendimento.show', dados.id)}>
+        <Layout container titlePage="Editar LEAD" voltar="back">
             <span className="h6">Atualizar informações</span>
             <form onSubmit={submit}>
                 <div className="row mt-3">

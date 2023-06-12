@@ -13,6 +13,7 @@ class LeadsHistoricos extends Model
     protected $fillable = [
         'users_id',
         'leads_id',
+        'pedidos_id',
         'status',
         'msg',
         'meio_contato'
@@ -24,11 +25,23 @@ class LeadsHistoricos extends Model
 
         return $this->newQuery()
             ->create([
-                'users_id' => auth()->id(),
+                'users_id' => id_usuario_atual(),
                 'leads_id' => $id,
                 'status' => $status,
                 'msg' => $dados->msg,
                 'meio_contato' => $dados->meio_contato
+            ]);
+    }
+
+    public function createPedido(int $idLeads, int $idPedido)
+    {
+        $this->newQuery()
+            ->create([
+                'users_id' => id_usuario_atual(),
+                'leads_id' => $idLeads,
+                'pedidos_id' => $idPedido,
+                'status' => 0,
+                'msg' => 'Pedido Emitido'
             ]);
     }
 
