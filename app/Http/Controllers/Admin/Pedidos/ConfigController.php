@@ -14,22 +14,6 @@ class ConfigController extends Controller
 {
     public function index()
     {
-        $dados = DB::select(DB::raw(
-            "SELECT b.id as 'id_integrador', b.users_id as 'users_integrador', b.nome as 'nome_integrador', a.id as 'id_lead' , a.users_id as 'users_leads', a.nome as 'nome_lead' FROM integradores b, leads a WHERE b.nome = a.nome ORDER BY `id_integrador` ASC"
-        ));
-
-        foreach ($dados as $dado) {
-            if ($dado->users_leads) {
-                (new Pedidos())->newQuery()
-                    ->where('integrador', $dado->id_integrador)
-                    ->update([
-                        'integrador' => $dado->id_lead
-                    ]);
-            }
-        }
-
-        print_pre('');
-
         $cls = (new PedidosPrazos());
 
         $prazos['novo'] = $cls->getRevisar();
