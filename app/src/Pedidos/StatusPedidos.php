@@ -2,6 +2,7 @@
 
 namespace App\src\Pedidos;
 
+use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
 use App\src\Pedidos\Status\AguardandoNotaStatus;
 use App\src\Pedidos\Status\AguardandoPagamentoStatus;
@@ -23,6 +24,7 @@ class StatusPedidos
         $pagamento = (new AguardandoPagamentoStatus());
         $faturamento = (new AguardandoFaturamentoStatus());
         $faturado = (new FaturadoStatus());
+        $acompanhamento = (new AcompanhamentoStatus());
         $entregue = (new EntregueStatus());
         $cancelado = (new CanceladoStatus());
 
@@ -36,6 +38,7 @@ class StatusPedidos
             $faturamento->getStatus() => $faturamento->getNomeStatus(),
             $faturado->getStatus() => $faturado->getNomeStatus(),
             $entregue->getStatus() => $entregue->getNomeStatus(),
+            $acompanhamento->getStatus() => $acompanhamento->getNomeStatus(),
             $cancelado->getStatus() => $cancelado->getNomeStatus(),
         ];
     }
