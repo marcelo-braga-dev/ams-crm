@@ -237,14 +237,15 @@ class Pedidos extends Model
         $integradores = (new Leads())->getNomes();
         $status = (new StatusPedidos())->getStatus();
         $setorNomes = (new Setores())->getNomes();
+        $leads = (new Leads())->getNomes();
 
         return $query->orderByDesc('id')
             ->get()
-            ->transform(function ($item) use ($nomes, $integradores, $status, $clientes, $setorNomes) {
+            ->transform(function ($item) use ($nomes, $integradores, $status, $clientes, $setorNomes, $leads) {
                 return [
                     'id' => $item->id,
                     'status' => $status[$item->status] ?? '-',
-                    'cliente' => $clientes[$item->id] ?? '-',
+                    'cliente' => ($clientes[$item->id]['nome'] ?? null) ?? ($leads[$item->cliente] ?? null),
                     'consultor' => $nomes[$item->users_id] ?? '-',
                     'integrador' => $integradores[$item->integrador] ?? '-',
                     'preco' => convert_float_money($item->preco_venda),

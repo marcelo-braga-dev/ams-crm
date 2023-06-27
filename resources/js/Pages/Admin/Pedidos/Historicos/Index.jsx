@@ -86,7 +86,7 @@ export default function Filtering({pedidos, setores, setorAtual}) {
     const linhas = pedidos.map(function (items) {
         return {
             id: items.id,
-            cliente: items.cliente.nome,
+            cliente: items.cliente,
             consultor: items.consultor,
             integrador: items.integrador,
             valor: 'R$ ' + items.preco,
