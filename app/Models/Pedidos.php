@@ -10,6 +10,7 @@ use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\Status\EntregueStatus;
 use App\src\Pedidos\Status\FaturadoStatus;
 use App\src\Pedidos\Status\RevisarStatusPedido;
+use App\src\Pedidos\StatusPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
@@ -223,5 +224,33 @@ class Pedidos extends Model
             if ($card) $res[] = $card;
         }
         return $res;
+    }
+
+    public function get(?int $setor)
+    {
+        $query = $this->newQuery();
+
+        if ($setor) $query->where('setor', $setor);
+
+        $nomes = (new User())->getNomes();
+        $clientes = (new PedidosClientes())->getCardDados();
+        $integradores = (new Leads())->getNomes();
+        $status = (new StatusPedidos())->getStatus();
+        $setorNomes = (new Setores())->getNomes();
+
+        return $query->orderByDesc('id')
+            ->get()
+            ->transform(function ($item) use ($nomes, $integradores, $status, $clientes, $setorNomes) {
+                return [
+                    'id' => $item->id,
+                    'status' => $status[$item->status] ?? '-',
+                    'cliente' => $clientes[$item->id] ?? '-',
+                    'consultor' => $nomes[$item->users_id] ?? '-',
+                    'integrador' => $integradores[$item->integrador] ?? '-',
+                    'preco' => convert_float_money($item->preco_venda),
+                    'setor' => $setorNomes[$item->setor] ?? '',
+                    'data' => date('d/m/y H:i', strtotime($item->status_data)),
+                ];
+            });
     }
 }

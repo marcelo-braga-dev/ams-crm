@@ -279,4 +279,17 @@ class Leads extends Model
 
         return $dados;
     }
+
+    public function getNomes()
+    {
+        $items = $this->newQuery()
+            ->get(['id', 'nome', 'razao_social']);
+
+        $dados = [];
+        foreach ($items as $dado) {
+            $dados[$dado->id] = $dado->nome ? $dado->nome : $dado->razao_social;
+        }
+
+        return $dados;
+    }
 }

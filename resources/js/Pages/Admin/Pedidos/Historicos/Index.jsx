@@ -2,9 +2,29 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 import TextField from "@mui/material/TextField";
 import Layout from '@/Layouts/Admin/Layout';
+import MenuItem from "@mui/material/MenuItem";
+import {useForm} from "@inertiajs/react";
 
-const FilterComponent = ({filterText, onFilter}) => (
-    <TextField
+function atualizarPagina(forcededorId, setorId, get) {
+
+    get(route('admin.historico.index', {setor: setorId, fornecedor: forcededorId}))
+}
+const FilterComponent = ({filterText, onFilter, setores, setorAtual, get}) => (
+    <div className="row">
+        <div className="col-6">
+        <TextField select label="Setores" size="small" fullWidth
+                   defaultValue={setorAtual ?? ''}
+                   onChange={e => atualizarPagina(null, e.target.value, get)}
+        >
+            <MenuItem value="todos">Todos</MenuItem>
+            {setores.map((setor, index) => {
+                return (
+                    <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
+                )
+            })}
+        </TextField></div>
+        <div className="col-6">
+        <TextField
         id="search"
         type="text"
         placeholder="Pesquisar..."
@@ -12,6 +32,8 @@ const FilterComponent = ({filterText, onFilter}) => (
         onChange={onFilter}
         size="small"
     />
+    </div>
+    </div>
 );
 
 const columns = [
@@ -40,12 +62,16 @@ const columns = [
         grow: 2,
     }, {
         name: 'Valor',
-        selector: row => row.valor,
+        selector: row => <>
+            <span className="text-bold"></span>{row.valor}<br/>
+            <span className="text-bold">Setor:<br/> </span>{row.setor}<br/>
+        </>,
         sortable: true,
+        grow: 1,
     }, {
         cell: row =>
-            <a className="btn btn-primary btn-sm py-1 px-2 mt-3"
-               href={route('consultor.pedidos.show', row.id)}>
+            <a className="btn btn-primary btn-sm py-1 px-2 mx-0 mt-3"
+               href={route('admin.pedidos.show', row.id)}>
                 Ver
             </a>,
         ignoreRowClick: true,
@@ -54,19 +80,19 @@ const columns = [
     },
 ];
 
-export default function Filtering({pedidos}) {
-
+export default function Filtering({pedidos, setores, setorAtual}) {
+    const {get} = useForm();
     // Dados
     const linhas = pedidos.map(function (items) {
         return {
-            id: items.pedido.id,
+            id: items.id,
             cliente: items.cliente.nome,
-            consultor: items.consultor.nome,
-            integrador: items.integrador.nome,
-            valor: 'R$ ' + items.preco.convertido,
-            status: items.pedido.status,
-            data_criacao: items.pedido.data_criacao,
-
+            consultor: items.consultor,
+            integrador: items.integrador,
+            valor: 'R$ ' + items.preco,
+            status: items.status,
+            setor: items.setor.nome,
+            data_criacao: items.data,
         }
     });
     // Dados - fim
@@ -82,7 +108,8 @@ export default function Filtering({pedidos}) {
 
     const subHeaderComponentMemo = React.useMemo(() => {
         return (
-            <FilterComponent onFilter={e => setFilterText(e.target.value)} filterText={filterText}/>
+            <FilterComponent onFilter={e => setFilterText(e.target.value)}
+                             filterText={filterText} setores={setores} setorAtual={setorAtual} get={get}/>
         );
     }, [filterText]);
 

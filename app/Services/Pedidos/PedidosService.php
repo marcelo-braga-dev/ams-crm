@@ -8,8 +8,7 @@ class PedidosService
 {
     public function todosPedidos(?int $setor = null)
     {
-        $pedidos = (new Pedidos())->pedidos($setor);
-        return $this->dados($pedidos);
+        return (new Pedidos())->get($setor);
     }
 
     public function pedidosConsultor()
