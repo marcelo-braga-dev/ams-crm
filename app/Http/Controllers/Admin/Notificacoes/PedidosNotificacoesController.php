@@ -20,7 +20,7 @@ class PedidosNotificacoesController extends Controller
     public function show()
     {
         // Retorna quantidade de notificoes ativas
-        return  ((new Notificacoes())->countNotificacoes());
+        return ((new Notificacoes())->countNotificacoes());
     }
 
     public function update($id, Request $request)
@@ -31,6 +31,13 @@ class PedidosNotificacoesController extends Controller
     public function marcarLidas()
     {
         (new Notificacoes())->marcarTodasLidas();
+
+        return redirect()->back();
+    }
+
+    public function destroy()
+    {
+        (new Notificacoes())->deletar();
 
         return redirect()->back();
     }

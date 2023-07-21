@@ -11,4 +11,7 @@ Route::middleware(['auth', 'auth.consultores'])
     ->group(function () {
         Route::resource('pedidos', PedidosNotificacoesController::class);
         Route::resource('leads', LeadsNotificacoesController::class);
+
+        Route::put('marcar-lidas', [PedidosNotificacoesController::class, 'marcarLidas'])
+            ->name('marcar-lidas');
     });

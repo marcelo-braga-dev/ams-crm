@@ -111,18 +111,20 @@ class Notificacoes extends Model
         }
     }
 
-    public function remover($id)
-    {
-        // Implementar Delete
-    }
-
     public function marcarTodasLidas()
     {
         $this->newQuery()
-            ->where('users_id', auth()->id())
+            ->where('users_id', id_usuario_atual())
             ->update([
                 'notificar' => 0
             ]);
+    }
+
+    public function deletar()
+    {
+        $this->newQuery()
+            ->where('users_id', id_usuario_atual())
+            ->delete();
     }
 
     public function countLeads(int $id)

@@ -27,4 +27,18 @@ class NotificacoesController extends Controller
     {
         (new Notificacoes())->alterarAlerta($id, $request->get('status'));
     }
+
+    public function destroy()
+    {
+        (new Notificacoes())->deletar();
+
+        return redirect()->back();
+    }
+
+    public function marcarLidas()
+    {
+        (new Notificacoes())->marcarTodasLidas();
+
+        return redirect()->back();
+    }
 }

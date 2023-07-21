@@ -19,10 +19,39 @@ export default function Create({notificacoes}) {
             status: value,
         })
     }
+
+    function marcarComoLidas() {
+        router.post(route('supervisor.notificacoes.marcar-lidas'), {
+            _method: 'put',
+        })
+
+        window.location.reload();
+    }
+
+    function deletar() {
+        router.post(route('supervisor.notificacoes.destroy', 0), {
+            _method: 'delete',
+        })
+    }
+
     return (
         <Layout titlePage="Notificações">
 
             <div className="container bg-wh ite rounded px-3 px-md-6 py-4 mb-4">
+                <div className="row justify-content-end">
+                    <div className="col-auto">
+                        <button type="submit" className="btn btn-outline-primary"
+                                onClick={() => marcarComoLidas()}>
+                            <i className="fas fa-eye pe-2"></i>Marcar como lidas
+                        </button>
+                    </div>
+                    <div className="col-auto">
+                        <button  type="button" className="btn btn-outline-danger"
+                                 data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i className="fas fa-trash pe-2"></i>Deletar Notificações
+                        </button>
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col-12 mb-3 p-3">
 
@@ -87,6 +116,25 @@ export default function Create({notificacoes}) {
                                     <Typography>Não há registros de notificações.</Typography>
                                 </div>
                             </div> : ''}
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Excluir notificações</h5>
+                            <a type="button" data-bs-dismiss="modal" aria-label="Close"><b>x</b></a>
+                        </div>
+                        <div className="modal-body">
+                            Deletar todos os históricos de notificações?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
+                                    onClick={() => deletar()}>Excluir</button>
+                        </div>
                     </div>
                 </div>
             </div>
