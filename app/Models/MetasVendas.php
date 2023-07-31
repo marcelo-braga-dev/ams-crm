@@ -56,7 +56,9 @@ class MetasVendas extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado->users_id] = $dado->meta;
+            $metas[$dado->users_id] =
+                $dado->jan + $dado->fev + $dado->mar + $dado->abr + $dado->mai + $dado->jun +
+                $dado->jul + $dado->ago + $dado->set + $dado->out + $dado->nov + $dado->dez;
         }
         return $metas;
     }

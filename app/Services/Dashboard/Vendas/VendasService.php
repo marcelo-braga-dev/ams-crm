@@ -14,11 +14,12 @@ class VendasService
 {
     public function metaVendas()
     {
-        $nomes = (new User())->getNomes();
+        //$nomes = (new User())->getNomes();
+        $nomes = (new User())->getNomeConsultores(true);
         $setores = (new Setores())->getNomes();
         $metas = (new MetasVendas())->metas();
 
-        return (new Pedidos())->newQuery()
+        $items = (new Pedidos())->newQuery()
             ->where('status', '!=', (new RevisarStatusPedido())->getStatus())
             ->where('status', '!=', (new CanceladoStatus())->getStatus())
             ->select(
@@ -28,6 +29,7 @@ class VendasService
             ->groupBy('users_id')
             ->get()
             ->transform(function ($item) use ($nomes, $setores, $metas) {
+                if ($nomes[$item->users_id] ?? null)
                 return [
                     'nome' => $nomes[$item->users_id],
                     'vendas' => $item->vendas,
@@ -40,5 +42,11 @@ class VendasService
                     'setor' => $setores[$item->setor]
                 ];
             });
+
+        $dados = [];
+        foreach ($items as $item) {
+            if ($item) $dados[] = $item;
+        }
+        return $dados;
     }
 }

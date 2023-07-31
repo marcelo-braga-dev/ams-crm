@@ -31,12 +31,7 @@ export default function Layout({children, titlePage, container, voltar, menu, su
                                 </div>
                                 {children}
                             </div> :
-                            <div className="bg-white mt-3 px-lg-4 py-2 pb-4 rounded">
-                                <div className="row  border-bottom mb-4 p-1">
-                                    <div className="col">
-                                        <h5>{titlePage}</h5>
-                                    </div>
-                                </div>
+                            <div className="bg-white mt-3 px-lg-4 py-4 rounded">
                                 {children}
                             </div>
                         : <div className="row">

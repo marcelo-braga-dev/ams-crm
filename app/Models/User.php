@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Services\Images;
+use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Usuarios\Admins;
 use App\src\Usuarios\Consultores;
 use App\src\Usuarios\Supervisores;
@@ -134,11 +135,13 @@ class User extends Authenticatable
         }
     }
 
-    public function getNomeConsultores()
+    public function getNomeConsultores($status = false)
     {
-        $items = $this->newQuery()
-            ->where('tipo', (new Consultores())->getTipo())
-            ->get(['id', 'name']);
+        $query = $this->newQuery()
+            ->where('tipo', (new Consultores())->getTipo());
+        if ($status) $query->where('status', (new AtivoStatusLeads())->getStatus());
+
+        $items = $query->get(['id', 'name']);
 
         $dados = [];
         foreach ($items as $item) {
