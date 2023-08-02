@@ -7,7 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 const FilterComponent = ({filterText, onFilter, setFiltro}) => (
     <>
         <TextField select label="Filtro" defaultValue="nome" size="small"
-            onChange={event => setFiltro(event.target.value)}>
+                   onChange={event => setFiltro(event.target.value)}>
             <MenuItem value="id">
                 ID
             </MenuItem>
@@ -56,9 +56,10 @@ const columns = [
         selector: row => <div className="py-3">
             <b>{row.name}</b><br/>
             {row.razao_social && <span className="d-block">{row.razao_social}</span>}
+            {row.cnpj && <span className="d-block">CNPJ: {row.cnpj}</span>}
             {row.telefone && <span className="d-block">{row.telefone}</span>}
             {row.cidade && <span className="d-block">{row.cidade}</span>}
-        </div> ,
+        </div>,
         sortable: true,
     },
     {
@@ -72,7 +73,8 @@ const columns = [
         selector: row => <b>{row.consultor}</b>,
         sortable: true,
     }, {
-        cell: row => <a className="btn btn-primary btn-sm m-0" href={route('admin.clientes.leads.leads-main.show', row.id)}>
+        cell: row => <a className="btn btn-primary btn-sm m-0"
+                        href={route('admin.clientes.leads.leads-main.show', row.id)}>
             Ver
         </a>,
         ignoreRowClick: true,
@@ -82,6 +84,35 @@ const columns = [
     },
 ];
 
+function getFilteredItems(linhas, filtro, filterText) {
+    return linhas.filter(
+        item => filtro === 'id' &&
+            item.id && item.id.toString() === filterText
+            || filtro === 'id' && filterText === ''
+
+            || filtro === 'nome' &&
+            item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
+            || filtro === 'nome' &&
+            item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'telefone' &&
+            item.telefone && item.telefone.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
+
+            || filtro === 'cidade' &&
+            item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'cnpj' &&
+            item.cnpj && item.cnpj.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
+
+            || filtro === 'consultor' &&
+            item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
+
+            || filtro === 'ddd' &&
+            item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
+            || filtro === 'ddd' && filterText === ''
+    );
+}
+
 export default function Filtering({dados, categorias, categoriaAtual}) {
 
     // Dados
@@ -89,6 +120,7 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
         return {
             id: items.id,
             name: items.cliente.nome,
+            cnpj: items.cliente.cnpj,
             razao_social: items.cliente.razao_social,
             status: items.infos.status,
             consultor: items.consultor.nome,
@@ -103,38 +135,13 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
 
     const [filtro, setFiltro] = useState('nome');
 
-    const filteredItems = linhas.filter(
-        item => filtro === 'id' &&
-            item.id && item.id.toString() === filterText
-            || filtro === 'id' && filterText === ''
-
-            || filtro === 'nome' &&
-            item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
-            || filtro === 'nome' &&
-            item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
-
-            || filtro === 'telefone' &&
-            item.telefone && item.telefone.toLowerCase().includes(filterText.toLowerCase())
-
-            || filtro === 'cidade' &&
-            item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
-
-            || filtro === 'cnpj' &&
-            item.cnpj && item.cnpj.toLowerCase().includes(filterText.toLowerCase())
-
-            || filtro === 'consultor' &&
-            item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
-
-            || filtro === 'ddd' &&
-            item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
-            || filtro === 'ddd' && filterText === ''
-    );
+     const filteredItems = getFilteredItems(linhas, filtro, filterText);
 
     const subHeaderComponentMemo = React.useMemo(() => {
         return (
             <FilterComponent onFilter={e => setFilterText(e.target.value)}
                              filterText={filterText}
-                             setFiltro={setFiltro} />
+                             setFiltro={setFiltro}/>
         );
     }, [filterText]);
 

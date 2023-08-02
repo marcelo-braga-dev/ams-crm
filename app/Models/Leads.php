@@ -88,6 +88,9 @@ class Leads extends Model
                         'infos' => $dados['infos'] ?? null,
                     ]);
                 return 1;
+            } else {
+                if ($verificacaoCnpj) modalErro('CNPJ: ' . $dados['cnpj'] . ' JÁ CADASTRADO!');
+                if ($verificacaoTel) modalErro('TELEFONE: ' . $dados['telefone'] .' JÁ CADASTRADO!');
             }
         } catch (QueryException $exception) {
             throw new \DomainException('Falha na importação');
