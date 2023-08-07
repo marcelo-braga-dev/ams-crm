@@ -12,8 +12,8 @@ const CardWrapperSecondary = styled(Card)(
       padding:  10px;
       border-radius: 15px;
       border-top-left-radius: 5px;
-      max-width: 380px;
-      display: inline-flex;
+      max-width: 80%;
+      word-break: break-all;
 `
 );
 
@@ -24,8 +24,9 @@ const CardWrapperPrimary = styled(Card)(
       padding: 10px;
       border-radius: 15px;
       border-top-right-radius: 5px;
-      max-width: 380px;
-      display: inline-flex;`
+      max-width: 80%;
+      word-break: break-all;
+      `
 );
 
 export default function AreaChat({item, index}) {
@@ -88,6 +89,7 @@ export default function AreaChat({item, index}) {
                             {item.tipo === 'file' && <span className="mb-2 d-block">
                                             <ImagePdf url={item.mensagem}/>
                                         </span>}
+
                         </CardWrapperPrimary>
                         <small className="font-italic pt-1" style={{fontSize: 12}}>
                             <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
