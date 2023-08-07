@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Consultor\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
+use App\Models\LeadsHistoricosComentarios;
 use App\Services\Leads\CardLeadsService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\Status\AtendimentoStatusLeads;
@@ -74,5 +75,10 @@ class LeadsController extends Controller
 
         modalSucesso("Classificação atualizada!");
         return redirect()->back();
+    }
+
+    public function addComentarios(Request $request)
+    {
+        (new LeadsHistoricosComentarios())->create($request->id, $request->comentario);
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Consultor\Leads;
+namespace App\Http\Controllers\Admin\Leads\Consultores;
 
+use App\Http\Controllers\Consultor\Leads\MeioContatoLeads;
 use App\Http\Controllers\Controller;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\LeadsDadosService;
@@ -9,7 +10,7 @@ use App\src\Leads\StatusAtendimentoLeads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class FinalizadosController extends Controller
+class FinalizadoController extends Controller
 {
     public function show($id)
     {
@@ -18,7 +19,7 @@ class FinalizadosController extends Controller
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
 
-        return Inertia::render('Consultor/Leads/Finalizado/Show',
+        return Inertia::render('Admin/Leads/Relatorios/Cards/Finalizado/Show',
             compact('dados', 'status', 'historicos', 'contatos'));
     }
 }

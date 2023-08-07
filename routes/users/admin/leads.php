@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Leads\Consultores\AtendimentoController;
 use App\Http\Controllers\Admin\Leads\Consultores\AtivoController;
 use App\Http\Controllers\Admin\Leads\Consultores\CardsController;
+use App\Http\Controllers\Admin\Leads\Consultores\FinalizadoController;
 use App\Http\Controllers\Admin\Leads\Consultores\NovoController;
 use App\Http\Controllers\Admin\Leads\ImportarController;
 use App\Http\Controllers\Admin\Leads\ImportarHistoricoController;
@@ -39,4 +40,5 @@ Route::name('admin.leads.')
         Route::resource('cards-aberto', NovoController::class);
         Route::resource('cards-atendimento', AtendimentoController::class);
         Route::resource('cards-ativo', AtivoController::class);
+        Route::resource('cards-finalizado', FinalizadoController::class);
     });

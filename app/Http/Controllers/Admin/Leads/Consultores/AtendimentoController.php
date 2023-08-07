@@ -6,6 +6,7 @@ use App\Http\Controllers\Consultor\Leads\MeioContatoLeads;
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
+use App\Models\LeadsHistoricosComentarios;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\StatusAtendimentoLeads;
@@ -37,5 +38,10 @@ class AtendimentoController extends Controller
 
         modalSucesso('Status atualizado!');
         return redirect()->route('consultor.leads.main.index');
+    }
+
+    public function store(Request $request)
+    {
+        (new LeadsHistoricosComentarios())->create($request->id, $request->msg);
     }
 }

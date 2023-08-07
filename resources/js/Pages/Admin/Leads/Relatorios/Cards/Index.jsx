@@ -81,7 +81,7 @@ export default function Dashboard({leads, usuario}) {
                                 </th>
                                 <th id="th-4">
                                     <div
-                                        className='row bg-warning justify-content-between rounded-top text-white mx-1 p-2'>
+                                        className='row bg-dark justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Finalizados</div>
                                         <div className='col-auto'>Qdt: {leads.finalizado.length}</div>
                                     </div>

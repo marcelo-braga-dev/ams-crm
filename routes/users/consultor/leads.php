@@ -24,4 +24,7 @@ Route::middleware(['auth', 'auth.consultores'])
 
         Route::post('update-classificacao', [LeadsController::class, 'updateClassificacao'])
             ->name('update-classificacao');
+
+        Route::post('add-comentarios', [LeadsController::class, 'addComentarios'])
+            ->name('add-comentarios');
     });

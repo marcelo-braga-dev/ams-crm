@@ -16,7 +16,7 @@ export default function Edit({dados}) {
     }
 
     return (
-        <Layout container titlePage="Lead - Atendimento" voltar={route('consultor.leads.main.index')}>
+        <Layout container titlePage="Lead - Em Aberto" voltar={route('consultor.leads.main.index')}>
             <LeadsDados dados={dados}/>
             <form onSubmit={onSubmit}>
                 <div className="text-center mt-4">

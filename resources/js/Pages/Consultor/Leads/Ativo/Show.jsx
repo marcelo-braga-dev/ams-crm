@@ -32,6 +32,12 @@ export default function Show({dados, status, contatos, historicos}) {
         setData('classificacao', valor)
     }
 
+    function enviarComentario(tag, id) {
+        console.log(data[tag])
+        post(route('consultor.leads.add-comentarios', {id: id, comentario: data[tag]}));
+        window.location.reload()
+    }
+
     return (
         <Layout container voltar={route('consultor.leads.main.index')} titlePage="Lead - Ativo">
             <div className="row justify-content-between">
@@ -80,8 +86,8 @@ export default function Show({dados, status, contatos, historicos}) {
                 </div>
             </div>
 
-            <div className="row">
-                <div className="col mb-3">
+            <div className="row mb-3">
+                <div className="col">
                     <div className="card">
                         <div className="card-body">
                             <form onSubmit={onSubmit}>
@@ -130,7 +136,8 @@ export default function Show({dados, status, contatos, historicos}) {
                         </div>
                     </div>
                 </div>
-
+            </div>
+            <div className="row">
                 <div className="col">
                     <div className="card">
                         <div className="card-body">
@@ -152,6 +159,29 @@ export default function Show({dados, status, contatos, historicos}) {
                                         {dado.id_pedido && <a href={route('consultor.pedidos.show', dado.id_pedido)}
                                                               className="btn btn-success btn-sm">Ver Pedido</a>}
                                         <span className="small d-block">Data: {dado.data_criacao}</span>
+
+                                        <div className="mt-3">
+                                            <small className="d-block">Comentários:</small>
+                                            <div className="mb-3">
+                                                {dado.comentarios.map((msg, index) => {
+                                                    return (
+                                                        <div key={index} className="card border p-2 mb-2 rounded">
+                                                            <small className="d-block"><b>Autor:</b> {msg.nome}</small>
+                                                            <small><b>Mensagem:</b> {msg.msg}</small>
+                                                            <small><b>Data:</b> {msg.data}</small>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                            <TextField size="small" className="d-block" fullWidth
+                                                       label="Novo Comentário..."
+                                                       onChange={e => setData('msg_' + index, e.target.value)}></TextField>
+                                            <button className="btn btn-link btn-sm text-dark p-0"
+                                                    onClick={() => enviarComentario('msg_' + index, dado.id)}>+
+                                                Adicionar
+                                                comentário
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             ))}

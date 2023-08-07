@@ -17,11 +17,15 @@ export default function Show({dados, status, contatos, historicos}) {
 
     function onSubmit(e) {
         e.preventDefault();
-        router.post(route('consultor.leads.atendimento.update', dados.id), {
-            _method: 'put',
-            ...data
-        })
-        window.location.reload()
+
+        // router.post(route('consultor.leads.atendimento.update', dados.id), {
+        //     _method: 'put',
+        //     ...data,
+        // })
+
+        post(route('consultor.leads.atendimento.store', {id: dados.id}))
+
+        if (data.salvar_msg) window.location.reload()
     }
 
     function updateClassificacao(id, valor) {
@@ -29,6 +33,12 @@ export default function Show({dados, status, contatos, historicos}) {
             preserveScroll: true
         })
         setData('classificacao', valor)
+    }
+
+    function enviarComentario(tag, id) {
+        console.log(data[tag])
+        post(route('consultor.leads.add-comentarios', {id: id, comentario: data[tag]}));
+        window.location.reload()
     }
 
     return (
@@ -88,7 +98,7 @@ export default function Show({dados, status, contatos, historicos}) {
                 </div>
             </div>
 
-            <div className="row">
+            <div className="row mb-4">
                 <div className="col">
                     <div className="card">
                         <div className="card-body">
@@ -138,6 +148,8 @@ export default function Show({dados, status, contatos, historicos}) {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="row">
                 <div className="col">
                     <div className="card">
                         <div className="card-body">
@@ -151,14 +163,35 @@ export default function Show({dados, status, contatos, historicos}) {
                                     <div className="col">
                                         <span className="h6 mb-6">{dado.id_pedido ? dado.msg : dado.status}</span>
                                         <span className="d-block"><b>Autor:</b> {dado.nome}</span>
-                                        {dado.meio_contato &&
-                                            <span className="d-block">
-                                                <b>Meio de Contato:</b> {dado.meio_contato}</span>}
-                                        {dado.id_pedido ? '' :
-                                            <span className="d-block"><b>Anotações:</b> {dado.msg}</span>}
+                                        {dado.meio_contato && <span
+                                            className="d-block"><b>Meio de Contato:</b> {dado.meio_contato}</span>}
+                                        {dado.msg ? <span className="d-block"><b>Anotações:</b> {dado.msg}</span> : ''}
                                         {dado.id_pedido && <a href={route('consultor.pedidos.show', dado.id_pedido)}
                                                               className="btn btn-success btn-sm">Ver Pedido</a>}
                                         <span className="small d-block">Data: {dado.data_criacao}</span>
+
+                                        <div className="mt-3">
+                                            <small className="d-block">Comentários:</small>
+                                            <div className="mb-3">
+                                                {dado.comentarios.map((msg, index) => {
+                                                    return (
+                                                        <div key={index} className="card border p-2 mb-2 rounded">
+                                                            <small className="d-block"><b>Autor:</b> {msg.nome}</small>
+                                                            <small><b>Mensagem:</b> {msg.msg}</small>
+                                                            <small><b>Data:</b> {msg.data}</small>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                            <TextField size="small" className="d-block" fullWidth
+                                                       label="Novo Comentário..."
+                                                       onChange={e => setData('msg_' + index, e.target.value)}></TextField>
+                                            <button className="btn btn-link btn-sm text-dark p-0"
+                                                    onClick={() => enviarComentario('msg_' + index, dado.id)}>+
+                                                Adicionar
+                                                comentário
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
@@ -187,6 +220,10 @@ export default function Show({dados, status, contatos, historicos}) {
                             <TextField className="mt-3" label="Motivo/Anotações (min. 150 caracteres)" multiline
                                        rows="6" fullWidth required
                                        onChange={e => setData('msg', e.target.value)}/>
+                            <div className="text-end">
+                                <small
+                                    className={data.msg.length >= 150 ? "text-success" : ''}>({data.msg.length}/150)</small>
+                            </div>
                         </div>
                         <div className="modal-footer">
                             <div className="row">

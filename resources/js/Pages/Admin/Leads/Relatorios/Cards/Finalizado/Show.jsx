@@ -2,21 +2,14 @@ import Layout from "@/Layouts/Admin/Layout";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import {useState} from "react";
 import TextField from "@mui/material/TextField";
-import {useForm} from "@inertiajs/react";
 
-export default function Show({dados, status, contatos, historicos}) {
-    const {data, setData, post} = useForm();
+export default function Show({dados, historicos}) {
 
     const [qtdHistorico, setQtqHistorico] = useState(historicos.length);
 
-    function enviarComentario(tag, id) {
-        post(route('admin.leads.cards-atendimento.store', {id: id, msg: data[tag]}));
-        window.location.reload()
-    }
-
     return (
         <Layout container voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}
-                titlePage="Lead - Ativo">
+                titlePage="Lead - Finalizado">
 
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
@@ -26,6 +19,7 @@ export default function Show({dados, status, contatos, historicos}) {
             <div className="card card-body mb-6">
                 <LeadsDados dados={dados}/>
             </div>
+
 
             <h6 className="mb-3">Histórico de Atendimento</h6>
             {historicos.map((dado, index) => (
@@ -40,28 +34,23 @@ export default function Show({dados, status, contatos, historicos}) {
                         </div>
                         <div className="mt-3">
                             <small className="d-block">Comentários:</small>
-                            <div className="mb-3">
-                                {dado.comentarios.map((msg, index) => {
-                                    return (
-                                        <div key={index} className="card border p-2 mb-2 rounded">
-                                            <small className="d-block"><b>Autor:</b> {msg.nome}</small>
-                                            <small><b>Mensagem:</b> {msg.msg}</small>
-                                            <small><b>Data:</b> {msg.data}</small>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                            <TextField size="small" className="d-block" fullWidth label="Novo Comentário..."
-                                       onChange={e => setData('msg_' + index, e.target.value)}></TextField>
-                            <button className="btn btn-link btn-sm text-dark p-0"
-                                    onClick={() => enviarComentario('msg_' + index, dado.id)}>+ Adicionar
-                                comentário
-                            </button>
+                            {dado.comentarios.length === 0 ? 'Não há comentários.' :
+                                <div className="mb-3">
+                                    {dado.comentarios.map((msg, index) => {
+                                        return (
+                                            <div key={index} className="card border p-2 mb-2 rounded">
+                                                <small className="d-block"><b>Autor:</b> {msg.nome}</small>
+                                                <small><b>Mensagem:</b> {msg.msg}</small>
+                                                <small><b>Data:</b> {msg.data}</small>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
             ))}
-
         </Layout>
     )
 }
