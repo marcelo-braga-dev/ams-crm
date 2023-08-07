@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
+use App\Models\Leads;
 use App\Models\User;
 use App\Services\Leads\CardLeadsService;
 use Illuminate\Http\Request;
@@ -17,5 +18,12 @@ class CardsController extends Controller
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Index',
             compact('leads', 'usuario'));
+    }
+
+    public function limparConsultor(Request $request)
+    {
+        (new Leads())->setConsultor($request->id, null);
+
+        return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
     }
 }

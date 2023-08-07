@@ -41,4 +41,7 @@ Route::name('admin.leads.')
         Route::resource('cards-atendimento', AtendimentoController::class);
         Route::resource('cards-ativo', AtivoController::class);
         Route::resource('cards-finalizado', FinalizadoController::class);
+
+        Route::post('limpar-consultor', [CardsController::class, 'limparConsultor'])
+        ->name('limpar-consultor');
     });

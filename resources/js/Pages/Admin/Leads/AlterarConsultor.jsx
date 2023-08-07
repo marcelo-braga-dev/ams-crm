@@ -85,7 +85,7 @@ const columns = [
     {
         name: 'Cliente',
         selector: row => <div className="text-wrap py-3">
-            <b>{row.name}</b><br/>
+            <b>{row.classificacao} {row.name}</b><br/>
             {row.razao_social}<br/>
             {row.cnpj && <span className="d-block">CNPJ: {row.cnpj}</span>}
             {row.telefone}<br/>
@@ -97,7 +97,7 @@ const columns = [
         name: 'Status',
         selector: row => row.status,
         sortable: true,
-        grow: 0,
+        grow: 1,
     },
     {
         name: 'Consultor',
@@ -140,6 +140,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             telefone: items.contato.telefone,
             cidade: items.cliente.cidade,
             estado: items.cliente.estado,
+            classificacao: items.cliente.classificacao
         }
     });
     // Dados - fim
