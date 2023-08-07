@@ -44,4 +44,23 @@ Route::name('admin.leads.')
 
         Route::post('limpar-consultor', [CardsController::class, 'limparConsultor'])
         ->name('limpar-consultor');
+
+        Route::post('novo-avancar/{id}', [NovoController::class, 'avancarStatus'])
+            ->name('novo-avancar');
+
+        Route::post('ativo-voltar/{id}', [AtivoController::class, 'voltarStatus'])
+            ->name('ativo-voltar');
+        Route::post('ativo-avancar/{id}', [AtivoController::class, 'avancarStatus'])
+            ->name('ativo-avancar');
+
+        Route::post('atendimento-voltar/{id}', [AtendimentoController::class, 'voltarStatus'])
+            ->name('atendimento-voltar');
+        Route::post('atendimento-avancar/{id}', [AtendimentoController::class, 'avancarStatus'])
+            ->name('atendimento-avancar');
+
+        Route::post('finalizado-voltar/{id}', [FinalizadoController::class, 'voltarStatus'])
+            ->name('finalizado-voltar');
+
+        Route::post('update-consultor', [FinalizadoController::class, 'updateConsultor'])
+            ->name('update-consultor');
     });

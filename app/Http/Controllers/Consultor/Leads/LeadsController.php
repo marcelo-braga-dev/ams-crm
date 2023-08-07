@@ -6,19 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsHistoricosComentarios;
 use App\Services\Leads\CardLeadsService;
-use App\Services\Leads\LeadsDadosService;
+use App\Services\Leads\CardsLeadsService;
 use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\URL;
 use Inertia\Inertia;
 
 class LeadsController extends Controller
 {
     public function index()
     {
-        $leads = (new CardLeadsService())->getConsultor(id_usuario_atual());
+        $leads = (new CardsLeadsService())->getConsultor(id_usuario_atual());
 
         return Inertia::render('Consultor/Leads/Index',
             compact('leads'));

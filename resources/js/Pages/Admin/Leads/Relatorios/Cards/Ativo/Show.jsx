@@ -18,6 +18,14 @@ export default function Show({dados, status, contatos, historicos}) {
         post(route('admin.leads.limpar-consultor', {id: dados.id, consultor: dados.consultor.id}))
     }
 
+    function voltarStatus() {
+        post(route('admin.leads.ativo-voltar', dados.id))
+    }
+
+    function avancarStatus() {
+        post(route('admin.leads.ativo-avancar', dados.id))
+    }
+
     return (
         <Layout container voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}
                 titlePage="Lead - Ativo">
@@ -31,11 +39,23 @@ export default function Show({dados, status, contatos, historicos}) {
                 <LeadsDados dados={dados}/>
             </div>
 
-            <div className=" mb-6">
-                <div className="col">
-                    <button type="button" className="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#limparLead">Limpar LEAD
-                    </button>
+            <div className="card card-body mb-5">
+                <div className="row">
+                    <div className="col-auto">
+                        <button type="button" className="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#limparLead">Limpar LEAD
+                        </button>
+                    </div>
+                    <div className="col-auto">
+                        <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
+                                data-bs-target="#statusVoltar">Voltar Status "Em Atendimento"
+                        </button>
+                    </div>
+                    <div className="col-auto">
+                        <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
+                                data-bs-target="#statusAvancar">Avançar Status "Finalizado"
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -74,6 +94,7 @@ export default function Show({dados, status, contatos, historicos}) {
                 </div>
             ))}
 
+            {/*Limpar Lead*/}
             <div className="modal fade" id="limparLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
@@ -89,7 +110,54 @@ export default function Show({dados, status, contatos, historicos}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => remover()}>Remover</button>
+                                    onClick={() => remover()}>Remover
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*Voltar Status*/}
+            <div className="modal fade" id="statusVoltar" tabIndex="-1" aria-labelledby="limparLeadLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="limparLeadLabel">Limpar LEAD</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Voltar Status deste leads para "EM ATENDIMENTO"?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-success" data-bs-dismiss="modal"
+                                    onClick={() => voltarStatus()}>Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*Avancar Status*/}
+            <div className="modal fade" id="statusAvancar" tabIndex="-1" aria-labelledby="limparLeadLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="limparLeadLabel">Limpar LEAD</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Avançar Status deste leads para "Finalizado"?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-success" data-bs-dismiss="modal"
+                                    onClick={() => avancarStatus()}>Confirmar
+                            </button>
                         </div>
                     </div>
                 </div>

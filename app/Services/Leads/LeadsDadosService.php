@@ -70,6 +70,7 @@ class LeadsDadosService
                 'atendente' => $item->atendente,
             ],
             'infos' => [
+                'setor' => $item->setor,
                 'status' => $item->status,
                 'status_anotacoes' => $item->status_anotacoes,
                 'anotacoes' => $item->infos,

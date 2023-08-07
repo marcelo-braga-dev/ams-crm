@@ -4,6 +4,7 @@ namespace App\src\Leads;
 
 use App\Models\LeadsStatus;
 use App\src\Leads\Historicos\IniciarAtendimentoHistorico;
+use App\src\Leads\Status\AtendimentoStatusLeads;
 
 class StatusAtendimentoLeads
 {
@@ -11,11 +12,13 @@ class StatusAtendimentoLeads
     {
         $status = (new LeadsStatus())->statusCategorias();
         $ativado = (new IniciarAtendimentoHistorico());
+        $atendimento = (new AtendimentoStatusLeads());
 
         $items = [
             'pedido_emitido' =>  'Pedido Emitido',
             'finalizado' => 'Atendimento Finalizado',
             $ativado->status() => $ativado->msg(),
+            $atendimento->getStatus() => $atendimento->getNome(),
 
             //remover
             'nao_encontrado' => 'Não encontrado',

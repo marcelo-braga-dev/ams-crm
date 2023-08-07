@@ -90,7 +90,7 @@ class Leads extends Model
                 return 1;
             } else {
                 if ($verificacaoCnpj) modalErro('CNPJ: ' . $dados['cnpj'] . ' JÁ CADASTRADO!');
-                if ($verificacaoTel) modalErro('TELEFONE: ' . $dados['telefone'] .' JÁ CADASTRADO!');
+                if ($verificacaoTel) modalErro('TELEFONE: ' . $dados['telefone'] . ' JÁ CADASTRADO!');
             }
         } catch (QueryException $exception) {
             throw new \DomainException('Falha na importação');
@@ -188,10 +188,8 @@ class Leads extends Model
             ->get();
     }
 
-    public function getPeloStatus($id, string $status, string $order = 'desc')
+    public function getPeloStatus($id, string $status, string $order = 'desc', $msg = [])
     {
-        $msg = (new LeadsHistoricos())->ultimaMsg();
-
         return $this->newQuery()
             ->where('users_id', $id)
             ->where('status', $status)
