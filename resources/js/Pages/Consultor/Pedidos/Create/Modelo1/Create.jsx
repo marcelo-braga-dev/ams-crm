@@ -7,8 +7,7 @@ import Anexos from "./Partials/Anexos";
 import Pedidos from "./Partials/Pedido";
 import AlertDanger from "./Partials/AlertDanger";
 
-
-export default function Create({fornecedores, integradores, lead}) {
+export default function Create({fornecedores, lead}) {
     const {errors} = usePage().props;
 
     const {data, setData, post, progress, processing} = useForm({
@@ -24,33 +23,33 @@ export default function Create({fornecedores, integradores, lead}) {
 
     return (
         <Layout container titlePage="Cadastrar Pedido" voltar={route('consultor.pedidos.index')}>
-            <p>
-                Lead: {lead.nome} (#{lead.id})
-            </p>
+            <div className="border-bottom mb-4">
+                <h5>LEAD: {lead.nome} (#{lead.id})</h5>
+                <AlertDanger errors={errors}></AlertDanger>
+            </div>
+
             <form onSubmit={submit}>
                 <div className="row mb-5 pb-4 border-bottom">
-                    <AlertDanger errors={errors}></AlertDanger>
                     <InfoCliente setData={setData} data={data}></InfoCliente>
                 </div>
                 <div className="row mb-5 border-bottom">
                     <Anexos setData={setData} data={data}></Anexos>
                 </div>
-                <div className="">
-                    <Pedidos fornecedores={fornecedores} integradores={integradores} setData={setData} data={data}/>
 
-                    <div className="row text-center mb-3">
-                        <div className="col">
-                            {progress && (
-                                <progress value={progress.percentage} max="100">
-                                    {progress.percentage}%
-                                </progress>
-                            )}
-                        </div>
+                <Pedidos fornecedores={fornecedores} setData={setData} data={data}/>
+
+                <div className="row text-center mb-3">
+                    <div className="col">
+                        {progress && (
+                            <progress value={progress.percentage} max="100">
+                                {progress.percentage}%
+                            </progress>
+                        )}
                     </div>
-                    <div className="row text-center">
-                        <div className="col">
-                            <button className="btn btn-primary" disabled={processing}>Cadastrar</button>
-                        </div>
+                </div>
+                <div className="row text-center">
+                    <div className="col">
+                        <button className="btn btn-primary" disabled={processing}>Cadastrar</button>
                     </div>
                 </div>
             </form>

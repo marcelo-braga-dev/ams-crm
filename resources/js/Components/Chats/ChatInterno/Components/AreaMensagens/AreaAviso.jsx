@@ -1,14 +1,22 @@
 import ImagePdf from "@/Components/Inputs/ImagePdf";
-import React, {useState} from "react";
+import styled from "styled-components";
+
+const CaixaMensagem = styled.span`
+    white-space: pre-line;
+    margin-bottom: 100px;
+`
 
 export default function AreaAviso({item, index}) {
 
     return (
-            <div key={index} className="card mx-3 bg-dark mb-5">
-                <div className="card-body text-white">
-                    {item.tipo === 'msg' && <span className="mb-2 d-block">{item.mensagem}</span>}
+        <div className="p-3">
+            <div key={index} className="card">
+                <div className="card-body">
+                    {item.tipo === 'msg' &&
+                        <CaixaMensagem>{item.mensagem}</CaixaMensagem>
+                    }
                     {item.tipo === 'file' && <span className="mb-2 d-block"><ImagePdf url={item.mensagem}/></span>}
-                    <small className="d-block fo nt-italic text-end font-bold" >
+                    <small className="d-block font-italic text-end">
                         {item.nome_usuario}
                     </small>
                     <small className="d-block font-italic text-end" style={{fontSize: 12}}>
@@ -16,5 +24,6 @@ export default function AreaAviso({item, index}) {
                     </small>
                 </div>
             </div>
+        </div>
     )
 }

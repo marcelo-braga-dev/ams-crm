@@ -1,36 +1,22 @@
-import {Col, Row} from "reactstrap";
 import {
     FormControl,
     FormLabel,
-    InputAdornment,
-    InputLabel, MenuItem,
-    OutlinedInput,
+    MenuItem,
     Radio,
     RadioGroup,
     TextField,
 } from "@mui/material";
-import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 
-export default function Pedido({fornecedores, integradores, setData, data}) {
+export default function Pedido({fornecedores, setData, data}) {
 
-    return <Box>
-        <Row className="my-4">
-            <Col className="mb-3 col-md-4">
+    return <>
+        <div className="row">
+            <div className="col-md-4 mb-3">
                 <TextFieldMoney label="Preço" value={data.preco} setData={setData} index="preco" required/>
-            </Col>
-            {/*<Col className="mb-3 text-red-600">*/}
-            {/*    <TextField label="Integrador" select fullWidth required defaultValue={""}*/}
-            {/*               onChange={e => setData('integrador', e.target.value)}>*/}
-            {/*        {integradores.map((option, index) => (*/}
-            {/*            <MenuItem key={index} value={option.id}>*/}
-            {/*                {option.nome}*/}
-            {/*            </MenuItem>*/}
-            {/*        ))}*/}
-            {/*    </TextField>*/}
-            {/*</Col>*/}
-            <Col className="mb-3 col-md-4 text-red-600">
+            </div>
+            <div className="col-md-4 mb-3">
                 <TextField label="Fornecedor" select fullWidth required defaultValue={""}
                            onChange={e => setData('fornecedor', e.target.value)}>
                     {fornecedores.map((option, index) => (
@@ -39,17 +25,17 @@ export default function Pedido({fornecedores, integradores, setData, data}) {
                         </MenuItem>
                     ))}
                 </TextField>
-            </Col>
-        </Row>
-        <Row className={"mb-3"}>
-            <Col className={"mb-3"} lg={"6"}>
+            </div>
+        </div>
+        <div className="row mb-3">
+            <div className="col mb-3">
                 <TextField accept="application/pdf"
-                    required type="file" label="Orçamento" InputLabelProps={{shrink: true}}
-                    onChange={e => setData('file_orcamento', e.target.files[0])}/>
-            </Col>
-        </Row>
-        <Row className={"my-4"}>
-            <Col>
+                           required type="file" label="Orçamento" InputLabelProps={{shrink: true}}
+                           onChange={e => setData('file_orcamento', e.target.files[0])}/>
+            </div>
+        </div>
+        <div className="row">
+            <div className="col">
                 <FormControl>
                     <FormLabel id="demo-row-radio-buttons-group-label">Formas de Pagamento</FormLabel>
                     <RadioGroup required row onChange={e => setData('forma_pagamento', e.target.value)}>
@@ -59,20 +45,20 @@ export default function Pedido({fornecedores, integradores, setData, data}) {
                         <FormControlLabel value="Boleto" control={<Radio id="forma_pagamento"/>} label="Boleto"/>
                     </RadioGroup>
                 </FormControl>
-            </Col>
-            <Col className={"mb-3"} lg={"6"}>
+            </div>
+            <div className="mb-3">
                 {data.forma_pagamento === 'Financiamento' &&
                     <TextField
                         required type="file" label="Carta de Autorização" InputLabelProps={{shrink: true}}
                         onChange={e => setData('file_carta_autorizacao', e.target.files[0])}/>}
-            </Col>
-        </Row>
-        <Row className={"mb-3"}>
-            <Col className={"mb-3"} lg={"12"}>
+            </div>
+        </div>
+        <div className="row">
+            <div className="mb-3">
                 <TextField
                     label="Anotações" multiline rows={4} fullWidth
                     value={data.obs} onChange={e => setData('obs', e.target.value)}/>
-            </Col>
-        </Row>
-    </Box>
+            </div>
+        </div>
+    </>
 }

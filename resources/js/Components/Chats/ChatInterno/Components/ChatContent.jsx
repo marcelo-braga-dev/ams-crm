@@ -21,7 +21,8 @@ export default function ChatContent({mensagens, infoChatSelecionado}) {
                 itemContent={itemContent}
                 data={mensagens}
                 followOutput="auto"
-                style={{flex: '1 1 auto'}}/>
+                // style={{flex: '1 1 auto'}}
+            />
             <div></div>
         </div>
     );
