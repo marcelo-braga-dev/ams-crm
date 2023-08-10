@@ -2,7 +2,7 @@ import {TextField} from "@mui/material";
 import * as React from "react";
 import {useState} from "react";
 
-export default function HistoricoLista({historicos, enviarComentario, setData}) {
+export default function HistoricoLista({historicos, enviarComentario, setData, urlPedidos}) {
     const [qtdHistorico, setQtqHistorico] = useState(historicos.length);
 
     return (
@@ -20,7 +20,7 @@ export default function HistoricoLista({historicos, enviarComentario, setData}) 
                                                 <b>Meio de Contato:</b> {dado.meio_contato}</span>}
                     {dado.id_pedido ? '' :
                         <span className="d-block"><b>Anotações:</b> {dado.msg}</span>}
-                    {dado.id_pedido && <a href={route('consultor.pedidos.show', dado.id_pedido)}
+                    {dado.id_pedido && <a href={route(urlPedidos, dado.id_pedido)}
                                           className="btn btn-success btn-sm">Ver Pedido</a>}
                     <span className="small d-block">Data: {dado.data_criacao}</span>
 
@@ -37,12 +37,21 @@ export default function HistoricoLista({historicos, enviarComentario, setData}) 
                                 )
                             })}
                         </div>
-                        <TextField size="small" className="d-block" fullWidth label="Novo Comentário..."
-                                   onChange={e => setData('msg_' + index, e.target.value)}></TextField>
-                        <button className="btn btn-link btn-sm text-dark p-0"
-                                onClick={() => enviarComentario('msg_' + index, dado.id)}>
-                            + Adicionar comentário
-                        </button>
+                        <div className="row">
+                            <div className="col">
+                                <TextField size="small" className="d-block" fullWidth label="Novo Comentário..."
+                                           onChange={e => setData('msg_' + index, e.target.value)}>
+
+                                </TextField></div>
+                            <div className="col-auto">
+                                <button className="btn btn-success btn-sm mt-1"
+                                        onClick={() => enviarComentario('msg_' + index, dado.id)}>
+                                    Salvar
+                                </button>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>

@@ -59,7 +59,7 @@ function BottomBarContent({infoChatSelecionado, urlSubmit, admin}) {
             post(urlSubmit);
         }
         // AVISOS
-        if (infoChatSelecionado.categoria === 'avisos') {
+        if (data.mensagem.trim() && infoChatSelecionado.categoria === 'avisos') {
             post(urlSubmit);
         }
         limparCaixaMensagem()

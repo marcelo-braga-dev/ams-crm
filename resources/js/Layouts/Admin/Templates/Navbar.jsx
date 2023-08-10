@@ -18,7 +18,6 @@ import NotificacoesNav from "@/Components/Alerts/NotificacoesNav";
 import {List} from "@mui/material";
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {styled} from '@mui/material/styles';
 
@@ -112,152 +111,155 @@ export default function Navbar({titlePage}) {
     return (<>
             <NotificacoesNav url={route('admin.notificacoes.show', 0)} urlPageChat={route('admin.chat-interno.index')}
                              setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno}/>
-            <nav className="navbar navbar-main navbar-expand-lg bg-white" id="navbarBlur">
-                <div className="container-fluid py-1">
-                    <nav aria-label="breadcrumb">
-                        <h6 className="font-weight-bolder text-primary mb-0">{titlePage}</h6>
-                    </nav>
-                    <div className="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                        <div className="ms-md-auto pe-md-3 d-flex align-items-center"></div>
-                        <ul className="navbar-nav  justify-content-end">
 
-                            {/*HamburguemMenu*/}
-                            <li className="nav-item d-xl-none mx-2 d-flex align-items-center">
-                                <div className="nav-link text-white p-0" id="iconNavbarSidenav">
-                                    <div className="sidenav-toggler-inner">
-                                        <i className="sidenav-toggler-line bg-white"></i>
-                                        <i className="sidenav-toggler-line bg-white"></i>
-                                        <i className="sidenav-toggler-line bg-white"></i>
-                                    </div>
+            <nav className="navbar py-3 navbar-main navbar-expand-lg bg-white w-80 position-fixed top-0 z-index-3"
+                 id="navbarBlur">
+                <h6 className="ps-4 text-primary mb-0">{titlePage}</h6>
+
+                <div className="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                    <div className="ms-md-auto pe-md-3 d-flex align-items-center"></div>
+                    <ul className="navbar-nav  justify-content-end">
+
+                        {/*HamburguemMenu*/}
+                        <li className="nav-item d-xl-none mx-2 d-flex align-items-center">
+                            <div className="nav-link text-white p-0" id="iconNavbarSidenav">
+                                <div className="sidenav-toggler-inner">
+                                    <i className="sidenav-toggler-line bg-white"></i>
+                                    <i className="sidenav-toggler-line bg-white"></i>
+                                    <i className="sidenav-toggler-line bg-white"></i>
                                 </div>
-                            </li>
+                            </div>
+                        </li>
 
-                            {/*Usuarios Online*/}
-                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
-                                <div>
-                                    <Typography
-                                        aria-owns={open ? 'mouse-over-popover' : undefined}
-                                        aria-haspopup="true"
-                                        onMouseEnter={handlePopoverOpen}
-                                        onMouseLeave={handlePopoverClose}
-                                    >
-                                        <Badge badgeContent={usuariosOnline.length} color="success">
-                                            <PeopleIcon className="text-primary"/>
-                                        </Badge>
-                                    </Typography>
-                                    <Popover
-                                        id="mouse-over-popover"
-                                        sx={{
-                                            pointerEvents: 'none',
-                                        }}
-                                        open={open}
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        onClose={handlePopoverClose}
-                                        disableRestoreFocus
-                                    >
-                                        {usuariosOnline.length ? <List>
-                                                {usuariosOnline.map((dado, index) => {
-                                                    return (
-                                                        <ListItem key={index} className=" pb-0">
-                                                            <ListItemAvatar>
-                                                                <StyledBadge
-                                                                    overlap="circular"
-                                                                    anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-                                                                    variant="dot">
-                                                                    <Avatar src={dado.foto}/>
-                                                                </StyledBadge>
-
-                                                            </ListItemAvatar>
-                                                            <ListItemText
-                                                                primary={dado.nome}
-                                                                secondary={dado.setor_nome}
-                                                            />
-                                                        </ListItem>
-                                                    )
-                                                })}
-                                            </List> :
-                                            <small className="m-3">0 online</small>}
-                                    </Popover>
-                                </div>
-                            </li>
-
-                            {/*ChatInterno*/}
-                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
-                                <a href={route('admin.chat-interno.index')}>
-                                    <Badge badgeContent={qtdChatInterno} color="error">
-                                        <QuestionAnswerIcon className="text-primary" />
+                        {/*Usuarios Online*/}
+                        <li className="nav-item dropdown mx-3 d-flex align-items-center">
+                            <div>
+                                <Typography
+                                    aria-owns={open ? 'mouse-over-popover' : undefined}
+                                    aria-haspopup="true"
+                                    onMouseEnter={handlePopoverOpen}
+                                    onMouseLeave={handlePopoverClose}
+                                >
+                                    <Badge badgeContent={usuariosOnline.length} color="success">
+                                        <PeopleIcon className="text-primary"/>
                                     </Badge>
-                                </a>
-                            </li>
+                                </Typography>
+                                <Popover
+                                    id="mouse-over-popover"
+                                    sx={{
+                                        pointerEvents: 'none',
+                                    }}
+                                    open={open}
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'left',
+                                    }}
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'left',
+                                    }}
+                                    onClose={handlePopoverClose}
+                                    disableRestoreFocus
+                                >
+                                    {usuariosOnline.length ? <List>
+                                            {usuariosOnline.map((dado, index) => {
+                                                return (
+                                                    <ListItem key={index} className=" pb-0">
+                                                        <ListItemAvatar>
+                                                            <StyledBadge
+                                                                overlap="circular"
+                                                                anchorOrigin={{
+                                                                    vertical: 'bottom',
+                                                                    horizontal: 'right'
+                                                                }}
+                                                                variant="dot">
+                                                                <Avatar src={dado.foto}/>
+                                                            </StyledBadge>
 
-                            {/*Notificacoes*/}
-                            <li className="nav-item dropdown mx-3 d-flex align-items-center">
-                                <a href={route('admin.notificacoes.index')}>
-                                    <Badge badgeContent={qtdPedidos} color="error">
-                                        <NotificationsIcon className="text-primary"/>
-                                    </Badge>
-                                </a>
-                            </li>
+                                                        </ListItemAvatar>
+                                                        <ListItemText
+                                                            primary={dado.nome}
+                                                            secondary={dado.setor_nome}
+                                                        />
+                                                    </ListItem>
+                                                )
+                                            })}
+                                        </List> :
+                                        <small className="m-3">0 online</small>}
+                                </Popover>
+                            </div>
+                        </li>
 
-                            <li className="nav-item d-flex align-items-center mx-2">
-                                <Box sx={{flexGrow: 0}}>
-                                    <Tooltip title="Configurações">
-                                        <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                            <Badge
-                                                overlap="circular"
-                                                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-                                                badgeContent={
-                                                    <span className="badge rounded-pill bg-white">
+                        {/*ChatInterno*/}
+                        <li className="nav-item dropdown mx-3 d-flex align-items-center">
+                            <a href={route('admin.chat-interno.index')}>
+                                <Badge badgeContent={qtdChatInterno} color="error">
+                                    <QuestionAnswerIcon className="text-primary"/>
+                                </Badge>
+                            </a>
+                        </li>
+
+                        {/*Notificacoes*/}
+                        <li className="nav-item dropdown mx-3 d-flex align-items-center">
+                            <a href={route('admin.notificacoes.index')}>
+                                <Badge badgeContent={qtdPedidos} color="error">
+                                    <NotificationsIcon className="text-primary"/>
+                                </Badge>
+                            </a>
+                        </li>
+
+                        <li className="nav-item d-flex align-items-center mx-2">
+                            <Box sx={{flexGrow: 0}}>
+                                <Tooltip title="Configurações">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                        <Badge
+                                            overlap="circular"
+                                            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                                            badgeContent={
+                                                <span className="badge rounded-pill bg-white">
                                                         <i style={{fontSize: 12}}
                                                            className=" text-dark fas fa-user-cog"/>
                                                     </span>
-                                                }>
-                                                <Avatar src={props.foto_usuario}/>
-                                            </Badge>
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Menu
-                                        sx={{mt: '45px'}}
-                                        id="menu-appbar"
-                                        anchorEl={anchorElUser}
-                                        anchorOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        keepMounted
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        open={Boolean(anchorElUser)}
-                                        onClose={handleCloseUserMenu}
-                                    >
-                                        {settings.map(({title, url}, i) => (
-                                            <Typography key={i} color={"black"} variant={"inherit"} component={"a"}
-                                                        href={url}>
-                                                <MenuItem key={i} onClick={handleCloseUserMenu}>
-                                                    {title}
-                                                </MenuItem>
-                                            </Typography>
-                                        ))}
-                                        <div onClick={() => submit()} style={{minWidth: 150}}>
-                                            <MenuItem key="Sair" onClick={handleCloseUserMenu}>
-                                                Sair
+                                            }>
+                                            <Avatar src={props.foto_usuario}/>
+                                        </Badge>
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{mt: '45px'}}
+                                    id="menu-appbar"
+                                    anchorEl={anchorElUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorElUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    {settings.map(({title, url}, i) => (
+                                        <Typography key={i} color={"black"} variant={"inherit"}
+                                                    component={"a"}
+                                                    href={url}>
+                                            <MenuItem key={i} onClick={handleCloseUserMenu}>
+                                                {title}
                                             </MenuItem>
-                                        </div>
-                                    </Menu>
-                                </Box>
-                            </li>
-                        </ul>
-                    </div>
+                                        </Typography>
+                                    ))}
+                                    <div onClick={() => submit()} style={{minWidth: 150}}>
+                                        <MenuItem key="Sair" onClick={handleCloseUserMenu}>
+                                            Sair
+                                        </MenuItem>
+                                    </div>
+                                </Menu>
+                            </Box>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </>

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
+use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\Status\AtivoStatusLeads;
@@ -24,9 +25,10 @@ class AtendimentoController extends Controller
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
+        $consultores = (new User())->getConsultores($dados['infos']['setor']);
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Atendimento/Show',
-            compact('dados', 'status', 'historicos', 'contatos'));
+            compact('dados', 'status', 'historicos', 'contatos', 'consultores'));
     }
 
     public function update($id, Request $request)

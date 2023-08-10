@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Leads\Consultores\AtendimentoController;
 use App\Http\Controllers\Admin\Leads\Consultores\AtivoController;
 use App\Http\Controllers\Admin\Leads\Consultores\CardsController;
 use App\Http\Controllers\Admin\Leads\Consultores\FinalizadoController;
+use App\Http\Controllers\Admin\Leads\Consultores\LeadsRelatoriosController;
 use App\Http\Controllers\Admin\Leads\Consultores\NovoController;
 use App\Http\Controllers\Admin\Leads\ImportarController;
 use App\Http\Controllers\Admin\Leads\ImportarHistoricoController;
@@ -61,6 +62,6 @@ Route::name('admin.leads.')
         Route::post('finalizado-voltar/{id}', [FinalizadoController::class, 'voltarStatus'])
             ->name('finalizado-voltar');
 
-        Route::post('update-consultor', [FinalizadoController::class, 'updateConsultor'])
+        Route::post('update-consultor', [LeadsRelatoriosController::class, 'updateConsultor'])
             ->name('update-consultor');
     });

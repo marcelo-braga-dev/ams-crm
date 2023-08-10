@@ -144,7 +144,7 @@ export default function Show({dados, status, contatos, historicos}) {
 
                             <HistoricoLista
                                 historicos={historicos} enviarComentario={enviarComentario}
-                                setData={setData}
+                                setData={setData} urlPedidos="consultor.pedidos.show"
                             />
                         </div>
                     </div>

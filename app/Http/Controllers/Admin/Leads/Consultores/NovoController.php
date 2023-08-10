@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
 use App\Models\LeadsHistoricos;
+use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\Status\AtendimentoStatusLeads;
@@ -17,9 +18,10 @@ class NovoController extends Controller
     {
         $dados = (new LeadsDadosService())->lead($id);
         $historicos = (new HistoricoDadosService())->dados($id);
+        $consultores = (new User())->getConsultores($dados['infos']['setor']);
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Novo/Edit',
-            compact('dados', 'historicos'));
+            compact('dados', 'historicos', 'consultores'));
     }
     public function update($id)
     {

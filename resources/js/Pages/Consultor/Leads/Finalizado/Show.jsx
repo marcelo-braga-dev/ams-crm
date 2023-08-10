@@ -36,7 +36,7 @@ export default function Show({dados, status, contatos, historicos}) {
                             <h6 className="mb-3">Histórico de Atendimento</h6>
                             <HistoricoLista
                                 historicos={historicos} enviarComentario={enviarComentario}
-                                setData={setData}
+                                setData={setData} urlPedidos="consultor.pedidos.show"
                             />
 
                         </div>

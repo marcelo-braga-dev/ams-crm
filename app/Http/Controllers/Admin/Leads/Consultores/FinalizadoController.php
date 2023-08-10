@@ -47,13 +47,4 @@ class FinalizadoController extends Controller
         modalSucesso('Lead deletado com sucesso!');
         return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
     }
-
-    public function updateConsultor(Request $request)
-    {
-        (new Leads())->setConsultor($request->lead, $request->novo_consultor);
-        (new LeadsNotificacao())->notificar($request->novo_consultor, 1, [$request->lead]);
-
-        modalSucesso('Consultor(a) Atualizado com sucesso!');
-        return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
-    }
 }

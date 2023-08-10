@@ -104,7 +104,7 @@ export default function Show({dados, historicos, consultores}) {
             <h6 className="mb-3">Histórico de Atendimento</h6>
             <HistoricoLista
                 historicos={historicos} enviarComentario={enviarComentario}
-                setData={setData}
+                setData={setData} urlPedidos="admin.pedidos.show"
             />
 
             {/*Modal Limpar Lead*/}
