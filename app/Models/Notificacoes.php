@@ -40,7 +40,18 @@ class Notificacoes extends Model
             ->where('users_id', id_usuario_atual())
             ->where('categoria', $categoria)
             ->orderByDesc('id')
-            ->paginate(50);
+            ->get()
+            ->transform(function ($dado) {
+                return [
+                    'id' => $dado->id,
+                    'titulo' => $dado->titulo,
+                    'msg' => $dado->msg,
+                    'categoria' => $dado->categoria,
+                    'url' => $dado->url,
+                    'notificar' => $dado->notificar,
+                    'data' => date('d/m/y H:i:s', strtotime($dado->created_at)),
+                ];
+            });
     }
 
     public function getHistorico($id = null)

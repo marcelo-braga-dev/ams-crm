@@ -23,6 +23,7 @@ Route::name('admin.clientes.leads.')
 
         Route::post('update-consultor', [LeadsController::class, 'updateConsultor'])->name('update-consultor');
         Route::get('leads-cadastrados', [LeadsController::class, 'cadastrados'])->name('leads-cadastrados');
+        Route::get('leads-acompanhar', [LeadsController::class, 'acompanharLeads'])->name('leads-acompanhar');
         Route::post('delete', [LeadsController::class, 'delete'])->name('delete');
         Route::post('ocultar', [LeadsController::class, 'ocultar'])->name('ocultar');
         Route::get('ocultos', [LeadsController::class, 'ocultos'])->name('ocultos');
@@ -44,7 +45,7 @@ Route::name('admin.leads.')
         Route::resource('cards-finalizado', FinalizadoController::class);
 
         Route::post('limpar-consultor', [CardsController::class, 'limparConsultor'])
-        ->name('limpar-consultor');
+            ->name('limpar-consultor');
 
         Route::post('novo-avancar/{id}', [NovoController::class, 'avancarStatus'])
             ->name('novo-avancar');
@@ -64,4 +65,7 @@ Route::name('admin.leads.')
 
         Route::post('update-consultor', [LeadsRelatoriosController::class, 'updateConsultor'])
             ->name('update-consultor');
+
+        Route::post('adicionar-comentarios', [LeadsRelatoriosController::class, 'adicionarComentarios'])
+            ->name('adicionar-comentarios');
     });

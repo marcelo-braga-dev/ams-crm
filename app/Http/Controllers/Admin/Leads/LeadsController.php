@@ -8,6 +8,7 @@ use App\Models\LeadsHistoricos;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
+use App\Services\Leads\Relatorios\LeadsUsuariosService;
 use App\Services\Setores\SetoresService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\UpdateStatusLeads;
@@ -176,5 +177,12 @@ class LeadsController extends Controller
 
         modalSucesso('Informações armazenadas com sucesso!');
         return redirect()->back();
+    }
+
+    public function acompanharLeads()
+    {
+        $qtdLeads = (new LeadsUsuariosService())->get();
+
+        return Inertia::render('Admin/Leads/AcompanharLeads/Index', compact('qtdLeads'));
     }
 }

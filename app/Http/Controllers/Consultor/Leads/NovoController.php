@@ -13,7 +13,7 @@ use Inertia\Inertia;
 
 class NovoController extends Controller
 {
-    public function edit($id)
+    public function show($id)
     {
         $dados = (new LeadsDadosService())->lead($id);
         $historicos = (new HistoricoDadosService())->dados($id);

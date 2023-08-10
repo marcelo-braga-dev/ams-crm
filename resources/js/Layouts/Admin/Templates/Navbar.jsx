@@ -21,6 +21,9 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import {styled} from '@mui/material/styles';
 
+
+import Button from '@mui/material/Button';
+
 const StyledBadge = styled(Badge)(({theme}) => ({
     '& .MuiBadge-badge': {
         backgroundColor: '#44b700',
@@ -108,11 +111,25 @@ export default function Navbar({titlePage}) {
     }, [])
     // Online - fim
 
+
+    const [anchorEl2, setAnchorEl2] = React.useState(null);
+
+    const handleClick2 = (event) => {
+        setAnchorEl2(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl2(null);
+    };
+
+    const open2 = Boolean(anchorEl2);
+    const id = open ? 'simple-popover' : undefined;
+
     return (<>
             <NotificacoesNav url={route('admin.notificacoes.show', 0)} urlPageChat={route('admin.chat-interno.index')}
                              setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno}/>
 
-            <nav className="navbar py-3 navbar-main navbar-expand-lg bg-white w-80 position-fixed top-0 z-index-3"
+            <nav className="navbar py-3 navbar-main navbar-expand-lg bg-white w-80 position-fixed top-0 z-index-2"
                  id="navbarBlur">
                 <h6 className="ps-4 text-primary mb-0">{titlePage}</h6>
 
@@ -132,40 +149,28 @@ export default function Navbar({titlePage}) {
                         </li>
 
                         {/*Usuarios Online*/}
+
                         <li className="nav-item dropdown mx-3 d-flex align-items-center">
-                            <div>
-                                <Typography
-                                    aria-owns={open ? 'mouse-over-popover' : undefined}
-                                    aria-haspopup="true"
-                                    onMouseEnter={handlePopoverOpen}
-                                    onMouseLeave={handlePopoverClose}
-                                >
-                                    <Badge badgeContent={usuariosOnline.length} color="success">
-                                        <PeopleIcon className="text-primary"/>
-                                    </Badge>
-                                </Typography>
-                                <Popover
-                                    id="mouse-over-popover"
-                                    sx={{
-                                        pointerEvents: 'none',
-                                    }}
-                                    open={open}
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left',
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'left',
-                                    }}
-                                    onClose={handlePopoverClose}
-                                    disableRestoreFocus
-                                >
-                                    {usuariosOnline.length ? <List>
-                                            {usuariosOnline.map((dado, index) => {
-                                                return (
-                                                    <ListItem key={index} className=" pb-0">
+                            <div aria-describedby={id} onClick={handleClick2}>
+                                <Badge badgeContent={usuariosOnline.length} color="success">
+                                    <PeopleIcon className="text-primary"/>
+                                </Badge>
+                            </div>
+                            <Popover
+                                id={id}
+                                open={open2}
+                                anchorEl={anchorEl2}
+                                onClose={handleClose}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                            >
+                                {usuariosOnline.length ? <List>
+                                        {usuariosOnline.map((dado, index) => {
+                                            return (
+                                                <a key={index} href={route('admin.usuarios.consultores.show', dado.id)}>
+                                                    <ListItem className=" pb-0">
                                                         <ListItemAvatar>
                                                             <StyledBadge
                                                                 overlap="circular"
@@ -183,13 +188,72 @@ export default function Navbar({titlePage}) {
                                                             secondary={dado.setor_nome}
                                                         />
                                                     </ListItem>
-                                                )
-                                            })}
-                                        </List> :
-                                        <small className="m-3">0 online</small>}
-                                </Popover>
-                            </div>
+                                                </a>
+                                            )
+                                        })}
+                                    </List> :
+                                    <small className="m-3">0 online</small>}
+                            </Popover>
                         </li>
+
+                        {/*<li className="nav-item dropdown mx-3 d-flex align-items-center">*/}
+                        {/*    <div>*/}
+                        {/*        <Typography*/}
+                        {/*            aria-owns={open ? 'mouse-over-popover' : undefined}*/}
+                        {/*            aria-haspopup="true"*/}
+                        {/*            onMouseEnter={handlePopoverOpen}*/}
+                        {/*            // onMouseLeave={handlePopoverClose}*/}
+                        {/*        >*/}
+                        {/*            <Badge badgeContent={usuariosOnline.length} color="success">*/}
+                        {/*                <PeopleIcon className="text-primary"/>*/}
+                        {/*            </Badge>*/}
+                        {/*        </Typography>*/}
+                        {/*        <Popover*/}
+                        {/*            id="mouse-over-popover"*/}
+                        {/*            sx={{*/}
+                        {/*                pointerEvents: 'none',*/}
+                        {/*            }}*/}
+                        {/*            open={open}*/}
+                        {/*            anchorEl={anchorEl}*/}
+                        {/*            anchorOrigin={{*/}
+                        {/*                vertical: 'bottom',*/}
+                        {/*                horizontal: 'left',*/}
+                        {/*            }}*/}
+                        {/*            transformOrigin={{*/}
+                        {/*                vertical: 'top',*/}
+                        {/*                horizontal: 'left',*/}
+                        {/*            }}*/}
+                        {/*            onClose={handlePopoverClose}*/}
+                        {/*            disableRestoreFocus*/}
+                        {/*        >*/}
+                        {/*            {usuariosOnline.length ? <List>*/}
+                        {/*                    {usuariosOnline.map((dado, index) => {*/}
+                        {/*                        return (*/}
+                        {/*                            <ListItem key={index} className=" pb-0">*/}
+                        {/*                                <ListItemAvatar>*/}
+                        {/*                                    <StyledBadge*/}
+                        {/*                                        overlap="circular"*/}
+                        {/*                                        anchorOrigin={{*/}
+                        {/*                                            vertical: 'bottom',*/}
+                        {/*                                            horizontal: 'right'*/}
+                        {/*                                        }}*/}
+                        {/*                                        variant="dot">*/}
+                        {/*                                        <Avatar src={dado.foto}/>*/}
+                        {/*                                    </StyledBadge>*/}
+
+                        {/*                                </ListItemAvatar>*/}
+                        {/*                                <ListItemText*/}
+                        {/*                                    primary={dado.nome}*/}
+                        {/*                                    secondary={dado.setor_nome}*/}
+                        {/*                                />*/}
+                        {/*                            </ListItem>*/}
+                        {/*                        )*/}
+                        {/*                    })}*/}
+                        {/*                </List> :*/}
+                        {/*                <small className="m-3">0 online</small>}*/}
+                        {/*        </Popover>*/}
+                        {/*    </div>*/}
+                        {/*</li>*/}
 
                         {/*ChatInterno*/}
                         <li className="nav-item dropdown mx-3 d-flex align-items-center">

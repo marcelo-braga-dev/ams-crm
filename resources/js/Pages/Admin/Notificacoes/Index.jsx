@@ -46,8 +46,8 @@ export default function Create({notificacoes}) {
                         </button>
                     </div>
                     <div className="col-auto">
-                        <button  type="button" className="btn btn-outline-danger"
-                                 data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button type="button" className="btn btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <i className="fas fa-trash pe-2"></i>Deletar Notificações
                         </button>
                     </div>
@@ -55,7 +55,7 @@ export default function Create({notificacoes}) {
                 <div className="row">
                     <div className="col-12 mb-3 p-3">
 
-                        {notificacoes.data.map((dados, index) => {
+                        {notificacoes.map((dados, index) => {
                             return (<div key={index}>
                                 {/*Card*/}
                                 <div className="row mb-4 p-4 rounded bg-white bord er-2 border-dark shadow">
@@ -79,7 +79,7 @@ export default function Create({notificacoes}) {
                                                     <div className="col-auto">
                                                         <CalendarMonthIcon fontSize="small"/>
                                                         <Typography variant="body2" component="span">
-                                                            {converterDataHorario(dados.created_at)}
+                                                            {dados.data}
                                                         </Typography>
                                                     </div>
                                                     <div className="col-auto">
@@ -113,7 +113,7 @@ export default function Create({notificacoes}) {
                         })}
 
                         {/*Sem Notificações*/}
-                        {notificacoes.data.length === 0 ?
+                        {notificacoes.length === 0 ?
                             <div className="row shadow p-4 bg-white rounded">
                                 <div className="col-12 text-center">
                                     <Typography>Não há registros de notificações.</Typography>
@@ -123,7 +123,8 @@ export default function Create({notificacoes}) {
                 </div>
             </div>
 
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -136,7 +137,8 @@ export default function Create({notificacoes}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
-                                    onClick={() => deletar()}>Excluir</button>
+                                    onClick={() => deletar()}>Excluir
+                            </button>
                         </div>
                     </div>
                 </div>

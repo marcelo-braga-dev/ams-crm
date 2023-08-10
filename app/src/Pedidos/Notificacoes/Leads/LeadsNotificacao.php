@@ -2,7 +2,12 @@
 
 namespace App\src\Pedidos\Notificacoes\Leads;
 
+use App\Models\Leads;
 use App\Models\Notificacoes;
+use App\src\Leads\Status\AtendimentoStatusLeads;
+use App\src\Leads\Status\AtivoStatusLeads;
+use App\src\Leads\Status\FinalizadoStatusLeads;
+use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Pedidos\Notificacoes\Notificacao;
 use App\src\Pedidos\NotificacoesCategorias;
 
@@ -21,5 +26,26 @@ class LeadsNotificacao implements Notificacao
 
 
         (new Notificacoes())->create($idUser, $this->getCategoria(), $titulo, $msg);
+    }
+
+    public function notificarComentarios(int $idConsultor, ?string $msg, int $idLead): void
+    {
+        $titulo = 'Comentário adicionado no LEAD #' . $idLead;
+
+        $dadosLead = (new Leads())->find($idLead);
+
+        $novo = (new NovoStatusLeads())->getStatus();
+        $atendimento = (new AtendimentoStatusLeads())->getStatus();
+        $ativo = (new AtivoStatusLeads())->getStatus();
+        $finalizado = (new FinalizadoStatusLeads())->getStatus();
+
+        $url = match ($dadosLead->status) {
+            $novo => route('consultor.leads.novo.show', $idLead),
+            $atendimento => route('consultor.leads.atendimento.show', $idLead),
+            $ativo => route('consultor.leads.ativo.show', $idLead),
+            $finalizado => route('consultor.leads.finalizado.show', $idLead),
+        };
+
+        (new Notificacoes())->create($idConsultor, $this->getCategoria(), $titulo, $msg, $url);
     }
 }

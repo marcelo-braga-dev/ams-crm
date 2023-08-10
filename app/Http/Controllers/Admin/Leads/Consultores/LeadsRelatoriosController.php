@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
+use App\Models\LeadsHistoricosComentarios;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Illuminate\Http\Request;
 
@@ -16,5 +17,13 @@ class LeadsRelatoriosController extends Controller
 
         modalSucesso('Consultor(a) Atualizado com sucesso!');
         return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
+    }
+
+    public function adicionarComentarios(Request $request)
+    {
+        (new LeadsHistoricosComentarios())->create($request->id, $request->msg);
+        (new LeadsNotificacao())->notificarComentarios($request->consultor, $request->msg, $request->lead);
+
+        return redirect()->back();
     }
 }

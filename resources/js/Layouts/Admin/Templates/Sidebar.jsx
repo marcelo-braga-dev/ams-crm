@@ -64,6 +64,10 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
             'submenu': [
                 {'menu': 'Relatórios', 'url': route('admin.leads.relatorios.index'), 'tag': 'relatorios'},
                 {
+                    'menu': 'Histórico dos Leads',
+                    'url': route('admin.clientes.leads.leads-acompanhar'),
+                    'tag': 'acompanhar'
+                }, {
                     'menu': 'Leads Cadastrados',
                     'url': route('admin.clientes.leads.leads-cadastrados'),
                     'tag': 'cadastrados'

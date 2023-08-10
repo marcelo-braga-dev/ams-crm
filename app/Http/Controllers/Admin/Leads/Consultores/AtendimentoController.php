@@ -44,11 +44,6 @@ class AtendimentoController extends Controller
         return redirect()->route('consultor.leads.main.index');
     }
 
-    public function store(Request $request)
-    {
-        (new LeadsHistoricosComentarios())->create($request->id, $request->msg);
-    }
-
     public function voltarStatus($id)
     {
         (new UpdateStatusLeads())->setNovo($id);

@@ -55,7 +55,7 @@ export default function Create({notificacoes}) {
                 <div className="row">
                     <div className="col-12 mb-3 p-3">
 
-                        {notificacoes.data.map((dados, index) => {
+                        {notificacoes.map((dados, index) => {
                             return (<div key={index}>
                                 {/*Card*/}
                                 <div className="row mb-4 p-4 rounded bg-white bord er-2 border-dark shadow">
@@ -79,7 +79,7 @@ export default function Create({notificacoes}) {
                                                     <div className="col-auto">
                                                         <CalendarMonthIcon fontSize="small"/>
                                                         <Typography variant="body2" component="span">
-                                                            {converterDataHorario(dados.created_at)}
+                                                            {dados.data}
                                                         </Typography>
                                                     </div>
                                                     <div className="col-auto">
@@ -110,7 +110,7 @@ export default function Create({notificacoes}) {
                         })}
 
                         {/*Sem Notificações*/}
-                        {notificacoes.data.length === 0 ?
+                        {notificacoes.length === 0 ?
                             <div className="row shadow p-4 bg-white rounded">
                                 <div className="col-12 text-center">
                                     <Typography>Não há registros de notificações.</Typography>
