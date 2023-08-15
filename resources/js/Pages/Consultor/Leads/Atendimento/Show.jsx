@@ -3,25 +3,25 @@ import LeadsDados from "@/Components/Leads/LeadsDados";
 import {useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import {router} from '@inertiajs/react'
 import * as React from "react";
-import {useState} from "react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 
 export default function Show({dados, status, contatos, historicos}) {
     const {data, setData, post} = useForm({
         msg: '',
-        classificacao: dados.cliente.classificacao
+        classificacao: dados.cliente.classificacao,
+        idLead: dados.id
     });
-
-    const [qtdHistorico, setQtqHistorico] = useState(historicos.length);
 
     function onSubmit(e) {
         e.preventDefault();
+        post(route('consultor.leads.atualizar-status'))
+        window.location.reload()
+    }
 
+    function finalizarAtendimento(e) {
+        e.preventDefault();
         post(route('consultor.leads.atendimento.store', {id: dados.id}))
-
-        if (data.salvar_msg) window.location.reload()
     }
 
     function updateClassificacao(id, valor) {
@@ -84,7 +84,7 @@ export default function Show({dados, status, contatos, historicos}) {
                                 </div>
                                 <div className="col-auto">
                                     <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
+                                            data-bs-target="#modalFinalizary">
                                         Finalizar Atendimento
                                     </button>
                                 </div>
@@ -161,7 +161,7 @@ export default function Show({dados, status, contatos, historicos}) {
 
 
             {/*Modal*/}
-            <div className="modal fade" id="exampleModal" tabIndex="10" aria-labelledby="exampleModalLabel"
+            <div className="modal fade" id="modalFinalizary" tabIndex="10" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog modal-dialog-center ed">
                     <div className="modal-content">
@@ -192,7 +192,7 @@ export default function Show({dados, status, contatos, historicos}) {
                                     </button>
                                 </div>
                                 <div className="col">
-                                    <form onSubmit={onSubmit}>
+                                    <form onSubmit={finalizarAtendimento}>
                                         <button disabled={data.msg.length < 150 || historicos.length < 4} type="submit"
                                                 className="btn btn-primary" data-bs-dismiss="modal">
                                             Finalizar

@@ -36,6 +36,7 @@
         "bootstrap": "^5.2.3",
         "chart.js": "^4.2.1",
         "emoji-picker-react": "^4.4.7",
+        "html-react-parser": "^4.2.1",
         "jquery-mask-plugin": "^1.14.16",
         "prop-types": "^15.8.1",
         "react-beautiful-dnd": "^13.1.1",

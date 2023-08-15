@@ -99,10 +99,11 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
             'menu': 'E-mails',
             'icone': <EmailOutlinedIcon/>,
             'tag': 'emails',
-            'submenu': [{'menu': 'Caixa de Entrada', 'url': route('admin.emails.index')}, {
-                'menu': 'Enviar Email',
-                'url': route('admin.emails.create')
-            }, {'menu': 'Configurações', 'url': route('admin.emails.config')},]
+            'submenu': [
+                {'menu': 'Caixa de Entrada', 'url': route('admin.emails.index'), 'tag': 'recebidas'},
+                {'menu': 'Enviar Email', 'url': route('admin.emails.create'), 'tag': 'enviar'},
+                {'menu': 'Configurações', 'url': route('admin.emails.config'), 'tag': 'config'},
+            ]
         }, {
             'menu': 'Contas de Usuários',
             'tag': 'usuarios',

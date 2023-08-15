@@ -32,13 +32,7 @@ class UpdateStatusLeads
     {
         (new AtendimentoStatusLeads())->updateStatus($id);
     }
-    /**
-     * @deprecated
-     */
-    public function ativar($id)
-    {
-        (new AtivoStatusLeads())->updateStatus($id);
-    }
+
     /**
      * @deprecated
      */
@@ -46,23 +40,12 @@ class UpdateStatusLeads
     {
         (new FinalizadoStatusLeads())->updateStatus($id);
     }
-    /**
-     * @deprecated
-     */
-    public function finalizado($id)
-    {
-        (new CanceladoStatusLeads())->updateStatus($id);
-    }
-    /**
-     * @deprecated
-     */
+
     public function ocultar($id)
     {
         (new OcultosLeadsStatus())->updateStatus($id);
     }
-    /**
-     * @deprecated
-     */
+
     public function restaurar(mixed $id)
     {
         (new NovoStatusLeads())->updateStatus($id);

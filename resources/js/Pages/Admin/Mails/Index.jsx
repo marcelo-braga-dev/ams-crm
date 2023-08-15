@@ -2,8 +2,7 @@ import Layout from "@/Layouts/Admin/Layout";
 
 export default function Index({emails, folders}) {
     return (
-        <Layout container titlePage="Caixa de Entrada">
-            <div className="alert alert-warning text-white">Em desenvolvimento</div>
+        <Layout container titlePage="Caixa de Entrada" menu="emails" submenu="recebidas">
             <div className="row">
                 <div className="col-md-3">
                     <form>

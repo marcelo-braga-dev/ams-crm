@@ -12,15 +12,13 @@ import HistoricoLista from "@/Components/Leads/HistoricoLista";
 export default function Show({dados, status, contatos, historicos}) {
     const {data, setData, post} = useForm({
         msg: '',
-        classificacao: dados.cliente.classificacao
+        classificacao: dados.cliente.classificacao,
+        idLead: dados.id
     });
 
     function onSubmit(e) {
         e.preventDefault();
-        router.post(route('consultor.leads.atendimento.update', dados.id), {
-            _method: 'put',
-            ...data
-        })
+        post(route('consultor.leads.atualizar-status'))
         window.location.reload()
     }
 

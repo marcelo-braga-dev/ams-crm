@@ -27,4 +27,7 @@ Route::middleware(['auth', 'auth.consultores'])
 
         Route::post('add-comentarios', [LeadsController::class, 'addComentarios'])
             ->name('add-comentarios');
+
+        Route::post('atualizar-status', [LeadsController::class, 'atualizarStatus'])
+            ->name('atualizar-status');
     });

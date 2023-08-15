@@ -27,15 +27,8 @@ class AtendimentoController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->salvar_msg) {
-            (new LeadsHistoricos())->create($request->id, $request, $request->status);
-
-            modalSucesso('Status atualizado!');
-            return redirect()->back();
-        }
-
         // Finaliza Atendimento
-        (new UpdateStatusLeads())->atendimento($request->id);
+        (new UpdateStatusLeads())->setFinalizado($request->id);
         (new LeadsHistoricos())->create($request->id, $request, 'finalizado');
 
         modalSucesso('Status atualizado!');

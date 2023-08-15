@@ -29,7 +29,11 @@ class EmailsController extends Controller
     public function show($id)
     {
         $email = (new EmailsService())->getMensagem($id);
+//        print_pre($email);
 
+//        $bin = base64_decode($email['body'], true);
+//        file_put_contents('file.pdf', $bin);
+//print_pre($email);
         return Inertia::render('Admin/Mails/Show', compact('email'));
     }
 

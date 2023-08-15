@@ -1,19 +1,9 @@
 import {Col, Row} from "reactstrap";
-import {
-    FormControl,
-    FormLabel,
-    InputAdornment,
-    InputLabel, MenuItem,
-    OutlinedInput,
-    Radio,
-    RadioGroup,
-    TextField,
-} from "@mui/material";
+import {TextField, MenuItem} from "@mui/material";
 import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 
-export default function Pedido({fornecedores, integradores, setData, data}) {
+export default function Pedido({fornecedores, setData, data}) {
 
     function qtdCheque(qtd) {
         setData('forma_pagamento', qtd + 'x Cheques')
@@ -36,24 +26,16 @@ export default function Pedido({fornecedores, integradores, setData, data}) {
             </Col>
         </Row>
         <div className="row">
-            <div className="col">
-                <FormControl>
-                    <FormLabel id="demo-row-radio-buttons-group-label">Formas de Pagamento</FormLabel>
-                    <RadioGroup required row onChange={e => setData('forma_pagamento', e.target.value)}>
-                        <FormControlLabel value="À Vista" control={<Radio id="forma_pagamento"/>} label="À Vista"/>
-                        <FormControlLabel value="Financiamento" control={<Radio id="forma_pagamento"/>}
-                                          label="Financiamento"/>
-                        <FormControlLabel value="Boleto" control={<Radio id="forma_pagamento"/>} label="Boleto"/>
-                        <FormControlLabel value="Cartão de Crédito/ Cartão Débito"
-                                          control={<Radio id="forma_pagamento"/>}
-                                          label="Cartão de Crédito/ Cartão Débito"/>
-                        <FormControlLabel value="Dinheiro" control={<Radio id="forma_pagamento"/>} label="Dinheiro"/>
-                        <FormControlLabel value="Cheque" control={<Radio id="forma_pagamento"/>} label="Cheque"/>
-                    </RadioGroup>
-                </FormControl>
+            <div className="col-md-4">
+                <TextField label="Formas de Pagamento" select fullWidth required defaultValue=""
+                           onChange={e => setData('forma_pagamento', e.target.value)}>
+                        <MenuItem value="À Vista">À Vista</MenuItem>
+                        <MenuItem value="Boleto">Boleto</MenuItem>
+                        <MenuItem value="Cartão de Crédito/ Cartão Débito">Cartão de Crédito/ Cartão Débito</MenuItem>
+                        <MenuItem value="Dinheiro">Dinheiro</MenuItem>
+                        <MenuItem value="Cheque">Cheque</MenuItem>
+                </TextField>
             </div>
-        </div>
-        <div className="row">
             <div className="col-3">
                 {data.forma_pagamento?.includes('Cheque') &&
                     <TextField

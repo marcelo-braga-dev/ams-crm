@@ -23,11 +23,26 @@ class PedidosController extends Controller
 {
     public function index()
     {
-        $pedidos = (new CardDadosService())->getCards(id_usuario_atual());
-        $coresAbas = (new ConfigCores())->getPedidos();
+        switch (setor_usuario_atual()) {
+            case 1:
+            case 2:
+            {
+                $pedidos = (new CardDadosService())->getCards(id_usuario_atual());
+                $coresAbas = (new ConfigCores())->getPedidos();
 
-        return Inertia::render('Consultor/Pedidos/Index',
-            compact('pedidos', 'coresAbas'));
+                return Inertia::render('Consultor/Pedidos/Index',
+                    compact('pedidos', 'coresAbas'));
+            }
+            case 3: {
+                $pedidos = (new CardDadosService())->getCards(id_usuario_atual());
+                $coresAbas = (new ConfigCores())->getPedidos();
+
+                return Inertia::render('Consultor/Pedidos/Modelo2/Index',
+                    compact('pedidos', 'coresAbas'));
+            }
+        }
+        print_pre(setor_usuario_atual());
+
     }
 
     public function create(Request $request)

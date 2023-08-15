@@ -4,8 +4,10 @@ namespace App\Services\Emails;
 
 use App\Models\Email;
 use App\Models\EmailConfigs;
+use Laminas\Mail\Exception\DomainException;
 use Laminas\Mail\Storage\Exception\RuntimeException;
 use Laminas\Mail\Storage\Imap;
+use RecursiveIteratorIterator;
 
 class EmailsService
 {
@@ -57,42 +59,59 @@ class EmailsService
         return $msgs;
     }
 
-    public function getMensagem(int $id)
+    public function getMensagem(int $id): array
     {
         $message = $this->emails->getMessage($id);
 
-        function convertBody($part)
-        {
-            $tipo = $part->getHeader('contenttransferencoding');
-            if ($tipo->getTransferEncoding() == 'base64') {
-                return base64_decode($part->getContent());
-            }
-            if ($tipo->getTransferEncoding() == 'quoted-printable') {
-                return trim(quoted_printable_decode($part->getContent()));
+        $dados = [
+            'titulo' => $message->subject,
+            'remetente' => [
+                'nome' => $message->sender ?? '',
+                'email' => $message->to,
+            ],
+            'text' => [],
+            'html' => [],
+            'pdf' => [],
+            'imagem' => [],
+        ];
+
+        foreach (new RecursiveIteratorIterator($this->emails->getMessage($id)) as $part) {
+            try {
+                switch (strtok($part->contentType, ';')) {
+                    case 'text/plain':
+                        $dados['text'][] = $part->getContent();
+                        break;
+                    case 'text/html':
+                        $dados['html'][] = trim(quoted_printable_decode($part->getContent()));
+                        break;
+                    case 'application/pdf':
+                        $dados['pdf'][] = [
+                            'nome' => $part->getHeader('ContentDisposition')->getParameter('filename'),
+                            'conteudo' => $part->getContent(),
+                            'encoding' => $part->contenttransferencoding,
+                        ];
+                        break;
+                    case 'image/png': //print_pre($part);
+                        $dados['imagem'][] = [
+                            'nome' => $part->getHeader('ContentDisposition')->getParameter('filename'),
+                            'conteudo' => $part->getContent(),
+                            'encoding' => $part->contenttransferencoding,
+                        ];
+                        break;
+                }
+            } catch (DomainException $e) {
+                // ignore
             }
         }
 
-        $dados = [];
-
-        if ($message->isMultipart()) {
-            for ($i = 1; $i <= $message->countParts(); $i++) {
-                $part = $message->getPart(2);
-
-                $dados = [
-                    'body' => trim(quoted_printable_decode($part->getContent()))
-                ];
-            }
-        } else $dados = [
-            'body' => trim(quoted_printable_decode($message->getContent()))
-        ];
-
+//        print_pre($dados);
         return $dados;
     }
 
     private function getFlags($message)
     {
         $flags = $message->getFlags();
-        if (isset($flags['\Seen']) ) return 'visualizado';
+        if (isset($flags['\Seen'])) return 'visualizado';
     }
 
     public function getFolders($folderAtual = null)
