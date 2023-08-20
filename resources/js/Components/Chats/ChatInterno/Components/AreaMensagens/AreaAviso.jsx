@@ -1,5 +1,6 @@
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 import styled from "styled-components";
+import React from "react";
 
 const CaixaMensagem = styled.span`
     white-space: pre-line;
@@ -10,6 +11,9 @@ export default function AreaAviso({item, index}) {
 
     return (
         <div className="p-3">
+            <div className="text-center">
+                {item.periodo_data ? <span className="badge bg-light text-dark m-3 px-4">{item.periodo_data}</span> : ''}
+            </div>
             <div key={index} className="card">
                 <div className="card-body">
                     {item.tipo === 'msg' &&

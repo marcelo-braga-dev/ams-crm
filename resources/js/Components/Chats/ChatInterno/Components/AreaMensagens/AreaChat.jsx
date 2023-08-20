@@ -1,4 +1,4 @@
-import {Box, Card,} from "@mui/material";
+import {Box, Card} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
@@ -12,7 +12,6 @@ const CardWrapperSecondary = styled(Card)`
     color: black;
     padding: 10px;
     border-radius: 3px 15px 15px 15px;
-    max-width: 80%;
     word-break: break-word;
     white-space: pre-line;
 `
@@ -21,7 +20,6 @@ const CardWrapperPrimary = styled(Card)`
     color: white;
     padding: 10px;
     border-radius: 15px 3px 15px 15px;
-    max-width: 80%;
     word-break: break-word;
     white-space: pre-line;
 `
@@ -32,6 +30,9 @@ export default function AreaChat({item, index}) {
 
     return (
         <div className="p-3">
+            <div className="text-center">
+                {item.periodo_data ? <span className="badge bg-light text-dark m-3 px-4">{item.periodo_data}</span> : ''}
+            </div>
             {item.is_resposta ?
                 <Box
                     key={index}
@@ -48,13 +49,14 @@ export default function AreaChat({item, index}) {
                         alignItems="flex-start"
                         flexDirection="column"
                         justifyContent="flex-start"
-                        ml={2}
+                        ml={1}
+                        mr={15}
                     >
                         <CardWrapperSecondary>
                             {item.tipo === 'msg' &&
-                                <span className="mb-2 d-block">{item.mensagem}</span>}
+                                <span>{item.mensagem}</span>}
                             {item.tipo === 'file' &&
-                                <span className="mb-2 d-block"><ImagePdf url={item.mensagem}/></span>}
+                                <span><ImagePdf url={item.mensagem}/></span>}
                         </CardWrapperSecondary>
                         <small className="font-italic pt-1" style={{fontSize: 12}}>
                             <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
@@ -76,10 +78,11 @@ export default function AreaChat({item, index}) {
                         flexDirection="column"
                         justifyContent="flex-end"
                         mr={1}
+                        ml={15}
                     >
                         <CardWrapperPrimary>
                             {item.tipo === 'msg' &&
-                                <span className="break-all d-block">{item.mensagem}</span>
+                                <span>{item.mensagem}</span>
                             }
                             {item.tipo === 'file' &&
                                 <span className="d-block"><ImagePdf url={item.mensagem}/> </span>

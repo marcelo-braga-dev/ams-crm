@@ -65,7 +65,10 @@ class MensagensChatInternoService
         $fotos = (new User())->getFotos();
 
         $dados = [];
+        $periodo = '';
         foreach ($mensagens as $mensagem) {
+            $periodoAtual = date('d/m/Y', strtotime($mensagem->created_at));;
+            if ($periodo != $periodoAtual) $periodoMostrar = $periodoAtual; else $periodoMostrar = 0;
             $dados[] = [
                 'id_destinatario' => $mensagem->destinatario,
                 'nome_destinatario' => $usuarios[$mensagem->destinatario],
@@ -76,8 +79,11 @@ class MensagensChatInternoService
                 'is_resposta' => id_usuario_atual() == $mensagem->destinatario ? 1 : 0,
                 'data' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
                 'tipo' => $mensagem->tipo,
-                'foto' => $fotos[$mensagem->users_id]
+                'foto' => $fotos[$mensagem->users_id],
+                'periodo_data' => date('d/m/Y') == $periodoMostrar ? 'Hoje' : $periodoMostrar
             ];
+
+            $periodo = date('d/m/Y', strtotime($mensagem->created_at));
         }
         return $dados;
     }
