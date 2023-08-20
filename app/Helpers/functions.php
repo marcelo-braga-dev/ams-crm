@@ -61,3 +61,10 @@ if (!function_exists('modalErro')) {
         session()->flash('erro', $mensagem);
     }
 }
+
+if (!function_exists('convert_data')) {
+    function convert_data($valor)
+    {
+        return date('d/m/y H:i:s', strtotime($valor));
+    }
+}

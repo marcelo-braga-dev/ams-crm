@@ -15,7 +15,7 @@ export default function Layout({children, titlePage, container, voltar, menu, su
 
             <main className="main-content">
                 <Navbar titlePage={titlePage}/>
-                <div className="container-fluid mb-8 mt-3">
+                <div className="container-fluid pt-3">
                     {container ?
                         voltar ?
                             <div className="card">

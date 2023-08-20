@@ -11,7 +11,7 @@ class HistoricoController extends Controller
 {
     public function index()
     {
-        $pedidos = (new PedidosService())->pedidosConsultor();
+        $pedidos = (new PedidosService())->historicoDados();
 
         return Inertia::render('Consultor/Pedidos/Historicos/Index', compact('pedidos'));
     }

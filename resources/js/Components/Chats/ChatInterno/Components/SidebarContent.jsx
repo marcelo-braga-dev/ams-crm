@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import {
     Box,
     TextField,
@@ -73,7 +72,7 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
     }
 
     return (
-        <Box>
+        <div className="scroll-y">
             <Box display="flex" alignItems="flex-start" className="p-3">
                 <QuestionAnswerIcon style={{fontSize: 50}}/>
                 <Box sx={{ml: 1.5, flex: 1}}>
@@ -104,8 +103,9 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                 renderInput={(params) => <TextField  {...params} />}
             />
 
-            <Box mt={2}>
-                <List disablePadding component="div" className="mb-4">
+            <Box>
+                <List disablePadding component="div"
+                >
                     {/*Avisos*/}
                     <ListItemButton className="border-bottom"
                                     style={infoChatSelecionado.categoria === 'avisos' ? chatAtivo : {}}
@@ -126,71 +126,73 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                                 {qtdAlertas > 0 && <span className="badge rounded-pill bg-success">{qtdAlertas}</span>}
                             </div>
                         </div>
-
-                        {/**/}
-
                     </ListItemButton>
 
-                    {chats.map((dados, index) => {
-                        const selecionado = infoChatSelecionado.id === dados.id
-                        if (selecionado) infoChatSelecionado.online = dados.online
+                    <Box sx={{
+                        overflow: 'auto',
+                        maxHeight: '60vh',
+                    }}>
+                        {chats.map((dados, index) => {
+                            const selecionado = infoChatSelecionado.id === dados.id
+                            if (selecionado) infoChatSelecionado.online = dados.online
 
-                        return (
-                            <ListItemButton className="border-bottom" style={selecionado ? chatAtivo : {}}
-                                            onClick={() => selecionarChat(dados, 'chat')} key={index}>
-                                <ListItemAvatar>
+                            return (
+                                <ListItemButton className="border-bottom" style={selecionado ? chatAtivo : {}}
+                                                onClick={() => selecionarChat(dados, 'chat')} key={index}>
+                                    <ListItemAvatar>
 
-                                    {dados.online ?
-                                        <StyledBadge
-                                            overlap="circular"
-                                            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-                                            variant="dot">
-                                            <Avatar sx={{width: 50, height: 50}} alt={dados.nome} src={dados.foto}/>
-                                        </StyledBadge> :
-                                        <StyledBadgeOffiline
-                                            overlap="circular"
-                                            anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-                                            variant="dot">
-                                            <Avatar sx={{width: 50, height: 50}} alt={dados.nome} src={dados.foto}/>
-                                        </StyledBadgeOffiline>
-                                    }
-                                </ListItemAvatar>
-                                <ListItemText
-                                    sx={{mr: 1, ml: 1}}
-                                    primaryTypographyProps={{
-                                        color: selecionado ? 'white' : 'black',
-                                        variant: 'subtitle1',
-                                        noWrap: true
-                                    }}
-                                    secondaryTypographyProps={{
-                                        color: selecionado ? 'white' : 'black',
-                                        noWrap: true
-                                    }}
-                                    primary={dados.nome}
-                                    secondary={
-                                        <>
-                                            <DoneAllIcon color={
-                                                selecionado ?
-                                                    (dados.status === 'lido' ? 'info' : 'white') :
-                                                    (dados.status === 'lido' ? 'info' : 'disabled')}
-                                                         style={{fontSize: 14}} className="me-1"/>
-                                            {dados.tipo === 'file' ?
-                                                <ImageIcon style={{fontSize: 14}}/> : dados.ultima_mensagem}
-                                            <small
-                                                className={(selecionado ? 'text-white ' : 'text-muted ') + "d-block text-end font-italic"}>
-                                                {dados.data_mensagem}
-                                            </small>
-                                        </>
-                                    }
-                                />
-                                {dados.qtd_nova > 0 &&
-                                    <span className="badge rounded-pill bg-success">{dados.qtd_nova}</span>}
-                            </ListItemButton>
-                        )
-                    })}
+                                        {dados.online ?
+                                            <StyledBadge
+                                                overlap="circular"
+                                                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                                                variant="dot">
+                                                <Avatar sx={{width: 50, height: 50}} alt={dados.nome} src={dados.foto}/>
+                                            </StyledBadge> :
+                                            <StyledBadgeOffiline
+                                                overlap="circular"
+                                                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                                                variant="dot">
+                                                <Avatar sx={{width: 50, height: 50}} alt={dados.nome} src={dados.foto}/>
+                                            </StyledBadgeOffiline>
+                                        }
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        sx={{mr: 1, ml: 1}}
+                                        primaryTypographyProps={{
+                                            color: selecionado ? 'white' : 'black',
+                                            variant: 'subtitle1',
+                                            noWrap: true
+                                        }}
+                                        secondaryTypographyProps={{
+                                            color: selecionado ? 'white' : 'black',
+                                            noWrap: true
+                                        }}
+                                        primary={dados.nome}
+                                        secondary={
+                                            <>
+                                                <DoneAllIcon color={
+                                                    selecionado ?
+                                                        (dados.status === 'lido' ? 'info' : 'white') :
+                                                        (dados.status === 'lido' ? 'info' : 'disabled')}
+                                                             style={{fontSize: 14}} className="me-1"/>
+                                                {dados.tipo === 'file' ?
+                                                    <ImageIcon style={{fontSize: 14}}/> : dados.ultima_mensagem}
+                                                <small
+                                                    className={(selecionado ? 'text-white ' : 'text-muted ') + "d-block text-end font-italic"}>
+                                                    {dados.data_mensagem}
+                                                </small>
+                                            </>
+                                        }
+                                    />
+                                    {dados.qtd_nova > 0 &&
+                                        <span className="badge rounded-pill bg-success">{dados.qtd_nova}</span>}
+                                </ListItemButton>
+                            )
+                        })}
+                    </Box>
                 </List>
             </Box>
-        </Box>
+        </div>
     );
 }
 

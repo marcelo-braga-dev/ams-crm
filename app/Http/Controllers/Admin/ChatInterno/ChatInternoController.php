@@ -14,11 +14,10 @@ class ChatInternoController extends Controller
 {
     public function index()
     {
-        $conversas = (new MensagensChatInternoService())->conversas();
         $pessoas = (new UsuariosService())->ativos(id_usuario_atual());
 
         return Inertia::render('Admin/ChatInterno/Index',
-            compact('conversas', 'pessoas'));
+            compact( 'pessoas'));
     }
 
     public function store(Request $request)

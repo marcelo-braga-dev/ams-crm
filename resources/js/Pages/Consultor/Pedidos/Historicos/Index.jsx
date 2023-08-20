@@ -21,15 +21,6 @@ const columns = [
         sortable: true,
         grow: 0,
     }, {
-        name: 'Status',
-        selector: row => <>
-            <span>
-                {row.status}<br/>
-                {row.data_criacao}
-            </span>
-        </>,
-        sortable: true,
-    }, {
         name: '',
         selector: row => <>
             <span className="text-bold">Cliente: </span>{row.cliente}<br/>
@@ -39,8 +30,14 @@ const columns = [
         sortable: false,
         grow: 2,
     }, {
-        name: 'Valor',
-        selector: row => row.valor,
+        name: 'Status',
+        selector: row => <>
+            <span>
+                <span className="text-bold">R$ {row.valor}<br/></span>
+                <span className="text-bold">{row.status}</span><br/>
+                {row.data_criacao}
+            </span>
+        </>,
         sortable: true,
     }, {
         cell: row =>
@@ -59,14 +56,13 @@ export default function Filtering({pedidos}) {
     // Dados
     const linhas = pedidos.map(function (items) {
         return {
-            id: items.pedido.id,
-            cliente: items.cliente.nome,
-            consultor: items.consultor.nome,
-            integrador: items.integrador.nome,
-            valor: 'R$ ' + items.preco.convertido,
-            status: items.pedido.status,
-            data_criacao: items.pedido.data_criacao,
-
+            id: items.id,
+            cliente: items.cliente,
+            consultor: items.consultor,
+            integrador: items.integrador,
+            valor: items.preco,
+            status: items.status,
+            data_criacao: items.data,
         }
     });
     // Dados - fim

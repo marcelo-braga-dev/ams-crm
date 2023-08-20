@@ -24,6 +24,7 @@ class MensagensChatInternoService
                 $mensagem->status === 'novo') $qtnNova[$id][] = 'x';
 
             $users[$id] = [
+                'ordem' => strtotime($mensagem->created_at),
                 'id' => $id,
                 'nome' => $nomes[$id],
                 'ultima_mensagem' => $mensagem->mensagem,
@@ -31,7 +32,7 @@ class MensagensChatInternoService
                 'tipo' => $mensagem->tipo,
                 'status' => $mensagem->status,
                 'foto' => $fotos[$id],
-                'online' => $online[$id] ?? false
+                'online' => $online[$id] ?? false,
             ];
         }
 
@@ -40,7 +41,13 @@ class MensagensChatInternoService
             $dados[] = array_merge($item, ['qtd_nova' => empty($qtnNova[$item['id']]) ? 0 : count($qtnNova[$item['id']])]);
         }
 
-        return $dados;
+        arsort($dados);
+        $res = [];
+        foreach ($dados as $item) {
+            $res[] = $item;
+        }
+
+        return $res;
     }
 
     public function chatAlertas()
