@@ -246,4 +246,10 @@ class User extends Authenticatable
             ])
             ->get();
     }
+
+    public function getIdUsuarios()
+    {
+        return $this->newQuery()
+            ->get('id');
+    }
 }

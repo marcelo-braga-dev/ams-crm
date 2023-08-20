@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\ChatInterno\Categorias\Avisos;
 use App\src\ChatInterno\Categorias\Chat;
 use App\src\ChatInterno\Status\NovoStatusChatInterno;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -76,7 +77,6 @@ class ChatInterno extends Model
         return $this->newQuery()
             ->where('destinatario', $id)
             ->where('status', (new NovoStatusChatInterno())->getStatus())
-            ->where('categoria', 'chat')
             ->count();
     }
 
@@ -94,20 +94,30 @@ class ChatInterno extends Model
             ]);
     }
 
-    public function getAvisos($usuario)
+    public function getAvisos()
     {
+        $categoria = (new Avisos())->categoria();
+
+        $this->newQuery()
+            ->where('categoria', $categoria)
+            ->where('destinatario', id_usuario_atual())
+            ->update([
+                'status' => 'lido'
+            ]);
+
         return $this->newQuery()
-            ->where('categoria', 'aviso')
-//            ->where('destinatario', id_usuario_atual())
+            ->where('categoria', $categoria)
+            ->where('destinatario', id_usuario_atual())
             ->get();
     }
 
     public function chatAlerta()
     {
         return $this->newQuery()
-            ->where('categoria', 'aviso')
+            ->where('categoria', (new Avisos())->categoria())
             ->where('destinatario', id_usuario_atual())
             ->where('status_chat', 1)
+            ->where('status', 'novo')
             ->count();
     }
 }

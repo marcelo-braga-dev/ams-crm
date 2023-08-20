@@ -104,8 +104,7 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
             />
 
             <Box>
-                <List disablePadding component="div"
-                >
+                <List disablePadding component="div">
                     {/*Avisos*/}
                     <ListItemButton className="border-bottom"
                                     style={infoChatSelecionado.categoria === 'avisos' ? chatAtivo : {}}

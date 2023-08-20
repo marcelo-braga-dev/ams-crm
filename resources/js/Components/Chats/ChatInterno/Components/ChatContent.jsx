@@ -3,6 +3,8 @@ import {Virtuoso} from 'react-virtuoso';
 import AreaChat from "./AreaMensagens/AreaChat";
 import AreaAviso from "./AreaMensagens/AreaAviso";
 
+import {useState, useRef} from 'react'
+
 export default function ChatContent({mensagens, infoChatSelecionado}) {
 
     const itemContent = useCallback((index, item) => {
@@ -11,19 +13,21 @@ export default function ChatContent({mensagens, infoChatSelecionado}) {
             <AreaAviso item={item} index={index}/>
     }, [infoChatSelecionado]);
 
+
+    useEffect(() => {
+        virtuosoRef.current.scrollToIndex({index: mensagens.length - 1})
+    }, [infoChatSelecionado.id])
+
+    const virtuosoRef = useRef(null)
+
     return (
-        <div style={{
-            display: 'flex',
-            flexFlow: 'column',
-            height: '100%'
-        }}>
+        <>
             <Virtuoso
                 itemContent={itemContent}
                 data={mensagens}
                 followOutput="auto"
-                // style={{flex: '1 1 auto'}}
+                ref={virtuosoRef}
             />
-            <div></div>
-        </div>
+        </>
     );
 }

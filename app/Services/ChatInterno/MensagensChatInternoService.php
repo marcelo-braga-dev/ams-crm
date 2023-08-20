@@ -57,9 +57,9 @@ class MensagensChatInternoService
 
     public function mensagens($usuario, $destinatario, $categoria = 'chat')
     {
-        $mensagens = $categoria === 'chat'
-            ? (new ChatInterno())->getMensagens($usuario, $destinatario)
-            : (new ChatInterno())->getAvisos($usuario);
+        $mensagens = [];
+        if ($categoria === 'chat') $mensagens = (new ChatInterno())->getMensagens($usuario, $destinatario);
+        if ($categoria === 'avisos') $mensagens = (new ChatInterno())->getAvisos();
 
         $usuarios = (new User())->getNomes();
         $fotos = (new User())->getFotos();

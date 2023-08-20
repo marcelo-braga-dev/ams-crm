@@ -59,18 +59,22 @@ let novaMensagem = []
 let chatsAtualizado = []
 let getUrlRes = ''
 let categoria = ''
+let qtdAvisosInicio = null
 
 async function atualizaMensagens() {
     if (categoria === 'chat') {
         await axios.get(route(getUrlRes, {destinatario: id, categoria: 'chat'})).then(results => {
             novaMensagem = results.data.mensagens
             chatsAtualizado = results.data.chats
+
+            qtdAvisosInicio = results.data.qtdAlertas
         })
     }
     if (categoria === 'avisos') {
         await axios.get(route(getUrlRes, {categoria: 'avisos'})).then(results => {
             novaMensagem = results.data.mensagens
             chatsAtualizado = results.data.chats
+            qtdAvisosInicio = results.data.qtdAlertas
         })
     }
     setTimeout(atualizaMensagens, 250)
@@ -82,7 +86,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
 
     const [mensagens, setMensagens] = useState([]);
     const [chats, setChats] = useState([]);
-    const [qtdAlertas, setQtdAlertas] = useState(0);
+    const [qtdAlertas, setQtdAlertas] = useState();
     const [infoChatSelecionado, setInfoChatSelecionado] = useState({
         id: 0,
         nome: '',
@@ -103,6 +107,10 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
     useEffect(() => {
         if (chatsAtualizado.length) setChats(chatsAtualizado)
     }, [chatsAtualizado]);
+
+    useEffect(() => {
+        setQtdAlertas(qtdAvisosInicio)
+    }, [qtdAvisosInicio]);
 
     useEffect(() => {
         temporizador()
@@ -130,6 +138,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
     async function buscaMensagens() {
         await axios.get(route(getUrl, {destinatario: 0})).then(results => {
             setChats(results.data.chats)
+            setQtdAlertas(results.data.qtdAlertas)
         })
     }
 
