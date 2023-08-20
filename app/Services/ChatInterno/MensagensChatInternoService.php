@@ -81,6 +81,7 @@ class MensagensChatInternoService
                 'data' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
                 'tipo' => $mensagem->tipo,
                 'foto' => $fotos[$mensagem->users_id],
+                'categoria' => $categoria,
                 'periodo_data' => date('d/m/Y') == $periodoMostrar ? 'Hoje' : $periodoMostrar
             ];
 

@@ -11,8 +11,9 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
 
     const itemContent = useCallback((index, item) => {
         return infoChatSelecionado.categoria === 'chat' ?
-            <AreaChat item={item} index={index}/> :
-            <AreaAviso item={item} index={index} admin={admin} setIdExcluirAviso={setIdExcluirAviso}/>
+            <AreaChat item={item} index={index} infoChatSelecionado={infoChatSelecionado}/> :
+            <AreaAviso item={item} index={index} admin={admin}
+                       setIdExcluirAviso={setIdExcluirAviso}/>
     }, [infoChatSelecionado]);
 
 
@@ -40,7 +41,7 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 className="modal-title" id="exampleModalLabel">Excluir Aviso</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>

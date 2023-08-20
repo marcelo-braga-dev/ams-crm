@@ -87,6 +87,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
     const [mensagens, setMensagens] = useState([]);
     const [chats, setChats] = useState([]);
     const [qtdAlertas, setQtdAlertas] = useState();
+    const [mostrarMensagem, setMostrarMensagem] = useState('MENSAGEM');
     const [infoChatSelecionado, setInfoChatSelecionado] = useState({
         id: 0,
         nome: '',
@@ -94,6 +95,11 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
         online: 0,
         categoria: ''
     });
+
+    useEffect(() => {
+        setMostrarMensagem('ALTERADO')
+
+    }, [infoChatSelecionado]);
 
     id = infoChatSelecionado.id
     getUrlRes = getUrl
@@ -188,7 +194,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
                         <TopBarContent infoChatSelecionado={infoChatSelecionado}/>
                     </ChatTopBar>
                     <ChatContent
-                        mensagens={mensagens} admin={admin}
+                        mensagens={mensagens} admin={admin} mostrarMensagem={mostrarMensagem}
                         infoChatSelecionado={infoChatSelecionado}
                     />
                     <Divider/>
