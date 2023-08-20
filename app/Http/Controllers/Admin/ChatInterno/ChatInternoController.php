@@ -17,7 +17,7 @@ class ChatInternoController extends Controller
         $pessoas = (new UsuariosService())->ativos(id_usuario_atual());
 
         return Inertia::render('Admin/ChatInterno/Index',
-            compact( 'pessoas'));
+            compact('pessoas'));
     }
 
     public function store(Request $request)
@@ -44,5 +44,10 @@ class ChatInternoController extends Controller
     public function excluirConversa(Request $request)
     {
         (new ChatInterno())->excluirConversa($request->idDestinatario);
+    }
+
+    public function excluirAviso(Request $request)
+    {
+        (new ChatInterno())->excluirAviso($request->id);
     }
 }

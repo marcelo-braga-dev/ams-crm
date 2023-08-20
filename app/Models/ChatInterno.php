@@ -108,6 +108,7 @@ class ChatInterno extends Model
         return $this->newQuery()
             ->where('categoria', $categoria)
             ->where('destinatario', id_usuario_atual())
+            ->where('status_chat', 1)
             ->get();
     }
 
@@ -119,5 +120,14 @@ class ChatInterno extends Model
             ->where('status_chat', 1)
             ->where('status', 'novo')
             ->count();
+    }
+
+    public function excluirAviso($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'status_chat' => 0
+            ]);
     }
 }

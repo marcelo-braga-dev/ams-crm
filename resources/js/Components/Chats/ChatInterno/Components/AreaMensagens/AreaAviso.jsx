@@ -7,15 +7,26 @@ const CaixaMensagem = styled.span`
     margin-bottom: 100px;
 `
 
-export default function AreaAviso({item, index}) {
+export default function AreaAviso({item, index, admin, setIdExcluirAviso}) {
+
+    function excluirMensagem(id) {
+        setIdExcluirAviso(id)
+    }
 
     return (
         <div className="p-3">
             <div className="text-center">
-                {item.periodo_data ? <span className="badge bg-light text-dark m-3 px-4">{item.periodo_data}</span> : ''}
+                {item.periodo_data ?
+                    <span className="badge bg-light text-dark m-3 px-4">{item.periodo_data}</span> : ''}
             </div>
             <div key={index} className="card">
-                <div className="card-body">
+                {admin && <div className="text-end pe-3">
+                    <span onClick={() => excluirMensagem(item.id_mensagem)}
+                          data-bs-toggle="modal" data-bs-target="#excluirAviso">
+                        <button className="btn btn-link p-0 mb-0 text-danger"><i className="fas fa-times"></i></button>
+                    </span>
+                </div>}
+                <div className="card-bo dy px-4 mb-3">
                     {item.tipo === 'msg' &&
                         <CaixaMensagem>{item.mensagem}</CaixaMensagem>
                     }

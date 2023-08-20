@@ -188,7 +188,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
                         <TopBarContent infoChatSelecionado={infoChatSelecionado}/>
                     </ChatTopBar>
                     <ChatContent
-                        mensagens={mensagens}
+                        mensagens={mensagens} admin={admin}
                         infoChatSelecionado={infoChatSelecionado}
                     />
                     <Divider/>

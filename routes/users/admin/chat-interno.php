@@ -11,4 +11,7 @@ Route::name('admin.')
             ->name('chat-interno.mensagens');
         Route::post('chat-interno-excluir-mensagens', [ChatInternoController::class, 'excluirConversa'])
             ->name('chat-interno-excluir-mensagens');
+
+        Route::post('chat-interno-excluir-aviso', [ChatInternoController::class, 'excluirAviso'])
+            ->name('chat-interno-excluir-aviso');
     });
