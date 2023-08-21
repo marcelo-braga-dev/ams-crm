@@ -71,6 +71,7 @@ class MensagensChatInternoService
             if ($periodo != $periodoAtual) $periodoMostrar = $periodoAtual; else $periodoMostrar = 0;
             $dados[] = [
                 'id_mensagem' => $mensagem->id,
+                'chat_destinatario' => $destinatario,
                 'id_destinatario' => $mensagem->destinatario,
                 'nome_destinatario' => $usuarios[$mensagem->destinatario],
                 'id_usuario' => $mensagem->users_id,

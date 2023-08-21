@@ -19,10 +19,11 @@ class ChatInterno extends Model
         'mensagem',
         'tipo',
         'status_chat',
-        'categoria'
+        'categoria',
+        'token'
     ];
 
-    public function create($destinatario, $msg, $tipo, $categoria)
+    public function create($destinatario, $msg, $tipo, $categoria, $token = null)
     {
         $this->newQuery()
             ->create([
@@ -31,7 +32,8 @@ class ChatInterno extends Model
                 'mensagem' => $msg,
                 'status' => (new NovoStatusChatInterno())->getStatus(),
                 'tipo' => $tipo,
-                'categoria' => $categoria
+                'categoria' => $categoria,
+                'token' => $token
             ]);
     }
 
@@ -124,8 +126,11 @@ class ChatInterno extends Model
 
     public function excluirAviso($id)
     {
+        $msg = $this->newQuery()
+            ->find($id);
+
         $this->newQuery()
-            ->find($id)
+            ->where('token', $msg->token)
             ->update([
                 'status_chat' => 0
             ]);

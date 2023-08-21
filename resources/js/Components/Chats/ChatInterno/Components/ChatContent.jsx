@@ -5,15 +5,20 @@ import AreaAviso from "./AreaMensagens/AreaAviso";
 
 import {useState, useRef} from 'react'
 import axios from "axios";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
     const [idExcluirAviso, setIdExcluirAviso] = useState()
+    const [progress, setProgress] = useState(false)
+    const [semMensagem, setSemMensagem] = useState(false)
+
 
     const itemContent = useCallback((index, item) => {
         return infoChatSelecionado.categoria === 'chat' ?
-            <AreaChat item={item} index={index} infoChatSelecionado={infoChatSelecionado}/> :
+            <AreaChat item={item} index={index} infoChatSelecionado={infoChatSelecionado}
+                      setProgress={setProgress}/> :
             <AreaAviso item={item} index={index} admin={admin}
-                       setIdExcluirAviso={setIdExcluirAviso}/>
+                       setIdExcluirAviso={setIdExcluirAviso} setProgress={setProgress}/>
     }, [infoChatSelecionado]);
 
 
@@ -23,12 +28,32 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
 
     useEffect(() => {
         virtuosoRef.current.scrollToIndex({index: mensagens.length - 1})
+        if (mensagens.length === '0') setProgress(false)
     }, [infoChatSelecionado.id])
+
+    useEffect(() => {
+        setSemMensagem(false)
+        if (mensagens.length === 0) {
+            setProgress(false)
+        }
+        if (infoChatSelecionado.id && mensagens.length === 0) setSemMensagem(true)
+    }, [mensagens])
 
     const virtuosoRef = useRef(null)
 
     return (
         <>
+            {progress &&
+                <div className="text-center mt-8">
+                    <CircularProgress color="inherit"/>
+                </div>
+            }
+            {semMensagem &&
+                <div className="text-center mt-8">
+                    NAO HÁ MENSAGENS
+                </div>
+            }
+
             <Virtuoso
                 itemContent={itemContent}
                 data={mensagens}

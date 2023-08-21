@@ -27,9 +27,10 @@ class Cadastrar
         } else {
             $destinatarios = (new User())->getIdUsuarios();
 
+            $token = uniqid();
             foreach ($destinatarios as $item) {
                 (new ChatInterno())
-                    ->create($item->id, $msg, $tipo, $categoria);
+                    ->create($item->id, $msg, $tipo, $categoria, $token);
             }
         }
     }
