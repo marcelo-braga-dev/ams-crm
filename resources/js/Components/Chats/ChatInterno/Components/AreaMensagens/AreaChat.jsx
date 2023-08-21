@@ -29,7 +29,7 @@ export default function AreaChat({item, index, infoChatSelecionado}) {
     const [fotoUsuario, setFotoUsuario] = useState(props.foto_usuario);
 
     return (
-        infoChatSelecionado.id === item.id_destinatario ?
+        // infoChatSelecionado.id === item.id_destinatario ?
         <div className="p-3">
             <div className="text-center">
                 {item.periodo_data ? <span className="badge bg-light text-dark m-3 px-4">{item.periodo_data}</span> : ''}
@@ -103,6 +103,7 @@ export default function AreaChat({item, index, infoChatSelecionado}) {
                         src={fotoUsuario}
                     />
                 </Box>}
-        </div> : <div></div>
+        </div>
+        // : <div></div>
     )
 }
