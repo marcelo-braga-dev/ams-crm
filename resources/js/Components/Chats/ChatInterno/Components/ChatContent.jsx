@@ -50,7 +50,7 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
             }
             {semMensagem &&
                 <div className="text-center mt-8">
-                    NAO HÁ MENSAGENS
+                    NÃO HÁ MENSAGENS
                 </div>
             }
 
