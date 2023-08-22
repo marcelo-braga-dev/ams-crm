@@ -23,6 +23,18 @@ class PedidosController extends Controller
 {
     public function index()
     {
+        //        $dados = (new Pedidos())->newQuery()
+        //            ->where('cliente', '>', 0)
+        //            ->get();
+        //        foreach ($dados as $item) {
+        //            (new Pedidos())->newQuery()
+        //                ->find($item->id)
+        //                ->update([
+        //                    'lead' => $item->integrador
+        //                ]);
+        //        }
+        //        print_pre('FIM');
+
         switch (setor_usuario_atual()) {
             case 1:
             case 2:
@@ -33,7 +45,8 @@ class PedidosController extends Controller
                 return Inertia::render('Consultor/Pedidos/Index',
                     compact('pedidos', 'coresAbas'));
             }
-            case 3: {
+            case 3:
+            {
                 $pedidos = (new CardDadosService())->getCards(id_usuario_atual());
                 $coresAbas = (new ConfigCores())->getPedidos();
 
@@ -84,9 +97,7 @@ class PedidosController extends Controller
         if ((new Setores())->getModeloCadastroPedido(setor_usuario_atual()) == 2) {
             DB::beginTransaction();
             try {
-                $idCliente = $request->id_cliente ?? (new Clientes())->create($request);
-                    $request->id_cliente ?? (new ClientesArquivos())->create($idCliente, $request);
-                (new Pedidos())->create($request, $idCliente);
+                (new Pedidos())->create($request, $request->id_lead);
             } catch (\DomainException|QueryException $exception) {
                 DB::rollBack();
                 modalErro($exception->getMessage());

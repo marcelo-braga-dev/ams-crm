@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('users_id');
+            $table->bigInteger('lead');
             $table->integer('cliente');
             $table->string('status');
             $table->dateTime('status_data');
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->string('forma_pagamento');
             $table->integer('fornecedor');
             $table->integer('integrador');
+            $table->integer('modelo');
             $table->string('situacao', '32')->default('novo');
             $table->string('obs')->nullable();
             $table->timestamps();

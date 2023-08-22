@@ -12,10 +12,7 @@ import {useState} from "react";
 export default function Create({fornecedores, integradores, clientes, lead, errors}) {
 
     const {data, setData, post, progress, processing} = useForm({
-        pessoa: 'Pessoa Física',
-        documentos_check: 'cnh',
-        idCliente: '',
-        integrador: lead.id
+        id_lead: lead.id
     });
 
     function submit(e) {

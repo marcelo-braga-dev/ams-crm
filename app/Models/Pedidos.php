@@ -37,9 +37,10 @@ class Pedidos extends Model
         'integrador',
         'situacao',
         'obs',
+        'lead'
     ];
 
-    function create($dados, $idCliente = null)
+    function create($dados, $idLead = null)
     {
         $prazo = (new ConferenciaStatusPedido())->getPrazo();
         $status = (new ConferenciaStatusPedido())->getStatus();
@@ -48,7 +49,8 @@ class Pedidos extends Model
             $pedido = $this->newQuery()
                 ->create([
                     'users_id' => id_usuario_atual(),
-                    'cliente' => $idCliente,
+                    'cliente' => $idLead,
+                    'lead' => $idLead,
                     'setor' => setor_usuario_atual(),
                     'status' => $status,
                     'status_data' => now(),
@@ -64,7 +66,7 @@ class Pedidos extends Model
         }
 
         (new PedidosHistoricos())->create($pedido->id, $status, $prazo, null);
-        (new LeadsHistoricos())->createPedido($dados->integrador, $pedido->id);
+        (new LeadsHistoricos())->createPedido($dados->integrador ?? $idLead, $pedido->id);
 
         return $pedido->id;
     }

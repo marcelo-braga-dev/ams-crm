@@ -5,7 +5,6 @@ namespace App\Services\Pedidos;
 use App\Models\Clientes;
 use App\Models\ClientesArquivos;
 use App\Models\Fornecedores;
-use App\Models\Integradores;
 use App\Models\Leads;
 use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
@@ -25,6 +24,7 @@ class DadosPedidoServices
     private array $fornecedores;
     private array $integradores;
     private array $setores;
+    private array $leads;
 
     public function __construct()
     {
@@ -34,6 +34,7 @@ class DadosPedidoServices
         $this->fornecedores = (new Fornecedores())->getCardDados();
         $this->integradores = (new Leads())->getCardDados();
         $this->setores = (new Setores())->getNomes();
+        $this->leads = (new Leads())->getNomes();
     }
 
     public function dadosCard($pedido, $faturamento = null)
@@ -41,7 +42,7 @@ class DadosPedidoServices
         if ($this->status($pedido->status) || $this->prazo($pedido))
         return [
             'id' => $pedido->id,
-            'cliente' => ($pedido->cliente ? $this->clientes[$pedido->cliente]['nome'] : $this->clientesPedidos[$pedido->id]['nome']) ?? '',
+            'cliente' => $pedido->lead ? $this->leads[$pedido->lead] : (($pedido->cliente ? $this->clientes[$pedido->cliente]['nome'] : $this->clientesPedidos[$pedido->id]['nome']) ?? ''),
             'consultor' => $this->consultores[$pedido->users_id],
             'preco' => convert_float_money($pedido->preco_venda),
             'fornecedor' => $this->fornecedores[$pedido->fornecedor],
@@ -51,8 +52,8 @@ class DadosPedidoServices
             'forma_pagamento' => $pedido->forma_pagamento,
             'faturamento' => $faturamento,
             'contato' => [
-                'telefone' => $pedido->cliente ? $this->clientes[$pedido->cliente]['telefone'] : $this->clientesPedidos[$pedido->id]['telefone'],
-                'email' => $pedido->cliente ? $this->clientes[$pedido->cliente]['email'] : $this->clientesPedidos[$pedido->id]['email']
+//                'telefone' => $pedido->cliente ? $this->clientes[$pedido->cliente]['telefone'] : $this->clientesPedidos[$pedido->id]['telefone'],
+//                'email' => $pedido->cliente ? $this->clientes[$pedido->cliente]['email'] : $this->clientesPedidos[$pedido->id]['email']
             ],
             'prazos' => [
                 'data_status' => date('d/m/y H:i', strtotime($pedido->status_data)),
@@ -72,7 +73,7 @@ class DadosPedidoServices
 
     public function dados($pedido): array
     {
-        $cliente = $pedido->cliente ? (new Clientes())->find($pedido->cliente) : (new PedidosClientes())->getCliente($pedido->id);
+        $cliente = $pedido->lead ? (new Leads())->find($pedido->lead) : ($pedido->cliente ? (new Clientes())->find($pedido->cliente) : (new PedidosClientes())->getCliente($pedido->id));
         $consultor = (new User)->get($pedido->users_id);
         $fornecedor = (new Fornecedores())->getFornecedor($pedido->fornecedor);
         $integrador = $pedido->integrador ? (new LeadsDadosService())->lead($pedido->integrador):'';
@@ -119,16 +120,16 @@ class DadosPedidoServices
                 'cnpj' => $integrador['cliente']['cnpj'] ?? ''
             ],
             'cliente' => [
-                'nome' => $cliente->nome ?? $cliente->razao_social,
-                'endereco_id' => $cliente->endereco,
-                'endereco' => getEnderecoCompleto($cliente->endereco),
-                'nascimento' => date('d/m/Y', strtotime($cliente->data_nascimento)),
-                'email' => $cliente->email,
-                'telefone' => $cliente->telefone,
-                'rg' => $cliente->rg,
-                'cpf' => $cliente->cpf,
-                'cnpj' => $cliente->cnpj,
-                'inscricao_estadual' => $cliente->inscricao_estadual,
+                'nome' => ($cliente->nome ?? ($cliente->razao_social ?? '')) ?? '',
+                'endereco_id' => $cliente->endereco ?? '',
+                'endereco' => $cliente->endereco ? getEnderecoCompleto($cliente->endereco) : '',
+                'nascimento' => $cliente->data_nascimento ? date('d/m/Y', strtotime($cliente->data_nascimento)) : null,
+                'email' => $cliente->email ?? '',
+                'telefone' => $cliente->telefone ?? '',
+                'rg' => $cliente->rg ?? '',
+                'cpf' => $cliente->cpf ?? '',
+                'cnpj' => $cliente->cnpj ?? '',
+                'inscricao_estadual' => $cliente->inscricao_estadual ?? '',
             ],
             'pedido_files' => [
                 'orcamento' => $files->url_orcamento ?? null,

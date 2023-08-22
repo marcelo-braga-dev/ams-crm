@@ -1,11 +1,7 @@
 import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
 import CardReprovado from './Cards/Reprovado/ReprovadoCard';
 import CardLancado from './Cards/Lancado/CardLancado';
-import CardBoleto from './Cards/Boleto/CardBoleto';
-import CardPagamento from './Cards/Pagamento/CardPagamento';
-import CardFaturando from './Cards/Faturando/CardFaturando';
 import CardFaturado from './Cards/Faturado/CardFaturado';
-import CardAcompanhamento from "./Cards/Acompanhamento/CardAcompanhamento";
 import CardEntregue from './Cards/Entregue/CardEntregue';
 import CardCancelado from './Cards/Cancelado/CardCancelado';
 
