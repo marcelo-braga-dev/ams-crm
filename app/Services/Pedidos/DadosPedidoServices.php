@@ -40,36 +40,36 @@ class DadosPedidoServices
     public function dadosCard($pedido, $faturamento = null)
     {
         if ($this->status($pedido->status) || $this->prazo($pedido))
-        return [
-            'id' => $pedido->id,
-            'modelo' => $pedido->modelo,
-            'cliente' => $pedido->lead ? $this->leads[$pedido->lead] : (($pedido->cliente ? $this->clientes[$pedido->cliente]['nome'] : $this->clientesPedidos[$pedido->id]['nome']) ?? ''),
-            'consultor' => $this->consultores[$pedido->users_id],
-            'preco' => convert_float_money($pedido->preco_venda),
-            'fornecedor' => $this->fornecedores[$pedido->fornecedor],
-            'integrador' => $this->integradores[$pedido->integrador] ?? '',
-            'setor' => $this->setores[$pedido->setor] ?? '',
-            'status' => $pedido->status,
-            'forma_pagamento' => $pedido->forma_pagamento,
-            'faturamento' => $faturamento,
-            'contato' => [
+            return [
+                'id' => $pedido->id,
+                'modelo' => $pedido->modelo,
+                'cliente' => $pedido->lead ? $this->leads[$pedido->lead] : (($pedido->cliente ? $this->clientes[$pedido->cliente]['nome'] : ($this->clientesPedidos[$pedido->id]['nome'] ?? '')) ?? ''),
+                'consultor' => $this->consultores[$pedido->users_id],
+                'preco' => convert_float_money($pedido->preco_venda),
+                'fornecedor' => $this->fornecedores[$pedido->fornecedor],
+                'integrador' => $this->integradores[$pedido->integrador] ?? '',
+                'setor' => $this->setores[$pedido->setor] ?? '',
+                'status' => $pedido->status,
+                'forma_pagamento' => $pedido->forma_pagamento,
+                'faturamento' => $faturamento,
+                'contato' => [
 //                'telefone' => $pedido->cliente ? $this->clientes[$pedido->cliente]['telefone'] : $this->clientesPedidos[$pedido->id]['telefone'],
 //                'email' => $pedido->cliente ? $this->clientes[$pedido->cliente]['email'] : $this->clientesPedidos[$pedido->id]['email']
-            ],
-            'prazos' => [
-                'data_status' => date('d/m/y H:i', strtotime($pedido->status_data)),
-                'data_prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),
-                'prazo_atrasado' => $this->getDiferenca($pedido->status_data, $pedido->prazo)
-            ],
-            'icones' => [
-                'pin' => '',
-            ],
-            'infos' => [
-                'situacao' => $pedido->situacao,
-                'alerta' => $pedido->alerta,
-                'sac' => $pedido->sac,
-            ],
-        ];
+                ],
+                'prazos' => [
+                    'data_status' => date('d/m/y H:i', strtotime($pedido->status_data)),
+                    'data_prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),
+                    'prazo_atrasado' => $this->getDiferenca($pedido->status_data, $pedido->prazo)
+                ],
+                'icones' => [
+                    'pin' => '',
+                ],
+                'infos' => [
+                    'situacao' => $pedido->situacao,
+                    'alerta' => $pedido->alerta,
+                    'sac' => $pedido->sac,
+                ],
+            ];
     }
 
     public function dados($pedido): array
@@ -77,7 +77,7 @@ class DadosPedidoServices
         $cliente = $pedido->lead ? (new Leads())->find($pedido->lead) : ($pedido->cliente ? (new Clientes())->find($pedido->cliente) : (new PedidosClientes())->getCliente($pedido->id));
         $consultor = (new User)->get($pedido->users_id);
         $fornecedor = (new Fornecedores())->getFornecedor($pedido->fornecedor);
-        $integrador = $pedido->integrador ? (new LeadsDadosService())->lead($pedido->integrador):'';
+        $integrador = $pedido->integrador ? (new LeadsDadosService())->lead($pedido->integrador) : '';
         $files = (new PedidosImagens())->getImagens($pedido->id);
         $filesCliente = (new ClientesArquivos())->get($pedido->cliente);
         $chavesArquivos = (new ChavesArquivosPedidos());
