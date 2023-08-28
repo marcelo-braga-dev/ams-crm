@@ -4,12 +4,7 @@ namespace App\Models;
 
 use App\Services\Pedidos\DadosPedidoServices;
 use App\src\Pedidos\SituacaoPedido;
-use App\src\Pedidos\Status\AcompanhamentoStatus;
-use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
-use App\src\Pedidos\Status\EntregueStatus;
-use App\src\Pedidos\Status\FaturadoStatus;
-use App\src\Pedidos\Status\RevisarStatusPedido;
 use App\src\Pedidos\StatusPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +32,8 @@ class Pedidos extends Model
         'integrador',
         'situacao',
         'obs',
-        'lead'
+        'lead',
+        'modelo'
     ];
 
     function create($dados, $idLead = null)
@@ -59,7 +55,8 @@ class Pedidos extends Model
                     'forma_pagamento' => $dados->forma_pagamento,
                     'fornecedor' => $dados->fornecedor,
                     'integrador' => $dados->integrador,
-                    'info_pedido' => $dados->obs
+                    'info_pedido' => $dados->obs,
+                    'modelo' => modelo_usuario()
                 ]);
         } catch (QueryException $exception) {
             throw new \DomainException('Falha no cadastro do pedido.');

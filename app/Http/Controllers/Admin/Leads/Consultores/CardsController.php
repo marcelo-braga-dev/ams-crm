@@ -15,9 +15,10 @@ class CardsController extends Controller
     {
         $leads = (new CardLeadsService())->getConsultor($request->id);
         $usuario = (new User())->get($request->id);
+        $consultores = (new User())->getConsultores();
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Index',
-            compact('leads', 'usuario'));
+            compact('leads', 'usuario', 'consultores'));
     }
 
     public function limparConsultor(Request $request)
@@ -25,5 +26,12 @@ class CardsController extends Controller
         (new Leads())->setConsultor($request->id, null);
 
         return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
+    }
+
+    public function update(Request $request)
+    {
+        (new Leads())->alterarConsultor($request->idLeads, $request->novo_consultor);
+
+        return redirect()->back();
     }
 }

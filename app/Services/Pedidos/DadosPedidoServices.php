@@ -42,6 +42,7 @@ class DadosPedidoServices
         if ($this->status($pedido->status) || $this->prazo($pedido))
         return [
             'id' => $pedido->id,
+            'modelo' => $pedido->modelo,
             'cliente' => $pedido->lead ? $this->leads[$pedido->lead] : (($pedido->cliente ? $this->clientes[$pedido->cliente]['nome'] : $this->clientesPedidos[$pedido->id]['nome']) ?? ''),
             'consultor' => $this->consultores[$pedido->users_id],
             'preco' => convert_float_money($pedido->preco_venda),

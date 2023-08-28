@@ -288,13 +288,14 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                                     aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
+                            <small>{data.leads.length} selecionados.</small><br/>
                             {nomeConsultorSelecionado()}
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
                                     onClick={() => submit()}>
-                                Alterar Consultor(a)
+                                Alterar Consultor(a).
                             </button>
                         </div>
                     </div>
@@ -312,7 +313,9 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                                     aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            Remover os Consultores(a) destes LEADS?
+                            Remover os Consultores(a) destes LEADS?<br/>
+                            <small>{data.leads.length} selecionados.</small>
+
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

@@ -38,8 +38,11 @@ class PedidosController extends Controller
 
         $coresAbas = (new ConfigCores())->getPedidos();
 
+        $modelo = (new Setores())->getModelo($setorAtual);
+
         return Inertia::render('Admin/Pedidos/Index',
-            compact('pedidos', 'fornecedores', 'fornecedorAtual', 'setores', 'setorAtual', 'coresAbas', 'dadosSetor'));
+            compact('pedidos', 'fornecedores', 'fornecedorAtual',
+                'setores', 'setorAtual', 'coresAbas', 'dadosSetor', 'modelo'));
     }
 
     public function show($id)

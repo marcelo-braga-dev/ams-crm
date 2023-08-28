@@ -4,17 +4,22 @@ import PinDropIcon from '@mui/icons-material/PinDrop';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Checkbox from '@mui/material/Checkbox';
 
-export default function CardLeads({dados, urlBtn, btn}) {
+export default function CardLeads({dados, btn, leadsSelecionados}) {
     return (
         <div className="pesquisar-card card m-2 mb-3" style={{width: 300}}>
-            <div className="card-body pb-0">
+            <div className="row justify-content-end">
+                <div className="col-auto">
+                    <Checkbox onChange={() => leadsSelecionados(dados.id)}/>
+                </div>
+            </div>
+            <div className="card-body pb-0 pt-0">
                 <div className="row border-bottom pb-2 mb-2">
                     <div className="col-1 text-dark">
                         <PersonIcon sx={{fontSize: 22}}/>
                     </div>
-                    <div className="col-10 text-dark text-truncate">
+                    <div className="col-9 text-dark text-truncate">
                         <b>{dados.cliente.nome.toUpperCase()}</b>
                     </div>
                 </div>
@@ -87,7 +92,6 @@ export default function CardLeads({dados, urlBtn, btn}) {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     )

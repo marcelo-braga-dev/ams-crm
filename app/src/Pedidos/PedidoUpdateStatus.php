@@ -17,6 +17,21 @@ use App\src\Pedidos\Status\RevisarStatusPedido;
 
 class PedidoUpdateStatus
 {
+    public function setLancado(int $id): void
+    {
+        (new LancadoStatus())->updateStatus($id);
+    }
+
+    public function setFaturado($id): void
+    {
+        (new FaturadoStatus())->updateStatus($id, null, 0);
+    }
+
+    public function setEntregue($id): void
+    {
+        (new EntregueStatus())->updateStatus($id);
+    }
+
     public function conferencia(int $id): void
     {
         (new LancadoStatus())->updateStatus($id);
@@ -61,6 +76,7 @@ class PedidoUpdateStatus
     {
         (new CanceladoStatus())->updateStatus($id, $request->motivo);
     }
+
     public function revisar($id, $alerta)
     {
         (new ConferenciaStatusPedido())->updateStatus($id, $alerta);

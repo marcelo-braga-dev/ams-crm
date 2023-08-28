@@ -5,6 +5,7 @@ namespace App\Models;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
+use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -292,5 +293,23 @@ class Leads extends Model
         }
 
         return $dados;
+    }
+
+    public function alterarConsultor($leads, $consultor): void
+    {
+        try {
+            $idLeads = [];
+            if (!empty($leads)) {
+                foreach ($leads as $item) {
+                    $idLeads[] = $item;
+                    (new Leads())->setConsultor($item, $consultor);
+                }
+            }
+
+            // Notificar Leads
+            if (count($leads)) (new LeadsNotificacao())->notificar($consultor, count($leads), $idLeads);
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+        }
     }
 }

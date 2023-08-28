@@ -11,12 +11,13 @@ function btn(id) {
     )
 }
 
-export default function AtendimentoCard({dados}) {
+export default function AtendimentoCard({dados, leadsSelecionados}) {
 
     return (
         <Card
             dados={dados}
             btn={btn(dados.id)}
+            leadsSelecionados={leadsSelecionados}
         />
     )
 }

@@ -252,4 +252,11 @@ class User extends Authenticatable
         return $this->newQuery()
             ->get('id');
     }
+
+    public function modeloPedidos()
+    {
+        $dados = $this->newQuery()
+            ->find(id_usuario_atual());
+        return (new Setores())->getModelo($dados->setor);
+    }
 }

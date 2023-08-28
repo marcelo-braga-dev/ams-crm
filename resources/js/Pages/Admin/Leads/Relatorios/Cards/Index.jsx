@@ -13,8 +13,40 @@ import NovoCards from './Cards/NovoCard';
 import AtendimentoCards from './Cards/AtendimentoCard';
 import FinalizadoCard from "./Cards/FinalizadoCard";
 import AtivoCard from "./Cards/AtivoCard";
+import {router, useForm} from "@inertiajs/react";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
 
-export default function Dashboard({leads, usuario}) {
+let idLeads = []
+
+export default function Dashboard({leads, usuario, consultores}) {
+    const {data, setData, post} = useForm();
+
+
+    function leadsSelecionados(idLead) {
+        const index = idLeads.indexOf(idLead)
+        if (index >= 0) {
+            idLeads.splice(index)
+        } else {
+            idLeads.push(idLead);
+        }
+    }
+
+    function alterarConsultor() {
+        router.post(route('admin.leads.consultores-cards.update', 1000), {
+            _method: 'put',
+            ...data, idLeads: idLeads
+        })
+        window.location.reload()
+    }
+
+    function nomeConsultorSelecionado() {
+        const nome = consultores[consultores.findIndex(i => i.id === data.novo_consultor)]?.name;
+        return nome ? <>
+            <b>TROCAR</b> o consultor(a) do Lead para:<br/>
+            <h5>{nome}</h5>
+        </> : <div className="alert alert-danger text-white">Selecione o Consultor</div>
+    }
 
     return (
         <Layout titlePage="Lista de Leads" menu="leads" submenu="relatorios">
@@ -32,7 +64,29 @@ export default function Dashboard({leads, usuario}) {
                 </div>
             </div>
             {/*Pesquisa*/}
-            <div className="row justify-content-end">
+            <div className="row justify-content-between">
+                <div className="col">
+                    <div className="row">
+                        <span>Alterar consultor</span>
+                        <div className="col-md-4">
+                            <TextField label="Selecione o Consultor..." select
+                                       fullWidth required size="small" defaultValue=""
+                                       onChange={e => setData('novo_consultor', e.target.value)}>
+                                {consultores.map((option) => (
+                                    <MenuItem key={option.id} value={option.id}>
+                                        {option.name}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </div>
+                        <div className="col-4 p-0">
+                            <button type="button" className="btn btn-dark" data-bs-toggle="modal"
+                                    data-bs-target="#alterarConsultor">
+                                ENVIAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div className="col-auto text-right">
                     <FormControl variant="outlined" className="bg-white" size="small">
                         <InputLabel htmlFor="search">Pesquisar...</InputLabel>
@@ -92,22 +146,26 @@ export default function Dashboard({leads, usuario}) {
                             <tr className="align-top">
                                 <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
                                     {leads.novo.map((dado, i) => {
-                                        return (<NovoCards key={i} dados={dado}/>)
+                                        return (<NovoCards key={i} dados={dado}
+                                                           leadsSelecionados={leadsSelecionados}/>)
                                     })}
                                 </td>
                                 <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
                                     {leads.atendimento.map((dado) => {
-                                        return (<AtendimentoCards key={dado.id} dados={dado}/>)
+                                        return (<AtendimentoCards key={dado.id} dados={dado}
+                                                                  leadsSelecionados={leadsSelecionados}/>)
                                     })}
                                 </td>
                                 <td id="td-3" className="shadow-sm" style={{minWidth: 300}}>
                                     {leads.ativo.map((dado) => {
-                                        return (<AtivoCard key={dado.id} dados={dado}/>)
+                                        return (<AtivoCard key={dado.id} dados={dado}
+                                                           leadsSelecionados={leadsSelecionados}/>)
                                     })}
                                 </td>
                                 <td id="td-4" className="shadow-sm" style={{minWidth: 300}}>
                                     {leads.finalizado.map((dado) => {
-                                        return (<FinalizadoCard key={dado.id} dados={dado}/>)
+                                        return (<FinalizadoCard key={dado.id} dados={dado}
+                                                                leadsSelecionados={leadsSelecionados}/>)
                                     })}
                                 </td>
                             </tr>
@@ -122,6 +180,29 @@ export default function Dashboard({leads, usuario}) {
             <div className="row mb-3">
                 <div className="col text-center">
                     <ScrollControlHorizontal/>
+                </div>
+            </div>
+
+            {/*Alterar consultor*/}
+            <div className="modal fade" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="limparLeadLabel">Alterar consultor</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            {nomeConsultorSelecionado()}
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
+                                    onClick={() => alterarConsultor()}>Alterar
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Layout>

@@ -24,7 +24,16 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import {useForm, usePage} from "@inertiajs/react";
 
-export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornecedores, fornecedorAtual, dadosSetor}) {
+export default function Pedidos({
+                                    pedidos,
+                                    setores,
+                                    coresAbas,
+                                    setorAtual,
+                                    fornecedores,
+                                    fornecedorAtual,
+                                    dadosSetor,
+                                    modelo
+                                }) {
     const {get} = useForm();
 
     function atualizarPagina(forcededorId, setorId) {
@@ -132,7 +141,7 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                                     className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        <th id="th-4">
+                                        {modelo === 2 ? '' : <th id="th-4">
                                             <div style={{backgroundColor: coresAbas.boleto}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Aguard. Nota/Boleto</div>
@@ -140,8 +149,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                                 <small
                                                     className="d-block text-end">R$ {(pedidos.nota[0]?.faturamento ?? '0,00')}</small>
                                             </div>
-                                        </th>
-                                        <th id="th-5">
+                                        </th>}
+                                        {modelo === 2 ? '' : <th id="th-5">
                                             <div style={{backgroundColor: coresAbas.pagamento}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Aguard. Pagamento</div>
@@ -149,8 +158,8 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                                 <small
                                                     className="d-block text-end">R$ {(pedidos.pagamento[0]?.faturamento ?? '0,00')}</small>
                                             </div>
-                                        </th>
-                                        <th id="th-6">
+                                        </th>}
+                                        {modelo === 2 ? '' : <th id="th-6">
                                             <div style={{backgroundColor: coresAbas.faturamento}}
                                                  className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Aguard. Faturamento</div>
@@ -158,7 +167,7 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                                 <small
                                                     className="d-block text-end">R$ {(pedidos.faturamento[0]?.faturamento ?? '0,00')}</small>
                                             </div>
-                                        </th>
+                                        </th>}
                                         <th id="th-7">
                                             <div style={{backgroundColor: coresAbas.faturado}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
@@ -168,7 +177,7 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                                     className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        <th id="th-8">
+                                        {modelo === 2 ? '' : <th id="th-8">
                                             <div style={{backgroundColor: coresAbas.acompanhamento}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Acompanhamento</div>
@@ -176,7 +185,7 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                                 <small
                                                     className="d-block text-end">R$ {(pedidos.acompanhamento[0]?.faturamento ?? '0,00')}</small>
                                             </div>
-                                        </th>
+                                        </th>}
                                         <th id="th-9">
                                             <div style={{backgroundColor: coresAbas.entregue}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
@@ -216,37 +225,37 @@ export default function Pedidos({pedidos, setores, coresAbas, setorAtual, fornec
                                                     <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
                                             })}
                                         </td>
-                                        <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
+                                        {modelo === 2 ? '' : <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.nota.map((dados) => {
                                                 return (
                                                     <CardBoleto key={dados.id} dados={dados} cor={coresAbas.boleto}/>)
                                             })}
-                                        </td>
-                                        <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
+                                        </td>}
+                                        {modelo === 2 ? '' : <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.pagamento.map((dados) => {
                                                 return (<CardPagamento key={dados.id} dados={dados}
                                                                        cor={coresAbas.pagamento}/>)
                                             })}
-                                        </td>
-                                        <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
+                                        </td>}
+                                        {modelo === 2 ? '' : <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturamento.map((dados) => {
                                                 return (
                                                     <CardFaturando key={dados.id} dados={dados}
                                                                    cor={coresAbas.faturamento}/>)
                                             })}
-                                        </td>
+                                        </td>}
                                         <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturado.map((dados) => {
                                                 return (<CardFaturado key={dados.id} dados={dados}
                                                                       cor={coresAbas.faturado}/>)
                                             })}
                                         </td>
-                                        <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
+                                        {modelo === 2 ? '' : <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.acompanhamento.map((dados) => {
                                                 return (<CardAcompanhamento key={dados.id} dados={dados}
                                                                             cor={coresAbas.acompanhamento}/>)
                                             })}
-                                        </td>
+                                        </td>}
                                         <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.entregue.map((dados) => {
                                                 return (<CardEntregue key={dados.id} dados={dados}

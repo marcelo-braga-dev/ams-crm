@@ -9,12 +9,13 @@ function btn(id) {
         </a>
     )
 }
-export default function FinalizadoCard({dados}) {
+export default function FinalizadoCard({dados, leadsSelecionados}) {
 
     return (
         <Card
             dados={dados}
             btn={btn(dados.id)}
+            leadsSelecionados={leadsSelecionados}
         />
     )
 }

@@ -43,3 +43,11 @@ Route::name('admin.pedidos.')
         Route::post('config-cores-pedidos', [ConfigController::class, 'atualizarCoresPedidos'])
             ->name('config-cores-pedidos');
     });
+
+Route::name('admin.modelo-2.pedidos.')
+    ->prefix('admin/modelo-2/pedidos')
+    ->group(function () {
+        Route::resource('conferencia', \App\Http\Controllers\Admin\Pedidos\Modelo2\ConferenciaController::class);
+        Route::resource('lancado', \App\Http\Controllers\Admin\Pedidos\Modelo2\LancadoController::class);
+        Route::resource('faturado', \App\Http\Controllers\Admin\Pedidos\Modelo2\FaturadoController::class);
+    });

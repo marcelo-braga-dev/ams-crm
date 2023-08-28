@@ -14,6 +14,8 @@ use App\Models\PedidosHistoricos;
 use App\Models\PedidosImagens;
 use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
+use App\src\Modelos\CompletoModelo;
+use App\src\Modelos\SimplesModelo;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,21 +25,8 @@ class PedidosController extends Controller
 {
     public function index()
     {
-        //        $dados = (new Pedidos())->newQuery()
-        //            ->where('cliente', '>', 0)
-        //            ->get();
-        //        foreach ($dados as $item) {
-        //            (new Pedidos())->newQuery()
-        //                ->find($item->id)
-        //                ->update([
-        //                    'lead' => $item->integrador
-        //                ]);
-        //        }
-        //        print_pre('FIM');
-
-        switch (setor_usuario_atual()) {
-            case 1:
-            case 2:
+        switch (modelo_usuario()) {
+            case (new CompletoModelo())->modelo():
             {
                 $pedidos = (new CardDadosService())->getCards(id_usuario_atual());
                 $coresAbas = (new ConfigCores())->getPedidos();
@@ -45,7 +34,7 @@ class PedidosController extends Controller
                 return Inertia::render('Consultor/Pedidos/Index',
                     compact('pedidos', 'coresAbas'));
             }
-            case 3:
+            case (new SimplesModelo())->modelo():
             {
                 $pedidos = (new CardDadosService())->getCards(id_usuario_atual());
                 $coresAbas = (new ConfigCores())->getPedidos();
@@ -54,8 +43,7 @@ class PedidosController extends Controller
                     compact('pedidos', 'coresAbas'));
             }
         }
-        print_pre(setor_usuario_atual());
-
+        print_pre('FALHA AO ENCONTRAR O MODELO');
     }
 
     public function create(Request $request)
@@ -67,7 +55,7 @@ class PedidosController extends Controller
 
         $clientes = (new Clientes())->getClientes($setor);
 
-        switch ((new Setores())->getModeloCadastroPedido($setor)) {
+        switch ((new Setores())->getModelo($setor)) {
             case 1:
                 return Inertia::render('Consultor/Pedidos/Create/Modelo1/Create',
                     compact('fornecedores', 'lead'));
@@ -94,29 +82,58 @@ class PedidosController extends Controller
 
     public function store(Request $request)
     {
-        if ((new Setores())->getModeloCadastroPedido(setor_usuario_atual()) == 2) {
-            DB::beginTransaction();
-            try {
-                (new Pedidos())->create($request, $request->id_lead);
-            } catch (\DomainException|QueryException $exception) {
-                DB::rollBack();
-                modalErro($exception->getMessage());
-                return redirect()->back();
+        switch (modelo_usuario()) {
+            case (new CompletoModelo())->modelo():
+            {
+                DB::beginTransaction();
+                try {
+                    $idPedido = (new Pedidos())->create($request);
+                    (new PedidosClientes())->create($idPedido, $request);
+                    (new PedidosImagens())->create($idPedido, $request);
+                } catch (\DomainException|QueryException $exception) {
+                    DB::rollBack();
+                    modalErro($exception->getMessage());
+                    return redirect()->back();
+                }
+                DB::commit();
             }
-            DB::commit();
-        } else {
-            DB::beginTransaction();
-            try {
-                $idPedido = (new Pedidos())->create($request);
-                (new PedidosClientes())->create($idPedido, $request);
-                (new PedidosImagens())->create($idPedido, $request);
-            } catch (\DomainException|QueryException $exception) {
-                DB::rollBack();
-                modalErro($exception->getMessage());
-                return redirect()->back();
+            case (new SimplesModelo())->modelo():
+            {
+                DB::beginTransaction();
+                try {
+                    (new Pedidos())->create($request, $request->id_lead);
+                } catch (\DomainException|QueryException $exception) {
+                    DB::rollBack();
+                    modalErro($exception->getMessage());
+                    return redirect()->back();
+                }
+                DB::commit();
             }
-            DB::commit();
         }
+
+//        if ((new Setores())->getModelo(setor_usuario_atual()) == 2) {
+//            DB::beginTransaction();
+//            try {
+//                (new Pedidos())->create($request, $request->id_lead);
+//            } catch (\DomainException|QueryException $exception) {
+//                DB::rollBack();
+//                modalErro($exception->getMessage());
+//                return redirect()->back();
+//            }
+//            DB::commit();
+//        } else {
+//            DB::beginTransaction();
+//            try {
+//                $idPedido = (new Pedidos())->create($request);
+//                (new PedidosClientes())->create($idPedido, $request);
+//                (new PedidosImagens())->create($idPedido, $request);
+//            } catch (\DomainException|QueryException $exception) {
+//                DB::rollBack();
+//                modalErro($exception->getMessage());
+//                return redirect()->back();
+//            }
+//            DB::commit();
+//        }
 
         modalSucesso('Pedido cadastrado com sucesso!');
         return redirect()->route('consultor.pedidos.index');
