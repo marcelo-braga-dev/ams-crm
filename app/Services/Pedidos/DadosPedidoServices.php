@@ -19,7 +19,7 @@ use DateTime;
 class DadosPedidoServices
 {
     private array $consultores;
-    private array $clientesPedidos;
+    private array $pedidoCliente;
     private array $clientes;
     private array $fornecedores;
     private array $integradores;
@@ -29,7 +29,7 @@ class DadosPedidoServices
     public function __construct()
     {
         $this->consultores = (new User())->getNomeConsultores();
-        $this->clientesPedidos = (new PedidosClientes())->getCardDados();
+        $this->pedidoCliente = (new PedidosClientes())->getCardDados();
         $this->clientes = (new Clientes())->getCardDados();
         $this->fornecedores = (new Fornecedores())->getCardDados();
         $this->integradores = (new Leads())->getCardDados();
@@ -39,11 +39,22 @@ class DadosPedidoServices
 
     public function dadosCard($pedido, $faturamento = null)
     {
+        $cliente = [];
+        if ($pedido->modelo == 1) {
+            $cliente = [
+                'nome' => $this->pedidoCliente[$pedido->id]['nome'] ?? ''
+            ];
+        } else if ($pedido->modelo == 2) {
+            $cliente = [
+                'nome' => ($this->leads[$pedido->lead] ?? $this->pedidoCliente[$pedido->id] ?? '')
+            ];
+        }
+
         if ($this->status($pedido->status) || $this->prazo($pedido))
             return [
                 'id' => $pedido->id,
                 'modelo' => $pedido->modelo,
-                'cliente' => $pedido->lead ? $this->leads[$pedido->lead] : (($pedido->cliente ? $this->clientes[$pedido->cliente]['nome'] : ($this->clientesPedidos[$pedido->id]['nome'] ?? '')) ?? ''),
+                'cliente' => $cliente['nome'] ?? '',
                 'consultor' => $this->consultores[$pedido->users_id],
                 'preco' => convert_float_money($pedido->preco_venda),
                 'fornecedor' => $this->fornecedores[$pedido->fornecedor],

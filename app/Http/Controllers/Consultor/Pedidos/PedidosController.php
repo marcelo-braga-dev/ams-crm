@@ -84,56 +84,34 @@ class PedidosController extends Controller
     {
         switch (modelo_usuario()) {
             case (new CompletoModelo())->modelo():
-            {
-                DB::beginTransaction();
-                try {
-                    $idPedido = (new Pedidos())->create($request);
-                    (new PedidosClientes())->create($idPedido, $request);
-                    (new PedidosImagens())->create($idPedido, $request);
-                } catch (\DomainException|QueryException $exception) {
-                    DB::rollBack();
-                    modalErro($exception->getMessage());
-                    return redirect()->back();
-                }
-                DB::commit();
-            }
+                {
+                    DB::beginTransaction();
+                    try {
+                        $idPedido = (new Pedidos())->create($request);
+                        (new PedidosClientes())->create($idPedido, $request);
+                        (new PedidosImagens())->create($idPedido, $request);
+                    } catch (\DomainException|QueryException $exception) {
+                        DB::rollBack();
+                        modalErro($exception->getMessage());
+                        return redirect()->back();
+                    }
+                    DB::commit();
+                };
+                break;
             case (new SimplesModelo())->modelo():
-            {
-                DB::beginTransaction();
-                try {
-                    (new Pedidos())->create($request, $request->id_lead);
-                } catch (\DomainException|QueryException $exception) {
-                    DB::rollBack();
-                    modalErro($exception->getMessage());
-                    return redirect()->back();
-                }
-                DB::commit();
-            }
+                {
+                    DB::beginTransaction();
+                    try {
+                        (new Pedidos())->create($request, $request->id_lead);
+                    } catch (\DomainException|QueryException $exception) {
+                        DB::rollBack();
+                        modalErro($exception->getMessage());
+                        return redirect()->back();
+                    }
+                    DB::commit();
+                };
+                break;
         }
-
-//        if ((new Setores())->getModelo(setor_usuario_atual()) == 2) {
-//            DB::beginTransaction();
-//            try {
-//                (new Pedidos())->create($request, $request->id_lead);
-//            } catch (\DomainException|QueryException $exception) {
-//                DB::rollBack();
-//                modalErro($exception->getMessage());
-//                return redirect()->back();
-//            }
-//            DB::commit();
-//        } else {
-//            DB::beginTransaction();
-//            try {
-//                $idPedido = (new Pedidos())->create($request);
-//                (new PedidosClientes())->create($idPedido, $request);
-//                (new PedidosImagens())->create($idPedido, $request);
-//            } catch (\DomainException|QueryException $exception) {
-//                DB::rollBack();
-//                modalErro($exception->getMessage());
-//                return redirect()->back();
-//            }
-//            DB::commit();
-//        }
 
         modalSucesso('Pedido cadastrado com sucesso!');
         return redirect()->route('consultor.pedidos.index');
