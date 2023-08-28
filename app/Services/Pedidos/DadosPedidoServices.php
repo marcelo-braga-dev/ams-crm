@@ -134,8 +134,8 @@ class DadosPedidoServices
             'cliente' => [
                 'nome' => ($cliente->nome ?? ($cliente->razao_social ?? '')) ?? '',
                 'endereco_id' => $cliente->endereco ?? '',
-                'endereco' => $cliente->endereco ? getEnderecoCompleto($cliente->endereco) : '',
-                'nascimento' => $cliente->data_nascimento ? date('d/m/Y', strtotime($cliente->data_nascimento)) : null,
+                'endereco' => (($cliente->endereco ?? '') ? getEnderecoCompleto($cliente->endereco) : ''),
+                'nascimento' => ($cliente->data_nascimento ?? '') ? date('d/m/Y', strtotime($cliente->data_nascimento)) : null,
                 'email' => $cliente->email ?? '',
                 'telefone' => $cliente->telefone ?? '',
                 'rg' => $cliente->rg ?? '',
