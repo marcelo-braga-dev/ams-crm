@@ -7,11 +7,11 @@ import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import TruckIcon from '@mui/icons-material/LocalShippingOutlined';
 import PaymentIcon from '@mui/icons-material/Payment';
 
-import EmailIcon from './Partials/IconsCard/EmailIconPopover';
+// import EmailIcon from './Partials/IconsCard/EmailIconPopover';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
-import TelefoneIcon from "./Partials/IconsCard/TelefoneIcon";
+// import TelefoneIcon from "./Partials/IconsCard/TelefoneIcon";
 import HandymanIcon from "@mui/icons-material/Handyman";
 
 export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, border}) {
@@ -84,8 +84,8 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
         <div className="row justify-content-between mb-2">
             <div className="col-auto">
                 {/*<PinIcon dados={dados} />*/}
-                <TelefoneIcon dados={dados}/>
-                <EmailIcon dados={dados}/>
+                {/*<TelefoneIcon dados={dados}/>*/}
+                {/*<EmailIcon dados={dados}/>*/}
             </div>
             <div className="col-auto text-right">
                 <span className="text-sm text-muted">ID: #{dados.id}</span>
