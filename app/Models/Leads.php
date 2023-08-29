@@ -158,6 +158,8 @@ class Leads extends Model
     public function atualizar($id, $dados)
     {
         try {
+            $lead = $this->newQuery()->find($id);
+
             $this->newQuery()
                 ->find($id)
                 ->update([
@@ -167,8 +169,8 @@ class Leads extends Model
                     'razao_social' => $dados->razao_social,
                     'cnpj' => $dados->cnpj,
                     'email' => $dados->email,
-                    'cidade' => $dados->cidade,
-                    'estado' => $dados->estado,
+                    'cidade' => $dados->cidade ?? $lead->cidade,
+                    'estado' => $dados->estado ?? $lead->cidade,
                 ]);
         } catch (QueryException) {
             throw new \DomainException();

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Consultor\Pedidos\ClientesController;
 use App\Http\Controllers\Consultor\Pedidos\FaturadoController;
 use App\Http\Controllers\Consultor\Pedidos\HistoricoController;
 use App\Http\Controllers\Consultor\Pedidos\PedidosController;
@@ -20,8 +19,6 @@ Route::middleware(['auth', 'auth.consultores'])
         Route::resource('aguardando-pagamento', AguardandoPagamentoController::class);
         Route::resource('faturado', FaturadoController::class);
         Route::resource('acompanhamento', AcompanhamentoController::class);
-
-        Route::resource('clientes', ClientesController::class);
 
         Route::resource('historicos', HistoricoController::class);
     });

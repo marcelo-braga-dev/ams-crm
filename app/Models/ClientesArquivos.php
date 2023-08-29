@@ -7,6 +7,9 @@ use App\src\Pedidos\Arquivos\ChavesArquivosPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
+/**
+ * @deprecated
+ */
 
 class ClientesArquivos extends Model
 {

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Consultor\Pedidos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Clientes;
-use App\Models\ClientesArquivos;
 use App\Models\ConfigCores;
 use App\Models\Fornecedores;
 use App\Models\Leads;
@@ -102,6 +101,7 @@ class PedidosController extends Controller
                 {
                     DB::beginTransaction();
                     try {
+                        (new Leads())->atualizar($request->id_lead, $request);
                         (new Pedidos())->create($request, $request->id_lead);
                     } catch (\DomainException|QueryException $exception) {
                         DB::rollBack();

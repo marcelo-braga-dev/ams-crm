@@ -18,7 +18,6 @@ export default function Sidebar() {
             'icone': <RequestPageOutlinedIcon/>,
             'submenu': [
                 {'menu': 'Lista de Pedidos', 'url': route('consultor.pedidos.index')},
-                {'menu': 'Clientes', 'url': route('consultor.clientes.index')},
                 {'menu': 'Históricos', 'url': route('consultor.historicos.index')},
             ]
         }, {
