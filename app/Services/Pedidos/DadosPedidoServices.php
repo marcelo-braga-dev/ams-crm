@@ -39,22 +39,13 @@ class DadosPedidoServices
 
     public function dadosCard($pedido, $faturamento = null)
     {
-        $cliente = [];
-        if ($pedido->modelo == 1) {
-            $cliente = [
-                'nome' => $this->pedidoCliente[$pedido->id]['nome'] ?? ''
-            ];
-        } else if ($pedido->modelo == 2) {
-            $cliente = [
-                'nome' => ($this->leads[$pedido->lead] ?? $this->pedidoCliente[$pedido->id] ?? '')
-            ];
-        }
+        $dadosCliente = (new ClienteDados())->dados($pedido, $this->leads, $this->clientes, $this->pedidoCliente);
 
         if ($this->status($pedido->status) || $this->prazo($pedido))
             return [
                 'id' => $pedido->id,
                 'modelo' => $pedido->modelo,
-                'cliente' => $cliente['nome'] ?? '',
+                'cliente' => $dadosCliente['nome'] ?? '',
                 'consultor' => $this->consultores[$pedido->users_id],
                 'preco' => convert_float_money($pedido->preco_venda),
                 'fornecedor' => $this->fornecedores[$pedido->fornecedor],
@@ -92,6 +83,8 @@ class DadosPedidoServices
         $files = (new PedidosImagens())->getImagens($pedido->id);
         $filesCliente = (new ClientesArquivos())->get($pedido->cliente);
         $chavesArquivos = (new ChavesArquivosPedidos());
+
+        $dadosCliente = (new ClienteDados())->dados($pedido, $this->leads, $this->clientes, $this->pedidoCliente);
 
         $precoCusto = funcao_usuario_atual() == (new Admins())->getTipo()
             ? convert_float_money($pedido->preco_custo)
@@ -132,7 +125,7 @@ class DadosPedidoServices
                 'cnpj' => $integrador['cliente']['cnpj'] ?? ''
             ],
             'cliente' => [
-                'nome' => ($cliente->nome ?? ($cliente->razao_social ?? '')) ?? '',
+                'nome' => $dadosCliente['nome'] ?? '',
                 'endereco_id' => $cliente->endereco ?? '',
                 'endereco' => (($cliente->endereco ?? '') ? getEnderecoCompleto($cliente->endereco) : ''),
                 'nascimento' => ($cliente->data_nascimento ?? '') ? date('d/m/Y', strtotime($cliente->data_nascimento)) : null,
