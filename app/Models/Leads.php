@@ -214,7 +214,7 @@ class Leads extends Model
             ],
 
             'cliente' => [
-                'nome' => $item->nome,
+                'nome' => $item->nome ?: $item->razao_social,
                 'cidade' => $item->cidade,
                 'estado' => $item->estado,
                 'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
