@@ -22,7 +22,7 @@ export default function Edit({dados, historicos, consultores}) {
     }
 
     function enviarComentario(tag, id) {
-        post(route('admin.leads.cards-atendimento.store', {id: id, msg: data[tag]}));
+        post(route('admin.leads.adicionar-comentarios', {id: id, msg: data[tag]}));
         window.location.reload()
     }
 

@@ -118,7 +118,7 @@ class Pedidos extends Model
                 'preco_venda' => convert_money_float($dados->preco),
                 'forma_pagamento' => $dados->forma_pagamento,
                 'fornecedor' => $dados->fornecedor,
-                'integrador' => $dados->integrador,
+                //'integrador' => $dados->integrador,
                 'info_pedido' => $dados->obs
             ]);
     }
