@@ -64,3 +64,10 @@ if (!function_exists('converterCNPJ')) {
         return $dados;
     }
 }
+
+if (!function_exists('url_arquivos')) {
+    function url_arquivos($dado = null)
+    {
+        return $dado ? asset('storage/' . $dado) : null;
+    }
+}

@@ -12,6 +12,7 @@ use App\Models\Pedidos;
 use App\Models\PedidosClientes;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosImagens;
+use App\Models\PedidosProdutos;
 use App\Models\Produtos;
 use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
@@ -77,9 +78,10 @@ class PedidosController extends Controller
         $dados = (new Pedidos())->getDadosPedido($id);
 
         $historico = (new PedidosHistoricos())->historico($id);
+        $produtos = (new PedidosProdutos())->getProdutosPedido($id);
 
         return Inertia::render('Consultor/Pedidos/Show',
-            compact('dados', 'historico'));
+            compact('dados', 'historico', 'produtos'));
     }
 
     public function store(Request $request)
@@ -105,7 +107,8 @@ class PedidosController extends Controller
                     DB::beginTransaction();
                     try {
                         (new Leads())->atualizar($request->id_lead, $request);
-                        (new Pedidos())->create($request, $request->id_lead);
+                        $idPedido = (new Pedidos())->create($request, $request->id_lead);
+                        (new PedidosProdutos())->create($idPedido, $request);
                     } catch (\DomainException|QueryException $exception) {
                         DB::rollBack();
                         modalErro($exception->getMessage());

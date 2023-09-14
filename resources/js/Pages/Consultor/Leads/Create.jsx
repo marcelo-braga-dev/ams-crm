@@ -3,9 +3,10 @@ import Layout from "@/Layouts/Consultor/Layout";
 import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import maskJquery from "@/Helpers/maskJquery";
 
 export default function Create(props) {
-    console.log(props)
+    maskJquery()
     const [qtdLeads, setQtdLeads] = useState(1);
     const {data, setData, post} = useForm();
 
@@ -82,7 +83,7 @@ export default function Create(props) {
                                    })}/>
                     </div>
                     <div className="col mb-3">
-                        <TextField label="Telefone:" fullWidth
+                        <TextField label="Telefone:" fullWidth className="phone"
                                    onBlur={e => setData('i' + i, {
                                        ...data['i' + i],
                                        telefone: e.target.value

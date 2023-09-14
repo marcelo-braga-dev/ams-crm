@@ -11,6 +11,7 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
+import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -44,7 +45,7 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({pedido, historico}) {
+export default function Pedidos({pedido, produtos, historico}) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -62,7 +63,15 @@ export default function Pedidos({pedido, historico}) {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <DadosPedido dados={pedido}></DadosPedido>
+                <div className="row mb-4">
+                    <div className="col">
+                        <DadosPedido dados={pedido}></DadosPedido></div>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        <DadosProdutos dados={produtos}/>
+                    </div>
+                </div>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <DadosPedidoCliente dados={pedido}></DadosPedidoCliente>

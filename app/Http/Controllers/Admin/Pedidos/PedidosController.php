@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ConfigCores;
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
+use App\Models\PedidosProdutos;
 use App\Models\Setores;
 use App\Services\Fornecedores\FornecedoresService;
 use App\Services\Pedidos\CardDadosService;
@@ -47,12 +48,12 @@ class PedidosController extends Controller
 
     public function show($id)
     {
-//        print_pre(session('sessaoSetor'));
         $pedido = (new Pedidos())->getDadosPedido($id);
         $historico = (new PedidosHistoricos())->historico($id);
+        $produtos = (new PedidosProdutos())->getProdutosPedido($id);
 
         return Inertia::render('Admin/Pedidos/Show',
-            compact('pedido', 'historico'));
+            compact('pedido', 'historico', 'produtos'));
     }
 
     public function destroy($id)

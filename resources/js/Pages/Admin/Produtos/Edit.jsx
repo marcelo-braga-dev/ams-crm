@@ -2,6 +2,8 @@ import Layout from "@/Layouts/Admin/Layout";
 import TextField from "@mui/material/TextField";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {router, useForm} from "@inertiajs/react";
+import React from "react";
+import ImagePdf from "@/Components/Inputs/ImagePdf";
 
 export default function ({produto, fornecedor}) {
     const {data, setData, post} = useForm({
@@ -10,6 +12,7 @@ export default function ({produto, fornecedor}) {
         preco_venda: produto.preco_venda,
         preco_fornecedor: produto.preco_fornecedor,
         unidade: produto.unidade,
+        url_foto: produto.foto,
     })
 
     function onSubmit(e) {
@@ -47,6 +50,18 @@ export default function ({produto, fornecedor}) {
                     <div className="col mb-4">
                         <TextField label="Unidade" fullWidth required defaultValue={data.unidade}
                                    onChange={e => setData('unidade', e.target.value)}/>
+                    </div>
+                </div>
+                <div className="row mb-4">
+                    <div className="col-auto">
+                        <ImagePdf url={data.url_foto} />
+                    </div>
+                    <div className="col-md-6">
+                        <label>Atualizar Imagem do Produto</label>
+                        <TextField
+                            fullWidth type="file"
+                            onChange={e => setData('foto', e.target.files[0])}>
+                        </TextField>
                     </div>
                 </div>
                 <div className="row justify-content-center">

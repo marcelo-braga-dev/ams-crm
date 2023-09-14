@@ -1,7 +1,6 @@
 import Layout from '@/Layouts/Consultor/Layout';
 
 import {useForm} from '@inertiajs/react';
-
 import Pedidos from "./Partials/Pedido";
 import AlertDanger from "./Partials/AlertDanger";
 import InfoCliente from "./Partials/InfoCliente";
@@ -22,6 +21,8 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
         telefone: lead.telefone,
         email: lead.email,
         inscricao_estadual: lead.inscricao_estadual,
+        preco: 0,
+        produtos: [],
 
         cidade: lead.cidade,
         estado: lead.estado,
@@ -37,7 +38,7 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
     });
 
     const [produtos, setProdutos] = useState([])
-    const [produtosSelecionados, setProdutosSelecionados] = useState([])
+    const [alerta, setAlerta] = useState(false)
 
     function buscarProdutos(id) {
         axios.post(route('consultor.pedidos.buscar-produtos-fornecedor', {fornecedor: id})).then(response => {
@@ -48,11 +49,8 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
 
     function submit(e) {
         e.preventDefault()
-        post(route('consultor.pedidos.store'))
-    }
-
-    function selecionarProdutos(id) {
-        console.log(id)
+        if (data.preco > 0) post(route('consultor.pedidos.store'))
+        else setAlerta(true)
     }
 
     return (
@@ -69,7 +67,7 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
                         <InfoCliente setData={setData} data={data}></InfoCliente>
                     </div>
                     <Pedidos fornecedores={fornecedores} integradores={integradores} setData={setData} data={data}
-                             buscarProdutos={buscarProdutos} produtos={produtos} selecionarProdutos={selecionarProdutos}/>
+                             buscarProdutos={buscarProdutos} produtos={produtos}/>
 
                     <div className="row text-center mb-3">
                         <div className="col">
@@ -82,7 +80,10 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
                     </div>
                     <div className="row text-center">
                         <div className="col">
-                            <button className="btn btn-primary" disabled={processing}>Cadastrar</button>
+                            {alerta && <div className="alert alert-danger text-white">
+                                Selecione os Produtos do pedido.</div>}
+
+                            <button className="btn btn-primary">Cadastrar</button>
                         </div>
                     </div>
                 </div>

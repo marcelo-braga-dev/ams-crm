@@ -2,6 +2,7 @@ import Layout from "@/Layouts/Admin/Layout";
 import TextField from "@mui/material/TextField";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {useForm} from "@inertiajs/react";
+import React from "react";
 
 export default function ({produtos, fornecedor}) {
     const {data, setData, post} = useForm({
@@ -41,6 +42,15 @@ export default function ({produtos, fornecedor}) {
                     <div className="col mb-4">
                         <TextField label="Unidade" fullWidth required
                                    onChange={e => setData('unidade', e.target.value)}/>
+                    </div>
+                </div>
+                <div className="row mb-4">
+                    <div className="col-md-6">
+                        <label>Imagem do Produto</label>
+                        <TextField
+                            fullWidth type="file"
+                            onChange={e => setData('foto', e.target.files[0])}>
+                        </TextField>
                     </div>
                 </div>
                 <div className="row justify-content-center">

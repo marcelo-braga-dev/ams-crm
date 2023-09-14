@@ -1,6 +1,7 @@
 import Layout from "@/Layouts/Admin/Layout";
 import React, {useState} from "react";
 import {router} from "@inertiajs/react";
+import ImagePdf from "@/Components/Inputs/ImagePdf";
 
 export default function ({produtos, fornecedor}) {
     const [idExcluir, setIdExcluir] = useState(null);
@@ -37,6 +38,7 @@ export default function ({produtos, fornecedor}) {
                 <table className="table">
                     <thead>
                     <tr>
+                        <th></th>
                         <th className="col-1 text-center">ID</th>
                         <th>Nome</th>
                         <th>Preço Venda</th>
@@ -49,6 +51,9 @@ export default function ({produtos, fornecedor}) {
                     {produtos.map((dado, index) => {
                         return (
                             <tr key={index}>
+                                <td>
+                                    {dado.foto && <img src={dado.foto} width="80" alt="foto"/>}
+                                </td>
                                 <td className="text-center">#{dado.id}</td>
                                 <td className="text-wrap">{dado.nome}</td>
                                 <td>R$ {dado.preco_venda}</td>

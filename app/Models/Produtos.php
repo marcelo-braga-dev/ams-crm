@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Images;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +15,8 @@ class Produtos extends Model
         'nome',
         'preco_fornecedor',
         'preco_venda',
-        'unidade'
+        'unidade',
+        'url_foto'
     ];
 
     public function getProdutos($id)
@@ -30,20 +32,25 @@ class Produtos extends Model
                     'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
+                    'preco_fornecedor_float' => $dados->preco_fornecedor,
                     'unidade' => $dados->unidade,
+                    'foto' => url_arquivos($dados->url_foto)
                 ];
             });
     }
 
     public function create($dados)
     {
+        $url = (new Images())->armazenar($dados, 'foto', 'fotos_produtos');
+
         $this->newQuery()
             ->create([
                 'fornecedores_id' => $dados->fornecedor,
                 'nome' => $dados->nome,
-                'preco_fornecedor' => $dados->preco_fornecedor,
-                'preco_venda' => $dados->preco_venda,
+                'preco_fornecedor' => convert_money_float($dados->preco_fornecedor),
+                'preco_venda' => convert_money_float($dados->preco_venda),
                 'unidade' => $dados->unidade,
+                'url_foto' => $url
             ]);
     }
 
@@ -58,19 +65,27 @@ class Produtos extends Model
             'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
             'preco_venda' => convert_float_money($dados->preco_venda),
             'unidade' => $dados->unidade,
+            'foto' => $dados->url_foto
         ];
     }
 
     public function atualizar($id, $dados)
     {
-        $this->newQuery()
-            ->find($id)
-            ->update([
-                'nome' => $dados->nome,
-                'preco_fornecedor' => convert_money_float($dados->preco_fornecedor),
-                'preco_venda' => convert_money_float($dados->preco_venda),
-                'unidade' => $dados->unidade,
+        $sql = $this->newQuery()->find($id);
+
+        if ($dados->foto) {
+            $url = (new Images())->armazenar($dados, 'foto', 'fotos_produtos');
+            $sql->update([
+                'url_foto' => $url
             ]);
+        }
+
+        $sql->update([
+            'nome' => $dados->nome,
+            'preco_fornecedor' => convert_money_float($dados->preco_fornecedor),
+            'preco_venda' => convert_money_float($dados->preco_venda),
+            'unidade' => $dados->unidade,
+        ]);
     }
 
     public function excluir($id)

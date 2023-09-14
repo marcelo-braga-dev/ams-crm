@@ -1,8 +1,7 @@
 import {Col, Row} from "reactstrap";
-import {TextField, MenuItem} from "@mui/material";
+import {TextField, MenuItem, InputAdornment} from "@mui/material";
 import Box from "@mui/material/Box";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
-import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 
 let total = 0;
 
@@ -17,73 +16,15 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
         setData('forma_pagamento', 'Cartão Crédito em ' + qtd + 'x')
     }
 
+    function qtdBoletos(qtd) {
+        setData('forma_pagamento', 'Boleto em ' + qtd + 'x')
+    }
+
     return <Box>
-        <Row className="my-4">
-            <Col md="4" className="mb-3">
-                <TextField label="Fornecedor" select fullWidth required defaultValue=""
-                           onChange={e => buscarProdutos(e.target.value)}
-                >
-                    {fornecedores.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </Col>
-        </Row>
-        {produtos.length ? <div className="row mb-4">
-            <table className="table">
-                <thead>
-                <tr>
-                    <td className="text-center">ID</td>
-                    <td>Nome</td>
-                    <td>Preço</td>
-                    <td className="text-center">Qtd.</td>
-                    <td>Und.</td>
-                    <td>Total</td>
-                </tr>
-                </thead>
-                <tbody>
-                {produtos.map((dados, index) => {
-                    total += (dados.preco_venda_float * (data['i' + dados.id] ? data['i' + dados.id].qtd : 0))
 
-                    return (
-                        <tr key={index}>
-                            <td className="col-1 text-center">#{dados.id}</td>
-                            <td className="text-wrap">{dados.nome}</td>
-                            <td>R$ {dados.preco_venda}</td>
-                            <td className="col-1">
-                                <TextField type="number" size="small"
-                                           onChange={e => setData('i' + dados.id, {
-                                               qtd: parseInt(e.target.value),
-                                               id: dados.id
-                                           })}
-                                />
-                            </td>
-                            <td>{dados.unidade}</td>
-                            <td className="col-2">
-                                R$ {convertFloatToMoney(dados.preco_venda_float * (data['i' + dados.id] ? data['i' + dados.id].qtd : 0))}
-                            </td>
-                        </tr>
-                    )
-                })}
-                <tr>
-                    <td colSpan="4"></td>
-                    <td><b>TOTAL</b></td>
-                    <td>
-                        <b>R$ {convertFloatToMoney(total)}</b>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div> : ''}
-
-        <div className="row">
-            <div className="mb-3 col-md-3">
-                <TextFieldMoney label="Preço" value={data.preco} setData={setData} index="preco" required/>
-            </div>
-            <div className="col-md-3">
-                <TextField label="Formas de Pagamento" select fullWidth required defaultValue=""
+        <div className="row mb-4">
+            <div className="col-md-4">
+                <TextField label="Forma de Pagamento" select fullWidth required defaultValue=""
                            onChange={e => setData('forma_pagamento', e.target.value)}>
                     <MenuItem value="À Vista">À Vista</MenuItem>
                     <MenuItem value="Boleto">Boleto</MenuItem>
@@ -98,6 +39,10 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                     <TextField
                         required type="number" label="Qtd. de Parcelas"
                         onChange={e => qtdCredito(e.target.value)}/>}
+                {data.forma_pagamento?.includes('Boleto') &&
+                    <TextField
+                        required type="number" label="Qtd. de Parcelas"
+                        onChange={e => qtdBoletos(e.target.value)}/>}
             </div>
             <div className="col-3">
                 {data.forma_pagamento?.includes('Cheque') &&
@@ -112,6 +57,109 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                         onChange={e => setData('file_cheque', e.target.files[0])}/>}
             </div>
         </div>
+        <div className="row pb-3 mb-5 border-bottom">
+            <div className="col-md-5 mb-3">
+                <TextField label="Fornecedor" select fullWidth required defaultValue=""
+                           onChange={e => buscarProdutos(e.target.value)}
+                >
+                    {fornecedores.map((option, index) => (
+                        <MenuItem key={index} value={option.id}>
+                            {option.nome}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            </div>
+        </div>
+        {produtos.length ? <div className="row mb-4">
+            <table className="table table-sm text-sm">
+                <thead>
+                <tr>
+                    <td></td>
+                    <td>Nome</td>
+                    <td>Preço</td>
+                    <td className="text-center">Qtd.</td>
+                    <td className="col-1 text-center">Und.</td>
+                    <td>Desconto</td>
+                    <td>Total</td>
+                </tr>
+                </thead>
+                <tbody>
+                {produtos.map((dados, index) => {
+                    total += dados.preco_venda_float
+                        * ((data?.produtos?.['i' + dados.id]?.qtd) ?? 0)
+                        * (1 - ((data?.produtos?.['i' + dados.id]?.desconto ?? 0) / 100))
+
+                    data.preco = total
+                    return (
+                        <tr key={index}
+                            className={(data?.produtos?.['i' + dados.id]?.qtd) > 0 ? "bg-light font-weight-bold" : ''}>
+                            <td className="col-1 text-center pe-3">
+                                {dados.foto && <img className="rounded" src={dados.foto} width="70" alt="foto"/>}
+                            </td>
+                            <td className="text-wrap">
+                                <b>{dados.nome}</b>
+                                <small className="d-block">ID: #{dados.id}</small>
+                            </td>
+                            <td className="col-1">R$ {dados.preco_venda}</td>
+                            <td className="col-1">
+                                <TextField type="number" size="small" style={{width: '5rem'}}
+                                           onChange={e => setData('produtos', {
+                                               ...data.produtos,
+                                               ['i' + dados.id]: {
+                                                   ...data?.produtos?.['i' + dados.id],
+                                                   id: dados.id,
+                                                   nome: dados.nome,
+                                                   preco_fornecedor_float: dados.preco_fornecedor_float,
+                                                   preco_venda_float: dados.preco_venda_float,
+                                                   qtd: parseInt(e.target.value),
+                                                   und: dados.unidade,
+                                                   foto: dados.foto,
+                                               },
+                                           })}
+                                />
+                            </td>
+                            <td className="col-1 text-center">{dados.unidade}</td>
+                            <td className="col-2">
+                                <TextField type="number" size="small" style={{width: '7rem'}} fullWidth
+                                           InputProps={{
+                                               endAdornment: <InputAdornment className="p-0 m-0"
+                                                                             position="end">%</InputAdornment>,
+                                           }}
+                                           inputProps={{
+                                               maxLength: 13,
+                                               step: "0.01",
+                                               endAdornment: <InputAdornment className="p-0 m-0"
+                                                                             position="end">%</InputAdornment>,
+                                           }}
+                                           onChange={e => setData('produtos', {
+                                               ...data.produtos,
+                                               ['i' + dados.id]: {
+                                                   ...data?.produtos?.['i' + dados.id],
+                                                   id: dados.id,
+                                                   desconto: parseInt(e.target.value)
+                                               }
+                                           })}
+                                />
+                            </td>
+                            <td className="col-2">
+                                R$ {convertFloatToMoney(dados.preco_venda_float *
+                                (data?.produtos && data?.produtos['i' + dados.id]?.qtd) *
+                                (data?.produtos && 1 - ((data?.produtos['i' + dados.id]?.desconto ?? 0) / 100)))}
+                            </td>
+                        </tr>
+                    )
+                })}
+                <tr>
+                    <td colSpan="5"></td>
+                    <td><h5>TOTAL</h5></td>
+                    <td>
+                        <h5>R$ {convertFloatToMoney(total)}</h5>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div> : ''}
+
         <Row className="mb-3 mt-4">
             <Col className="mb-3" lg="12">
                 <TextField

@@ -130,10 +130,10 @@ class DadosPedidoServices
                 'endereco' => (($cliente->endereco ?? '') ? getEnderecoCompleto($cliente->endereco) : ''),
                 'nascimento' => ($cliente->data_nascimento ?? '') ? date('d/m/Y', strtotime($cliente->data_nascimento)) : null,
                 'email' => $cliente->email ?? '',
-                'telefone' => $cliente->telefone ?? '',
+                'telefone' => converterTelefone($cliente->telefone) ?? '',
                 'rg' => $cliente->rg ?? '',
                 'cpf' => $cliente->cpf ?? '',
-                'cnpj' => $cliente->cnpj ?? '',
+                'cnpj' => converterCNPJ($cliente->cnpj) ?? '',
                 'inscricao_estadual' => $cliente->inscricao_estadual ?? '',
             ],
             'pedido_files' => [
