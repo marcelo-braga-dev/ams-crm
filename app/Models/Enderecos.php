@@ -59,7 +59,17 @@ class Enderecos extends Model
 
     public function get($id)
     {
-        return $this->newQuery()->find($id);
+        $dados = $this->newQuery()->find($id);
+        
+        return [
+            'cep' => $dados->cep ?? '',
+            'rua' => $dados->rua ?? '',
+            'numero' => $dados->numero ?? '',
+            'complemento' => $dados->complemento ?? '',
+            'bairro' => $dados->bairro ?? '',
+            'cidade' => $dados->cidade ?? '',
+            'estado' => $dados->estado ?? '',
+        ];
     }
 
     public function getEnderecoCompleto($id): string
