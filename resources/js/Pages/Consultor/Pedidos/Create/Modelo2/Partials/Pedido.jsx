@@ -136,12 +136,12 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                                                ['i' + dados.id]: {
                                                    ...data?.produtos?.['i' + dados.id],
                                                    id: dados.id,
-                                                   desconto: parseInt(e.target.value)
+                                                   desconto: parseFloat(e.target.value)
                                                }
                                            })}
                                 />
                             </td>
-                            <td className="col-2">
+                            <td className="col-2">{console.log(data?.produtos['i' + dados.id]?.desconto ?? 0)}
                                 R$ {convertFloatToMoney(dados.preco_venda_float *
                                 (data?.produtos && data?.produtos['i' + dados.id]?.qtd) *
                                 (data?.produtos && 1 - ((data?.produtos['i' + dados.id]?.desconto ?? 0) / 100)))}
