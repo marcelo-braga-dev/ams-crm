@@ -108,6 +108,7 @@ class PedidosController extends Controller
                     try {
                         (new Leads())->atualizar($request->id_lead, $request);
                         $idPedido = (new Pedidos())->create($request, $request->id_lead);
+                        (new PedidosImagens())->updatePlanilhaPedido($idPedido, $request);
                         (new PedidosProdutos())->create($idPedido, $request);
                     } catch (\DomainException|QueryException $exception) {
                         DB::rollBack();

@@ -2,6 +2,7 @@ import {Col, Row} from "reactstrap";
 import {TextField, MenuItem, InputAdornment} from "@mui/material";
 import Box from "@mui/material/Box";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import React from "react";
 
 let total = 0;
 
@@ -67,6 +68,13 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                             {option.nome}
                         </MenuItem>
                     ))}
+                </TextField>
+            </div>
+            <div className="col-md-6">
+                <TextField
+                    label="Imagem da Lista de Pedido" required
+                    fullWidth type="file" InputLabelProps={{ shrink: true }}
+                    onChange={e => setData('img_pedido', e.target.files[0])}>
                 </TextField>
             </div>
         </div>

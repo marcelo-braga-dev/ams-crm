@@ -24,7 +24,8 @@ class PedidosImagens extends Model
         'url_recibo_1',
         'url_recibo_2',
         'url_nota_fiscal',
-        'url_carta_autorizacao'
+        'url_carta_autorizacao',
+        'url_planilha_pedido'
     ];
 
     function create($id, $dados)
@@ -120,6 +121,17 @@ class PedidosImagens extends Model
             ->where('pedidos_id', $id)
             ->updateOrCreate(
                 ['pedidos_id' => $id], ['url_nota_fiscal' => $url]
+            );
+    }
+
+    public function updatePlanilhaPedido($id, $dados)
+    {
+        $url = (new Images())->armazenar($dados, 'img_pedido', 'pedidos/' . $id);
+
+        $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->updateOrCreate(
+                ['pedidos_id' => $id], ['url_planilha_pedido' => $url]
             );
     }
 

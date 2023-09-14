@@ -12,6 +12,7 @@ import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
+import ImagePdf from "@/Components/Inputs/ImagePdf";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -64,8 +65,13 @@ export default function Pedidos({pedido, produtos, historico}) {
             </Box>
             <TabPanel value={value} index={0}>
                 <div className="row mb-4">
-                    <div className="col">
-                        <DadosPedido dados={pedido}></DadosPedido></div>
+                    <div className="col-md-8">
+                        <DadosPedido dados={pedido}></DadosPedido>
+                    </div>
+                    <div className="col-md-4">
+                        <label>Imagem da Planilha de Pedidos</label>
+                        <ImagePdf url={pedido.pedido_files.planilha_pedido}/>
+                    </div>
                 </div>
                 <div className="row">
                     <div className="col">

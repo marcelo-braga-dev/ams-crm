@@ -143,6 +143,7 @@ class DadosPedidoServices
                 'recibo_2' => $files->url_recibo_2 ?? null,
                 'nota_fiscal' => $files->url_nota_fiscal ?? null,
                 'carta_autorizacao' => $files->url_carta_autorizacao ?? null,
+                'planilha_pedido' => $files->url_planilha_pedido ?? null,
             ],
             'cliente_files' => [
                 'rg' => $files->url_rg ?? $filesCliente[$chavesArquivos->rg()] ?? null,
