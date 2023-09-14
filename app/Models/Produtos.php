@@ -72,4 +72,11 @@ class Produtos extends Model
                 'unidade' => $dados->unidade,
             ]);
     }
+
+    public function excluir($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->delete();
+    }
 }

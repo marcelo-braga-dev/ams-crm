@@ -48,4 +48,12 @@ class ProdutosController extends Controller
         modalSucesso('Dados atualizado com sucesso!');
         return redirect()->route('admin.produtos.index', ['fornecedor' => $request->fornecedor]);
     }
+
+    public function destroy($id)
+    {
+        (new Produtos())->excluir($id);
+
+        modalSucesso('Produto deletado com sucesso!');
+        return redirect()->back();
+    }
 }

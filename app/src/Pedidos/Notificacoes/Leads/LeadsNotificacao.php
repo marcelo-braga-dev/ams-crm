@@ -4,6 +4,7 @@ namespace App\src\Pedidos\Notificacoes\Leads;
 
 use App\Models\Leads;
 use App\Models\Notificacoes;
+use App\Models\User;
 use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
@@ -47,5 +48,15 @@ class LeadsNotificacao implements Notificacao
         };
 
         (new Notificacoes())->create($idConsultor, $this->getCategoria(), $titulo, $msg, $url);
+    }
+
+    public function notificarDuplicidade($msg)
+    {
+        $titulo = 'Duplicidade de Lead';
+
+        $ids = (new User())->getIdAdmins();
+        foreach ($ids as $id) {
+            (new Notificacoes())->create($id->id, $this->getCategoria(), $titulo, $msg);
+        }
     }
 }

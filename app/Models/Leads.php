@@ -95,14 +95,17 @@ class Leads extends Model
                     ]);
                 return 1;
             } else {
+                $msgErro = '';
                 if ($verificacaoCnpj) {
                     $dados = $this->newQuery()->where('cnpj', $cnpj)->first();
-                    modalErro('O LEAD #' . $dados->id . ' POSSUI O MESMO CNPJ: ' . converterCNPJ($dados['cnpj']));
+                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO CNPJ: ' . converterCNPJ($dados['cnpj']));
                 }
                 if ($verificacaoTel) {
                     $dados = $this->newQuery()->where('telefone', $telefone)->first();
-                    modalErro('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
+                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
                 }
+                modalErro($msgErro);
+                (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
         } catch (QueryException $exception) {
             throw new \DomainException('Falha na importação');
@@ -215,6 +218,7 @@ class Leads extends Model
                     $dados = $this->newQuery()->where('telefone', $telefone)->first();
                     $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
                 }
+                (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
             throw new \DomainException($msgErro);
         } catch (QueryException) {
