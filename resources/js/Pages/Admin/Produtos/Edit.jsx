@@ -42,8 +42,7 @@ export default function ({produto, fornecedor}) {
                     </div>
                     <div className="col mb-4">
                         <TextFieldMoney label="Preço do Fornecedor" value={data.preco_fornecedor} setData={setData}
-                                        index="preco_fornecedor"
-                                        required/>
+                                        index="preco_fornecedor" />
                     </div>
                     <div className="col mb-4">
                         <TextField label="Unidade" fullWidth required defaultValue={data.unidade}

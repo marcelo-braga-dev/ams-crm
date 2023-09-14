@@ -4,7 +4,8 @@ import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-export default function Create() {
+export default function Create(props) {
+    console.log(props)
     const [qtdLeads, setQtdLeads] = useState(1);
     const {data, setData, post} = useForm();
 

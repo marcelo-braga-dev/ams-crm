@@ -25,20 +25,22 @@ export default function ({produtos, fornecedor}) {
                 <div className="row">
                     <div className="col mb-4">
                         <TextField label="Nome" fullWidth required
-                        onChange={e => setData('nome', e.target.value)}/>
+                                   onChange={e => setData('nome', e.target.value)}/>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col mb-4">
-                        <TextFieldMoney label="Preço Venda" value={data.preco_venda} setData={setData} index="preco_venda"
+                        <TextFieldMoney label="Preço Venda" value={data.preco_venda} setData={setData}
+                                        index="preco_venda"
                                         required/>
                     </div>
                     <div className="col mb-4">
-                        <TextFieldMoney label="Preço do Fornecedor" value={data.preco_fornecedor} setData={setData} index="preco_fornecedor"
-                                        required/>
+                        <TextFieldMoney label="Preço do Fornecedor" value={data.preco_fornecedor} setData={setData}
+                                        index="preco_fornecedor"/>
                     </div>
                     <div className="col mb-4">
-                        <TextField label="Unidade" fullWidth required/>
+                        <TextField label="Unidade" fullWidth required
+                                   onChange={e => setData('unidade', e.target.value)}/>
                     </div>
                 </div>
                 <div className="row justify-content-center">

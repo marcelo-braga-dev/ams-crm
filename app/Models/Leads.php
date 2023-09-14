@@ -95,8 +95,14 @@ class Leads extends Model
                     ]);
                 return 1;
             } else {
-                if ($verificacaoCnpj) modalErro('CNPJ: ' . $dados['cnpj'] . ' JÁ CADASTRADO!');
-                if ($verificacaoTel) modalErro('TELEFONE: ' . $dados['telefone'] . ' JÁ CADASTRADO!');
+                if ($verificacaoCnpj) {
+                    $dados = $this->newQuery()->where('cnpj', $cnpj)->first();
+                    modalErro('O LEAD #' . $dados->id . ' POSSUI O MESMO CNPJ: ' . converterCNPJ($dados['cnpj']));
+                }
+                if ($verificacaoTel) {
+                    $dados = $this->newQuery()->where('telefone', $telefone)->first();
+                    modalErro('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
+                }
             }
         } catch (QueryException $exception) {
             throw new \DomainException('Falha na importação');
@@ -163,30 +169,56 @@ class Leads extends Model
     public function atualizar($id, $dados)
     {
         try {
-            $lead = $this->newQuery()->find($id);
+            $verificacaoCnpj = null;
+            $verificacaoTel = null;
 
-            $idEndereco = $lead->endereco ? (new Enderecos())->updateDados($lead->endereco, $dados->get('endereco')) : (new Enderecos())->create($dados->get('endereco'));
+            $telefone = preg_replace('/[^0-9]/', '', $dados['telefone'] ?? null);
+            $telefone = preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null);
+            $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
-            $this->newQuery()
-                ->find($id)
-                ->update([
-                    'nome' => $dados->nome,
-                    'atendente' => $dados->atendente,
-                    'telefone' => $dados->telefone,
-                    'razao_social' => $dados->razao_social,
-                    'inscricao_estadual' => $dados->inscricao_estadual,
-                    'cnpj' => $dados->cnpj,
-                    'rg' => $dados->rg,
-                    'cpf' => $dados->cpf,
-                    'email' => $dados->email,
-                    'endereco' => $idEndereco,
-                    'cidade' => $dados->cidade ?? $lead->cidade,
-                    'estado' => $dados->estado ?? $lead->cidade,
-                    'data_nascimento' => $dados->nascimento,
-                ]);
-        } catch (QueryException $exception) {
-            print_pre($exception->getMessage());
-            throw new \DomainException();
+            if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
+            if ($telefone) $verificacaoTel = $this->newQuery()
+                ->where('id', '!=', $id)
+                ->where('telefone', $telefone)
+                ->exists();
+
+            if (!$verificacaoCnpj && !$verificacaoTel &&
+                (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))) {
+                $lead = $this->newQuery()->find($id);
+                $idEndereco = $lead->endereco ? (new Enderecos())->updateDados($lead->endereco, $dados->get('endereco')) : (new Enderecos())->create($dados->get('endereco'));
+
+                $this->newQuery()
+                    ->find($id)
+                    ->update([
+                        'nome' => $dados->nome,
+                        'atendente' => $dados->atendente,
+                        'telefone' => $telefone,
+                        'razao_social' => $dados->razao_social,
+                        'inscricao_estadual' => $dados->inscricao_estadual,
+                        'cnpj' => $cnpj,
+                        'rg' => $dados->rg,
+                        'cpf' => $dados->cpf,
+                        'email' => $dados->email,
+                        'endereco' => $idEndereco,
+                        'cidade' => $dados->cidade ?? $lead->cidade,
+                        'estado' => $dados->estado ?? $lead->cidade,
+                        'data_nascimento' => $dados->nascimento,
+                    ]);
+                return 1;
+            } else {
+                $msgErro = '';
+                if ($verificacaoCnpj) {
+                    $dados = $this->newQuery()->where('cnpj', $cnpj)->first();
+                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO CNPJ: ' . converterCNPJ($dados['cnpj']));
+                }
+                if ($verificacaoTel) {
+                    $dados = $this->newQuery()->where('telefone', $telefone)->first();
+                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
+                }
+            }
+            throw new \DomainException($msgErro);
+        } catch (QueryException) {
+            throw new \DomainException('Falha na importação');
         }
     }
 
