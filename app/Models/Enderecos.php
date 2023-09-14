@@ -53,6 +53,8 @@ class Enderecos extends Model
                 'cidade' => $dados['cidade'] ?? '',
                 'estado' => $dados['estado'] ?? '',
             ]);
+
+        return $id;
     }
 
     public function get($id)

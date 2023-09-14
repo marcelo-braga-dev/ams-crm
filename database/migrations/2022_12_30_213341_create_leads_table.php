@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('atendente')->nullable();
             $table->boolean('pessoa_fisica')->default(1);
             $table->string('cnpj')->nullable();
+            $table->string('inscricao_estadual')->nullable();
             $table->string('razao_social')->nullable();
             $table->string('email')->nullable();
             $table->bigInteger('endereco')->nullable();
@@ -29,6 +30,7 @@ return new class extends Migration {
             $table->string('cidade')->nullable();
             $table->string('estado')->nullable();
             $table->timestamp('status_data');
+            $table->date('data_nascimento');
             $table->string('meio_contato')->nullable();
             $table->string('infos')->nullable();
             $table->string('classificacao', 8)->nullable();

@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Consultor\Pedidos;
 use App\Http\Controllers\Controller;
 use App\Models\Clientes;
 use App\Models\ConfigCores;
+use App\Models\Enderecos;
 use App\Models\Fornecedores;
 use App\Models\Leads;
 use App\Models\Pedidos;
 use App\Models\PedidosClientes;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosImagens;
+use App\Models\Produtos;
 use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
 use App\src\Modelos\CompletoModelo;
@@ -53,6 +55,7 @@ class PedidosController extends Controller
         $lead = (new Leads())->find($request->lead);
 
         $clientes = (new Clientes())->getClientes($setor);
+        $endereco = (new Enderecos())->get($lead->endereco);
 
         switch ((new Setores())->getModelo($setor)) {
             case 1:
@@ -60,7 +63,7 @@ class PedidosController extends Controller
                     compact('fornecedores', 'lead'));
             case 2:
                 return Inertia::render('Consultor/Pedidos/Create/Modelo2/Create',
-                    compact('fornecedores', 'lead', 'clientes'));
+                    compact('fornecedores', 'lead', 'clientes', 'endereco'));
             default:
             {
                 modalErro('Falha no formulário de cadastro.');
@@ -115,5 +118,10 @@ class PedidosController extends Controller
 
         modalSucesso('Pedido cadastrado com sucesso!');
         return redirect()->route('consultor.pedidos.index');
+    }
+
+    public function buscarProdutosFornecedor(Request $request)
+    {
+        return (new Produtos())->getProdutos($request->fornecedor);
     }
 }

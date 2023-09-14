@@ -24,7 +24,10 @@ class Leads extends Model
         'setor',
         'cnpj',
         'razao_social',
+        'endereco',
         'atendente',
+        'data_nascimento',
+        'inscricao_estadual',
         'pessoa_fisica',
         'email',
         'telefone',
@@ -160,6 +163,8 @@ class Leads extends Model
         try {
             $lead = $this->newQuery()->find($id);
 
+            $idEndereco = $lead->endereco ? (new Enderecos())->updateDados($lead->endereco, $dados->get('endereco')) : (new Enderecos())->create($dados->get('endereco'));
+
             $this->newQuery()
                 ->find($id)
                 ->update([
@@ -167,12 +172,16 @@ class Leads extends Model
                     'atendente' => $dados->atendente,
                     'telefone' => $dados->telefone,
                     'razao_social' => $dados->razao_social,
+                    'inscricao_estadual' => $dados->inscricao_estadual,
                     'cnpj' => $dados->cnpj,
                     'email' => $dados->email,
+                    'endereco' => $idEndereco,
                     'cidade' => $dados->cidade ?? $lead->cidade,
                     'estado' => $dados->estado ?? $lead->cidade,
+                    'data_nascimento' => $dados->nascimento,
                 ]);
-        } catch (QueryException) {
+        } catch (QueryException $exception) {
+            print_pre($exception->getMessage());
             throw new \DomainException();
         }
     }

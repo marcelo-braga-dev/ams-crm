@@ -60,6 +60,10 @@ export default function Create({fornecedores, setores, setorAtual}) {
                                     {dados.setor}
                                 </td>
                                 <td className="text-right">
+                                    <a href={route('admin.produtos.index', {fornecedor: dados.id})}
+                                       className="btn btn-warning btn-sm">Produtos</a>
+                                </td>
+                                <td className="text-right">
                                     <a href={route('admin.fornecedores.show', dados.id)}
                                        className="btn btn-primary btn-sm">Ver</a>
                                 </td>

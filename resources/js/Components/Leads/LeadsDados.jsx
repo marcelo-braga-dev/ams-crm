@@ -2,7 +2,7 @@ export default function LeadsDados({dados}) {
     return (<>
         <div className="row">
             <div className="col mb-2">
-                <span className="d-block"><b>Cliente:</b> {dados.cliente.nome}</span>
+                <span className="d-block"><b>Cliente:</b> {dados.cliente.nome  ? dados.cliente.nome : dados.cliente.razao_social}</span>
                 <span className="d-block"><b>CNPJ:</b> {dados.cliente.cnpj}</span>
                 <span className="d-block"><b>Telefone:</b> {dados.contato.telefone}</span>
                 <span className="d-block"><b>Email:</b> {dados.contato.email}</span>

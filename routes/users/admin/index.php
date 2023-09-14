@@ -18,4 +18,5 @@ Route::middleware(['auth', 'auth.admins'])
         require __DIR__ . '/metas-vendas.php';
         require __DIR__ . '/perfil.php';
         require __DIR__ . '/dashboard.php';
+        require __DIR__ . '/produtos.php';
     });
