@@ -33,6 +33,7 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                     <MenuItem value="Cartão de Débito">Cartão de Débito</MenuItem>
                     <MenuItem value="Dinheiro">Dinheiro</MenuItem>
                     <MenuItem value="Cheque">Cheque</MenuItem>
+                    <MenuItem value="Bonificação">Bonificação</MenuItem>
                 </TextField>
             </div>
             <div className="col-2">
@@ -44,8 +45,6 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                     <TextField
                         required type="number" label="Qtd. de Parcelas"
                         onChange={e => qtdBoletos(e.target.value)}/>}
-            </div>
-            <div className="col-3">
                 {data.forma_pagamento?.includes('Cheque') &&
                     <TextField
                         required type="number" label="Qtd. de Cheques"

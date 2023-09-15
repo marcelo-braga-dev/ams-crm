@@ -179,7 +179,11 @@ class Leads extends Model
             $telefone = preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null);
             $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
-            if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
+            if ($cnpj) $verificacaoCnpj = $this->newQuery()
+                ->where('id', '!=', $id)
+                ->where('cnpj', $cnpj)
+                ->exists();
+
             if ($telefone) $verificacaoTel = $this->newQuery()
                 ->where('id', '!=', $id)
                 ->where('telefone', $telefone)
