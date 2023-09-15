@@ -24,7 +24,7 @@ class PedidosProdutos extends Model
     public function create($idPedido, $dados)
     {
         foreach ($dados->produtos as $item) {
-            if ($item['qtd']) {
+            if ($item['qtd'] ?? null) {
                 $this->newQuery()
                     ->create([
                         'pedidos_id' => $idPedido,

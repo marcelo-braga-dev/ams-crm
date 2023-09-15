@@ -16,6 +16,8 @@ if (!function_exists('print_pre')) {
 if (!function_exists('convert_money_float')) {
     function convert_money_float($arg, $decimais = 2)
     {
+        if (is_numeric($arg)) return $arg;
+
         try {
             if (is_string($arg)) {
                 $arg = str_replace('.', '', $arg);
