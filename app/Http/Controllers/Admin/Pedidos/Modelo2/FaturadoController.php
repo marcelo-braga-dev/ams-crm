@@ -19,7 +19,7 @@ class FaturadoController extends Controller
     }
 
     public function update($id, Request $request)
-    {print_pre("FAT");
+    {
         try {
             (new PedidoUpdateStatus())->setFaturado($id);
         } catch (\DomainException $exception) {

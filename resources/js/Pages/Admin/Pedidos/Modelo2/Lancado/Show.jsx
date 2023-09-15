@@ -3,14 +3,13 @@ import {router} from '@inertiajs/react'
 import * as React from 'react';
 
 import {useForm} from '@inertiajs/react';
-import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
+import {TextField} from "@mui/material";
+import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 
-export default function Pedidos({dados}) {
-    const {data, put, setData} = useForm({
-        'preco_custo': null
-    })
+export default function Pedidos({dados, produtos}) {
+    const {data, put, setData} = useForm()
 
     function submit(e) {
         e.preventDefault()
@@ -19,20 +18,6 @@ export default function Pedidos({dados}) {
             ...data
         })
     }
-
-    // ConvertMoney
-    let valor = 0
-    if (data.preco_custo) {
-        valor = data.preco_custo.replace('.', '').replace(',', '').replace(/\D/g, '');
-        valor /= 100
-    }
-
-    function precoBruto(venda) {
-        return new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2}).format(
-            parseFloat(venda - valor))
-    }
-
-    // ConvertMoney - fim
 
     return (
         <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido Lançado"
@@ -45,32 +30,41 @@ export default function Pedidos({dados}) {
                     <DadosPedidoCliente dados={dados}/>
                 </div>
             </div>
-
+            <div className="row">
+                <div className="col">
+                    <DadosProdutos dados={produtos}/>
+                </div>
+            </div>
 
             <form onSubmit={submit}>
                 <div className="row shadow p-2">
                     <div className="row mb-4">
-                        <h6>Preço de Venda: R$ {dados.preco.convertido}</h6>
-                    </div>
-                    <div className="row">
                         <div className="col-md-4 mb-4">
-                            <TextFieldMoney
-                                label="Preço Custo" value={data.preco_custo} required
-                                setData={setData} index="preco_custo"></TextFieldMoney>
+                            <TextField
+                                label="Nota Fiscal" required fullWidth type="file" InputLabelProps={{shrink: true}}
+                                onChange={e => setData('file_nota_fiscal', e.target.files[0])}>
+                            </TextField>
+                        </div>
+                        <div className="col-md-4 mb-4">
+                            <TextField
+                                label="Boleto" fullWidth type="file" InputLabelProps={{shrink: true}}
+                                onChange={e => setData('file_boleto', e.target.files[0])}>
+                            </TextField>
+                        </div>
+                        <div className="col-md-4 mb-4">
+                            <TextField
+                                label="Link de Pagamento" fullWidth
+                                onChange={e => setData('url_pagamento', e.target.value)}>
+                            </TextField>
                         </div>
                     </div>
-                    <div className="row mb-4">
+                    <div className="row text-center">
                         <div className="mb-3">
-                            <span>Preço Bruto: R$ {precoBruto(dados.preco.preco_float)}</span>
+                            <button className="btn btn-primary" color={"primary"}>Salvar</button>
                         </div>
-                    </div>
-                    <div className="row">
-                        <div className="mb-3">
-                            <button className="btn btn-primary" color={"primary"}>Salvar</button></div>
                     </div>
                 </div>
             </form>
-
         </Layout>
     )
 }

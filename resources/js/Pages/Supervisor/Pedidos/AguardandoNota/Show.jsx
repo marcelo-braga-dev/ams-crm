@@ -8,7 +8,7 @@ import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 
 export default function Create({dados}) {
     const {data, setData, progress} = useForm({
-        file_nota: ''
+        file_boleto: ''
     });
 
     function submit(e) {
@@ -38,7 +38,7 @@ export default function Create({dados}) {
                     <div className="col-md-6 mb-3">
                         <TextField
                             type="file" fullWidth required
-                            onChange={e => setData('file_nota', e.target.files[0])}>
+                            onChange={e => setData('file_boleto', e.target.files[0])}>
                         </TextField>
                     </div>
                 </div>

@@ -25,7 +25,9 @@ export default function Dashboard({pedidos, coresAbas}) {
                     <div className='container'>
                         {/*Pesquisa*/}
                         <div className="row justify-content-between mb-3">
-                            <div className="col-auto">AGRONEGÓCIOS</div>
+                            <div className="col-auto">
+                                <span className="badge bg-dark">AGRONEGÓCIOS</span>
+                            </div>
                             <div className="col-auto text-right">
                                 <FormControl variant="outlined" className="bg-white" size="small">
                                     <InputLabel htmlFor="search">Pesquisar...</InputLabel>

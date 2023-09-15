@@ -8,7 +8,7 @@ import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 
 export default function Create({dados}) {
     const {data, setData} = useForm({
-        file_nota: ''
+        file_boleto: ''
     });
     function submit(e) {
         e.preventDefault()

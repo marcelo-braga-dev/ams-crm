@@ -1,36 +1,41 @@
 import Layout from '@/Layouts/Consultor/Layout';
-import { router } from '@inertiajs/react'
-
 import React from 'react';
-import {useForm} from '@inertiajs/react';
-import {Container, Row, Col, Form, Button} from 'reactstrap';
-
-//step
-import {Typography} from "@mui/material";
+import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
+import DadosPedido from "@/Components/Pedidos/DadosPedido";
+import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
-export default function Create({id, files}) {
-    const {data, setData, progress} = useForm({
-        file_recibo: null
-    });
-    function submit(e) {
-        e.preventDefault()
-        router.post(route('consultor.aguardando-pagamento.update', id), {
-            _method: 'put',
-            ...data
-        })
-    }
+
+export default function Create({pedido}) {
 
     return (
-        <Layout container voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado" >
-            <Container fluid="lg" className="bg-white px-lg-6 py-lg-5">
-                <Row>
-                    <Col>
-                        <Typography variant={"body1"} component="p">Baixar Nota/Boleto</Typography>
-                        {/*<ImagePdf url={files.url_nota_fiscal}/>*/}
-                    </Col>
-                </Row>
-            </Container>
-
+        <Layout container voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado">
+            <div className="row">
+                <div className="col mb-4">
+                    <DadosPedido dados={pedido}/>
+                </div>
+                <div className="col mb-4">
+                    <DadosPedidoCliente dados={pedido}/>
+                </div>
+            </div>
+            {pedido.pedido_files.link_pagamento &&
+                <div className="row">
+                    <div className="col mb-4">
+                        <h6>Link de pagamento</h6>
+                        <span>{pedido.pedido_files.link_pagamento}</span>
+                    </div>
+                </div>}
+            <div className="row">
+                {pedido.pedido_files.boleto &&
+                    <div className="col mb-4">
+                        <h6>Nota/Boleto</h6>
+                        <ImagePdf url={pedido.pedido_files.boleto}/>
+                    </div>}
+                {pedido.pedido_files.nota_fiscal &&
+                    <div className="col mb-4">
+                        <h6>Nota Fiscal</h6>
+                        <ImagePdf url={pedido.pedido_files.nota_fiscal}/>
+                    </div>}
+            </div>
         </Layout>
     )
 }

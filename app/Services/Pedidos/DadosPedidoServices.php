@@ -91,6 +91,7 @@ class DadosPedidoServices
             : null;
 
         return [
+            'id' => $pedido->id,
             'pedido' => [
                 'id' => $pedido->id,
                 'status' => (new StatusPedidos())->getNomeStatus($pedido->status),
@@ -144,6 +145,7 @@ class DadosPedidoServices
                 'nota_fiscal' => $files->url_nota_fiscal ?? null,
                 'carta_autorizacao' => $files->url_carta_autorizacao ?? null,
                 'planilha_pedido' => $files->url_planilha_pedido ?? null,
+                'link_pagamento' => $files->url_pagamento ?? null,
             ],
             'cliente_files' => [
                 'rg' => $files->url_rg ?? $filesCliente[$chavesArquivos->rg()] ?? null,

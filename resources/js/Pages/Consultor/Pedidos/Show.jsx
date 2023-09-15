@@ -70,10 +70,12 @@ export default function Pedidos({dados, produtos, historico}) {
                             <div className="col-md-8">
                                 <DadosPedido dados={dados}></DadosPedido>
                             </div>
-                            <div className="col-md-4">
-                                <label>Imagem da Planilha de Pedidos</label>
-                                <ImagePdf url={dados.pedido_files.planilha_pedido}/>
-                            </div>
+                            {dados.pedido_files.planilha_pedido &&
+                                <div className="col-md-4">
+                                    <label>Imagem da Planilha de Pedidos</label>
+                                    <ImagePdf url={dados.pedido_files.planilha_pedido}/>
+                                </div>
+                            }
                         </div>
                         <div className="row">
                             <div className="col">

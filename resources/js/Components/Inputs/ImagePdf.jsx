@@ -1,3 +1,6 @@
+import DownloadIcon from '@mui/icons-material/Download';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 export default function ImagePdf({url}) {
 
     if (url && url.split('.').pop() === 'pdf') {
@@ -10,11 +13,25 @@ export default function ImagePdf({url}) {
 
     if (url) {
         return (
-            <div className="text-end">
-                <img className="mb-1 img-thumbnail d-block" alt="" src={"/storage/" + url} style={{maxHeight: 200}}/>
-                <a className="btn btn-primary btn-sm mb-0 p-1" href={"/storage/" + url} target="_blank" download>
-                    Baixar
-                </a>
+            <div className="row mb-3">
+                <div className="col-auto">
+                    <a className="text-dark" href={"/storage/" + url} target="_blank">
+                        <img className="mb-1 img-thumbnail d-block" alt="" src={"/storage/" + url}
+                             style={{maxHeight: 200}}/>
+                    </a>
+                    <div className="row justify-content-end">
+                        <div className="col-auto">
+                            <a className="text-dark" href={"/storage/" + url} target="_blank">
+                                <VisibilityIcon />
+                            </a>
+                        </div>
+                        <div className="col-auto text-end">
+                            <a className="text-dark" href={"/storage/" + url} download>
+                                <DownloadIcon />
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

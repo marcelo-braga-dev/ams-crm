@@ -8,6 +8,13 @@ export default function DadosPedidoFiles({dados}) {
     return (
         <>
             <Row>
+                {dados.pedido_files.planilha_pedido &&
+                    <Col lg={4} className={"mb-3"}>
+                        <Paper className={"p-3"} elevation={1}>
+                            <Typography variant={"body1"}>Foto da folha de pedidos:</Typography>
+                            <ImagePdf url={dados.pedido_files.planilha_pedido}></ImagePdf>
+                        </Paper>
+                    </Col>}
                 {dados.pedido_files.orcamento &&
                     <Col lg={4} className={"mb-3"}>
                     <Paper className={"p-3"} elevation={1}>

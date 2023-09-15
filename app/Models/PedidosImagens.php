@@ -25,7 +25,8 @@ class PedidosImagens extends Model
         'url_recibo_2',
         'url_nota_fiscal',
         'url_carta_autorizacao',
-        'url_planilha_pedido'
+        'url_planilha_pedido',
+        'url_pagamento',
     ];
 
     function create($id, $dados)
@@ -86,7 +87,7 @@ class PedidosImagens extends Model
 
     function updateBoleto($id, $dados)
     {
-        $url = (new Images())->armazenar($dados, 'file_nota', 'pedidos/' . $id);
+        $url = (new Images())->armazenar($dados, 'file_boleto', 'pedidos/' . $id);
 
         $this->newQuery()
             ->where('pedidos_id', $id)
@@ -132,6 +133,15 @@ class PedidosImagens extends Model
             ->where('pedidos_id', $id)
             ->updateOrCreate(
                 ['pedidos_id' => $id], ['url_planilha_pedido' => $url]
+            );
+    }
+
+    public function updateLinkPagamento($id, $request)
+    {
+        $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->updateOrCreate(
+                ['pedidos_id' => $id], ['url_pagamento' => $request->url_pagamento]
             );
     }
 

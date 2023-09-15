@@ -13,8 +13,10 @@ import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
 import BoxShadow from "@/Components/Layout/BoxShadow";
+import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
+import ImagePdf from "@/Components/Inputs/ImagePdf";
 
-export default function Pedidos({pedido}) {
+export default function Pedidos({pedido, produtos}) {
 
     const {data, put, setData} = useForm({
         'reprovado': ''
@@ -61,16 +63,13 @@ export default function Pedidos({pedido}) {
                         <DadosPedidoCliente dados={pedido}/>
                     </Col>
                 </Row>
+                <div className="row">
+                    <div className="col">
+                        <DadosProdutos dados={produtos}/>
+                    </div>
+                </div>
             </BoxShadow>
-            <BoxShadow>
-                <Row>
-                    <Col className={"mb-3"}>
-                        <Typography variant={"h6"}>Documentos:</Typography>
-                    </Col>
-                </Row>
-                <DadosPedidoFiles dados={pedido}/>
-                <DadosPedidoClienteFiles dados={pedido}/>
-            </BoxShadow>
+
             <BoxShadow>
                 <form onSubmit={submit}>
                     <Row className={"mt-4 text-center"}>

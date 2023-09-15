@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('url_recibo_2')->nullable();
             $table->string('url_nota_fiscal')->nullable();
             $table->string('url_planilha_pedido')->nullable();
+            $table->string('url_pagamento')->nullable();
         });
     }
 
