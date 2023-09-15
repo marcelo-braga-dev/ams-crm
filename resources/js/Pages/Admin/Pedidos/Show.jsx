@@ -1,5 +1,4 @@
 import Layout from '@/Layouts/Admin/Layout';
-import {Button, Card, Col, Container, Row, Table} from "reactstrap";
 import Typography from "@mui/material/Typography";
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -11,8 +10,8 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
-import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
+import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -68,14 +67,15 @@ export default function Pedidos({pedido, produtos, historico}) {
                     <div className="col-md-8">
                         <DadosPedido dados={pedido}></DadosPedido>
                     </div>
-                    <div className="col-md-4">
-                        <label>Imagem da Planilha de Pedidos</label>
-                        <ImagePdf url={pedido.pedido_files.planilha_pedido}/>
-                    </div>
+                    {pedido.pedido_files.planilha_pedido &&
+                        <div className="col-md-4">
+                            <label>Imagem da Planilha de Pedidos</label>
+                            <ImagePdf url={pedido.pedido_files.planilha_pedido}/>
+                        </div>}
                 </div>
                 <div className="row">
                     <div className="col">
-                        <DadosProdutos dados={produtos}/>
+                        <DadosProdutosCompleta dados={produtos}/>
                     </div>
                 </div>
             </TabPanel>
@@ -92,7 +92,7 @@ export default function Pedidos({pedido, produtos, historico}) {
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <Typography variant="h6" className="mb-3">Histórico do Pedido</Typography>
-                <Table hover responsive>
+                <table className="table">
                     <thead>
                     <tr>
                         <th>Data</th>
@@ -103,9 +103,9 @@ export default function Pedidos({pedido, produtos, historico}) {
                     </tr>
                     </thead>
                     <tbody>
-                    {historico.map((dado) => {
+                    {historico.map((dado, index) => {
                         return (
-                            <tr key={dado.id} className={"align-middle"}>
+                            <tr key={index}>
                                 <th scope="row">
                                     {dado.data}
                                 </th>
@@ -124,7 +124,7 @@ export default function Pedidos({pedido, produtos, historico}) {
                             </tr>)
                     })}
                     </tbody>
-                </Table>
+                </table>
             </TabPanel>
         </Box>
 

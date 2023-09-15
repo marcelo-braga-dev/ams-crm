@@ -87,7 +87,7 @@ class DadosPedidoServices
         $dadosCliente = (new ClienteDados())->dados($pedido, $this->leads, $this->clientes, $this->pedidoCliente);
 
         $precoCusto = funcao_usuario_atual() == (new Admins())->getTipo()
-            ? convert_float_money($pedido->preco_custo)
+            ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
             : null;
 
         return [

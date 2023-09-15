@@ -50,6 +50,7 @@ class PedidosProdutos extends Model
                 return [
                     'nome' => $item->nome,
                     'preco_fornecedor' => convert_float_money($item->preco_fornecedor),
+                    'preco_fornecedor_float' => $item->preco_fornecedor,
                     'preco_venda' => convert_float_money($item->preco_venda),
                     'preco_venda_float' => $item->preco_venda,
                     'qtd' => $item->quantidade,
