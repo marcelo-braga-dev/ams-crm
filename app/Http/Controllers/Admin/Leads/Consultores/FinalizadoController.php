@@ -42,9 +42,13 @@ class FinalizadoController extends Controller
 
     public function destroy($id, Request $request)
     {
-        (new Leads())->remover($id);
+        try {
+            (new Leads())->remover($id);
+            modalSucesso('Lead deletado com sucesso!');
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+        }
 
-        modalSucesso('Lead deletado com sucesso!');
         return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
     }
 }

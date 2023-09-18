@@ -82,13 +82,16 @@ class LeadsController extends Controller
 
     public function delete(Request $request)
     {
-        if (!empty($request->leads)) {
-            foreach ($request->leads as $item) {
-                (new Leads())->remover($item['id']);
+        try {
+            if (!empty($request->leads)) {
+                foreach ($request->leads as $item) {
+                    (new Leads())->remover($item['id']);
+                }
             }
+            modalSucesso("Leads removidos com sucesso!");
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
         }
-
-        modalSucesso("Leads removidos com sucesso!");
 
         return redirect()->back();
     }

@@ -42,7 +42,7 @@ class EmailsController extends Controller
     public function create(Request $request)
     {
         $email = [];
-        if ($request->id && $request->folder)
+        if ($request->id)
             $email = (new EmailsService())->getMensagem($request->id, $request->folder);
 
         $emailUsuario = (new Email())->emailUsuario(id_usuario_atual());

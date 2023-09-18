@@ -143,12 +143,28 @@ class Leads extends Model
 
     public function remover(int $id)
     {
-        try {
-            $this->newQuery()
-                ->find($id)
-                ->delete();
-        } catch (Error) {
+        $verificar = (new Pedidos())->newQuery()
+            ->where('lead', $id)
+            ->get();
+
+        if ($verificar->isEmpty()) {
+            try {
+                $this->newQuery()
+                    ->find($id)
+                    ->delete();
+            } catch (Error) {
+            }
+            return;
         }
+
+        $msg = '';
+        foreach ($verificar as $item) {
+            $msg .= '#'. $item->id . '; ';
+        }
+
+        throw new \DomainException(
+            'Não é possível excluir esse leads pois pessui pedidos emitidos. PEDIDOS IDs ' . $msg
+        );
     }
 
     public function getOcultos($setor)
