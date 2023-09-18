@@ -18,3 +18,5 @@ yarn-error.log
 /.vscode
 /sail-mysql
 package-lock.json
+yarn.lock
+composer.lock

@@ -18,7 +18,7 @@ export default function Config({usuario, config}) {
     }
 
     return (
-        <Layout container titlePage="Config Email">
+        <Layout container titlePage="Config Email" menu="emails" submenu="config">
             <h6 className="mb-4">Configurações de Email</h6>
             <form onSubmit={submit}>
                 <div className="row mb-4">

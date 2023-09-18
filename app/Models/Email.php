@@ -38,4 +38,11 @@ class Email extends Model
             ->where('users_id', $id)
             ->first();
     }
+
+    public function emailUsuario(int $id)
+    {
+        return $this->newQuery()
+            ->where('users_id', $id)
+            ->first()->email ?? null;
+    }
 }

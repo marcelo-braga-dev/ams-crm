@@ -16,34 +16,44 @@ class EmailsController extends Controller
     {
         $emails = [];
         $folders = [];
+        $folderAtual = $request->folder;
+
         try {
-            $emails = (new EmailsService())->getMensagens($request->folder);
-            $folders = (new EmailsService())->getFolders($request->folder);
+            $emailsService = (new EmailsService());
+            $emails = $emailsService->getMensagens($folderAtual);
+            $folders = $emailsService->getFolders();
+            $emailsService->close();
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
         }
 
-        return Inertia::render('Admin/Mails/Index', compact('emails', 'folders'));
+        return Inertia::render('Admin/Mails/Index',
+            compact('emails', 'folders', 'folderAtual'));
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $email = (new EmailsService())->getMensagem($id);
-//        print_pre($email);
+        $folderAtual = $request->folderAtual;
+        $email = (new EmailsService())->getMensagem($id, $folderAtual);
 
-//        $bin = base64_decode($email['body'], true);
-//        file_put_contents('file.pdf', $bin);
-//print_pre($email);
-        return Inertia::render('Admin/Mails/Show', compact('email'));
+        return Inertia::render('Admin/Mails/Show', compact('email', 'folderAtual'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        return Inertia::render('Admin/Mails/Create');
+        $email = [];
+        if ($request->id && $request->folder)
+            $email = (new EmailsService())->getMensagem($request->id, $request->folder);
+
+        $emailUsuario = (new Email())->emailUsuario(id_usuario_atual());
+
+        return Inertia::render('Admin/Mails/Create',
+            compact('email', 'emailUsuario'));
     }
 
     public function store(Request $request)
     {
+        print_pre($request->all());
         (new SendEmailsService())->enviar($request->destinatario, $request->titulo, $request->mensagem);
 
         return redirect()->back();
@@ -64,5 +74,13 @@ class EmailsController extends Controller
 
         modalSucesso('Dados Atualizado com Sucesso!');
         return redirect()->back();
+    }
+
+    public function enviarLixeira(Request $request)
+    {
+        (new EmailsService())->enviarLixeira($request->id);
+
+        modalSucesso('Email enviado para lixeira');
+        return redirect()->route('admin.emails.index');
     }
 }

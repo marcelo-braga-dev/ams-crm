@@ -5,9 +5,11 @@ namespace App\Services\Emails;
 use App\Models\Email;
 use App\Models\EmailConfigs;
 use Laminas\Mail\Exception\DomainException;
+use Laminas\Mail\Header\Exception\InvalidArgumentException;
 use Laminas\Mail\Storage\Exception\RuntimeException;
 use Laminas\Mail\Storage\Imap;
 use RecursiveIteratorIterator;
+use Laminas\Mail\Storage;
 
 class EmailsService
 {
@@ -28,7 +30,8 @@ class EmailsService
                 'host' => $host,
                 'user' => $usuario,
                 'password' => $senha,
-                'ssl' => 'SSL'
+                'ssl' => 'SSL',
+                'port' => $porta
             ]);
         } catch (RuntimeException $exception) {
             if ($exception->getCode() == 0) {
@@ -41,33 +44,39 @@ class EmailsService
 
     public function getMensagens($folder = null)
     {
-        // Seleciona Pasta
         (new FoldersEmailsService())->selecionarFolder($this->emails, $folder);
 
-        $msgs = [];
-        foreach ($this->emails as $index => $message) {
-            $msgs[] = [
-                'id' => $index,
-                'autor' => $message->from,
-                'titulo' => $message->subject,
-                'data' => date('d/m/y H:i:s', strtotime($message->date)),
-                'flag' => $this->getFlags($message)
-            ];
+        try {
+            $msgs = [];
+            foreach ($this->emails as $index => $message) {
+                $msgs[] = [
+                    'id' => $index,
+                    'autor' => $message->from,
+                    'titulo' => $message->subject ?? null,
+                    'data' => date('d/m/y H:i:s', strtotime($message->date)),
+                    'flags' => $this->getFlags($message)
+                ];
+            }
+
+            rsort($msgs);
+        } catch (InvalidArgumentException $exception) {
+            modalErro('Algumas mensagens não foram carregadas.');
         }
-        rsort($msgs);
 
         return $msgs;
     }
 
-    public function getMensagem(int $id): array
+    public function getMensagem(int $id, string $folder = null): array
     {
+        (new FoldersEmailsService())->selecionarFolder($this->emails, $folder);
         $message = $this->emails->getMessage($id);
 
         $dados = [
+            'id' => $id,
             'titulo' => $message->subject,
             'remetente' => [
-                'nome' => $message->sender ?? '',
-                'email' => $message->to,
+                'nome' => $message->from ?? '',
+                'email' => $this->getEmailDestinatario($message),
             ],
             'text' => [],
             'html' => [],
@@ -75,9 +84,10 @@ class EmailsService
             'imagem' => [],
         ];
 
-        foreach (new RecursiveIteratorIterator($this->emails->getMessage($id)) as $part) {
+        foreach (new RecursiveIteratorIterator($message) as $part) {
             try {
-                switch (strtok($part->contentType, ';')) {
+                $tipo = strtok($part->contentType, ';');
+                switch ($tipo) {
                     case 'text/plain':
                         $dados['text'][] = $part->getContent();
                         break;
@@ -87,35 +97,62 @@ class EmailsService
                     case 'application/pdf':
                         $dados['pdf'][] = [
                             'nome' => $part->getHeader('ContentDisposition')->getParameter('filename'),
-                            'conteudo' => $part->getContent(),
+                            'conteudo' =>
+                                'data:' . $tipo . ';' .
+                                $part->contenttransferencoding . ',' .
+                                $part->getContent(),
                             'encoding' => $part->contenttransferencoding,
                         ];
                         break;
-                    case 'image/png': //print_pre($part);
+                    case 'image/png':
                         $dados['imagem'][] = [
                             'nome' => $part->getHeader('ContentDisposition')->getParameter('filename'),
-                            'conteudo' => $part->getContent(),
+                            'conteudo' =>
+                                'data:' . $tipo . ';' .
+                                $part->contenttransferencoding .
+                                ',' .
+                                $part->getContent(),
                             'encoding' => $part->contenttransferencoding,
                         ];
                         break;
                 }
             } catch (DomainException $e) {
-                // ignore
             }
         }
 
-//        print_pre($dados);
         return $dados;
     }
 
     private function getFlags($message)
     {
         $flags = $message->getFlags();
-        if (isset($flags['\Seen'])) return 'visualizado';
+
+        return [
+            'visualizado' => (bool)($flags[Storage::FLAG_SEEN] ?? false),
+            'respondida' => (bool)($flags[Storage::FLAG_ANSWERED] ?? false),
+            'recente' => (bool)($flags[Storage::FLAG_RECENT] ?? false),
+            'sinalizado' => (bool)($flags[Storage::FLAG_FLAGGED] ?? false),
+        ];
     }
 
-    public function getFolders($folderAtual = null)
+    public function getFolders()
     {
-        return (new FoldersEmailsService())->folders($this->emails, $folderAtual);
+        return (new FoldersEmailsService())->folders($this->emails);
+    }
+
+    public function enviarLixeira($id)
+    {
+        $this->emails->moveMessage($id, (new FolderNames())->nameLixo());
+    }
+
+    public function close()
+    {
+        $this->emails->close();
+    }
+
+    private function getEmailDestinatario($message)
+    {
+        $search = explode('<', $message->from);
+        return str_replace('>', '', end($search));
     }
 }

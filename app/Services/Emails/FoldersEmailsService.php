@@ -8,50 +8,56 @@ use RecursiveIteratorIterator;
 
 class FoldersEmailsService
 {
-    public function folders(Imap $emails, $folderAtual): array
+    public function folders(Imap $emails): array
     {
         $folders = new RecursiveIteratorIterator(
             $emails->getFolders(),
             RecursiveIteratorIterator::SELF_FIRST
         );
+        $folderAtual = $emails->getCurrentFolder();
 
-        $dados = [];
         foreach ($folders as $localName => $folder) {
-            $dados[] = [
-                'nome' => $this->traduzirPT(htmlspecialchars($localName)),
-                'tag' => htmlspecialchars($localName),
-                'selecionado' => htmlspecialchars($localName) == $folderAtual ? 1 : 0,
-                'nivel' => $folders->getDepth()
-            ];
+            if ($localName == 'INBOX') $dados[0] = $this->dadosTag($localName, $folder->getGlobalName(), $folderAtual, true);
+            if ($localName == 'Drafts') $dados[1] = $this->dadosTag($localName, $folder->getGlobalName(), $folderAtual);
+            if ($localName == 'Sent') $dados[2] = $this->dadosTag($localName, $folder->getGlobalName(), $folderAtual);
+            if ($localName == 'Junk') $dados[3] = $this->dadosTag($localName, $folder->getGlobalName(), $folderAtual);
+            if ($localName == 'Trash') $dados[4] = $this->dadosTag($localName, $folder->getGlobalName(), $folderAtual);
+            if ($localName == 'Archive') $dados[5] = $this->dadosTag($localName, $folder->getGlobalName(), $folderAtual);
+        }
+        ksort($dados);
+        foreach ($folders as $localName => $folder) {
+            if ($localName !== 'INBOX' &&
+                $localName !== 'Drafts' &&
+                $localName !== 'Sent' &&
+                $localName !== 'Junk' &&
+                $localName !== 'Trash' &&
+                $localName !== 'Archive') $dados[] = $this->dadosTag($localName, $folder->getGlobalName(), $folderAtual);
         }
 
         return $dados;
     }
 
+    private function dadosTag($localName, $folders, $folderAtual, $folder = false)
+    {
+        return [
+            'nome' => (new FolderNames())->traduzirPT(htmlspecialchars($localName)),
+            'tag' => htmlspecialchars($localName),
+            'selecionado' => $folders == $folderAtual,
+//            'nivel' => $folders->getDepth(),
+//            'qtd' => $emails->count()
+        ];
+    }
+
     public function selecionarFolder($emails, $folder)
     {
         if ($folder) {
-            $imbox = 'INBOX';
+//            $imbox = 'INBOX';
             try {
-                $folderSelecionado = $emails->getFolders()->$imbox->$folder;
-                $emails->selectFolder($folderSelecionado);
+//                $folderSelecionado = $emails->getFolders()->$imbox->$folder;
+                $emails->selectFolder('INBOX.' . $folder);
             } catch (InvalidArgumentException) {
                 //
             }
         }
-    }
-
-    private function traduzirPT($valor): string
-    {
-        $folders = [
-            'INBOX' => 'Caixa de Entrada',
-            'Archive' => 'Arquivadas',
-            'Sent' => 'Enviados',
-            'Trash' => 'Lixeira',
-            'Drafts' => 'Rascunhos',
-            'spam' => 'Spam'
-        ];
-
-        return $folders[$valor] ?? $valor;
     }
 }

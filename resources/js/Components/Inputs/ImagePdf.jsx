@@ -1,7 +1,7 @@
-import DownloadIcon from '@mui/icons-material/Download';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
-export default function ImagePdf({url}) {
+export default function ImagePdf({url, string}) {
 
     if (url && url.split('.').pop() === 'pdf') {
         return (
@@ -11,26 +11,28 @@ export default function ImagePdf({url}) {
         )
     }
 
-    if (url) {
+    if (url || string) {
+        const urlCompleta = url ? "/storage/" + url : string
+
         return (
             <div className="row mb-3">
                 <div className="col-auto">
-                    <a className="text-dark" href={"/storage/" + url} target="_blank">
-                        <img className="mb-1 img-thumbnail d-block" alt="" src={"/storage/" + url}
+                    <a className="text-dark" href={urlCompleta} target="_blank">
+                        <img className="img-thumbnail d-block" alt="" src={urlCompleta}
                              style={{maxHeight: 200}}/>
                     </a>
-                    <div className="row justify-content-end">
+                    {url && <div className="row justify-content-end g-2">
                         <div className="col-auto">
-                            <a className="text-dark" href={"/storage/" + url} target="_blank">
-                                <VisibilityIcon />
+                            <a className="text-dark" href={urlCompleta} target="_blank">
+                                <VisibilityOutlinedIcon fontSize="small"/>
                             </a>
                         </div>
                         <div className="col-auto text-end">
-                            <a className="text-dark" href={"/storage/" + url} download>
-                                <DownloadIcon />
+                            <a className="text-dark" href={urlCompleta} download>
+                                <FileDownloadOutlinedIcon fontSize="small"/>
                             </a>
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
         )

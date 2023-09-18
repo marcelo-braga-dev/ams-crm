@@ -13,6 +13,9 @@ Route::name('admin.')
 Route::name('admin.emails.')
     ->prefix('admin/email')
     ->group(function () {
+        Route::post('enviar-lixeira', [EmailsController::class, 'enviarLixeira'])
+            ->name('enviar-lixeira');
+
         Route::get('config', [EmailsController::class, 'config'])->name('config');
         Route::post('config', [EmailsController::class, 'updateConfig'])->name('config');
     });
