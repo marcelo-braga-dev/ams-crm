@@ -128,9 +128,9 @@ export default function Pedidos({
                                             <div style={{backgroundColor: coresAbas.encomenda}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Encomenda</div>
-                                                <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
+                                                <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
                                                 <small
-                                                    className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
+                                                    className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
                                         <th id="th-2">
