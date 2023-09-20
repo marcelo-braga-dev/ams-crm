@@ -22,6 +22,7 @@ import {useForm} from "@inertiajs/react";
 
 import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Index({emails, folders, folderAtual}) {
     const {get} = useForm({
@@ -34,7 +35,7 @@ export default function Index({emails, folders, folderAtual}) {
     }
 
     function abrir(id) {
-        get(route('admin.emails.show', id) )
+        get(route('admin.emails.show', id))
     }
 
     // List
@@ -102,9 +103,11 @@ export default function Index({emails, folders, folderAtual}) {
                                     {folders.map((folder, i) => {
                                         return (
                                             <ListItem key={i} disablePadding
+                                                      className={'ps-' + ((folder.nivel * 2) - 2)}
                                                       onClick={() => selecionarPasta(folder.tag)}>
-                                                <ListItemButton className={folder.nivel ? 'ps-3' : 'ps-3'}
-                                                                selected={folder.selecionado}>
+                                                <ListItemButton
+                                                    className="ps-1"
+                                                    selected={folder.selecionado}>
                                                     {icone(folder.nome)}
                                                     <ListItemText className="ms-2"
                                                                   primary={<small>{folder.nome}</small>}/>
@@ -119,13 +122,15 @@ export default function Index({emails, folders, folderAtual}) {
                     </form>
                 </div>
                 <div className="col-md-9">
-                    <ul className="nav justify-content-end text-sm text-dark">
-                        <li className="nav-item">
-                            <button className="btn btn-link text-dark btn-sm px-3 mb-1 p-0">
-                                <i className="fas fa-trash-alt me-1 d-block"/> Excluir
-                            </button>
-                        </li>
-                    </ul>
+                    <div className="row justify-content-end">
+                        <div className="col-auto text-center">
+                            <a className="cursor-pointer" onClick={() => {
+                            }}>
+                                <DeleteIcon/>
+                                <small className="d-block" style={{fontSize: 12}}>Excluir</small>
+                            </a>
+                        </div>
+                    </div>
 
                     <List>
                         {emails.map((email, value) => {
