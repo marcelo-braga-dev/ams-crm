@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\Pedidos\DadosPedidoServices;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
+use App\src\Pedidos\Status\EncomendaStatus;
 use App\src\Pedidos\StatusPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,8 +39,8 @@ class Pedidos extends Model
 
     function create($dados, $idLead = null)
     {
-        $prazo = (new ConferenciaStatusPedido())->getPrazo();
         $status = (new ConferenciaStatusPedido())->getStatus();
+        $prazo = (new ConferenciaStatusPedido())->getPrazo();
 
         try {
             $pedido = $this->newQuery()

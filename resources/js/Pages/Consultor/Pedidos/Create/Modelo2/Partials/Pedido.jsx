@@ -57,7 +57,7 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                         onChange={e => setData('file_cheque', e.target.files[0])}/>}
             </div>
         </div>
-        <div className="row pb-3 mb-5 border-bottom">
+        <div className="row mb-3">
             <div className="col-md-5 mb-3">
                 <TextField label="Fornecedor" select fullWidth required defaultValue=""
                            onChange={e => buscarProdutos(e.target.value)}
@@ -72,7 +72,7 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
             <div className="col-md-6">
                 <TextField
                     label="Imagem da Lista de Pedido" required
-                    fullWidth type="file" InputLabelProps={{ shrink: true }}
+                    fullWidth type="file" InputLabelProps={{shrink: true}}
                     onChange={e => setData('img_pedido', e.target.files[0])}>
                 </TextField>
             </div>
@@ -150,8 +150,8 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                             </td>
                             <td className="col-2">{console.log(data?.produtos['i' + dados.id]?.desconto ?? 0)}
                                 R$ {convertFloatToMoney(dados.preco_venda_float *
-                                (data?.produtos && data?.produtos['i' + dados.id]?.qtd) *
-                                (data?.produtos && 1 - ((data?.produtos['i' + dados.id]?.desconto ?? 0) / 100)))}
+                                    (data?.produtos && data?.produtos['i' + dados.id]?.qtd) *
+                                    (data?.produtos && 1 - ((data?.produtos['i' + dados.id]?.desconto ?? 0) / 100)))}
                             </td>
                         </tr>
                     )

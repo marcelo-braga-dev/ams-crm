@@ -10,6 +10,7 @@ use App\src\Pedidos\Status\AguardandoNotaStatus;
 use App\src\Pedidos\Status\AguardandoPagamentoStatus;
 use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
+use App\src\Pedidos\Status\EncomendaStatus;
 use App\src\Pedidos\Status\EntregueStatus;
 use App\src\Pedidos\Status\FaturadoStatus;
 use App\src\Pedidos\Status\LancadoStatus;
@@ -30,6 +31,11 @@ class PedidoUpdateStatus
     public function setEntregue($id): void
     {
         (new EntregueStatus())->updateStatus($id);
+    }
+
+    public function setEncomenda($id, $prazo): void
+    {
+        (new EncomendaStatus())->updateStatus($id, null, $prazo);
     }
 
     public function conferencia(int $id): void

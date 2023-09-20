@@ -1,5 +1,6 @@
 import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
 import CardReprovado from './Cards/Reprovado/ReprovadoCard';
+import CardEncomenda from './Cards/Encomenda/EncomendaCard';
 import CardLancado from './Cards/Lancado/CardLancado';
 import CardFaturado from './Cards/Faturado/CardFaturado';
 import CardEntregue from './Cards/Entregue/CardEntregue';
@@ -62,6 +63,15 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
+                                        <th id="th-11">
+                                            <div style={{backgroundColor: coresAbas.encomenda}}
+                                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                                <div className='col-auto'>Encomenda</div>
+                                                <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
+                                                <small
+                                                    className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
+                                            </div>
+                                        </th>
                                         <th id="th-2">
                                             <div style={{backgroundColor: coresAbas.conferencia}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
@@ -113,6 +123,12 @@ export default function Dashboard({pedidos, coresAbas}) {
                                             {pedidos.reprovado.map((dados) => {
                                                 return (<CardReprovado key={dados.id} dados={dados}
                                                                        cor={coresAbas.reprovado}/>)
+                                            })}
+                                        </td>
+                                        <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
+                                            {pedidos.encomenda.map((dados) => {
+                                                return (<CardEncomenda key={dados.id} dados={dados}
+                                                                         cor={coresAbas.encomenda}/>)
                                             })}
                                         </td>
                                         <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Pedidos\Status\EncomendaStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -142,5 +143,24 @@ class PedidosPrazos extends Model
                 ['prazo' => 'acompanhamento'],
                 ['valor' => $valor]
             );
+    }
+
+    public function setEncomenda(int $valor)
+    {
+        $status = (new EncomendaStatus())->getStatus();
+        $this->newQuery()
+            ->updateOrCreate(
+                ['prazo' => $status],
+                ['valor' => $valor]
+            );
+    }
+
+    public function getEncomenda()
+    {
+        $status = (new EncomendaStatus())->getStatus();
+
+        return $this->newQuery()
+            ->where('prazo', $status)
+            ->first('valor')->valor ?? 0;
     }
 }

@@ -117,4 +117,13 @@ class ConfigCores extends Model
                 ['valor' => $valor]
             );
     }
+
+    public function encomenda($valor)
+    {
+        $this->newQuery()
+            ->updateOrInsert(
+                ['categoria' => 'pedidos', 'chave' => 'encomenda'],
+                ['valor' => $valor]
+            );
+    }
 }

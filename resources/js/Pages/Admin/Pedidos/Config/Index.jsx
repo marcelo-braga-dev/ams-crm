@@ -15,6 +15,7 @@ export default function Pedidos({prazos, coresPedidos}) {
         'faturando': prazos.faturando,
         'faturado': prazos.faturado,
         'acompanhamento': prazos.acompanhamento,
+        'encomenda': prazos.encomenda,
 
         'cor_reprovado': coresPedidos.reprovado,
         'cor_conferencia': coresPedidos.conferencia,
@@ -26,6 +27,7 @@ export default function Pedidos({prazos, coresPedidos}) {
         'cor_acompanhamento': coresPedidos.acompanhamento,
         'cor_entregue': coresPedidos.entregue,
         'cor_cancelados': coresPedidos.cancelados,
+        'cor_encomenda': coresPedidos.encomenda,
     })
 
     function submit(e) {
@@ -43,44 +45,42 @@ export default function Pedidos({prazos, coresPedidos}) {
 
             <Typography variant={"h6"} className={"mb-4"}>Prazos dos Status de Enegia Solar (dias)</Typography>
             <form onSubmit={submit}>
-                <Row>
-                    <Col lg="3" className="mb-5">
+                <div className="row row-cols-5">
+                    <div className="col mb-3">
                         <TextField required type="number" value={data.novo} label="Revisar"
                                    onChange={e => setData('novo', e.target.value)}></TextField>
-                    </Col>
-                    <Col lg="3" className="mb-5">
+                    </div>
+                    <div className="col mb-3">
                         <TextField required type="number" value={data.conferencia} label="Conferência"
                                    onChange={e => setData('conferencia', e.target.value)}></TextField>
-                    </Col>
-                    <Col lg="3" className="mb-5">
+                    </div>
+                    <div className="col mb-3">
                         <TextField required type="number" value={data.lancado} label="Lançamento"
                                    onChange={e => setData('lancado', e.target.value)}></TextField>
-                    </Col>
-                    <Col lg="3" className="mb-5">
+                    </div>
+                    <div className="col mb-3">
                         <TextField required type="number" value={data.boleto} label="Aguardando Nota/Boleto"
                                    onChange={e => setData('boleto', e.target.value)}></TextField>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col lg="3" className="mb-5">
+                    </div>
+                    <div className="col mb-3">
                         <TextField required type="number" value={data.pagamento} label="Aguardando Pagamento"
                                    onChange={e => setData('pagamento', e.target.value)}></TextField>
-                    </Col>
-                    <Col lg="3" className="mb-5">
+                    </div>
+                    <div className="col mb-3">
                         <TextField required type="number" value={data.faturando} label="Aguardando Faturamento"
                                    onChange={e => setData('faturando', e.target.value)}></TextField>
-                    </Col>
-                    <Col lg="3" className="mb-5">
+                    </div>
+                    <div className="col mb-3">
                         <TextField required type="number" value={data.faturado} label="Faturado"
                                    onChange={e => setData('faturado', e.target.value)}></TextField>
-                    </Col>
-                    <Col lg="3" className="mb-5">
+                    </div>
+                    <div className="col mb-3">
                         <TextField required type="number" value={data.acompanhamento} label="Acompanhamento"
                                    onChange={e => setData('acompanhamento', e.target.value)}></TextField>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
                 <div className="text-center">
-                    <Button color={"primary"}>Atualizar Prazos</Button>
+                    <button className="btn btn-primary" type="submit">Atualizar Prazos</button>
                 </div>
             </form>
 
@@ -131,6 +131,10 @@ export default function Pedidos({prazos, coresPedidos}) {
                     <div className="col-md-3 mt-3">
                         <TextField type="color" label="Cancelados" fullWidth defaultValue={data.cor_cancelados}
                                    onChange={e => setData('cor_cancelados', e.target.value)}/>
+                    </div>
+                    <div className="col-md-3 mt-3">
+                        <TextField type="color" label="Encomenda" fullWidth defaultValue={data.cor_encomenda}
+                                   onChange={e => setData('cor_encomenda', e.target.value)}/>
                     </div>
                 </div>
                 <div className="row mt-3">

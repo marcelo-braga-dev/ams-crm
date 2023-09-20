@@ -61,5 +61,6 @@ class ConfigController extends Controller
         (new ConfigCores())->acompanhamento($request->cor_acompanhamento);
         (new ConfigCores())->entregue($request->cor_entregue);
         (new ConfigCores())->cancelados($request->cor_cancelados);
+        (new ConfigCores())->encomenda($request->cor_encomenda);
     }
 }

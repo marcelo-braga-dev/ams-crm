@@ -8,6 +8,7 @@ use App\src\Pedidos\Status\AguardandoNotaStatus;
 use App\src\Pedidos\Status\AguardandoPagamentoStatus;
 use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
+use App\src\Pedidos\Status\EncomendaStatus;
 use App\src\Pedidos\Status\EntregueStatus;
 use App\src\Pedidos\Status\FaturadoStatus;
 use App\src\Pedidos\Status\LancadoStatus;
@@ -27,7 +28,7 @@ class StatusPedidos
         $acompanhamento = (new AcompanhamentoStatus());
         $entregue = (new EntregueStatus());
         $cancelado = (new CanceladoStatus());
-
+        $encomenda = (new EncomendaStatus());
 
         return [
             $novo->getStatus() => $novo->getNomeStatus(),
@@ -40,6 +41,7 @@ class StatusPedidos
             $entregue->getStatus() => $entregue->getNomeStatus(),
             $acompanhamento->getStatus() => $acompanhamento->getNomeStatus(),
             $cancelado->getStatus() => $cancelado->getNomeStatus(),
+            $encomenda->getStatus() => $encomenda->getNomeStatus(),
         ];
     }
 

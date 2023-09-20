@@ -9,6 +9,7 @@ use App\src\Pedidos\Status\AguardandoNotaStatus;
 use App\src\Pedidos\Status\AguardandoPagamentoStatus;
 use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
+use App\src\Pedidos\Status\EncomendaStatus;
 use App\src\Pedidos\Status\EntregueStatus;
 use App\src\Pedidos\Status\FaturadoStatus;
 use App\src\Pedidos\Status\LancadoStatus;
@@ -29,7 +30,7 @@ class CardDadosService
         $acompanhamentoStatus = (new AcompanhamentoStatus())->getStatus();
         $entregueStatus = (new EntregueStatus())->getStatus();
         $canceladoStatus = (new CanceladoStatus())->getStatus();
-
+        $encomendaStatus = (new EncomendaStatus())->getStatus();
 
         $configs = [
             'fornecedor' => $fornecedorAtual,
@@ -49,6 +50,7 @@ class CardDadosService
         $cards['acompanhamento'] = $query->getPeloStatus($id, $acompanhamentoStatus, $configs, $objeto);
         $cards['entregue'] = $query->getPeloStatus($id, $entregueStatus, $configs, $objeto);
         $cards['cancelado'] = $query->getPeloStatus($id, $canceladoStatus, $configs, $objeto);
+        $cards['encomenda'] = $query->getPeloStatus($id, $encomendaStatus, $configs, $objeto);
 
         return $cards;
     }
