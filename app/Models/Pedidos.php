@@ -179,8 +179,8 @@ class Pedidos extends Model
 
             $cliente = (new PedidosClientes())->getCliente($pedido->id);
 
-            (new PedidosClientes())->remover($cliente->id);
-            (new Enderecos())->remover($cliente->endereco);
+            (new PedidosClientes())->remover($cliente->id ?? null);
+            (new Enderecos())->remover($cliente->endereco ?? null);
             (new PedidosChamados())->remover($pedido->id);
             (new PedidosChamadosHistoricos())->remover($pedido->id);
             (new PedidosHistoricos())->remover($pedido->id);

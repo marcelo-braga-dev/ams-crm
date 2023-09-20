@@ -60,7 +60,7 @@ class Enderecos extends Model
     public function get($id)
     {
         $dados = $this->newQuery()->find($id);
-        
+
         return [
             'cep' => $dados->cep ?? '',
             'rua' => $dados->rua ?? '',
@@ -96,8 +96,9 @@ class Enderecos extends Model
 
     public function remover($id)
     {
+        $id ?
         $this->newQuery()
             ->find($id)
-            ->delete();
+            ->delete() : null;
     }
 }
