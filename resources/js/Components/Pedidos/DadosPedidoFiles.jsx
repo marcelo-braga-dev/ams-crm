@@ -29,6 +29,13 @@ export default function DadosPedidoFiles({dados}) {
                         <ImagePdf url={dados.pedido_files.boleto}></ImagePdf>
                     </Paper>
                 </Col>}
+                {dados.pedido_files.boleto_2 &&
+                    <Col lg={4} className={"mb-3"}>
+                    <Paper className={"p-3"} elevation={1}>
+                        <Typography variant={"body1"}>2° Nota/Boleto</Typography>
+                        <ImagePdf url={dados.pedido_files.boleto_2}></ImagePdf>
+                    </Paper>
+                </Col>}
                 {dados.pedido_files.recibo_1 &&
                     <Col lg={4} className={"mb-3"}>
                     <Paper className={"p-3"} elevation={1}>

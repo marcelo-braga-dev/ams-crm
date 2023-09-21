@@ -38,7 +38,7 @@ export default function Pedidos({dados, produtos}) {
 
             <form onSubmit={submit}>
                 <div className="row shadow p-2">
-                    <div className="row mb-4">
+                    <div className="row">
                         <div className="col-md-4 mb-4">
                             <TextField
                                 label="Nota Fiscal" required fullWidth type="file" InputLabelProps={{shrink: true}}
@@ -52,6 +52,14 @@ export default function Pedidos({dados, produtos}) {
                             </TextField>
                         </div>
                         <div className="col-md-4 mb-4">
+                            <TextField
+                                label="2° Boleto" fullWidth type="file" InputLabelProps={{shrink: true}}
+                                onChange={e => setData('file_boleto_2', e.target.files[0])}>
+                            </TextField>
+                        </div>
+                    </div>
+                    <div className="row mb-4">
+                        <div className="col-md-6 mb-">
                             <TextField
                                 label="Link de Pagamento" fullWidth
                                 onChange={e => setData('url_pagamento', e.target.value)}>

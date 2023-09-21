@@ -124,7 +124,7 @@ export default function Pedidos({
                                                     className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        {modelo === 2 ? '' : <th id="th-11">
+                                        {modelo === 1 ? '' : <th id="th-11">
                                             <div style={{backgroundColor: coresAbas.encomenda}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Encomenda</div>
@@ -222,7 +222,7 @@ export default function Pedidos({
                                                                        cor={coresAbas.reprovado}/>)
                                             })}
                                         </td>
-                                        {modelo === 2 ? '' : <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
+                                        {modelo === 1 ? '' : <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.encomenda.map((dados) => {
                                                 return (
                                                     <CardEncomenda key={dados.id} dados={dados}

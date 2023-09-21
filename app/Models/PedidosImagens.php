@@ -21,6 +21,7 @@ class PedidosImagens extends Model
         'url_comprovante_residencia',
         'url_cnpj',
         'url_boleto',
+        'url_boleto_2',
         'url_recibo_1',
         'url_recibo_2',
         'url_nota_fiscal',
@@ -88,11 +89,17 @@ class PedidosImagens extends Model
     function updateBoleto($id, $dados)
     {
         $url = (new Images())->armazenar($dados, 'file_boleto', 'pedidos/' . $id);
+        $url2 = (new Images())->armazenar($dados, 'file_boleto_2', 'pedidos/' . $id);
 
         $this->newQuery()
             ->where('pedidos_id', $id)
             ->updateOrCreate(
                 ['pedidos_id' => $id], ['url_boleto' => $url]
+            );
+        $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->updateOrCreate(
+                ['pedidos_id' => $id], ['url_boleto_2' => $url2]
             );
     }
 

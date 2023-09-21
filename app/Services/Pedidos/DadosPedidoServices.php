@@ -140,6 +140,7 @@ class DadosPedidoServices
             'pedido_files' => [
                 'orcamento' => $files->url_orcamento ?? null,
                 'boleto' => $files->url_boleto ?? null,
+                'boleto_2' => $files->url_boleto_2 ?? null,
                 'recibo_1' => $files->url_recibo_1 ?? null,
                 'recibo_2' => $files->url_recibo_2 ?? null,
                 'nota_fiscal' => $files->url_nota_fiscal ?? null,
