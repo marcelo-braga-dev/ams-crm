@@ -1,32 +1,24 @@
 import Layout from '@/Layouts/Admin/Layout';
 
-export default function Create({fornecedores, setores, setorAtual}) {
+export default function Create({usuarios, setores, setorAtual}) {
 
     return (
-        <Layout container titlePage="Fornecedores Cadastrados"
-                menu="fornecedores" submenu="lista">
-
-            <div className="row justify-content-end">
-                <div className="col-auto text-right">
-                    <a href={route('admin.fornecedores.create')} className="btn btn-dark">
-                        Cadastrar Fornecedor</a>
-                </div>
-            </div>
-
+        <Layout container titlePage="Estoque em Transito"
+                menu="produtos" submenu="estoque-transito">
             {/*Setores*/}
             <div className="row mb-4">
                 <h6>Setores</h6>
                 <div className="col">
                     <div className="btn-group" role="group" aria-label="Basic outlined example">
                         <a type="button"
-                           href={route('admin.fornecedores.index')}
+                           href={route('admin.estoque-transito.index')}
                            className={(!setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                             Todos
                         </a>
                         {setores.map((setor, index) => {
                             return (
                                 <a type="button" key={index}
-                                   href={route('admin.fornecedores.index', {setor: setor.id})}
+                                   href={route('admin.estoque-transito.index', {setor: setor.id})}
                                    className={(setor.id == setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                                     {setor.nome}
                                 </a>
@@ -41,27 +33,30 @@ export default function Create({fornecedores, setores, setorAtual}) {
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Fornecedor</th>
+                        <th>Nome</th>
                         <th>Setor</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    {fornecedores.map((dados) => {
+                    {usuarios.map((dados) => {
                         return (
                             <tr key={dados.id}>
                                 <td>
                                     #{dados.id}
                                 </td>
                                 <td>
-                                    {dados.nome}
+                                    {dados.name}
                                 </td>
                                 <td>
                                     {dados.setor}
                                 </td>
                                 <td className="text-right">
-                                    <a href={route('admin.fornecedores.show', dados.id)}
-                                       className="btn btn-primary btn-sm">Ver</a>
+                                    <a href={route('admin.estoque-transito-fornecedores', {
+                                        id: dados.id,
+                                        setor: setorAtual
+                                    })}
+                                       className="btn btn-primary btn-sm">Estoque</a>
                                 </td>
                             </tr>
                         )

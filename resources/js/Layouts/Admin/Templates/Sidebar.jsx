@@ -12,6 +12,7 @@ import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutl
 import LaptopMacOutlinedIcon from '@mui/icons-material/LaptopMacOutlined';
 import InsertChartOutlinedRoundedIcon from '@mui/icons-material/InsertChartOutlinedRounded';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 
 export default function Sidebar({menuSidebar, submenuSidebar}) {
     const logo = "/storage/crm/imagens/logo_ams.png";
@@ -47,6 +48,15 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
                 'url': route('admin.config.index'),
                 'tag': 'config'
             }]
+        }, {
+            'menu': 'Produtos',
+            'icone': <Inventory2OutlinedIcon/>,
+            'tag': 'produtos',
+            'submenu': [
+                {'menu': 'Todos Produtos', 'url': route('admin.produtos-fornecedores.index'), 'tag': 'todos-produtos'},
+                {'menu': 'Estoque em Transito', 'url': route('admin.estoque-transito.index'), 'tag': 'estoque-transito'},
+                {'menu': 'Estoque Local', 'url': route('admin.estoque-local.index'), 'tag': 'estoque-local'},
+            ]
         }, {
             'menu': 'Chat Interno',
             'tag': 'chat-interno',

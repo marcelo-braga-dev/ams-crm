@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -20,6 +19,7 @@ return new class extends Migration
             $table->float('preco_fornecedor')->nullable();
             $table->float('preco_venda');
             $table->string('unidade')->nullable();
+            $table->integer('estoque_local')->default(0);
             $table->string('url_foto')->nullable();
             $table->timestamps();
         });

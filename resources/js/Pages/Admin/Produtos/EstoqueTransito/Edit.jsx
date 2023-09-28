@@ -17,14 +17,14 @@ export default function ({produto, fornecedor}) {
 
     function onSubmit(e) {
         e.preventDefault()
-        router.post(route('admin.produtos.update', produto.id), {
+        router.post(route('admin.produtos-fornecedores.update', produto.id), {
             _method: 'put',...data
         })
     }
 
     return (
-        <Layout titlePage="Editar Produto" container menu="fornecedores" submenu="lista"
-                voltar={route('admin.produtos.index', {fornecedor: fornecedor.id})}>
+        <Layout titlePage="Editar Produto" container menu="produtos" submenu="todos-produtos"
+                voltar={route('admin.produtos-fornecedores.show', fornecedor.id)}>
             <div className="row justify-content-between mb-4">
                 <div className="col-auto">
                     <h6>Fornecedor: {fornecedor.nome}</h6>

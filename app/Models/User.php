@@ -105,6 +105,8 @@ class User extends Authenticatable
 
     public function getConsultores($setor = null, $status = true)
     {
+        $setores = (new Setores())->getNomes();
+
         $query = $this->newQuery()
             ->where('tipo', (new Consultores())->getTipo())
             ->orderBy('name');
@@ -112,10 +114,20 @@ class User extends Authenticatable
         if ($setor) $query->where('setor', $setor);
         if ($status) $query->where('status', 'ativo');
 
-        return $query->get(['id', 'name', 'email', 'tipo', 'status'])
+        return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor'])
             ->except(['id' => 1])
             ->except(['id' => 2])
-            ->except(['id' => 3]);
+            ->except(['id' => 3])
+            ->transform(function ($item) use ($setores) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'email' => $item->email,
+                    'tipo' => $item->tipo,
+                    'status' => $item->status,
+                    'setor' => $setores[$item->setor]['nome'] ?? '',
+                ];
+            });
     }
 
     public function updateDados($id, $dados)

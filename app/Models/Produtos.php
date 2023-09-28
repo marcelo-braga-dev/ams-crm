@@ -16,6 +16,7 @@ class Produtos extends Model
         'preco_fornecedor',
         'preco_venda',
         'unidade',
+        'estoque_local',
         'url_foto'
     ];
 
@@ -34,6 +35,7 @@ class Produtos extends Model
                     'preco_venda_float' => $dados->preco_venda,
                     'preco_fornecedor_float' => $dados->preco_fornecedor,
                     'unidade' => $dados->unidade,
+                    'estoque' => $dados->estoque_local,
                     'foto' => url_arquivos($dados->url_foto)
                 ];
             });
@@ -65,6 +67,7 @@ class Produtos extends Model
             'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
             'preco_venda' => convert_float_money($dados->preco_venda),
             'unidade' => $dados->unidade,
+            'estoque' => $dados->estoque_local,
             'foto' => $dados->url_foto
         ];
     }
@@ -93,5 +96,14 @@ class Produtos extends Model
         $this->newQuery()
             ->find($id)
             ->delete();
+    }
+
+    public function atualizarEstoqueLocal($id, $valor)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'estoque_local' => $valor
+            ]);
     }
 }

@@ -3,30 +3,22 @@ import Layout from '@/Layouts/Admin/Layout';
 export default function Create({fornecedores, setores, setorAtual}) {
 
     return (
-        <Layout container titlePage="Fornecedores Cadastrados"
-                menu="fornecedores" submenu="lista">
-
-            <div className="row justify-content-end">
-                <div className="col-auto text-right">
-                    <a href={route('admin.fornecedores.create')} className="btn btn-dark">
-                        Cadastrar Fornecedor</a>
-                </div>
-            </div>
-
+        <Layout container titlePage="Produtos por Fornecedores"
+                menu="produtos" submenu="todos-produtos">
             {/*Setores*/}
             <div className="row mb-4">
                 <h6>Setores</h6>
                 <div className="col">
                     <div className="btn-group" role="group" aria-label="Basic outlined example">
                         <a type="button"
-                           href={route('admin.fornecedores.index')}
+                           href={route('admin.produtos-fornecedores.index')}
                            className={(!setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                             Todos
                         </a>
                         {setores.map((setor, index) => {
                             return (
                                 <a type="button" key={index}
-                                   href={route('admin.fornecedores.index', {setor: setor.id})}
+                                   href={route('admin.produtos-fornecedores.index', {setor: setor.id})}
                                    className={(setor.id == setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                                     {setor.nome}
                                 </a>
@@ -60,8 +52,8 @@ export default function Create({fornecedores, setores, setorAtual}) {
                                     {dados.setor}
                                 </td>
                                 <td className="text-right">
-                                    <a href={route('admin.fornecedores.show', dados.id)}
-                                       className="btn btn-primary btn-sm">Ver</a>
+                                    <a href={route('admin.produtos-fornecedores.show', dados.id)}
+                                       className="btn btn-warning btn-sm">Produtos</a>
                                 </td>
                             </tr>
                         )

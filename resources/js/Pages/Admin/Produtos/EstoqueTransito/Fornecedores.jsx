@@ -1,32 +1,30 @@
 import Layout from '@/Layouts/Admin/Layout';
+import {router} from "@inertiajs/react";
 
-export default function Create({fornecedores, setores, setorAtual}) {
+export default function Create({id, fornecedores, setores, setorAtual}) {
+
+    function abrir(fornecedor) {
+        router.get(route('admin.estoque-transito.show', id), {fornecedor: fornecedor})
+    }
 
     return (
-        <Layout container titlePage="Fornecedores Cadastrados"
-                menu="fornecedores" submenu="lista">
-
-            <div className="row justify-content-end">
-                <div className="col-auto text-right">
-                    <a href={route('admin.fornecedores.create')} className="btn btn-dark">
-                        Cadastrar Fornecedor</a>
-                </div>
-            </div>
-
+        <Layout container titlePage="Fornecedores"
+                menu="produtos" submenu="estoque-transito"
+                voltar={route('admin.estoque-transito.index', {setor: setorAtual})}>
             {/*Setores*/}
             <div className="row mb-4">
                 <h6>Setores</h6>
                 <div className="col">
                     <div className="btn-group" role="group" aria-label="Basic outlined example">
                         <a type="button"
-                           href={route('admin.fornecedores.index')}
+                           href={route('admin.estoque-transito-fornecedores', {id: id})}
                            className={(!setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                             Todos
                         </a>
                         {setores.map((setor, index) => {
                             return (
                                 <a type="button" key={index}
-                                   href={route('admin.fornecedores.index', {setor: setor.id})}
+                                   href={route('admin.estoque-transito-fornecedores', {id: id, setor: setor.id})}
                                    className={(setor.id == setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
                                     {setor.nome}
                                 </a>
@@ -60,8 +58,9 @@ export default function Create({fornecedores, setores, setorAtual}) {
                                     {dados.setor}
                                 </td>
                                 <td className="text-right">
-                                    <a href={route('admin.fornecedores.show', dados.id)}
-                                       className="btn btn-primary btn-sm">Ver</a>
+                                    <button className="btn btn-primary btn-sm"
+                                            onClick={() => abrir(dados.id)}>Estoque
+                                    </button>
                                 </td>
                             </tr>
                         )
