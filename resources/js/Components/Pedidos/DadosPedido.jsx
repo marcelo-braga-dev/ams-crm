@@ -10,6 +10,12 @@ export default function DadosPedido({dados}) {
         {dados.integrador.cnpj && <Typography><b>CNPJ do Integrador:</b> {dados.integrador.cnpj}</Typography>}
         {dados.fornecedor.nome && <Typography><b>Fornecedor:</b> {dados.fornecedor.nome}</Typography>}
         {dados.pedido.setor.nome && <Typography><b>Setor:</b> {dados.pedido.setor.nome}</Typography>}
+        <div className="row mt-3">
+            {dados.financeiro.preco && <span><b>Valor Total:</b> R$ {dados.financeiro.preco}</span>}
+            {dados.financeiro.forma_pagamento &&
+                <span className="d-block"><b>Forma de Pagamento:</b> {dados.financeiro.forma_pagamento}</span>}
+        </div>
+
         {dados.pedido.info && <Typography className="mt-3"><b>Anotações:</b> {dados.pedido.info}</Typography>}
     </>)
 }
