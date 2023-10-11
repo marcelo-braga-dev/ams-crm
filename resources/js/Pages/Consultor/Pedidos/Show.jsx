@@ -1,7 +1,6 @@
 import Layout from '@/Layouts/Consultor/Layout';
 import Typography from "@mui/material/Typography";
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -12,6 +11,8 @@ import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFile
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
+import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
+import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -31,12 +32,6 @@ function TabPanel(props) {
         </div>
     );
 }
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
 
 function a11yProps(index) {
     return {
@@ -61,8 +56,8 @@ export default function Pedidos({dados, produtos, historico}) {
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                             <Tab label="Pedido" {...a11yProps(0)} />
                             <Tab label="Cliente" {...a11yProps(1)} />
-                            <Tab label="Anexos" {...a11yProps(2)} />
-                            <Tab label="Histórico" {...a11yProps(3)} />
+                            <Tab label="Financeiro" {...a11yProps(2)} />
+                            <Tab label="Anexos" {...a11yProps(3)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
@@ -70,12 +65,6 @@ export default function Pedidos({dados, produtos, historico}) {
                             <div className="col-md-8">
                                 <DadosPedido dados={dados}></DadosPedido>
                             </div>
-                            {dados.pedido_files.planilha_pedido &&
-                                <div className="col-md-4">
-                                    <label>Imagem da Planilha de Pedidos</label>
-                                    <ImagePdf url={dados.pedido_files.planilha_pedido}/>
-                                </div>
-                            }
                         </div>
                         <div className="row">
                             <div className="col">
@@ -91,10 +80,29 @@ export default function Pedidos({dados, produtos, historico}) {
                         <DadosPedidoClienteFiles dados={dados}></DadosPedidoClienteFiles>
                     </TabPanel>
                     <TabPanel value={value} index={2}>
+                        <div className="row">
+                            <div className="col mb-4">
+                                <h6>Financeiro</h6>
+                                <DadosPedidoFinanceiro dados={dados}/>
+                            </div>
+                            {dados.pedido_files.planilha_pedido &&
+                                <div className="col-md-4">
+                                    <label>Imagem da Planilha de Pedidos</label>
+                                    <ImagePdf url={dados.pedido_files.planilha_pedido}/>
+                                </div>
+                            }
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <DadosPedidoFinanceiroFiles dados={dados}/>
+                            </div>
+                        </div>
+                    </TabPanel>
+                    <TabPanel value={value} index={3}>
                         <h6>Documentos</h6>
                         <DadosPedidoFiles dados={dados}></DadosPedidoFiles>
                     </TabPanel>
-                    <TabPanel value={value} index={3}>
+                    <TabPanel value={value} index={4}>
                         <h6 className="mb-3">Histórico do Pedido</h6>
                         <div className="table-responsive">
                             <table className="table table-hover">

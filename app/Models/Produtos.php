@@ -17,6 +17,7 @@ class Produtos extends Model
         'preco_venda',
         'unidade',
         'estoque_local',
+        'categoria',
         'url_foto'
     ];
 
@@ -36,6 +37,7 @@ class Produtos extends Model
                     'preco_fornecedor_float' => $dados->preco_fornecedor,
                     'unidade' => $dados->unidade,
                     'estoque' => $dados->estoque_local,
+                    'categoria' => $dados->categoria,
                     'foto' => url_arquivos($dados->url_foto)
                 ];
             });
@@ -52,6 +54,7 @@ class Produtos extends Model
                 'preco_fornecedor' => convert_money_float($dados->preco_fornecedor),
                 'preco_venda' => convert_money_float($dados->preco_venda),
                 'unidade' => $dados->unidade,
+                'categoria' => $dados->categoria,
                 'url_foto' => $url
             ]);
     }
@@ -68,7 +71,8 @@ class Produtos extends Model
             'preco_venda' => convert_float_money($dados->preco_venda),
             'unidade' => $dados->unidade,
             'estoque' => $dados->estoque_local,
-            'foto' => $dados->url_foto
+            'foto' => $dados->url_foto,
+            'categoria' => $dados->categoria,
         ];
     }
 
@@ -88,6 +92,7 @@ class Produtos extends Model
             'preco_fornecedor' => convert_money_float($dados->preco_fornecedor),
             'preco_venda' => convert_money_float($dados->preco_venda),
             'unidade' => $dados->unidade,
+            'categoria' => $dados->categoria,
         ]);
     }
 

@@ -23,7 +23,7 @@ export default function DadosProdutos({dados}) {
                             </thead>
                             <tbody>
                             {dados.map((dados, index) => {
-                                total += dados.preco_venda_float * dados.qtd * (1 - (dados.desconto / 100))
+                                total += (dados.preco_venda_float - dados.desconto) * dados.qtd
                                 return (
                                     <tr key={index}>
                                         <td className="col-1 text-center pe-3">
@@ -34,9 +34,9 @@ export default function DadosProdutos({dados}) {
                                         <td className="col-1">R$ {dados.preco_venda}</td>
                                         <td className="col-1 text-center">{dados.qtd}</td>
                                         <td className="col-1 text-center">{dados.unidade}</td>
-                                        <td className="col-2 text-center">{dados.desconto}%</td>
+                                        <td className="col-2 text-center">R$ {convertFloatToMoney(dados.desconto)}</td>
                                         <td className="col-2">
-                                            R$ {convertFloatToMoney(dados.preco_venda_float * dados.qtd * (1 - (dados.desconto / 100)))}
+                                            R$ {convertFloatToMoney((dados.preco_venda_float - dados.desconto) * dados.qtd)}
                                         </td>
                                     </tr>
                                 )

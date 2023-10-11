@@ -90,8 +90,26 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
+                                        <th id="th-6">
+                                            <div style={{backgroundColor: 'rgba(59,189,13,0.6)'}}
+                                                 className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
+                                                <div className='col-auto'>Faturado à Vista</div>
+                                                <div className='col-auto'>Qdt: {pedidos.faturado_vista.length}</div>
+                                                <small
+                                                    className="d-block text-end">R$ {(pedidos.faturado_vista[0]?.faturamento ?? '0,00')}</small>
+                                            </div>
+                                        </th>
+                                        <th id="th-6">
+                                            <div style={{backgroundColor: "#854787"}}
+                                                 className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
+                                                <div className='col-auto'>Faturado à Prazo</div>
+                                                <div className='col-auto'>Qdt: {pedidos.faturado_prazo.length}</div>
+                                                <small
+                                                    className="d-block text-end">R$ {(pedidos.faturado_prazo[0]?.faturamento ?? '0,00')}</small>
+                                            </div>
+                                        </th>
                                         <th id="th-7">
-                                            <div style={{backgroundColor: coresAbas.faturado}}
+                                            <div style={{backgroundColor: 'black'}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Faturado</div>
                                                 <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
@@ -128,7 +146,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                         <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.encomenda.map((dados) => {
                                                 return (<CardEncomenda key={dados.id} dados={dados}
-                                                                         cor={coresAbas.encomenda}/>)
+                                                                       cor={coresAbas.encomenda}/>)
                                             })}
                                         </td>
                                         <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
@@ -143,10 +161,24 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
                                             })}
                                         </td>
+                                        <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
+                                            {pedidos.faturado_vista.map((dados) => {
+                                                return (
+                                                    <CardFaturado key={dados.id} dados={dados}
+                                                                  cor={"rgba(59,189,13,0.6)"}/>)
+                                            })}
+                                        </td>
+                                        <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
+                                            {pedidos.faturado_prazo.map((dados) => {
+                                                return (
+                                                    <CardFaturado key={dados.id} dados={dados}
+                                                                  cor={'#854787'}/>)
+                                            })}
+                                        </td>
                                         <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturado.map((dados) => {
                                                 return (<CardFaturado key={dados.id} dados={dados}
-                                                                      cor={coresAbas.faturado}/>)
+                                                                      cor={"black"}/>)
                                             })}
                                         </td>
                                         <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>

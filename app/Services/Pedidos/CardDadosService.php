@@ -11,7 +11,9 @@ use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\Status\EncomendaStatus;
 use App\src\Pedidos\Status\EntregueStatus;
+use App\src\Pedidos\Status\FaturadoPrazoStatus;
 use App\src\Pedidos\Status\FaturadoStatus;
+use App\src\Pedidos\Status\FaturadoVistaStatus;
 use App\src\Pedidos\Status\LancadoStatus;
 use App\src\Pedidos\Status\RevisarStatusPedido;
 
@@ -27,6 +29,8 @@ class CardDadosService
         $pagamentoStatus = (new AguardandoPagamentoStatus())->getStatus();
         $faturamentoStatus = (new AguardandoFaturamentoStatus())->getStatus();
         $faturadoStatus = (new FaturadoStatus())->getStatus();
+        $faturadoVistaStatus = (new FaturadoVistaStatus())->getStatus();
+        $faturadoPrazoStatus = (new FaturadoPrazoStatus())->getStatus();
         $acompanhamentoStatus = (new AcompanhamentoStatus())->getStatus();
         $entregueStatus = (new EntregueStatus())->getStatus();
         $canceladoStatus = (new CanceladoStatus())->getStatus();
@@ -46,6 +50,8 @@ class CardDadosService
         $cards['nota'] = $query->getPeloStatus($id, $notaStatus, $configs, $objeto);
         $cards['pagamento'] = $query->getPeloStatus($id, $pagamentoStatus, $configs, $objeto);
         $cards['faturamento'] = $query->getPeloStatus($id, $faturamentoStatus, $configs, $objeto);
+        $cards['faturado_vista'] = $query->getPeloStatus($id, $faturadoVistaStatus, $configs, $objeto);
+        $cards['faturado_prazo'] = $query->getPeloStatus($id, $faturadoPrazoStatus, $configs, $objeto);
         $cards['faturado'] = $query->getPeloStatus($id, $faturadoStatus, $configs, $objeto);
         $cards['acompanhamento'] = $query->getPeloStatus($id, $acompanhamentoStatus, $configs, $objeto);
         $cards['entregue'] = $query->getPeloStatus($id, $entregueStatus, $configs, $objeto);

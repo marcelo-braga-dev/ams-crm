@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Produtos;
 use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
 use App\Models\Produtos;
+use App\Models\ProdutosCategorias;
 use App\Services\Fornecedores\FornecedoresService;
 use App\Services\Setores\SetoresService;
 use Illuminate\Http\Request;
@@ -35,17 +36,20 @@ class ProdutosFornecedoresController extends Controller
     public function create(Request $request)
     {
         $fornecedor = (new Fornecedores())->getFornecedor($request->fornecedor);
+        $categorias = (new ProdutosCategorias())->categoriasFornecedor($request->fornecedor);
 
-        return Inertia::render('Admin/Produtos/Fornecedores/Create', compact('fornecedor'));
+        return Inertia::render('Admin/Produtos/Fornecedores/Create',
+            compact('fornecedor', 'categorias'));
     }
 
     public function edit($id)
     {
         $produto = (new Produtos())->find($id);
         $fornecedor = (new Fornecedores())->getFornecedor($produto['fornecedores_id']);
+        $categorias = (new ProdutosCategorias())->categoriasFornecedor($produto['fornecedores_id']);
 
         return Inertia::render('Admin/Produtos/Fornecedores/Edit',
-            compact('produto', 'fornecedor'));
+            compact('produto', 'fornecedor', 'categorias'));
     }
 
     public function update($id, Request $request)

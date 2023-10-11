@@ -6,6 +6,7 @@ use App\Models\Clientes;
 use App\Models\ClientesArquivos;
 use App\Models\Fornecedores;
 use App\Models\Leads;
+use App\Models\PedidosArquivos;
 use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
 use App\Models\Setores;
@@ -90,6 +91,8 @@ class DadosPedidoServices
             ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
             : null;
 
+        $boletos = (new PedidosArquivos())->getBoletos($pedido->id);
+
         return [
             'id' => $pedido->id,
             'pedido' => [
@@ -100,7 +103,7 @@ class DadosPedidoServices
                 'setor' => $this->setores[$pedido->setor] ?? '',
                 'situacao' => $pedido->situacao,
                 'info' => $pedido->info_pedido,
-                'forma_pagamento' => $pedido->forma_pagamento,
+                'forma_pagamento' => $pedido->forma_pagamento, //remover
                 'sac' => $pedido->sac,
                 'data_criacao' => date('d/m/y H:i:s', strtotime($pedido->created_at)),
             ],
@@ -108,15 +111,23 @@ class DadosPedidoServices
                 'id' => $consultor['id'],
                 'nome' => $consultor['nome'],
             ],
+            'financeiro' => [
+                'preco_float' => $pedido->preco_venda,
+                'preco' => convert_float_money($pedido->preco_venda),
+                'preco_custo' => $precoCusto,
+                'forma_pagamento' => $pedido->forma_pagamento,
+                'boletos' => $boletos,
+                'link_pagamento' => $files->url_pagamento ?? null,
+            ],
             'prazos' => [
                 'prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),
                 'prazo_atrasado' => $this->getDiferenca($pedido->status_data, $pedido->prazo),
                 'prazoDias' => $pedido->prazo,
             ],
             'preco' => [
-                'preco_float' => $pedido->preco_venda,
-                'convertido' => convert_float_money($pedido->preco_venda),
-                'preco_custo_convertido' => $precoCusto,
+                'preco_float' => $pedido->preco_venda,// remover
+                'convertido' => convert_float_money($pedido->preco_venda),// remover
+                'preco_custo_convertido' => $precoCusto,// remover
             ],
             'fornecedor' => [
                 'nome' => $fornecedor['nome']
@@ -146,7 +157,6 @@ class DadosPedidoServices
                 'nota_fiscal' => $files->url_nota_fiscal ?? null,
                 'carta_autorizacao' => $files->url_carta_autorizacao ?? null,
                 'planilha_pedido' => $files->url_planilha_pedido ?? null,
-                'link_pagamento' => $files->url_pagamento ?? null,
             ],
             'cliente_files' => [
                 'rg' => $files->url_rg ?? $filesCliente[$chavesArquivos->rg()] ?? null,

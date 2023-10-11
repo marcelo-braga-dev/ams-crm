@@ -4,8 +4,9 @@ import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {router, useForm} from "@inertiajs/react";
 import React from "react";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
+import {MenuItem} from "@mui/material";
 
-export default function ({produto, fornecedor}) {
+export default function ({produto, fornecedor, categorias}) {
     const {data, setData, post} = useForm({
         fornecedor: fornecedor.id,
         nome: produto.nome,
@@ -13,6 +14,7 @@ export default function ({produto, fornecedor}) {
         preco_fornecedor: produto.preco_fornecedor,
         unidade: produto.unidade,
         url_foto: produto.foto,
+        categoria: produto.categoria
     })
 
     function onSubmit(e) {
@@ -50,6 +52,16 @@ export default function ({produto, fornecedor}) {
                     <div className="col mb-4">
                         <TextField label="Unidade" fullWidth required defaultValue={data.unidade}
                                    onChange={e => setData('unidade', e.target.value)}/>
+                    </div>
+                    <div className="col mb-4">
+                        <TextField label="Categoria" select fullWidth required defaultValue={data.categoria}
+                                   onChange={e => setData('categoria', e.target.value)}>
+                            {categorias.map((item) => {
+                                return (
+                                    <MenuItem value={item.id}>{item.nome}</MenuItem>
+                                )
+                            })}
+                        </TextField>
                     </div>
                 </div>
                 <div className="row mb-4">

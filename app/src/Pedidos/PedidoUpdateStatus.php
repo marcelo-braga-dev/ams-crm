@@ -12,7 +12,9 @@ use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\Status\EncomendaStatus;
 use App\src\Pedidos\Status\EntregueStatus;
+use App\src\Pedidos\Status\FaturadoPrazoStatus;
 use App\src\Pedidos\Status\FaturadoStatus;
+use App\src\Pedidos\Status\FaturadoVistaStatus;
 use App\src\Pedidos\Status\LancadoStatus;
 use App\src\Pedidos\Status\RevisarStatusPedido;
 
@@ -26,6 +28,16 @@ class PedidoUpdateStatus
     public function setFaturado($id): void
     {
         (new FaturadoStatus())->updateStatus($id, null, 0);
+    }
+
+    public function setFaturadoVista($id): void
+    {
+        (new FaturadoVistaStatus())->updateStatus($id, null, 0);
+    }
+
+    public function setFaturadoPrazo($id): void
+    {
+        (new FaturadoPrazoStatus())->updateStatus($id, null, 0);
     }
 
     public function setEntregue($id): void

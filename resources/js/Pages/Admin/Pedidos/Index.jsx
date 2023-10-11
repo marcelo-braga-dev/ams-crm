@@ -151,7 +151,7 @@ export default function Pedidos({
                                                     className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        {modelo === 2 ? '' : <th id="th-4">
+                                        {modelo === 2 || !modelo ? '' : <th id="th-4">
                                             <div style={{backgroundColor: coresAbas.boleto}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Aguard. Nota/Boleto</div>
@@ -160,7 +160,7 @@ export default function Pedidos({
                                                     className="d-block text-end">R$ {(pedidos.nota[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>}
-                                        {modelo === 2 ? '' : <th id="th-5">
+                                        {modelo === 2 || !modelo ? '' : <th id="th-5">
                                             <div style={{backgroundColor: coresAbas.pagamento}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Aguard. Pagamento</div>
@@ -169,7 +169,7 @@ export default function Pedidos({
                                                     className="d-block text-end">R$ {(pedidos.pagamento[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>}
-                                        {modelo === 2 ? '' : <th id="th-6">
+                                        {modelo === 2 || !modelo ? '' : <th id="th-6">
                                             <div style={{backgroundColor: coresAbas.faturamento}}
                                                  className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Aguard. Faturamento</div>
@@ -178,16 +178,36 @@ export default function Pedidos({
                                                     className="d-block text-end">R$ {(pedidos.faturamento[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>}
-                                        <th id="th-7">
-                                            <div style={{backgroundColor: coresAbas.faturado}}
-                                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                                <div className='col-auto'>Faturado</div>
-                                                <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
+                                        {modelo !== 2 ?
+                                            <th id="th-7">
+                                                <div style={{backgroundColor: coresAbas.faturado}}
+                                                     className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                                    <div className='col-auto'>Faturado</div>
+                                                    <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
+                                                    <small
+                                                        className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
+                                                </div>
+                                            </th> : ''}
+                                        {modelo === 2 || !modelo ? <th id="th-6">
+                                            <div style={{backgroundColor: 'rgba(59,189,13,0.6)'}}
+                                                 className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
+                                                <div className='col-auto'>Faturado à Vista</div>
+                                                <div className='col-auto'>Qdt: {pedidos.faturado_vista.length}</div>
                                                 <small
-                                                    className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
+                                                    className="d-block text-end">R$ {(pedidos.faturado_vista[0]?.faturamento ?? '0,00')}</small>
                                             </div>
-                                        </th>
-                                        {modelo === 2 ? '' : <th id="th-8">
+                                        </th> : ''}
+                                        {modelo === 2 || !modelo ?
+                                            <th id="th-6">
+                                                <div style={{backgroundColor: "#854787"}}
+                                                     className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
+                                                    <div className='col-auto'>Faturado à Prazo</div>
+                                                    <div className='col-auto'>Qdt: {pedidos.faturado_prazo.length}</div>
+                                                    <small
+                                                        className="d-block text-end">R$ {(pedidos.faturado_prazo[0]?.faturamento ?? '0,00')}</small>
+                                                </div>
+                                            </th> : ''}
+                                        {modelo === 2 || !modelo ? '' : <th id="th-8">
                                             <div style={{backgroundColor: coresAbas.acompanhamento}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Acompanhamento</div>
@@ -222,14 +242,15 @@ export default function Pedidos({
                                                                        cor={coresAbas.reprovado}/>)
                                             })}
                                         </td>
-                                        {modelo === 1 ? '' : <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
-                                            {pedidos.encomenda.map((dados) => {
-                                                return (
-                                                    <CardEncomenda key={dados.id} dados={dados}
-                                                                     cor={coresAbas.encomenda}/>
-                                            )
-                                            })}
-                                        </td>}
+                                        {modelo === 1 ? '' :
+                                            <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
+                                                {pedidos.encomenda.map((dados) => {
+                                                    return (
+                                                        <CardEncomenda key={dados.id} dados={dados}
+                                                                       cor={coresAbas.encomenda}/>
+                                                    )
+                                                })}
+                                            </td>}
                                         <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.conferencia.map((dados) => {
                                                 return (
@@ -243,37 +264,59 @@ export default function Pedidos({
                                                     <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
                                             })}
                                         </td>
-                                        {modelo === 2 ? '' : <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
-                                            {pedidos.nota.map((dados) => {
-                                                return (
-                                                    <CardBoleto key={dados.id} dados={dados} cor={coresAbas.boleto}/>)
-                                            })}
-                                        </td>}
-                                        {modelo === 2 ? '' : <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
-                                            {pedidos.pagamento.map((dados) => {
-                                                return (<CardPagamento key={dados.id} dados={dados}
-                                                                       cor={coresAbas.pagamento}/>)
-                                            })}
-                                        </td>}
-                                        {modelo === 2 ? '' : <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
-                                            {pedidos.faturamento.map((dados) => {
-                                                return (
-                                                    <CardFaturando key={dados.id} dados={dados}
-                                                                   cor={coresAbas.faturamento}/>)
-                                            })}
-                                        </td>}
-                                        <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
-                                            {pedidos.faturado.map((dados) => {
-                                                return (<CardFaturado key={dados.id} dados={dados}
-                                                                      cor={coresAbas.faturado}/>)
-                                            })}
-                                        </td>
-                                        {modelo === 2 ? '' : <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
-                                            {pedidos.acompanhamento.map((dados) => {
-                                                return (<CardAcompanhamento key={dados.id} dados={dados}
-                                                                            cor={coresAbas.acompanhamento}/>)
-                                            })}
-                                        </td>}
+                                        {modelo === 2 || !modelo ? '' :
+                                            <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
+                                                {pedidos.nota.map((dados) => {
+                                                    return (
+                                                        <CardBoleto key={dados.id} dados={dados}
+                                                                    cor={coresAbas.boleto}/>)
+                                                })}
+                                            </td>}
+                                        {modelo === 2 || !modelo ? '' :
+                                            <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
+                                                {pedidos.pagamento.map((dados) => {
+                                                    return (<CardPagamento key={dados.id} dados={dados}
+                                                                           cor={coresAbas.pagamento}/>)
+                                                })}
+                                            </td>}
+                                        {modelo === 2 || !modelo ? '' :
+                                            <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
+                                                {pedidos.faturamento.map((dados) => {
+                                                    return (
+                                                        <CardFaturando key={dados.id} dados={dados}
+                                                                       cor={coresAbas.faturamento}/>)
+                                                })}
+                                            </td>}
+                                        {modelo !== 2 ?
+                                            <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
+                                                {pedidos.faturado.map((dados) => {
+                                                    return (<CardFaturado key={dados.id} dados={dados}
+                                                                          cor={coresAbas.faturado}/>)
+                                                })}
+                                            </td> : ''}
+                                        {modelo === 2 || !modelo ?
+                                            <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
+                                                {pedidos.faturado_vista.map((dados) => {
+                                                    return (
+                                                        <CardFaturado key={dados.id} dados={dados}
+                                                                      cor={"rgba(59,189,13,0.6)"}/>)
+                                                })}
+                                            </td> : ''}
+                                        {modelo === 2 || !modelo ?
+                                            <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
+                                                {pedidos.faturado_prazo.map((dados) => {
+                                                    return (
+                                                        <CardFaturado key={dados.id} dados={dados}
+                                                                      cor={'#854787'}/>)
+                                                })}
+                                            </td> : ''}
+                                        {modelo === 2 || !modelo ? '' :
+                                            <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
+                                                {pedidos.acompanhamento.map((dados) => {
+                                                    return (<CardAcompanhamento key={dados.id} dados={dados}
+                                                                                cor={coresAbas.acompanhamento}/>)
+                                                })}
+                                            </td>}
                                         <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.entregue.map((dados) => {
                                                 return (<CardEntregue key={dados.id} dados={dados}

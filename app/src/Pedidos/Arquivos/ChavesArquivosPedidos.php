@@ -8,6 +8,7 @@ class ChavesArquivosPedidos
     private string $rg = 'rg';
     private string $cnh = 'cnh';
     private string $cnpj = 'cnpj';
+    private string $boleto = 'boleto';
 
     public function cpf(): string
     {
@@ -27,5 +28,9 @@ class ChavesArquivosPedidos
     public function cnpj(): string
     {
         return $this->cnpj;
+    }
+    public function boleto(): string
+    {
+        return $this->boleto;
     }
 }

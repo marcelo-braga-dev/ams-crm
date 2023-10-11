@@ -13,4 +13,12 @@ class Images
         }
         return $request->$file;
     }
+
+    public function armazenarSeparado($file, $path = 'images')
+    {
+        if ($file->isValid()) {
+            return $file->store($path);
+        }
+        return null;
+    }
 }

@@ -5,11 +5,21 @@ import * as React from 'react';
 import {useForm} from '@inertiajs/react';
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
-import {TextField} from "@mui/material";
+import {FormLabel, Radio, RadioGroup, TextField} from "@mui/material";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
+import FormControlLabel from "@mui/material/FormControlLabel";
+
+import FormControl from '@mui/material/FormControl';
+import {useState} from "react";
+
+import AddIcon from '@mui/icons-material/Add';
+import ClearIcon from '@mui/icons-material/Clear';
+import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 
 export default function Pedidos({dados, produtos}) {
     const {data, put, setData} = useForm()
+    const [qtsBoletos, setQtdBoletos] = useState(1)
+    const [formaPagamento, setFormaPagamento] = useState('')
 
     function submit(e) {
         e.preventDefault()
@@ -17,6 +27,53 @@ export default function Pedidos({dados, produtos}) {
             _method: 'put',
             ...data
         })
+    }
+
+    let camposBoletos = []
+
+    function boletos() {
+        for (let i = 1; i <= qtsBoletos; i++)
+            camposBoletos.push(
+                <div key={i} className="row align-items-center">
+                    <div className="col-6 mb-4">
+                        <TextField
+                            label={i + "° Boleto"} fullWidth type="file" InputLabelProps={{shrink: true}} required
+                            onChange={e => setData('file_boletos', {
+                                ...data.file_boletos,
+                                [i]: {
+                                    ...data?.file_boletos?.[i],
+                                    file: e.target.files[0]
+                                }
+                            })}>
+                        </TextField>
+                    </div>
+                    <div className="col mb-4">
+                        <TextField type="date" label="Data Vencimento" fullWidth
+                                   InputLabelProps={{shrink: true}} required
+                                   onChange={e => setData('file_boletos', {
+                                       ...data.file_boletos,
+                                       [i]: {
+                                           ...data?.file_boletos?.[i],
+                                           vencimento: e.target.value
+                                       }
+                                   })}/>
+
+                    </div>
+                    <div className="col mb-4">
+                        {(i === qtsBoletos && qtsBoletos > 1) &&
+                            <ClearIcon className="text-danger cursor-pointer"
+                                       onClick={() => removeBoleto()}/>
+                        }
+                    </div>
+                </div>
+            )
+
+        return camposBoletos
+    }
+
+    function removeBoleto() {
+        setQtdBoletos(qtsBoletos - 1)
+        data.file_boletos[qtsBoletos] = {}
     }
 
     return (
@@ -38,37 +95,77 @@ export default function Pedidos({dados, produtos}) {
 
             <form onSubmit={submit}>
                 <div className="row shadow p-2">
+                    <div className="row mb-4">
+                        <DadosPedidoFinanceiro dados={dados}/>
+                    </div>
+
                     <div className="row">
-                        <div className="col-md-4 mb-4">
+                        <div className="col mb-4">
+                            <FormControl>
+                                <h6>Método Pagamento</h6>
+                                <RadioGroup row name="row-radio-buttons-group">
+                                    <FormControlLabel value="vista" required control={<Radio/>} label="À Vista"
+                                                      onChange={() => setData('forma_pagamento', 'vista')}/>
+                                    <FormControlLabel value="prazo" required control={<Radio/>} label="À Prazo"
+                                                      onChange={() => setData('forma_pagamento', 'prazo')}/>
+                                </RadioGroup>
+                            </FormControl>
+                        </div>
+                    </div>
+
+                    <h6>Nota Fiscal</h6>
+                    <div className="row mt-2 mb-4">
+                        <div className="col-md-6 mb-4">
                             <TextField
                                 label="Nota Fiscal" required fullWidth type="file" InputLabelProps={{shrink: true}}
                                 onChange={e => setData('file_nota_fiscal', e.target.files[0])}>
                             </TextField>
                         </div>
-                        <div className="col-md-4 mb-4">
-                            <TextField
-                                label="Boleto" fullWidth type="file" InputLabelProps={{shrink: true}}
-                                onChange={e => setData('file_boleto', e.target.files[0])}>
-                            </TextField>
-                        </div>
-                        <div className="col-md-4 mb-4">
-                            <TextField
-                                label="2° Boleto" fullWidth type="file" InputLabelProps={{shrink: true}}
-                                onChange={e => setData('file_boleto_2', e.target.files[0])}>
-                            </TextField>
+                    </div>
+
+                    <div className="row">
+                        <div className="col mb-4">
+                            <FormControl>
+                                <h6>Inserir Anexos</h6>
+                                <RadioGroup row name="forma-pagamento" defaultValue="">
+                                    <FormControlLabel value="vista" control={<Radio/>} label="Boletos"
+                                                      onChange={() => setFormaPagamento('boleto')}/>
+                                    <FormControlLabel value="prazo" control={<Radio/>} label="Link de Pagamento"
+                                                      onChange={() => setFormaPagamento('link')}/>
+                                    <FormControlLabel value="" control={<Radio/>} label="Nenhum"
+                                                      onChange={() => setFormaPagamento('')}/>
+                                </RadioGroup>
+                            </FormControl>
                         </div>
                     </div>
-                    <div className="row mb-4">
-                        <div className="col-md-6 mb-">
-                            <TextField
-                                label="Link de Pagamento" fullWidth
-                                onChange={e => setData('url_pagamento', e.target.value)}>
-                            </TextField>
+
+                    {formaPagamento === 'boleto' && <>
+                        <h6>Boletos</h6>
+                        {boletos()}
+                        <div className="row row-cols-3 mb-4">
+                            <div className="col">
+                                <button type="button" className="btn btn-success btn-sm btn-rounded px-3"
+                                        onClick={() => setQtdBoletos(qtsBoletos + 1)}>
+                                    <AddIcon/> Adicionar campo
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </>}
+
+                    {formaPagamento === 'link' && <>
+                        <h6>Link de Pagamento</h6>
+                        <div className="row mb-4">
+                            <div className="col mb-">
+                                <TextField
+                                    label="Link de Pagamento" fullWidth required
+                                    onChange={e => setData('url_pagamento', e.target.value)}>
+                                </TextField>
+                            </div>
+                        </div>
+                    </>}
                     <div className="row text-center">
                         <div className="mb-3">
-                            <button className="btn btn-primary" color={"primary"}>Salvar</button>
+                            <button className="btn btn-primary">Salvar</button>
                         </div>
                     </div>
                 </div>

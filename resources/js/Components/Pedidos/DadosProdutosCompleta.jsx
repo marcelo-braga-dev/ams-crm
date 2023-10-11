@@ -1,6 +1,4 @@
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
-import {useState} from "react";
-import {round} from "lodash/math";
 
 export default function DadosProdutosCompleta({dados}) {
 
@@ -9,7 +7,7 @@ export default function DadosProdutosCompleta({dados}) {
     let totalLucro = 0
 
     function calcVenda(dados) {
-        const total = dados.preco_venda_float * dados.qtd * (1 - (dados.desconto / 100))
+        const total = (dados.preco_venda_float - dados.desconto) * dados.qtd
         totalVenda += total
         return total
     }
@@ -21,7 +19,7 @@ export default function DadosProdutosCompleta({dados}) {
     }
 
     function calcLucro(dados) {
-        const total = (dados.preco_venda_float - dados.preco_fornecedor_float) * dados.qtd
+        const total = ((dados.preco_venda_float - dados.desconto) - dados.preco_fornecedor_float) * dados.qtd
         totalLucro += total
         return total
     }
@@ -60,7 +58,7 @@ export default function DadosProdutosCompleta({dados}) {
                                         <td className="col-1">R$ {dados.preco_fornecedor}</td>
                                         <td className="col-1">{dados.qtd}</td>
                                         <td className="col-1">{dados.unidade}</td>
-                                        <td className="col-2">{dados.desconto}%</td>
+                                        <td className="col-2">R$ {convertFloatToMoney(dados.desconto)}</td>
                                         <td className="col-2">
                                             R$ {convertFloatToMoney(calcForn(dados))}
                                         </td>

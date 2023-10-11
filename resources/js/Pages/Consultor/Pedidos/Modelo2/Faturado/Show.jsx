@@ -5,6 +5,7 @@ import React from 'react';
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
+import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 
 export default function Create({pedido}) {
     function submit(e) {
@@ -24,25 +25,42 @@ export default function Create({pedido}) {
                     <DadosPedidoCliente dados={pedido}/>
                 </div>
             </div>
-            {pedido.pedido_files.link_pagamento &&
-                <div className="row">
-                    <div className="col mb-4">
-                        <h6>Link de pagamento</h6>
-                        <span>{pedido.pedido_files.link_pagamento}</span>
-                    </div>
-                </div>}
-            <div className="row">
-                {pedido.pedido_files.boleto &&
-                    <div className="col mb-4">
-                        <h6>Nota/Boleto</h6>
-                        <ImagePdf url={pedido.pedido_files.boleto}/>
-                    </div>}
+
+            <DadosPedidoFinanceiro dados={pedido} />
+
+            <div className="row mt-4">
                 {pedido.pedido_files.nota_fiscal &&
                     <div className="col mb-4">
                         <h6>Nota Fiscal</h6>
                         <ImagePdf url={pedido.pedido_files.nota_fiscal}/>
+                    </div>
+                }
+                {pedido.pedido_files.boleto &&
+                    <div className="shadow rounded p-3">
+                        <span className="d-block"><b>Boleto/Nota</b></span>
+                        <ImagePdf url={dados.pedido_files.boleto}/>
+                    </div>}
+                {pedido.pedido_files.boleto_2 &&
+                    <div className="shadow rounded p-3">
+                        <span className="d-block"><b>Boleto/Nota</b></span>
+                        <ImagePdf url={dados.pedido_files.boleto_2}/>
                     </div>}
             </div>
+
+            <div className="row row-cols-3">
+                {pedido.financeiro.boletos.map((item, index) => {
+                    return (
+                        <div key={index} className="col mb-4 ">
+                            <div className="shadow rounded p-3">
+                                <span className="d-block"><b>{item.indice}° Boleto</b></span>
+                                <span>Vencimento: {item.data}</span>
+                                <ImagePdf url={item.url}/>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+
             <form onSubmit={submit}>
                 <div className="row justify-content-center">
                     <div className="col-auto">

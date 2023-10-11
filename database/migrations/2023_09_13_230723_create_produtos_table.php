@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->float('preco_venda');
             $table->string('unidade')->nullable();
             $table->integer('estoque_local')->default(0);
+            $table->integer('categoria');
             $table->string('url_foto')->nullable();
             $table->timestamps();
         });

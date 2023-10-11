@@ -10,7 +10,9 @@ use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\Status\EncomendaStatus;
 use App\src\Pedidos\Status\EntregueStatus;
+use App\src\Pedidos\Status\FaturadoPrazoStatus;
 use App\src\Pedidos\Status\FaturadoStatus;
+use App\src\Pedidos\Status\FaturadoVistaStatus;
 use App\src\Pedidos\Status\LancadoStatus;
 use App\src\Pedidos\Status\RevisarStatusPedido;
 
@@ -25,6 +27,8 @@ class StatusPedidos
         $pagamento = (new AguardandoPagamentoStatus());
         $faturamento = (new AguardandoFaturamentoStatus());
         $faturado = (new FaturadoStatus());
+        $faturadoVista = (new FaturadoVistaStatus());
+        $faturadoPrazo = (new FaturadoPrazoStatus());
         $acompanhamento = (new AcompanhamentoStatus());
         $entregue = (new EntregueStatus());
         $cancelado = (new CanceladoStatus());
@@ -38,6 +42,8 @@ class StatusPedidos
             $pagamento->getStatus() => $pagamento->getNomeStatus(),
             $faturamento->getStatus() => $faturamento->getNomeStatus(),
             $faturado->getStatus() => $faturado->getNomeStatus(),
+            $faturadoVista->getStatus() => $faturadoVista->getNomeStatus(),
+            $faturadoPrazo->getStatus() => $faturadoPrazo->getNomeStatus(),
             $entregue->getStatus() => $entregue->getNomeStatus(),
             $acompanhamento->getStatus() => $acompanhamento->getNomeStatus(),
             $cancelado->getStatus() => $cancelado->getNomeStatus(),

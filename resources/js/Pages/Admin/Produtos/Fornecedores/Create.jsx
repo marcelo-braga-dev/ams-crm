@@ -3,8 +3,9 @@ import TextField from "@mui/material/TextField";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {useForm} from "@inertiajs/react";
 import React from "react";
+import {MenuItem} from "@mui/material";
 
-export default function ({produtos, fornecedor}) {
+export default function ({fornecedor, categorias}) {
     const {data, setData, post} = useForm({
         fornecedor: fornecedor.id
     })
@@ -42,6 +43,16 @@ export default function ({produtos, fornecedor}) {
                     <div className="col mb-4">
                         <TextField label="Unidade" fullWidth required
                                    onChange={e => setData('unidade', e.target.value)}/>
+                    </div>
+                    <div className="col mb-4">
+                        <TextField label="Categoria" select fullWidth required defaultValue=""
+                                   onChange={e => setData('categoria', e.target.value)}>
+                            {categorias.map((item) => {
+                                return (
+                                    <MenuItem value={item.id}>{item.nome}</MenuItem>
+                                )
+                            })}
+                        </TextField>
                     </div>
                 </div>
                 <div className="row mb-4">
