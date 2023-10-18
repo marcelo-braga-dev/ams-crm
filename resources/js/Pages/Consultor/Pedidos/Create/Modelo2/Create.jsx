@@ -49,6 +49,7 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
 
     function submit(e) {
         e.preventDefault()
+        console.log(data)
         if (data.preco > 0) post(route('consultor.pedidos.store'))
         else setAlerta(true)
     }

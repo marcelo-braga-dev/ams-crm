@@ -26,7 +26,7 @@ class EstoqueLocalController extends Controller
     public function show($id)
     {
         $produtos = (new Produtos())->getProdutos($id);
-        $fornecedor = (new Fornecedores())->getFornecedor($id);
+        $fornecedor = (new Fornecedores())->find($id);
 
         return Inertia::render('Admin/Produtos/EstoqueLocal/Show',
             compact('produtos', 'fornecedor'));

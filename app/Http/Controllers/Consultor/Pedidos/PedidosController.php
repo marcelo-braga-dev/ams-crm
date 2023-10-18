@@ -14,6 +14,7 @@ use App\Models\PedidosHistoricos;
 use App\Models\PedidosImagens;
 use App\Models\PedidosProdutos;
 use App\Models\Produtos;
+use App\Models\ProdutosTransito;
 use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
 use App\src\Modelos\CompletoModelo;
@@ -110,6 +111,7 @@ class PedidosController extends Controller
                         $idPedido = (new Pedidos())->create($request, $request->id_lead);
                         (new PedidosImagens())->updatePlanilhaPedido($idPedido, $request);
                         (new PedidosProdutos())->create($idPedido, $request);
+                        (new ProdutosTransito())->subtrairVendaPedido($request);
                     } catch (\DomainException|QueryException $exception) {
                         DB::rollBack();
                         modalErro($exception->getMessage());

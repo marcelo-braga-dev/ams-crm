@@ -19,7 +19,7 @@ class Fornecedores extends Model
         'anotacoes'
     ];
 
-    public function getFornecedor(int $id)
+    public function find(int $id)
     {
         return $this->newQuery()->findOrFail($id);
     }

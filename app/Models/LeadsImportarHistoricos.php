@@ -42,7 +42,7 @@ class LeadsImportarHistoricos extends Model
             ->transform(function ($item) use ($nomes, $setores) {
                 return [
                     'nome' => $nomes[$item->users_id],
-                    'setor' => $setores[$item->setor],
+                    'setor' => $setores[$item->setor] ?? '',
                     'qtd' => $item->qtd,
                     'data' => date('d/m/y H:i', strtotime($item->created_at))
                 ];

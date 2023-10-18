@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('produtos_categorias', function (Blueprint $table) {
             $table->id();
-            $table->integer('fornecedores_id');
+            $table->integer('setores_id');
             $table->string('nome');
             $table->timestamps();
         });

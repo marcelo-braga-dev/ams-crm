@@ -79,7 +79,7 @@ class DadosPedidoServices
     {
         $cliente = $pedido->lead ? (new Leads())->find($pedido->lead) : ($pedido->cliente ? (new Clientes())->find($pedido->cliente) : (new PedidosClientes())->getCliente($pedido->id));
         $consultor = (new User)->get($pedido->users_id);
-        $fornecedor = (new Fornecedores())->getFornecedor($pedido->fornecedor);
+        $fornecedor = (new Fornecedores())->find($pedido->fornecedor);
         $integrador = $pedido->integrador ? (new LeadsDadosService())->lead($pedido->integrador) : '';
         $files = (new PedidosImagens())->getImagens($pedido->id);
         $filesCliente = (new ClientesArquivos())->get($pedido->cliente);

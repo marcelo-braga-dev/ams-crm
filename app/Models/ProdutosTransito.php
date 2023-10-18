@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Produtos\Notificacoes\NotificarEstoque;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,5 +43,39 @@ class ProdutosTransito extends Model
                 ['users_id' => $dados->id_usuario, 'produtos_id' => $id],
                 ['qtd' => $dados->qtd]
             );
+    }
+
+    public function estoqueConsultor($id): array
+    {
+        $dados = $this->newQuery()
+            ->where('users_id', $id)
+            ->get();
+
+        $res = [];
+        foreach ($dados as $item) {
+            $res[$item->produtos_id] = $item->qtd;
+        }
+
+        return $res;
+    }
+
+    public function subtrairVendaPedido($dados)
+    {
+        foreach ($dados->produtos as $item) {
+            if ($item['qtd'] ?? null) {
+                $estoque = $this->newQuery()
+                    ->where('users_id', id_usuario_atual())
+                    ->where('produtos_id', $item['id'])
+                    ->first();
+
+                $this->newQuery()
+                    ->updateOrCreate(
+                        ['users_id' => id_usuario_atual(), 'produtos_id' => $item['id']],
+                        ['qtd' => ($estoque->qtd ?? 0) - $item['qtd']]
+                    );
+
+                (new NotificarEstoque())->alteracao();
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ export default function ({fornecedor, categorias}) {
                         <TextField label="Nome" fullWidth required
                                    onChange={e => setData('nome', e.target.value)}/>
                     </div>
+
                 </div>
                 <div className="row">
                     <div className="col mb-4">
@@ -47,9 +48,9 @@ export default function ({fornecedor, categorias}) {
                     <div className="col mb-4">
                         <TextField label="Categoria" select fullWidth required defaultValue=""
                                    onChange={e => setData('categoria', e.target.value)}>
-                            {categorias.map((item) => {
+                            {categorias.map((item, index) => {
                                 return (
-                                    <MenuItem value={item.id}>{item.nome}</MenuItem>
+                                    <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
                                 )
                             })}
                         </TextField>

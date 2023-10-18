@@ -10,7 +10,7 @@ use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Pedidos\Notificacoes\Notificacao;
-use App\src\Pedidos\NotificacoesCategorias;
+use App\src\Pedidos\Notificacoes\NotificacoesCategorias;
 
 class LeadsNotificacao implements Notificacao
 {

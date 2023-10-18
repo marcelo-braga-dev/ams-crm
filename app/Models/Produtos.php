@@ -12,6 +12,7 @@ class Produtos extends Model
 
     protected $fillable = [
         'fornecedores_id',
+        'setores_id',
         'nome',
         'preco_fornecedor',
         'preco_venda',
@@ -21,13 +22,16 @@ class Produtos extends Model
         'url_foto'
     ];
 
-    public function getProdutos($id)
+    public function getProdutos($idFornecedor)
     {
+        $categorias  = (new ProdutosCategorias())->getNomes();
+        $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
+
         return $this->newQuery()
-            ->where('fornecedores_id', $id)
+            ->where('fornecedores_id', $idFornecedor)
             ->orderByDesc('id')
             ->get()
-            ->transform(function ($dados) {
+            ->transform(function ($dados) use ($categorias, $estoqueVendedor) {
                 return [
                     'id' => $dados->id,
                     'nome' => $dados->nome,
@@ -37,7 +41,8 @@ class Produtos extends Model
                     'preco_fornecedor_float' => $dados->preco_fornecedor,
                     'unidade' => $dados->unidade,
                     'estoque' => $dados->estoque_local,
-                    'categoria' => $dados->categoria,
+                    'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
+                    'categoria' => $categorias[$dados->categoria] ?? '',
                     'foto' => url_arquivos($dados->url_foto)
                 ];
             });

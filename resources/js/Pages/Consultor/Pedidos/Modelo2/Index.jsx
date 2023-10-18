@@ -63,7 +63,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        <th id="th-11">
+                                        <th id="th-2">
                                             <div style={{backgroundColor: coresAbas.encomenda}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Encomenda</div>
@@ -72,7 +72,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        <th id="th-2">
+                                        <th id="th-3">
                                             <div style={{backgroundColor: coresAbas.conferencia}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Conferência</div>
@@ -81,7 +81,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        <th id="th-3">
+                                        <th id="th-4">
                                             <div style={{backgroundColor: coresAbas.lancado}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Lançado</div>
@@ -90,7 +90,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        <th id="th-6">
+                                        <th id="th-5">
                                             <div style={{backgroundColor: 'rgba(59,189,13,0.6)'}}
                                                  className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Faturado à Vista</div>
@@ -117,7 +117,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        <th id="th-9">
+                                        <th id="th-8">
                                             <div style={{backgroundColor: coresAbas.entregue}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Entregue</div>
@@ -126,7 +126,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        <th id="th-10">
+                                        <th id="th-9">
                                             <div style={{backgroundColor: coresAbas.cancelados}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Cancelados</div>
@@ -149,19 +149,19 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                                        cor={coresAbas.encomenda}/>)
                                             })}
                                         </td>
-                                        <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
+                                        <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.conferencia.map((dados) => {
                                                 return (<ConferenciaCard key={dados.id} dados={dados}
                                                                          cor={coresAbas.conferencia}/>)
                                             })}
                                         </td>
-                                        <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>
+                                        <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.lancado.map((dados) => {
                                                 return (
                                                     <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
                                             })}
                                         </td>
-                                        <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
+                                        <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturado_vista.map((dados) => {
                                                 return (
                                                     <CardFaturado key={dados.id} dados={dados}
@@ -181,13 +181,13 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                                       cor={"black"}/>)
                                             })}
                                         </td>
-                                        <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
+                                        <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.entregue.map((dados) => {
                                                 return (<CardEntregue key={dados.id} dados={dados}
                                                                       cor={coresAbas.entregue}/>)
                                             })}
                                         </td>
-                                        <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>
+                                        <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.cancelado.map((dados) => {
                                                 return (<CardCancelado key={dados.id} dados={dados}
                                                                        cor={coresAbas.cancelados}/>)

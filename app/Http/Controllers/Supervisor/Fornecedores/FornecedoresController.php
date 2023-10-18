@@ -24,14 +24,14 @@ class FornecedoresController extends Controller
 
     public function show($id)
     {
-        $dados = (new Fornecedores())->getFornecedor($id);
+        $dados = (new Fornecedores())->find($id);
 
         return Inertia::render('Supervisor/Fornecedores/Show', compact('dados'));
     }
 
     public function edit(int $id)
     {
-        $dados = (new Fornecedores())->getFornecedor($id);
+        $dados = (new Fornecedores())->find($id);
 
         return Inertia::render('Supervisor/Fornecedores/Edit', compact('dados'));
     }

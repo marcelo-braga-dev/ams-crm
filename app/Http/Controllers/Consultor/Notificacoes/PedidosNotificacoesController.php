@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Consultor\Notificacoes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notificacoes;
-use App\src\Pedidos\NotificacoesCategorias;
+use App\src\Pedidos\Notificacoes\NotificacoesCategorias;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 

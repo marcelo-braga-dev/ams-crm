@@ -39,7 +39,7 @@ class EstoqueTransitoController extends Controller
     public function show($id, Request $request)
     {
         $idFornecedor = $request->fornecedor;
-        $fornecedor = (new Fornecedores())->getFornecedor($idFornecedor);
+        $fornecedor = (new Fornecedores())->find($idFornecedor);
 
         $produtos = (new ProdutosTransito())->consultor($id, $idFornecedor);
 

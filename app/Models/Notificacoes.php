@@ -3,9 +3,7 @@
 namespace App\Models;
 
 use App\Services\ChatInterno\NotificacoesChatInterno;
-use App\src\Pedidos\NotificacoesCategorias;
-use App\src\Usuarios\Admins;
-use App\src\Usuarios\Supervisores;
+use App\src\Pedidos\Notificacoes\NotificacoesCategorias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

@@ -39,15 +39,22 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
             'menu': 'Pedidos',
             'tag': 'pedidos',
             'icone': <RequestPageOutlinedIcon/>,
-            'submenu': [{
-                'menu': 'Lista de Pedidos',
-                'url': route('admin.pedidos.index'),
-                'tag': 'lista'
-            }, {'menu': 'Histórico', 'url': route('admin.historico.index'), 'tag': 'historico'}, {
-                'menu': 'Configurações',
-                'url': route('admin.config.index'),
-                'tag': 'config'
-            }]
+            'submenu': [
+                {
+                    'menu': 'Lista de Pedidos',
+                    'url': route('admin.pedidos.index'),
+                    'tag': 'lista'
+                }, {
+                    'menu': 'Relatório de Pedidos',
+                    'url': route('admin.pedidos.relatorios.index'),
+                    'tag': 'relatorios'
+                }, {
+                    'menu': 'Histórico', 'url': route('admin.historico.index'), 'tag': 'historico'
+                }, {
+                    'menu': 'Configurações',
+                    'url': route('admin.config.index'),
+                    'tag': 'config'
+                }]
         }, {
             'menu': 'Produtos',
             'icone': <Inventory2OutlinedIcon/>,
@@ -55,7 +62,11 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
             'submenu': [
                 {'menu': 'Todos Produtos', 'url': route('admin.produtos-fornecedores.index'), 'tag': 'todos-produtos'},
                 {'menu': 'Categorias', 'url': route('admin.produtos-categorias.index'), 'tag': 'categorias'},
-                {'menu': 'Estoque em Transito', 'url': route('admin.estoque-transito.index'), 'tag': 'estoque-transito'},
+                {
+                    'menu': 'Estoque em Transito',
+                    'url': route('admin.estoque-transito.index'),
+                    'tag': 'estoque-transito'
+                },
                 {'menu': 'Estoque Local', 'url': route('admin.estoque-local.index'), 'tag': 'estoque-local'},
             ]
         }, {

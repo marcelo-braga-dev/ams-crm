@@ -4,7 +4,7 @@ namespace App\src\Pedidos\Notificacoes\Pedidos;
 
 use App\Models\Notificacoes;
 use App\src\Pedidos\Notificacoes\Notificacao;
-use App\src\Pedidos\NotificacoesCategorias;
+use App\src\Pedidos\Notificacoes\NotificacoesCategorias;
 
 class PedidosConsultorNotificar implements Notificacao
 {

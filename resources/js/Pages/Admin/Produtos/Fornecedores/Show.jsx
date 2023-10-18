@@ -38,13 +38,13 @@ export default function ({produtos, fornecedor}) {
                 <div className="table-responsive">
                     <table className="table">
                         <thead>
-                        <tr>
+                        <tr className="text-sm">
                             <th></th>
-                            <th className="col-1 text-center">ID</th>
                             <th>Nome</th>
-                            <th>Preço Venda</th>
-                            <th>Preço Fornecedor</th>
+                            <th>Preço <br/>Venda</th>
+                            <th>Preço <br/>Fornecedor</th>
                             <th>Unidade</th>
+                            <th>Categoria</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -55,11 +55,14 @@ export default function ({produtos, fornecedor}) {
                                     <td>
                                         {dado.foto && <img src={dado.foto} width="80" alt="foto"/>}
                                     </td>
-                                    <td className="text-center">#{dado.id}</td>
-                                    <td className="text-wrap">{dado.nome}</td>
+                                    <td className="text-wrap">
+                                        {dado.nome}<br/>
+                                        <small>ID: #{dado.id}</small>
+                                    </td>
                                     <td className="text-center">R$ {dado.preco_venda}</td>
                                     <td className="text-center">R$ {dado.preco_fornecedor}</td>
                                     <td className="text-center">{dado.unidade}</td>
+                                    <td className="text-center text-wrap">{dado.categoria}</td>
                                     <td>
                                         <a href={route('admin.produtos-fornecedores.edit', dado.id)}
                                            className="btn btn-primary btn-sm me-2">Editar</a>
@@ -77,6 +80,8 @@ export default function ({produtos, fornecedor}) {
                     </table>
                 </div>
             </div>
+
+            {/*Modal*/}
             <div className="modal fade" id="modalExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">

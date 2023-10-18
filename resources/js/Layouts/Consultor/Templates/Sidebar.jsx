@@ -6,6 +6,7 @@ import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import SpeakerNotesOutlinedIcon from "@mui/icons-material/SpeakerNotesOutlined";
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 
 export default function Sidebar() {
     const {props} = usePage();
@@ -21,6 +22,12 @@ export default function Sidebar() {
                 {'menu': 'Históricos', 'url': route('consultor.historicos.index')},
             ]
         }, {
+            'menu': 'Produtos',
+            'icone': <Inventory2OutlinedIcon/>,
+            'submenu': [
+                {'menu': 'Lista de Produtos', 'url': route('consultor.pedidos.produtos.index')},
+            ]
+        },{
             'menu': 'Leads',
             'icone': <PeopleAltOutlinedIcon/>,
             'submenu': [

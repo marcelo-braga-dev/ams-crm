@@ -1,6 +1,6 @@
 <?php
 
-namespace App\src\Pedidos;
+namespace App\src\Pedidos\Notificacoes;
 
 class NotificacoesCategorias
 {
