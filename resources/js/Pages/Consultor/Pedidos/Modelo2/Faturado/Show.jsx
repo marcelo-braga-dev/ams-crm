@@ -8,13 +8,6 @@ import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 
 export default function Create({pedido}) {
-    function submit(e) {
-        e.preventDefault()
-        router.post(route('consultor.pedidos.modelo-2.faturado.update', pedido.id), {
-            _method: 'put',
-        })
-    }
-
     return (
         <Layout container voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado">
             <div className="row mb-4">
@@ -26,7 +19,7 @@ export default function Create({pedido}) {
                 </div>
             </div>
 
-            <DadosPedidoFinanceiro dados={pedido} />
+            <DadosPedidoFinanceiro dados={pedido}/>
 
             <div className="row mt-4">
                 {pedido.pedido_files.nota_fiscal &&
@@ -60,14 +53,6 @@ export default function Create({pedido}) {
                     )
                 })}
             </div>
-
-            <form onSubmit={submit}>
-                <div className="row justify-content-center">
-                    <div className="col-auto">
-                        <button type="submit" className="btn btn-primary">Enviar para Entregue</button>
-                    </div>
-                </div>
-            </form>
         </Layout>
     )
 }
