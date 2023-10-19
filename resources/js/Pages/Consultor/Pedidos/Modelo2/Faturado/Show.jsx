@@ -38,12 +38,12 @@ export default function Create({pedido}) {
                 {pedido.pedido_files.boleto &&
                     <div className="shadow rounded p-3">
                         <span className="d-block"><b>Boleto/Nota</b></span>
-                        <ImagePdf url={dados.pedido_files.boleto}/>
+                        <ImagePdf url={pedido.pedido_files.boleto}/>
                     </div>}
                 {pedido.pedido_files.boleto_2 &&
                     <div className="shadow rounded p-3">
                         <span className="d-block"><b>Boleto/Nota</b></span>
-                        <ImagePdf url={dados.pedido_files.boleto_2}/>
+                        <ImagePdf url={pedido.pedido_files.boleto_2}/>
                     </div>}
             </div>
 

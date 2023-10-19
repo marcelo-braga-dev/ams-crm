@@ -108,15 +108,6 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                     className="d-block text-end">R$ {(pedidos.faturado_prazo[0]?.faturamento ?? '0,00')}</small>
                                             </div>
                                         </th>
-                                        <th id="th-7">
-                                            <div style={{backgroundColor: 'black'}}
-                                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                                <div className='col-auto'>Faturado</div>
-                                                <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
-                                                <small
-                                                    className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
-                                            </div>
-                                        </th>
                                         <th id="th-8">
                                             <div style={{backgroundColor: coresAbas.entregue}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
@@ -173,12 +164,6 @@ export default function Dashboard({pedidos, coresAbas}) {
                                                 return (
                                                     <CardFaturado key={dados.id} dados={dados}
                                                                   cor={'#854787'}/>)
-                                            })}
-                                        </td>
-                                        <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
-                                            {pedidos.faturado.map((dados) => {
-                                                return (<CardFaturado key={dados.id} dados={dados}
-                                                                      cor={"black"}/>)
                                             })}
                                         </td>
                                         <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
