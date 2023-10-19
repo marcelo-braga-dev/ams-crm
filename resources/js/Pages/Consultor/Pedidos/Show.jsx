@@ -63,7 +63,7 @@ export default function Pedidos({dados, produtos, historico}) {
                     <TabPanel value={value} index={0}>
                         <div className="row mb-4">
                             <div className="col-md-8">
-                                <DadosPedido dados={dados}></DadosPedido>
+                                <DadosPedido dados={dados} />
                             </div>
                         </div>
                         <div className="row">
@@ -73,11 +73,11 @@ export default function Pedidos({dados, produtos, historico}) {
                         </div>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <DadosPedidoCliente dados={dados}></DadosPedidoCliente>
+                        <DadosPedidoCliente dados={dados} />
 
                         <hr/>
                         <Typography variant={"h6"}>Arquivos do Cliente</Typography>
-                        <DadosPedidoClienteFiles dados={dados}></DadosPedidoClienteFiles>
+                        <DadosPedidoClienteFiles dados={dados} />
                     </TabPanel>
                     <TabPanel value={value} index={2}>
                         <div className="row">

@@ -9,6 +9,8 @@ class ChavesArquivosPedidos
     private string $cnh = 'cnh';
     private string $cnpj = 'cnpj';
     private string $boleto = 'boleto';
+    private string $comprovantePix = 'comprovante_pix';
+    private string $cheque = 'cheque';
 
     public function cpf(): string
     {
@@ -32,5 +34,15 @@ class ChavesArquivosPedidos
     public function boleto(): string
     {
         return $this->boleto;
+    }
+
+    public function comprovantePix(): string
+    {
+        return $this->comprovantePix;
+    }
+
+    public function cheque(): string
+    {
+        return $this->cheque;
     }
 }

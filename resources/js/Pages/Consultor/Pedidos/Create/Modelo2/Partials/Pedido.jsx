@@ -2,8 +2,9 @@ import {Col, Row} from "reactstrap";
 import {MenuItem, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import DataTable from "react-data-table-component";
+import ClearIcon from "@mui/icons-material/Clear";
 
 let total = 0;
 
@@ -24,9 +25,36 @@ const FilterComponent = ({filterText, onFilter}) => (
 );
 
 
-export default function Pedido({fornecedores, buscarProdutos, produtos, data, setData}) {
+export default function Pedido({fornecedores, buscarProdutosX, categorias, produtosX, data, setData}) {
     total = 0
     const [filterText, setFilterText] = React.useState('');
+    const [qtdChequeParcelas, setQtdChequeParcelas] = useState(0);
+    const [fornecedorSelecionado, setFornecedorSelecionado] = useState();
+    const [categoriaSelecionado, setCategoriaSelecionado] = useState();
+    const [produtos, setProdutos] = useState([])
+
+    function fornecedorSelecionar(id) {
+        setFornecedorSelecionado(id)
+        buscarProdutos(id, categoriaSelecionado)
+    }
+
+    function categoriaSelecionar(id) {
+        setCategoriaSelecionado(id)
+        buscarProdutos(fornecedorSelecionado, id)
+    }
+
+    useEffect(function () {
+        buscarProdutos()
+    }, [])
+
+    function buscarProdutos(fornecedor, categoria) {
+        axios.post(route('consultor.pedidos.buscar-produtos-fornecedor', {
+            fornecedor: fornecedor, categoria: categoria
+        })).then(response => {
+            setProdutos(response.data)
+            // setData('fornecedor', id)
+        })
+    }
 
     const linhas = produtos.map(function (items) {
         return {
@@ -40,12 +68,63 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
             estoque: items.estoque,
             estoque_consultor: items.estoque_consultor,
             categoria: items.categoria,
+            fornecedor: items.fornecedor,
+            fornecedor_id: items.fornecedor_id,
             foto: items.foto,
         }
     });
 
     function qtdCheque(qtd) {
+        setQtdChequeParcelas(qtd)
         setData('forma_pagamento', qtd + 'x Cheques')
+    }
+
+    let camposCheques = []
+
+    function chequesCampos() {
+        for (let i = 1; i <= qtdChequeParcelas; i++)
+            camposCheques.push(
+                <div key={i} className="row align-items-center">
+                    <div className="col-6 mb-4">
+                        <TextField
+                            label={i + "° Cheque"} fullWidth type="file" InputLabelProps={{shrink: true}} required
+                            onChange={e => setData('file_cheques', {
+                                ...data.file_cheques,
+                                [i]: {
+                                    ...data?.file_cheques?.[i],
+                                    file: e.target.files[0]
+                                }
+                            })}>
+                        </TextField>
+                    </div>
+                    <div className="col mb-4">
+                        <TextField type="date" label="Data Vencimento" fullWidth
+                                   InputLabelProps={{shrink: true}} required
+                                   onChange={e => setData('file_cheques', {
+                                       ...data.file_cheques,
+                                       [i]: {
+                                           ...data?.file_cheques?.[i],
+                                           vencimento: e.target.value
+                                       }
+                                   })}/>
+
+                    </div>
+                    <div className="col mb-4">
+
+                        {(i == qtdChequeParcelas && qtdChequeParcelas > 1) &&
+                            <ClearIcon className="text-danger cursor-pointer"
+                                       onClick={() => removeCheque()}/>
+                        }
+                    </div>
+                </div>
+            )
+
+        return camposCheques
+    }
+
+    function removeCheque() {
+        setQtdChequeParcelas(qtdChequeParcelas - 1)
+        data.file_cheques[qtdChequeParcelas] = {}
     }
 
     function qtdCredito(qtd) {
@@ -81,6 +160,7 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
             qtd: parseInt(e.target.value),
             und: row.unidade,
             foto: row.foto,
+            fornecedor_id: row.fornecedor_id,
         }
 
         data.preco = somador(row.id, row.preco_venda_float * parseInt(e.target.value), dados)
@@ -107,9 +187,10 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
             name: 'Produto',
             selector: row =>
                 <div className="py-3 text-wrap">
-                    <b>{row.nome}</b><br/>
+                    <div className="pb-1"><b>{row.nome}</b></div>
                     ID: #{row.id}
-                    <small className="d-block">Categoria: {row.categoria}</small>
+                    <small className="d-block"><b>Categoria:</b> {row.categoria}</small>
+                    <small className="d-block"><b>Fornecedor:</b> {row.fornecedor}</small>
                 </div>,
             sortable: true,
             grow: 5,
@@ -155,7 +236,7 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
             name: 'Estoque',
             selector: row =>
                 <div className="">
-                    Seu Est.: {row.estoque_consultor}<br/>
+                    Transito: {row.estoque_consultor}<br/>
                     Est. Loja: {row.estoque}
                 </div>,
             sortable: false,
@@ -191,7 +272,7 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
             <div className="col-md-4">
                 <TextField label="Forma de Pagamento" select fullWidth required defaultValue=""
                            onChange={e => setData('forma_pagamento', e.target.value)}>
-                    <MenuItem value="PIX">Pix</MenuItem>
+                    <MenuItem value="PIX">PIX</MenuItem>
                     <MenuItem value="Boleto">Boleto</MenuItem>
                     <MenuItem value="Cartão de Crédito">Cartão de Crédito</MenuItem>
                     <MenuItem value="Cartão de Débito">Cartão de Débito</MenuItem>
@@ -200,7 +281,7 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                     <MenuItem value="Bonificação">Bonificação</MenuItem>
                 </TextField>
             </div>
-            <div className="col-2">
+            <div className="col-auto">
                 {data.forma_pagamento?.includes('Crédito') &&
                     <TextField
                         required type="number" label="Qtd. de Parcelas"
@@ -215,24 +296,18 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                         onChange={e => qtdCheque(e.target.value)}/>}
             </div>
             <div className="col">
-                {data.forma_pagamento?.includes('Cheque') &&
+                {data.forma_pagamento?.includes('PIX') &&
                     <TextField
-                        required type="file" label="Foto dos Cheque" InputLabelProps={{shrink: true}}
-                        onChange={e => setData('file_cheque', e.target.files[0])}/>}
+                        required type="file" label="Comprovante de Pagamento" InputLabelProps={{shrink: true}}
+                        onChange={e => setData('file_pix', e.target.files[0])}/>}
             </div>
         </div>
-        <div className="row mb-3">
-            <div className="col-md-5 mb-3">
-                <TextField label="Fornecedor" select fullWidth required defaultValue=""
-                           onChange={e => buscarProdutos(e.target.value)}
-                >
-                    {fornecedores.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </div>
+
+        {chequesCampos()}
+
+        <div className="border-bottom pb-3 mb-5"/>
+
+        <div className="row border-bottom pb-4 mb-5">
             <div className="col-md-6">
                 <TextField
                     label="Imagem da Lista de Pedido" required
@@ -240,6 +315,42 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
                     onChange={e => setData('img_pedido', e.target.files[0])}>
                 </TextField>
             </div>
+        </div>
+
+        <div className="row mb-3">
+            <div className="col-md-4 mb-3">
+                <TextField label="Fornecedor" select fullWidth defaultValue=""
+                           onChange={e => fornecedorSelecionar(e.target.value)}>
+                    <MenuItem value="">Todos</MenuItem>
+                    {fornecedores.map((option, index) => (
+                        <MenuItem key={index} value={option.id}>
+                            {option.nome}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            </div>
+            <div className="col-md-4 mb-3">
+                <TextField label="Categoria" select fullWidth defaultValue=""
+                           onChange={e => categoriaSelecionar(e.target.value)}>
+                    <MenuItem value="">Todos</MenuItem>
+                    {categorias.map((option, index) => (
+                        <MenuItem key={index} value={option.id}>
+                            {option.nome}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            </div>
+            <div className="col-md-4 mb-3">
+                {/*<TextField label="Fornecedor" select fullWidth required defaultValue=""*/}
+                {/*           onChange={e => buscarProdutos(e.target.value)}>*/}
+                {/*    {fornecedores.map((option, index) => (*/}
+                {/*        <MenuItem key={index} value={option.id}>*/}
+                {/*            {option.nome}*/}
+                {/*        </MenuItem>*/}
+                {/*    ))}*/}
+                {/*</TextField>*/}
+            </div>
+
         </div>
 
         {produtos.length ? <>
@@ -262,7 +373,7 @@ export default function Pedido({fornecedores, buscarProdutos, produtos, data, se
             </div>
         </> : ''}
 
-
+        <div className="border-bottom pb-3 mb-5"/>
         <Row className="mb-3 mt-4">
             <Col className="mb-3" lg="12">
                 <TextField

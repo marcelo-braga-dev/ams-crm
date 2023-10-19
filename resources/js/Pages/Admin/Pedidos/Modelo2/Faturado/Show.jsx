@@ -1,11 +1,16 @@
 import Layout from '@/Layouts/Consultor/Layout';
 import React from 'react';
-import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
+import {router} from "@inertiajs/react";
 
 export default function Create({pedido}) {
+    const avancarStatus = () => {
+        router.post(route('admin.modelo-2.pedidos.faturado.update', pedido.id), {
+            _method: 'PUT'
+        })
+    }
 
     return (
         <Layout container voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado">
@@ -24,18 +29,15 @@ export default function Create({pedido}) {
                         <span>{pedido.pedido_files.link_pagamento}</span>
                     </div>
                 </div>}
-            <div className="row">
-                {pedido.pedido_files.boleto &&
-                    <div className="col mb-4">
-                        <h6>Nota/Boleto</h6>
-                        <ImagePdf url={pedido.pedido_files.boleto}/>
-                    </div>}
-                {pedido.pedido_files.nota_fiscal &&
-                    <div className="col mb-4">
-                        <h6>Nota Fiscal</h6>
-                        <ImagePdf url={pedido.pedido_files.nota_fiscal}/>
-                    </div>}
+            <div className="row justify-content-center mt-4">
+                <div className="col-auto">
+                    <button className="btn btn-warning" onClick={() => avancarStatus()}>
+                        Marcar como Entregue
+                    </button>
+                </div>
             </div>
+
+            <DadosPedidoFinanceiroFiles dados={pedido}/>
         </Layout>
     )
 }

@@ -28,7 +28,7 @@ class PedidosProdutos extends Model
                 $this->newQuery()
                     ->create([
                         'pedidos_id' => $idPedido,
-                        'fornecedores_id' => $dados->fornecedor,
+                        'fornecedores_id' => $item['fornecedor_id'],
                         'nome' => $item['nome'],
                         'desconto' => $item['desconto'] ?? '',
                         'preco_venda' => $item['preco_venda_float'],

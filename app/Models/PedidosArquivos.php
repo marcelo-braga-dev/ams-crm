@@ -18,7 +18,7 @@ class PedidosArquivos extends Model
         'data'
     ];
 
-    public function insert($id, $chave, $valor, $indice = null, $data = null): void
+    public function insert($id, $chave, $valor, $indice = 1, $data = null): void
     {
         $this->newQuery()
             ->where('pedidos_id', $id)
@@ -32,6 +32,23 @@ class PedidosArquivos extends Model
     {
         return $this->newQuery()
             ->where('pedidos_id', $id)
+            ->where('chave', (new ChavesArquivosPedidos())->boleto())
+            ->orderBy('indice')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'indice' => $item->indice,
+                    'data' => date('d/m/Y', strtotime($item->data)),
+                    'url' => $item->valor,
+                ];
+            });
+    }
+
+    public function getCheques($id)
+    {
+        return $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->where('chave', (new ChavesArquivosPedidos())->cheque())
             ->orderBy('indice')
             ->get()
             ->transform(function ($item) {

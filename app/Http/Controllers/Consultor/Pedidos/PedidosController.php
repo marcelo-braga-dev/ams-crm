@@ -9,16 +9,20 @@ use App\Models\Enderecos;
 use App\Models\Fornecedores;
 use App\Models\Leads;
 use App\Models\Pedidos;
+use App\Models\PedidosArquivos;
 use App\Models\PedidosClientes;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosImagens;
 use App\Models\PedidosProdutos;
 use App\Models\Produtos;
+use App\Models\ProdutosCategorias;
 use App\Models\ProdutosTransito;
 use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
 use App\src\Modelos\CompletoModelo;
 use App\src\Modelos\SimplesModelo;
+use App\src\Pedidos\Arquivos\ArquivosPedido;
+use App\src\Pedidos\Arquivos\ChavesArquivosPedidos;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -58,6 +62,7 @@ class PedidosController extends Controller
 
         $clientes = (new Clientes())->getClientes($setor);
         $endereco = (new Enderecos())->get($lead->endereco);
+        $categorias = (new ProdutosCategorias())->categorias(setor_usuario_atual());
 
         switch ((new Setores())->getModelo($setor)) {
             case 1:
@@ -65,7 +70,7 @@ class PedidosController extends Controller
                     compact('fornecedores', 'lead'));
             case 2:
                 return Inertia::render('Consultor/Pedidos/Create/Modelo2/Create',
-                    compact('fornecedores', 'lead', 'clientes', 'endereco'));
+                    compact('fornecedores', 'lead', 'clientes', 'endereco', 'categorias'));
             default:
             {
                 modalErro('Falha no formulário de cadastro.');
@@ -109,6 +114,10 @@ class PedidosController extends Controller
                     try {
                         (new Leads())->atualizar($request->id_lead, $request);
                         $idPedido = (new Pedidos())->create($request, $request->id_lead);
+
+                        (new ArquivosPedido())->comprovantePix($idPedido, $request);
+                        (new ArquivosPedido())->cheques($idPedido, $request);
+
                         (new PedidosImagens())->updatePlanilhaPedido($idPedido, $request);
                         (new PedidosProdutos())->create($idPedido, $request);
                         (new ProdutosTransito())->subtrairVendaPedido($request);
@@ -128,6 +137,6 @@ class PedidosController extends Controller
 
     public function buscarProdutosFornecedor(Request $request)
     {
-        return (new Produtos())->getProdutos($request->fornecedor);
+        return (new Produtos())->getProdutosFormulario($request);
     }
 }

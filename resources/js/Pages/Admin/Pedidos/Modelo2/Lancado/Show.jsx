@@ -5,7 +5,7 @@ import * as React from 'react';
 import {useForm} from '@inertiajs/react';
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
-import {FormLabel, Radio, RadioGroup, TextField} from "@mui/material";
+import {Radio, RadioGroup, TextField} from "@mui/material";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
@@ -17,8 +17,11 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 
 export default function Pedidos({dados, produtos}) {
+
+    const qtdParcelas = parseInt(dados.financeiro.forma_pagamento.replace(/[^0-9]/g, ''))
+
     const {data, put, setData} = useForm()
-    const [qtsBoletos, setQtdBoletos] = useState(1)
+    const [qtsBoletos, setQtdBoletos] = useState(qtdParcelas)
     const [formaPagamento, setFormaPagamento] = useState('')
 
     function submit(e) {
@@ -79,6 +82,7 @@ export default function Pedidos({dados, produtos}) {
     return (
         <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido Lançado"
                 menu="pedidos" submenu="lista">
+
             <div className="row mb-4 shadow p-2">
                 <div className="col">
                     <DadosPedido dados={dados}/>
@@ -127,12 +131,13 @@ export default function Pedidos({dados, produtos}) {
                         <div className="col mb-4">
                             <FormControl>
                                 <h6>Inserir Anexos</h6>
-                                <RadioGroup row name="forma-pagamento" defaultValue="">
-                                    <FormControlLabel value="vista" control={<Radio/>} label="Boletos"
+                                <RadioGroup row name="forma-pagamento">
+                                    <FormControlLabel value="vista" control={<Radio/>} label="Boletos" required
                                                       onChange={() => setFormaPagamento('boleto')}/>
-                                    <FormControlLabel value="prazo" control={<Radio/>} label="Link de Pagamento"
+                                    <FormControlLabel value="prazo" label="Link de Pagamento"
+                                                      required control={<Radio/>}
                                                       onChange={() => setFormaPagamento('link')}/>
-                                    <FormControlLabel value="" control={<Radio/>} label="Nenhum"
+                                    <FormControlLabel value="" control={<Radio/>} label="Nenhum" required
                                                       onChange={() => setFormaPagamento('')}/>
                                 </RadioGroup>
                             </FormControl>

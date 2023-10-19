@@ -28,7 +28,7 @@ return new class extends Migration
             $table->float('preco_custo', 10)->nullable();
             $table->string('info_pedido', 1024)->nullable();
             $table->string('forma_pagamento');
-            $table->integer('fornecedor');
+            $table->integer('fornecedor')->nullable();
             $table->integer('integrador');
             $table->integer('modelo');
             $table->string('situacao', '32')->default('novo');

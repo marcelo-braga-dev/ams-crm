@@ -24,61 +24,61 @@ export default function ({produtos, fornecedor}) {
     return (
         <Layout container titlePage="Produtos do Fornecedor" menu="produtos" submenu="todos-produtos"
                 voltar={route('admin.produtos-fornecedores.index')}>
-            <div className="card card-body">
-                <div className="row justify-content-between mb-3 px-4">
-                    <div className="col-auto">
-                        <span>Fornecedor:</span>
-                        <h6>{fornecedor.nome}</h6>
-                    </div>
-                    <div className="col-auto">
-                        <a href={route('admin.produtos-fornecedores.create', {fornecedor: fornecedor.id})}
-                           className="btn btn-warning btn-sm">Cadastrar</a>
-                    </div>
+
+            <div className="row justify-content-between mb-3 px-4">
+                <div className="col-auto">
+                    <span>Fornecedor:</span>
+                    <h6>{fornecedor.nome}</h6>
                 </div>
-                <div className="table-responsive">
-                    <table className="table">
-                        <thead>
-                        <tr className="text-sm">
-                            <th></th>
-                            <th>Nome</th>
-                            <th>Preço <br/>Venda</th>
-                            <th>Preço <br/>Fornecedor</th>
-                            <th>Unidade</th>
-                            <th>Categoria</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {produtos.map((dado, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>
-                                        {dado.foto && <img src={dado.foto} width="80" alt="foto"/>}
-                                    </td>
-                                    <td className="text-wrap">
-                                        {dado.nome}<br/>
-                                        <small>ID: #{dado.id}</small>
-                                    </td>
-                                    <td className="text-center">R$ {dado.preco_venda}</td>
-                                    <td className="text-center">R$ {dado.preco_fornecedor}</td>
-                                    <td className="text-center">{dado.unidade}</td>
-                                    <td className="text-center text-wrap">{dado.categoria}</td>
-                                    <td>
-                                        <a href={route('admin.produtos-fornecedores.edit', dado.id)}
-                                           className="btn btn-primary btn-sm me-2">Editar</a>
-                                        <button type="button" className="btn btn-link btn-sm text-danger px-3"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalExcluir"
-                                                onClick={() => excluir(dado.id)}>
-                                            <i className="fas fa-trash"/>
-                                        </button>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        </tbody>
-                    </table>
+                <div className="col-auto">
+                    <a href={route('admin.produtos-fornecedores.create', {fornecedor: fornecedor.id})}
+                       className="btn btn-warning btn-sm">Cadastrar</a>
                 </div>
+            </div>
+            <div className="table-responsive">
+                <table className="table table-sm text-sm">
+                    <thead>
+                    <tr className="text-sm">
+                        <th></th>
+                        <th>Nome</th>
+                        <th>Preços</th>
+                        <th>Unidade</th>
+                        <th>Categoria</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {produtos.map((dado, index) => {
+                        return (
+                            <tr key={index}>
+                                <td>
+                                    {dado.foto && <img src={dado.foto} width="80" alt="foto"/>}
+                                </td>
+                                <td className="text-wrap">
+                                    {dado.nome}<br/>
+                                    <small>ID: #{dado.id}</small>
+                                </td>
+                                <td>
+                                    Venda: R$ {dado.preco_venda}<br/>
+                                    Forn.: R$ {dado.preco_fornecedor}
+                                </td>
+                                <td className="text-center">{dado.unidade}</td>
+                                <td className="text-wrap">{dado.categoria}</td>
+                                <td>
+                                    <a href={route('admin.produtos-fornecedores.edit', dado.id)}
+                                       className="btn btn-primary btn-sm me-2">Editar</a>
+                                    <button type="button" className="btn btn-link btn-sm text-danger px-3"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalExcluir"
+                                            onClick={() => excluir(dado.id)}>
+                                        <i className="fas fa-trash"/>
+                                    </button>
+                                </td>
+                            </tr>
+                        )
+                    })}
+                    </tbody>
+                </table>
             </div>
 
             {/*Modal*/}

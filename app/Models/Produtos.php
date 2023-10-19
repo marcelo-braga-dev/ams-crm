@@ -24,7 +24,7 @@ class Produtos extends Model
 
     public function getProdutos($idFornecedor)
     {
-        $categorias  = (new ProdutosCategorias())->getNomes();
+        $categorias = (new ProdutosCategorias())->getNomes();
         $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
 
         return $this->newQuery()
@@ -115,5 +115,37 @@ class Produtos extends Model
             ->update([
                 'estoque_local' => $valor
             ]);
+    }
+
+    public function getProdutosFormulario($request)
+    {
+        $categorias = (new ProdutosCategorias())->getNomes();
+        $fornecedores = (new Fornecedores())->getNomes();
+        $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
+
+        $query = $this->newQuery();
+
+        if ($request->fornecedor) $query->where('fornecedores_id', $request->fornecedor);
+        if ($request->categoria) $query->where('categoria', $request->categoria);
+
+        return $query->orderByDesc('id')
+            ->get()
+            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $fornecedores) {
+                return [
+                    'id' => $dados->id,
+                    'nome' => $dados->nome,
+                    'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
+                    'preco_venda' => convert_float_money($dados->preco_venda),
+                    'preco_venda_float' => $dados->preco_venda,
+                    'preco_fornecedor_float' => $dados->preco_fornecedor,
+                    'unidade' => $dados->unidade,
+                    'estoque' => $dados->estoque_local,
+                    'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
+                    'categoria' => $categorias[$dados->categoria] ?? '',
+                    'fornecedor' => $fornecedores[$dados->fornecedores_id] ?? '',
+                    'fornecedor_id' => $dados->fornecedores_id,
+                    'foto' => url_arquivos($dados->url_foto)
+                ];
+            });
     }
 }

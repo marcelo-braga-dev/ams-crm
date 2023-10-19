@@ -49,7 +49,7 @@ class DadosPedidoServices
                 'cliente' => $dadosCliente['nome'] ?? '',
                 'consultor' => $this->consultores[$pedido->users_id],
                 'preco' => convert_float_money($pedido->preco_venda),
-                'fornecedor' => $this->fornecedores[$pedido->fornecedor],
+                'fornecedor' => $this->fornecedores[$pedido->fornecedor] ?? '',
                 'integrador' => $this->integradores[$pedido->integrador] ?? '',
                 'setor' => $this->setores[$pedido->setor] ?? '',
                 'status' => $pedido->status,
@@ -91,8 +91,6 @@ class DadosPedidoServices
             ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
             : null;
 
-        $boletos = (new PedidosArquivos())->getBoletos($pedido->id);
-
         return [
             'id' => $pedido->id,
             'pedido' => [
@@ -116,7 +114,8 @@ class DadosPedidoServices
                 'preco' => convert_float_money($pedido->preco_venda),
                 'preco_custo' => $precoCusto,
                 'forma_pagamento' => $pedido->forma_pagamento,
-                'boletos' => $boletos,
+                'boletos' => (new PedidosArquivos())->getBoletos($pedido->id),
+                'cheques' => (new PedidosArquivos())->getCheques($pedido->id),
                 'link_pagamento' => $files->url_pagamento ?? null,
             ],
             'prazos' => [
@@ -130,7 +129,7 @@ class DadosPedidoServices
                 'preco_custo_convertido' => $precoCusto,// remover
             ],
             'fornecedor' => [
-                'nome' => $fornecedor['nome']
+                'nome' => $fornecedor['nome'] ?? ''
             ],
             'integrador' => [
                 'nome' => $integrador['cliente']['nome'] ?? '',

@@ -7,7 +7,7 @@ import InfoCliente from "./Partials/InfoCliente";
 import {useState} from "react";
 
 
-export default function Create({fornecedores, integradores, clientes, lead, endereco, errors}) {
+export default function Create({fornecedores, integradores, clientes, lead, endereco, categorias, errors}) {
 
     const {data, setData, post, progress, processing} = useForm({
         id_lead: lead.id,
@@ -37,19 +37,18 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
         },
     });
 
-    const [produtos, setProdutos] = useState([])
+    // const [produtos, setProdutos] = useState([])
     const [alerta, setAlerta] = useState(false)
 
-    function buscarProdutos(id) {
-        axios.post(route('consultor.pedidos.buscar-produtos-fornecedor', {fornecedor: id})).then(response => {
-            setProdutos(response.data)
-            setData('fornecedor', id)
-        })
-    }
+    // function buscarProdutos(id) {
+    //     axios.post(route('consultor.pedidos.buscar-produtos-fornecedor', {fornecedor: id})).then(response => {
+    //         setProdutos(response.data)
+    //         setData('fornecedor', id)
+    //     })
+    // }
 
     function submit(e) {
         e.preventDefault()
-        console.log(data)
         if (data.preco > 0) post(route('consultor.pedidos.store'))
         else setAlerta(true)
     }
@@ -68,7 +67,7 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
                         <InfoCliente setData={setData} data={data}></InfoCliente>
                     </div>
                     <Pedidos fornecedores={fornecedores} integradores={integradores} setData={setData} data={data}
-                             buscarProdutos={buscarProdutos} produtos={produtos}/>
+                              categorias={categorias}/>
 
                     <div className="row text-center mb-3">
                         <div className="col">

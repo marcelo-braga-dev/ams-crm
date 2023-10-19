@@ -13,10 +13,21 @@ export default function DadosPedidoFinanceiro({dados}) {
 
             {dados.financeiro.boletos.length > 0 &&
                 <div className="pt-2">
-                    <span><b>Vencimentos do Boletos</b></span>
+                    <span><b>Vencimentos dos Boletos</b></span>
                     {dados.financeiro.boletos.map((item, index) => {
                         return (
                             <span key={index} className="d-block">{item.indice}° Boleto: {item.data}</span>
+                        )
+                    })}
+                </div>
+            }
+
+            {dados.financeiro.cheques.length > 0 &&
+                <div className="pt-2">
+                    <span><b>Vencimentos dos Cheques</b></span>
+                    {dados.financeiro.cheques.map((item, index) => {
+                        return (
+                            <span key={index} className="d-block">{item.indice}° Cheques: {item.data}</span>
                         )
                     })}
                 </div>
