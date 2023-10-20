@@ -14,13 +14,14 @@ export default function ({produto, fornecedor, categorias}) {
         preco_fornecedor: produto.preco_fornecedor,
         unidade: produto.unidade,
         url_foto: produto.foto,
-        categoria: produto.categoria
+        categoria: produto.categoria,
+        descricao: produto.descricao
     })
 
     function onSubmit(e) {
         e.preventDefault()
         router.post(route('admin.produtos-fornecedores.update', produto.id), {
-            _method: 'put',...data
+            _method: 'put', ...data
         })
     }
 
@@ -47,7 +48,7 @@ export default function ({produto, fornecedor, categorias}) {
                     </div>
                     <div className="col mb-4">
                         <TextFieldMoney label="Preço do Fornecedor" value={data.preco_fornecedor} setData={setData}
-                                        index="preco_fornecedor" />
+                                        index="preco_fornecedor"/>
                     </div>
                     <div className="col mb-4">
                         <TextField label="Unidade" fullWidth required defaultValue={data.unidade}
@@ -65,15 +66,21 @@ export default function ({produto, fornecedor, categorias}) {
                     </div>
                 </div>
                 <div className="row mb-4">
+                    {data.url_foto && <div className="col-auto">
+                        <ImagePdf url={data.url_foto}/>
+                    </div>}
                     <div className="col-auto">
-                        <ImagePdf url={data.url_foto} />
-                    </div>
-                    <div className="col-md-6">
                         <label>Atualizar Imagem do Produto</label>
                         <TextField
                             fullWidth type="file"
                             onChange={e => setData('foto', e.target.files[0])}>
                         </TextField>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col mb-4">
+                        <TextField label="Descrição" multiline fullWidth rows="3" defaultValue={data.descricao}
+                                   onChange={e => setData('descricao', e.target.value)}/>
                     </div>
                 </div>
                 <div className="row justify-content-center">

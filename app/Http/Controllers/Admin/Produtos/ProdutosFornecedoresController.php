@@ -36,7 +36,7 @@ class ProdutosFornecedoresController extends Controller
     public function create(Request $request)
     {
         $fornecedor = (new Fornecedores())->find($request->fornecedor);
-        $categorias = (new ProdutosCategorias())->categorias();
+        $categorias = (new ProdutosCategorias())->categorias($fornecedor->setor);
 
         return Inertia::render('Admin/Produtos/Fornecedores/Create',
             compact('fornecedor', 'categorias'));

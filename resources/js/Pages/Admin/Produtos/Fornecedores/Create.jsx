@@ -65,6 +65,12 @@ export default function ({fornecedor, categorias}) {
                         </TextField>
                     </div>
                 </div>
+                <div className="row">
+                    <div className="col mb-4">
+                        <TextField label="Descrição do Produto" multiline fullWidth rows="3"
+                                   onChange={e => setData('descricao', e.target.value)}/>
+                    </div>
+                </div>
                 <div className="row justify-content-center">
                     <div className="col-auto">
                         <button className="btn btn-primary" type="submit">Salvar</button>

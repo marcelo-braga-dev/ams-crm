@@ -1,10 +1,14 @@
-import {Col, Row} from "reactstrap";
+import {Col, FormGroup, Row} from "reactstrap";
 import {MenuItem, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import React, {useEffect, useState} from "react";
 import DataTable from "react-data-table-component";
 import ClearIcon from "@mui/icons-material/Clear";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 let total = 0;
 
@@ -25,34 +29,39 @@ const FilterComponent = ({filterText, onFilter}) => (
 );
 
 
-export default function Pedido({fornecedores, buscarProdutosX, categorias, produtosX, data, setData}) {
+export default function Pedido({fornecedores, unidades, categorias, produtosX, data, setData}) {
     total = 0
     const [filterText, setFilterText] = React.useState('');
     const [qtdChequeParcelas, setQtdChequeParcelas] = useState(0);
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState();
     const [categoriaSelecionado, setCategoriaSelecionado] = useState();
+    const [unidadeSelecionado, setUnidadeSelecionado] = useState();
     const [produtos, setProdutos] = useState([])
 
     function fornecedorSelecionar(id) {
         setFornecedorSelecionado(id)
-        buscarProdutos(id, categoriaSelecionado)
+        buscarProdutos(id, categoriaSelecionado, unidadeSelecionado)
     }
 
     function categoriaSelecionar(id) {
         setCategoriaSelecionado(id)
-        buscarProdutos(fornecedorSelecionado, id)
+        buscarProdutos(fornecedorSelecionado, id, unidadeSelecionado)
+    }
+
+    function unidadeSelecionar(id) {
+        setUnidadeSelecionado(id)
+        buscarProdutos(fornecedorSelecionado, categoriaSelecionado, id)
     }
 
     useEffect(function () {
         buscarProdutos()
     }, [])
 
-    function buscarProdutos(fornecedor, categoria) {
+    function buscarProdutos(fornecedor, categoria, unidade) {
         axios.post(route('consultor.pedidos.buscar-produtos-fornecedor', {
-            fornecedor: fornecedor, categoria: categoria
+            fornecedor: fornecedor, categoria: categoria, unidade: unidade
         })).then(response => {
             setProdutos(response.data)
-            // setData('fornecedor', id)
         })
     }
 
@@ -60,6 +69,7 @@ export default function Pedido({fornecedores, buscarProdutosX, categorias, produ
         return {
             id: items.id,
             nome: items.nome,
+            descricao: items.descricao,
             preco_fornecedor: items.preco_fornecedor,
             preco_venda: items.preco_venda,
             preco_venda_float: items.preco_venda_float,
@@ -145,25 +155,28 @@ export default function Pedido({fornecedores, buscarProdutosX, categorias, produ
 
         totalGeral = 0
         somasArray.map((item) => {
-            totalGeral += item.valor
+            totalGeral += (item.dados.preco_venda_float - (item.dados.desconto ?? 0)) * item.dados.qtd//item.valor
         })
+
         return totalGeral
     }
 
-    function quantidade(row, e) {
+    function quantidade(row, valor, desconto) {
         const dados = {
             ...data?.produtos?.[row.id],
             id: row.id,
             nome: row.nome,
             preco_fornecedor_float: row.preco_fornecedor_float,
             preco_venda_float: row.preco_venda_float,
-            qtd: parseInt(e.target.value),
+            qtd: parseInt(valor),
             und: row.unidade,
             foto: row.foto,
             fornecedor_id: row.fornecedor_id,
+            desconto: desconto ?? data?.produtos?.[row.id]?.desconto
         }
 
-        data.preco = somador(row.id, row.preco_venda_float * parseInt(e.target.value), dados)
+        const valorVenda = (row.preco_venda_float - (desconto ?? 0)) * parseInt(valor)
+        data.preco = somador(row.id, valorVenda, dados)
 
         setData('produtos', {
             ...data.produtos,
@@ -171,88 +184,93 @@ export default function Pedido({fornecedores, buscarProdutosX, categorias, produ
         })
     }
 
+    function desconto(row, valor) {
+        setData('produtos', {
+            ...data.produtos,
+            [row.id]: {
+                ...data?.produtos?.[row.id],
+                id: row.id,
+                desconto: parseFloat(valor)
+            }
+        })
+
+        quantidade(row, data?.produtos?.[row.id]?.qtd ?? 0, parseFloat(valor))
+    }
+
+
+    function calcTotalItem(row) {
+        return convertFloatToMoney(
+            (row.preco_venda_float - (data?.produtos[row.id]?.desconto ?? 0)) *
+            (data?.produtos && data?.produtos[row.id]?.qtd)
+        )
+    }
+
     // TABLE
     const columns = [
         {
-            name: 'Imagem',
-            selector: row => <>
-                {row.foto && <img className="rounded" src={row.foto} width="70" alt="foto"/>}
-            </>,
-            ignoreRowClick: true,
-            allowOverflow: true,
-            button: true,
-            grow: 0,
-        },
-        {
-            name: 'Produto',
+            // name: 'Imagem',
             selector: row =>
-                <div className="py-3 text-wrap">
-                    <div className="pb-1"><b>{row.nome}</b></div>
-                    ID: #{row.id}
-                    <small className="d-block"><b>Categoria:</b> {row.categoria}</small>
-                    <small className="d-block"><b>Fornecedor:</b> {row.fornecedor}</small>
+                <div className="py-3">
+                    <div className="row">
+                        <div className="col">
+                            {row.foto && <img className="rounded" src={row.foto} width="100%" alt="foto"/>}
+                        </div>
+                    </div>
                 </div>,
-            sortable: true,
-            grow: 5,
-        }, {
-            name: 'Preço',
-            selector: row =>
-                <div className="py-3 text-wrap">
-                    <span className="fs-6"><b>R$ {row.preco_venda}</b></span><br/>
-                    Und: {row.unidade}
-                </div>,
-            sortable: false,
             grow: 2,
         }, {
-            name: 'Desconto Und.',
+            // name: 'Imagem',
             selector: row =>
-                <div className="py-3 text-wrap">
-                    <TextField type="number" size="small" fullWidth
-                               InputProps={{startAdornment: <span className="pe-1">R$</span>}}
-                               inputProps={{maxLength: 13, step: "0.01"}}
-                               onChange={e => setData('produtos', {
-                                   ...data.produtos,
-                                   [row.id]: {
-                                       ...data?.produtos?.[row.id],
-                                       id: row.id,
-                                       desconto: parseFloat(e.target.value)
-                                   }
-                               })}
-                    />
+                <div className="row align-items-start py-3">
+                    <div className="col-12">
+                        <h6 className="mb-0">{row.nome}</h6>
+                        <span className="d-block mb-3">{row.descricao}</span>
+                        <span className="mb-3 d-block">
+                            <span className="fs-5 fw-bold me-3 text-warning">R$ {row.preco_venda}</span>
+                            <span className="fs-5 fw-bold">{row.unidade}</span>
+                        </span>
+
+                        <span className="d-block">Categoria: {row.categoria}</span>
+                        <span className="d-block mb-3">Distribuidor: {row.fornecedor}</span>
+
+                        <span className="d-block"><b>Estoque:</b></span>
+                        <span className="me-4">Trânsito: {row.estoque_consultor}</span>
+                        <span className="">Loja: {row.estoque}</span>
+                    </div>
                 </div>,
-            sortable: false,
+            grow: 4,
+        }, {
+            // name: 'Imagem',
+            selector: row =>
+                <div className="row align-items-start">
+                    <div className="col-12 mb-4">
+                        <div className="row">
+                            <div className="col">
+                                <span className="d-block text-sm text-muted">Quantidade:</span>
+                                <TextField type="number" size="small" style={{width: '6rem'}} fullWidth
+                                           id="bootstrap-input"
+                                           onChange={e => quantidade(row, e.target.value)}
+                                />
+                            </div>
+                            <div className="col">
+                                <span className="d-block text-sm text-muted">Desconto p/ Und.:</span>
+                                <TextField type="number" size="small" fullWidth
+                                           InputProps={{startAdornment: <span className="pe-1">R$</span>}}
+                                           inputProps={{maxLength: 13, step: "0.01"}}
+                                           onChange={e => desconto(row, e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className="col-12">
+                        <span className="fs-5 fw-bold" style={{color: 'green'}}>
+                            TOTAL: R$ {calcTotalItem(row)}
+                        </span>
+                    </div>
+                </div>,
             grow: 3,
-        }, {
-            name: 'Qtd',
-            selector: row =>
-                <div className="py-3 text-wrap">
-                    <TextField type="number" size="small"
-                               onChange={e => quantidade(row, e)}
-                    />
-                </div>,
-            sortable: false,
-            grow: 0,
-        }, {
-            name: 'Estoque',
-            selector: row =>
-                <div className="">
-                    Transito: {row.estoque_consultor}<br/>
-                    Est. Loja: {row.estoque}
-                </div>,
-            sortable: false,
-            grow: 2,
-        }, {
-            name: 'Total',
-            selector: row =>
-                <div className="py-3 text-wrap">
-                    R$ {convertFloatToMoney(
-                    (row.preco_venda_float - (data?.produtos[row.id]?.desconto ?? 0)) *
-                    (data?.produtos && data?.produtos[row.id]?.qtd)
-                )}
-                </div>,
-            sortable: false,
-            grow: 1,
-        }
+        },
     ];
 
     const filteredItems = linhas.filter(
@@ -318,7 +336,7 @@ export default function Pedido({fornecedores, buscarProdutosX, categorias, produ
         </div>
 
         <div className="row mb-3">
-            <div className="col-md-4 mb-3">
+            <div className="col-md-5 mb-3">
                 <TextField label="Fornecedor" select fullWidth defaultValue=""
                            onChange={e => fornecedorSelecionar(e.target.value)}>
                     <MenuItem value="">Todos</MenuItem>
@@ -340,17 +358,17 @@ export default function Pedido({fornecedores, buscarProdutosX, categorias, produ
                     ))}
                 </TextField>
             </div>
-            <div className="col-md-4 mb-3">
-                {/*<TextField label="Fornecedor" select fullWidth required defaultValue=""*/}
-                {/*           onChange={e => buscarProdutos(e.target.value)}>*/}
-                {/*    {fornecedores.map((option, index) => (*/}
-                {/*        <MenuItem key={index} value={option.id}>*/}
-                {/*            {option.nome}*/}
-                {/*        </MenuItem>*/}
-                {/*    ))}*/}
-                {/*</TextField>*/}
+            <div className="col-md-3 mb-3">
+                <TextField label="Unidade de Medida" select fullWidth required defaultValue=""
+                           onChange={e => unidadeSelecionar(e.target.value)}>
+                    <MenuItem value="">Todos</MenuItem>
+                    {unidades.map((option, index) => (
+                        <MenuItem key={index} value={option.id}>
+                            {option.valor} {option.nome}
+                        </MenuItem>
+                    ))}
+                </TextField>
             </div>
-
         </div>
 
         {produtos.length ? <>
@@ -359,19 +377,64 @@ export default function Pedido({fornecedores, buscarProdutosX, categorias, produ
                     <DataTable
                         columns={columns}
                         data={filteredItems}
-                        paginationPerPage={25}
+                        paginationPerPage="5"
                         subHeaderComponent={subHeaderComponentMemo}
-                        striped subHeader pagination highlightOnHover
+                        subHeader pagination
                     />
                 </div>
             </div>
-
-            <div className="row justify-content-end">
-                <div className="col-auto">
-                    <h5>TOTAL: {convertFloatToMoney(totalGeral)}</h5>
-                </div>
-            </div>
         </> : ''}
+
+        {somasArray.length > 0 && <>
+            <h5 className="mt-5">Confirmar Pedido</h5>
+            <div className="table-responsive">
+                <table className="table">
+                    <thead>
+                    <tr>
+                        <th className="col-1"></th>
+                        <th className="col-1"></th>
+                        <th>Produtos</th>
+                        <th className="col-1">Unidade</th>
+                        <th className="col-1">Desc. p/ Und.</th>
+                        <th className="col-1">Quantidade</th>
+                        <th className="col-1">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {somasArray.map((item, index) => {
+                        if (item.dados.qtd < 1) return ''
+                        return (
+                            <tr key={index}>
+                                <td className="col-1">
+                                    <FormControlLabel required control={<Checkbox/>} label=""/>
+                                </td>
+                                <td className="p-3">
+                                    {item.dados.foto &&
+                                        <img className="rounded" src={item.dados.foto} width="100" alt="foto"/>}
+                                </td>
+                                <td>
+                                    <h6 className="mb-0">{item.dados.nome}</h6>
+                                    <span className="mb-0">R$ {convertFloatToMoney(item.dados.preco_venda_float)}</span>
+                                </td>
+                                <td className="text-center">{item.dados.und}</td>
+                                <td className="text-center">R$ {convertFloatToMoney(item.dados.desconto)}</td>
+                                <td className="text-center">{item.dados.qtd} und.</td>
+                                <td className="text-center">R$ {convertFloatToMoney((item.dados.preco_venda_float - (item.dados.desconto ?? 0)) * item.dados.qtd)}</td>
+                            </tr>
+                        )
+                    })}
+                    <tr className="fs-4" style={{color: 'green'}}>
+                        <th colSpan="4"></th>
+                        <th>TOTAL</th>
+                        <th className="text-center">
+                            {convertFloatToMoney(totalGeral)}
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </>}
+
 
         <div className="border-bottom pb-3 mb-5"/>
         <Row className="mb-3 mt-4">

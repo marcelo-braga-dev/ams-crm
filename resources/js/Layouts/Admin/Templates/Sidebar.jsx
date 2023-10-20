@@ -62,6 +62,7 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
             'submenu': [
                 {'menu': 'Todos Produtos', 'url': route('admin.produtos-fornecedores.index'), 'tag': 'todos-produtos'},
                 {'menu': 'Categorias', 'url': route('admin.produtos-categorias.index'), 'tag': 'categorias'},
+                {'menu': 'Unidades', 'url': route('admin.produtos-unidades.index'), 'tag': 'unidades'},
                 {
                     'menu': 'Estoque em Transito',
                     'url': route('admin.estoque-transito.index'),

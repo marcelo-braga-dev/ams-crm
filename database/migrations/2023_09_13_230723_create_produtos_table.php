@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('fornecedores_id');
             $table->string('nome');
+            $table->string('descricao')->nullable();
             $table->float('preco_fornecedor')->nullable();
             $table->float('preco_venda');
             $table->string('unidade')->nullable();

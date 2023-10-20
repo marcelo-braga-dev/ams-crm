@@ -17,6 +17,7 @@ use App\Models\PedidosProdutos;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
 use App\Models\ProdutosTransito;
+use App\Models\ProdutosUnidades;
 use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
 use App\src\Modelos\CompletoModelo;
@@ -63,6 +64,7 @@ class PedidosController extends Controller
         $clientes = (new Clientes())->getClientes($setor);
         $endereco = (new Enderecos())->get($lead->endereco);
         $categorias = (new ProdutosCategorias())->categorias(setor_usuario_atual());
+        $unidades = (new ProdutosUnidades())->get();
 
         switch ((new Setores())->getModelo($setor)) {
             case 1:
@@ -70,7 +72,7 @@ class PedidosController extends Controller
                     compact('fornecedores', 'lead'));
             case 2:
                 return Inertia::render('Consultor/Pedidos/Create/Modelo2/Create',
-                    compact('fornecedores', 'lead', 'clientes', 'endereco', 'categorias'));
+                    compact('fornecedores', 'lead', 'clientes', 'endereco', 'categorias', 'unidades'));
             default:
             {
                 modalErro('Falha no formulário de cadastro.');

@@ -19,6 +19,7 @@ class Produtos extends Model
         'unidade',
         'estoque_local',
         'categoria',
+        'descricao',
         'url_foto'
     ];
 
@@ -60,6 +61,7 @@ class Produtos extends Model
                 'preco_venda' => convert_money_float($dados->preco_venda),
                 'unidade' => $dados->unidade,
                 'categoria' => $dados->categoria,
+                'descricao' => $dados->descricao,
                 'url_foto' => $url
             ]);
     }
@@ -78,6 +80,7 @@ class Produtos extends Model
             'estoque' => $dados->estoque_local,
             'foto' => $dados->url_foto,
             'categoria' => $dados->categoria,
+            'descricao' => $dados->descricao,
         ];
     }
 
@@ -98,6 +101,7 @@ class Produtos extends Model
             'preco_venda' => convert_money_float($dados->preco_venda),
             'unidade' => $dados->unidade,
             'categoria' => $dados->categoria,
+            'descricao' => $dados->descricao,
         ]);
     }
 
@@ -127,13 +131,15 @@ class Produtos extends Model
 
         if ($request->fornecedor) $query->where('fornecedores_id', $request->fornecedor);
         if ($request->categoria) $query->where('categoria', $request->categoria);
+        if ($request->unidade) $query->where('unidade', $request->unidade);
 
-        return $query->orderByDesc('id')
+        return $query->orderBy('nome')
             ->get()
             ->transform(function ($dados) use ($categorias, $estoqueVendedor, $fornecedores) {
                 return [
                     'id' => $dados->id,
                     'nome' => $dados->nome,
+                    'descricao' => $dados->descricao,
                     'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,

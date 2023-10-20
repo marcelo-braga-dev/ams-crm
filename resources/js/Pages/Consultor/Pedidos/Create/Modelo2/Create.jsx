@@ -7,7 +7,7 @@ import InfoCliente from "./Partials/InfoCliente";
 import {useState} from "react";
 
 
-export default function Create({fornecedores, integradores, clientes, lead, endereco, categorias, errors}) {
+export default function Create({fornecedores, integradores, unidades, lead, endereco, categorias, errors}) {
 
     const {data, setData, post, progress, processing} = useForm({
         id_lead: lead.id,
@@ -37,15 +37,7 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
         },
     });
 
-    // const [produtos, setProdutos] = useState([])
     const [alerta, setAlerta] = useState(false)
-
-    // function buscarProdutos(id) {
-    //     axios.post(route('consultor.pedidos.buscar-produtos-fornecedor', {fornecedor: id})).then(response => {
-    //         setProdutos(response.data)
-    //         setData('fornecedor', id)
-    //     })
-    // }
 
     function submit(e) {
         e.preventDefault()
@@ -67,7 +59,7 @@ export default function Create({fornecedores, integradores, clientes, lead, ende
                         <InfoCliente setData={setData} data={data}></InfoCliente>
                     </div>
                     <Pedidos fornecedores={fornecedores} integradores={integradores} setData={setData} data={data}
-                              categorias={categorias}/>
+                              categorias={categorias} unidades={unidades}/>
 
                     <div className="row text-center mb-3">
                         <div className="col">
