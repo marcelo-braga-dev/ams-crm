@@ -6,7 +6,7 @@ import React from "react";
 import ImagePdf from "@/Components/Inputs/ImagePdf";
 import {MenuItem} from "@mui/material";
 
-export default function ({produto, fornecedor, categorias}) {
+export default function ({produto, fornecedor, categorias, unidades}) {
     const {data, setData, post} = useForm({
         fornecedor: fornecedor.id,
         nome: produto.nome,
@@ -51,15 +51,21 @@ export default function ({produto, fornecedor, categorias}) {
                                         index="preco_fornecedor"/>
                     </div>
                     <div className="col mb-4">
-                        <TextField label="Unidade" fullWidth required defaultValue={data.unidade}
-                                   onChange={e => setData('unidade', e.target.value)}/>
+                        <TextField label="Unidade" select fullWidth required defaultValue={data.unidade}
+                                                         onChange={e => setData('unidade', e.target.value)}>
+                        {unidades.map((item) => {
+                            return (
+                                <MenuItem value={item.id}>{item.valor} {item.nome}</MenuItem>
+                            )
+                        })}
+                    </TextField>
                     </div>
                     <div className="col mb-4">
                         <TextField label="Categoria" select fullWidth required defaultValue={data.categoria}
                                    onChange={e => setData('categoria', e.target.value)}>
-                            {categorias.map((item) => {
+                            {categorias.map((item, index) => {
                                 return (
-                                    <MenuItem value={item.id}>{item.nome}</MenuItem>
+                                    <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
                                 )
                             })}
                         </TextField>

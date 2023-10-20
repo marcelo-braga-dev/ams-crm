@@ -264,7 +264,7 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
 
                     </div>
                     <div className="col-12">
-                        <span className="fs-5 fw-bold" style={{color: 'green'}}>
+                        <span className="fs-5 fw-bold">
                             TOTAL: R$ {calcTotalItem(row)}
                         </span>
                     </div>
@@ -321,7 +321,7 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
             </div>
         </div>
 
-        {chequesCampos()}
+        {data.forma_pagamento?.includes('Cheque') && chequesCampos()}
 
         <div className="border-bottom pb-3 mb-5"/>
 
@@ -359,7 +359,7 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
                 </TextField>
             </div>
             <div className="col-md-3 mb-3">
-                <TextField label="Unidade de Medida" select fullWidth required defaultValue=""
+                <TextField label="Unidade de Medida" select fullWidth defaultValue=""
                            onChange={e => unidadeSelecionar(e.target.value)}>
                     <MenuItem value="">Todos</MenuItem>
                     {unidades.map((option, index) => (
@@ -387,6 +387,7 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
 
         {somasArray.length > 0 && <>
             <h5 className="mt-5">Confirmar Pedido</h5>
+            <small className="d-block mb-4">Verifique as informações dos produtos e clique para confirmar</small>
             <div className="table-responsive">
                 <table className="table">
                     <thead>
@@ -413,8 +414,9 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
                                         <img className="rounded" src={item.dados.foto} width="100" alt="foto"/>}
                                 </td>
                                 <td>
-                                    <h6 className="mb-0">{item.dados.nome}</h6>
-                                    <span className="mb-0">R$ {convertFloatToMoney(item.dados.preco_venda_float)}</span>
+                                    <h6 className="mb-0 text-wrap">{item.dados.nome} {item.dados.nome}{item.dados.nome}</h6>
+                                    <span
+                                        className="mb-0 text-warning fw-bold">R$ {convertFloatToMoney(item.dados.preco_venda_float)}</span>
                                 </td>
                                 <td className="text-center">{item.dados.und}</td>
                                 <td className="text-center">R$ {convertFloatToMoney(item.dados.desconto)}</td>
@@ -425,7 +427,7 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
                     })}
                     <tr className="fs-4" style={{color: 'green'}}>
                         <th colSpan="4"></th>
-                        <th>TOTAL</th>
+                        <th>TOTAL GERAL:</th>
                         <th className="text-center">
                             {convertFloatToMoney(totalGeral)}
                         </th>

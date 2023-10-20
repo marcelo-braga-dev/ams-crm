@@ -26,13 +26,14 @@ class Produtos extends Model
     public function getProdutos($idFornecedor)
     {
         $categorias = (new ProdutosCategorias())->getNomes();
+        $unidades = (new ProdutosUnidades())->getNomes();
         $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
 
         return $this->newQuery()
             ->where('fornecedores_id', $idFornecedor)
             ->orderByDesc('id')
             ->get()
-            ->transform(function ($dados) use ($categorias, $estoqueVendedor) {
+            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $unidades) {
                 return [
                     'id' => $dados->id,
                     'nome' => $dados->nome,
@@ -40,7 +41,7 @@ class Produtos extends Model
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
                     'preco_fornecedor_float' => $dados->preco_fornecedor,
-                    'unidade' => $dados->unidade,
+                    'unidade' => $unidades[$dados->unidade] ?? '',
                     'estoque' => $dados->estoque_local,
                     'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
                     'categoria' => $categorias[$dados->categoria] ?? '',
@@ -125,6 +126,7 @@ class Produtos extends Model
     {
         $categorias = (new ProdutosCategorias())->getNomes();
         $fornecedores = (new Fornecedores())->getNomes();
+        $unidades = (new ProdutosUnidades())->getNomes();
         $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
 
         $query = $this->newQuery();
@@ -135,7 +137,7 @@ class Produtos extends Model
 
         return $query->orderBy('nome')
             ->get()
-            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $fornecedores) {
+            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $fornecedores, $unidades) {
                 return [
                     'id' => $dados->id,
                     'nome' => $dados->nome,
@@ -144,7 +146,7 @@ class Produtos extends Model
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
                     'preco_fornecedor_float' => $dados->preco_fornecedor,
-                    'unidade' => $dados->unidade,
+                    'unidade' => $unidades[$dados->unidade] ?? '',
                     'estoque' => $dados->estoque_local,
                     'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
                     'categoria' => $categorias[$dados->categoria] ?? '',

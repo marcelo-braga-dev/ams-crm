@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
+use App\Models\ProdutosUnidades;
 use App\Services\Fornecedores\FornecedoresService;
 use App\Services\Setores\SetoresService;
 use Illuminate\Http\Request;
@@ -37,9 +38,10 @@ class ProdutosFornecedoresController extends Controller
     {
         $fornecedor = (new Fornecedores())->find($request->fornecedor);
         $categorias = (new ProdutosCategorias())->categorias($fornecedor->setor);
+        $unidades = (new ProdutosUnidades())->get();
 
         return Inertia::render('Admin/Produtos/Fornecedores/Create',
-            compact('fornecedor', 'categorias'));
+            compact('fornecedor', 'categorias', 'unidades'));
     }
 
     public function edit($id)
@@ -47,9 +49,10 @@ class ProdutosFornecedoresController extends Controller
         $produto = (new Produtos())->find($id);
         $fornecedor = (new Fornecedores())->find($produto['fornecedores_id']);
         $categorias = (new ProdutosCategorias())->categorias();
+        $unidades = (new ProdutosUnidades())->get();
 
         return Inertia::render('Admin/Produtos/Fornecedores/Edit',
-            compact('produto', 'fornecedor', 'categorias'));
+            compact('produto', 'fornecedor', 'categorias', 'unidades'));
     }
 
     public function update($id, Request $request)

@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('descricao')->nullable();
             $table->float('preco_fornecedor')->nullable();
             $table->float('preco_venda');
-            $table->string('unidade')->nullable();
+            $table->integer('unidade')->nullable();
             $table->integer('estoque_local')->default(0);
             $table->integer('categoria');
             $table->string('url_foto')->nullable();

@@ -1,7 +1,6 @@
 import Layout from "@/Layouts/Admin/Layout";
 import React, {useState} from "react";
 import {router} from "@inertiajs/react";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
 
 export default function ({produtos, fornecedor}) {
     const [idExcluir, setIdExcluir] = useState(null);

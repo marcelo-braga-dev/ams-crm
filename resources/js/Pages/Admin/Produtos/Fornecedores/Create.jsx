@@ -5,7 +5,7 @@ import {useForm} from "@inertiajs/react";
 import React from "react";
 import {MenuItem} from "@mui/material";
 
-export default function ({fornecedor, categorias}) {
+export default function ({fornecedor, categorias, unidades}) {
     const {data, setData, post} = useForm({
         fornecedor: fornecedor.id
     })
@@ -42,8 +42,14 @@ export default function ({fornecedor, categorias}) {
                                         index="preco_fornecedor"/>
                     </div>
                     <div className="col mb-4">
-                        <TextField label="Unidade" fullWidth required
-                                   onChange={e => setData('unidade', e.target.value)}/>
+                        <TextField label="Unidade" select fullWidth required
+                                   onChange={e => setData('unidade', e.target.value)}>
+                            {unidades.map((item, index) => {
+                                return (
+                                    <MenuItem key={index} value={item.id}>{item.valor} {item.nome}</MenuItem>
+                                )
+                            })}
+                        </TextField>
                     </div>
                     <div className="col mb-4">
                         <TextField label="Categoria" select fullWidth required defaultValue=""
