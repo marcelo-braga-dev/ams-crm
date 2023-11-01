@@ -46,8 +46,20 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
                     'tag': 'lista'
                 }, {
                     'menu': 'Relatório de Pedidos',
-                    'url': route('admin.pedidos.relatorios.index'),
-                    'tag': 'relatorios'
+                    'url': null,
+                    'tag': 'relatorios',
+                    'submenu': [
+                        {
+                            'menu': 'Produtos',
+                            'url': route('admin.pedidos.relatorios.produtos.index'),
+                            'tag': 'produtos'
+                        },
+                        {
+                            'menu': 'Faturamento',
+                            'url': route('admin.pedidos.relatorios.faturamento.index'),
+                            'tag': 'faturamento'
+                        },
+                    ]
                 }, {
                     'menu': 'Histórico', 'url': route('admin.historico.index'), 'tag': 'historico'
                 }, {
@@ -64,11 +76,16 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
                 {'menu': 'Categorias', 'url': route('admin.produtos-categorias.index'), 'tag': 'categorias'},
                 {'menu': 'Unidades', 'url': route('admin.produtos-unidades.index'), 'tag': 'unidades'},
                 {
-                    'menu': 'Estoque em Transito',
-                    'url': route('admin.estoque-transito.index'),
-                    'tag': 'estoque-transito'
-                },
-                {'menu': 'Estoque Local', 'url': route('admin.estoque-local.index'), 'tag': 'estoque-local'},
+                    'menu': 'Estoques',
+                    'submenu': [
+                        {
+                            'menu': 'Estoque em Transito',
+                            'url': route('admin.estoque-transito.index'),
+                            'tag': 'estoque-transito'
+                        },
+                        {'menu': 'Estoque Local', 'url': route('admin.estoque-local.index'), 'tag': 'estoque-local'},
+                    ]
+                }
             ]
         }, {
             'menu': 'Chat Interno',
@@ -196,15 +213,30 @@ export default function Sidebar({menuSidebar, submenuSidebar}) {
                              aria-labelledby={"flush-heading-" + index}
                              data-bs-parent="#accordionFlushSidebar">
 
-                            {submenu.map(({menu, url, tag}, i) => (
-                                <a href={url} key={i} className="text-sm text-muted">
-                                    <div className="accordion-body p-0 ms-5 mb-2">
+                            {submenu.map(({menu, url, tag, submenu}, i) => (
+                                <div key={i}>
+                                    <a href={url ?? undefined} key={i} className="text-sm text-muted">
+                                        <div className="accordion-body p-0 ms-5 mb-2">
                                         <span className="nav-link-text"
                                               style={tag === submenuSidebar ? pageCurrent() : {}}>
                                             {menu}
                                         </span>
-                                    </div>
-                                </a>))}
+                                        </div>
+                                    </a>
+                                    {submenu?.map(({menu, url, tag}, index) => {
+                                        return (
+                                            <a href={url} key={index} className="text-sm text-muted">
+                                                <div className="accordion-body p-0 ms-5 mb-2">
+                                                    <span className="nav-link-text ps-3"
+                                                          style={tag === submenuSidebar ? pageCurrent() : {}}>
+                                                        {menu}
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        )
+                                    })}
+                                </div>
+                            ))}
                         </div>
                     </div>))}
                 {/*ITEMS - FIM*/}

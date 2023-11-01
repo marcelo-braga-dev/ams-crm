@@ -12,6 +12,7 @@ class PedidosProdutos extends Model
     protected $fillable = [
         'pedidos_id',
         'fornecedores_id',
+        'produtos_id',
         'nome',
         'preco_fornecedor',
         'preco_venda',
@@ -29,6 +30,7 @@ class PedidosProdutos extends Model
                     ->create([
                         'pedidos_id' => $idPedido,
                         'fornecedores_id' => $item['fornecedor_id'],
+                        'produtos_id' => $item['id'],
                         'nome' => $item['nome'],
                         'desconto' => $item['desconto'] ?? '',
                         'preco_venda' => $item['preco_venda_float'],
@@ -57,6 +59,20 @@ class PedidosProdutos extends Model
                     'unidade' => $item->unidade,
                     'desconto' => $item->desconto,
                     'foto' => $item->url_foto,
+                ];
+            });
+    }
+
+    public function getFaturamento($id)
+    {
+        return $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'produto_id' => $item->produtos_id,
+                    'preco' => $item->preco_venda,
                 ];
             });
     }

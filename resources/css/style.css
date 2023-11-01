@@ -13,3 +13,15 @@
 .btn-primary:hover {
     background-color: var(--cor-principal);
 }
+
+.btn-outline-primary {
+    background-color: white;
+    border-color: var(--cor-principal);
+    color: var(--cor-principal);
+    padding: 7px 20px;
+}
+
+.btn-outline-primary:hover {
+    border-color: var(--cor-principal);
+    color: var(--cor-principal) !important;
+}

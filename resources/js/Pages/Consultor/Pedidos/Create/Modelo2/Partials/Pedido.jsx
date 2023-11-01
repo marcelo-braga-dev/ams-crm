@@ -414,7 +414,7 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
                                         <img className="rounded" src={item.dados.foto} width="100" alt="foto"/>}
                                 </td>
                                 <td>
-                                    <h6 className="mb-0 text-wrap">{item.dados.nome} {item.dados.nome}{item.dados.nome}</h6>
+                                    <h6 className="mb-0 text-wrap">{item.dados.nome}</h6>
                                     <span
                                         className="mb-0 text-warning fw-bold">R$ {convertFloatToMoney(item.dados.preco_venda_float)}</span>
                                 </td>

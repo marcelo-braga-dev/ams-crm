@@ -13,18 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pedidos_produtos', function (Blueprint $table) {
+        Schema::create('pedidos_faturamentos', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('users_id');
             $table->bigInteger('pedidos_id');
-            $table->bigInteger('fornecedores_id');
             $table->bigInteger('produtos_id');
-            $table->string('nome');
-            $table->float('preco_fornecedor')->nullable();
-            $table->float('preco_venda');
-            $table->integer('quantidade');
-            $table->string('unidade')->nullable();
-            $table->float('desconto')->nullable();
-            $table->string('url_foto')->nullable();
+            $table->string('status', 32);
+            $table->string('status_pedido', 32);
+            $table->float('valor');
+            $table->timestamp('status_data');
+            $table->integer('setores_id');
             $table->timestamps();
         });
     }
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pedidos_produtos');
+        Schema::dropIfExists('pedidos_faturamentos');
     }
 };

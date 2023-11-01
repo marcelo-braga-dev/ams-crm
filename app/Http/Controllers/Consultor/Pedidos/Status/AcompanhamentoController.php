@@ -37,6 +37,6 @@ class AcompanhamentoController extends Controller
         (new PedidoUpdateStatus())->acompanhamento($id, $request->msgStatus);
 
         modalSucesso('Atualizado com sucesso!');
-        return redirect()->route('admin.pedidos.index');
+        return redirect()->route('consultor.pedidos.index');
     }
 }

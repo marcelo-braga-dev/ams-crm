@@ -20,7 +20,7 @@ export default function ({produtos, fornecedor}) {
             _method: 'put',
             valor: qtd
         })
-        window.location.reload()
+        setIdAtualizar(null)
     }
 
     function reload() {

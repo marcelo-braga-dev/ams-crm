@@ -3,6 +3,7 @@
 namespace App\src\Pedidos;
 
 use App\Models\Pedidos;
+use App\Models\PedidosFaturamentos;
 use App\Models\PedidosImagens;
 use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
@@ -33,11 +34,13 @@ class PedidoUpdateStatus
     public function setFaturadoVista($id): void
     {
         (new FaturadoVistaStatus())->updateStatus($id, null, 0);
+        (new PedidosFaturamentos())->create($id);
     }
 
     public function setFaturadoPrazo($id): void
     {
         (new FaturadoPrazoStatus())->updateStatus($id, null, 0);
+        (new PedidosFaturamentos())->create($id);
     }
 
     public function setEntregue($id): void

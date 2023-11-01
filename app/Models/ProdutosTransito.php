@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\src\Produtos\Historicos\ProdutosHistoricosService;
 use App\src\Produtos\Notificacoes\NotificarEstoque;
+use App\src\Produtos\ProdutosStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,6 +45,8 @@ class ProdutosTransito extends Model
                 ['users_id' => $dados->id_usuario, 'produtos_id' => $id],
                 ['qtd' => $dados->qtd]
             );
+
+        (new ProdutosHistoricosService())->create($id, (new ProdutosStatus())->transito(), $dados->qtd);
     }
 
     public function estoqueConsultor($id): array

@@ -3,7 +3,8 @@
 use App\Http\Controllers\Admin\Pedidos\ConfigController;
 use App\Http\Controllers\Admin\Pedidos\HistoricoController;
 use App\Http\Controllers\Admin\Pedidos\PedidosController;
-use App\Http\Controllers\Admin\Pedidos\RelatoriosController;
+use App\Http\Controllers\Admin\Pedidos\Relatorios\FaturamentoController;
+use App\Http\Controllers\Admin\Pedidos\Relatorios\ProdutosController;
 use App\Http\Controllers\Admin\Pedidos\Status\AguardandoFaturamentoController;
 use App\Http\Controllers\Admin\Pedidos\Status\AguardandoNotaController;
 use App\Http\Controllers\Admin\Pedidos\Status\AguardandoPagamentoController;
@@ -38,10 +39,16 @@ Route::name('admin.')
 
     });
 
+Route::name('admin.pedidos.relatorios.')
+    ->prefix('admin/pedidos/relatorios')
+    ->group(function () {
+        Route::resource('produtos', ProdutosController::class);
+        Route::resource('faturamento', FaturamentoController::class);
+    });
+
 Route::name('admin.pedidos.')
     ->prefix('admin/pedidos')
     ->group(function () {
-        Route::resource('relatorios', RelatoriosController::class);
 
         Route::post('config-cores-pedidos', [ConfigController::class, 'atualizarCoresPedidos'])
             ->name('config-cores-pedidos');

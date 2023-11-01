@@ -23,7 +23,7 @@ export default function ({id, produtos, fornecedor, fornecedores, idFornecedor})
             qtd: qtd,
             id_usuario: idUsuario
         })
-        window.location.reload()
+        setIdAtualizar(null)
     }
 
     function reload() {

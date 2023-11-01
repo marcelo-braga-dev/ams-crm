@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Pedidos\Modelo2;
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
 use App\Models\PedidosArquivos;
+use App\Models\PedidosFaturamentos;
 use App\Models\PedidosImagens;
 use App\Models\PedidosProdutos;
 use App\src\Pedidos\Arquivos\ArquivosPedido;
@@ -39,6 +40,7 @@ class LancadoController extends Controller
 
             if ($request->forma_pagamento == 'vista') (new PedidoUpdateStatus())->setFaturadoVista($id);
             if ($request->forma_pagamento == 'prazo') (new PedidoUpdateStatus())->setFaturadoPrazo($id);
+
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Services\Images;
+use App\src\Produtos\Historicos\ProdutosHistoricosService;
+use App\src\Produtos\ProdutosStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -120,6 +122,8 @@ class Produtos extends Model
             ->update([
                 'estoque_local' => $valor
             ]);
+
+        (new ProdutosHistoricosService())->create($id, (new ProdutosStatus())->local(), $valor);
     }
 
     public function getProdutosFormulario($request)
@@ -155,5 +159,23 @@ class Produtos extends Model
                     'foto' => url_arquivos($dados->url_foto)
                 ];
             });
+    }
+
+    public function getId()
+    {
+        $dados = $this->newQuery()
+            ->get()->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->nome,
+                    'fornecedores_id' => $item->fornecedores_id,
+                ];
+            });
+
+        $res = [];
+        foreach ($dados as $item) {
+            $res[$item['id']] = $item;
+        }
+        return $res;
     }
 }
