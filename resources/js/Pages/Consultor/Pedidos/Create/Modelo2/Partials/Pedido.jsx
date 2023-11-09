@@ -210,13 +210,11 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
         {
             // name: 'Imagem',
             selector: row =>
-                <div className="py-3">
-                    <div className="row">
-                        <div className="col">
-                            {row.foto && <img className="rounded" src={row.foto} width="100%" alt="foto"/>}
+                    <div className="row justify-content-center">
+                        <div className="col-auto text-center">
+                            {row.foto && <img className="rounded" src={row.foto} style={{maxWidth: 150, maxHeight: 150}} alt="foto"/>}
                         </div>
-                    </div>
-                </div>,
+                    </div>,
             grow: 2,
         }, {
             // name: 'Imagem',
