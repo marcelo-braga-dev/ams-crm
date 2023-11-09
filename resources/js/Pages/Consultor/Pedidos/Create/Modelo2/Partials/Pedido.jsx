@@ -221,8 +221,8 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
             selector: row =>
                 <div className="row align-items-start py-3">
                     <div className="col-12">
-                        <h6 className="mb-0">{row.nome}</h6>
-                        <span className="d-block mb-3">{row.descricao}</span>
+                        <h6 className="mb-0 text-wrap">{row.nome}</h6>
+                        <span className="d-block mb-3 text-wrap">{row.descricao}</span>
                         <span className="mb-3 d-block">
                             <span className="fs-5 fw-bold me-3 text-warning">R$ {row.preco_venda}</span>
                             <span className="fs-5 fw-bold">{row.unidade}</span>
