@@ -17,11 +17,12 @@ class ProdutosController extends Controller
         $mes = $request->mes ?? date('m');
         $consultor = $request->consultor;
 
-        $produtos = (new ProdutosService())->historicos($mes, $fornecedor, $consultor);
+        $historicos = (new ProdutosService())->historicos($mes, $fornecedor, $consultor);
+        print_pre($historicos);
         $fornecedores = (new Fornecedores())->getAll(null);
         $consultores = (new User())->getConsultores();
 
         return Inertia::render('Admin/Pedidos/Relatorio/Produtos/Index',
-            compact('produtos', 'fornecedores', 'fornecedor', 'mes', 'consultores', 'consultor'));
+            compact('historicos', 'fornecedores', 'fornecedor', 'mes', 'consultores', 'consultor'));
     }
 }

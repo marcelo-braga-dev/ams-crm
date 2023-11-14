@@ -1,10 +1,9 @@
 import * as React from 'react';
 import {router} from '@inertiajs/react'
 import Layout from '@/Layouts/Admin/Layout';
-import {Button, Card, Col, Container, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
 
-import {useForm} from '@inertiajs/react'
+import {useForm} from '@inertiajs/react';
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {Alert, InputAdornment, TextField} from "@mui/material";
@@ -52,14 +51,14 @@ export default function Pedidos({pedido, produtos}) {
                     <b>PEDIDO PASSOU POR REVISÃO</b><br/>
                     {pedido.pedido.alerta}
                 </Alert>}
-                <Row>
-                    <Col className={"mb-3"}>
+                <div className="row">
+                    <div className="col mb-3">
                         <DadosPedido dados={pedido}/>
-                    </Col>
-                    <Col className={"mb-3"}>
+                    </div>
+                    <div className="col mb-3">
                         <DadosPedidoCliente dados={pedido}/>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
                 <div className="row">
                     <div className="col">
                         <DadosProdutos dados={produtos}/>
@@ -69,20 +68,20 @@ export default function Pedidos({pedido, produtos}) {
 
             <BoxShadow>
                 <form onSubmit={submit}>
-                    <Row className={"mt-4 text-center"}>
-                        <Col>
+                    <div className="row mt-4 text-center">
+                        <div className="col">
                             <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                     data-bs-target="#modalEncomenda">
                                 Enviar para Encomenda
                             </button>
-                        </Col>
-                        <Col>
-                            <Button color={"primary"} component={"button"} type={"submit"}>Aprovar Pedido</Button>
-                        </Col>
-                        <Col>
-                            <Button color="danger" onClick={handleOpen}>Reprovar Pedido</Button>
-                        </Col>
-                    </Row>
+                        </div>
+                        <div className="col">
+                            <button className="btn btn-success text-dark" type="submit">Aprovar Pedido</button>
+                        </div>
+                        <div className="col">
+                            <button className="btn btn-danger" onClick={handleOpen}>Reprovar Pedido</button>
+                        </div>
+                    </div>
                 </form>
             </BoxShadow>
 
@@ -97,7 +96,7 @@ export default function Pedidos({pedido, produtos}) {
                             multiline fullWidth rows={6} required
                             onChange={event => setData('reprovado', event.target.value)}/>
                         <div className="text-center">
-                            <Button type="submit" color="primary">Salvar</Button>
+                            <button className="btn btn-primary" type="submit">Salvar</button>
                         </div>
                     </form>
                 </Box>

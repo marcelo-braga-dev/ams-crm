@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Services\Images;
-use App\src\Produtos\Historicos\ProdutosHistoricosService;
 use App\src\Produtos\ProdutosStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -117,13 +116,14 @@ class Produtos extends Model
 
     public function atualizarEstoqueLocal($id, $valor)
     {
-        $this->newQuery()
-            ->find($id)
-            ->update([
+        $produto = $this->newQuery()
+            ->find($id);
+
+        $produto->update([
                 'estoque_local' => $valor
             ]);
 
-        (new ProdutosHistoricosService())->create($id, (new ProdutosStatus())->local(), $valor);
+        (new ProdutosHistoricos())->create($produto, (new ProdutosStatus())->local(), $valor);
     }
 
     public function getProdutosFormulario($request)

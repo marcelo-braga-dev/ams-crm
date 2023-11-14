@@ -59,4 +59,20 @@ class PedidosArquivos extends Model
                 ];
             });
     }
+
+    public function getPix($id)
+    {
+        return $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->where('chave', (new ChavesArquivosPedidos())->comprovantePix())
+            ->orderBy('indice')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'indice' => $item->indice,
+                    'data' => date('d/m/Y', strtotime($item->data)),
+                    'url' => $item->valor,
+                ];
+            });
+    }
 }

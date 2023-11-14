@@ -91,7 +91,7 @@ class PedidosFaturamentos extends Model
         foreach ($dados as $item) {
             if (!$fornecedor || $produtos[$item['id_produto']]['fornecedores_id'] == $fornecedor) {
                 $separacao[$item['id_produto']]['dados'] = [
-                    ...$produtos[$item['id_produto']], ...$item,
+                    ...$produtos[$item['id_produto']] ?? [], ...$item,
                 ];
                 $separacao[$item['id_produto']]['vendas'] = $this->getNumerosSemanas($mes);
             }

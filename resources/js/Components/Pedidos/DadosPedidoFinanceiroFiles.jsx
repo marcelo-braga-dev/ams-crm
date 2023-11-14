@@ -26,6 +26,21 @@ export default function DadosPedidoFinanceiroFiles({dados}) {
                     )
                 })}
             </div>
+
+            <div className="row row-cols-3">
+                {dados.financeiro.pix.map((item, index) => {
+                    return (
+                        <div key={index} className="col mb-4 ">
+                            <div className="shadow rounded p-3">
+                                <span className="d-block"><b>Comprovante do PIX</b></span>
+                                {/*<span>Vencimento: {item.data}</span>*/}
+                                <ImagePdf url={item.url}/>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+
             <div className="row row-cols-3">
                 {dados.financeiro.cheques.map((item, index) => {
                     return (

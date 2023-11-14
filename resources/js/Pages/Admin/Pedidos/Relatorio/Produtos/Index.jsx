@@ -3,7 +3,7 @@ import {MenuItem, TextField} from "@mui/material";
 import React, {useState} from "react";
 import {router} from "@inertiajs/react";
 
-export default function ({produtos, fornecedores, fornecedor, mes, consultores, consultor}) {
+export default function ({historicos, fornecedores, fornecedor, mes, consultores, consultor}) {
 
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState(fornecedor);
     const [mesSelecionado, setMesSelecionado] = useState(mes);
@@ -37,7 +37,7 @@ export default function ({produtos, fornecedores, fornecedor, mes, consultores, 
     }
 
     return (
-        <Layout container titlePage="Relatório de Pedidos" menu="pedidos" submenu="produtos">
+        <Layout container titlePage="Relatório de Produtos" menu="pedidos" submenu="produtos">
 
             <div className="row">
                 <div className="col-md-3 mb-4">
@@ -81,14 +81,15 @@ export default function ({produtos, fornecedores, fornecedor, mes, consultores, 
                 </div>
             </div>
 
+            {/*Tabela de Produtos*/}
             <div className="table-responsive">
                 <table className="table text-sm">
                     <thead>
                     <tr>
                         <th></th>
-                        {produtos?.[0]?.semanas_datas.map((item, index) => {
+                        {historicos?.[0]?.semanas_datas.map((item, index) => {
                             return (
-                                <th colSpan="3" className="text-center border">
+                                <th colSpan="4" className="text-center border">
                                     {index + 1}° Semana<br/>
                                     <small>{item.inicio} até {item.fim}</small>
                                 </th>
@@ -97,19 +98,20 @@ export default function ({produtos, fornecedores, fornecedor, mes, consultores, 
                     </tr>
                     <tr>
                         <th className="border-end">Produtos</th>
-                        {produtos?.[0]?.semanas_datas.map((item) => {
+                        {historicos?.[0]?.semanas_datas.map((item) => {
                             return (
                                 <>
                                     <th>Trânsito</th>
                                     <th>Loja</th>
-                                    <th className="border-end">Vendidos</th>
+                                    <th>Vendidos</th>
+                                    <th className="border-end">Total</th>
                                 </>
                             )
                         })}
                     </tr>
                     </thead>
                     <tbody>
-                    {produtos.map((item, index) => {
+                    {historicos.map((item, index) => {
                         return (
                             <tr key={index} className="text-center">
                                 <td className="text-start border-end">
@@ -120,7 +122,8 @@ export default function ({produtos, fornecedores, fornecedor, mes, consultores, 
                                     return <>
                                         <td>{dados.transito}</td>
                                         <td>{dados.estoque_local}</td>
-                                        <td className="border-end">{dados.vendas}</td>
+                                        <td>{dados.vendas}</td>
+                                        <td className="border-end"></td>
                                     </>
                                 })}
                             </tr>

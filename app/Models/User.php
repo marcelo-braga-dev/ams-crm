@@ -75,6 +75,7 @@ class User extends Authenticatable
     public function get(int $id)
     {
         $dados = $this->newQuery()->findOrFail($id);
+        $setores = (new Setores())->getNomes();
 
         return [
             'id' => $dados->id,
@@ -82,7 +83,10 @@ class User extends Authenticatable
             'email' => $dados->email,
             'status' => $dados->status,
             'tipo' => $dados->tipo,
-            'setor' => $dados->setor
+            'setor' => $setores[$dados->setor]['nome'] ?? '',
+            'ultimo_login' => date('d/m/Y H:i:s', strtotime($dados->ultimo_login)),
+            'foto' => asset('storage/' . $dados->foto),
+            'data_cadastro' => date('d/m/Y H:i:s', strtotime($dados->created_at)),
         ];
     }
 

@@ -16,22 +16,28 @@ class ProdutosHistoricos extends Model
     protected $fillable = [
         'users_id',
         'produtos_id',
+        'nome',
         'valor',
+        'categoria',
+        'fornecedor',
         'status',
         'anotacoes',
         'data',
     ];
 
-    public function create(int $idProduto, string $status, $valor = null, ?string $anot = null)
+    public function create($produto, string $status, $valor = null, ?string $anot = null)
     {
         $this->newQuery()
             ->create([
                 'users_id' => id_usuario_atual(),
-                'produtos_id' => $idProduto,
+                'produtos_id' => $produto['id'],
                 'valor' => $valor,
                 'status' => $status,
                 'anotacoes' => $anot,
-                'data' => now()
+                'data' => now(),
+                'nome' => $produto['nome'],
+                'categoria' => $produto['categoria'],
+                'fornecedor' => $produto['fornecedores_id'],
             ]);
     }
 
@@ -40,59 +46,56 @@ class ProdutosHistoricos extends Model
         $mes = $mes ?? date('m');
 
         $produtos = (new Produtos())->getId();
+        $categoriasNomes = (new ProdutosCategorias())->getNomes();
 
-        $query = (new ProdutosHistoricos())->newQuery()
+        $dados = (new ProdutosHistoricos())->newQuery()
+            ->where($consultor ? ['users_id' => $consultor] : null)
+            ->where($fornecedor ? ['fornecedores_id' => $fornecedor] : null)
             ->whereMonth('data', $mes)
             ->select(
                 DB::raw('
-                id, produtos_id, status, valor,
-                WEEK(data) as semana,
-                DAY(data) as dia,
-                MONTH(data) as mes,
-                YEAR(data) as ano
+                id, produtos_id, status, valor, nome, categoria,
+                WEEK(data) as semana
                 '))
             ->orderBy('semana')
-            ->orderBy('id');
-
-        if ($consultor) $query->where('users_id', $consultor);
-
-        $dados = $query->get()
+            ->orderBy('nome')
+            ->get()
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
                     'id_produto' => $item->produtos_id,
                     'valor' => $item->valor,
                     'status' => $item->status,
+                    'nome' => $item->nome,
+                    'categoria' => $item->categoria,
 
                     'semana' => $item->semana,
-                    'dia' => $item->dia,
-                    'mes' => $item->mes,
-                    'ano' => $item->ano,
                 ];
             });
 
         // popula as semanas
         $separacao = [];
         foreach ($dados as $item) {
-            if (!$fornecedor || $produtos[$item['id_produto']]['fornecedores_id'] == $fornecedor) {
-                $separacao[$item['id_produto']] = [...$item, ...$produtos[$item['id_produto']]];
-                $separacao[$item['id_produto']]['semanas'] = $this->getNumerosSemanas($mes);
-            }
+            $separacao[$item['id_produto']] = [...$item, ...$produtos[$item['id_produto']]];
+            $separacao[$item['id_produto']]['semanas'] = $this->getNumerosSemanas($mes);
+
         }
 
         // preeche quantidades
         $status = (new ProdutosStatus());
         foreach ($dados as $item) {
-            if (!$fornecedor || $produtos[$item['id_produto']]['fornecedores_id'] == $fornecedor) {
-                if ($item['status'] == $status->venda())
+            switch ($item['status']) {
+                case $status->venda() :
                     $separacao[$item['id_produto']]['semanas'][$item['semana']]['vendas'][] = [];
-
-                if ($item['status'] == $status->local())
+                    break;
+                case $status->local() :
                     $separacao[$item['id_produto']]['semanas'][$item['semana']]['estoque_local'] = $item['valor'];
-
-                if ($item['status'] == $status->transito())
+                    break;
+                case $status->transito() :
                     $separacao[$item['id_produto']]['semanas'][$item['semana']]['transito'] = $item['valor'];
+                    break;
             }
+
         }
 
         $res = [];
@@ -107,12 +110,19 @@ class ProdutosHistoricos extends Model
                     'vendas' => count($semanas['vendas'] ?? []) ?: '-',
                     'estoque_local' => $semanas['estoque_local'] ?? '-',
                     'transito' => $semanas['transito'] ?? '-',
+                    'total' => (($semanas['estoque_local'] ?? 0) + ($semanas['transito'] ?? 0))
                 ];
             }
             unset($res[$i]['semanas']);
             $i++;
         }
 
+        $resCategorias = [];
+        foreach ($res as $index => $item) {
+            $resCategorias[$item['categoria']]['categoria_nome'] = $categoriasNomes[$item['categoria']] ?? '-';
+            $resCategorias[$item['categoria']]['produtos'][$index][] = ['categoria_nome' => $item['categoria'], ...$item];
+        }
+        print_pre([...$resCategorias]);
         return $res;
     }
 

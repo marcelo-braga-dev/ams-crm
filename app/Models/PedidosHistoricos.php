@@ -23,7 +23,7 @@ class PedidosHistoricos extends Model
 
     function create(int $id, string $status, int $prazo, ?string $obs)
     {
-        (new PedidosHistoricos())->newQuery()
+        $this->newQuery()
             ->create([
                 'pedidos_id' => $id,
                 'users_id' => auth()->id(),

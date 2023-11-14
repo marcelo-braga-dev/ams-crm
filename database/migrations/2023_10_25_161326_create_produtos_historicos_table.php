@@ -16,7 +16,10 @@ return new class extends Migration {
             $table->id();
             $table->bigInteger('users_id');
             $table->bigInteger('produtos_id');
+            $table->string('nome');
             $table->integer('valor')->nullable();
+            $table->integer('categoria');
+            $table->integer('fornecedor');
             $table->string('status');
             $table->string('anotacoes')->nullable();
             $table->timestamp('data');

@@ -116,6 +116,7 @@ class DadosPedidoServices
                 'forma_pagamento' => $pedido->forma_pagamento,
                 'boletos' => (new PedidosArquivos())->getBoletos($pedido->id),
                 'cheques' => (new PedidosArquivos())->getCheques($pedido->id),
+                'pix' => (new PedidosArquivos())->getPix($pedido->id),
                 'link_pagamento' => $files->url_pagamento ?? null,
             ],
             'prazos' => [
