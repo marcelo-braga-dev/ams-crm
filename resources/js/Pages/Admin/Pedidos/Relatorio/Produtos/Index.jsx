@@ -150,6 +150,8 @@ export default function ({historicos, fornecedores, fornecedor, mes, consultores
                 )
 
             })}
+
+            {historicos.length === 0 && <h6>Não há registros no histórico.</h6>}
         </Layout>
     )
 }

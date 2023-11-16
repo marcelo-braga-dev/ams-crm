@@ -50,7 +50,7 @@ class ProdutosHistoricos extends Model
 
         $dados = (new ProdutosHistoricos())->newQuery()
             ->where($consultor ? ['users_id' => $consultor] : null)
-            ->where($fornecedor ? ['fornecedores_id' => $fornecedor] : null)
+            ->where($fornecedor ? ['fornecedor' => $fornecedor] : null)
             ->whereMonth('data', $mes)
             ->select(
                 DB::raw('
