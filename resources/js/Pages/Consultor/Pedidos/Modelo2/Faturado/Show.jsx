@@ -29,7 +29,6 @@ export default function Create({pedido}) {
             </div>
 
             <DadosPedidoFinanceiro dados={pedido}/>
-            {console.log((pedido.financeiro.pix.length))}
             {pedido.financeiro.forma_pagamento?.includes('PIX') && <>
                 <div className="row mt-3">
                     {pedido.financeiro?.pix?.map((item) => {
