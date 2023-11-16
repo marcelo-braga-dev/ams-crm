@@ -31,9 +31,9 @@ export default function Create({pedido}) {
             <DadosPedidoFinanceiro dados={pedido}/>
             {pedido.financeiro.forma_pagamento?.includes('PIX') && <>
                 <div className="row mt-3">
-                    {pedido.financeiro?.pix?.map((item) => {
+                    {pedido.financeiro?.pix?.map((item, index) => {
                         return (
-                            <div className="col">
+                            <div key={index} className="col">
                                 <h6>Comprovante de Pagamento</h6>
                                 <ImagePdf url={item.url}/>
                             </div>
