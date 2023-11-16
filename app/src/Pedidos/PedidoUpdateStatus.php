@@ -3,8 +3,10 @@
 namespace App\src\Pedidos;
 
 use App\Models\Pedidos;
+use App\Models\PedidosArquivos;
 use App\Models\PedidosFaturamentos;
 use App\Models\PedidosImagens;
+use App\src\Pedidos\Arquivos\ArquivosPedido;
 use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
 use App\src\Pedidos\Status\AguardandoNotaStatus;
@@ -43,8 +45,9 @@ class PedidoUpdateStatus
         (new PedidosFaturamentos())->create($id);
     }
 
-    public function setEntregue($id): void
+    public function setEntregue($id, $pix): void
     {
+        (new ArquivosPedido())->comprovantePix($id, $pix);
         (new EntregueStatus())->updateStatus($id);
     }
 

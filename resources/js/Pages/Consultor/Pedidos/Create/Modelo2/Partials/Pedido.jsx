@@ -314,7 +314,7 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
             <div className="col">
                 {data.forma_pagamento?.includes('PIX') &&
                     <TextField
-                        required type="file" label="Comprovante de Pagamento" InputLabelProps={{shrink: true}}
+                        type="file" label="Comprovante de Pagamento" InputLabelProps={{shrink: true}}
                         onChange={e => setData('file_pix', e.target.files[0])}/>}
             </div>
         </div>

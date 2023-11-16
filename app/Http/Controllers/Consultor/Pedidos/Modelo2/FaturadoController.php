@@ -18,9 +18,10 @@ class FaturadoController extends Controller
             compact('pedido'));
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
-        (new PedidoUpdateStatus())->setEntregue($id);
+
+        (new PedidoUpdateStatus())->setEntregue($id, $request);
 
         modalSucesso('Atualizado com sucesso!');
         return redirect()->route('consultor.pedidos.index');

@@ -53,10 +53,10 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                         <div className="col-10 p-0 ps-2 pt-1 text-truncate">{dados.forma_pagamento.toUpperCase()}</div>
                     </div>
                     {/*Fornecedor*/}
-                    <div className="row">
+                    {dados.fornecedor && <div className="row">
                         <div className="col-1 px-1 mx-1 mr-2"><TruckIcon className='mr-2' sx={{fontSize: 20}}/></div>
                         <div className="col-10 p-0 pt-1 text-truncate">{dados.fornecedor}</div>
-                    </div>
+                    </div>}
                 </div>
                 {/* Btn Avanca Status */}
                 <div className='col-auto pt-4 text-right'>

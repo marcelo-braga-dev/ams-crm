@@ -1,60 +1,12 @@
 import * as React from "react";
 import {usePage} from "@inertiajs/react";
-import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
-import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
-import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
-import SpeakerNotesOutlinedIcon from "@mui/icons-material/SpeakerNotesOutlined";
-import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+
+import {ItemsMenuSidebar} from "@/Layouts/Consultor/Templates/ItemsMenuSidebar";
 
 export default function Sidebar() {
     const {props} = usePage();
 
     const logo = "/storage/crm/imagens/logo_ams.png";
-
-    const pages = [
-        {
-            'menu': 'Pedidos',
-            'icone': <RequestPageOutlinedIcon/>,
-            'submenu': [
-                {'menu': 'Lista de Pedidos', 'url': route('consultor.pedidos.index')},
-                {'menu': 'Históricos', 'url': route('consultor.historicos.index')},
-            ]
-        }, {
-            'menu': 'Produtos',
-            'icone': <Inventory2OutlinedIcon/>,
-            'submenu': [
-                {'menu': 'Lista de Produtos', 'url': route('consultor.pedidos.produtos.index')},
-            ]
-        },{
-            'menu': 'Leads',
-            'icone': <PeopleAltOutlinedIcon/>,
-            'submenu': [
-                {'menu': 'Lista de Leads', 'url': route('consultor.leads.main.index')},
-                {'menu': 'Cadastrar', 'url': route('consultor.leads.main.create')},
-            ]
-        },{
-            'menu': 'Chat Interno',
-            'tag': 'chat-interno',
-            'icone': <QuestionAnswerOutlinedIcon/>,
-            'submenu': [
-                {'menu': 'Mensagens', 'url': route('consultor.chat-interno.index'), 'tag': 'mensagens'},
-            ]
-        }, {
-            'menu': 'SAC',
-            'icone': <SpeakerNotesOutlinedIcon/>,
-            'submenu': [
-                {'menu': 'Chamados', 'url': route('consultor.chamados.index')},
-            ]
-        }, {
-            'menu': 'Perfil',
-            'icone': <ManageAccountsOutlinedIcon/>,
-            'submenu': [
-                {'menu': 'Sua Conta', 'url': route('consultor.perfil.index')},
-            ]
-        },
-    ];
 
     function pageCurrent(url) {
         const urlAtual = window.location.protocol + '//' + window.location.host + window.location.pathname
@@ -77,7 +29,7 @@ export default function Sidebar() {
                     <div className="w-auto mb-6" id="accordionFlushSidebar">
 
                         {/*ITEMS*/}
-                        {pages.map(({menu, icone, submenu}, index) => (
+                        {ItemsMenuSidebar.map(({menu, icone, submenu}, index) => (
                             <div key={index} className="accordio n-item text-dark navbar-nav">
                                 <div className="accordion-hea der nav-item" id={"flush-heading-" + index}>
                                     <div className="nav-link p-1"
