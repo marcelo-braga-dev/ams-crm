@@ -45,13 +45,12 @@ class ProdutosHistoricos extends Model
     {
         $mes = $mes ?? date('m');
 
-        $produtos = (new Produtos())->getId();
         $categoriasNomes = (new ProdutosCategorias())->getNomes();
         $fornecedoresNomes = (new Fornecedores())->getNomes();
 
         $dados = (new ProdutosHistoricos())->newQuery()
             ->where($consultor ? ['users_id' => $consultor] : null)
-//            ->where($fornecedor ? ['fornecedores_id' => $fornecedor] : null)
+            ->where($fornecedor ? ['fornecedores_id' => $fornecedor] : null)
             ->whereMonth('data', $mes)
             ->select(
                 DB::raw('
@@ -78,7 +77,7 @@ class ProdutosHistoricos extends Model
         // popula as semanas
         $separacao = [];
         foreach ($dados as $item) {
-            $separacao[$item['id_produto']] = [...$item, ...$produtos[$item['id_produto']]];
+            $separacao[$item['id_produto']] = [...$item];
             $separacao[$item['id_produto']]['semanas'] = $this->getNumerosSemanas($mes);
 
         }
@@ -97,7 +96,6 @@ class ProdutosHistoricos extends Model
                     $separacao[$item['id_produto']]['semanas'][$item['semana']]['transito'] = $item['valor'];
                     break;
             }
-
         }
 
         $res = [];

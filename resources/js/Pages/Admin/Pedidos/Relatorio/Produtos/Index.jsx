@@ -39,47 +39,47 @@ export default function ({historicos, fornecedores, fornecedor, mes, consultores
     return (
         <Layout container titlePage="Relatório de Produtos" menu="pedidos" submenu="produtos">
 
-            {/*<div className="row">*/}
-            {/*    <div className="col-md-3 mb-4">*/}
-            {/*        <TextField select label="Mês" fullWidth defaultValue={mes ?? undefined}*/}
-            {/*                   onChange={e => selecionarMes(e.target.value)}>*/}
-            {/*            <MenuItem value="1">Janeiro</MenuItem>*/}
-            {/*            <MenuItem value="2">Fevereiro</MenuItem>*/}
-            {/*            <MenuItem value="3">Março</MenuItem>*/}
-            {/*            <MenuItem value="4">Abril</MenuItem>*/}
-            {/*            <MenuItem value="5">Maio</MenuItem>*/}
-            {/*            <MenuItem value="6">Junho</MenuItem>*/}
-            {/*            <MenuItem value="7">Julho</MenuItem>*/}
-            {/*            <MenuItem value="8">Agosto</MenuItem>*/}
-            {/*            <MenuItem value="9">Setembro</MenuItem>*/}
-            {/*            <MenuItem value="10">Outubro</MenuItem>*/}
-            {/*            <MenuItem value="11">Novembro</MenuItem>*/}
-            {/*            <MenuItem value="12">Dezembro</MenuItem>*/}
-            {/*        </TextField>*/}
-            {/*    </div>*/}
-            {/*    <div className="col-md-3 mb-4">*/}
-            {/*        <TextField select label="Fornecedor" fullWidth defaultValue={fornecedor ?? undefined}*/}
-            {/*                   onChange={e => selecionarFornecedor(e.target.value)}>*/}
-            {/*            <MenuItem value="">Todos</MenuItem>*/}
-            {/*            {fornecedores.map((item, index) => {*/}
-            {/*                return (*/}
-            {/*                    <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>*/}
-            {/*                )*/}
-            {/*            })}*/}
-            {/*        </TextField>*/}
-            {/*    </div>*/}
-            {/*    <div className="col-md-3 mb-4">*/}
-            {/*        <TextField select label="Vendedor(a)" fullWidth defaultValue={consultor ?? undefined}*/}
-            {/*                   onChange={e => selecionarConsultor(e.target.value)}>*/}
-            {/*            <MenuItem value="">Todos</MenuItem>*/}
-            {/*            {consultores.map((item, index) => {*/}
-            {/*                return (*/}
-            {/*                    <MenuItem key={index} value={item.id}>{item.name}</MenuItem>*/}
-            {/*                )*/}
-            {/*            })}*/}
-            {/*        </TextField>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <div className="row">
+                <div className="col-md-3 mb-4">
+                    <TextField select label="Mês" fullWidth defaultValue={mes ?? undefined}
+                               onChange={e => selecionarMes(e.target.value)}>
+                        <MenuItem value="1">Janeiro</MenuItem>
+                        <MenuItem value="2">Fevereiro</MenuItem>
+                        <MenuItem value="3">Março</MenuItem>
+                        <MenuItem value="4">Abril</MenuItem>
+                        <MenuItem value="5">Maio</MenuItem>
+                        <MenuItem value="6">Junho</MenuItem>
+                        <MenuItem value="7">Julho</MenuItem>
+                        <MenuItem value="8">Agosto</MenuItem>
+                        <MenuItem value="9">Setembro</MenuItem>
+                        <MenuItem value="10">Outubro</MenuItem>
+                        <MenuItem value="11">Novembro</MenuItem>
+                        <MenuItem value="12">Dezembro</MenuItem>
+                    </TextField>
+                </div>
+                <div className="col-md-3 mb-4">
+                    <TextField select label="Fornecedor" fullWidth defaultValue={fornecedor ?? undefined}
+                               onChange={e => selecionarFornecedor(e.target.value)}>
+                        <MenuItem value="">Todos</MenuItem>
+                        {fornecedores.map((item, index) => {
+                            return (
+                                <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
+                            )
+                        })}
+                    </TextField>
+                </div>
+                <div className="col-md-3 mb-4">
+                    <TextField select label="Vendedor(a)" fullWidth defaultValue={consultor ?? undefined}
+                               onChange={e => selecionarConsultor(e.target.value)}>
+                        <MenuItem value="">Todos</MenuItem>
+                        {consultores.map((item, index) => {
+                            return (
+                                <MenuItem key={index} value={item.id}>{item.name}</MenuItem>
+                            )
+                        })}
+                    </TextField>
+                </div>
+            </div>
 
             {/*Tabela de Produtos*/}
             {/*     Separa por categorias*/}

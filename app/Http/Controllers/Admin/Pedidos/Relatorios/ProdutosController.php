@@ -18,7 +18,7 @@ class ProdutosController extends Controller
         $consultor = $request->consultor;
 
         $historicos = (new ProdutosService())->historicos($mes, $fornecedor, $consultor);
-//        print_pre($historicos);
+
         $fornecedores = (new Fornecedores())->getAll(null);
         $consultores = (new User())->getConsultores();
 
