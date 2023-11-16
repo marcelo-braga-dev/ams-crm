@@ -47,20 +47,21 @@ class ProdutosHistoricos extends Model
 
         $produtos = (new Produtos())->getId();
         $categoriasNomes = (new ProdutosCategorias())->getNomes();
+        $fornecedoresNomes = (new Fornecedores())->getNomes();
 
         $dados = (new ProdutosHistoricos())->newQuery()
             ->where($consultor ? ['users_id' => $consultor] : null)
-            ->where($fornecedor ? ['fornecedores_id' => $fornecedor] : null)
+//            ->where($fornecedor ? ['fornecedores_id' => $fornecedor] : null)
             ->whereMonth('data', $mes)
             ->select(
                 DB::raw('
-                id, produtos_id, status, valor, nome, categoria,
+                id, produtos_id, status, valor, nome, categoria, fornecedor,
                 WEEK(data) as semana
                 '))
             ->orderBy('semana')
             ->orderBy('nome')
             ->get()
-            ->transform(function ($item) {
+            ->transform(function ($item) use ($fornecedoresNomes) {
                 return [
                     'id' => $item->id,
                     'id_produto' => $item->produtos_id,
@@ -68,6 +69,7 @@ class ProdutosHistoricos extends Model
                     'status' => $item->status,
                     'nome' => $item->nome,
                     'categoria' => $item->categoria,
+                    'fornecedor' => $fornecedoresNomes[$item->fornecedor] ?? '',
 
                     'semana' => $item->semana,
                 ];
@@ -120,10 +122,10 @@ class ProdutosHistoricos extends Model
         $resCategorias = [];
         foreach ($res as $index => $item) {
             $resCategorias[$item['categoria']]['categoria_nome'] = $categoriasNomes[$item['categoria']] ?? '-';
-            $resCategorias[$item['categoria']]['produtos'][$index][] = ['categoria_nome' => $item['categoria'], ...$item];
+            $resCategorias[$item['categoria']]['produtos'][$index][] = ['categoria_nome' => $categoriasNomes[$item['categoria']] ?? '-', ...$item];
         }
-        print_pre([...$resCategorias]);
-        return $res;
+
+        return [...$resCategorias];
     }
 
     private function getNumerosSemanas($mes): array
