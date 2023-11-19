@@ -85,7 +85,7 @@ export default function ({produto, fornecedor, categorias, unidades}) {
                 </div>
                 <div className="row">
                     <div className="col mb-4">
-                        <TextField label="Descrição" multiline fullWidth rows="3" defaultValue={data.descricao}
+                        <TextField label="Descrição" multiline fullWidth minRows="5" defaultValue={data.descricao}
                                    onChange={e => setData('descricao', e.target.value)}/>
                     </div>
                 </div>
