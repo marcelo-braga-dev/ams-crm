@@ -29,7 +29,7 @@ class ProdutosHistoricos extends Model
     {
         $this->newQuery()
             ->create([
-                'users_id' => id_usuario_atual(),
+                'users_id' => id_usuario_atual(), // id consultor
                 'produtos_id' => $produto['id'],
                 'valor' => $valor,
                 'status' => $status,

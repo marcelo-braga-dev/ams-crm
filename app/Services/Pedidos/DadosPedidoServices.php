@@ -159,9 +159,9 @@ class DadosPedidoServices
                 'planilha_pedido' => $files->url_planilha_pedido ?? null,
             ],
             'cliente_files' => [
-                'rg' => $files->url_rg ?? $filesCliente[$chavesArquivos->rg()] ?? null,
-                'cpf' => $files->url_cpf ?? $filesCliente[$chavesArquivos->cpf()] ?? null,
-                'cnh' => $files->url_cnh ?? $filesCliente[$chavesArquivos->cnh()] ?? null,
+                'rg' => $files->url_rg ?? $filesCliente[$chavesArquivos->rg()] ?? (new PedidosArquivos())->getRG($pedido->id)[0]['url'] ?? null,
+                'cpf' => $files->url_cpf ?? $filesCliente[$chavesArquivos->cpf()] ?? (new PedidosArquivos())->getCPF($pedido->id)[0]['url'] ?? null,
+                'cnh' => $files->url_cnh ?? $filesCliente[$chavesArquivos->cnh()] ?? (new PedidosArquivos())->getCNH($pedido->id)[0]['url'] ?? null,
                 'cnpj' => $files->url_cnpj ?? $filesCliente[$chavesArquivos->cnpj()] ?? null,
                 'comprovante_residencia' => $files->url_comprovante_residencia ?? null,
             ]

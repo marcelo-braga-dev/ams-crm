@@ -1,17 +1,18 @@
-import {Col, FormGroup, Row} from "reactstrap";
+import React, {useEffect, useState} from "react";
 import {MenuItem, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
-import React, {useEffect, useState} from "react";
 import DataTable from "react-data-table-component";
 import ClearIcon from "@mui/icons-material/Clear";
-import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-let total = 0;
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormLabel from '@mui/material/FormLabel';
 
+let total = 0;
 let somasArray = []
 let totalGeral = 0
 
@@ -28,7 +29,6 @@ const FilterComponent = ({filterText, onFilter}) => (
     </>
 );
 
-
 export default function Pedido({fornecedores, unidades, categorias, produtosX, data, setData}) {
     total = 0
     const [filterText, setFilterText] = React.useState('');
@@ -36,7 +36,8 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState();
     const [categoriaSelecionado, setCategoriaSelecionado] = useState();
     const [unidadeSelecionado, setUnidadeSelecionado] = useState();
-    const [produtos, setProdutos] = useState([])
+    const [produtos, setProdutos] = useState([]);
+    const [documento, setDocumento] = useState('cnh');
 
     function fornecedorSelecionar(id) {
         setFornecedorSelecionado(id)
@@ -210,11 +211,12 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
         {
             // name: 'Imagem',
             selector: row =>
-                    <div className="row justify-content-center">
-                        <div className="col-auto text-center">
-                            {row.foto && <img className="rounded" src={row.foto} style={{maxWidth: 150, maxHeight: 150}} alt="foto"/>}
-                        </div>
-                    </div>,
+                <div className="row justify-content-center">
+                    <div className="col-auto text-center">
+                        {row.foto && <img className="rounded" src={row.foto} style={{maxWidth: 150, maxHeight: 150}}
+                                          alt="foto"/>}
+                    </div>
+                </div>,
             grow: 2,
         }, {
             // name: 'Imagem',
@@ -323,6 +325,7 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
 
         <div className="border-bottom pb-3 mb-5"/>
 
+
         <div className="row border-bottom pb-4 mb-5">
             <div className="col-md-6">
                 <TextField
@@ -330,6 +333,35 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
                     fullWidth type="file" InputLabelProps={{shrink: true}}
                     onChange={e => setData('img_pedido', e.target.files[0])}>
                 </TextField>
+            </div>
+            <div className="col">
+                <FormControl>
+                    <FormLabel>Documentos do Cliente</FormLabel>
+                    <RadioGroup row value={documento}
+                                onChange={event => setDocumento(event.target.value)}>
+                        <FormControlLabel value="cnh" control={<Radio size="small"/>} label="CNH"/>
+                        <FormControlLabel value="rg" control={<Radio size="small"/>} label="RG/CPF"/>
+                    </RadioGroup>
+                </FormControl>
+                {documento === 'cnh' && <>
+                    <TextField
+                        label="CNH" required className="mb-4"
+                        fullWidth type="file" InputLabelProps={{shrink: true}}
+                        onChange={e => setData('img_cnh', e.target.files[0])}>
+                    </TextField>
+                </>}
+                {documento === 'rg' && <>
+                    <TextField
+                        label="RG" required className="mb-4"
+                        fullWidth type="file" InputLabelProps={{shrink: true}}
+                        onChange={e => setData('img_rg', e.target.files[0])}>
+                    </TextField>
+                    <TextField
+                        label="CPF" required
+                        fullWidth type="file" InputLabelProps={{shrink: true}}
+                        onChange={e => setData('img_cpf', e.target.files[0])}>
+                    </TextField>
+                </>}
             </div>
         </div>
 
@@ -437,12 +469,12 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
 
 
         <div className="border-bottom pb-3 mb-5"/>
-        <Row className="mb-3 mt-4">
-            <Col className="mb-3" lg="12">
+        <div className="row mb-3 mt-4">
+            <div className="col mb-3">
                 <TextField
                     label="Anotações" multiline rows="4" fullWidth
                     value={data.obs} onChange={e => setData('obs', e.target.value)}/>
-            </Col>
-        </Row>
+            </div>
+        </div>
     </Box>
 }

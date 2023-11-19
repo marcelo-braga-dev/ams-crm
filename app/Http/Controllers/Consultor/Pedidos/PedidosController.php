@@ -121,6 +121,11 @@ class PedidosController extends Controller
                         (new ArquivosPedido())->cheques($idPedido, $request);
 
                         (new PedidosImagens())->updatePlanilhaPedido($idPedido, $request);
+
+                        (new PedidosArquivos())->setRG($idPedido, $request);
+                        (new PedidosArquivos())->setCPF($idPedido, $request);
+                        (new PedidosArquivos())->setCNH($idPedido, $request);
+
                         (new PedidosProdutos())->create($idPedido, $request);
                         (new ProdutosTransito())->subtrairVendaPedido($request);
                     } catch (\DomainException|QueryException $exception) {
