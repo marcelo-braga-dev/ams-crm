@@ -7,11 +7,11 @@ Route::get('/', function () {
     $auth = auth()->user()->tipo;
     switch ($auth) {
         case (new \App\src\Usuarios\Admins())->getTipo() :
-            return redirect()->route('admin.pedidos.index');// Inertia::render('Admin/Home');
+            return redirect()->route('admin.pedidos.index');
         case (new \App\src\Usuarios\Consultores())->getTipo() :
-            return redirect()->route('consultor.pedidos.index');// Inertia::render('Consultor/Home');
+            return redirect()->route('consultor.pedidos.index');
         case (new \App\src\Usuarios\Supervisores())->getTipo() :
-            return redirect()->route('supervisor.pedidos.index');// Inertia::render('Supervisor/Home');
+            return redirect()->route('admin.pedidos.index');
         default :
         {
             auth()->logout();

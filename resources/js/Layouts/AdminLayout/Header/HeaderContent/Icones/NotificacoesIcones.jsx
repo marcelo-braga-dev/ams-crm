@@ -101,7 +101,7 @@ export default function NotificacoesIcones() {
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     onClick={handleClick2}>
-            <Badge badgeContent={usuariosOnline.length} color="primary">
+            <Badge badgeContent={usuariosOnline.length} color="error">
                 <PeopleAltOutlinedIcon/>
             </Badge>
         </IconButton>
@@ -146,21 +146,21 @@ export default function NotificacoesIcones() {
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     href={route('consultor.chat-interno.index')}>
-            <Badge badgeContent={qtdChatInterno} color="primary">
+            <Badge badgeContent={qtdChatInterno} color="error">
                 <ForumOutlinedIcon/>
             </Badge>
         </IconButton>
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     href={route('consultor.notificacoes.leads.index')}>
-            <Badge badgeContent={qtdLeads} color="primary">
+            <Badge badgeContent={qtdLeads} color="error">
                 <ContactPhoneOutlinedIcon/>
             </Badge>
         </IconButton>
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     href={route('consultor.notificacoes.pedidos.index')}>
-            <Badge badgeContent={qtdPedidos} color="primary">
+            <Badge badgeContent={qtdPedidos} color="error">
                 <NotificationsOutlinedIcon/>
             </Badge>
         </IconButton>

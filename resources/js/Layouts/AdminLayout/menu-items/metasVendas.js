@@ -14,6 +14,7 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: TrendingUpOutlinedIcon,
+            admin: true,
             submenu: [
                 {
                     id: 'meta-vendas-consultores',

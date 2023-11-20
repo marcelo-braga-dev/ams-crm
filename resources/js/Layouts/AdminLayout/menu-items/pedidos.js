@@ -24,6 +24,7 @@ const dashboard = {
                     title: 'Relatório de Pedidos',
                     type: 'item',
                     url: undefined,
+                    admin: true,
                     submenu: [
                         {
                             id: 'pedidos-relatorios',

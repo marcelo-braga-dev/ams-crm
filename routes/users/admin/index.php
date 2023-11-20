@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'auth.admins'])
+Route::middleware(['auth'])
     ->group(function () {
         require __DIR__ . '/chamados.php';
         require __DIR__ . '/fornecedores.php';

@@ -10,7 +10,6 @@ import '../assets/argon/bootstrap5/css/nucleo-svg.css';
 import '../assets/argon/bootstrap5/css/nucleo-icons.css';
 import '../assets/argon/bootstrap5/css/argon-dashboard.css';
 
-// import '../css/app.css';
 import '../css/style.css';
 import '../css/theme.css';
 import '../css/lightbox.css';

@@ -14,6 +14,7 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: InsertChartOutlinedRoundedIcon,
+            admin: true,
             submenu: [
                 {
                     id: 'dashboard-vendas',

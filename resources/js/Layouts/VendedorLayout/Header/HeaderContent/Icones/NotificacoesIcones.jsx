@@ -20,21 +20,21 @@ export default function NotificacoesIcones() {
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     href={route('consultor.chat-interno.index')}>
-            <Badge badgeContent={qtdChatInterno} color="primary">
+            <Badge badgeContent={qtdChatInterno} color="error">
                 <ForumOutlinedIcon/>
             </Badge>
         </IconButton>
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     href={route('consultor.notificacoes.leads.index')}>
-            <Badge badgeContent={qtdLeads} color="primary">
+            <Badge badgeContent={qtdLeads} color="error">
                 <PeopleAltOutlinedIcon/>
             </Badge>
         </IconButton>
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     href={route('consultor.notificacoes.pedidos.index')}>
-            <Badge badgeContent={qtdPedidos} color="primary">
+            <Badge badgeContent={qtdPedidos} color="error">
                 <NotificationsOutlinedIcon/>
             </Badge>
         </IconButton>

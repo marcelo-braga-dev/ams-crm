@@ -2,8 +2,11 @@ import * as React from "react";
 import {Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
 import {forwardRef, useState} from "react";
+import {usePage} from "@inertiajs/react";
 
 export default function CollapseMenu({item, menu}) {
+    const funcao = usePage().props.auth.user.tipo
+
     const level = 1
     const isSelected = false;
 
@@ -22,6 +25,7 @@ export default function CollapseMenu({item, menu}) {
 
 
     return (
+        !(funcao === 'supervisor' && item.admin) &&
         <div key={item.id} className="accordion-item navbar-nav">
             <div className="accordion-header nav-item" id={"flush-heading-" + item.id}>
                 <ListItemButton
@@ -110,6 +114,7 @@ export default function CollapseMenu({item, menu}) {
                      data-bs-parent="#accordionFlushSidebar">
 
                     {item?.submenu?.map((submenu) => (
+                        !(funcao === 'supervisor' && submenu.admin) &&
                         <div key={submenu.id}>
                             <a href={submenu.url ?? undefined} className="text-sm text-muted">
                                 <div className="accordion-body p-0 ms-5 mb-2">
@@ -121,6 +126,7 @@ export default function CollapseMenu({item, menu}) {
                             </a>
                             {submenu?.submenu?.map((item2) => {
                                 return (
+                                    !(funcao === 'supervisor' && item.admin) &&
                                     <a href={item2.url} key={item2.id} className="text-sm text-muted">
                                         <div className="accordion-body p-0 ms-5 mb-2">
                                             <span className="nav-link-text ps-3"
