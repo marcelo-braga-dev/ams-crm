@@ -44,67 +44,67 @@ export default function Pedidos({
     return (
         <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="lista">
 
-            {/*<div className="row justify-content-between mb-2">*/}
-            {/*    <div className="col-6">*/}
-            {/*        <div className="row">*/}
-            {/*            <div className="col-md-5">*/}
-            {/*                <TextField select label="Setores" size="small" fullWidth*/}
-            {/*                           defaultValue={setorAtual ?? ''}*/}
-            {/*                           onChange={e => atualizarPagina(null, e.target.value)}>*/}
-            {/*                    <MenuItem value="todos">Todos</MenuItem>*/}
-            {/*                    {setores.map((setor, index) => {*/}
-            {/*                        return (*/}
-            {/*                            <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>*/}
-            {/*                        )*/}
-            {/*                    })}*/}
-            {/*                </TextField>*/}
-            {/*            </div>*/}
-            {/*            <div className="col-md-5">*/}
-            {/*                <TextField select size="small" label="Fornecedores" fullWidth*/}
-            {/*                           defaultValue={fornecedorAtual ?? ''}*/}
-            {/*                           onChange={e => atualizarPagina(e.target.value, setorAtual)}>*/}
-            {/*                    <MenuItem value="">Todos</MenuItem>*/}
-            {/*                    {fornecedores.map((item, index) => {*/}
-            {/*                        return (*/}
-            {/*                            <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>*/}
-            {/*                        )*/}
-            {/*                    })}*/}
-            {/*                </TextField>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
+            <div className="row justify-content-between mb-2">
+                <div className="col-6">
+                    <div className="row">
+                        <div className="col-md-5">
+                            <TextField select label="Setores" size="small" fullWidth
+                                       defaultValue={setorAtual ?? ''}
+                                       onChange={e => atualizarPagina(null, e.target.value)}>
+                                <MenuItem value="todos">Todos</MenuItem>
+                                {setores.map((setor, index) => {
+                                    return (
+                                        <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
+                                    )
+                                })}
+                            </TextField>
+                        </div>
+                        <div className="col-md-5">
+                            <TextField select size="small" label="Fornecedores" fullWidth
+                                       defaultValue={fornecedorAtual ?? ''}
+                                       onChange={e => atualizarPagina(e.target.value, setorAtual)}>
+                                <MenuItem value="">Todos</MenuItem>
+                                {fornecedores.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
+                                    )
+                                })}
+                            </TextField>
+                        </div>
+                    </div>
+                </div>
 
-            {/*    <div className="col">*/}
-            {/*        <ScrollControlHorizontal/>*/}
-            {/*    </div>*/}
-            {/*    <div className="col-auto">*/}
-            {/*        <div className="bg-white">*/}
-            {/*            /!*Pesquisa*!/*/}
-            {/*            <div className="row justify-content-between">*/}
-            {/*                <div className="col-auto">*/}
-            {/*                    <div className="ms-2 mt-2">*/}
-            {/*                                <span className="badge" style={{backgroundColor: dadosSetor?.cor}}>*/}
-            {/*                                    {dadosSetor?.nome}*/}
-            {/*                                </span>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*                <div className="col-auto">*/}
-            {/*                    <FormControl variant="outlined" className="bg-white" size="small">*/}
-            {/*                        <InputLabel htmlFor="search">Pesquisar...</InputLabel>*/}
-            {/*                        <OutlinedInput*/}
-            {/*                            id="search" label="Pesquisar..."*/}
-            {/*                            endAdornment={*/}
-            {/*                                <InputAdornment position="end">*/}
-            {/*                                    <SearchOutlinedIcon></SearchOutlinedIcon>*/}
-            {/*                                </InputAdornment>*/}
-            {/*                            }*/}
-            {/*                            onChange={e => pesquisaCards(e.target.value)}/>*/}
-            {/*                    </FormControl>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+                <div className="col">
+                    <ScrollControlHorizontal/>
+                </div>
+                <div className="col-auto">
+                    <div className="bg-white">
+                        {/*Pesquisa*/}
+                        <div className="row justify-content-between">
+                            <div className="col-auto">
+                                <div className="ms-2 mt-2">
+                                            <span className="badge" style={{backgroundColor: dadosSetor?.cor}}>
+                                                {dadosSetor?.nome}
+                                            </span>
+                                </div>
+                            </div>
+                            <div className="col-auto">
+                                <FormControl variant="outlined" className="bg-white" size="small">
+                                    <InputLabel htmlFor="search">Pesquisar...</InputLabel>
+                                    <OutlinedInput
+                                        id="search" label="Pesquisar..."
+                                        endAdornment={
+                                            <InputAdornment position="end">
+                                                <SearchOutlinedIcon></SearchOutlinedIcon>
+                                            </InputAdornment>
+                                        }
+                                        onChange={e => pesquisaCards(e.target.value)}/>
+                                </FormControl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
             {/*/!*Tabela*!/*/}
