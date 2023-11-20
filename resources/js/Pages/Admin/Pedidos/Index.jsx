@@ -312,13 +312,13 @@ export default function Pedidos({
                                                               cor={'#854787'}/>)
                                         })}
                                     </td> : ''}
-                                {/*{modelo === 2 || !modelo ? '' :*/}
-                                {/*    <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {modelo === 2 || !modelo ? '' :
+                                    <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
                                 {/*        {pedidos.acompanhamento.map((dados) => {*/}
                                 {/*            return (<CardAcompanhamento key={dados.id} dados={dados}*/}
                                 {/*                                        cor={coresAbas.acompanhamento}/>)*/}
                                 {/*        })}*/}
-                                {/*    </td>}*/}
+                                    </td>}
                                 <td id="td-12" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.entregue.map((dados) => {
                                         return (<CardEntregue key={dados.id} dados={dados}
