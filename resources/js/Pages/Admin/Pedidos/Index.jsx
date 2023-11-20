@@ -266,21 +266,21 @@ export default function Pedidos({
                                             <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
                                     })}
                                 </td>
-                            {/*    {modelo === 2 || !modelo ? '' :*/}
-                            {/*        <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*            {pedidos.nota.map((dados) => {*/}
-                            {/*                return (*/}
-                            {/*                    <CardBoleto key={dados.id} dados={dados}*/}
-                            {/*                                cor={coresAbas.boleto}/>)*/}
-                            {/*            })}*/}
-                            {/*        </td>}*/}
-                            {/*    {modelo === 2 || !modelo ? '' :*/}
-                            {/*        <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*            {pedidos.pagamento.map((dados) => {*/}
-                            {/*                return (<CardPagamento key={dados.id} dados={dados}*/}
-                            {/*                                       cor={coresAbas.pagamento}/>)*/}
-                            {/*            })}*/}
-                            {/*        </td>}*/}
+                                {modelo === 2 || !modelo ? '' :
+                                    <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.nota.map((dados) => {
+                                            return (
+                                                <CardBoleto key={dados.id} dados={dados}
+                                                            cor={coresAbas.boleto}/>)
+                                        })}
+                                    </td>}
+                                {modelo === 2 || !modelo ? '' :
+                                    <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.pagamento.map((dados) => {
+                                            return (<CardPagamento key={dados.id} dados={dados}
+                                                                   cor={coresAbas.pagamento}/>)
+                                        })}
+                                    </td>}
                             {/*    {modelo === 2 || !modelo ? '' :*/}
                             {/*        <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>*/}
                             {/*            {pedidos.faturamento.map((dados) => {*/}
