@@ -9,8 +9,13 @@ export default function CardAcompanhamento({dados, cor}) {
         <CardPedidos
             dados={dados}
             menuMore={<MenuMore id={dados.id}/>}
-            btnAvancaStatus={<BtnAvancaStatus dados={dados}/>}
-            alerts={<AlertsCard dados={dados}/>}
             border={cor}/>
+        // <CardPedidos
+        //     dados={dados}
+        //     menuMore={<MenuMore id={dados.id}/>}
+        //     btnAvancaStatus={<BtnAvancaStatus dados={dados}/>}
+        //     alerts={<AlertsCard dados={dados}/>}
+        //     border={cor}
+        // />
     )
 }
