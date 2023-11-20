@@ -237,22 +237,22 @@ export default function Pedidos({
                             </tr>
                             </thead>
                             <tbody>
-                            {/*<tr className="align-top">*/}
-                            {/*    <td id="td-1" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*        {pedidos.reprovado.map((dados) => {*/}
-                            {/*            return (<CardReprovado key={dados.id} dados={dados}*/}
-                            {/*                                   cor={coresAbas.reprovado}/>)*/}
-                            {/*        })}*/}
-                            {/*    </td>*/}
-                            {/*    {modelo === 1 ? '' :*/}
-                            {/*        <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*            {pedidos.encomenda.map((dados) => {*/}
-                            {/*                return (*/}
-                            {/*                    <CardEncomenda key={dados.id} dados={dados}*/}
-                            {/*                                   cor={coresAbas.encomenda}/>*/}
-                            {/*                )*/}
-                            {/*            })}*/}
-                            {/*        </td>}*/}
+                            <tr className="align-top">
+                                <td id="td-1" className='shadow-sm' style={{minWidth: 300}}>
+                                    {pedidos.reprovado.map((dados) => {
+                                        return (<CardReprovado key={dados.id} dados={dados}
+                                                               cor={coresAbas.reprovado}/>)
+                                    })}
+                                </td>
+                                {modelo === 1 ? '' :
+                                    <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.encomenda.map((dados) => {
+                                            return (
+                                                <CardEncomenda key={dados.id} dados={dados}
+                                                               cor={coresAbas.encomenda}/>
+                                            )
+                                        })}
+                                    </td>}
                             {/*    <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>*/}
                             {/*        {pedidos.conferencia.map((dados) => {*/}
                             {/*            return (*/}
@@ -332,7 +332,7 @@ export default function Pedidos({
                             {/*                               cor={coresAbas.cancelados}/>)*/}
                             {/*        })}*/}
                             {/*    </td>*/}
-                            {/*</tr>*/}
+                            </tr>
                             </tbody>
                         </table>
                     </div>
