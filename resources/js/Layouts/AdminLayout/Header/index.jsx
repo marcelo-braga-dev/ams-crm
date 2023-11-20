@@ -13,9 +13,6 @@ const Header = ({open, titlePage, voltar, handleDrawerToggle}) => {
     const theme = useTheme();
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
 
-    const iconBackColor = 'grey.100';
-    const iconBackColorOpen = 'grey.200';
-
     // common header
     const mainHeader = (
         <Toolbar>

@@ -109,9 +109,9 @@ export default function CollapseMenu({item, menu}) {
                      aria-labelledby={"flush-heading-" + item.id}
                      data-bs-parent="#accordionFlushSidebar">
 
-                    {item?.submenu?.map((submenu, i) => (
-                        <div key={i}>
-                            <a href={submenu.url ?? undefined} key={i} className="text-sm text-muted">
+                    {item?.submenu?.map((submenu) => (
+                        <div key={submenu.id}>
+                            <a href={submenu.url ?? undefined} className="text-sm text-muted">
                                 <div className="accordion-body p-0 ms-5 mb-2">
                                         <span className="nav-link-text"
                                               style={'tag' === 'submenuSidebar' ? 'pageCurrent()' : {}}>

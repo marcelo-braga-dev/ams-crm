@@ -1,6 +1,5 @@
 import * as React from "react";
-
-import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
+import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 
 const dashboard = {
     id: '',
@@ -12,7 +11,7 @@ const dashboard = {
             title: 'Leads',
             type: 'collapse',
             url: undefined,
-            icon: RequestPageOutlinedIcon,
+            icon: PeopleAltOutlinedIcon,
             submenu: [
                 {
                     id: 'leads-relatorios',

@@ -24,6 +24,18 @@ const dashboard = {
                     title: 'Relatório de Pedidos',
                     type: 'item',
                     url: undefined,
+                    submenu: [
+                        {
+                            id: 'pedidos-relatorios',
+                            title: 'Produtos',
+                            url: route('admin.pedidos.relatorios.produtos.index'),
+                        },
+                        {
+                            id: 'pedidos-faturamento',
+                            title: 'Faturamento',
+                            url: route('admin.pedidos.relatorios.faturamento.index'),
+                        },
+                    ]
                 }, {
                     id: 'pedidos-historico',
                     title: 'Histórico de Pedidos',

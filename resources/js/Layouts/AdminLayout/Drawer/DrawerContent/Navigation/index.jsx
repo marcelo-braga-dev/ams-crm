@@ -6,15 +6,13 @@ import NavGroup from './Navs/NavGroup';
 import menuItems from '@/Layouts/AdminLayout/menu-items/index';
 
 const Navigation = ({menu}) => {
-    const menuSidebar = ''
-    const submenuSidebar = ''
 
-    const navGroups = menuItems.items.map((item) => {
+    const navGroups = menuItems.items.map((item, index) => {
         switch (item.type) {
             case 'group':
-                return <NavGroup key={item.id} item={item} menu={menu}/>;
+                return <NavGroup key={index} item={item} menu={menu}/>;
             default:
-                return '';
+                return <></>;
         }
     });
 
