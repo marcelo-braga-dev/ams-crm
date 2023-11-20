@@ -315,7 +315,7 @@ export default function Pedidos({
                                 {modelo === 2 || !modelo ? '' :
                                     <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.acompanhamento.map((dados) => {
-                                            return (<CardEntregue key={dados.id} dados={dados}
+                                            return (<CardEntregue key={dados.id} dados={dados} status="acompanhamento"
                                                                         cor={coresAbas.acompanhamento}/>)
                                         })}
                                     </td>}

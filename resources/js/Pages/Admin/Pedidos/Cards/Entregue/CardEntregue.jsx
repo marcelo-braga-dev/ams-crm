@@ -1,14 +1,24 @@
-
 import CardPedidos from "../CardPedidos";
 import MenuMore from './MenuMore';
 import BtnAvancaStatus from "./BtnAvancaStatus";
+import AlertsCard from "@/Pages/Admin/Pedidos/Cards/Acompanhamento/AlertsCard";
 
 
+export default function CardEntregue({dados, cor, status}) {
+    if (status === 'acompanhamento') {
+        return (
+            <CardPedidos
+                dados={dados}
+                menuMore={<MenuMore id={dados.id}/>}
+                btnAvancaStatus={<BtnAvancaStatus dados={dados}/>}
+                alerts={<AlertsCard dados={dados}/>}
+                border={cor}/>
+        )
+    }
 
-export default function CardEntregue({dados, cor}) {
-
-    return ( <CardPedidos
+    return (<CardPedidos
         dados={dados}
         menuMore={<MenuMore id={dados.id}/>}
-        border={cor}/> )
+        border={cor}
+    />)
 }
