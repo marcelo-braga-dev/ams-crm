@@ -253,19 +253,19 @@ export default function Pedidos({
                                             )
                                         })}
                                     </td>}
-                            {/*    <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*        {pedidos.conferencia.map((dados) => {*/}
-                            {/*            return (*/}
-                            {/*                <ConferenciaCard key={dados.id} dados={dados}*/}
-                            {/*                                 cor={coresAbas.conferencia}/>)*/}
-                            {/*        })}*/}
-                            {/*    </td>*/}
-                            {/*    <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*        {pedidos.lancado.map((dados) => {*/}
-                            {/*            return (*/}
-                            {/*                <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)*/}
-                            {/*        })}*/}
-                            {/*    </td>*/}
+                                <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>
+                                    {pedidos.conferencia.map((dados) => {
+                                        return (
+                                            <ConferenciaCard key={dados.id} dados={dados}
+                                                             cor={coresAbas.conferencia}/>)
+                                    })}
+                                </td>
+                                <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
+                                    {pedidos.lancado.map((dados) => {
+                                        return (
+                                            <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
+                                    })}
+                                </td>
                             {/*    {modelo === 2 || !modelo ? '' :*/}
                             {/*        <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>*/}
                             {/*            {pedidos.nota.map((dados) => {*/}
