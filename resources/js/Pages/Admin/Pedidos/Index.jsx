@@ -320,7 +320,7 @@ export default function Pedidos({
                                         })}
                                     </td>}
                                 <td id="td-12" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.acompanhamento.map((dados) => {
+                                    {pedidos.entregue.map((dados) => {
                                         return (<CardEntregue key={dados.id} dados={dados}
                                                               cor={coresAbas.entregue}/>)
                                     })}
