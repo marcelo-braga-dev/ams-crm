@@ -145,21 +145,21 @@ export default function NotificacoesIcones() {
         </Popover>
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
-                    href={route('consultor.chat-interno.index')}>
+                    href={route('admin.chat-interno.index')}>
             <Badge badgeContent={qtdChatInterno} color="error">
                 <ForumOutlinedIcon/>
             </Badge>
         </IconButton>
 
-        <IconButton disableRipple sx={{color: 'black', mx: 1}}
-                    href={route('consultor.notificacoes.leads.index')}>
-            <Badge badgeContent={qtdLeads} color="error">
-                <ContactPhoneOutlinedIcon/>
-            </Badge>
-        </IconButton>
+        {/*<IconButton disableRipple sx={{color: 'black', mx: 1}}*/}
+        {/*            href={route('admin.notificacoes.leads.index')}>*/}
+        {/*    <Badge badgeContent={qtdLeads} color="error">*/}
+        {/*        <ContactPhoneOutlinedIcon/>*/}
+        {/*    </Badge>*/}
+        {/*</IconButton>*/}
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
-                    href={route('consultor.notificacoes.pedidos.index')}>
+                    href={route('admin.notificacoes.index')}>
             <Badge badgeContent={qtdPedidos} color="error">
                 <NotificationsOutlinedIcon/>
             </Badge>
