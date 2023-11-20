@@ -44,8 +44,8 @@ export default function Pedidos({
     return (
         <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="lista">
 
-            <div className="row justify-content-between mb-2">
-                <div className="col-6">
+            <div className="row justify-content-around mb-2">
+                <div className="col-md-4">
                     <div className="row">
                         <div className="col-md-5">
                             <TextField select label="Setores" size="small" fullWidth
@@ -74,21 +74,21 @@ export default function Pedidos({
                     </div>
                 </div>
 
-                <div className="col">
+                <div className="col-md-4">
                     <ScrollControlHorizontal/>
                 </div>
-                <div className="col-auto">
+                <div className="col-md-4">
                     <div className="bg-white">
                         {/*Pesquisa*/}
                         <div className="row justify-content-between">
-                            <div className="col-auto">
+                            <div className="col-md-6">
                                 <div className="ms-2 mt-2">
                                             <span className="badge" style={{backgroundColor: dadosSetor?.cor}}>
                                                 {dadosSetor?.nome}
                                             </span>
                                 </div>
                             </div>
-                            <div className="col-auto">
+                            <div className="col-md-6">
                                 <FormControl variant="outlined" className="bg-white" size="small">
                                     <InputLabel htmlFor="search">Pesquisar...</InputLabel>
                                     <OutlinedInput
