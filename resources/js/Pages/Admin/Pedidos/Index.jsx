@@ -9,8 +9,7 @@ import CardBoleto from './Cards/Boleto/CardBoleto';
 import CardPagamento from './Cards/Pagamento/CardPagamento';
 import CardFaturando from './Cards/Faturando/CardFaturando';
 import CardFaturado from './Cards/Faturado/CardFaturado';
-// import CardAcompanhamento from './Cards/Acompanhamento/CardAcompanhamento';
-import Acompanha from './Cards/Acompanha/CardAcompanha';
+import CardAcompanhamento from './Cards/Acompanhamento/CardAcompanhamento';
 import CardEntregue from './Cards/Entregue/CardEntregue';
 import CardCancelado from './Cards/Cancelado/CardCancelado';
 
@@ -321,7 +320,7 @@ export default function Pedidos({
                                         })}
                                     </td>}
                                 <td id="td-12" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.entregue.map((dados) => {
+                                    {pedidos.acompanhamento.map((dados) => {
                                         return (<CardEntregue key={dados.id} dados={dados}
                                                               cor={coresAbas.entregue}/>)
                                     })}
