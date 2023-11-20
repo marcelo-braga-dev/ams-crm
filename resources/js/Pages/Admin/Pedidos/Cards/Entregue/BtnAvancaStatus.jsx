@@ -1,13 +1,26 @@
-import React from "react";
+// import React from "react";
+// import DoubleArrowIcon from '@mui/icons-material/DoubleArrowRounded';
+//
+// export default function BtnAvancaStatus({dados}) {
+//     return (
+//         <a href={route('admin.acompanhamento.show', dados.id)}>
+//             <DoubleArrowIcon
+//                 className='shadow border-2 p-0 rounded-circle'
+//                 color='success'
+//                 sx={{fontSize: 32}}/>
+//         </a>
+//     )
+// }
+
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrowRounded';
 
-export default function BtnAvancaStatus({dados}) {
+export default function BtnAvancaStatus({id}) {
     return (
-        <a href={route('admin.acompanhamento.show', dados.id)}>
+        <a href={route('admin.conferencia.show', id)}>
             <DoubleArrowIcon
                 className='shadow border-2 p-0 rounded-circle'
                 color='success'
-                sx={{fontSize: 32}}/>
+                sx={{ fontSize: 32 }} />
         </a>
     )
 }

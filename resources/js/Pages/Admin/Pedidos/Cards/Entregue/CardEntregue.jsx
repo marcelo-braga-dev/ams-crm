@@ -1,7 +1,6 @@
 import CardPedidos from "../CardPedidos";
 import MenuMore from './MenuMore';
-import BtnAvancaStatus from "@/Pages/Admin/Pedidos/Cards/Conferencia/BtnAvancaStatus";
-// import BtnAvancaStatus from "./BtnAvancaStatus";
+import BtnAvancaStatus from "./BtnAvancaStatus";
 // import AlertsCard from "@/Pages/Admin/Pedidos/Cards/Acompanhamento/AlertsCard";
 
 
