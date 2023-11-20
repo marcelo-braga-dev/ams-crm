@@ -9,7 +9,7 @@ import CardBoleto from './Cards/Boleto/CardBoleto';
 import CardPagamento from './Cards/Pagamento/CardPagamento';
 import CardFaturando from './Cards/Faturando/CardFaturando';
 import CardFaturado from './Cards/Faturado/CardFaturado';
-import CardAcompanhamento from './Cards/Acompanhamento/CardAcompanhamento';
+// import CardAcompanhamento from './Cards/Acompanhamento/CardAcompanhamento';
 import Acompanha from './Cards/Acompanha/CardAcompanha';
 import CardEntregue from './Cards/Entregue/CardEntregue';
 import CardCancelado from './Cards/Cancelado/CardCancelado';
