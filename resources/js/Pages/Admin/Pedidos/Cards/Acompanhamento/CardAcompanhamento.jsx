@@ -1,21 +1,37 @@
+
 import CardPedidos from "../CardPedidos";
 import MenuMore from './MenuMore';
 import BtnAvancaStatus from "./BtnAvancaStatus";
-// import AlertsCard from "./AlertsCard";
 
-export default function CardAcompanhamento({dados, cor}) {
 
-    return (
-        <CardPedidos
-            dados={dados}
-            menuMore={<MenuMore id={dados.id}/>}
-            border={cor}/>
-        // <CardPedidos
-        //     dados={dados}
-        //     menuMore={<MenuMore id={dados.id}/>}
-        //     btnAvancaStatus={<BtnAvancaStatus dados={dados}/>}
-        //     alerts={<AlertsCard dados={dados}/>}
-        //     border={cor}
-        // />
-    )
+
+export default function CardEntregue({dados, cor}) {
+
+    return ( <CardPedidos
+        dados={dados}
+        menuMore={<MenuMore id={dados.id}/>}
+        border={cor}/> )
 }
+
+
+// import CardPedidos from "../CardPedidos";
+// import MenuMore from './MenuMore';
+// import BtnAvancaStatus from "./BtnAvancaStatus";
+// // import AlertsCard from "./AlertsCard";
+//
+// export default function CardAcompanhamento({dados, cor}) {
+//
+//     return (
+//         <CardPedidos
+//             dados={dados}
+//             menuMore={<MenuMore id={dados.id}/>}
+//             border={cor}/>
+//         // <CardPedidos
+//         //     dados={dados}
+//         //     menuMore={<MenuMore id={dados.id}/>}
+//         //     btnAvancaStatus={<BtnAvancaStatus dados={dados}/>}
+//         //     alerts={<AlertsCard dados={dados}/>}
+//         //     border={cor}
+//         // />
+//     )
+// }
