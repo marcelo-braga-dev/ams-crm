@@ -10,6 +10,7 @@ import CardPagamento from './Cards/Pagamento/CardPagamento';
 import CardFaturando from './Cards/Faturando/CardFaturando';
 import CardFaturado from './Cards/Faturado/CardFaturado';
 import CardAcompanhamento from './Cards/Acompanhamento/CardAcompanhamento';
+import Acompanha from './Cards/Acompanha/CardAcompanha';
 import CardEntregue from './Cards/Entregue/CardEntregue';
 import CardCancelado from './Cards/Cancelado/CardCancelado';
 
@@ -315,7 +316,7 @@ export default function Pedidos({
                                 {modelo === 2 || !modelo ? '' :
                                     <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.acompanhamento.map((dados) => {
-                                            return (<CardAcompanhamento key={dados.id} dados={dados}
+                                            return (<Acompanha key={dados.id} dados={dados}
                                                                         cor={coresAbas.acompanhamento}/>)
                                         })}
                                     </td>}
