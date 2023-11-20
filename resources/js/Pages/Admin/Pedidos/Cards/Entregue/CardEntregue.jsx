@@ -1,7 +1,7 @@
 import CardPedidos from "../CardPedidos";
 import MenuMore from './MenuMore';
 import BtnAvancaStatus from "./BtnAvancaStatus";
-import AlertsCard from "@/Pages/Admin/Pedidos/Cards/Acompanhamento/AlertsCard";
+// import AlertsCard from "@/Pages/Admin/Pedidos/Cards/Acompanhamento/AlertsCard";
 
 
 export default function CardEntregue({dados, cor, status}) {
