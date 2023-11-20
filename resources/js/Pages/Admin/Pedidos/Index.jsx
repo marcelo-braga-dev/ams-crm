@@ -342,11 +342,6 @@ export default function Pedidos({
                     <ScrollControlHorizontal lateral="d"/>
                 </div>
             </div>
-            <div className="row mb-3">
-                <div className="col text-center">
-                    <ScrollControlHorizontal/>
-                </div>
-            </div>
         </Layout>
     );
 }
