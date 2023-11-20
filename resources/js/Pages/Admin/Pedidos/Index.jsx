@@ -325,13 +325,13 @@ export default function Pedidos({
                                                               cor={coresAbas.entregue}/>)
                                     })}
                                 </td>
-                            {/*    <td id="td-13" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*        {pedidos.cancelado.map((dados) => {*/}
-                            {/*            return (*/}
-                            {/*                <CardCancelado key={dados.id} dados={dados}*/}
-                            {/*                               cor={coresAbas.cancelados}/>)*/}
-                            {/*        })}*/}
-                            {/*    </td>*/}
+                                <td id="td-13" className='shadow-sm' style={{minWidth: 300}}>
+                                    {pedidos.cancelado.map((dados) => {
+                                        return (
+                                            <CardCancelado key={dados.id} dados={dados}
+                                                           cor={coresAbas.cancelados}/>)
+                                    })}
+                                </td>
                             </tr>
                             </tbody>
                         </table>
