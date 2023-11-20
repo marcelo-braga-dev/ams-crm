@@ -1,5 +1,5 @@
 import {router} from '@inertiajs/react'
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 
 import React from 'react';
 import {useForm} from '@inertiajs/react';

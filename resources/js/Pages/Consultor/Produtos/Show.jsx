@@ -1,9 +1,9 @@
-import Layout from "@/Layouts/Consultor/Layout";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import React from "react";
 
 export default function ({produtos}) {
     return (
-        <Layout container titlePage="Produtos"
+        <Layout container titlePage="Produtos" menu="produtos-lista"
                 voltar={route('consultor.pedidos.produtos.index')}>
             <div className="table-responsive">
                 <table className="table">

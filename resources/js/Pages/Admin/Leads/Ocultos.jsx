@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import DataTable from 'react-data-table-component';
 import {TextField} from "@mui/material";
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import {useForm} from "@inertiajs/react";
 import Checkbox from "@mui/material/Checkbox";
 import MenuItem from "@mui/material/MenuItem";

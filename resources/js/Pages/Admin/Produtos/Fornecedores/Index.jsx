@@ -1,9 +1,9 @@
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 
 export default function Create({fornecedores, setores, setorAtual}) {
 
     return (
-        <Layout container titlePage="Produtos por Fornecedores"
+        <Layout titlePage="Produtos por Fornecedores"
                 menu="produtos" submenu="todos-produtos">
             {/*Setores*/}
             <div className="row mb-4">

@@ -3,7 +3,7 @@ import Layout from '@/Layouts/Supervisor/Layout';
 import React, {useState} from 'react';
 import {Container, Row, Col, Button} from 'reactstrap';
 import {TextField, Typography} from "@mui/material";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import {useForm} from "@inertiajs/react";
 import {router} from '@inertiajs/react'
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";

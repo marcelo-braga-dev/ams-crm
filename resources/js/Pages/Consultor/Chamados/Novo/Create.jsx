@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 
 import React from 'react';
 import {useForm} from '@inertiajs/react';
@@ -19,8 +19,8 @@ export default function Create({pedido}) {
 
     return (
         <Layout
-            titlePage="Abrir SAQ"
-            url={route('consultor.pedidos.index')} textButton={'Voltar'}>
+            titlePage="Abrir SAQ" menu="sac-chamados"
+            voltar={route('consultor.pedidos.index')}>
 
             <Form onSubmit={submit}>
                 <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 mb-4">

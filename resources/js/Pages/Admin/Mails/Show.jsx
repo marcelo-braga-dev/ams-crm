@@ -1,5 +1,5 @@
-import Layout from "@/Layouts/Admin/Layout";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 
 import ForwardIcon from '@mui/icons-material/Forward';
 import ReplyOutlinedIcon from '@mui/icons-material/ReplyOutlined';

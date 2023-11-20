@@ -1,5 +1,5 @@
 import {Head, Link, useForm} from '@inertiajs/react';
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
 import MenuItem from "@mui/material/MenuItem";

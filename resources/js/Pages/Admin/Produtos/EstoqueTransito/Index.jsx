@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 
 export default function Create({usuarios, setores, setorAtual}) {
 

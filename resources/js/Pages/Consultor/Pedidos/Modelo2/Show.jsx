@@ -1,5 +1,4 @@
-import Layout from '@/Layouts/Consultor/Layout';
-import {Button, Card, Col, Container, Row, Table} from "reactstrap";
+import Layout from '@/Layouts/VendedorLayout/LayoutConsultor';
 import Typography from "@mui/material/Typography";
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -52,7 +51,7 @@ export default function Pedidos({dados, historico}) {
     };
 
     return (
-        <Layout titlePage="Pedidos" button={true} url={route('admin.pedidos.index')} textButton={'Voltar'}>
+        <Layout titlePage="Pedidos" voltar={route('admin.pedidos.index')} menu="pedidos-lista">
 
             <div className="container bg-white rounded">
                 <Box sx={{width: '100%'}}>

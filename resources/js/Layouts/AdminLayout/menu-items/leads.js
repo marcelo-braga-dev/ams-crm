@@ -1,0 +1,63 @@
+import * as React from "react";
+
+import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
+
+const dashboard = {
+    id: '',
+    title: '',
+    type: 'group',
+    children: [
+        {
+            id: 'leads',
+            title: 'Leads',
+            type: 'collapse',
+            url: undefined,
+            icon: RequestPageOutlinedIcon,
+            submenu: [
+                {
+                    id: 'leads-relatorios',
+                    title: 'Relatórios',
+                    type: 'item',
+                    url: route('admin.leads.relatorios.index'),
+                }, {
+                    id: 'leads-historico',
+                    title: 'Histórico',
+                    type: 'item',
+                    url: route('admin.clientes.leads.leads-acompanhar'),
+                }, {
+                    id: 'leads-cadastrados',
+                    title: 'Cadastrados',
+                    type: 'item',
+                    url: route('admin.clientes.leads.leads-cadastrados'),
+                }, {
+                    id: 'leads-',
+                    title: 'Cadastrar',
+                    type: 'item',
+                    url: route('admin.clientes.leads.leads-main.create'),
+                }, {
+                    id: 'leads-encaminhar',
+                    title: 'Encaminhar',
+                    type: 'item',
+                    url: route('admin.clientes.leads.leads-main.index'),
+                }, {
+                    id: 'leads-alterar',
+                    title: 'Alterar Consultor',
+                    type: 'item',
+                    url: route('admin.clientes.leads.alterar-consultor'),
+                }, {
+                    id: 'leads-importar',
+                    title: 'Importar Planilhas',
+                    type: 'item',
+                    url: route('admin.clientes.leads.importar.index'),
+                }, {
+                    id: 'leads-status',
+                    title: 'Status dos Leads',
+                    type: 'item',
+                    url: route('admin.clientes.leads.status.index'),
+                },
+            ]
+        }
+    ]
+};
+
+export default dashboard;

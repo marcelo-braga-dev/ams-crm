@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import {useForm} from "@inertiajs/react";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import EmojiPicker from "emoji-picker-react";
 import $ from 'jquery'

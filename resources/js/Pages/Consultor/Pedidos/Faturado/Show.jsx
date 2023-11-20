@@ -1,9 +1,9 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import { router } from '@inertiajs/react'
 
 import React from 'react';
 import {useForm} from '@inertiajs/react';
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 

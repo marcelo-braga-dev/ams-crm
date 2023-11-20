@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 
 import {router, useForm} from '@inertiajs/react';
 
@@ -26,7 +26,7 @@ export default function Edit({pedido, fornecedores, cliente, preco, errors}) {
     }
 
     return (
-        <Layout container titlePage="Cadastrar Pedido" voltar={route('consultor.pedidos.index')}>
+        <Layout titlePage="Cadastrar Pedido" menu="pedidos-lista" voltar={route('consultor.pedidos.index')}>
 
             <form onSubmit={submit}>
                 <div className="row mb-5 pb-4 border-bottom">

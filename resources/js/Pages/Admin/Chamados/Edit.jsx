@@ -1,10 +1,10 @@
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import {router} from '@inertiajs/react'
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 import React from "react";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 
 export default function Create({chamado, pedido, mensagens}) {
     // Envio da Resposta

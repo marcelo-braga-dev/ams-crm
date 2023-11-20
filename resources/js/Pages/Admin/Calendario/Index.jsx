@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {useState} from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -91,7 +91,7 @@ export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
     }
 
     return (
-        <Layout container titlePage="Calendário" menu="calendario" submenu="calendario">
+        <Layout container titlePage="Calendário" menu="agenda" submenu="calendario">
             <div className="">
                 <small style={{backgroundColor: coresPedidos.reprovado}} className="badge rounded-pill mb-2 me-2 text-white">
                         Reprovado

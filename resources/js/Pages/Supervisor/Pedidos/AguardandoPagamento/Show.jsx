@@ -5,7 +5,7 @@ import {router} from '@inertiajs/react'
 
 import {useForm} from '@inertiajs/react';
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import {TextField} from "@mui/material";
 import React from "react";
 

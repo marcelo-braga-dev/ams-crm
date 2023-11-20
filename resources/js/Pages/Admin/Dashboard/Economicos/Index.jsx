@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import "chart.js/auto";
 import Lucro from "./Graficos/Lucro";
 import LucroPie from "@/Pages/Admin/Dashboard/Economicos/Graficos/LucroPie";

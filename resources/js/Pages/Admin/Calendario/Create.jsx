@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
@@ -17,7 +17,7 @@ export default function ({usuarios}) {
 
     return (
         <Layout container titlePage="Novo Registro de Calendário" voltar={route('admin.agenda.calendario.index')}
-                menu="calendario" submenu="calendario">
+                menu="agenda" submenu="calendario">
             <div className="row">
                 <div className="col-md-4">
                     <TextField label="Usuário" select fullWidth required defaultValue=""

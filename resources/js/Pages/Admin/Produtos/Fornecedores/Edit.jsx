@@ -1,9 +1,9 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import TextField from "@mui/material/TextField";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {router, useForm} from "@inertiajs/react";
 import React from "react";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import {MenuItem} from "@mui/material";
 
 export default function ({produto, fornecedor, categorias, unidades}) {

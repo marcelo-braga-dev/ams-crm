@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Consultor/Layout";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 
@@ -24,7 +24,7 @@ export default function Edit({dados}) {
     }
 
     return (
-        <Layout container titlePage="Editar LEAD" voltar="back">
+        <Layout container titlePage="Editar LEAD" menu="clientes-lista" voltar="back">
             <span className="h6">Atualizar informações</span>
             <form onSubmit={submit}>
                 <div className="row mt-3">

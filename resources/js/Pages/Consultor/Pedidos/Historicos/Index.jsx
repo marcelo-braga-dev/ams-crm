@@ -1,7 +1,7 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
 import TextField from "@mui/material/TextField";
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 
 const FilterComponent = ({filterText, onFilter}) => (
     <TextField
@@ -84,18 +84,17 @@ export default function Filtering({pedidos}) {
 
 
     return (
-        <Layout container titlePage="Histórico de Pedidos">
-
+        <Layout container titlePage="Histórico de Pedidos" menu="pedidos-historico">
             <DataTable
                 columns={columns}
                 data={filteredItems}
                 pagination
+                responsive={true}
                 paginationPerPage={25}
                 subHeader
                 subHeaderComponent={subHeaderComponentMemo}
                 striped
                 highlightOnHover
-                selectableRowsHighlight
             />
         </Layout>
     );

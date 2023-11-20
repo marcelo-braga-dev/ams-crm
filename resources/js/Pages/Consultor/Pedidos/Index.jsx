@@ -1,3 +1,5 @@
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+
 import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
 import CardReprovado from './Cards/Reprovado/ReprovadoCard';
 import CardLancado from './Cards/Lancado/CardLancado';
@@ -18,12 +20,11 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import pesquisaCards from "@/Helpers/pesquisaCards";
 import React from "react";
 import ScrollControlHorizontal from "@/Helpers/scrollControlHorizontal";
-import Layout from "@/Layouts/Consultor/Layout";
 
 export default function Dashboard({pedidos, coresAbas}) {
 
     return (
-        <Layout titlePage="Lista de Pedidos">
+        <Layout titlePage="Lista de Pedidos" menu="pedidos-lista">
             <div className="card">
                 <div className="card-body">
                     <div className='container'>
@@ -138,8 +139,8 @@ export default function Dashboard({pedidos, coresAbas}) {
                                         <th id="th-10">
                                             <div style={{backgroundColor: coresAbas.cancelados}}
                                                  className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                                <div className='col-auto'>Cancelados</div>
-                                                <div className='col-auto'>Qdt: {pedidos.cancelado.length}</div>
+                                                <div className='col-12'>Cancelados</div>
+                                                <div className='col-12 text-end'>Qdt: {pedidos.cancelado.length}</div>
                                             </div>
                                         </th>
                                     </tr>

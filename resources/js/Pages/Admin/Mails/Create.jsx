@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 
@@ -9,7 +9,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import JoditEditor from "jodit-react";
 import React, {useState, useRef} from "react";
 import InputAdornment from "@mui/material/InputAdornment";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 
 export default function Create({email, emailUsuario}) {
     const msgInicial = ''

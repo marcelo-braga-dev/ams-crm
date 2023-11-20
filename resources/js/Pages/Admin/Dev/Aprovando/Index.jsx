@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import React from "react";

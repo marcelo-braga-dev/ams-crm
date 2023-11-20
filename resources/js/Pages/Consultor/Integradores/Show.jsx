@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Consultor/Layout";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import Typography from "@mui/material/Typography";
 
 export default function Show({integrador}) {

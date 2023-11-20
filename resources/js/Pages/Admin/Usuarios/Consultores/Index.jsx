@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import {Button, Card, Col, Container, Row, Table} from "reactstrap";
 
 export default function Index({consultores}) {

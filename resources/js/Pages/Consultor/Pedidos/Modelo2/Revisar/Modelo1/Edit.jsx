@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import { router } from '@inertiajs/react'
 
 import React, {useState} from 'react';
@@ -60,8 +60,8 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco, inte
     }
 
     return (<Layout
-            titlePage="Revisar Pedido"
-            url={route('consultor.pedidos.index')} textButton="Voltar">
+            titlePage="Revisar Pedido" menu="pedidos-lista"
+            voltar={route('consultor.pedidos.index')}>
             <div className="container bg-white px-lg-6 py-lg-5 mb-4">
                 <Alert severity="warning">
                     {pedido.obs}

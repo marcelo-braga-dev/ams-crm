@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import React, {useState} from "react";
 import {MenuItem, TextField} from "@mui/material";
 import {router, useForm} from "@inertiajs/react";

@@ -13,7 +13,7 @@ import Box from "@mui/material/Box";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import Typography from "@mui/material/Typography";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import Paper from "@mui/material/Paper";
 import * as React from "react";
 

@@ -1,8 +1,8 @@
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import {useForm} from "@inertiajs/react";
 import {router} from '@inertiajs/react'
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import React from "react";
 
 export default function Create({chamado, pedido, mensagens}) {

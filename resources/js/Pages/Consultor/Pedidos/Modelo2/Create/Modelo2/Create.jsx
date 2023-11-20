@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 
 import {useForm} from '@inertiajs/react';
 

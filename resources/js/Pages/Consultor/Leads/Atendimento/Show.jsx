@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Consultor/Layout";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import {useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
@@ -38,7 +38,8 @@ export default function Show({dados, status, contatos, historicos}) {
     }
 
     return (
-        <Layout container voltar={route('consultor.leads.main.index')} titlePage="Lead - Em Atendimento">
+        <Layout container menu="clientes-lista"
+                voltar={route('consultor.leads.main.index')} titlePage="Lead - Em Atendimento">
 
             <div className="row justify-content-between">
                 <div className="col-auto"><h6>Lead em Atendimento</h6></div>

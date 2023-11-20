@@ -1,8 +1,8 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import {router, useForm} from '@inertiajs/react'
 
 import React from 'react';
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
@@ -18,7 +18,7 @@ export default function Create({pedido}) {
     }
 
     return (
-        <Layout container voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado">
+        <Layout menu="pedidos-lista" voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado">
             <div className="row mb-4">
                 <div className="col mb-4">
                     <DadosPedido dados={pedido}/>

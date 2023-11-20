@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {Button, Table} from "reactstrap";
 import * as React from "react";
 import {FormLabel, Radio, RadioGroup, TextField} from "@mui/material";

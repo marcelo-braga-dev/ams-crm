@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Consultor/Layout";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import {useForm} from "@inertiajs/react";
 import {router} from '@inertiajs/react'
@@ -27,7 +27,8 @@ export default function Edit({dados, historicos}) {
     }
 
     return (
-        <Layout container titlePage="Lead - Em Aberto" voltar={route('consultor.leads.main.index')}>
+        <Layout container titlePage="Lead - Em Aberto" voltar={route('consultor.leads.main.index')}
+                menu="clientes-lista">
             <LeadsDados dados={dados}/>
             <form onSubmit={onSubmit}>
                 <div className="text-center mt-4">

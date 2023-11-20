@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import Typography from "@mui/material/Typography";
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
@@ -10,7 +10,7 @@ import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
 
@@ -48,97 +48,94 @@ export default function Pedidos({dados, produtos, historico}) {
     };
 
     return (
-        <Layout titlePage="Pedidos" button={true} url={route('admin.pedidos.index')} textButton={'Voltar'}>
-
-            <div className="container bg-white rounded">
-                <Box sx={{width: '100%'}}>
-                    <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                            <Tab label="Pedido" {...a11yProps(0)} />
-                            <Tab label="Cliente" {...a11yProps(1)} />
-                            <Tab label="Financeiro" {...a11yProps(2)} />
-                            <Tab label="Anexos" {...a11yProps(3)} />
-                        </Tabs>
-                    </Box>
-                    <TabPanel value={value} index={0}>
-                        <div className="row mb-4">
-                            <div className="col-md-8">
-                                <DadosPedido dados={dados} />
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col">
-                                <DadosProdutos dados={produtos}/>
-                            </div>
-                        </div>
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        <DadosPedidoCliente dados={dados} />
-
-                        <hr/>
-                        <Typography variant={"h6"}>Arquivos do Cliente</Typography>
-                        <DadosPedidoClienteFiles dados={dados} />
-                    </TabPanel>
-                    <TabPanel value={value} index={2}>
-                        <div className="row">
-                            <div className="col mb-4">
-                                <h6>Financeiro</h6>
-                                <DadosPedidoFinanceiro dados={dados}/>
-                            </div>
-                            {dados.pedido_files.planilha_pedido &&
-                                <div className="col-md-4">
-                                    <label>Imagem da Planilha de Pedidos</label>
-                                    <ImagePdf url={dados.pedido_files.planilha_pedido}/>
-                                </div>
-                            }
-                        </div>
-                        <div className="row">
-                            <div className="col">
-                                <DadosPedidoFinanceiroFiles dados={dados}/>
-                            </div>
-                        </div>
-                    </TabPanel>
-                    <TabPanel value={value} index={3}>
-                        <h6>Documentos</h6>
-                        <DadosPedidoFiles dados={dados}></DadosPedidoFiles>
-                    </TabPanel>
-                    <TabPanel value={value} index={4}>
-                        <h6 className="mb-3">Histórico do Pedido</h6>
-                        <div className="table-responsive">
-                            <table className="table table-hover">
-                                <thead>
-                                <tr>
-                                    <th>Data</th>
-                                    <th>Prazo</th>
-                                    <th>Status</th>
-                                    <th>Anotações</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {historico.map((dado) => {
-                                    return (
-                                        <tr key={dado.id} className={"align-middle"}>
-                                            <th scope="row">
-                                                {dado.data}
-                                            </th>
-                                            <td>
-                                                {dado.prazo} dias
-                                            </td>
-                                            <td>
-                                                {dado.status}
-                                            </td>
-                                            <td>
-                                                {dado.obs}
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                                </tbody>
-                            </table>
-                        </div>
-                    </TabPanel>
+        <Layout titlePage="Pedidos" menu="pedidos-lista" voltar={route('admin.pedidos.index')}>
+            <Box sx={{width: '100%'}}>
+                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tab label="Pedido" {...a11yProps(0)} />
+                        <Tab label="Cliente" {...a11yProps(1)} />
+                        <Tab label="Financeiro" {...a11yProps(2)} />
+                        <Tab label="Anexos" {...a11yProps(3)} />
+                    </Tabs>
                 </Box>
-            </div>
+                <TabPanel value={value} index={0}>
+                    <div className="row mb-4">
+                        <div className="col-md-8">
+                            <DadosPedido dados={dados}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <DadosProdutos dados={produtos}/>
+                        </div>
+                    </div>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <DadosPedidoCliente dados={dados}/>
+
+                    <hr/>
+                    <Typography variant={"h6"}>Arquivos do Cliente</Typography>
+                    <DadosPedidoClienteFiles dados={dados}/>
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <div className="row">
+                        <div className="col mb-4">
+                            <h6>Financeiro</h6>
+                            <DadosPedidoFinanceiro dados={dados}/>
+                        </div>
+                        {dados.pedido_files.planilha_pedido &&
+                            <div className="col-md-4">
+                                <label>Imagem da Planilha de Pedidos</label>
+                                <ImagePdf url={dados.pedido_files.planilha_pedido}/>
+                            </div>
+                        }
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <DadosPedidoFinanceiroFiles dados={dados}/>
+                        </div>
+                    </div>
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                    <h6>Documentos</h6>
+                    <DadosPedidoFiles dados={dados}></DadosPedidoFiles>
+                </TabPanel>
+                <TabPanel value={value} index={4}>
+                    <h6 className="mb-3">Histórico do Pedido</h6>
+                    <div className="table-responsive">
+                        <table className="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Prazo</th>
+                                <th>Status</th>
+                                <th>Anotações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {historico.map((dado) => {
+                                return (
+                                    <tr key={dado.id} className={"align-middle"}>
+                                        <th scope="row">
+                                            {dado.data}
+                                        </th>
+                                        <td>
+                                            {dado.prazo} dias
+                                        </td>
+                                        <td>
+                                            {dado.status}
+                                        </td>
+                                        <td>
+                                            {dado.obs}
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
+                </TabPanel>
+            </Box>
         </Layout>
     );
 }

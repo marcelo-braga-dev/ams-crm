@@ -9,13 +9,24 @@ import '../assets/argon/bootstrap5/css/nucleo-icons.css';
 import '../assets/argon/bootstrap5/css/nucleo-svg.css';
 import '../assets/argon/bootstrap5/css/nucleo-icons.css';
 import '../assets/argon/bootstrap5/css/argon-dashboard.css';
+
+// import '../css/app.css';
 import '../css/style.css';
+import '../css/theme.css';
+import '../css/lightbox.css';
 
 // {/* <!--   Core JS Files   --> */}
 import '../assets/argon/bootstrap5/js/core/popper.min';
 import '../assets/argon/bootstrap5/js/core/bootstrap.min';
 import '../assets/argon/bootstrap5/js/argon-dashboard.min';
 // Bootstrap5 Argon - fim
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+import ThemeCustomization from '@/Themes/index';
 
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
@@ -29,7 +40,7 @@ createInertiaApp({
     setup({el, App, props}) {
         const root = createRoot(el);
 
-        root.render(<App {...props} />);
+        root.render(<ThemeCustomization><App {...props} /></ThemeCustomization>);
     },
     progress: {
         color: '#4B5563',

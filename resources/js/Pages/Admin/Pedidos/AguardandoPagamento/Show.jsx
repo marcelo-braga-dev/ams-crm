@@ -1,11 +1,11 @@
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 
 import {router} from '@inertiajs/react'
 import {Button, Card, Col, Container, Form, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
 
 import {useForm} from '@inertiajs/react'
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import {TextField} from "@mui/material";
 import React from "react";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";

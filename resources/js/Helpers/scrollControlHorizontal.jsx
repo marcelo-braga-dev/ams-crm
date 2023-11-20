@@ -24,7 +24,7 @@ export default function ScrollControlHorizontal({lateral = null}) {
 
     function toggleBtn(posicaoFinal, posicaoAtual, larguraTabela) {
         // Botao Direito
-        if (posicaoAtual > larguraTabela) $('.btn-scroll-right').removeClass('btn-dark');
+        if (posicaoAtual > larguraTabela -10) $('.btn-scroll-right').removeClass('btn-dark');
         else $('.btn-scroll-right').addClass('btn-dark');
 
         // Botao Esquerdo
@@ -46,37 +46,26 @@ export default function ScrollControlHorizontal({lateral = null}) {
 
     if (lateral === 'e') {
         return (
-            <div className="row h-100"
+            <div className="row h-100 cursor-pointer"
                  onMouseEnter={() => moveScroll(0)}
                  onClick={() => moveScroll(0)}>
-
-                <div className="col" style={{minHeight: '100%'}}>
-                    <button className="btn btn-scroll-left" type="button">
-                        <i className="fas fa-arrow-left"></i>
-                    </button>
-                </div>
             </div>
         )
     }
     if (lateral === 'd') {
         return (
-            <div className="row h-100"
+            <div className="row h-100 cursor-pointer"
                  onMouseEnter={() => moveScroll(1)}
                  onClick={() => moveScroll(1)}>
-                <div className="col">
-                    <button className="btn btn-dark btn-scroll-right" type="button">
-                        <i className="fas fa-arrow-right"></i>
-                    </button>
-                </div>
             </div>
         )
     }
 
     return <>
-        <button className="btn btn-dark mx-2 btn-scroll-left" onClick={() => moveScroll(0)} type="button">
+        <button className="btn mx-2 btn-scroll-left btn-sm px-3" onClick={() => moveScroll(0)} type="button">
             <i className="fas fa-arrow-left"></i>
         </button>
-        <button className="btn btn-dark mx-2 btn-scroll-right" onClick={() => moveScroll(1)}>
+        <button className="btn btn-dark mx-2 btn-scroll-right btn-sm px-3" onClick={() => moveScroll(1)}>
             <i className="fas fa-arrow-right"></i>
         </button>
     </>

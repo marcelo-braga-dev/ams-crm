@@ -1,6 +1,6 @@
 import {Box, Card} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import React, {useEffect, useState} from "react";
 import {usePage} from "@inertiajs/react";

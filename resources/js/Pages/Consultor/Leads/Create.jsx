@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import Layout from "@/Layouts/Consultor/Layout";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -127,7 +127,7 @@ export default function Create(props) {
     }
 
     return (
-        <Layout container titlePage="Cadastro de Leads" menu="leads" submenu="cadastrar">
+        <Layout container titlePage="Cadastro de Leads" menu="clientes-cadastrar">
             <div className="shadow p-3 mb-4">
                 <div className="row">
                     <div className="col-md-6">

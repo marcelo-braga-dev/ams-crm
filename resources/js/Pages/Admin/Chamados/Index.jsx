@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import {Table, Td, Th} from "@/Components/Kanban/styles";
 
 // CARDS

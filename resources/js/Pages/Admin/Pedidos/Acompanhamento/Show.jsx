@@ -5,7 +5,7 @@ import {useForm} from '@inertiajs/react';
 
 //step
 import {TextField} from "@mui/material";
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
 export default function Create({pedido, historicos, infoEntrega}) {

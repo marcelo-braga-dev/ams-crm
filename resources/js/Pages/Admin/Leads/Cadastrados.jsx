@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import DataTable from 'react-data-table-component';
 import TextField from "@mui/material/TextField";
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import MenuItem from "@mui/material/MenuItem";
 
 const FilterComponent = ({filterText, onFilter, setFiltro}) => (

@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import Typography from "@mui/material/Typography";
 
 export default function Index({usuario}) {

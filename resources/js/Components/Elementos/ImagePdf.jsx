@@ -1,7 +1,17 @@
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import Lightbox from "@/Components/Elementos/Lightbox";
+import {useState} from "react";
+import MenuIcon from "@mui/icons-material/Menu";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import {IconButton} from "@mui/material";
 
 export default function ImagePdf({url, string}) {
+    const [lightboxOpen, setLightboxOpen] = useState(false);
+    const closeLightbox = () => {
+        setLightboxOpen(false);
+    };
+
 
     if (url && url.split('.').pop() === 'pdf') {
         return (
@@ -22,15 +32,20 @@ export default function ImagePdf({url, string}) {
                              style={{maxHeight: 200}}/>
                     </a>
                     {url && <div className="row justify-content-end g-2">
-                        <div className="col-auto">
-                            <a className="text-dark" href={urlCompleta} target="_blank">
-                                <VisibilityOutlinedIcon fontSize="small"/>
-                            </a>
+                        {lightboxOpen && (
+                            <Lightbox imageUrl={urlCompleta} onClose={closeLightbox}/>
+                        )}
+                        <div className="col-auto m-0">
+                            <IconButton
+                                sx={{color: 'black'}}
+                                onClick={() => setLightboxOpen(true)}>
+                                <VisibilityOutlinedIcon className="me-1 p-0 m-0" fontSize="small"/>
+                            </IconButton>
                         </div>
-                        <div className="col-auto text-end">
-                            <a className="text-dark" href={urlCompleta} download>
+                        <div className="col-auto text-end m-0">
+                            <IconButton href={urlCompleta} sx={{color: 'black'}} download>
                                 <FileDownloadOutlinedIcon fontSize="small"/>
-                            </a>
+                            </IconButton>
                         </div>
                     </div>}
                 </div>

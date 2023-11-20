@@ -2,7 +2,7 @@ import {TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import * as React from "react";
 
 export default function Anexos({setData, data, img}) {

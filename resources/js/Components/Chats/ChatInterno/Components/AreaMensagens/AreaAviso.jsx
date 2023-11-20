@@ -1,4 +1,4 @@
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import styled from "styled-components";
 import React from "react";
 

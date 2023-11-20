@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {router} from '@inertiajs/react'
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import Typography from "@mui/material/Typography";
 
 import {useForm} from '@inertiajs/react';

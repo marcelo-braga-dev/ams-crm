@@ -28,12 +28,6 @@ class LeadsController extends Controller
         return Inertia::render('Consultor/Leads/Create');
     }
 
-    public function show($id)
-    {
-        $cliente = (new Leads())->newQuery()->find($id);
-        return Inertia::render('Consultor/Leads/Show', compact('cliente'));
-    }
-
     public function store(Request $request)
     {
         $count = false;

@@ -1,11 +1,11 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import React from "react";
 
 export default function Create({chamado, pedido, mensagens}) {
     return (
-        <Layout titlePage="Informações do SAC" container voltar={route('consultor.chamados.index')}>
+        <Layout titlePage="Informações do SAC" menu="sac-chamados" container voltar={route('consultor.chamados.index')}>
             <div className="row">
                 <div className="col mb-4">
                     <DadosPedidoMinimo dados={pedido}/>

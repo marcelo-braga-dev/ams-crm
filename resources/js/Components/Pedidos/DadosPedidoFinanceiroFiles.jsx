@@ -1,4 +1,4 @@
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import * as React from "react";
 
 export default function DadosPedidoFinanceiroFiles({dados}) {

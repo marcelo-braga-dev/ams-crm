@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import { router } from '@inertiajs/react'
 
 import React from 'react';
@@ -7,7 +7,7 @@ import {Container, Row, Col, Form, Button} from 'reactstrap';
 
 //step
 import {TextField, Typography} from "@mui/material";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 
 export default function Create({dados}) {
     const {data, setData, progress} = useForm();

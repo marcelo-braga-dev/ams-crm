@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {router} from '@inertiajs/react'
 import {useForm} from '@inertiajs/react';
 

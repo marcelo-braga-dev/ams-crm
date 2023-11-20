@@ -1,10 +1,10 @@
-import Layout from '@/Layouts/Consultor/Layout';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 
 import React, {useState} from 'react';
 import {useForm} from '@inertiajs/react'
 import {Container, Row, Col, Button} from 'reactstrap';
 import {TextField, Typography} from "@mui/material";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import { router } from '@inertiajs/react'
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
@@ -21,8 +21,8 @@ export default function Create({chamado, pedido, mensagens}) {
 
     return (
         <Layout
-            titlePage="Abrir SAQ"
-            url={route('consultor.chamados.index')} textButton={'Voltar'}>
+            titlePage="Abrir SAQ" menu="sac-chamados"
+            voltar={route('consultor.chamados.index')}>
 
             <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 mb-4">
                 <Row>

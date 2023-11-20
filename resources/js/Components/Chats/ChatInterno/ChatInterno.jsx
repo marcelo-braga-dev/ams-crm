@@ -161,7 +161,7 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
     };
 
     return (
-        <Layout titlePage="Chat Interno" menu="chat-interno" submenu="mensagens">
+        <Layout titlePage="Chat Interno" menu="chats" submenu="mensagens">
             <RootWrapper className="Mui-FixedWrapper">
                 <DrawerWrapperMobile sx={{display: {lg: 'none', xs: 'inline-block'}}}
                                      variant="temporary"

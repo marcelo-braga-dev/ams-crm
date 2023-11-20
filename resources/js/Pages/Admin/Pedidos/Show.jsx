@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import Typography from "@mui/material/Typography";
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
@@ -9,7 +9,7 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
-import ImagePdf from "@/Components/Inputs/ImagePdf";
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";

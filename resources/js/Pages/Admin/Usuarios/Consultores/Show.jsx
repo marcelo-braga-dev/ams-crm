@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";

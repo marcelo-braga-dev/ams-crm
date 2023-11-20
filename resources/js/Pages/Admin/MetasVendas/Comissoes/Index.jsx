@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
 export default function ({consultores, comissoes}) {

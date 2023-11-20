@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {router} from '@inertiajs/react'
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 
 import {useForm} from '@inertiajs/react'
 import DadosPedido from "@/Components/Pedidos/DadosPedido";

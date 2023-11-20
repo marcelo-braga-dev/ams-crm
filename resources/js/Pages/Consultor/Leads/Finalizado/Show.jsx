@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Consultor/Layout";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import * as React from "react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
@@ -17,7 +17,8 @@ export default function Show({dados, status, contatos, historicos}) {
     }
 
     return (
-        <Layout container voltar={route('consultor.leads.main.index')} titlePage="Lead Finalizado">
+        <Layout container voltar={route('consultor.leads.main.index')}
+                menu="clientes-lista" titlePage="Lead Finalizado">
 
             <div className="row justify-content-between">
                 <div className="col-auto"><h6>Lead Finalizado</h6></div>

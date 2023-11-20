@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import DataTable from 'react-data-table-component';
 import {Backdrop, CircularProgress, TextField} from "@mui/material";
-import Layout from '@/Layouts/Admin/Layout';
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/react";
 

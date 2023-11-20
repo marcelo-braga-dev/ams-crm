@@ -1,5 +1,5 @@
 import LeadsDados from "@/Components/Leads/LeadsDados";
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 
 export default function Show({dados, historicos}) {
     return (

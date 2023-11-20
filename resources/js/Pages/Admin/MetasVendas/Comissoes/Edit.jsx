@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/Admin/Layout";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {router, useForm} from "@inertiajs/react";
 import {InputAdornment, TextField} from "@mui/material";
