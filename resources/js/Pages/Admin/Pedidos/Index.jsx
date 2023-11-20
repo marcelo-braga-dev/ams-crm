@@ -281,29 +281,29 @@ export default function Pedidos({
                                                                    cor={coresAbas.pagamento}/>)
                                         })}
                                     </td>}
-                            {/*    {modelo === 2 || !modelo ? '' :*/}
-                            {/*        <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*            {pedidos.faturamento.map((dados) => {*/}
-                            {/*                return (*/}
-                            {/*                    <CardFaturando key={dados.id} dados={dados}*/}
-                            {/*                                   cor={coresAbas.faturamento}/>)*/}
-                            {/*            })}*/}
-                            {/*        </td>}*/}
-                            {/*    {modelo !== 2 ?*/}
-                            {/*        <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*            {pedidos.faturado.map((dados) => {*/}
-                            {/*                return (<CardFaturado key={dados.id} dados={dados}*/}
-                            {/*                                      cor={coresAbas.faturado}/>)*/}
-                            {/*            })}*/}
-                            {/*        </td> : ''}*/}
-                            {/*    {modelo === 2 || !modelo ?*/}
-                            {/*        <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>*/}
-                            {/*            {pedidos.faturado_vista.map((dados) => {*/}
-                            {/*                return (*/}
-                            {/*                    <CardFaturado key={dados.id} dados={dados}*/}
-                            {/*                                  cor={"rgba(59,189,13,0.6)"}/>)*/}
-                            {/*            })}*/}
-                            {/*        </td> : ''}*/}
+                                {modelo === 2 || !modelo ? '' :
+                                    <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.faturamento.map((dados) => {
+                                            return (
+                                                <CardFaturando key={dados.id} dados={dados}
+                                                               cor={coresAbas.faturamento}/>)
+                                        })}
+                                    </td>}
+                                {modelo !== 2 ?
+                                    <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.faturado.map((dados) => {
+                                            return (<CardFaturado key={dados.id} dados={dados}
+                                                                  cor={coresAbas.faturado}/>)
+                                        })}
+                                    </td> : ''}
+                                {modelo === 2 || !modelo ?
+                                    <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.faturado_vista.map((dados) => {
+                                            return (
+                                                <CardFaturado key={dados.id} dados={dados}
+                                                              cor={"rgba(59,189,13,0.6)"}/>)
+                                        })}
+                                    </td> : ''}
                             {/*    {modelo === 2 || !modelo ?*/}
                             {/*        <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>*/}
                             {/*            {pedidos.faturado_prazo.map((dados) => {*/}
