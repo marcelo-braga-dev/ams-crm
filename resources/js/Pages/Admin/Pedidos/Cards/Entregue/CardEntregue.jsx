@@ -11,7 +11,7 @@ export default function CardEntregue({dados, cor, status}) {
                 dados={dados}
                 menuMore={<MenuMore id={dados.id}/>}
                 border={cor}
-                btnAvancaStatus={<BtnAvancaStatus id={dados.id}/>}
+                // btnAvancaStatus={<BtnAvancaStatus id={dados.id}/>}
                 // alerts={<AlertsCard dados={dados}/>}
                 // btnAvancaStatus={<BtnAvancaStatus dados={dados}/>}
             />
