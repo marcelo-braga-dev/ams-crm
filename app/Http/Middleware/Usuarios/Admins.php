@@ -16,7 +16,10 @@ class Admins
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->tipo === (new \App\src\Usuarios\Admins())->getTipo()) {
+        if (
+            auth()->user()->tipo === (new \App\src\Usuarios\Admins())->getTipo() ||
+            auth()->user()->tipo === (new \App\src\Usuarios\Supervisores())->getTipo()
+        ) {
             return $next($request);
         }
 
