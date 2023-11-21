@@ -1,4 +1,5 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+
 import React from 'react';
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
@@ -13,7 +14,8 @@ export default function Create({pedido}) {
     }
 
     return (
-        <Layout container voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado">
+        <Layout voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado"
+                menu="pedidos" submenu="pedidos-lista">
             <div className="row">
                 <div className="col mb-4">
                     <DadosPedido dados={pedido}/>

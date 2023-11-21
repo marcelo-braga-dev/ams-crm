@@ -7,8 +7,9 @@ import {Container, Row, Col} from 'reactstrap';
 
 import {TextField, Typography} from "@mui/material";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
-import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 import BoxShadow from "@/Components/Layout/BoxShadow";
+import DadosPedido from "@/Components/Pedidos/DadosPedido";
+import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 
 export default function Create({pedido}) {
 
@@ -26,11 +27,14 @@ export default function Create({pedido}) {
     }
 
     return (<Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido Aguardando Faturamento"
-                    menu="pedidos" submenu="lista">
+                    menu="pedidos" submenu="pedidos-lista">
             <BoxShadow>
                 <div className="row">
                     <div className="col mb-4">
-                        <DadosPedidoMinimo dados={pedido}/>
+                        <DadosPedido dados={pedido}/>
+                    </div>
+                    <div className="col mb-4">
+                        <DadosPedidoCliente dados={pedido} />
                     </div>
                 </div>
                 <Typography variant={"h6"} component="h5">Baixar Comprovante Pagamento/Recibo</Typography>

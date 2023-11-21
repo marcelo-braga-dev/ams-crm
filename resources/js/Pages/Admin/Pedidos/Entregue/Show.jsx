@@ -20,7 +20,7 @@ export default function Pedidos({pedido, cliente, img}) {
     }
 
     return (<Layout titlePage="Pedidos" voltar={route('admin.pedidos.index')} container
-                    menu="pedidos" submenu="lista">
+                    menu="pedidos" submenu="pedidos-lista">
         <Typography>Atualizar Preço</Typography>
         <Typography>Fornecedor</Typography>
         <form onSubmit={submit}>

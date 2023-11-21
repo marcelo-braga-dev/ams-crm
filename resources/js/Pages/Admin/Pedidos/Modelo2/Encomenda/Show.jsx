@@ -20,8 +20,8 @@ export default function Pedidos({pedido, produtos}) {
     }
 
     return (
-        <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido em Encomenda" menu="pedidos"
-                submenu="lista">
+        <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido em Encomenda"
+                menu="pedidos" submenu="pedidos-lista">
             <div className="row">
                 <div className="col mb-3">
                     <DadosPedido dados={pedido}/>

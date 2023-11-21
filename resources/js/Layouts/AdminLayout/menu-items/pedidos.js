@@ -20,7 +20,7 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.pedidos.index'),
                 }, {
-                    id: 'pedidos-relatorio',
+                    id: 'pedidos-relatorios',
                     title: 'Relatório de Pedidos',
                     type: 'item',
                     url: undefined,

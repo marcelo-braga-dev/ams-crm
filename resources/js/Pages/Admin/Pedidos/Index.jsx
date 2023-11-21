@@ -42,7 +42,7 @@ export default function Pedidos({
     }
 
     return (
-        <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="lista">
+        <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="pedidos-lista">
 
             <div className="row justify-content-around mb-2">
                 <div className="col-md-5">
