@@ -10,9 +10,10 @@ import sac from './sac';
 import fornecedores from './fornecedores';
 import config from './config';
 import dashboard from './dashboard';
+import dev from './dev';
 
 const menuItems = {
-    items: [pedidos, leads, produtos, dashboard, chats, agenda, metasVendas, emails, usuarios, sac, fornecedores, config]
+    items: [pedidos, leads, produtos, dashboard, chats, agenda, metasVendas, emails, usuarios, sac, fornecedores, config, dev]
 };
 
 export default menuItems;

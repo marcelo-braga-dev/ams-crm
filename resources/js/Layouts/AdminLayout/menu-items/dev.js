@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
 import LaptopMacOutlinedIcon from "@mui/icons-material/LaptopMacOutlined";
 
 const dashboard = {
@@ -14,6 +13,7 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: LaptopMacOutlinedIcon,
+            admin: true,
             submenu: [
                 {
                     id: 'dev-registros',
@@ -22,7 +22,7 @@ const dashboard = {
                     url: route('admin.dev.index'),
                 },
                 {
-                    id: dev-'cadastrar',
+                    id: 'dev-cadastrar',
                     title: 'Cadastrar',
                     type: 'item',
                     url: route('admin.dev.create'),

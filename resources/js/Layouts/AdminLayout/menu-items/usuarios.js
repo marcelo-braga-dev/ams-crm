@@ -14,6 +14,7 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: PersonOutlineOutlinedIcon,
+            admin: true,
             submenu: [
                 {
                     id: 'usuarios-contas',
