@@ -41,13 +41,20 @@ class ProdutosTransito extends Model
     {
         $produto = (new Produtos())->find($id);
 
+        $valorAtual = $this->newQuery()
+            ->where('users_id', $dados->id_usuario)
+            ->where('produtos_id', $id)
+            ->first()
+            ->qtd ?? 0;
+
         $this->newQuery()
             ->updateOrCreate(
                 ['users_id' => $dados->id_usuario, 'produtos_id' => $id],
                 ['qtd' => $dados->qtd]
             );
 
-        (new ProdutosHistoricos())->create($produto, (new ProdutosStatus())->transito(), $dados->qtd);
+        (new Produtos())->subtrairEstoque($id, $valorAtual, $dados->qtd);
+        (new ProdutosHistoricos())->create($produto, (new ProdutosStatus())->transito(), $dados->id_usuario, $dados->qtd);
     }
 
     public function estoqueConsultor($id): array

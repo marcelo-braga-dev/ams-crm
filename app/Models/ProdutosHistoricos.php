@@ -17,6 +17,7 @@ class ProdutosHistoricos extends Model
         'users_id',
         'produtos_id',
         'nome',
+        'vendedor',
         'valor',
         'categoria',
         'fornecedor',
@@ -25,13 +26,14 @@ class ProdutosHistoricos extends Model
         'data',
     ];
 
-    public function create($produto, string $status, $valor = null, ?string $anot = null)
+    public function create($produto, string $status, int $vendedor, $valor = null, ?string $anot = null)
     {
         $this->newQuery()
             ->create([
                 'users_id' => id_usuario_atual(), // id consultor
                 'produtos_id' => $produto['id'],
                 'valor' => $valor,
+                'vendedor' => $vendedor,
                 'status' => $status,
                 'anotacoes' => $anot,
                 'data' => now(),
