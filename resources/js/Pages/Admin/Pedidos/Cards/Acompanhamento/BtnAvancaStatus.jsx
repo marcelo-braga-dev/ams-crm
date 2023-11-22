@@ -1,6 +1,5 @@
-import DoubleArrowIcon from '@mui/icons-material/DoubleArrowRounded';
 import React from "react";
-import DownloadIcon from "@mui/icons-material/DownloadRounded";
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrowRounded';
 
 export default function BtnAvancaStatus({dados}) {
     return (

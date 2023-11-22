@@ -18,7 +18,7 @@ export default function Create({dados}) {
     }
 
     return (<Layout titlePage="Retroceder Pedido" container voltar={route('admin.pedidos.index')}
-                    menu="pedidos" submenu="lista">
+                    menu="pedidos" submenu="pedidos-lista">
 
             <div className="container bg-white px-lg-6 py-lg-5">
                 <form onSubmit={submit}>

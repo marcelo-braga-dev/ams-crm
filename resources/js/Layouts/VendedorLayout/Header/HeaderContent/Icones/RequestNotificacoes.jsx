@@ -9,21 +9,17 @@ export default function RequestNotificacoes({url, urlPageChat, setQtdPedidos, se
     let qtdNotifiChatInterno;
     const [play] = useSound(boopSfx);
 
-    function buscaQtnNotificacoes() {
-        fetch(url)
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (data) {
-                setQtdPedidos(data.pedidos);
-                setChatInterno(data.chat_interno);
-                if (setQtdLeads) setQtdLeads(data.leads)
-                if (data.chat_interno > qtdNotifiChatInterno) {
-                    alertChatInterno()
-                    play()
-                }
-                qtdNotifiChatInterno = data.chat_interno;
-            });
+    async function buscaQtnNotificacoes() {
+        await axios.get(url).then((res) => {
+            setQtdPedidos(res.data.pedidos);
+            setChatInterno(res.data.chat_interno);
+            if (setQtdLeads) setQtdLeads(res.data.leads)
+            if (res.data.chat_interno > qtdNotifiChatInterno) {
+                alertChatInterno()
+                play()
+            }
+            qtdNotifiChatInterno = res.data.chat_interno;
+        })
         setTimeout(function () {
             buscaQtnNotificacoes();
         }, 5000)

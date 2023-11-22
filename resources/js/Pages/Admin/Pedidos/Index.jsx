@@ -42,10 +42,10 @@ export default function Pedidos({
     }
 
     return (
-        <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="lista">
+        <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="pedidos-lista">
 
-            <div className="row justify-content-between mb-2">
-                <div className="col-6">
+            <div className="row justify-content-around mb-2">
+                <div className="col-md-5">
                     <div className="row">
                         <div className="col-md-5">
                             <TextField select label="Setores" size="small" fullWidth
@@ -74,21 +74,21 @@ export default function Pedidos({
                     </div>
                 </div>
 
-                <div className="col">
+                <div className="col-md-2">
                     <ScrollControlHorizontal/>
                 </div>
-                <div className="col-auto">
+                <div className="col-md-5">
                     <div className="bg-white">
                         {/*Pesquisa*/}
                         <div className="row justify-content-between">
-                            <div className="col-auto">
-                                <div className="ms-2 mt-2">
+                            <div className="col-md-4">
+                                <div className="mt-2">
                                             <span className="badge" style={{backgroundColor: dadosSetor?.cor}}>
                                                 {dadosSetor?.nome}
                                             </span>
                                 </div>
                             </div>
-                            <div className="col-auto">
+                            <div className="col-md-8">
                                 <FormControl variant="outlined" className="bg-white" size="small">
                                     <InputLabel htmlFor="search">Pesquisar...</InputLabel>
                                     <OutlinedInput
@@ -107,7 +107,7 @@ export default function Pedidos({
             </div>
 
 
-            {/*Tabela*/}
+            {/*/!*Tabela*!/*/}
             <div className="row my-4 g-">
                 <div className="col-auto pt-5 d-none d-md-block">
                     <ScrollControlHorizontal lateral="e"/>
@@ -315,7 +315,7 @@ export default function Pedidos({
                                 {modelo === 2 || !modelo ? '' :
                                     <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.acompanhamento.map((dados) => {
-                                            return (<CardAcompanhamento key={dados.id} dados={dados}
+                                            return (<CardEntregue key={dados.id} dados={dados} status="acompanhamento"
                                                                         cor={coresAbas.acompanhamento}/>)
                                         })}
                                     </td>}
@@ -339,11 +339,6 @@ export default function Pedidos({
                 </div>
                 <div className="col-auto pt-5 d-none d-md-block">
                     <ScrollControlHorizontal lateral="d"/>
-                </div>
-            </div>
-            <div className="row mb-3">
-                <div className="col text-center">
-                    <ScrollControlHorizontal/>
                 </div>
             </div>
         </Layout>

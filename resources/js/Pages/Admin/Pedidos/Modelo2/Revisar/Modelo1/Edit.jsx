@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import { router } from '@inertiajs/react'
 
 import React, {useState} from 'react';

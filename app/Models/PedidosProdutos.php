@@ -45,14 +45,15 @@ class PedidosProdutos extends Model
 
     public function getProdutosPedido($id)
     {
+        $isAdmin = is_admin();
         return $this->newQuery()
             ->where('pedidos_id', $id)
             ->get()
-            ->transform(function ($item) {
+            ->transform(function ($item) use ($isAdmin) {
                 return [
                     'nome' => $item->nome,
-                    'preco_fornecedor' => convert_float_money($item->preco_fornecedor),
-                    'preco_fornecedor_float' => $item->preco_fornecedor,
+                    'preco_fornecedor' => $isAdmin ? convert_float_money($item->preco_fornecedor) : 0,
+                    'preco_fornecedor_float' => $isAdmin ? $item->preco_fornecedor : 0,
                     'preco_venda' => convert_float_money($item->preco_venda),
                     'preco_venda_float' => $item->preco_venda,
                     'qtd' => $item->quantidade,

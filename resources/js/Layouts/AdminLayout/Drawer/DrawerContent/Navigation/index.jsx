@@ -5,12 +5,12 @@ import {Box} from '@mui/material';
 import NavGroup from './Navs/NavGroup';
 import menuItems from '@/Layouts/AdminLayout/menu-items/index';
 
-const Navigation = ({menu}) => {
+const Navigation = ({menu, submenu}) => {
 
     const navGroups = menuItems.items.map((item, index) => {
         switch (item.type) {
             case 'group':
-                return <NavGroup key={index} item={item} menu={menu}/>;
+                return <NavGroup key={index} item={item} menu={menu} submenu={submenu}/>;
             default:
                 return <></>;
         }

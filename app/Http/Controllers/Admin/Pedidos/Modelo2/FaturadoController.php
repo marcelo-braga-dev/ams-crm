@@ -21,7 +21,7 @@ class FaturadoController extends Controller
     public function update($id, Request $request)
     {
         try {
-            (new PedidoUpdateStatus())->setEntregue($id);
+            (new PedidoUpdateStatus())->setEntregue($id, $request);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

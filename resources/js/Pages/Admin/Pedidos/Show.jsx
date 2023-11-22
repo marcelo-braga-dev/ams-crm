@@ -13,6 +13,7 @@ import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
+import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -48,7 +49,7 @@ export default function Pedidos({pedido, produtos, historico}) {
     };
 
     return (
-        <Layout container titlePage="Informações do Pedido" menu="pedidos" submenu="lista">
+        <Layout container titlePage="Informações do Pedido" menu="pedidos" submenu="pedidos-lista">
             <Box sx={{width: '100%'}}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -68,7 +69,9 @@ export default function Pedidos({pedido, produtos, historico}) {
                     </div>
                     <div className="row">
                         <div className="col">
-                            <DadosProdutosCompleta dados={produtos}/>
+                            {produtos?.[0]?.preco_fornecedor > 0 ?
+                            <DadosProdutosCompleta dados={produtos}/> :
+                            <DadosProdutos dados={produtos} /> }
                         </div>
                     </div>
                 </TabPanel>

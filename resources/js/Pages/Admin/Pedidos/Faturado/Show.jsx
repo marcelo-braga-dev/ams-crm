@@ -22,7 +22,7 @@ export default function Create({pedido}) {
 
     return (
         <Layout titlePage="Pedido Faturado" container voltar={route('admin.pedidos.index')}
-                menu="pedidos" submenu="lista">
+                menu="pedidos" submenu="pedidos-lista">
             <div className="row mb-4">
                 <div className="col">
                     <DadosPedidoMinimo dados={pedido}/>

@@ -11,7 +11,7 @@ import ModalsAlerts from "@/Components/Modals/AlertsModals";
 
 import BoxStyled from "./Content/Box";
 
-const Layout = ({titlePage, menu, children, voltar}) => {
+const Layout = ({titlePage, menu, submenu, children, voltar}) => {
     const theme = useTheme();
     const matchDownLG = useMediaQuery(theme.breakpoints.down('lg'));
 
@@ -29,9 +29,9 @@ const Layout = ({titlePage, menu, children, voltar}) => {
             <Head title={titlePage}/>
             <ModalsAlerts/>
             <Header open={open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle}/>
-            <Drawer open={open} menu={menu} handleDrawerToggle={handleDrawerToggle}/>
+            <Drawer open={open} menu={menu} submenu={submenu} handleDrawerToggle={handleDrawerToggle}/>
             <BoxStyled open={open}>
-                <Container maxWidth="lg">
+                <Container maxWidth={false}>
                     <Card className="p-3">
                         {children}
                     </Card>

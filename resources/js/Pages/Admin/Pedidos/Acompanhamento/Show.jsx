@@ -21,7 +21,7 @@ export default function Create({pedido, historicos, infoEntrega}) {
     }
 
     return (
-        <Layout container titlePage="Acompanhamento do Pedido" menu="pedidos" submenu="lista"
+        <Layout container titlePage="Acompanhamento do Pedido" menu="pedidos" submenu="pedidos-lista"
                 voltar={route('admin.pedidos.index')}>
             <div className="row mb-4">
                 <div className="col-12 mb-3">

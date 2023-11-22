@@ -14,7 +14,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import pesquisaCards from "@/Helpers/pesquisaCards";
 import React from "react";
 import ScrollControlHorizontal from "@/Helpers/scrollControlHorizontal";
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 
 export default function Dashboard({pedidos, coresAbas}) {
 

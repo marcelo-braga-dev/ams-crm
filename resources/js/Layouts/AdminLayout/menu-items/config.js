@@ -14,6 +14,7 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: SettingsSuggestOutlinedIcon,
+            admin: true,
             submenu: [
                 {
                     id: 'config-setores',

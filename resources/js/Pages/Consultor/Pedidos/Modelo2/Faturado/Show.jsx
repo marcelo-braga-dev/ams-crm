@@ -29,34 +29,32 @@ export default function Create({pedido}) {
             </div>
 
             <DadosPedidoFinanceiro dados={pedido}/>
-            {pedido.financeiro.forma_pagamento?.includes('PIX') && <>
-                <div className="row mt-3">
-                    {pedido.financeiro?.pix?.map((item, index) => {
-                        return (
-                            <div key={index} className="col">
-                                <h6>Comprovante de Pagamento</h6>
-                                <ImagePdf url={item.url}/>
-                            </div>
-                        )
-                    })}
-                </div>
-                <form onSubmit={submit}>
-                    <div className="row mt-4">
-                        <div className="col-md-6">
+            <div className="row mt-3">
+                {pedido.financeiro?.pix?.map((item, index) => {
+                    return (
+                        <div key={index} className="col">
+                            <h6>Comprovante de Pagamento</h6>
+                            <ImagePdf url={item.url}/>
+                        </div>
+                    )
+                })}
+            </div>
+            <form onSubmit={submit}>
+                <div className="row mt-4 justify-content-center">
+                    {pedido.financeiro.forma_pagamento?.includes('PIX') &&
+                        <div className="col-md-12">
                             <TextField
                                 type="file" label="Comprovante de Pagamento PIX"
                                 required={!pedido.financeiro?.pix?.length}
                                 InputLabelProps={{shrink: true}} fullWidth
                                 onChange={e => setData('file_pix', e.target.files[0])}/>
                         </div>
-                        <div className="col-auto pt-2">
-                            <button type="submit" className="btn btn-primary">Salvar</button>
-                        </div>
+                    }
+                    <div className="col-auto pt-2">
+                        <button type="submit" className="btn btn-success">Mrcar como Entregue</button>
                     </div>
-                </form>
-            </>
-            }
-
+                </div>
+            </form>
 
             <div className="row mt-4">
                 {pedido.pedido_files.nota_fiscal &&

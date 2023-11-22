@@ -13,6 +13,7 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: RequestPageOutlinedIcon,
+            admin: true,
             submenu: [
                 {
                     id: 'fornecedores-cadastrados',

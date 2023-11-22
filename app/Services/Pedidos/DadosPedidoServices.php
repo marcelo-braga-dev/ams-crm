@@ -86,8 +86,8 @@ class DadosPedidoServices
         $chavesArquivos = (new ChavesArquivosPedidos());
 
         $dadosCliente = (new ClienteDados())->dados($pedido, $this->leads, $this->clientes, $this->pedidoCliente);
-
-        $precoCusto = funcao_usuario_atual() == (new Admins())->getTipo()
+        $isAdmin = is_admin();
+        $precoCusto = $isAdmin
             ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
             : null;
 
