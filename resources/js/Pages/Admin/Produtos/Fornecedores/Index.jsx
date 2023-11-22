@@ -4,7 +4,7 @@ export default function Create({fornecedores, setores, setorAtual}) {
 
     return (
         <Layout titlePage="Produtos por Fornecedores"
-                menu="produtos" submenu="todos-produtos">
+                menu="produtos" submenu="produtos-lista">
             {/*Setores*/}
             <div className="row mb-4">
                 <h6>Setores</h6>
