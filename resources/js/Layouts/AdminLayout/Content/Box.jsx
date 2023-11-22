@@ -8,6 +8,7 @@ import {drawerWidth} from '@/Themes/config.js';
 // ==============================|| HEADER - APP BAR STYLED ||============================== //
 
 const BoxStyled = styled(Box)(({theme, open}) => ({
+    width: '100%',
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
