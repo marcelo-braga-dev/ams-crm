@@ -53,7 +53,6 @@ class EmailsController extends Controller
 
     public function store(Request $request)
     {
-        print_pre($request->all());
         (new SendEmailsService())->enviar($request->destinatario, $request->titulo, $request->mensagem);
 
         return redirect()->back();

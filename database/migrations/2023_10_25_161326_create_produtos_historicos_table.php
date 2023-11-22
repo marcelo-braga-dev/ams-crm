@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->bigInteger('users_id');
             $table->bigInteger('produtos_id');
             $table->string('nome');
+            $table->bigInteger('vendedor');
             $table->integer('valor')->nullable();
             $table->integer('categoria');
             $table->integer('fornecedor');

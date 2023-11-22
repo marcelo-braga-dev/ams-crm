@@ -6,7 +6,7 @@ import {router, useForm} from "@inertiajs/react";
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 
 export default function ({id, produtos, fornecedor, fornecedores, idFornecedor}) {
-    const {post, get, setData} = useForm()
+
     const [qtd, setQtd] = useState()
     const [idAtualizar, setIdAtualizar] = useState()
     const [idUsuario, setIdUsuario] = useState()

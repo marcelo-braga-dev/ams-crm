@@ -120,10 +120,20 @@ class Produtos extends Model
             ->find($id);
 
         $produto->update([
-                'estoque_local' => $valor
-            ]);
+            'estoque_local' => $valor
+        ]);
 
-        (new ProdutosHistoricos())->create($produto, (new ProdutosStatus())->local(), $valor);
+        (new ProdutosHistoricos())->create($produto, (new ProdutosStatus())->local(), $valor, id_usuario_atual());
+    }
+
+    public function subtrairEstoque($id, $valorAtual, $valorNovo)
+    {
+        $dados = $this->newQuery()
+            ->find($id);
+
+        $atual = $dados->estoque_local - ($valorNovo - $valorAtual);//153
+
+        $this->atualizarEstoqueLocal($id, $atual);
     }
 
     public function getProdutosFormulario($request)
