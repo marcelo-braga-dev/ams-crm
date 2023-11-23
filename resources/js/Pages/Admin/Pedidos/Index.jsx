@@ -260,78 +260,78 @@ export default function Pedidos({
                                                              cor={coresAbas.conferencia}/>)
                                     })}
                                 </td>
-                                <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.lancado.map((dados) => {
-                                        return (
-                                            <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
-                                    })}
-                                </td>
-                                {modelo === 2 || !modelo ? '' :
-                                    <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
-                                        {pedidos.nota.map((dados) => {
-                                            return (
-                                                <CardBoleto key={dados.id} dados={dados}
-                                                            cor={coresAbas.boleto}/>)
-                                        })}
-                                    </td>}
-                                {modelo === 2 || !modelo ? '' :
-                                    <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
-                                        {pedidos.pagamento.map((dados) => {
-                                            return (<CardPagamento key={dados.id} dados={dados}
-                                                                   cor={coresAbas.pagamento}/>)
-                                        })}
-                                    </td>}
-                                {modelo === 2 || !modelo ? '' :
-                                    <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
-                                        {pedidos.faturamento.map((dados) => {
-                                            return (
-                                                <CardFaturando key={dados.id} dados={dados}
-                                                               cor={coresAbas.faturamento}/>)
-                                        })}
-                                    </td>}
-                                {modelo !== 2 ?
-                                    <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
-                                        {pedidos.faturado.map((dados) => {
-                                            return (<CardFaturado key={dados.id} dados={dados}
-                                                                  cor={coresAbas.faturado}/>)
-                                        })}
-                                    </td> : ''}
-                                {modelo === 2 || !modelo ?
-                                    <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
-                                        {pedidos.faturado_vista.map((dados) => {
-                                            return (
-                                                <CardFaturado key={dados.id} dados={dados}
-                                                              cor={"rgba(59,189,13,0.6)"}/>)
-                                        })}
-                                    </td> : ''}
-                                {modelo === 2 || !modelo ?
-                                    <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>
-                                        {pedidos.faturado_prazo.map((dados) => {
-                                            return (
-                                                <CardFaturado key={dados.id} dados={dados}
-                                                              cor={'#854787'}/>)
-                                        })}
-                                    </td> : ''}
-                                {modelo === 2 || !modelo ? '' :
-                                    <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
-                                        {pedidos.acompanhamento.map((dados) => {
-                                            return (<CardEntregue key={dados.id} dados={dados} status="acompanhamento"
-                                                                        cor={coresAbas.acompanhamento}/>)
-                                        })}
-                                    </td>}
-                                <td id="td-12" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.entregue.map((dados) => {
-                                        return (<CardEntregue key={dados.id} dados={dados}
-                                                              cor={coresAbas.entregue}/>)
-                                    })}
-                                </td>
-                                <td id="td-13" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.cancelado.map((dados) => {
-                                        return (
-                                            <CardCancelado key={dados.id} dados={dados}
-                                                           cor={coresAbas.cancelados}/>)
-                                    })}
-                                </td>
+                                {/*<td id="td-4" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*    {pedidos.lancado.map((dados) => {*/}
+                                {/*        return (*/}
+                                {/*            <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)*/}
+                                {/*    })}*/}
+                                {/*</td>*/}
+                                {/*{modelo === 2 || !modelo ? '' :*/}
+                                {/*    <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*        {pedidos.nota.map((dados) => {*/}
+                                {/*            return (*/}
+                                {/*                <CardBoleto key={dados.id} dados={dados}*/}
+                                {/*                            cor={coresAbas.boleto}/>)*/}
+                                {/*        })}*/}
+                                {/*    </td>}*/}
+                                {/*{modelo === 2 || !modelo ? '' :*/}
+                                {/*    <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*        {pedidos.pagamento.map((dados) => {*/}
+                                {/*            return (<CardPagamento key={dados.id} dados={dados}*/}
+                                {/*                                   cor={coresAbas.pagamento}/>)*/}
+                                {/*        })}*/}
+                                {/*    </td>}*/}
+                                {/*{modelo === 2 || !modelo ? '' :*/}
+                                {/*    <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*        {pedidos.faturamento.map((dados) => {*/}
+                                {/*            return (*/}
+                                {/*                <CardFaturando key={dados.id} dados={dados}*/}
+                                {/*                               cor={coresAbas.faturamento}/>)*/}
+                                {/*        })}*/}
+                                {/*    </td>}*/}
+                                {/*{modelo !== 2 ?*/}
+                                {/*    <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*        {pedidos.faturado.map((dados) => {*/}
+                                {/*            return (<CardFaturado key={dados.id} dados={dados}*/}
+                                {/*                                  cor={coresAbas.faturado}/>)*/}
+                                {/*        })}*/}
+                                {/*    </td> : ''}*/}
+                                {/*{modelo === 2 || !modelo ?*/}
+                                {/*    <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*        {pedidos.faturado_vista.map((dados) => {*/}
+                                {/*            return (*/}
+                                {/*                <CardFaturado key={dados.id} dados={dados}*/}
+                                {/*                              cor={"rgba(59,189,13,0.6)"}/>)*/}
+                                {/*        })}*/}
+                                {/*    </td> : ''}*/}
+                                {/*{modelo === 2 || !modelo ?*/}
+                                {/*    <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*        {pedidos.faturado_prazo.map((dados) => {*/}
+                                {/*            return (*/}
+                                {/*                <CardFaturado key={dados.id} dados={dados}*/}
+                                {/*                              cor={'#854787'}/>)*/}
+                                {/*        })}*/}
+                                {/*    </td> : ''}*/}
+                                {/*{modelo === 2 || !modelo ? '' :*/}
+                                {/*    <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*        {pedidos.acompanhamento.map((dados) => {*/}
+                                {/*            return (<CardEntregue key={dados.id} dados={dados} status="acompanhamento"*/}
+                                {/*                                        cor={coresAbas.acompanhamento}/>)*/}
+                                {/*        })}*/}
+                                {/*    </td>}*/}
+                                {/*<td id="td-12" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*    {pedidos.entregue.map((dados) => {*/}
+                                {/*        return (<CardEntregue key={dados.id} dados={dados}*/}
+                                {/*                              cor={coresAbas.entregue}/>)*/}
+                                {/*    })}*/}
+                                {/*</td>*/}
+                                {/*<td id="td-13" className='shadow-sm' style={{minWidth: 300}}>*/}
+                                {/*    {pedidos.cancelado.map((dados) => {*/}
+                                {/*        return (*/}
+                                {/*            <CardCancelado key={dados.id} dados={dados}*/}
+                                {/*                           cor={coresAbas.cancelados}/>)*/}
+                                {/*    })}*/}
+                                {/*</td>*/}
                             </tr>
                             </tbody>
                         </table>
