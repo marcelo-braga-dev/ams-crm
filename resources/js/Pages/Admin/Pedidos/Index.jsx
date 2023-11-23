@@ -117,7 +117,7 @@ export default function Pedidos({
                         <table>
                             <thead>
                             <tr>
-                                <th id="th-1">
+                                <th id="th-1" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.reprovado}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Reprovados</div>
@@ -126,7 +126,7 @@ export default function Pedidos({
                                             className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                {modelo === 1 ? '' : <th id="th-2">
+                                {modelo === 1 ? '' : <th id="th-2" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.encomenda}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Encomenda</div>
@@ -135,7 +135,7 @@ export default function Pedidos({
                                             className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>}
-                                <th id="th-3">
+                                <th id="th-3" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.conferencia}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Conferência</div>
@@ -144,7 +144,7 @@ export default function Pedidos({
                                             className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-4">
+                                <th id="th-4" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.lancado}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Lançado</div>
@@ -153,7 +153,7 @@ export default function Pedidos({
                                             className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                {modelo === 2 || !modelo ? '' : <th id="th-5">
+                                {modelo === 2 || !modelo ? '' : <th id="th-5" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.boleto}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Nota/Boleto</div>
@@ -162,7 +162,7 @@ export default function Pedidos({
                                             className="d-block text-end">R$ {(pedidos.nota[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>}
-                                {modelo === 2 || !modelo ? '' : <th id="th-6">
+                                {modelo === 2 || !modelo ? '' : <th id="th-6" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.pagamento}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Pagamento</div>
@@ -171,7 +171,7 @@ export default function Pedidos({
                                             className="d-block text-end">R$ {(pedidos.pagamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>}
-                                {modelo === 2 || !modelo ? '' : <th id="th-7">
+                                {modelo === 2 || !modelo ? '' : <th id="th-7" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.faturamento}}
                                          className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Faturamento</div>
@@ -181,7 +181,7 @@ export default function Pedidos({
                                     </div>
                                 </th>}
                                 {modelo !== 2 ?
-                                    <th id="th-8">
+                                    <th id="th-8" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: coresAbas.faturado}}
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Faturado</div>
@@ -190,7 +190,7 @@ export default function Pedidos({
                                                 className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
                                         </div>
                                     </th> : ''}
-                                {modelo === 2 || !modelo ? <th id="th-9">
+                                {modelo === 2 || !modelo ? <th id="th-9" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: 'rgba(59,189,13,0.6)'}}
                                          className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Faturado à Vista</div>
@@ -200,7 +200,7 @@ export default function Pedidos({
                                     </div>
                                 </th> : ''}
                                 {modelo === 2 || !modelo ?
-                                    <th id="th-10">
+                                    <th id="th-10" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: "#854787"}}
                                              className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Faturado à Prazo</div>
@@ -209,7 +209,7 @@ export default function Pedidos({
                                                 className="d-block text-end">R$ {(pedidos.faturado_prazo[0]?.faturamento ?? '0,00')}</small>
                                         </div>
                                     </th> : ''}
-                                {modelo === 2 || !modelo ? '' : <th id="th-11">
+                                {modelo === 2 || !modelo ? '' : <th id="th-11" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.acompanhamento}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Acompanhamento</div>
@@ -218,7 +218,7 @@ export default function Pedidos({
                                             className="d-block text-end">R$ {(pedidos.acompanhamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>}
-                                <th id="th-12">
+                                <th id="th-12" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.entregue}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Entregue</div>
@@ -227,7 +227,7 @@ export default function Pedidos({
                                             className="d-block text-end">R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-13">
+                                <th id="th-13" style={{minWidth: 300}}>
                                     <div style={{backgroundColor: coresAbas.cancelados}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Cancelados</div>
