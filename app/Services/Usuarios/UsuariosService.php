@@ -48,7 +48,7 @@ class UsuariosService
         return [
             'id' => $dado->id,
             'nome' => $dado->name,
-            'setor' => $this->nomeSetores[$dado->setor],
+            'setor' => $this->nomeSetores[$dado->setor] ?? '',
             'email' => $dado->email,
             'tipo' => $dado->tipo,
             'status' => $dado->status,
