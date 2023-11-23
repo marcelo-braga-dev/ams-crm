@@ -39,8 +39,8 @@ class HandleInertiaRequests extends Middleware
         $setorCor = '';
         if ($request->user()) {
             $setorUsuario = (new Setores())->find($request->user()['setor']);
-            $setorNome = $setorUsuario->nome;
-            $setorCor = $setorUsuario->cor;
+            $setorNome = $setorUsuario->nome ?? '';
+            $setorCor = $setorUsuario->cor ?? '';
         }
 
         $auth = $request->user();
