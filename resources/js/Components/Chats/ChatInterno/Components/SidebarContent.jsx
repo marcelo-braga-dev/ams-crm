@@ -81,8 +81,8 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                         alignItems="flex-start"
                         justifyContent="space-between">
                         <Box>
-                            <h6 className="mb-0">AMS360</h6>
-                            <small>Chat Interno</small>
+                            <h6 className="mb-0">Chat Interno</h6>
+                            {/*<small>Chat Interno</small>*/}
                         </Box>
                     </Box>
                 </Box>
