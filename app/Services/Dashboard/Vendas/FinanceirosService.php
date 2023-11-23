@@ -70,7 +70,7 @@ class FinanceirosService
         foreach ($soma as $item) {
             $total += $item;
         }
-        $media = $total / count($soma);
+        $media = $total / (count($soma) > 0 ?: 1);
 
         return [
             'meses' => $soma,
