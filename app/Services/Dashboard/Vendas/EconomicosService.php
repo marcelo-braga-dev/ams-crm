@@ -61,8 +61,8 @@ class EconomicosService
         $meses['vendas_total'] = convert_float_money($vendasTotal);
         $meses['lucro_total'] = convert_float_money($lucroTotal);
         $meses['custo_total'] = convert_float_money($custoTotal);
-        $meses['margem_lucro_total'] = convert_float_money($margemLucroTotal / count($vendas));
-        $meses['crescimento_total'] = convert_float_money($crescimentoTotal / count($vendas));
+        $meses['margem_lucro_total'] = convert_float_money($margemLucroTotal / (count($vendas) > 0 ?: 1));
+        $meses['crescimento_total'] = convert_float_money($crescimentoTotal / (count($vendas) > 0 ?: 1));
 //        print_pre($meses);
         return $meses;
     }
