@@ -36,7 +36,7 @@ class FinanceirosService
             $dados['total'] += $item['vendas'];
 
         }
-        $dados['media'] = $dados['total'] / count($vendasMensais);
+        $dados['media'] = $dados['total'] / ((count($vendasMensais) > 0 ?: 1));
 
         return $dados;
     }
