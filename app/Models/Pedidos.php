@@ -60,6 +60,7 @@ class Pedidos extends Model
                     'modelo' => modelo_usuario()
                 ]);
         } catch (QueryException $exception) {
+            print_pre($exception->getMessage());
             throw new \DomainException('Falha no cadastro do pedido.');
         }
 
