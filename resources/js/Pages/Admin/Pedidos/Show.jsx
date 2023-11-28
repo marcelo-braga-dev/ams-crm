@@ -14,6 +14,7 @@ import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
+import {usePage} from "@inertiajs/react";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -43,6 +44,8 @@ function a11yProps(index) {
 
 export default function Pedidos({pedido, produtos, historico}) {
     const [value, setValue] = React.useState(0);
+    const funcaoUsuario = usePage().props.auth.user.tipo
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -68,10 +71,10 @@ export default function Pedidos({pedido, produtos, historico}) {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col">
-                            {produtos?.[0]?.preco_fornecedor > 0 ?
-                            <DadosProdutosCompleta dados={produtos}/> :
-                            <DadosProdutos dados={produtos} /> }
+                        <div className="col">{console.log()}
+                            {funcaoUsuario === 'admin' ?
+                                <DadosProdutosCompleta dados={produtos}/> :
+                                <DadosProdutos dados={produtos}/>}
                         </div>
                     </div>
                 </TabPanel>

@@ -4,9 +4,10 @@ import React from 'react';
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
-import {router} from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
 
 export default function Create({pedido}) {
+    const funcaoUsuario = usePage().props.auth.user.tipo
     const avancarStatus = () => {
         router.post(route('admin.modelo-2.pedidos.faturado.update', pedido.id), {
             _method: 'PUT'
@@ -31,13 +32,14 @@ export default function Create({pedido}) {
                         <span>{pedido.pedido_files.link_pagamento}</span>
                     </div>
                 </div>}
-            <div className="row justify-content-center mt-4">
+            {funcaoUsuario === 'admin' &&
+                <div className="row justify-content-center mt-4">
                 <div className="col-auto">
                     <button className="btn btn-warning" onClick={() => avancarStatus()}>
                         Marcar como Entregue
                     </button>
                 </div>
-            </div>
+            </div>}
 
             <DadosPedidoFinanceiroFiles dados={pedido}/>
         </Layout>
