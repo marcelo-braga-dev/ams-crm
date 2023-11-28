@@ -40,7 +40,7 @@ export default function Pedidos({prazos, coresPedidos}) {
     }
 
     return (
-        <Layout container voltar={route('admin.pedidos.index')} titlePage="Consfigurações de Pedidos"
+        <Layout container titlePage="Consfigurações de Pedidos"
                 menu="pedidos" submenu="config">
 
             <Typography variant={"h6"} className={"mb-4"}>Prazos dos Status de Enegia Solar (dias)</Typography>
