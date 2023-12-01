@@ -102,7 +102,7 @@ export default function Pedidos({pedido, produtos}) {
                 </Box>
             </Modal>
 
-            <div className="modal fade" id="modalEncomenda" tabIndex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade mt-5" id="modalEncomenda" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

@@ -48,7 +48,7 @@ export default function Create({unidades}) {
             </div>
 
             {/*Cadastrar Categoria*/}
-            <div className="modal fade" id="cadastrarCategoria" tabIndex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade mt-5" id="cadastrarCategoria" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

@@ -93,7 +93,7 @@ export default function Edit({dados, historicos, consultores}) {
             />
 
             {/*Modal Limpar Lead*/}
-            <div className="modal fade" id="limparLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
+            <div className="modal fade mt-5" id="limparLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -116,7 +116,7 @@ export default function Edit({dados, historicos, consultores}) {
             </div>
 
             {/*Avancar Status*/}
-            <div className="modal fade" id="statusAvancar" tabIndex="-1" aria-labelledby="limparLeadLabel"
+            <div className="modal fade mt-5" id="statusAvancar" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -139,7 +139,7 @@ export default function Edit({dados, historicos, consultores}) {
             </div>
 
             {/*Alterar consultor*/}
-            <div className="modal fade" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"
+            <div className="modal fade mt-5" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

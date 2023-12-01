@@ -278,7 +278,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
 
 
             {/*MODAL ENVIAR*/}
-            <div className="modal fade" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -303,7 +303,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             </div>
 
             {/*MODAL LIMPAR*/}
-            <div className="modal fade" id="modalLimpar" tabIndex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade mt-5" id="modalLimpar" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

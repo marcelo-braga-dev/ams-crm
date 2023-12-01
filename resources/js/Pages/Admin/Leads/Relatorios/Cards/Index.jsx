@@ -184,7 +184,7 @@ export default function Dashboard({leads, usuario, consultores}) {
             </div>
 
             {/*Alterar consultor*/}
-            <div className="modal fade" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"
+            <div className="modal fade mt-5" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

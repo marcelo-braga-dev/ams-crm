@@ -108,7 +108,7 @@ export default function Show({dados, historicos, consultores}) {
             />
 
             {/*Modal Limpar Lead*/}
-            <div className="modal fade" id="limparLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
+            <div className="modal fade mt-5" id="limparLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -131,7 +131,7 @@ export default function Show({dados, historicos, consultores}) {
             </div>
 
             {/*Voltar Status*/}
-            <div className="modal fade" id="statusVoltar" tabIndex="-1" aria-labelledby="limparLeadLabel"
+            <div className="modal fade mt-5" id="statusVoltar" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -154,7 +154,7 @@ export default function Show({dados, historicos, consultores}) {
             </div>
 
             {/*Deletar LEAD*/}
-            <div className="modal fade" id="deletarLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
+            <div className="modal fade mt-5" id="deletarLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -177,7 +177,7 @@ export default function Show({dados, historicos, consultores}) {
             </div>
 
             {/*Alterar consultor*/}
-            <div className="modal fade" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"
+            <div className="modal fade mt-5" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

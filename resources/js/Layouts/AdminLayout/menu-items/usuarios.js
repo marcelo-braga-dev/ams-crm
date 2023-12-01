@@ -21,6 +21,11 @@ const dashboard = {
                     title: 'Contas de Usuários',
                     type: 'item',
                     url: route('admin.usuarios.usuario.index'),
+                }, {
+                    id: 'usuarios-migrar',
+                    title: 'Migrar Conteúdo',
+                    type: 'item',
+                    url: route('admin.usuarios.migrar.index'),
                 }
             ]
         }

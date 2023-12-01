@@ -162,7 +162,7 @@ export default function Show({dados, status, contatos, historicos}) {
 
 
             {/*Modal*/}
-            <div className="modal fade" id="modalFinalizary" tabIndex="10" aria-labelledby="exampleModalLabel"
+            <div className="modal fade mt-5" id="modalFinalizary" tabIndex="10" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog modal-dialog-center ed">
                     <div className="modal-content">

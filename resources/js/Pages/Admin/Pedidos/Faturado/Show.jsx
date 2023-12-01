@@ -34,7 +34,7 @@ export default function Create({pedido}) {
             </button>
 
             {/*Modal*/}
-            <div className="modal fade" id="modalAvancarStatus" tabIndex="-1" aria-labelledby="exampleModalLabel"
+            <div className="modal fade mt-5" id="modalAvancarStatus" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

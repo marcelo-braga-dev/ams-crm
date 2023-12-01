@@ -178,7 +178,7 @@ export default function ChatInterno({conversas, pessoas, getUrl, urlSubmit}) {
                 </div>
             </div>
 
-            <div className="modal fade" id="modalEmoji" tabIndex="-1" aria-labelledby="modalEmojiLabel"
+            <div className="modal fade mt-5" id="modalEmoji" tabIndex="-1" aria-labelledby="modalEmojiLabel"
                  aria-hidden="true">
                 <div className="modal-dialog modal-sm">
                     <div className="modal-content">
