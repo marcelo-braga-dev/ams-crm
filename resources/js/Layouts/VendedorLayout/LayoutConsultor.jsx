@@ -28,9 +28,9 @@ const Layout = ({titlePage, menu, children, voltar}) => {
         <Box sx={{display: 'flex', width: '100%'}}>
             <Head title={titlePage}/>
             <ModalsAlerts/>
-            <Header open={open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle}/>
-            <Drawer open={open} menu={menu} handleDrawerToggle={handleDrawerToggle}/>
-            <BoxStyled open={open}>
+            <Header open={!open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle}/>
+            <Drawer open={!open} menu={menu} handleDrawerToggle={handleDrawerToggle}/>
+            <BoxStyled open={!open}>
                 <Container maxWidth={false}>
                     <Card className="p-3">
                         {children}
