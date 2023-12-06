@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Pedidos\Relatorios;
 use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
 use App\Models\User;
+use App\Services\Pedidos\Relatorios\ProdutosRelatoriosService;
 use App\Services\Pedidos\Relatorios\ProdutosService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,6 +19,7 @@ class ProdutosController extends Controller
         $consultor = $request->consultor;
 
         $historicos = (new ProdutosService())->historicos($mes, $fornecedor, $consultor);
+//        $historicos = (new ProdutosRelatoriosService())->relatorio($mes, $consultor, $fornecedor);
 
         $fornecedores = (new Fornecedores())->getAll(null);
         $consultores = (new User())->getConsultores();

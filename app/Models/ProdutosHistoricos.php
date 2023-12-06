@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\src\Produtos\ProdutosStatus;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -48,40 +49,16 @@ class ProdutosHistoricos extends Model
         $mes = $mes ?? date('m');
 
         $categoriasNomes = (new ProdutosCategorias())->getNomes();
-        $fornecedoresNomes = (new Fornecedores())->getNomes();
 
-        $dados = (new ProdutosHistoricos())->newQuery()
-            ->where($consultor ? ['users_id' => $consultor] : null)
-            ->where($fornecedor ? ['fornecedor' => $fornecedor] : null)
-            ->whereMonth('data', $mes)
-            ->select(
-                DB::raw('
-                id, produtos_id, status, valor, nome, categoria, fornecedor,
-                WEEK(data) as semana
-                '))
-            ->orderBy('semana')
-            ->orderBy('nome')
-            ->get()
-            ->transform(function ($item) use ($fornecedoresNomes) {
-                return [
-                    'id' => $item->id,
-                    'id_produto' => $item->produtos_id,
-                    'valor' => $item->valor,
-                    'status' => $item->status,
-                    'nome' => $item->nome,
-                    'categoria' => $item->categoria,
-                    'fornecedor' => $fornecedoresNomes[$item->fornecedor] ?? '',
-
-                    'semana' => $item->semana,
-                ];
-            });
+        $dados = $this->getDados($consultor, $fornecedor, $mes);
 
         // popula as semanas
         $separacao = [];
+        $semanas = $this->getNumerosSemanas($mes);
         foreach ($dados as $item) {
             $separacao[$item['id_produto']] = [...$item];
-            $separacao[$item['id_produto']]['semanas'] = $this->getNumerosSemanas($mes);
-
+            $separacao[$item['id_produto']]['semanas_datas'] = $this->getDatasSemanas($mes);
+            $separacao[$item['id_produto']]['semanas'] = $semanas;
         }
 
         // preeche quantidades
@@ -92,7 +69,9 @@ class ProdutosHistoricos extends Model
                     $separacao[$item['id_produto']]['semanas'][$item['semana']]['vendas'][] = [];
                     break;
                 case $status->local() :
-                    $separacao[$item['id_produto']]['semanas'][$item['semana']]['estoque_local'] = $item['valor'];
+                    {
+                        $separacao[$item['id_produto']]['semanas'][$item['semana']]['estoque_local'] = $item['valor'];
+                    }
                     break;
                 case $status->transito() :
                     $separacao[$item['id_produto']]['semanas'][$item['semana']]['transito'] = $item['valor'];
@@ -105,7 +84,6 @@ class ProdutosHistoricos extends Model
         foreach ($separacao as $item) {
             $res[$i] = [
                 ...$item,
-                'semanas_datas' => $this->getDatasSemanas($mes)
             ];
             foreach ($item['semanas'] as $semanas) {
                 $res[$i]['vendas_semanas'][] = [
@@ -132,7 +110,7 @@ class ProdutosHistoricos extends Model
     {
         $semanas = [];
         for ($i = 0; $i < $this->getQtdSemanas($mes); $i++) {
-            $semanas[intval(date('W', strtotime("2023-$mes-01" . ' +' . ($i * 7) . 'days'))) + 1] = [];
+            $semanas[intval(date('W', strtotime("2023-$mes-01" . ' +' . ($i * 7) . 'days')))] = [];
         }
 
         return $semanas;
@@ -140,19 +118,19 @@ class ProdutosHistoricos extends Model
 
     public function getDatasSemanas($mes)
     {
-        $qtd = $this->getQtdSemanas($mes);
+        $semana = intval(date('W', strtotime("2023-$mes-01")));
+        $d = new DateTime();
+        $d->setISODate(2023, $semana);
+        $inicio = $d->format('Y-m-d');
+
         $semanas = [];
 
-        for ($i = 0; $i < $qtd; $i++) {
+        for ($i = 0; $i < $this->getQtdSemanas($mes); $i++) {
             $semanas[] = [
-                'inicio' => date('d/m/y', strtotime("2023-$mes-01" . ' +' . ($i * 7) . 'days')),
-                'fim' => ($i + 1) == $qtd ?
-                    date('t/m/y', strtotime("2023-$mes-01")) :
-                    date('d/m/y', strtotime("2023-$mes-01" . ' +' . ((($i + 1) * 7) - 1) . 'days'))
-
+                'inicio' => date('d/m/Y', strtotime($inicio . ' +' . ($i * 7) . 'days')),
+                'fim' => date('d/m/Y', strtotime($inicio . ' +' . ((($i + 1) * 7) - 1) . 'days'))
             ];
         }
-
         return $semanas;
     }
 
@@ -161,7 +139,70 @@ class ProdutosHistoricos extends Model
         $primeiro = "2023-$mes-01";
         $ultimo = date('Y-m-t', strtotime("2023-$mes-01"));
 
-        return (intval(date('W', strtotime($ultimo)))) -
-            (intval(date('W', strtotime($primeiro))));
+        return intval(date('W', strtotime($ultimo))) -
+            intval(date('W', strtotime($primeiro))) + 1;
+    }
+
+    public function getDados($consultor, $fornecedor, string $mes)
+    {
+        $fornecedoresNomes = (new Fornecedores())->getNomes();
+
+        return (new ProdutosHistoricos())->newQuery()
+            ->where($consultor ? ['vendedor' => $consultor] : null)
+            ->where($fornecedor ? ['fornecedor' => $fornecedor] : null)
+            ->whereMonth('data', $mes)
+            ->select(
+                DB::raw('
+                id, produtos_id, status, valor, nome, categoria, fornecedor,
+                WEEK(data) as semana
+                '))
+            ->orderBy('semana')
+            ->orderBy('nome')
+            ->get()
+            ->transform(function ($item) use ($fornecedoresNomes) {
+                return [
+                    'id' => $item->id,
+                    'id_produto' => $item->produtos_id,
+                    'valor' => $item->valor,
+                    'status' => $item->status,
+                    'nome' => $item->nome,
+                    'categoria' => $item->categoria,
+                    'fornecedor' => $fornecedoresNomes[$item->fornecedor] ?? '',
+                    'semana' => $item->semana
+                ];
+            });
+    }
+
+    public function relatorio($mes, $consultor, $fornecedor)
+    {
+        $fornecedoresNomes = (new Fornecedores())->getNomes();
+
+        return $this->newQuery()
+            ->where($consultor ? ['vendedor' => $consultor] : null)
+            ->where($fornecedor ? ['fornecedor' => $fornecedor] : null)
+//            ->whereMonth('data', $mes)
+            ->select(
+                DB::raw('
+                    id, produtos_id, status, valor, nome, categoria, fornecedor,
+                    WEEK(data) as semana, MONTH(data) as mes, data
+                '))
+//            ->orderBy('semana')
+//            ->orderBy('produtos_id')
+            ->orderBy('data')
+            ->get()
+            ->transform(function ($item) use ($fornecedoresNomes) {
+                return [
+                    'id' => $item->id,
+                    'id_produto' => $item->produtos_id,
+                    'valor' => $item->valor,
+                    'status' => $item->status,
+                    'nome' => $item->nome,
+                    'categoria' => $item->categoria,
+                    'fornecedor' => $fornecedoresNomes[$item->fornecedor] ?? '',
+                    'semana' => $item->semana,
+                    'mes' => $item->mes,
+                    'data' => $item->data,
+                ];
+            });
     }
 }
