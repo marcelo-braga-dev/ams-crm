@@ -60,6 +60,16 @@ class ProdutosService
             }
         }
 
+
+        $semanaAtual = date('W');
+        foreach ($separacao as $a => $items) {
+            foreach ($items['semanas'] as $b => $item) {
+
+                if ($b > $semanaAtual)
+                $separacao[$a]['semanas'][$b] = null;
+            }
+        }
+
         $res = [];
         $i = 0;
         foreach ($separacao as $item) {
