@@ -69,7 +69,7 @@ class PedidosController extends Controller
         switch ((new Setores())->getModelo($setor)) {
             case 1:
                 return Inertia::render('Consultor/Pedidos/Create/Modelo1/Create',
-                    compact('fornecedores', 'lead'));
+                    compact('fornecedores', 'lead', 'endereco'));
             case 2:
                 return Inertia::render('Consultor/Pedidos/Create/Modelo2/Create',
                     compact('fornecedores', 'lead', 'clientes', 'endereco', 'categorias', 'unidades'));

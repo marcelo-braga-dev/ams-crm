@@ -7,13 +7,37 @@ import Anexos from "./Partials/Anexos";
 import Pedidos from "./Partials/Pedido";
 import AlertDanger from "./Partials/AlertDanger";
 
-export default function Create({fornecedores, lead}) {
-    const {errors} = usePage().props;
+export default function Create({fornecedores, lead, endereco}) {
 
     const {data, setData, post, progress, processing} = useForm({
-        pessoa: 'Pessoa Física',
         documentos_check: 'cnh',
-        integrador: lead.id
+        integrador: lead.id,
+
+        id_lead: lead.id,
+        pessoa: lead.nome ? 'Pessoa Física' : 'Jurídica',
+        nome: lead.nome,
+        razao_social: lead.razao_social,
+        nascimento: lead.data_nascimento,
+        rg: lead.rg,
+        cpf: lead.cpf,
+        cnpj: lead.cnpj,
+        telefone: lead.telefone,
+        email: lead.email,
+        inscricao_estadual: lead.inscricao_estadual,
+        preco: null,
+        produtos: [],
+
+        cidade: lead.cidade,
+        estado: lead.estado,
+        endereco: {
+            cep: endereco.cep,
+            rua: endereco.rua,
+            numero: endereco.numero,
+            complemento: endereco.complemento,
+            bairro: endereco.bairro,
+            cidade: endereco.cidade,
+            estado: endereco.estado
+        },
     });
 
     function submit(e) {
@@ -25,12 +49,11 @@ export default function Create({fornecedores, lead}) {
         <Layout container titlePage="Cadastrar Pedido" voltar={route('consultor.pedidos.index')}>
             <div className="border-bottom mb-4">
                 <h5>LEAD: {lead.nome} (#{lead.id})</h5>
-                <AlertDanger errors={errors}></AlertDanger>
             </div>
 
             <form onSubmit={submit}>
                 <div className="row mb-5 pb-4 border-bottom">
-                    <InfoCliente setData={setData} data={data}></InfoCliente>
+                    <InfoCliente setData={setData} data={data} />
                 </div>
                 <div className="row mb-5 border-bottom">
                     <Anexos setData={setData} data={data}></Anexos>
