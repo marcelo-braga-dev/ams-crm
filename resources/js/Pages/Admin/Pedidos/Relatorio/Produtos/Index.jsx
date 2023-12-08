@@ -85,7 +85,7 @@ export default function ({historicos, fornecedores, fornecedor, mes, consultores
             <div className="row">
                 <div className="col mb-3">
                     <a className="btn btn-success" href={urlPlanilha}>
-                        <FileDownloadIcon /> Baixar Planilha
+                        <FileDownloadIcon/> Baixar Planilha
                     </a>
                 </div>
             </div>
@@ -95,8 +95,6 @@ export default function ({historicos, fornecedores, fornecedor, mes, consultores
             {historicos.map(({produtos, categoria_nome}) => {
                 return (<>
                         <Card className="p-3 mb-4">
-
-
                             <h6>CATEGORIA: {categoria_nome}</h6>
                             {/*    Object.values(produtos).map((item) => {*/}
                             <div className="table-responsive">
@@ -134,10 +132,14 @@ export default function ({historicos, fornecedores, fornecedor, mes, consultores
                                             return (
                                                 <tr key={index} className="text-center">
                                                     <td className="text-start border-end">
-                                                        <b>{item.nome}</b> <br/>
-                                                        <small className="d-block">[ID: #{item.id_produto}]</small>
-                                                        <small
-                                                            className="d-block text-wrap">Forn.: {item.fornecedor}</small>
+                                                        <div className="row">
+                                                            <div className="col">
+                                                                <b>{item.nome}</b> <br/>
+                                                                <small className="d-block">
+                                                                    [ID: #{item.id_produto}]</small>
+                                                                {/*<small className="d-block">Forn.: {item.fornecedor}</small>*/}
+                                                            </div>
+                                                        </div>
                                                     </td>
                                                     {item.vendas_semanas.map((dados) => {
                                                         return <>

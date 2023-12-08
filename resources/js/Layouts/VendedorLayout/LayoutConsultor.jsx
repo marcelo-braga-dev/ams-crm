@@ -14,15 +14,14 @@ import BoxStyled from "./Content/Box";
 const Layout = ({titlePage, menu, children, voltar}) => {
     const theme = useTheme();
     const matchDownLG = useMediaQuery(theme.breakpoints.down('lg'));
+    const stateMenu = sessionStorage.getItem('menuOpen');
 
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(stateMenu === 'true' && !matchDownLG);
+
     const handleDrawerToggle = () => {
+        sessionStorage.setItem('menuOpen', !open)
         setOpen(!open);
     };
-
-    useEffect(() => {
-        setOpen(!matchDownLG);
-    }, [matchDownLG]);
 
     return (
         <Box sx={{display: 'flex', width: '100%'}}>
