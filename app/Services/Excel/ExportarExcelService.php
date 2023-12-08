@@ -85,7 +85,7 @@ class ExportarExcelService
 
         // Definir o caminho do arquivo para salvar
         Storage::createDirectory('excel');
-        $path = 'excel/relatorio_estoque.xlsx';
+        $path = 'excel/relatorio_estoque_' . uniqid() . '.xlsx';
         $filePath = Storage::path($path);
 
         // Salvar o arquivo Excel
