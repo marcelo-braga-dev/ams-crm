@@ -144,7 +144,7 @@ export default function ({historicos, fornecedores, fornecedor, mes, consultores
                                                             <td>{dados.transito}</td>
                                                             <td>{dados.estoque_local}</td>
                                                             <td>{dados.vendas}</td>
-                                                            <td className="border-end"></td>
+                                                            <td className="border-end">{dados.total}</td>
                                                         </>
                                                     })}
                                                 </tr>
