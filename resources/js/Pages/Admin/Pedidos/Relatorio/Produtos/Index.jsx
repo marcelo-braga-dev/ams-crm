@@ -2,8 +2,9 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {Card, MenuItem, TextField} from "@mui/material";
 import React, {useState} from "react";
 import {router} from "@inertiajs/react";
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
-export default function ({historicos, fornecedores, fornecedor, mes, consultores, consultor}) {
+export default function ({historicos, fornecedores, fornecedor, mes, consultores, consultor, urlPlanilha}) {
 
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState(fornecedor);
     const [mesSelecionado, setMesSelecionado] = useState(mes);
@@ -81,6 +82,14 @@ export default function ({historicos, fornecedores, fornecedor, mes, consultores
                 </div>
             </div>
 
+            <div className="row">
+                <div className="col mb-3">
+                    <a className="btn btn-success" href={urlPlanilha}>
+                        <FileDownloadIcon /> Baixar Planilha
+                    </a>
+                </div>
+            </div>
+
             {/*Tabela de Produtos*/}
             {/*     Separa por categorias*/}
             {historicos.map(({produtos, categoria_nome}) => {
@@ -89,62 +98,62 @@ export default function ({historicos, fornecedores, fornecedor, mes, consultores
 
 
                             <h6>CATEGORIA: {categoria_nome}</h6>
-                        {/*    Object.values(produtos).map((item) => {*/}
-                        <div className="table-responsive">
-                            <table className="table text-sm">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    {Object.values(produtos)?.[0]?.[0].semanas_datas.map((item, index) => {
-                                        return (
-                                            <th colSpan="4" className="text-center border">
-                                                {index + 1}° Semana<br/>
-                                                <small>{item.inicio} até {item.fim}</small>
-                                            </th>
-                                        )
+                            {/*    Object.values(produtos).map((item) => {*/}
+                            <div className="table-responsive">
+                                <table className="table text-sm">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        {Object.values(produtos)?.[0]?.[0].semanas_datas.map((item, index) => {
+                                            return (
+                                                <th colSpan="4" className="text-center border">
+                                                    {index + 1}° Semana<br/>
+                                                    <small>{item.inicio} até {item.fim}</small>
+                                                </th>
+                                            )
+                                        })}
+                                    </tr>
+                                    <tr>
+                                        <th className="border-end">Produtos</th>
+                                        {Object.values(produtos)?.[0]?.[0].semanas_datas.map((item) => {
+                                            return (
+                                                <>
+                                                    <th>Trânsito</th>
+                                                    <th>Loja</th>
+                                                    <th>Vendidos</th>
+                                                    <th className="border-end">Total</th>
+                                                </>
+                                            )
+                                        })}
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {/*Separa por produtos*/}
+                                    {Object.values(produtos).map((produto, index) => {
+                                        return produto.map((item) => {
+                                            return (
+                                                <tr key={index} className="text-center">
+                                                    <td className="text-start border-end">
+                                                        <b>{item.nome}</b> <br/>
+                                                        <small className="d-block">[ID: #{item.id_produto}]</small>
+                                                        <small
+                                                            className="d-block text-wrap">Forn.: {item.fornecedor}</small>
+                                                    </td>
+                                                    {item.vendas_semanas.map((dados) => {
+                                                        return <>
+                                                            <td>{dados.transito}</td>
+                                                            <td>{dados.estoque_local}</td>
+                                                            <td>{dados.vendas}</td>
+                                                            <td className="border-end"></td>
+                                                        </>
+                                                    })}
+                                                </tr>
+                                            )
+                                        })
                                     })}
-                                </tr>
-                                <tr>
-                                    <th className="border-end">Produtos</th>
-                                    {Object.values(produtos)?.[0]?.[0].semanas_datas.map((item) => {
-                                        return (
-                                            <>
-                                                <th>Trânsito</th>
-                                                <th>Loja</th>
-                                                <th>Vendidos</th>
-                                                <th className="border-end">Total</th>
-                                            </>
-                                        )
-                                    })}
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {/*Separa por produtos*/}
-                                {Object.values(produtos).map((produto, index) => {
-                                    return produto.map((item) => {
-                                        return (
-                                            // console.log(item)
-                                            <tr key={index} className="text-center">
-                                                <td className="text-start border-end">
-                                                    <b>{item.nome}</b> <br/>
-                                                    <small className="d-block">[ID: #{item.id}]</small>
-                                                    <small className="d-block text-wrap">Forn.: {item.fornecedor}</small>
-                                                </td>
-                                                {item.vendas_semanas.map((dados) => {
-                                                    return <>
-                                                        <td>{dados.transito}</td>
-                                                        <td>{dados.estoque_local}</td>
-                                                        <td>{dados.vendas}</td>
-                                                        <td className="border-end"></td>
-                                                    </>
-                                                })}
-                                            </tr>
-                                        )
-                                    })
-                                })}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
                         </Card>
                     </>
                 )

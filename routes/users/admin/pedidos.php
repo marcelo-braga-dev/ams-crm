@@ -44,6 +44,9 @@ Route::name('admin.pedidos.relatorios.')
     ->group(function () {
         Route::resource('produtos', ProdutosController::class);
         Route::resource('faturamento', FaturamentoController::class);
+
+        Route::get('gerar-planilha', [ProdutosController::class, 'gerarPlanilha'])
+            ->name('gerar-planilha');
     });
 
 Route::name('admin.pedidos.')
