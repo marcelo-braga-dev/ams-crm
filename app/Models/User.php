@@ -84,6 +84,7 @@ class User extends Authenticatable
             'status' => $dados->status,
             'tipo' => $dados->tipo,
             'setor' => $setores[$dados->setor]['nome'] ?? '',
+            'setor_id' => $dados->setor,
             'ultimo_login' => date('d/m/Y H:i:s', strtotime($dados->ultimo_login)),
             'foto' => asset('storage/' . $dados->foto),
             'data_cadastro' => date('d/m/Y H:i:s', strtotime($dados->created_at)),

@@ -9,7 +9,7 @@ export default function Edit({usuario, setores, errors}) {
         nome: usuario.nome,
         email: usuario.email,
         status: usuario.status,
-        setor: usuario.setor,
+        setor: usuario.setor_id,
         funcao: usuario.tipo
     });
 
@@ -26,7 +26,7 @@ export default function Edit({usuario, setores, errors}) {
             _method: 'put', ...data
         })
     };
-    console.log(data)
+
     return (
         <Layout container errors={errors} titlePage="Atualizar Dados"
                 voltar={route('admin.usuarios.consultores.show', usuario.id)}
