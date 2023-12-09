@@ -26,7 +26,10 @@ export default function Dashboard({pedidos, coresAbas}) {
     return (
         <Layout titlePage="Lista de Pedidos" menu="pedidos-lista">
             {/*Pesquisa*/}
-            <div className="row justify-content-end mb-3">
+            <div className="row justify-content-between mb-3">
+                <div className="col-auto">
+                    <ScrollControlHorizontal/>
+                </div>
                 <div className="col-auto text-right">
                     <FormControl variant="outlined" className="bg-white" size="small">
                         <InputLabel htmlFor="search">Pesquisar...</InputLabel>
