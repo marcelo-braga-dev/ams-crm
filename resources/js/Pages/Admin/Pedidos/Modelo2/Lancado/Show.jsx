@@ -20,7 +20,9 @@ export default function Pedidos({dados, produtos}) {
 
     const qtdParcelas = parseInt(dados.financeiro.forma_pagamento.replace(/[^0-9]/g, ''))
 
-    const {data, put, setData} = useForm()
+    const {data, put, setData} = useForm({
+        consultor: dados.consultor.id
+    })
     const [qtsBoletos, setQtdBoletos] = useState(qtdParcelas)
     const [formaPagamento, setFormaPagamento] = useState('')
 

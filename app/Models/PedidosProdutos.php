@@ -51,6 +51,9 @@ class PedidosProdutos extends Model
             ->get()
             ->transform(function ($item) use ($isAdmin) {
                 return [
+                    'id_pedido' => $item->pedidos_id,
+                    'id_produto' => $item->produtos_id,
+                    'fornecedores_id' => $item->fornecedores_id,
                     'nome' => $item->nome,
                     'preco_fornecedor' => $isAdmin ? convert_float_money($item->preco_fornecedor) : 0,
                     'preco_fornecedor_float' => $isAdmin ? $item->preco_fornecedor : 0,

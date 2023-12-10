@@ -44,14 +44,6 @@ class ProdutosService
             }
 
             $nSemana = 0;
-            foreach ($dados->where('status', $status->venda()) as $item) {
-                if ($nSemana <= $i) {
-                    $separacao[$item['id_produto']]['semanas'][$i]['vendas'][] = [];
-                }
-                $nSemana = $item['semana'];
-            }
-
-            $nSemana = 0;
             foreach ($dados->where('status', $status->transito()) as $item) {
                 if ($nSemana <= $i) {
                     $separacao[$item['id_produto']]['semanas'][$i]['transito'] = $item['valor'];
@@ -60,13 +52,26 @@ class ProdutosService
             }
         }
 
+        foreach ($dados->where('status', $status->venda()) as $item) {
+
+            $separacao[$item['id_produto']]['semanas'][$item['semana']]['vendas'][] = $item['valor'];
+
+        }
+
 
         $semanaAtual = date('W');
         foreach ($separacao as $a => $items) {
             foreach ($items['semanas'] as $b => $item) {
 
                 if ($b > $semanaAtual)
-                $separacao[$a]['semanas'][$b] = null;
+                    $separacao[$a]['semanas'][$b] = null;
+            }
+        }
+
+        // Soma Vendas
+        foreach ($separacao as $a => $items) {
+            foreach ($items['semanas'] as $b => $item) {
+                $separacao[$a]['semanas'][$b]['vendas'] = array_sum($item['vendas'] ?? []);
             }
         }
 
@@ -77,9 +82,9 @@ class ProdutosService
                 ...$item,
             ];
             foreach ($item['semanas'] as $semanas) {
-                $total = ($semanas['estoque_local'] ?? 0) + ($semanas['transito'] ?? 0) - count($semanas['vendas'] ?? []);
+                $total = ($semanas['estoque_local'] ?? 0) + ($semanas['transito'] ?? 0) - $semanas['vendas'];
                 $res[$i]['vendas_semanas'][] = [
-                    'vendas' => count($semanas['vendas'] ?? []) ?: '',
+                    'vendas' => $semanas['vendas'],
                     'estoque_local' => $semanas['estoque_local'] ?? '',
                     'transito' => $semanas['transito'] ?? '',
                     'total' => $total != 0 ? $total : null

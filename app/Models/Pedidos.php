@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Services\Pedidos\DadosPedidoServices;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
-use App\src\Pedidos\Status\EncomendaStatus;
 use App\src\Pedidos\StatusPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -62,9 +61,10 @@ class Pedidos extends Model
         } catch (QueryException $exception) {
             throw new \DomainException('Falha no cadastro do pedido.');
         }
+        $consultor = $dados->integrador ?? $idLead;
 
         (new PedidosHistoricos())->create($pedido->id, $status, $prazo, null);
-        (new LeadsHistoricos())->createPedido($dados->integrador ?? $idLead, $pedido->id);
+        (new LeadsHistoricos())->createPedido($consultor, $pedido->id);
 
         return $pedido->id;
     }
