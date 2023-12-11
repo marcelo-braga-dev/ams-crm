@@ -58,6 +58,7 @@ class ProdutosHistoricos extends Model
                 WEEK(data) as semana
                 '))
             ->orderBy('semana')
+            ->orderBy('data')
             ->get()
             ->transform(function ($item) use ($fornecedoresNomes) {
                 return [

@@ -44,7 +44,7 @@ class ExportarExcelService
                     $column = 'B';
 
                     foreach ($produto['vendas_semanas'] as $i => $vendas) {
-                        $sheet->setCellValue($column . 2, $datas[$i]);
+                        $sheet->setCellValue($column . 2, $datas[$i] ?? 0);
                         $columnInicio = $column;
                         $rowInicio = $rowNumber;
 

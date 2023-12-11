@@ -23,61 +23,55 @@ class ProdutosService
         $dados = (new ProdutosHistoricos())->get($mes, $fornecedor, $consultor);
 
         // popula as semanas
-        $separacao = [];
+        $separacoes = [];
         $semanas = $this->getNumerosSemanas($mes);
         foreach ($dados as $item) {
-            $separacao[$item['id_produto']] = [...$item];
-            $separacao[$item['id_produto']]['semanas_datas'] = $this->getDatasSemanas($mes);
-            $separacao[$item['id_produto']]['semanas'] = $semanas;
+            $separacoes[$item['id_produto']] = [...$item];
+            $separacoes[$item['id_produto']]['semanas_datas'] = $this->getDatasSemanas($mes);
+            $separacoes[$item['id_produto']]['semanas'] = $semanas;
         }
 
         // preeche quantidades
         $status = (new ProdutosStatus());
-
         foreach ($this->getNumerosSemanas($mes) as $i => $n) {
             $nSemana = 0;
             foreach ($dados->where('status', $status->local()) as $item) {
                 if ($nSemana <= $i) {
-                    $separacao[$item['id_produto']]['semanas'][$i]['estoque_local'] = $item['valor'];
+                    $separacoes[$item['id_produto']]['semanas'][$i]['estoque_local'] = $item['valor'];
                 }
                 $nSemana = $item['semana'];
             }
 
-            $nSemana = 0;
             foreach ($dados->where('status', $status->transito()) as $item) {
-                if ($nSemana <= $i) {
-                    $separacao[$item['id_produto']]['semanas'][$i]['transito'] = $item['valor'];
+                if ($item['semana'] == $i) {
+                    $separacoes[$item['id_produto']]['semanas'][$i]['transito'] = $item['valor'];
                 }
-                $nSemana = $item['semana'];
             }
         }
 
         foreach ($dados->where('status', $status->venda()) as $item) {
-
-            $separacao[$item['id_produto']]['semanas'][$item['semana']]['vendas'][] = $item['valor'];
-
+            $separacoes[$item['id_produto']]['semanas'][$item['semana']]['vendas'][] = $item['valor'];
         }
-
-
+//        print_pre($separacoes);
+        // Elimina valores acima da semana atual
         $semanaAtual = date('W');
-        foreach ($separacao as $a => $items) {
+        foreach ($separacoes as $a => $items) {
             foreach ($items['semanas'] as $b => $item) {
-
                 if ($b > $semanaAtual)
-                    $separacao[$a]['semanas'][$b] = null;
+                    $separacoes[$a]['semanas'][$b] = null;
             }
         }
 
         // Soma Vendas
-        foreach ($separacao as $a => $items) {
+        foreach ($separacoes as $a => $items) {
             foreach ($items['semanas'] as $b => $item) {
-                $separacao[$a]['semanas'][$b]['vendas'] = array_sum($item['vendas'] ?? []);
+                $separacoes[$a]['semanas'][$b]['vendas'] = array_sum($item['vendas'] ?? []);
             }
         }
 
         $res = [];
         $i = 0;
-        foreach ($separacao as $item) {
+        foreach ($separacoes as $item) {
             $res[$i] = [
                 ...$item,
             ];
