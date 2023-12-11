@@ -38,7 +38,7 @@ export default function ({historicos, fornecedores, fornecedor, mes, consultores
     }
 
     return (
-        <Layout container titlePage="Relatório de Produtos" menu="pedidos" submenu="produtos">
+        <Layout container titlePage="Relatório de Produtos" menu="pedidos" submenu="pedidos-relatorios-produtos">
 
             <div className="row">
                 <div className="col-md-3 mb-4">

@@ -27,7 +27,7 @@ const dashboard = {
                     admin: true,
                     submenu: [
                         {
-                            id: 'pedidos-relatorios',
+                            id: 'pedidos-relatorios-produtos',
                             title: 'Produtos',
                             url: route('admin.pedidos.relatorios.produtos.index'),
                         },
