@@ -60,9 +60,10 @@ class InformacoesProdutos
 
     public function setGaleria($id, $valor)
     {
-        foreach ($valor as $item) {
-            $url = (new Images())->armazenarSeparado($item, 'produtos/galeria');
-            (new ProdutosInformacoes())->createGaleria($id, $this->galeria, $url);
-        }
+        if ($valor)
+            foreach ($valor as $item) {
+                $url = (new Images())->armazenarSeparado($item, 'produtos/galeria');
+                (new ProdutosInformacoes())->createGaleria($id, $this->galeria, $url);
+            }
     }
 }

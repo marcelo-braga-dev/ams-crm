@@ -6,7 +6,7 @@ use App\Http\Controllers\Consultor\Pedidos\PedidosController;
 use App\Http\Controllers\Consultor\Pedidos\Status\AcompanhamentoController;
 use App\Http\Controllers\Consultor\Pedidos\Status\AguardandoPagamentoController;
 use App\Http\Controllers\Consultor\Pedidos\Status\RevisarController;
-use App\Http\Controllers\Consultor\Produtos\ProdutosController;
+use App\Http\Controllers\Consultor\Produtos\ProdutosFornecedorController;
 use Illuminate\Support\Facades\Route;
 
 // MODELO 1
@@ -39,5 +39,5 @@ Route::middleware(['auth', 'auth.consultores'])
     ->prefix('consultor/pedido')
     ->group(function () {
 
-        Route::resource('produtos', ProdutosController::class);
+        Route::resource('produtos', ProdutosFornecedorController::class);
     });

@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::name('admin.')
     ->prefix('admin/pedido')
     ->group(function () {
+        Route::get('pedidos-cards', [PedidosController::class, 'pedidos'])
+            ->name('pedidos-cards');
+
         Route::resource('pedidos', PedidosController::class);
         Route::resource('conferencia', ConferenciaController::class);
         Route::resource('lancado', LancadoController::class);

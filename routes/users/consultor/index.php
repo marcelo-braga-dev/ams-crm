@@ -11,4 +11,5 @@ Route::middleware(['auth', 'auth.consultores'])
         require __DIR__ . '/integradores.php';
         require __DIR__ . '/notificacoes.php';
         require __DIR__ . '/chat-interno.php';
+        require __DIR__ . '/produtos.php';
     });

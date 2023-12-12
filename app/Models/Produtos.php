@@ -75,6 +75,7 @@ class Produtos extends Model
         $dados = $this->newQuery()->find($id);
         $categorias = (new ProdutosCategorias())->getNomes();
         $fornecedores = (new Fornecedores())->getNomes();
+        $unidades = (new ProdutosUnidades())->getNomes();
 
         return [
             'id' => $dados->id,
@@ -84,6 +85,7 @@ class Produtos extends Model
             'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
             'preco_venda' => convert_float_money($dados->preco_venda),
             'unidade' => $dados->unidade,
+            'unidade_nome' => $unidades[$dados->unidade] ?? '',
             'estoque' => $dados->estoque_local,
             'foto' => $dados->url_foto,
             'categoria' => $dados->categoria,

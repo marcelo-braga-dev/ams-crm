@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 
 import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
@@ -37,10 +37,18 @@ export default function Pedidos({
                                 }) {
     const {get} = useForm();
 
+    // const [pedidos, setPedidos] = useState([])
+
     function atualizarPagina(forcededorId, setorId) {
         get(route('admin.pedidos.index', {setor: setorId, fornecedor: forcededorId}))
     }
 
+    // useEffect(function () {
+    //     axios.get(route('admin.pedidos-cards')).then(res => {
+    //         setPedidos(res.data)
+    //     })
+    // }, [])
+// console.log(pedidos)
     return (
         <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="pedidos-lista">
 
@@ -315,8 +323,9 @@ export default function Pedidos({
                                 {modelo === 2 || !modelo ? '' :
                                     <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.acompanhamento.map((dados) => {
-                                            return (<CardEntregue key={dados.id} dados={dados} status="acompanhamento"
-                                                                        cor={coresAbas.acompanhamento}/>)
+                                            return (
+                                                <CardEntregue key={dados.id} dados={dados} status="acompanhamento"
+                                                              cor={coresAbas.acompanhamento}/>)
                                         })}
                                     </td>}
                                 <td id="td-12" className='shadow-sm' style={{minWidth: 300}}>

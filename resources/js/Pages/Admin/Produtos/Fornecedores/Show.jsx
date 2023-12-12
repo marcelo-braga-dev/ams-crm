@@ -54,11 +54,11 @@ export default function ({produtos, fornecedor}) {
                                     {dado.foto && <img src={dado.foto} width="80" alt="foto"/>}
                                 </td>
                                 <td className="text-wrap">
-                                    {dado.nome}<br/>
+                                    <b>{dado.nome}</b><br/>
                                     <small>ID: #{dado.id}</small>
                                 </td>
                                 <td>
-                                    Venda: R$ {dado.preco_venda}<br/>
+                                    Venda: <b>R$ {dado.preco_venda}</b><br/>
                                     Forn.: R$ {dado.preco_fornecedor}
                                 </td>
                                 <td className="text-center">{dado.unidade}</td>

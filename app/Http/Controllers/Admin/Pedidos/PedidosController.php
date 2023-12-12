@@ -62,4 +62,11 @@ class PedidosController extends Controller
 
         return redirect()->back();
     }
+
+    public function pedidos()
+    {
+        $pedidos = (new CardDadosService())->getCards(null);
+
+        return response()->json($pedidos);
+    }
 }
