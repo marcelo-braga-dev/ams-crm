@@ -12,6 +12,7 @@ Route::middleware(['auth', 'auth.admins'])
     ->name('admin.')
     ->prefix('admin')
     ->group(function () {
+        Route::resource('produtos', \App\Http\Controllers\Admin\Produtos\ProdutosController::class);
         Route::resource('produtos-fornecedores', ProdutosFornecedoresController::class);
 
         Route::resource('estoque-transito', EstoqueTransitoController::class);

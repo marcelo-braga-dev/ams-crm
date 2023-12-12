@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
+use App\Models\ProdutosInformacoes;
 use App\Models\ProdutosUnidades;
 use App\Services\Fornecedores\FornecedoresService;
 use App\Services\Setores\SetoresService;
+use App\src\Produtos\InformacoesProdutos;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -50,14 +52,22 @@ class ProdutosFornecedoresController extends Controller
         $fornecedor = (new Fornecedores())->find($produto['fornecedores_id']);
         $categorias = (new ProdutosCategorias())->categorias();
         $unidades = (new ProdutosUnidades())->get();
+        $infos = (new ProdutosInformacoes())->get($id);
 
-        return Inertia::render('Admin/Produtos/Fornecedores/Edit',
-            compact('produto', 'fornecedor', 'categorias', 'unidades'));
+        return Inertia::render('Admin/Produtos/Edit',
+            compact('produto', 'fornecedor', 'categorias', 'unidades', 'infos'));
     }
 
     public function update($id, Request $request)
     {
         (new Produtos())->atualizar($id, $request);
+
+        $keys = (new InformacoesProdutos());
+        $keys->setUtilidade($id, $request->utilidade);
+        $keys->setModoUsar($id, $request->modo_usar);
+        $keys->setVantagens($id, $request->vantagens);
+        $keys->setDuvidas($id, $request->duvidas);
+        $keys->setGaleria($id, $request->galeria);
 
         modalSucesso('Dados atualizado com sucesso!');
         return redirect()->route('admin.produtos-fornecedores.show', $request->fornecedor);

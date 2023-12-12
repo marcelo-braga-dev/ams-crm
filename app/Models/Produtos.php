@@ -71,17 +71,21 @@ class Produtos extends Model
     public function find($id)
     {
         $dados = $this->newQuery()->find($id);
+        $categorias = (new ProdutosCategorias())->getNomes();
+        $fornecedores = (new Fornecedores())->getNomes();
 
         return [
             'id' => $dados->id,
             'nome' => $dados->nome,
             'fornecedores_id' => $dados->fornecedores_id,
+            'fornecedor_nome' => $fornecedores[$dados->fornecedores_id] ?? '',
             'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
             'preco_venda' => convert_float_money($dados->preco_venda),
             'unidade' => $dados->unidade,
             'estoque' => $dados->estoque_local,
-            'foto' => $dados->url_foto,
+            'foto' => asset('storage/' . $dados->url_foto),
             'categoria' => $dados->categoria,
+            'categoria_nome' => $categorias[$dados->categoria] ?? '',
             'descricao' => $dados->descricao,
         ];
     }

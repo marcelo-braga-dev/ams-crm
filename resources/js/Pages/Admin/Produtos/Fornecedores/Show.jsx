@@ -64,8 +64,8 @@ export default function ({produtos, fornecedor}) {
                                 <td className="text-center">{dado.unidade}</td>
                                 <td className="text-wrap">{dado.categoria}</td>
                                 <td>
-                                    <a href={route('admin.produtos-fornecedores.edit', dado.id)}
-                                       className="btn btn-primary btn-sm me-2">Editar</a>
+                                    <a href={route('admin.produtos.show', dado.id)}
+                                       className="btn btn-primary btn-sm me-2">Ver</a>
                                     <button type="button" className="btn btn-link btn-sm text-danger px-3"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modalExcluir"
