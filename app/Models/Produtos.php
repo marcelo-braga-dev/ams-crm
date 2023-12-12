@@ -55,7 +55,7 @@ class Produtos extends Model
     {
         $url = (new Images())->armazenar($dados, 'foto', 'fotos_produtos');
 
-        $this->newQuery()
+        $dados = $this->newQuery()
             ->create([
                 'fornecedores_id' => $dados->fornecedor,
                 'nome' => $dados->nome,
@@ -66,6 +66,8 @@ class Produtos extends Model
                 'descricao' => $dados->descricao,
                 'url_foto' => $url
             ]);
+
+        return $dados->id;
     }
 
     public function find($id)

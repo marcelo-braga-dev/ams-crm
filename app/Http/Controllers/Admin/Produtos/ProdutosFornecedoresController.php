@@ -42,7 +42,7 @@ class ProdutosFornecedoresController extends Controller
         $categorias = (new ProdutosCategorias())->categorias($fornecedor->setor);
         $unidades = (new ProdutosUnidades())->get();
 
-        return Inertia::render('Admin/Produtos/Fornecedores/Create',
+        return Inertia::render('Admin/Produtos/Create',
             compact('fornecedor', 'categorias', 'unidades'));
     }
 
@@ -75,7 +75,13 @@ class ProdutosFornecedoresController extends Controller
 
     public function store(Request $request)
     {
-        (new Produtos())->create($request);
+        $id = (new Produtos())->create($request);
+        $keys = (new InformacoesProdutos());
+        $keys->setUtilidade($id, $request->utilidade);
+        $keys->setModoUsar($id, $request->modo_usar);
+        $keys->setVantagens($id, $request->vantagens);
+        $keys->setDuvidas($id, $request->duvidas);
+        $keys->setGaleria($id, $request->galeria);
 
         return redirect()->route('admin.produtos-fornecedores.show', $request->fornecedor);
     }
