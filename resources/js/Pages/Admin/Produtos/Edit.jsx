@@ -2,7 +2,7 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import TextField from "@mui/material/TextField";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {router, useForm} from "@inertiajs/react";
-import React from "react";
+import React, {useState} from "react";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import {MenuItem} from "@mui/material";
 import Box from "@mui/material/Box";
@@ -46,6 +46,7 @@ function a11yProps(index) {
 
 export default function ({produto, fornecedor, categorias, unidades, infos}) {
     const [value, setValue] = React.useState(0);
+    const [qtdFiles, setQtdFiles] = useState(2);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -59,7 +60,8 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
         unidade: produto.unidade,
         url_foto: produto.foto,
         categoria: produto.categoria,
-        descricao: produto.descricao
+        descricao: produto.descricao,
+        galeria: []
     })
 
     function onSubmit(e) {
@@ -67,6 +69,17 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
         router.post(route('admin.produtos-fornecedores.update', produto.id), {
             _method: 'put', ...data
         })
+    }
+
+    const galerias = () => {
+        let inputs = []
+        while (inputs.length < qtdFiles) {
+            inputs.push(
+                <TextField label="Galeria..." fullWidth type="file" className="mt-3"
+                           onChange={event => setData('galeria', [...data?.galeria, event.target.files[0]])}/>
+            )
+        }
+        return inputs
     }
 
     return (
@@ -163,8 +176,21 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
                                            onChange={event => setData('duvidas', event.target.value)}/>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={5}>
-                                <TextField label="Galeria..." fullWidth multiline minRows="15" defaultValue={infos.galeria}
-                                           onChange={event => setData('galeria', event.target.value)}/>
+                                <button className="btn btn-success btn-sm" type="button"
+                                        onClick={() => setQtdFiles(prevState => ++prevState)}>
+                                    Adicionar campo
+                                </button>
+                                {galerias()}
+                                <div className="row mt-4">
+                                    <div className="col">
+                                        {infos.galeria.map((item) => {
+                                            return (
+                                                <ImagePdf url={item} />
+                                            )
+                                        })}
+                                    </div>
+                                </div>
+
                             </CustomTabPanel>
                         </Box>
                     </div>

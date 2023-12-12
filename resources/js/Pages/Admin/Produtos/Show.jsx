@@ -58,7 +58,7 @@ export default function ({produto, infos}) {
             </div>
             <div className="row">
                 <div className="col-auto">
-                    <img src={produto.foto} alt="" width="250"/>
+                    <ImagePdf url={produto.foto} />
                 </div>
                 <div className="col">
                     <h5 className="d-block">{produto.nome}</h5>
