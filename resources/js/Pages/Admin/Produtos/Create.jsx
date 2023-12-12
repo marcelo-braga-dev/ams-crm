@@ -2,7 +2,7 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import TextField from "@mui/material/TextField";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {useForm} from "@inertiajs/react";
-import React from "react";
+import React, {useState} from "react";
 import {MenuItem} from "@mui/material";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
@@ -37,19 +37,32 @@ function a11yProps(index) {
 }
 
 export default function ({fornecedor, categorias, unidades}) {
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
+    const [qtdFiles, setQtdFiles] = useState(2);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const {data, setData, post} = useForm({
-        fornecedor: fornecedor.id
+        fornecedor: fornecedor.id,
+        galeria: []
     })
 
     function onSubmit(e) {
         e.preventDefault()
         post(route('admin.produtos-fornecedores.store'))
+    }
+
+    const galerias = () => {
+        let inputs = []
+        while (inputs.length < qtdFiles) {
+            inputs.push(
+                <TextField label="Galeria..." fullWidth type="file" className="mt-3"
+                           onChange={event => setData('galeria', [...data?.galeria, event.target.files[0]])}/>
+            )
+        }
+        return inputs
     }
 
     return (
@@ -143,8 +156,11 @@ export default function ({fornecedor, categorias, unidades}) {
                                            onChange={event => setData('duvidas', event.target.value)}/>
                             </CustomTabPanel>
                             <CustomTabPanel value={value} index={5}>
-                                <TextField label="Galeria..." fullWidth multiline minRows="15"
-                                           onChange={event => setData('galeria', event.target.value)}/>
+                                <button className="btn btn-success btn-sm" type="button"
+                                        onClick={() => setQtdFiles(prevState => ++prevState)}>
+                                    Adicionar campo
+                                </button>
+                                {galerias()}
                             </CustomTabPanel>
                         </Box>
                     </div>

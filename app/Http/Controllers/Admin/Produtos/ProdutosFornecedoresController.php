@@ -76,6 +76,7 @@ class ProdutosFornecedoresController extends Controller
     public function store(Request $request)
     {
         $id = (new Produtos())->create($request);
+
         $keys = (new InformacoesProdutos());
         $keys->setUtilidade($id, $request->utilidade);
         $keys->setModoUsar($id, $request->modo_usar);
@@ -83,6 +84,7 @@ class ProdutosFornecedoresController extends Controller
         $keys->setDuvidas($id, $request->duvidas);
         $keys->setGaleria($id, $request->galeria);
 
+        modalSucesso('Produto Cadastrado com Sucesso!');
         return redirect()->route('admin.produtos-fornecedores.show', $request->fornecedor);
     }
 

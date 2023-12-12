@@ -6,6 +6,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import ImagePdf from "@/Components/Elementos/ImagePdf";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -105,7 +106,11 @@ export default function ({produto, infos}) {
                             {infos.duvidas}
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={5}>
-                            {infos.galeria}
+                            {infos.galeria.map((item) => {
+                                return (
+                                    <ImagePdf url={item} />
+                                )
+                            })}
                         </CustomTabPanel>
                     </Box>
                 </div>

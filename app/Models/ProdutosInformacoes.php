@@ -25,6 +25,16 @@ class ProdutosInformacoes extends Model
             );
     }
 
+    public function createGaleria($id, $nome, $valor)
+    {
+        $this->newQuery()
+            ->create([
+                'produtos_id' => $id,
+                'nome' => $nome,
+                'valor' => $valor
+            ]);
+    }
+
     public function get($id)
     {
         $chaves = (new InformacoesProdutos());
@@ -33,12 +43,17 @@ class ProdutosInformacoes extends Model
             ->where('produtos_id', $id)
             ->get();
 
+        $galerias = [];
+        foreach ($dados->where('nome', $chaves->keyGaleria()) as $item) {
+            $galerias[] = $item->valor;
+        }
+
         return [
             'utilidade' => $dados->where('nome', $chaves->keyUtilidade())->first()->valor ?? '',
             'modo_usar' => $dados->where('nome', $chaves->keyModoUsar())->first()->valor ?? '',
             'vantagens' => $dados->where('nome', $chaves->keyVantagens())->first()->valor ?? '',
             'duvidas' => $dados->where('nome', $chaves->keyDuvidas())->first()->valor ?? '',
-            'galeria' => $dados->where('nome', $chaves->keyGaleria())->first()->valor ?? '',
+            'galeria' => $galerias,
         ];
     }
 }

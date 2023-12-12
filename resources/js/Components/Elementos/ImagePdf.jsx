@@ -22,8 +22,7 @@ export default function ImagePdf({url, string}) {
     }
 
     if (url || string) {
-        let urlCompleta = url?.includes('/storage/') ? url : url + "/storage/"
-        if (string) urlCompleta = string
+        const urlCompleta = url ? "/storage/" + url : string
 
         return (
             <div className="row mb-3">

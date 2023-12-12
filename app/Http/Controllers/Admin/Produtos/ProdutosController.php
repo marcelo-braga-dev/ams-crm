@@ -14,7 +14,6 @@ class ProdutosController extends Controller
     {
         $produto = (new Produtos())->find($id);
         $infos = (new ProdutosInformacoes())->get($id);
-//        print_pre($infos);
 
         return Inertia::render('Admin/Produtos/Show', compact('produto', 'infos'));
     }

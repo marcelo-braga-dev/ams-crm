@@ -85,7 +85,7 @@ class Produtos extends Model
             'preco_venda' => convert_float_money($dados->preco_venda),
             'unidade' => $dados->unidade,
             'estoque' => $dados->estoque_local,
-            'foto' => asset('storage/' . $dados->url_foto),
+            'foto' => $dados->url_foto,
             'categoria' => $dados->categoria,
             'categoria_nome' => $categorias[$dados->categoria] ?? '',
             'descricao' => $dados->descricao,

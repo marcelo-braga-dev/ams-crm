@@ -3,6 +3,7 @@
 namespace App\src\Produtos;
 
 use App\Models\ProdutosInformacoes;
+use App\Services\Images;
 
 class InformacoesProdutos
 {
@@ -59,6 +60,9 @@ class InformacoesProdutos
 
     public function setGaleria($id, $valor)
     {
-        (new ProdutosInformacoes())->create($id, $this->galeria, $valor);
+        foreach ($valor as $item) {
+            $url = (new Images())->armazenarSeparado($item, 'produtos/galeria');
+            (new ProdutosInformacoes())->createGaleria($id, $this->galeria, $url);
+        }
     }
 }
