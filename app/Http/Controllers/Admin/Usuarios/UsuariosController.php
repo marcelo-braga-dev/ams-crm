@@ -18,9 +18,9 @@ class UsuariosController extends Controller
     {
         $dados = (new UsuariosService())->usuarios();
 
-        $adminTipo = (new Admins)->getTipo();
-        $supervisorTipo = (new Supervisores())->getTipo();
-        $consultorTipo = (new Consultores())->getTipo();
+        $adminTipo = (new Admins)->getFuncao();
+        $supervisorTipo = (new Supervisores())->getFuncao();
+        $consultorTipo = (new Consultores())->getFuncao();
 
         $usuarios['admins'] = [];
         $usuarios['supervisores'] = [];

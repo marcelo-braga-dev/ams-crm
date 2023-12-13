@@ -24,21 +24,21 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => Hash::make('1234'),
-            'tipo' => (new Admins)->getTipo()
+            'tipo' => (new Admins)->getFuncao()
         ]);
 
         \App\Models\User::factory()->create([
             'name' => 'Consultor User',
             'email' => 'consultor@example.com',
             'password' => Hash::make('1234'),
-            'tipo' => (new Consultores)->getTipo()
+            'tipo' => (new Consultores)->getFuncao()
         ]);
 
         \App\Models\User::factory()->create([
             'name' => 'Supervisor User',
             'email' => 'supervisor@example.com',
             'password' => Hash::make('1234'),
-            'tipo' => (new Supervisores)->getTipo()
+            'tipo' => (new Supervisores)->getFuncao()
         ]);
     }
 }

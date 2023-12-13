@@ -10,7 +10,7 @@ class Consultores implements TiposUsuarios
 {
     private string $tipo = 'consultor';
 
-    public function getTipo(): string
+    public function getFuncao(): string
     {
         return $this->tipo;
     }

@@ -16,7 +16,7 @@ class ConsultoresController extends Controller
 {
     public function index()
     {
-        $tipo = (new Consultores())->getTipo();
+        $tipo = (new Consultores())->getFuncao();
         $consultores = (new User())->newQuery()->where('tipo', $tipo)->get();
 
         return Inertia::render('Admin/Usuarios/Consultores/Index', compact('consultores'));

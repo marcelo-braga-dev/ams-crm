@@ -23,6 +23,6 @@ if (!function_exists('funcao_usuario_atual')) {
 if (!function_exists('is_admin')) {
     function is_admin(): bool
     {
-        return auth()->user()->tipo === (new \App\src\Usuarios\Admins())->getTipo();
+        return auth()->user()->tipo === (new \App\src\Usuarios\Admins())->getFuncao();
     }
 }

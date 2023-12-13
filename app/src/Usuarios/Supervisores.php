@@ -11,7 +11,7 @@ class Supervisores implements TiposUsuarios
 
     private string $tipo = 'supervisor';
 
-    public function getTipo(): string
+    public function getFuncao(): string
     {
         return $this->tipo;
     }

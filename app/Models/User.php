@@ -69,7 +69,9 @@ class User extends Authenticatable
 
     public function usuarios()
     {
-        return $this->newQuery()->get();
+        return $this->newQuery()
+            ->orderByDesc('id')
+            ->get();
     }
 
     public function get(int $id)
@@ -113,7 +115,7 @@ class User extends Authenticatable
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
-            ->where('tipo', (new Consultores())->getTipo())
+            ->where('tipo', (new Consultores())->getFuncao())
             ->orderBy('name');
 
         if ($setor) $query->where('setor', $setor);
@@ -155,7 +157,7 @@ class User extends Authenticatable
     public function getNomeConsultores($status = false)
     {
         $query = $this->newQuery()
-            ->where('tipo', (new Consultores())->getTipo());
+            ->where('tipo', (new Consultores())->getFuncao());
         if ($status) $query->where('status', (new AtivoStatusLeads())->getStatus());
 
         $items = $query->get(['id', 'name']);
@@ -171,8 +173,8 @@ class User extends Authenticatable
     public function getIdAdmins()
     {
         return $this->newQuery()
-            ->where('tipo', (new Admins())->getTipo())
-            ->orWhere('tipo', (new Supervisores())->getTipo())
+            ->where('tipo', (new Admins())->getFuncao())
+            ->orWhere('tipo', (new Supervisores())->getFuncao())
             ->get('id');
     }
 

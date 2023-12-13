@@ -10,7 +10,7 @@ class Admins implements TiposUsuarios
 {
     private string $tipo = 'admin';
 
-    public function getTipo(): string
+    public function getFuncao(): string
     {
         return $this->tipo;
     }
