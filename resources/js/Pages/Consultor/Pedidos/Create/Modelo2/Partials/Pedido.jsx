@@ -29,7 +29,7 @@ const FilterComponent = ({filterText, onFilter}) => (
     </>
 );
 
-export default function Pedido({fornecedores, unidades, categorias, produtosX, data, setData}) {
+export default function Pedido({fornecedores, unidades, categorias, urlProdutos, data, setData}) {
     total = 0
     const [filterText, setFilterText] = React.useState('');
     const [qtdChequeParcelas, setQtdChequeParcelas] = useState(0);
@@ -59,7 +59,7 @@ export default function Pedido({fornecedores, unidades, categorias, produtosX, d
     }, [])
 
     function buscarProdutos(fornecedor, categoria, unidade) {
-        axios.post(route('consultor.pedidos.buscar-produtos-fornecedor', {
+        axios.post(route(urlProdutos, {
             fornecedor: fornecedor, categoria: categoria, unidade: unidade
         })).then(response => {
             setProdutos(response.data)

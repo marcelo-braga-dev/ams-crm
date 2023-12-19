@@ -24,6 +24,7 @@ use App\src\Modelos\CompletoModelo;
 use App\src\Modelos\SimplesModelo;
 use App\src\Pedidos\Arquivos\ArquivosPedido;
 use App\src\Pedidos\Arquivos\ChavesArquivosPedidos;
+use App\src\Pedidos\Pedido;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -94,48 +95,11 @@ class PedidosController extends Controller
 
     public function store(Request $request)
     {
-        switch (modelo_usuario()) {
-            case (new CompletoModelo())->modelo():
-                {
-                    DB::beginTransaction();
-                    try {
-                        $idPedido = (new Pedidos())->create($request);
-                        (new PedidosClientes())->create($idPedido, $request);
-                        (new PedidosImagens())->create($idPedido, $request);
-                    } catch (\DomainException|QueryException $exception) {
-                        DB::rollBack();
-                        modalErro($exception->getMessage());
-                        return redirect()->back();
-                    }
-                    DB::commit();
-                };
-                break;
-            case (new SimplesModelo())->modelo():
-                {
-                    DB::beginTransaction();
-                    try {
-                        (new Leads())->atualizar($request->id_lead, $request);
-                        $idPedido = (new Pedidos())->create($request, $request->id_lead);
-
-                        (new ArquivosPedido())->comprovantePix($idPedido, $request);
-                        (new ArquivosPedido())->cheques($idPedido, $request);
-
-                        (new PedidosImagens())->updatePlanilhaPedido($idPedido, $request);
-
-                        (new PedidosArquivos())->setRG($idPedido, $request);
-                        (new PedidosArquivos())->setCPF($idPedido, $request);
-                        (new PedidosArquivos())->setCNH($idPedido, $request);
-
-                        (new PedidosProdutos())->create($idPedido, $request);
-                        (new ProdutosTransito())->subtrairVendaPedido($request);
-                    } catch (\DomainException|QueryException $exception) {
-                        DB::rollBack();
-                        modalErro($exception->getMessage());
-                        return redirect()->back();
-                    }
-                    DB::commit();
-                };
-                break;
+        try{
+            (new Pedido())->salvar($request);
+        } catch (\DomainException) {
+            modalErro('Falha do cadastro do pedido.');
+            return redirect()->back();
         }
 
         modalSucesso('Pedido cadastrado com sucesso!');

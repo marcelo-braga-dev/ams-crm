@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('status', 32)->default((new AtivoStatusUsuario())->getStatus());
             $table->integer('setor');
+            $table->bigInteger('superior')->nullable();
             $table->string('tipo', 32);
             $table->string('foto')->nullable();
             $table->timestamp('ultimo_login')->nullable();

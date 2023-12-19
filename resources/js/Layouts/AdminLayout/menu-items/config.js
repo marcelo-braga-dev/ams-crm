@@ -17,11 +17,21 @@ const dashboard = {
             admin: true,
             submenu: [
                 {
+                    id: 'franquias-lista',
+                    title: 'Franquias',
+                    type: 'item',
+                    url: route('admin.franquias.index'),
+                },{
+                    id: 'fornecedores-cadastrados',
+                    title: 'Fornecedores',
+                    type: 'item',
+                    url: route('admin.fornecedores.index'),
+                }, {
                     id: 'config-setores',
                     title: 'Setores',
                     type: 'item',
                     url: route('admin.config.categorias.index'),
-                }
+                },
             ]
         }
     ]

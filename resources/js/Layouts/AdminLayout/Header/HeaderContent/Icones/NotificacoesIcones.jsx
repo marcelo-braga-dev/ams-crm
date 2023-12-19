@@ -14,6 +14,8 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import ListItemText from "@mui/material/ListItemText";
 import {styled} from "@mui/material/styles";
+import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 
 const StyledBadge = styled(Badge)(({theme}) => ({
     '& .MuiBadge-badge': {
@@ -98,6 +100,20 @@ export default function NotificacoesIcones() {
             urlPageChat={route('admin.chat-interno.index')}
             setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads}
         />
+
+        <IconButton disableRipple sx={{color: 'black', mx: 1}}
+                    href={route('admin.emails.index')}>
+            <Badge badgeContent={usuariosOnline.length} color="error">
+                <EmailOutlinedIcon/>
+            </Badge>
+        </IconButton>
+
+        <IconButton disableRipple sx={{color: 'black', mx: 1}}
+                    href={route('admin.agenda.calendario.index')}>
+            <Badge badgeContent={usuariosOnline.length} color="error">
+                <CalendarMonthOutlinedIcon/>
+            </Badge>
+        </IconButton>
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     onClick={handleClick2}>

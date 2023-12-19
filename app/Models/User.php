@@ -28,6 +28,7 @@ class User extends Authenticatable
         'name',
         'email',
         'setor',
+        'superior',
         'tipo',
         'categoria',
         'status',
@@ -109,13 +110,39 @@ class User extends Authenticatable
         return $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto', 'ultimo_login']);
     }
 
-
     public function getConsultores($setor = null, $status = true)
     {
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
             ->where('tipo', (new Consultores())->getFuncao())
+            ->orderBy('name');
+
+        if ($setor) $query->where('setor', $setor);
+        if ($status) $query->where('status', 'ativo');
+
+        return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor'])
+            ->except(['id' => 1])
+            ->except(['id' => 2])
+            ->except(['id' => 3])
+            ->transform(function ($item) use ($setores) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name,
+                    'email' => $item->email,
+                    'tipo' => $item->tipo,
+                    'status' => $item->status,
+                    'setor' => $setores[$item->setor]['nome'] ?? '',
+                ];
+            });
+    }
+
+    public function getSupervisores($setor = null, $status = true)
+    {
+        $setores = (new Setores())->getNomes();
+
+        $query = $this->newQuery()
+            ->where('tipo', (new Supervisores())->getFuncao())
             ->orderBy('name');
 
         if ($setor) $query->where('setor', $setor);
@@ -147,7 +174,8 @@ class User extends Authenticatable
                     'email' => $dados->email,
                     'status' => $dados->status,
                     'setor' => $dados->setor,
-                    'tipo' => $dados->funcao
+                    'tipo' => $dados->funcao,
+                    'superior' => $dados->superior ?? null
                 ]);
         } catch (QueryException) {
             throw new \DomainException("Este email está em uso.");

@@ -118,11 +118,15 @@ export default function Index({emails, folders, folderAtual}) {
                                     })}
                                 </List>
                             </nav>
+                            <a href={route('admin.emails.config')}>Configuraçoes</a>
                         </Box>
                     </form>
                 </div>
                 <div className="col-md-9">
-                    <div className="row justify-content-end">
+                    <div className="row justify-content-between">
+                        <div className="col">
+                            <a href={route('admin.emails.create')}>Criar</a>
+                        </div>
                         <div className="col-auto text-center">
                             <a className="cursor-pointer" onClick={() => {
                             }}>

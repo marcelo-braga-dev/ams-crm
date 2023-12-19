@@ -4,7 +4,7 @@ import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Register({setores}) {
+export default function Register({setores, superiores}) {
     const {data, setData, post, errors} = useForm();
 
     const submit = (e) => {
@@ -30,6 +30,17 @@ export default function Register({setores}) {
                             {setores.map((setor, index) => {
                                 return (
                                     <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
+                                )
+                            })}
+                        </TextField>
+                    </div>
+                    <div className="col-md-4">
+                        <TextField label="Supervisor" select required fullWidth
+                                   defaultValue={data.superior}
+                                   onChange={e => setData('superior', e.target.value)}>
+                            {superiores.map((setor, index) => {
+                                return (
+                                    <MenuItem key={index} value={setor.id}>{setor.name}</MenuItem>
                                 )
                             })}
                         </TextField>

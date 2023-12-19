@@ -4,7 +4,7 @@ import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from '@inertiajs/react'
 
-export default function Edit({usuario, setores, errors}) {
+export default function Edit({usuario, setores, superiores, errors}) {
     const {data, setData,} = useForm({
         nome: usuario.nome,
         email: usuario.email,
@@ -58,7 +58,7 @@ export default function Edit({usuario, setores, errors}) {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-md-4 mb-3">
                         {/*Setores*/}
                         <TextField label="Setor" select required fullWidth
                                    defaultValue={data.setor}
@@ -70,7 +70,18 @@ export default function Edit({usuario, setores, errors}) {
                             })}
                         </TextField>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-4 mb-3">
+                        <TextField label="Supervisor" select required fullWidth
+                                   defaultValue={data.superior}
+                                   onChange={e => setData('superior', e.target.value)}>
+                            {superiores.map((setor, index) => {
+                                return (
+                                    <MenuItem key={index} value={setor.id}>{setor.name}</MenuItem>
+                                )
+                            })}
+                        </TextField>
+                    </div>
+                    <div className="col-md-4 mb-3">
                         <TextField label="Função" select required fullWidth
                                    defaultValue={data.funcao}
                                    onChange={e => setData('funcao', e.target.value)}>
@@ -79,9 +90,9 @@ export default function Edit({usuario, setores, errors}) {
                             <MenuItem value="admin">Admin</MenuItem>
                         </TextField>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-4 mb-3">
                         <TextField type="file" label="Foto"
-                                   inputProps={{accept: 'image/*'}}  InputLabelProps={{shrink: true}}
+                                   inputProps={{accept: 'image/*'}} InputLabelProps={{shrink: true}}
                                    onChange={e => setData('foto', e.target.files[0])}/>
                     </div>
                 </div>

@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\Pedidos\ConfigController;
+use App\Http\Controllers\Admin\Pedidos\EmitirPedidosController;
 use App\Http\Controllers\Admin\Pedidos\HistoricoController;
 use App\Http\Controllers\Admin\Pedidos\PedidosController;
+use App\Http\Controllers\Admin\Pedidos\Quadros\PedidosQuadrosController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\FaturamentoController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\ProdutosController;
 use App\Http\Controllers\Admin\Pedidos\Status\AguardandoFaturamentoController;
@@ -55,6 +57,10 @@ Route::name('admin.pedidos.relatorios.')
 Route::name('admin.pedidos.')
     ->prefix('admin/pedidos')
     ->group(function () {
+        Route::resource('quadros', PedidosQuadrosController::class);
+        Route::resource('emitir', EmitirPedidosController::class);
+        Route::post('buscar-produtos-fornecedor', [EmitirPedidosController::class, 'buscarProdutosFornecedor'])
+            ->name('pedidos.buscar-produtos-fornecedor');
 
         Route::post('config-cores-pedidos', [ConfigController::class, 'atualizarCoresPedidos'])
             ->name('config-cores-pedidos');

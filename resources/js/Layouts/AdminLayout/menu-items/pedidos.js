@@ -19,6 +19,11 @@ const dashboard = {
                     title: 'Lista de Pedidos',
                     type: 'item',
                     url: route('admin.pedidos.index'),
+                },{
+                    id: 'pedidos-novo',
+                    title: 'Emitir Pedido',
+                    type: 'item',
+                    url: route('admin.pedidos.emitir.index'),
                 }, {
                     id: 'pedidos-relatorios',
                     title: 'Relatório de Pedidos',
@@ -47,6 +52,11 @@ const dashboard = {
                     title: 'Configurações',
                     type: 'item',
                     url: route('admin.config.index'),
+                }, {
+                    id: 'pedidos-quadros',
+                    title: 'Quadros',
+                    type: 'item',
+                    url: route('admin.pedidos.quadros.index'),
                 }
             ]
         }

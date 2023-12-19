@@ -54,7 +54,7 @@ export default function Show({dados, consultores, historicos}) {
                 <LeadsDados dados={dados}/>
             </div>
 
-            <div className="card card-body mb-6">
+            <div className="card card-body">
                 <div className="row border-bottom mb-3">
                     <div className="col-auto">
                         <button type="button" className="btn btn-danger" data-bs-toggle="modal"
@@ -91,6 +91,13 @@ export default function Show({dados, consultores, historicos}) {
                             ENVIAR
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="col mb-4">
+                    <a className="btn btn-warning"
+                    href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
                 </div>
             </div>
 

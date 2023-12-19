@@ -6,6 +6,7 @@ use App\Services\Pedidos\DadosPedidoServices;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\StatusPedidos;
+use App\src\Usuarios\Supervisores;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
@@ -18,6 +19,7 @@ class Pedidos extends Model
     protected $fillable = [
         'users_id',
         'cliente',
+        'superior_id',
         'status',
         'status_data',
         'setor',
@@ -36,16 +38,17 @@ class Pedidos extends Model
         'modelo'
     ];
 
-    function create($dados, $idLead = null)
+    function create($dados, $idLead = null, $leadUser = null)
     {
         $status = (new ConferenciaStatusPedido())->getStatus();
         $prazo = (new ConferenciaStatusPedido())->getPrazo();
-
+        $isSupervisor = funcao_usuario_atual() == (new Supervisores())->getFuncao();
         try {
             $pedido = $this->newQuery()
                 ->create([
-                    'users_id' => id_usuario_atual(),
+                    'users_id' => $isSupervisor ? $leadUser : id_usuario_atual(),
                     'cliente' => $idLead,
+                    'superior_id' => $isSupervisor ? id_usuario_atual() : null,
                     'lead' => $idLead,
                     'setor' => setor_usuario_atual(),
                     'status' => $status,
@@ -59,6 +62,7 @@ class Pedidos extends Model
                     'modelo' => modelo_usuario()
                 ]);
         } catch (QueryException $exception) {
+            print_pre($exception->getMessage());
             throw new \DomainException('Falha no cadastro do pedido.');
         }
         $consultor = $dados->integrador ?? $idLead;

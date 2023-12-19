@@ -25,9 +25,10 @@ class ConsultoresController extends Controller
     public function create()
     {
         $setores = (new Setores())->setores();
+        $superiores = (new User())->getSupervisores();
 
         return Inertia::render('Admin/Usuarios/Consultores/Create',
-            compact('setores'));
+            compact('setores', 'superiores'));
     }
 
     public function store(Request $request)
@@ -49,9 +50,10 @@ class ConsultoresController extends Controller
     {
         $usuario = (new User())->get($id);
         $setores = (new Setores())->setores();
+        $superiores = (new User())->getSupervisores();
 
         return Inertia::render('Admin/Usuarios/Consultores/Edit',
-            compact('usuario', 'setores'));
+            compact('usuario', 'setores', 'superiores'));
     }
 
     public function update($id, Request $request)
