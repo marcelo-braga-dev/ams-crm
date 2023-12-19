@@ -120,6 +120,7 @@ class User extends Authenticatable
         $query = $this->newQuery()
             ->where('tipo', (new Consultores())->getFuncao())
             ->orderBy('name');
+        if (is_supervisor()) $query->whereIn('superior', (new User())->getIdsConsultoresSupervisor());
 
         if ($setor) $query->where('setor', $setor);
         if ($status) $query->where('status', 'ativo');
@@ -310,10 +311,11 @@ class User extends Authenticatable
         return (new Setores())->getModelo($dados->setor);
     }
 
-    public function getIdsConsultoresSupervisor()
+    public function getIdsConsultoresSupervisor($suprvisorIncluso = false)
     {
         $consultores = (new User())->newQuery()->where('superior', id_usuario_atual())->get('id');
         $consultor = [];
+        if ($suprvisorIncluso)  $consultor[] = id_usuario_atual();
         foreach ($consultores as $item) {
             $consultor[] = $item->id;
         }

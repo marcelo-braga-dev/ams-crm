@@ -60,6 +60,7 @@ class Notificacoes extends Model
             ->where('categoria', 'leads')
             ->orderByDesc('id');
 
+        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
         if ($id) $query->where('users_id', $id);
 
         return $query->get()

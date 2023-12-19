@@ -159,7 +159,7 @@ class Leads extends Model
 
         $msg = '';
         foreach ($verificar as $item) {
-            $msg .= '#'. $item->id . '; ';
+            $msg .= '#' . $item->id . '; ';
         }
 
         throw new \DomainException(
@@ -255,9 +255,10 @@ class Leads extends Model
 
     public function qtdLeadsUsuarios()
     {
-        return $this->newQuery()
-            ->where('users_id', '>', 0)
-            ->get();
+        $query = $this->newQuery();
+        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
+        $query->where('users_id', '>', 0);
+        return $query->get();
     }
 
     public function getPeloStatus($id, string $status, string $order = 'desc', $msg = [])
