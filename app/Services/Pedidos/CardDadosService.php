@@ -36,28 +36,36 @@ class CardDadosService
         $canceladoStatus = (new CanceladoStatus())->getStatus();
         $encomendaStatus = (new EncomendaStatus())->getStatus();
 
-        $configs = [
-            'fornecedor' => $fornecedorAtual,
-            'setor' => $setorAtual
-        ];
-
         $objeto = (new DadosPedidoServices());
-        $query = (new Pedidos());
+        $dados = (new Pedidos())->getPedidos($id, $setorAtual, $fornecedorAtual);
 
-        $cards['reprovado'] = $query->getPeloStatus($id, $reprovado, $configs, $objeto);
-        $cards['conferencia'] = $query->getPeloStatus($id, $conferenciaStatus, $configs, $objeto);
-        $cards['lancado'] = $query->getPeloStatus($id, $lancadoStatus, $configs, $objeto);
-        $cards['nota'] = $query->getPeloStatus($id, $notaStatus, $configs, $objeto);
-        $cards['pagamento'] = $query->getPeloStatus($id, $pagamentoStatus, $configs, $objeto);
-        $cards['faturamento'] = $query->getPeloStatus($id, $faturamentoStatus, $configs, $objeto);
-        $cards['faturado_vista'] = $query->getPeloStatus($id, $faturadoVistaStatus, $configs, $objeto);
-        $cards['faturado_prazo'] = $query->getPeloStatus($id, $faturadoPrazoStatus, $configs, $objeto);
-        $cards['faturado'] = $query->getPeloStatus($id, $faturadoStatus, $configs, $objeto);
-        $cards['acompanhamento'] = $query->getPeloStatus($id, $acompanhamentoStatus, $configs, $objeto);
-        $cards['entregue'] = $query->getPeloStatus($id, $entregueStatus, $configs, $objeto);
-        $cards['cancelado'] = $query->getPeloStatus($id, $canceladoStatus, $configs, $objeto);
-        $cards['encomenda'] = $query->getPeloStatus($id, $encomendaStatus, $configs, $objeto);
+        $cards['reprovado'] = $this->getDadosCard($dados, $objeto, $reprovado);
+        $cards['conferencia'] = $this->getDadosCard($dados, $objeto, $conferenciaStatus);
+        $cards['lancado'] = $this->getDadosCard($dados, $objeto, $lancadoStatus);
+        $cards['nota'] = $this->getDadosCard($dados, $objeto, $notaStatus);
+        $cards['pagamento'] = $this->getDadosCard($dados, $objeto, $pagamentoStatus);
+        $cards['faturamento'] = $this->getDadosCard($dados, $objeto, $faturamentoStatus);
+        $cards['faturado_vista'] = $this->getDadosCard($dados, $objeto, $faturadoVistaStatus);
+        $cards['faturado_prazo'] = $this->getDadosCard($dados, $objeto, $faturadoPrazoStatus);
+        $cards['faturado'] = $this->getDadosCard($dados, $objeto, $faturadoStatus);
+        $cards['acompanhamento'] = $this->getDadosCard($dados, $objeto, $acompanhamentoStatus);
+        $cards['entregue'] = $this->getDadosCard($dados, $objeto, $entregueStatus);
+        $cards['cancelado'] = $this->getDadosCard($dados, $objeto, $canceladoStatus);
+        $cards['encomenda'] = $this->getDadosCard($dados, $objeto, $encomendaStatus);
 
         return $cards;
+    }
+
+    private function getDadosCard($dados, $objeto, $status): array
+    {
+        $items = $dados->where('status', $status);
+        $faturamento = convert_float_money($items->sum('preco_venda'));
+
+        $res = [];
+        foreach ($items as $dado) {
+            $card = $objeto->dadosCard($dado, $faturamento);
+            if ($card) $res[] = $card;
+        }
+        return $res;
     }
 }

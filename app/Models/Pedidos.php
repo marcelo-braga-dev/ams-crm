@@ -78,6 +78,7 @@ class Pedidos extends Model
         $query = $this->newQuery();
 
         if ($setor) $query->where('setor', $setor);
+        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor());
 
         return $query->orderByDesc('id')->get();
     }
@@ -210,24 +211,16 @@ class Pedidos extends Model
         $this->updateStatus($id, $dados->status, $dados->prazo);
     }
 
-    public function getPeloStatus($idUsuario, string $status, $configs, DadosPedidoServices $objeto)
+    public function getPedidos($idUsuario, $setorAtual, $fornecedorAtual)
     {
-        $query = $this->newQuery()->where('status', $status);
+        $query = $this->newQuery();
 
         if ($idUsuario) $query->where('users_id', $idUsuario);
-        if ($configs['setor']) $query->where('setor', $configs['setor']);
-        if ($configs['fornecedor']) $query->where('fornecedor', $configs['fornecedor']);
+        if ($setorAtual) $query->where('setor', $setorAtual);
+        if ($fornecedorAtual) $query->where('fornecedor', $fornecedorAtual);
+        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor());
 
-        $dados = $query->get();
-
-        $faturamento = convert_float_money($query->groupBy('status')->sum('preco_venda'));
-
-        $res = [];
-        foreach ($dados as $dado) {
-            $card = $objeto->dadosCard($dado, $faturamento);
-            if ($card) $res[] = $card;
-        }
-        return $res;
+        return $query->get();
     }
 
     public function get(?int $setor)
@@ -235,6 +228,7 @@ class Pedidos extends Model
         $query = $this->newQuery();
 
         if ($setor) $query->where('setor', $setor);
+        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor());
 
         $nomes = (new User())->getNomes();
         $clientes = (new PedidosClientes())->getCardDados();

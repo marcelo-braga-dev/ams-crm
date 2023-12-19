@@ -26,3 +26,10 @@ if (!function_exists('is_admin')) {
         return auth()->user()->tipo === (new \App\src\Usuarios\Admins())->getFuncao();
     }
 }
+
+if (!function_exists('is_supervisor')) {
+    function is_supervisor(): bool
+    {
+        return auth()->user()->tipo === (new \App\src\Usuarios\Supervisores())->getFuncao();
+    }
+}

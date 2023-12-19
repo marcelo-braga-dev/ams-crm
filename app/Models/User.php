@@ -79,11 +79,14 @@ class User extends Authenticatable
     {
         $dados = $this->newQuery()->findOrFail($id);
         $setores = (new Setores())->getNomes();
+        $nomes = $this->getNomes();
 
         return [
             'id' => $dados->id,
             'nome' => $dados->name,
             'email' => $dados->email,
+            'supervisor' => $nomes[$dados->superior] ?? '',
+            'supervisor_id' => $dados->superior,
             'status' => $dados->status,
             'tipo' => $dados->tipo,
             'setor' => $setores[$dados->setor]['nome'] ?? '',
@@ -175,7 +178,7 @@ class User extends Authenticatable
                     'status' => $dados->status,
                     'setor' => $dados->setor,
                     'tipo' => $dados->funcao,
-                    'superior' => $dados->superior ?? null
+                    'superior' => $dados->funcao == (new Consultores())->getFuncao() ? $dados->superior : null
                 ]);
         } catch (QueryException) {
             throw new \DomainException("Este email está em uso.");
@@ -305,5 +308,15 @@ class User extends Authenticatable
         $dados = $this->newQuery()
             ->find(id_usuario_atual());
         return (new Setores())->getModelo($dados->setor);
+    }
+
+    public function getIdsConsultoresSupervisor()
+    {
+        $consultores = (new User())->newQuery()->where('superior', id_usuario_atual())->get('id');
+        $consultor = [];
+        foreach ($consultores as $item) {
+            $consultor[] = $item->id;
+        }
+        return $consultor;
     }
 }
