@@ -47,7 +47,7 @@ class DadosPedidoServices
                 'id' => $pedido->id,
                 'modelo' => $pedido->modelo,
                 'cliente' => $dadosCliente['nome'] ?? '',
-                'consultor' => $this->consultores[$pedido->users_id],
+                'consultor' => $this->consultores[$pedido->users_id] ?? '',
                 'preco' => convert_float_money($pedido->preco_venda),
                 'fornecedor' => $this->fornecedores[$pedido->fornecedor] ?? '',
                 'integrador' => $this->integradores[$pedido->integrador] ?? '',
