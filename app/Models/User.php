@@ -199,8 +199,7 @@ class User extends Authenticatable
 
     public function getNomeConsultores($status = false)
     {
-        $query = $this->newQuery()
-            ->where('tipo', (new Consultores())->getFuncao());
+        $query = $this->newQuery();
         if ($status) $query->where('status', (new AtivoStatusLeads())->getStatus());
 
         $items = $query->get(['id', 'name']);
