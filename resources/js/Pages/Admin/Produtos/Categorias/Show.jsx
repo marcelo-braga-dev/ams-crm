@@ -12,7 +12,7 @@ export default function ({categoria}) {
     }
 
     return (
-        <Layout titlePage="Categoria de Produto" container menu="produtos" submenu="categorias"
+        <Layout titlePage="Categoria de Produto" container menu="produtos" submenu="produtos-categorias"
                 voltar={route('admin.produtos-categorias.index')}>
 
             <div className="row">

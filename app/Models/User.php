@@ -113,6 +113,17 @@ class User extends Authenticatable
         return $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto', 'ultimo_login']);
     }
 
+    public function chatInterno()
+    {
+        $query = $this->newQuery()
+            ->where('status', 'ativo')
+            ->where('status', 'ativo');
+//        if (is_supervisor()) $query->whereIn('superior', [id_usuario_atual()]);
+
+        return $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto', 'ultimo_login'])
+                ->except(['id' => id_usuario_atual()]);
+    }
+
     public function getConsultores($setor = null, $status = true)
     {
         $setores = (new Setores())->getNomes();
@@ -120,8 +131,8 @@ class User extends Authenticatable
         $query = $this->newQuery()
             ->where('tipo', (new Consultores())->getFuncao())
             ->orderBy('name');
-        if (is_supervisor()) $query->whereIn('superior', (new User())->getIdsConsultoresSupervisor());
 
+        if (is_supervisor()) $query->whereIn('superior', [id_usuario_atual()]);
         if ($setor) $query->where('setor', $setor);
         if ($status) $query->where('status', 'ativo');
 
@@ -315,7 +326,7 @@ class User extends Authenticatable
     {
         $consultores = (new User())->newQuery()->where('superior', id_usuario_atual())->get('id');
         $consultor = [];
-        if ($suprvisorIncluso)  $consultor[] = id_usuario_atual();
+        if ($suprvisorIncluso) $consultor[] = id_usuario_atual();
         foreach ($consultores as $item) {
             $consultor[] = $item->id;
         }

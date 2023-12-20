@@ -101,7 +101,7 @@ export default function Create({setores}) {
     }
 
     return (
-        <Layout container titlePage="Cadastro de Leads" menu="leads" submenu="cadastrar">
+        <Layout container titlePage="Cadastro de Leads" menu="leads" submenu="leads-cadastrar">
             <div className="shadow p-3 mb-4">
                 <div className="row">
                     {alertSetor && <div className="alert alert-danger mb-4 text-white">Selecione o SETOR</div>}

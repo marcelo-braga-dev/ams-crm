@@ -115,7 +115,7 @@ export default function Filtering({pedidos, setores, setorAtual}) {
 
 
     return (
-        <Layout container titlePage="Histórico de Pedidos" menu="pedidos" submenu="historico">
+        <Layout container titlePage="Histórico de Pedidos" menu="pedidos" submenu="pedidos-historico">
 
             <DataTable
                 columns={columns}

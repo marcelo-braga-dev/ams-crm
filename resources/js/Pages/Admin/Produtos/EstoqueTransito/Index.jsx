@@ -4,7 +4,7 @@ export default function Create({usuarios, setores, setorAtual}) {
 
     return (
         <Layout container titlePage="Estoque em Transito"
-                menu="produtos" submenu="estoque-transito">
+                menu="produtos" submenu="produtos-estoques-transito">
             {/*Setores*/}
             <div className="row mb-4">
                 <h6>Setores</h6>

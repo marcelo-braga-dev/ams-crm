@@ -9,7 +9,7 @@ export default function Create({id, fornecedores, setores, setorAtual}) {
 
     return (
         <Layout container titlePage="Fornecedores"
-                menu="produtos" submenu="estoque-transito"
+                menu="produtos" submenu="produtos-estoques-transito"
                 voltar={route('admin.estoque-transito.index', {setor: setorAtual})}>
             {/*Setores*/}
             <div className="row mb-4">

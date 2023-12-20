@@ -33,7 +33,7 @@ export default function ({id, produtos, fornecedor, fornecedores, idFornecedor})
     }
 
     return (
-        <Layout container titlePage="Estoque em Transito" menu="produtos" submenu="estoque-transito"
+        <Layout container titlePage="Estoque em Transito" menu="produtos" submenu="produtos-estoques-transito"
                 voltar={route('admin.estoque-transito.index')}>
 
             <div className="row justify-content-between mb-3 px-4">

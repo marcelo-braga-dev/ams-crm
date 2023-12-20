@@ -8,9 +8,10 @@ import sac from './sac';
 import config from './config';
 import dashboard from './dashboard';
 import dev from './dev';
+import relatorios from './relatorios';
 
 const menuItems = {
-    items: [pedidos, leads, produtos, dashboard, chats, metasVendas, usuarios, sac, config, dev]
+    items: [pedidos, leads, produtos, dashboard, relatorios, chats, metasVendas, usuarios, sac, config, dev]
 };
 
 export default menuItems;

@@ -15,7 +15,7 @@ export default function ({produtos, fornecedor}) {
     }
 
     return (
-        <Layout titlePage="Cadastrar Produto" container menu="produtos" submenu="todos-produtos"
+        <Layout titlePage="Cadastrar Produto" container menu="produtos" submenu="produtos-estoques-local"
                 voltar={route('admin.produtos-fornecedores.show', fornecedor.id)}>
             <div className="row justify-content-between mb-4">
                 <div className="col-auto">

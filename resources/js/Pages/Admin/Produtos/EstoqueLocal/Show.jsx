@@ -29,7 +29,7 @@ export default function ({produtos, fornecedor}) {
     }
 
     return (
-        <Layout container titlePage="Estoque Local" menu="produtos" submenu="estoque-local"
+        <Layout container titlePage="Estoque Local" menu="produtos" submenu="produtos-estoques-local"
                 voltar={route('admin.estoque-local.index')}>
 
             <div className="row justify-content-between mb-3 px-4">

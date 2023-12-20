@@ -13,7 +13,7 @@ export default function ({setores, modelo}) {
     }
 
     return (
-        <Layout container titlePage="Importar Planilhas de Leads" menu="leads" submenu="importar">
+        <Layout container titlePage="Importar Planilhas de Leads" menu="leads" submenu="leads-importar">
             <div className="row justify-content-between">
                 <div className="col-auto">
                     <a href={modelo} className="btn btn-link">Baixar Modelo</a>

@@ -43,12 +43,15 @@ class Leads extends Model
 
     public function getDisponiveis($setor)
     {
-        return $this->newQuery()
+        $query = $this->newQuery()
             ->where('status', '=', (new NovoStatusLeads())->getStatus())
             ->where('setor', $setor)
             ->where('users_id', '=', null)
-            ->orderByDesc('id')
-            ->get();
+            ->orderByDesc('id');
+
+//        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
+
+        return $query->get();
     }
 
     public function setConsultor($idLead, $idConsultor)
@@ -114,10 +117,14 @@ class Leads extends Model
 
     public function getAll($setor)
     {
-        return $this->newQuery()
+        $query = $this->newQuery()
             ->where('status', '!=', (new OcultosLeadsStatus())->getStatus())
             ->where('setor', $setor)
-            ->orderByDesc('id')->get();
+            ->orderByDesc('id');
+
+        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
+
+        return $query->get();
     }
 
     public function getConsultores(int $id)
@@ -178,11 +185,12 @@ class Leads extends Model
 
     public function getLeadsComConsultor($setor)
     {
-        return $this->newQuery()
+        $query = $this->newQuery()
             ->where('users_id', '>', 0)
             ->where('setor', $setor)
-            ->orderByDesc('id')
-            ->get();
+            ->orderByDesc('id');
+        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
+        return $query->get();
     }
 
     public function atualizar($id, $dados)

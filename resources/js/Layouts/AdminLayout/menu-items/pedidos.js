@@ -51,11 +51,13 @@ const dashboard = {
                     id: 'pedidos-config',
                     title: 'Configurações',
                     type: 'item',
+                    admin: true,
                     url: route('admin.config.index'),
                 }, {
                     id: 'pedidos-quadros',
                     title: 'Quadros',
                     type: 'item',
+                    admin: true,
                     url: route('admin.pedidos.quadros.index'),
                 }
             ]

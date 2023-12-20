@@ -2,7 +2,7 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 
 export default function ({historicos}) {
     return (
-        <Layout container titlePage="Histórico de Importação" menu="leads" submenu="importar"
+        <Layout container titlePage="Histórico de Importação" menu="leads" submenu="leads-importar"
                 voltar={route('admin.clientes.leads.importar.index')}>
             <div className="table-responsive">
                 <table className="table table-hover table-striped table-sm">

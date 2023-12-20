@@ -2,7 +2,7 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 
 export default function ({fornecedor}) {
     return (
-        <Layout titlePage="Cadastrar Categoria" container menu="produtos" submenu="categorias"
+        <Layout titlePage="Cadastrar Categoria" container menu="produtos" submenu="produtos-unidades"
                 voltar={route('admin.produtos-categorias.index')}>
             <div className="row justify-content-between mb-4">
                 <div className="col-auto">

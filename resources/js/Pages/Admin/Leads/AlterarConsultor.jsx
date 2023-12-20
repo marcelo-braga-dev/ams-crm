@@ -213,7 +213,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     }
 
     return (
-        <Layout container titlePage="Alterar Consultor" menu="leads" submenu="alterar">
+        <Layout container titlePage="Alterar Consultor" menu="leads" submenu="leads-alterar">
             <h6>Setores</h6>
             <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
                 {categorias.map((categoria, index) => {

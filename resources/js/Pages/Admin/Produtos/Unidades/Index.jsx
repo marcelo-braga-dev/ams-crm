@@ -1,6 +1,5 @@
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import {TextField} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
 import {useForm} from "@inertiajs/react";
 
 export default function Create({unidades}) {
@@ -15,7 +14,7 @@ export default function Create({unidades}) {
 
     return (
         <Layout container titlePage="Unidades de Medidas dos Produtos"
-                menu="produtos" submenu="categorias">
+                menu="produtos" submenu="produtos-unidades">
             {/*Setores*/}
             <div className="row">
                 <div className="col-auto">

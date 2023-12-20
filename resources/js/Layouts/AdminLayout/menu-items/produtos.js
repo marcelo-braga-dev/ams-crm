@@ -19,28 +19,28 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.produtos-fornecedores.index'),
                 }, {
-                    id: 'pedidos-relatorio',
+                    id: 'produtos-categorias',
                     title: 'Categorias',
                     type: 'item',
                     url: route('admin.produtos-categorias.index'),
                 }, {
-                    id: 'pedidos-historico',
+                    id: 'produtos-unidades',
                     title: 'Unidades',
                     type: 'item',
                     url: route('admin.produtos-unidades.index'),
                 }, {
-                    id: 'pedidos-config',
+                    id: 'produtos-estoques',
                     title: 'Estoques',
                     type: 'item',
                     url: route('admin.config.index'),
                     submenu: [
                         {
-                            id: 'sdfdsf',
+                            id: 'produtos-estoques-transito',
                             title: 'Estoque em Transito',
                             url: route('admin.estoque-transito.index'),
                             tag: 'estoque-transito'
                         }, {
-                            id: 'sdfdsfd',
+                            id: 'produtos-estoques-local',
                             title: 'Estoque Local',
                             url: route('admin.estoque-local.index'),
                             tag: 'estoque-local'

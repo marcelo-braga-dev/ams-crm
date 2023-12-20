@@ -14,25 +14,20 @@ const dashboard = {
             icon: PeopleAltOutlinedIcon,
             submenu: [
                 {
-                    id: 'leads-relatorios',
-                    title: 'Relatórios',
-                    type: 'item',
-                    url: route('admin.leads.relatorios.index'),
-                }, {
-                    id: 'leads-historico',
-                    title: 'Histórico',
-                    type: 'item',
-                    url: route('admin.clientes.leads.leads-acompanhar'),
-                }, {
                     id: 'leads-cadastrados',
                     title: 'Cadastrados',
                     type: 'item',
                     url: route('admin.clientes.leads.leads-cadastrados'),
                 }, {
-                    id: 'leads-',
+                    id: 'leads-cadastrar',
                     title: 'Cadastrar',
                     type: 'item',
                     url: route('admin.clientes.leads.leads-main.create'),
+                }, {
+                    id: 'leads-historico',
+                    title: 'Histórico',
+                    type: 'item',
+                    url: route('admin.clientes.leads.leads-acompanhar'),
                 }, {
                     id: 'leads-encaminhar',
                     title: 'Encaminhar',
@@ -47,11 +42,13 @@ const dashboard = {
                     id: 'leads-importar',
                     title: 'Importar Planilhas',
                     type: 'item',
+                    admin: true,
                     url: route('admin.clientes.leads.importar.index'),
                 }, {
                     id: 'leads-status',
                     title: 'Status dos Leads',
                     type: 'item',
+                    admin: true,
                     url: route('admin.clientes.leads.status.index'),
                 },
             ]

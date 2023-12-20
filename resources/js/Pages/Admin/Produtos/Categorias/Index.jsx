@@ -15,7 +15,7 @@ export default function Create({categorias, setores, setorAtual}) {
 
     return (
         <Layout container titlePage="Categorias por Fornecedores"
-                menu="produtos" submenu="categorias">
+                menu="produtos" submenu="produtos-categorias">
             {/*Setores*/}
             <div className="row">
                 <h6>Setores</h6>
