@@ -218,7 +218,7 @@ class Pedidos extends Model
         if ($idUsuario) $query->where('users_id', $idUsuario);
         if ($setorAtual) $query->where('setor', $setorAtual);
         if ($fornecedorAtual) $query->where('fornecedor', $fornecedorAtual);
-        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor());
+        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
 
         return $query->get();
     }
