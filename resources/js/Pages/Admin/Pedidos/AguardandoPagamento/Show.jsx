@@ -10,6 +10,8 @@ import {TextField} from "@mui/material";
 import React from "react";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 import BoxShadow from "@/Components/Layout/BoxShadow";
+import DadosPedido from "@/Components/Pedidos/DadosPedido";
+import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 
 export default function Pedidos({dados}) {
     const {data, setData} = useForm()
@@ -28,7 +30,10 @@ export default function Pedidos({dados}) {
             <div className="row shadow p-2 mb-4">
                 <div className="row mb-4">
                     <div className="col">
-                        <DadosPedidoMinimo dados={dados}/>
+                        <DadosPedido dados={dados}/>
+                    </div>
+                    <div className="col">
+                        <DadosPedidoCliente dados={dados}/>
                     </div>
                 </div>
                 <Row>
