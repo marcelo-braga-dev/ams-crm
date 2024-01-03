@@ -2,10 +2,9 @@ import {useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
-import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Register({setores}) {
+export default function Register({setores, franquias}) {
     const {data, setData, post, processing, errors} = useForm();
 
     const submit = (e) => {
@@ -15,7 +14,7 @@ export default function Register({setores}) {
 
     return (
         <Layout container titlePage="Cadastrar Fornecedor" voltar={route('admin.fornecedores.index')}
-                menu="fornecedores" submenu="lista">
+                menu="config" submenu="config-fornecedores">
             {errors.nome && <Alert severity="error" className={"mb-3"}>{errors.empresa}</Alert>}
             {errors.senha && <Alert severity="error" className={"mb-3"}>{errors.senha}</Alert>}
             {errors.email && <Alert severity="error" className={"mb-3"}>{errors.email}</Alert>}
@@ -46,6 +45,12 @@ export default function Register({setores}) {
                     </div>
                 </div>
                 <div className="row">
+                    <div className="col-md-3 mb-3">
+                        <TextField label="Franquia" select required fullWidth
+                                   onChange={e => setData('franquia', e.target.value)}>
+                            {franquias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                        </TextField>
+                    </div>
                     <div className="col-md-4 mb-3">
                         <TextField label="Setor" select required fullWidth
                         onChange={e => setData('setor', e.target.value)}>

@@ -8,4 +8,6 @@ Route::middleware(['auth', 'auth.admins'])
     ->prefix('admin')
     ->group(function () {
         Route::resource('franquias', FranquiasController::class);
+        Route::post('franquia/seleciona-franquia', [FranquiasController::class, 'selecionaFranquia'])
+            ->name('franquias.seleciona-franquia');
     });

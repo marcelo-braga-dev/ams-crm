@@ -2,23 +2,23 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import { router } from '@inertiajs/react'
-export default function ({dados}) {
+export default function ({franquia}) {
     const {data, setData} = useForm({
-        nome: dados.nome,
-        cor: dados.cor
+        nome: franquia.nome,
+        cor: franquia.cor
     });
 
     function submit(e) {
         e.preventDefault()
-        router.post(route('admin.config.categorias.update', dados.id), {
+        router.post(route('admin.franquias.update', franquia.id), {
             _method: 'put',
             ...data
         })
     }
 
     return (
-        <Layout container titlePage="Cadastrar Categoria" voltar={route('admin.config.categorias.index')}
-                menu="config" submenu="setores">
+        <Layout container titlePage="Editar Franquia" voltar={route('admin.franquias.index')}
+                menu="config" submenu="config-franquias">
 
             <form onSubmit={submit}>
                 <div className="row mb-4">

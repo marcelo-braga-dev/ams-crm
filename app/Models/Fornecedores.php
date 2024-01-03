@@ -12,6 +12,7 @@ class Fornecedores extends Model
     protected $fillable = [
         'nome',
         'setor',
+        'franquia',
         'cnpj',
         'atendente',
         'telefone',
@@ -21,7 +22,8 @@ class Fornecedores extends Model
 
     public function find($id)
     {
-        return $this->newQuery()->find($id);
+        $item = $this->newQuery()->find($id);
+        return $this->dados($item);
     }
 
     public function getNomes()
@@ -36,6 +38,23 @@ class Fornecedores extends Model
         return $dados;
     }
 
+    public function get(?int $setor)
+    {
+        $franquias = Franquias::getNomes();
+        $setores = (new Setores())->getNomes();
+
+        $query = $this->newQuery();
+        if ($setor) $query->where('setor', $setor);
+
+        return $query->orderByDesc('id')->get()
+            ->transform(function ($items) use ($franquias, $setores) {
+                return $this->dados($items, $franquias, $setores);
+            });
+    }
+
+    /**
+     * @deprecated
+     */
     public function getAll(?int $setor)
     {
         $query = $this->newQuery();
@@ -52,9 +71,10 @@ class Fornecedores extends Model
             ->create([
                 'nome' => $dados->get('nome'),
                 'setor' => $setor,
+                'franquia' => $dados->franquia,
                 'cnpj' => $dados->get('cnpj'),
                 'atendente' => $dados->get('atendente'),
-                'telefone' =>$dados->get('telefone'),
+                'telefone' => $dados->get('telefone'),
                 'email' => $dados->get('email'),
                 'anotacoes' => $dados->get('anotacoes')
             ]);
@@ -68,8 +88,9 @@ class Fornecedores extends Model
                 'nome' => $dados->get('nome'),
                 'cnpj' => $dados->get('cnpj'),
                 'setor' => $dados->get('setor'),
+                'franquia' => $dados->get('franquia'),
                 'atendente' => $dados->get('atendente'),
-                'telefone' =>$dados->get('telefone'),
+                'telefone' => $dados->get('telefone'),
                 'email' => $dados->get('email'),
                 'anotacoes' => $dados->get('anotacoes')
             ]);
@@ -85,5 +106,22 @@ class Fornecedores extends Model
         }
 
         return $dados;
+    }
+
+    private function dados($item, $franquias = [], $setores = [])
+    {
+        return [
+            'id' => $item->id,
+            'nome' => $item->nome,
+            'cnpj' => $item->cnpj,
+            'setor' => $setores[$item->setor]['nome'] ?? '',
+            'setor_id' => $item->setor,
+            'franquia' => $franquias[$item->franquia] ?? '',
+            'franquia_id' => $item->franquia,
+            'atendente' => $item->atendente,
+            'telefone' => $item->telefone,
+            'email' => $item->email,
+            'anotacoes' => $item->anotacoes,
+        ];
     }
 }

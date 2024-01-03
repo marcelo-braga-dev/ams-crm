@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Fornecedores;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
+use App\Models\Franquias;
 use App\Models\Setores;
 use App\Services\Fornecedores\FornecedoresService;
 use App\Services\Setores\SetoresService;
@@ -15,9 +16,9 @@ class FornecedoresController extends Controller
     public function index(Request $request)
     {
         $setorAtual = $request->setor;
-        $setores = (new SetoresService())->setores();
+        $setores = (new Setores())->get();
 
-        $fornecedores = (new FornecedoresService())->fornecedores($setorAtual);
+        $fornecedores = (new Fornecedores())->get($setorAtual);
 
         return Inertia::render('Admin/Fornecedores/Index',
             compact('fornecedores', 'setores', 'setorAtual'));
@@ -26,9 +27,10 @@ class FornecedoresController extends Controller
     public function create()
     {
         $setores = (new Setores())->setores();
+        $franquias = (new Franquias())->get();
 
         return Inertia::render('Admin/Fornecedores/Create',
-            compact('setores'));
+            compact('setores', 'franquias'));
     }
 
     public function show($id)
@@ -42,9 +44,10 @@ class FornecedoresController extends Controller
     {
         $dados = (new Fornecedores())->find($id);
         $setores = (new Setores())->setores();
+        $franquias = (new Franquias())->get();
 
         return Inertia::render('Admin/Fornecedores/Edit',
-            compact('dados', 'setores'));
+            compact('dados', 'setores', 'franquias'));
     }
 
     public function store(Request $request)

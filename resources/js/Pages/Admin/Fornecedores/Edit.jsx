@@ -2,15 +2,15 @@ import {useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
-import Typography from "@mui/material/Typography";
 import {router} from '@inertiajs/react'
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Edit({dados, setores}) {
+export default function Edit({dados, setores, franquias}) {
     const {data, setData, post, processing, errors} = useForm({
         'nome': dados.nome,
         'cnpj': dados.cnpj,
-        'setor': dados.setor,
+        'setor': dados.setor_id,
+        'franquia': dados.franquia_id,
         'atendente': dados.atendente,
         'telefone': dados.telefone,
         'email': dados.email,
@@ -27,7 +27,7 @@ export default function Edit({dados, setores}) {
 
     return (
         <Layout container voltar={route('admin.fornecedores.index')} titlePage="Cadastrar Fornecedor"
-                menu="fornecedores" submenu="lista">
+                menu="config" submenu="config-fornecedores">
 
         {errors.nome && <Alert severity="error" className={"mb-3"}>{errors.empresa}</Alert>}
         {errors.senha && <Alert severity="error" className={"mb-3"}>{errors.senha}</Alert>}
@@ -61,6 +61,13 @@ export default function Edit({dados, setores}) {
 
             {/*Setores*/}
             <div className="row">
+                <div className="col-md-3 mb-3">
+                    <TextField label="Franquia" select required fullWidth
+                               defaultValue={data.franquia}
+                               onChange={e => setData('franquia', e.target.value)}>
+                        {franquias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                    </TextField>
+                </div>
                 <div className="col-md-4 mb-3">
                     <TextField label="Setor" select required fullWidth
                                defaultValue={data.setor}

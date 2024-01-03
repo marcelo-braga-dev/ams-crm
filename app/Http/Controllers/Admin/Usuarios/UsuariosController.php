@@ -16,29 +16,15 @@ class UsuariosController extends Controller
 {
     public function index()
     {
-        $dados = (new UsuariosService())->usuarios();
+        $dados = (new User())->usuarios();
 
         $adminTipo = (new Admins)->getFuncao();
         $supervisorTipo = (new Supervisores())->getFuncao();
         $consultorTipo = (new Consultores())->getFuncao();
 
-        $usuarios['admins'] = [];
-        $usuarios['supervisores'] = [];
-        $usuarios['consultores'] = [];
-
-        foreach ($dados as $user) {
-            switch ($user['tipo']) {
-                case $adminTipo:
-                    $usuarios['admins'][] = $user;
-                    break;
-                case $supervisorTipo:
-                    $usuarios['supervisores'][] = $user;
-                    break;
-                case $consultorTipo:
-                    $usuarios['consultores'][] = $user;
-                    break;
-            }
-        }
+        $usuarios['admins'] = [...$dados->where('tipo', $adminTipo)];
+        $usuarios['supervisores'] = [...$dados->where('tipo', $supervisorTipo)];
+        $usuarios['consultores'] = [...$dados->where('tipo', $consultorTipo)];
 
         return Inertia::render('Admin/Usuarios/Index', compact('usuarios'));
     }

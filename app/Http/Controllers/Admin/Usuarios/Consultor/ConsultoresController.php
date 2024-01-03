@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Usuarios\Consultor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Franquias;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
@@ -26,9 +27,10 @@ class ConsultoresController extends Controller
     {
         $setores = (new Setores())->setores();
         $superiores = (new User())->getSupervisores();
+        $franquias = (new Franquias())->get();
 
         return Inertia::render('Admin/Usuarios/Consultores/Create',
-            compact('setores', 'superiores'));
+            compact('setores', 'superiores', 'franquias'));
     }
 
     public function store(Request $request)
@@ -51,9 +53,10 @@ class ConsultoresController extends Controller
         $usuario = (new User())->get($id);
         $setores = (new Setores())->setores();
         $superiores = (new User())->getSupervisores();
+        $franquias = (new Franquias())->get();
 
         return Inertia::render('Admin/Usuarios/Consultores/Edit',
-            compact('usuario', 'setores', 'superiores'));
+            compact('usuario', 'franquias', 'setores', 'superiores'));
     }
 
     public function update($id, Request $request)

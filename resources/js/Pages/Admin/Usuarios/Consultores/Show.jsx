@@ -26,6 +26,7 @@ export default function Index({usuario}) {
                             <span className="d-block">ID: #{usuario.id}</span>
                             <span className="d-block">Email: {usuario.email}</span>
                             <span className="d-block">Status: {usuario.status} {iconeStatus(usuario.status)}</span>
+                            <span className="d-block">Franquia: {usuario.franquia}</span>
                             <span className="d-block">Função: {usuario.tipo}</span>
                             <span className="d-block">Setor: {usuario.setor}</span>
                             <span className="d-block">Data Cadastro: {usuario.data_cadastro}</span>

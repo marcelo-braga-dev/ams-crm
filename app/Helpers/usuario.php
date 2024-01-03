@@ -13,6 +13,20 @@ if (!function_exists('setor_usuario_atual')) {
     }
 }
 
+if (!function_exists('franquia_usuario_atual')) {
+    function franquia_usuario_atual()
+    {
+        return auth()->user()->franquia;
+    }
+}
+
+if (!function_exists('franquia_selecionada')) {
+    function franquia_selecionada()
+    {
+        return session('franquiaSelecionada');
+    }
+}
+
 if (!function_exists('funcao_usuario_atual')) {
     function funcao_usuario_atual()
     {

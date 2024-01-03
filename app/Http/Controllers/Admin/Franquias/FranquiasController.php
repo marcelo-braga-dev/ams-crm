@@ -35,4 +35,26 @@ class FranquiasController extends Controller
 
         return Inertia::render('Admin/Config/Franquias/Show', compact('franquia'));
     }
+
+    public function selecionaFranquia(Request $request)
+    {
+        session(['franquiaSelecionada' => $request->id]);
+        return redirect()->back();
+    }
+
+    public function edit($id)
+    {
+        $franquia = (new Franquias())->find($id);
+
+        return Inertia::render('Admin/Config/Franquias/Edit',
+            compact('franquia'));
+    }
+
+    public function update($id, Request $request)
+    {
+        (new Franquias())->atualizar($id, $request);
+
+        modalSucesso('Dados atualizado com sucesso!');
+        return redirect()->route('admin.franquias.show', $id);
+    }
 }

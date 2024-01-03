@@ -1,10 +1,13 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import React from "react";
 
-export default function ({qtdLeads}) {
+export default function ({consultores, idUsuarioAtual}) {
     return (
-        <Layout menu="pedidos" submenu="pedidos-novo">
-            <h6>Consultores (as)</h6>
+        <Layout titlePage="Emitir Pedidos" menu="pedidos" submenu="pedidos-novo">
+            <a className="btn btn-warning"
+               href={route('admin.leads.consultores-cards.index', {id: idUsuarioAtual})}>Emitir seu Pedido</a>
+
+            <h6>Emitir Pedidos para Consultores(as)</h6>
             <div className="table table-responsive">
                 <table className="table text-center text-sm table-hover cursor-pointer">
                     <thead>
@@ -19,7 +22,7 @@ export default function ({qtdLeads}) {
                     </tr>
                     </thead>
                     <tbody>
-                    {qtdLeads.map((dado, index) => {
+                    {consultores.map((dado, index) => {
                         return (
                             <tr key={index}
                                 onClick={() => window.location.href = route('admin.leads.consultores-cards.index', {id: dado.id})}>

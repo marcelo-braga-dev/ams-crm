@@ -83,11 +83,9 @@ export default function Index({usuarios}) {
                         <table className="table table-hover">
                             <thead>
                             <tr className="text-sm">
-                                <th></th>
                                 <th>Nome</th>
-                                <th className="text-center">Status</th>
                                 <th>Setor</th>
-                                <th className="text-center">Último Acesso</th>
+                                <th className="text-center">Franquia</th>
                                 <th>Ação</th>
                             </tr>
                             </thead>
@@ -95,24 +93,29 @@ export default function Index({usuarios}) {
                             {usuarios.consultores.map((dados, index) => {
                                 return (
                                     <tr className="cursor-pointer"
-                                        key={index} onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
-                                        <td>
-                                            <Avatar src={dados.foto} />
-                                        </td>
+                                        key={index}
+                                        onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
+
                                         <td className="text-wrap">
-                                            {dados.nome}<br/>
-                                            <small className="d-block">{dados.email}</small>
-                                            <small>ID: #{dados.id}</small>
+                                            <div className="row">
+                                                <div className="col-auto">
+                                                    <Avatar src={dados.foto} sx={{width: 60, height: 60}}/>
+                                                </div>
+                                                <div className="col-auto">
+                                                    {iconeStatus(dados.status)} {dados.nome}<br/>
+                                                    <small className="d-block">{dados.email}</small>
+                                                    <small>ID: #{dados.id}</small>
+                                                    <small className="d-block">Último
+                                                        Acesso {dados.ultimo_login}</small>
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td className="text-center">
-                                            {iconeStatus(dados.status)}
-                                        </td>
-                                        <td>
+                                        <td className="pt-4">
                                             <small className="badge rounded-pill"
-                                             style={{backgroundColor: dados.setor.cor ?? 'black'}}>{dados.setor.nome}</small>
+                                                   style={{backgroundColor: dados.setor.cor ?? 'black'}}>{dados.setor.nome}</small>
                                         </td>
-                                        <td className="text-center">
-                                            <small>{dados.ultimo_login}</small>
+                                        <td className="text-center pt-3">
+                                            {dados.franquia}
                                         </td>
                                         <td>
                                             <Button color="primary"
@@ -149,9 +152,10 @@ export default function Index({usuarios}) {
                         {usuarios.supervisores.map((dados, index) => {
                             return (
                                 <tr className="cursor-pointer"
-                                    key={index} onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
+                                    key={index}
+                                    onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
                                     <td>
-                                        <Avatar src={dados.foto} />
+                                        <Avatar src={dados.foto}/>
                                     </td>
                                     <td className="text-wrap">
                                         {dados.nome}<br/>
@@ -202,9 +206,10 @@ export default function Index({usuarios}) {
                         {usuarios.admins.map((dados, index) => {
                             return (
                                 <tr className="cursor-pointer"
-                                    key={index} onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
+                                    key={index}
+                                    onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
                                     <td>
-                                        <Avatar src={dados.foto} />
+                                        <Avatar src={dados.foto}/>
                                     </td>
                                     <td className="text-wrap">
                                         {dados.nome}<br/>
@@ -223,7 +228,7 @@ export default function Index({usuarios}) {
                                     </td>
                                     <td>
                                         <a className="btn btn-primary btn-sm"
-                                                href={route('admin.usuarios.consultores.show', dados.id)}>
+                                           href={route('admin.usuarios.consultores.show', dados.id)}>
                                             Ver
                                         </a>
                                     </td>

@@ -6,6 +6,7 @@ use App\Services\Pedidos\DadosPedidoServices;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\StatusPedidos;
+use App\src\Usuarios\Admins;
 use App\src\Usuarios\Supervisores;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +21,7 @@ class Pedidos extends Model
         'users_id',
         'cliente',
         'superior_id',
+        'franquia',
         'status',
         'status_data',
         'setor',
@@ -48,6 +50,7 @@ class Pedidos extends Model
                 ->create([
                     'users_id' => $isSupervisor ? $leadUser : id_usuario_atual(),
                     'cliente' => $idLead,
+                    'franquia' => franquia_usuario_atual(),
                     'superior_id' => $isSupervisor ? id_usuario_atual() : null,
                     'lead' => $idLead,
                     'setor' => setor_usuario_atual(),
@@ -216,6 +219,7 @@ class Pedidos extends Model
         $query = $this->newQuery();
 
         if ($idUsuario) $query->where('users_id', $idUsuario);
+        if (franquia_selecionada() && funcao_usuario_atual() === (new Admins)->getFuncao()) $query->where('franquia', franquia_selecionada());
         if ($setorAtual) $query->where('setor', $setorAtual);
         if ($fornecedorAtual) $query->where('fornecedor', $fornecedorAtual);
         if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));

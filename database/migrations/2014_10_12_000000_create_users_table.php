@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('status', 32)->default((new AtivoStatusUsuario())->getStatus());
+            $table->integer('franquia');
             $table->integer('setor');
             $table->bigInteger('superior')->nullable();
             $table->string('tipo', 32);

@@ -7,11 +7,12 @@ import Card from "@mui/material/Card";
 import {CardBody} from "reactstrap";
 import Paper from "@mui/material/Paper";
 
-export default function Edit({usuario, setores, superiores, errors}) {
+export default function Edit({usuario, franquias, setores, superiores, errors}) {
     const {data, setData,} = useForm({
         nome: usuario.nome,
         email: usuario.email,
         status: usuario.status,
+        franquia: usuario.franquia_id,
         setor: usuario.setor_id,
         funcao: usuario.tipo,
         superior: usuario.supervisor_id
@@ -47,6 +48,15 @@ export default function Edit({usuario, setores, superiores, errors}) {
                         <div className="col">
                             <TextField label="Email" id="email" value={data.email} type={'email'} required
                                        onChange={e => setData('email', e.target.value)} fullWidth/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-3 mb-3">
+                            <TextField label="Franquia" select required fullWidth
+                                       defaultValue={data.franquia}
+                                       onChange={e => setData('franquia', e.target.value)}>
+                                {franquias.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
                         </div>
                         <div className="col">
                             <TextField

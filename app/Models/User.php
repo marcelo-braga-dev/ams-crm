@@ -27,6 +27,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'franquia',
         'setor',
         'superior',
         'tipo',
@@ -70,9 +71,28 @@ class User extends Authenticatable
 
     public function usuarios()
     {
-        return $this->newQuery()
-            ->orderByDesc('id')
-            ->get();
+        $setores = (new Setores())->getNomes();
+        $franquias = Franquias::getNomes();
+
+        $query = $this->newQuery();
+        if (franquia_selecionada()) $query->where('franquia', franquia_selecionada());
+
+        return $query->orderByDesc('id')
+            ->get()
+            ->transform(function ($item) use ($setores, $franquias) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'franquia' => $franquias[$item->franquia] ?? '',
+                    'setor' => $setores[$item->setor] ?? '',
+                    'email' => $item->email,
+                    'tipo' => $item->tipo,
+                    'status' => $item->status,
+                    'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
+                    'ultimo_login' => $item->ultimo_login ? date('d/m/y H:i', strtotime($item->ultimo_login)) : '',
+                    'logado' => strtotime(now()) - strtotime($item->ultimo_login) < 61 ? 1 : 0,
+                ];
+            });
     }
 
     public function get(int $id)
@@ -80,11 +100,14 @@ class User extends Authenticatable
         $dados = $this->newQuery()->findOrFail($id);
         $setores = (new Setores())->getNomes();
         $nomes = $this->getNomes();
+        $franquias = (new Franquias())->getNomes();
 
         return [
             'id' => $dados->id,
             'nome' => $dados->name,
             'email' => $dados->email,
+            'franquia' => $franquias[$dados->franquia] ?? '',
+            'franquia_id' => $dados->franquia,
             'supervisor' => $nomes[$dados->superior] ?? '',
             'supervisor_id' => $dados->superior,
             'status' => $dados->status,
@@ -116,12 +139,21 @@ class User extends Authenticatable
     public function chatInterno()
     {
         $query = $this->newQuery()
-            ->where('status', 'ativo')
             ->where('status', 'ativo');
+        if (!is_admin()) {
+            $query->where('franquia', franquia_usuario_atual());
+            $query->where('setor', setor_usuario_atual());
+        }
 //        if (is_supervisor()) $query->whereIn('superior', [id_usuario_atual()]);
 
-        return $query->get(['id', 'name', 'setor', 'email', 'tipo', 'status', 'foto', 'ultimo_login'])
-                ->except(['id' => id_usuario_atual()]);
+        return $query->get(['id', 'name', 'foto'])
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
+                ];
+            });
     }
 
     public function getConsultores($setor = null, $status = true)
@@ -187,6 +219,7 @@ class User extends Authenticatable
                 ->update([
                     'name' => $dados->nome,
                     'email' => $dados->email,
+                    'franquia' => $dados->franquia,
                     'status' => $dados->status,
                     'setor' => $dados->setor,
                     'tipo' => $dados->funcao,

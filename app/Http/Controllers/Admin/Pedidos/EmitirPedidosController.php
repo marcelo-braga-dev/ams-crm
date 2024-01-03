@@ -20,9 +20,11 @@ class EmitirPedidosController extends Controller
 {
     public function index()
     {
-        $qtdLeads = (new LeadsUsuariosService())->get();
+        $consultores = (new LeadsUsuariosService())->get();
+        $idUsuarioAtual = id_usuario_atual();
 
-        return Inertia::render('Admin/Pedidos/Emitir/Index', compact('qtdLeads'));
+        return Inertia::render('Admin/Pedidos/Emitir/Index',
+            compact('consultores', 'idUsuarioAtual'));
     }
 
     public function create(Request $request)

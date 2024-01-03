@@ -1,12 +1,13 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Color from "@/Components/Elementos/Color";
 
 export default function ({franquias}) {
     return (
         <Layout container titlePage="Franquias"
-                menu="config" submenu="franquias-lista">
+                menu="config" submenu="config-franquias">
             <div className="row justify-content-end">
                 <div className="col-auto">
-                    <a href={route('admin.franquias.create')} className="btn btn-dark">
+                    <a href={route('admin.franquias.create')} className="btn btn-primary">
                         Cadastrar Franquia</a>
                 </div>
             </div>
@@ -15,6 +16,7 @@ export default function ({franquias}) {
                     <thead>
                     <tr>
                         <th>Nome</th>
+                        <th>Cor</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -23,9 +25,10 @@ export default function ({franquias}) {
                         return (
                             <tr key={index}>
                                 <td>{dado.nome}</td>
+                                <td><Color valor={dado.cor}/></td>
                                 <td>
                                     <a href={route('admin.franquias.show', dado.id)}
-                                    className="btn btn-primary btn-sm mt-3">Ver</a>
+                                    className="btn btn-primary btn-sm">Ver</a>
                                 </td>
                             </tr>
                         )

@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Admin\ChatInterno;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChatInterno;
+use App\Models\User;
 use App\Services\ChatInterno\MensagensChatInternoService;
-use App\Services\ChatInterno\UsuariosChatInterno;
-use App\Services\Usuarios\UsuariosService;
 use App\src\ChatInterno\Cadastrar;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,8 +14,7 @@ class ChatInternoController extends Controller
 {
     public function index()
     {
-//        $pessoas = (new UsuariosService())->ativos(id_usuario_atual());
-        $pessoas = (new UsuariosChatInterno())->usuarios();
+        $pessoas = (new User())->chatInterno();
 
         return Inertia::render('Admin/ChatInterno/Index',
             compact('pessoas'));

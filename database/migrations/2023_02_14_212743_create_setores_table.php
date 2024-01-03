@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 32);
             $table->string('cor', 16)->nullable();
+            $table->integer('franquia');
             $table->integer('modelo');
             $table->timestamps();
         });

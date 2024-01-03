@@ -4,7 +4,7 @@ import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Register({setores, superiores}) {
+export default function Register({setores, superiores, franquias}) {
     const {data, setData, post, errors} = useForm();
 
     const submit = (e) => {
@@ -22,6 +22,12 @@ export default function Register({setores, superiores}) {
             {errors.email && <Alert severity="error" className={"mb-3"}>{errors.email}</Alert>}
             <form onSubmit={submit}>
                 <div className="row">
+                    <div className="col-md-3 mb-3">
+                        <TextField label="Franquia" select required fullWidth
+                                   onChange={e => setData('franquia', e.target.value)}>
+                            {franquias.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
+                        </TextField>
+                    </div>
                     <div className="col-md-4">
                         {/*Setores*/}
                         <TextField label="Setor" select required fullWidth

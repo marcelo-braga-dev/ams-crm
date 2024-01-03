@@ -10,7 +10,8 @@ class Franquias extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome'
+        'nome',
+        'cor'
     ];
 
     public function get()
@@ -21,6 +22,7 @@ class Franquias extends Model
                 return [
                     'id' => $item->id,
                     'nome' => $item->nome,
+                    'cor' => $item->cor
                 ];
             });
     }
@@ -29,7 +31,36 @@ class Franquias extends Model
     {
         $this->newQuery()
             ->create([
-                'nome' => $dados->nome
+                'nome' => $dados->nome,
+                'cor' => $dados->cor
+            ]);
+    }
+
+    static function getNomes(): array
+    {
+        $items = (new Franquias)->newQuery()
+            ->get(['id', 'nome']);
+
+        $res = [];
+        foreach ($items as $item) {
+            $res[$item->id] = $item->nome;
+        }
+        return $res;
+    }
+
+    public function find($id)
+    {
+        return $this->newQuery()
+            ->find($id);
+    }
+
+    public function atualizar($id, $dados)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'nome' => $dados->nome,
+                'cor' => $dados->cor
             ]);
     }
 }

@@ -19,6 +19,10 @@ export default function () {
                         <TextField label="Nome da Franquia"
                                    onChange={e => setData('nome', e.target.value)} required fullWidth/>
                     </div>
+                    <div className="col-md-2">
+                        <TextField label="Cor" type="color" required fullWidth
+                                   onChange={e => setData('cor', e.target.value)}/>
+                    </div>
                 </div>
                 <div className="row justify-content-center">
                     <div className="col-auto">

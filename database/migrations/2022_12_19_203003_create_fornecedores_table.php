@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nome');
             $table->integer('setor');
+            $table->integer('franquia');
             $table->string('cnpj')->nullable();
             $table->string('atendente')->nullable();
             $table->string('telefone')->nullable();

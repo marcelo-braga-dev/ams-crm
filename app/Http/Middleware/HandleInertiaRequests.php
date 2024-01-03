@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Franquias;
 use App\Models\Setores;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -62,6 +63,8 @@ class HandleInertiaRequests extends Middleware
                 'nome' => $setorNome,
                 'cor' => $setorCor
             ],
+            'franquias' => (new Franquias())->get(),
+            'franquia_selecionada' => session('franquiaSelecionada') ?? '',
             'foto_usuario' => $auth?->foto ? asset('storage/' . $auth->foto) : null,
             '_setor' => session('sessaoSetor') ?? null
         ]);

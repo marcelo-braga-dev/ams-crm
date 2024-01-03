@@ -3,12 +3,12 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 export default function ({dados}) {
     return (
         <Layout container titlePage="Informações do Setor" voltar={route('admin.config.categorias.index')}
-                menu="config" submenu="setores">
-
+                menu="config" submenu="config-setores">
             <div className="row justify-content-between">
                 <div className="col mb-4">
                     <span className="d-block"><b>ID:</b> #{dados.id}</span>
                     <span className="d-block"><b>Nome da Categoria:</b> {dados.nome}</span>
+                    <span className="d-block"><b>Franquia:</b> {dados.franquia}</span>
                     <span className="d-block"><b>Cor:</b> <span className="badge rounded-pill p-2" style={{backgroundColor: dados.cor}}> </span>
                     </span>
 

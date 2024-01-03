@@ -4,7 +4,7 @@ export default function Create({fornecedores, setores, setorAtual}) {
 
     return (
         <Layout container titlePage="Fornecedores Cadastrados"
-                menu="fornecedores" submenu="lista">
+                menu="config" submenu="config-fornecedores">
 
             <div className="row justify-content-end">
                 <div className="col-auto text-right">
@@ -42,6 +42,7 @@ export default function Create({fornecedores, setores, setorAtual}) {
                     <tr>
                         <th>ID</th>
                         <th>Fornecedor</th>
+                        <th>Franquia</th>
                         <th>Setor</th>
                         <th></th>
                     </tr>
@@ -55,6 +56,9 @@ export default function Create({fornecedores, setores, setorAtual}) {
                                 </td>
                                 <td>
                                     {dados.nome}
+                                </td>
+                                <td>
+                                    {dados.franquia}
                                 </td>
                                 <td>
                                     {dados.setor}

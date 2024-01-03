@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Config;
 
 use App\Http\Controllers\Controller;
+use App\Models\Franquias;
 use App\Models\Setores;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,7 +19,9 @@ class CategoriasController extends Controller
 
     public function create()
     {
-        return Inertia::render('Admin/Config/Categorias/Create');
+        $franquias = (new Franquias())->get();
+
+        return Inertia::render('Admin/Config/Categorias/Create', compact('franquias'));
     }
 
     public function store(Request $request)
@@ -39,8 +42,9 @@ class CategoriasController extends Controller
     public function edit($id)
     {
         $dados = (new Setores())->find($id);
+        $franquias = (new Franquias())->get();
 
-        return Inertia::render('Admin/Config/Categorias/Edit', compact('dados'));
+        return Inertia::render('Admin/Config/Categorias/Edit', compact('dados', 'franquias'));
     }
 
     public function update($id, Request $request)

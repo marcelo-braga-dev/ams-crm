@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('franquias', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->string('cor', 16);
             $table->timestamps();
         });
     }

@@ -28,7 +28,7 @@ class UsuariosService
         $items = [];
         foreach ($dados as $dado) {
             $items[] = $this->dados($dado);
-        }
+        }print_pre($items);
         return $items;
     }
 
@@ -48,6 +48,7 @@ class UsuariosService
         return [
             'id' => $dado->id,
             'nome' => $dado->name,
+            'franquia' => $dado->franquia,
             'setor' => $this->nomeSetores[$dado->setor] ?? '',
             'email' => $dado->email,
             'tipo' => $dado->tipo,

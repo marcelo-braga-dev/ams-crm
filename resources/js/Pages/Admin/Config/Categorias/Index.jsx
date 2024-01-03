@@ -3,7 +3,7 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 export default function ({dados}) {
     return (
         <Layout container titlePage="Setores"
-                menu="config" submenu="setores">
+                menu="config" submenu="config-setores">
             <div className="row justify-content-end">
                 <div className="col-auto">
                     <a href={route('admin.config.categorias.create')} className="btn btn-dark">
@@ -15,6 +15,7 @@ export default function ({dados}) {
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Franquia</th>
                         <th>Setor</th>
                         <th>Cor</th>
                         <th></th>
@@ -25,6 +26,7 @@ export default function ({dados}) {
                         return (
                             <tr key={index}>
                                 <td>#{dado.id}</td>
+                                <td>{dado.franquia}</td>
                                 <td>{dado.nome}</td>
                                 <td>
                                     <span className="badge rounded-circle p-2" style={{backgroundColor: dado.cor}}> </span>

@@ -2,10 +2,13 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import { router } from '@inertiajs/react'
-export default function ({dados}) {
+import MenuItem from "@mui/material/MenuItem";
+
+export default function ({dados, franquias}) {
     const {data, setData} = useForm({
         nome: dados.nome,
-        cor: dados.cor
+        cor: dados.cor,
+        franquia: dados.franquia_id
     });
 
     function submit(e) {
@@ -17,10 +20,21 @@ export default function ({dados}) {
     }
 
     return (
-        <Layout container titlePage="Cadastrar Categoria" voltar={route('admin.config.categorias.index')}
-                menu="config" submenu="setores">
+        <Layout titlePage="Editar Setor" voltar={route('admin.config.categorias.index')}
+                menu="config" submenu="config-setores">
 
             <form onSubmit={submit}>
+                <div className="row">
+                    <div className="col mb-4">
+                        <div className="col-md-3 mb-3">
+                            <TextField label="Franquia" select required fullWidth
+                                       defaultValue={data.franquia}
+                                       onChange={e => setData('franquia', e.target.value)}>
+                                {franquias.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
+                        </div>
+                    </div>
+                </div>
                 <div className="row mb-4">
                     <div className="col-md-6">
                         <TextField label="Nome" defaultValue={data.nome}

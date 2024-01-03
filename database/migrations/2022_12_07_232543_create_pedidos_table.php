@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('users_id');
             $table->bigInteger('superior_id')->nullable();
+            $table->bigInteger('franquia');
             $table->bigInteger('lead');
             $table->integer('cliente');
             $table->string('status');

@@ -12,12 +12,18 @@ class Setores extends Model
     protected $fillable = [
         'nome',
         'cor',
+        'franquia',
         'modelo'
     ];
 
     public function get()
     {
-        return $this->newQuery()->get();
+        $franquias = (new Franquias())->getNomes();
+
+        return $this->newQuery()->get()
+            ->transform(function ($item) use ($franquias) {
+                return $this->dados($item, $franquias);
+            });
     }
 
     public function create($dados)
@@ -25,14 +31,17 @@ class Setores extends Model
         $this->newQuery()
             ->create([
                 'nome' => $dados->nome,
-                'cor' => $dados->cor
+                'cor' => $dados->cor,
+                'franquia' => $dados->franquia
             ]);
     }
 
     public function find($id)
     {
-        return $this->newQuery()
+        $item = $this->newQuery()
             ->find($id);
+
+        return $this->dados($item, Franquias::getNomes());
     }
 
     public function atualizar($id, $request)
@@ -41,7 +50,8 @@ class Setores extends Model
             ->find($id)
             ->update([
                 'nome' => $request->nome,
-                'cor' => $request->cor
+                'cor' => $request->cor,
+                'franquia' => $request->franquia
             ]);
     }
 
@@ -67,11 +77,7 @@ class Setores extends Model
         $dados = [];
 
         foreach ($items as $item) {
-            $dados[] = [
-                'id' => $item->id,
-                'nome' => $item->nome,
-                'cor' => $item->cor
-            ];
+            $dados[] = $this->dados($item);
         }
 
         return $dados;
@@ -94,5 +100,16 @@ class Setores extends Model
         return $this->newQuery()
             ->find($id)
             ->modelo ?? null;
+    }
+
+    private function dados($item, $franquias = [])
+    {
+        return [
+            'id' => $item->id,
+            'nome' => $item->nome,
+            'cor' => $item->cor,
+            'franquia' => $franquias[$item->franquia] ?? '',
+            'franquia_id' => $item->franquia
+        ];
     }
 }
