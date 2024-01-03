@@ -20,8 +20,12 @@ export default function () {
                                    onChange={e => setData('nome', e.target.value)} required fullWidth/>
                     </div>
                     <div className="col-md-2">
-                        <TextField label="Cor" type="color" required fullWidth
+                        <TextField label="Cor Fundo" type="color" required fullWidth
                                    onChange={e => setData('cor', e.target.value)}/>
+                    </div>
+                    <div className="col-md-2">
+                        <TextField label="Cor Texto" type="color"
+                                   onChange={e => setData('cor_texto', e.target.value)} required fullWidth/>
                     </div>
                 </div>
                 <div className="row justify-content-center">

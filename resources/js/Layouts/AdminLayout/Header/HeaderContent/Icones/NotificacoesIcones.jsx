@@ -46,7 +46,7 @@ const StyledBadge = styled(Badge)(({theme}) => ({
     },
 }));
 
-export default function NotificacoesIcones() {
+export default function NotificacoesIcones({corTexto}) {
     const [qtdLeads, setQtdLeads] = React.useState();
     const [qtdPedidos, setQtdPedidos] = React.useState();
     const [qtdChatInterno, setChatInterno] = React.useState();
@@ -101,21 +101,21 @@ export default function NotificacoesIcones() {
             setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads}
         />
 
-        <IconButton disableRipple sx={{color: 'black', mx: 1}}
+        <IconButton disableRipple sx={{color: corTexto, mx: 1}}
                     href={route('admin.emails.index')}>
             <Badge badgeContent={usuariosOnline.length} color="error">
                 <EmailOutlinedIcon/>
             </Badge>
         </IconButton>
 
-        <IconButton disableRipple sx={{color: 'black', mx: 1}}
+        <IconButton disableRipple sx={{color: corTexto, mx: 1}}
                     href={route('admin.agenda.calendario.index')}>
             <Badge badgeContent={usuariosOnline.length} color="error">
                 <CalendarMonthOutlinedIcon/>
             </Badge>
         </IconButton>
 
-        <IconButton disableRipple sx={{color: 'black', mx: 1}}
+        <IconButton disableRipple sx={{color: corTexto, mx: 1}}
                     onClick={handleClick2}>
             <Badge badgeContent={usuariosOnline.length} color="error">
                 <PeopleAltOutlinedIcon/>
@@ -160,21 +160,21 @@ export default function NotificacoesIcones() {
                 <small className="m-3">0 online</small>}
         </Popover>
 
-        <IconButton disableRipple sx={{color: 'black', mx: 1}}
+        <IconButton disableRipple sx={{color: corTexto, mx: 1}}
                     href={route('admin.chat-interno.index')}>
             <Badge badgeContent={qtdChatInterno} color="error">
                 <ForumOutlinedIcon/>
             </Badge>
         </IconButton>
 
-        {/*<IconButton disableRipple sx={{color: 'black', mx: 1}}*/}
+        {/*<IconButton disableRipple sx={{color: corTexto, mx: 1}}*/}
         {/*            href={route('admin.notificacoes.leads.index')}>*/}
         {/*    <Badge badgeContent={qtdLeads} color="error">*/}
         {/*        <ContactPhoneOutlinedIcon/>*/}
         {/*    </Badge>*/}
         {/*</IconButton>*/}
 
-        <IconButton disableRipple sx={{color: 'black', mx: 1}}
+        <IconButton disableRipple sx={{color: corTexto, mx: 1}}
                     href={route('admin.notificacoes.index')}>
             <Badge badgeContent={qtdPedidos} color="error">
                 <NotificationsOutlinedIcon/>

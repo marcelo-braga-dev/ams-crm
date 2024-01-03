@@ -5,7 +5,6 @@ export default function ({franquia}) {
     return (
         <Layout container titlePage="Informações da Franquia" voltar={route('admin.franquias.index')}
                 menu="config" submenu="config-franquias">
-
             <div className="row justify-content-between">
                 <div className="col mb-4">
                     <span className="d-block"><b>Nome da Franquia:</b> {franquia.nome}</span>

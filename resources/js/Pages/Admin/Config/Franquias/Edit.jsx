@@ -5,7 +5,8 @@ import { router } from '@inertiajs/react'
 export default function ({franquia}) {
     const {data, setData} = useForm({
         nome: franquia.nome,
-        cor: franquia.cor
+        cor: franquia.cor,
+        cor_texto: franquia.cor_texto,
     });
 
     function submit(e) {
@@ -27,8 +28,12 @@ export default function ({franquia}) {
                                    onChange={e => setData('nome', e.target.value)} required fullWidth/>
                     </div>
                     <div className="col-md-2">
-                        <TextField label="Cor" defaultValue={data.cor} type="color"
+                        <TextField label="Cor Fundo" defaultValue={data.cor} type="color"
                                    onChange={e => setData('cor', e.target.value)} required fullWidth/>
+                    </div>
+                    <div className="col-md-2">
+                        <TextField label="Cor Texto" defaultValue={data.cor_texto} type="color"
+                                   onChange={e => setData('cor_texto', e.target.value)} required fullWidth/>
                     </div>
                 </div>
                 <div className="row justify-content-center">

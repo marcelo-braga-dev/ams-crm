@@ -11,7 +11,8 @@ class Franquias extends Model
 
     protected $fillable = [
         'nome',
-        'cor'
+        'cor',
+        'cor_texto',
     ];
 
     public function get()
@@ -22,7 +23,8 @@ class Franquias extends Model
                 return [
                     'id' => $item->id,
                     'nome' => $item->nome,
-                    'cor' => $item->cor
+                    'cor' => $item->cor,
+                    'cor_texto' => $item->cor_texto,
                 ];
             });
     }
@@ -32,7 +34,8 @@ class Franquias extends Model
         $this->newQuery()
             ->create([
                 'nome' => $dados->nome,
-                'cor' => $dados->cor
+                'cor' => $dados->cor,
+                'cor_texto' => $dados->cor_texto,
             ]);
     }
 
@@ -60,7 +63,8 @@ class Franquias extends Model
             ->find($id)
             ->update([
                 'nome' => $dados->nome,
-                'cor' => $dados->cor
+                'cor' => $dados->cor,
+                'cor_texto' => $dados->cor_texto,
             ]);
     }
 }

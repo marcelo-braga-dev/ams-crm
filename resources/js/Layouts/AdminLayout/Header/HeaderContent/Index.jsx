@@ -18,6 +18,7 @@ const HeaderContent = ({titlePage, voltar}) => {
     const matchesXs = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const franquias = usePage().props.franquias
     const franquia_selecionada = parseInt(usePage().props.franquia_selecionada)
+    const franquia = franquias[franquias.findIndex((item) => item.id === franquia_selecionada)]
 
     const selecionaFranquia = (id) => {
         router.post(route('admin.franquias.seleciona-franquia', {id: id}))
@@ -27,11 +28,10 @@ const HeaderContent = ({titlePage, voltar}) => {
         <>
             {/*{!matchesXs && <Search />}*/}
             <div className="row w-100 text-truncate">
-                <div className="col-12 text-truncate">
+                <div className="col-10 text-truncate mx-3" style={{color: franquia?.cor_texto}}>
                     {titlePage}
-                    {voltar && <a className="text-muted ms-4" href={voltar}><ArrowBackIcon sx={{fontSize: 16}}/></a>}
+                    {voltar && <a className="ms-4" style={{color: franquia?.cor_texto}} href={voltar}><ArrowBackIcon sx={{fontSize: 16}}/></a>}
                 </div>
-
             </div>
 
             {isAdmin() && <div className="row w-100 text-truncate">
@@ -47,7 +47,7 @@ const HeaderContent = ({titlePage, voltar}) => {
 
             {matchesXs && <Box sx={{width: '100%', ml: 1}}/>}
 
-            <NotificacoesIcones/>
+            <NotificacoesIcones corTexto={franquia?.cor_texto  ?? 'black'} />
 
             {!matchesXs && <Profile/>}
             {matchesXs && <MobileSection/>}

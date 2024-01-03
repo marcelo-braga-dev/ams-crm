@@ -16,11 +16,11 @@ const Header = ({open, titlePage, voltar, handleDrawerToggle}) => {
 
     const franquias = usePage().props.franquias
     const franquia_selecionada = parseInt(usePage().props.franquia_selecionada)
-    const franquia_cor = franquias[franquias.findIndex((item) => item.id === franquia_selecionada)]?.cor
+    const franquia = franquias[franquias.findIndex((item) => item.id === franquia_selecionada)]
 
     // common header
     const mainHeader = (
-        <Toolbar sx={{backgroundColor: franquia_cor}}>
+        <Toolbar sx={{backgroundColor: franquia?.cor, color: franquia?.cor_texto}}>
             <IconButton
                 disableRipple
                 aria-label="open drawer"
