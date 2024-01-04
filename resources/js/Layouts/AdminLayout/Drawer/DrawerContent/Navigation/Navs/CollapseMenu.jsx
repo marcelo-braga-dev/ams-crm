@@ -109,7 +109,7 @@ export default function CollapseMenu({item, menu, submenu}) {
                 </ListItemButton>
 
                 <div id={"flush-collapse-" + item.id}
-                     className={(item.id === menu ? 'show ' : '') + "accordion-collapse nav-item collapse"}
+                     className={/*(item.id === menu ? 'show ' : '') + */ "accordion-collapse nav-item collapse"}
                      aria-labelledby={"flush-heading-" + item.id}
                      data-bs-parent="#accordionFlushSidebar">
 
