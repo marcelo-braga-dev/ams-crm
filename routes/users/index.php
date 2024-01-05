@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    $auth = auth()->user()->tipo;
-    switch ($auth) {
+    $funcao = auth()->user()->tipo;
+
+    switch ($funcao) {
         case (new \App\src\Usuarios\Admins())->getFuncao() :
-            return redirect()->route('admin.pedidos.index');
+            return redirect()->route('admin.home.index');
         case (new \App\src\Usuarios\Consultores())->getFuncao() :
             return redirect()->route('consultor.pedidos.index');
         case (new \App\src\Usuarios\Supervisores())->getFuncao() :

@@ -1,5 +1,5 @@
 import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
-import { router } from '@inertiajs/react'
+import {router} from '@inertiajs/react'
 
 import React, {useState} from 'react';
 import {useForm, usePage} from '@inertiajs/react';
@@ -41,7 +41,7 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco, inte
         file_cartao_cnpj: img.url_cnpj,
         file_comprovante_residencia: img.url_comprovante_residencia,
 
-        preco: new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2 })
+        preco: new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2})
             .format(pedido.preco_venda),
         integrador: pedido.integrador,
         fornecedor: pedido.fornecedor,
@@ -59,24 +59,17 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco, inte
         })
     }
 
-    return (<Layout
-            titlePage="Revisar Pedido"
-            url={route('consultor.pedidos.index')} textButton="Voltar">
-            <div className="container bg-white px-lg-6 py-lg-5 mb-4">
-                <Alert severity="warning">
-                    {pedido.obs}
-                </Alert>
-            </div>
+    return (
+        <Layout titlePage="Revisar Pedido" voltar={route('consultor.pedidos.index')}>
+
+            <Alert severity="warning">{pedido.obs}</Alert>
 
             <form onSubmit={submit}>
-                <div className="container bg-white px-lg-6 py-lg-5 mb-4">
-                    <AlertDanger errors={errors} />
-                    <InfoCliente setData={setData} data={data} />
-                </div>
-                <div className="container bg-white px-lg-6 py-lg-5 mb-4">
-                    <Anexos setData={setData} data={data} img={img} />
-                </div>
-                <div className="container bg-white px-lg-6 py-lg-5">
+                    <AlertDanger errors={errors}/>
+                    <InfoCliente setData={setData} data={data}/>
+
+                    <Anexos setData={setData} data={data} img={img}/>
+
                     <Pedidos fornecedores={fornecedores}
                              setData={setData} data={data} img={img} integradores={integradores}/>
 
@@ -94,7 +87,6 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco, inte
                             <button className="btn btn-primary" disabled={processing}>Atualizar</button>
                         </div>
                     </div>
-                </div>
             </form>
         </Layout>
     )

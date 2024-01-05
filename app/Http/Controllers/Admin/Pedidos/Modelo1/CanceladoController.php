@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Pedidos\Status;
+namespace App\Http\Controllers\Admin\Pedidos\Modelo1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
@@ -8,19 +8,19 @@ use App\src\Pedidos\PedidoUpdateStatus;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class AguardandoNotaController extends Controller
+class CanceladoController extends Controller
 {
     public function show($id)
     {
-        $dados = (new Pedidos)->getDadosPedido($id);
+        $pedido = (new Pedidos)->getDadosPedido($id);
 
-        return Inertia::render('Admin/Pedidos/AguardandoNota/Show',
-            compact('dados'));
+        return Inertia::render('Admin/Pedidos/Cancelado/Show',
+            compact('pedido'));
     }
 
     public function update($id, Request $request)
     {
-        (new PedidoUpdateStatus())->aguardandoBoleto($id, $request);
+        (new PedidoUpdateStatus())->cancelado($id, $request);
 
         modalSucesso('Atualizado com sucesso!');
         return redirect()->route('admin.pedidos.index');

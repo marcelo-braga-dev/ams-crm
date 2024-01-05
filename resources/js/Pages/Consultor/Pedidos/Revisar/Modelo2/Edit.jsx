@@ -3,10 +3,10 @@ import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import {router, useForm} from '@inertiajs/react';
 
 import InfoCliente from './Partials/InfoCliente';
-import Anexos from "./Partials/Anexos";
 import Pedidos from "./Partials/Pedido";
 import AlertDanger from "./Partials/AlertDanger";
-import {useState} from "react";
+import LeadsDados from "@/Components/Leads/LeadsDados";
+
 
 
 export default function Edit({pedido, fornecedores, cliente, preco, errors}) {
@@ -14,7 +14,7 @@ export default function Edit({pedido, fornecedores, cliente, preco, errors}) {
         pessoa: 'Pessoa Física',
         documentos_check: 'cnh',
         preco: preco,
-        forma_pagamento: pedido.forma_pagamento
+        forma_pagamento: pedido.forma_pagamento,
     });
 
     function submit(e) {
@@ -31,7 +31,7 @@ export default function Edit({pedido, fornecedores, cliente, preco, errors}) {
             <form onSubmit={submit}>
                 <div className="row mb-5 pb-4 border-bottom">
                     <AlertDanger errors={errors}/>
-                    <InfoCliente dados={cliente}/>
+                    <LeadsDados dados={cliente} />
                 </div>
                 <div className="">
                     <Pedidos fornecedores={fornecedores} pedido={pedido} setData={setData} data={data}/>
@@ -47,7 +47,7 @@ export default function Edit({pedido, fornecedores, cliente, preco, errors}) {
                     </div>
                     <div className="row text-center">
                         <div className="col">
-                            <button className="btn btn-primary" disabled={processing}>Cadastrar</button>
+                            <button className="btn btn-primary" disabled={processing}>Atualizar</button>
                         </div>
                     </div>
                 </div>

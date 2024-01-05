@@ -159,4 +159,32 @@ class PedidosImagens extends Model
             ->where('pedidos_id', $id)
             ->delete();
     }
+
+    public function updateRevisao($id, $dados)
+    {
+        if ($dados->img_pedido) {
+            $this->atualizarUrl($dados, $id, 'img_pedido', 'url_planilha_pedido');
+        }
+        if ($dados->img_cnh) {
+            $this->atualizarUrl($dados, $id, 'img_cnh', 'url_cnh');
+        }
+        if ($dados->img_rg) {
+            $this->atualizarUrl($dados, $id, 'img_rg', 'url_rg');
+        }
+        if ($dados->img_cpf) {
+            $this->atualizarUrl($dados, $id, 'img_cpf', 'url_cpf');
+            $this->atualizarUrl($dados, $id, 'img_cnh', 'url_cnh');
+        }
+    }
+
+    public function atualizarUrl($dados, $id, $nameFile, $name)
+    {
+        $url = (new Images())->armazenar($dados, $nameFile, 'pedidos/' . $id);
+
+        $this->newQuery()
+            ->where('pedidos_id', $id)
+            ->update([
+                $name => $url
+            ]);
+    }
 }

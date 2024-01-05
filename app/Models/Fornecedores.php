@@ -22,8 +22,11 @@ class Fornecedores extends Model
 
     public function find($id)
     {
-        $item = $this->newQuery()->find($id);
-        return $this->dados($item);
+        if ($id) {
+            $item = $this->newQuery()->find($id);
+            return $this->dados($item);
+        }
+        return null;
     }
 
     public function getNomes()

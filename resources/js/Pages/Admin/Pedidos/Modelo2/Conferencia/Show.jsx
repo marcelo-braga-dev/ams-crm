@@ -70,7 +70,7 @@ export default function Pedidos({pedido, produtos}) {
                 <form onSubmit={submit}>
                     <div className="row mt-4 text-center">
                         <div className="col">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                            <button type="button" className="btn btn-info" data-bs-toggle="modal"
                                     data-bs-target="#modalEncomenda">
                                 Enviar para Encomenda
                             </button>
@@ -79,7 +79,7 @@ export default function Pedidos({pedido, produtos}) {
                             <button className="btn btn-success text-dark" type="submit">Aprovar Pedido</button>
                         </div>
                         <div className="col">
-                            <button className="btn btn-danger" onClick={handleOpen}>Reprovar Pedido</button>
+                            <button type="button" className="btn btn-danger" onClick={handleOpen}>Reprovar Pedido</button>
                         </div>
                     </div>
                 </form>

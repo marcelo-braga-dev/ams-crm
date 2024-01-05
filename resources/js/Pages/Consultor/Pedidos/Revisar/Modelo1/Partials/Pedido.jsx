@@ -17,24 +17,13 @@ import ImagePdf from "@/Components/Elementos/ImagePdf";
 import Paper from "@mui/material/Paper";
 import * as React from "react";
 
-export default function Pedidos({fornecedores, setData, data, img, integradores}) {
+export default function Pedidos({fornecedores, setData, data, img}) {
 
     return <Box>
         <Row className="my-4">
             {/*Preco*/}
             <Col className="mb-3 col-md-4">
                 <TextFieldMoney label="Preço" value={data.preco} setData={setData} index="preco" required/>
-            </Col>
-            {/*Integrador*/}
-            <Col className="mb-3">
-                <TextField label="Integrador" select fullWidth required defaultValue={data.integrador}
-                           onChange={e => setData('integrador', e.target.value)}>
-                    {integradores.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
             </Col>
             <Col className="mb-3">
                 <TextField label="Fornecedor" select fullWidth required defaultValue={data.fornecedor}

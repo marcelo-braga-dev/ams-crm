@@ -271,6 +271,10 @@ class Leads extends Model
         return $query->get();
     }
 
+    /**
+     * @deprecated
+     * remover instancia em dados
+     */
     public function getPeloStatus($id, string $status, string $order = 'desc', $msg = [])
     {
         return $this->newQuery()
@@ -281,6 +285,13 @@ class Leads extends Model
             ->transform(function ($item) use ($msg) {
                 return $this->dados($item, $msg);
             });
+    }
+
+    public function getDados($id)
+    {
+        $item = $this->newQuery()->find($id);
+
+        return $this->dados($item);
     }
 
     private function dados($item, $msg = [])

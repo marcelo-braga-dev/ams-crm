@@ -3,20 +3,20 @@
 use App\Http\Controllers\Admin\Pedidos\ConfigController;
 use App\Http\Controllers\Admin\Pedidos\EmitirPedidosController;
 use App\Http\Controllers\Admin\Pedidos\HistoricoController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\AcompanhamentoController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoFaturamentoController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoNotaController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoPagamentoController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\CanceladoController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\ConferenciaController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\EntregueController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\FaturadoController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\LancadoController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\RetrocederController;
 use App\Http\Controllers\Admin\Pedidos\PedidosController;
 use App\Http\Controllers\Admin\Pedidos\Quadros\PedidosQuadrosController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\FaturamentoController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\ProdutosController;
-use App\Http\Controllers\Admin\Pedidos\Status\AguardandoFaturamentoController;
-use App\Http\Controllers\Admin\Pedidos\Status\AguardandoNotaController;
-use App\Http\Controllers\Admin\Pedidos\Status\AguardandoPagamentoController;
-use App\Http\Controllers\Admin\Pedidos\Status\CanceladoController;
-use App\Http\Controllers\Admin\Pedidos\Status\ConferenciaController;
-use App\Http\Controllers\Admin\Pedidos\Status\EntregueController;
-use App\Http\Controllers\Admin\Pedidos\Status\FaturadoController;
-use App\Http\Controllers\Admin\Pedidos\Status\AcompanhamentoController;
-use App\Http\Controllers\Admin\Pedidos\Status\LancadoController;
-use App\Http\Controllers\Admin\Pedidos\Status\RetrocederController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
