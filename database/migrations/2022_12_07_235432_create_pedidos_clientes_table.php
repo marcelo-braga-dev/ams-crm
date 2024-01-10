@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('pedidos_clientes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('pedidos_id');
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('pedido_id');
             $table->string('nome')->nullable();
             $table->date('data_nascimento')->nullable();
             $table->string('razao_social')->nullable();
@@ -27,6 +27,11 @@ return new class extends Migration
             $table->string('cpf')->nullable();
             $table->string('rg')->nullable();
             $table->string('cnpj')->nullable();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->index('user_id');
+            $table->index('pedido_id');
         });
     }
 

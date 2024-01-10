@@ -12,8 +12,8 @@ class PedidosFaturamentos extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
-        'pedidos_id',
+        'user_id',
+        'pedido_id',
         'produtos_id',
         'status',
         'status_pedido',
@@ -30,9 +30,9 @@ class PedidosFaturamentos extends Model
         foreach ($produtos as $item) {
             $this->newQuery()
                 ->updateOrCreate(
-                    ['pedidos_id' => $idPedido, 'produtos_id' => $item['produto_id']],
+                    ['pedido_id' => $idPedido, 'produtos_id' => $item['produto_id']],
                     [
-                        'users_id' => $pedido->users_id,
+                        'user_id' => $pedido->user_id,
                         'status' => 'novo',
                         'status_pedido' => $pedido->status,
                         'valor' => $item['preco'],
@@ -66,7 +66,7 @@ class PedidosFaturamentos extends Model
                 YEAR(status_data)
                 '));
 
-        if ($consultor) $query->where('users_id', $consultor);
+        if ($consultor) $query->where('user_id', $consultor);
 
         $dados = $query->get()
             ->transform(function ($item) {

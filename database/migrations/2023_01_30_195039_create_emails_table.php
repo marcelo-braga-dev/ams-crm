@@ -15,12 +15,15 @@ return new class extends Migration
     {
         Schema::create('emails', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('email');
             $table->string('password');
             $table->integer('count_inbox')->default(0);
             $table->timestamp('last_update')->default(now());
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->index('user_id');
         });
     }
 

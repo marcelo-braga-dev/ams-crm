@@ -18,7 +18,7 @@ class FornecedoresController extends Controller
         $setorAtual = $request->setor;
         $setores = (new Setores())->get();
 
-        $fornecedores = (new Fornecedores())->get($setorAtual);
+        $fornecedores = (new Fornecedores())->getDados($setorAtual);
 
         return Inertia::render('Admin/Fornecedores/Index',
             compact('fornecedores', 'setores', 'setorAtual'));

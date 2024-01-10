@@ -23,22 +23,22 @@ class VendasService
             ->where('status', '!=', (new RevisarStatusPedido())->getStatus())
             ->where('status', '!=', (new CanceladoStatus())->getStatus())
             ->select(
-                'users_id',
+                'user_id',
                 'setor',
                 DB::raw('SUM(preco_venda) as vendas'))
-            ->groupBy('users_id')
+            ->groupBy('user_id')
             ->get()
             ->transform(function ($item) use ($nomes, $setores, $metas) {
-                if ($nomes[$item->users_id] ?? null)
+                if ($nomes[$item->user_id] ?? null)
                 return [
-                    'nome' => $nomes[$item->users_id],
+                    'nome' => $nomes[$item->user_id],
                     'vendas' => $item->vendas,
                     'vendas_money' => convert_float_money($item->vendas),
-                    'meta' => $metas[$item->users_id] ?? 0,
-                    'meta_money' => convert_float_money($metas[$item->users_id] ?? 0),
+                    'meta' => $metas[$item->user_id] ?? 0,
+                    'meta_money' => convert_float_money($metas[$item->user_id] ?? 0),
                     'margem_money' => '',
-                    'diferenca_meta' => (($metas[$item->users_id] ?? 0) - $item->vendas),
-                    'diferenca_meta_money' => convert_float_money(($metas[$item->users_id] ?? 0) - $item->vendas),
+                    'diferenca_meta' => (($metas[$item->user_id] ?? 0) - $item->vendas),
+                    'diferenca_meta_money' => convert_float_money(($metas[$item->user_id] ?? 0) - $item->vendas),
                     'setor' => $setores[$item->setor]
                 ];
             });

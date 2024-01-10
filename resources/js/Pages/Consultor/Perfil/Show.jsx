@@ -44,6 +44,7 @@ export default function Create({dados, flash}) {
                         <span className="d-block"><b>Nome:</b> {dados.nome}</span>
                         <span className="d-block"><b>Email:</b> {dados.email}</span>
                         <span className="d-block"><b>Função:</b> {dados.tipo}</span>
+                        <span className="d-block"><b>Franquia:</b> {dados.franquia}</span>
                         <span className="d-block"><b>Setor:</b> {dados.setor_nome}</span>
                     </div>
                 </div>

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin\Pedidos;
 
 use App\Http\Controllers\Controller;
-use App\Models\Clientes;
 use App\Models\Enderecos;
 use App\Models\Fornecedores;
 use App\Models\Leads;
@@ -34,7 +33,6 @@ class EmitirPedidosController extends Controller
         $fornecedores = (new Fornecedores())->getAll($setor);
         $lead = (new Leads())->find($request->lead);
 
-        $clientes = (new Clientes())->getClientes($setor);
         $endereco = (new Enderecos())->get($lead->endereco);
         $categorias = (new ProdutosCategorias())->categorias(setor_usuario_atual());
         $unidades = (new ProdutosUnidades())->get();
@@ -45,7 +43,7 @@ class EmitirPedidosController extends Controller
                     compact('fornecedores', 'lead'));
             case 2:
                 return Inertia::render('Admin/Pedidos/Emitir/Modelo2/Create',
-                    compact('fornecedores', 'lead', 'clientes', 'endereco', 'categorias', 'unidades'));
+                    compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades'));
             default:
             {
                 modalErro('Falha no formulário de cadastro.');

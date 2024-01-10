@@ -11,7 +11,7 @@ class LeadsHistoricosComentarios extends Model
 
     protected $fillable = [
         'leads_historicos_id',
-        'users_id',
+        'user_id',
         'msg',
         'status',
     ];
@@ -21,7 +21,7 @@ class LeadsHistoricosComentarios extends Model
         $this->newQuery()
             ->create([
                 'leads_historicos_id' => $id,
-                'users_id' => id_usuario_atual(),
+                'user_id' => id_usuario_atual(),
                 'msg' => $msg,
             ]);
     }
@@ -34,7 +34,7 @@ class LeadsHistoricosComentarios extends Model
         $resposta = [];
         foreach ($dados as $dado) {
             $resposta[$dado->leads_historicos_id][] = [
-                'nome' => $nomes[$dado->users_id],
+                'nome' => $nomes[$dado->user_id],
                 'msg' => $dado->msg,
                 'data' => date('d/m/y H:i', strtotime($dado->created_at))
             ];

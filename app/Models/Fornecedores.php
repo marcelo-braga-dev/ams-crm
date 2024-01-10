@@ -31,17 +31,16 @@ class Fornecedores extends Model
 
     public function getNomes()
     {
-        $items = $this->newQuery()->get();
-
-        $dados = [];
-        foreach ($items as $dado) {
-            $dados[$dado->id] = $dado->nome;
-        }
-
-        return $dados;
+        return $this->newQuery()->pluck('nome','id');
     }
 
-    public function get(?int $setor)
+    public function get()
+    {
+        return $this->newQuery()
+            ->get();
+    }
+
+    public function getDados(?int $setor)
     {
         $franquias = Franquias::getNomes();
         $setores = (new Setores())->getNomes();
@@ -97,18 +96,6 @@ class Fornecedores extends Model
                 'email' => $dados->get('email'),
                 'anotacoes' => $dados->get('anotacoes')
             ]);
-    }
-
-    public function getCardDados(): array
-    {
-        $items = $this->newQuery()->get(['id', 'nome']);
-
-        $dados = [];
-        foreach ($items as $item) {
-            $dados[$item->id] = $item->nome;
-        }
-
-        return $dados;
     }
 
     private function dados($item, $franquias = [], $setores = [])

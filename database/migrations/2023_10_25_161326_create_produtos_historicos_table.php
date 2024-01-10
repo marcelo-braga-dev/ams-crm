@@ -14,8 +14,8 @@ return new class extends Migration {
     {
         Schema::create('produtos_historicos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
-            $table->bigInteger('produtos_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('produto_id');
             $table->string('nome');
             $table->bigInteger('vendedor');
             $table->integer('valor')->nullable();
@@ -24,6 +24,11 @@ return new class extends Migration {
             $table->string('status');
             $table->string('anotacoes')->nullable();
             $table->timestamp('data');
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('produto_id')->references('id')->on('produtos');
+            $table->index('user_id');
+            $table->index('produto_id');
         });
     }
 

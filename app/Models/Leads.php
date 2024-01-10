@@ -17,11 +17,11 @@ class Leads extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'status',
         'importacao',
         'nome',
-        'setor',
+        'setor_id',
         'cnpj',
         'razao_social',
         'endereco',
@@ -30,7 +30,7 @@ class Leads extends Model
         'cpf',
         'data_nascimento',
         'inscricao_estadual',
-        'pessoa_fisica',
+        'pessoa_juridica',
         'email',
         'telefone',
         'cidade',
@@ -45,11 +45,11 @@ class Leads extends Model
     {
         $query = $this->newQuery()
             ->where('status', '=', (new NovoStatusLeads())->getStatus())
-            ->where('setor', $setor)
-            ->where('users_id', '=', null)
+            ->where('setor_id', $setor)
+            ->where('user_id', '=', null)
             ->orderByDesc('id');
 
-//        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
+//        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
 
         return $query->get();
     }
@@ -59,7 +59,7 @@ class Leads extends Model
         $this->newQuery()
             ->where('id', $idLead)
             ->update([
-                'users_id' => $idConsultor,
+                'user_id' => $idConsultor,
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
     }
@@ -81,12 +81,13 @@ class Leads extends Model
                 (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))) {
                 $this->newQuery()
                     ->create([
-                        'users_id' => $usuario,
+                        'user_id' => $usuario,
                         'nome' => $dados['nome'] ?? null,
                         'importacao' => $importacao,
                         'atendente' => $dados['atendente'] ?? null,
                         'telefone' => $telefone,
-                        'setor' => $setor,
+                        'setor_id' => $setor,
+                        'pessoa_juridica' => !($dados['pessoa'] == 'Física'),
                         'razao_social' => $dados['razao_social'] ?? null,
                         'cnpj' => $cnpj ?? null,
                         'email' => $dados['email'] ?? null,
@@ -119,10 +120,10 @@ class Leads extends Model
     {
         $query = $this->newQuery()
             ->where('status', '!=', (new OcultosLeadsStatus())->getStatus())
-            ->where('setor', $setor)
+            ->where('setor_id', $setor)
             ->orderByDesc('id');
 
-        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
 
         return $query->get();
     }
@@ -130,7 +131,7 @@ class Leads extends Model
     public function getConsultores(int $id)
     {
         return $this->newQuery()
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->get();
     }
 
@@ -178,7 +179,7 @@ class Leads extends Model
     {
         return $this->newQuery()
             ->where('status', (new OcultosLeadsStatus())->getStatus())
-            ->where('setor', $setor)
+            ->where('setor_id', $setor)
             ->orderByDesc('id')
             ->get();
     }
@@ -186,10 +187,10 @@ class Leads extends Model
     public function getLeadsComConsultor($setor)
     {
         $query = $this->newQuery()
-            ->where('users_id', '>', 0)
-            ->where('setor', $setor)
+            ->where('user_id', '>', 0)
+            ->where('setor_id', $setor)
             ->orderByDesc('id');
-        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
         return $query->get();
     }
 
@@ -264,9 +265,9 @@ class Leads extends Model
     public function qtdLeadsUsuarios()
     {
         $query = $this->newQuery()
-            ->where('users_id', '>', 0);
+            ->where('user_id', '>', 0);
 
-        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
 
         return $query->get();
     }
@@ -278,7 +279,7 @@ class Leads extends Model
     public function getPeloStatus($id, string $status, string $order = 'desc', $msg = [])
     {
         return $this->newQuery()
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->where('status', $status)
             ->orderBy('status_data', $order)
             ->get()
@@ -301,7 +302,7 @@ class Leads extends Model
             'id' => $item->id,
 
             'consultor' => [
-                'nome' => $nomes[$item->users_id] ?? '-'
+                'nome' => $nomes[$item->user_id] ?? '-'
             ],
 
             'cliente' => [
@@ -343,15 +344,15 @@ class Leads extends Model
     public function qtdLeads()
     {
         return $this->newQuery()
-            ->select('users_id', DB::raw('count(*) as qtdUsers'))
-            ->groupBy('users_id')
+            ->select('user_id', DB::raw('count(*) as qtdUsers'))
+            ->groupBy('user_id')
             ->get();
     }
 
     public function qtdLeadsStatusConsultor($idConsultor): array
     {
         $dados = $this->newQuery()
-            ->where('users_id', $idConsultor)
+            ->where('user_id', $idConsultor)
             ->select('status', DB::raw('COUNT(*) as qtd'))
             ->groupBy('status')
             ->get();
@@ -363,16 +364,9 @@ class Leads extends Model
         return $items;
     }
 
-    public function getCardDados(): array
+    public function getCardDados()
     {
-        $items = $this->newQuery()->get(['id', 'nome']);
-
-        $dados = [];
-        foreach ($items as $item) {
-            $dados[$item->id] = $item->nome;
-        }
-
-        return $dados;
+        return $this->newQuery()->pluck('nome', 'id');
     }
 
     public function getNomes()
@@ -404,5 +398,13 @@ class Leads extends Model
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
         }
+    }
+
+    public function getCards($id)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->orderBy('status_data', 'desc')
+            ->get();
     }
 }

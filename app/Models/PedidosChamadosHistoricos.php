@@ -12,8 +12,8 @@ class PedidosChamadosHistoricos extends Model
     use HasFactory;
 
     protected $fillable = [
-        'pedidos_id',
-        'users_id',
+        'pedido_id',
+        'user_id',
         'chamados_id',
         'status',
         'msg',
@@ -29,8 +29,8 @@ class PedidosChamadosHistoricos extends Model
 
         $this->newQuery()
             ->create([
-                'pedidos_id' => $idPedidos,
-                'users_id' => auth()->id(),
+                'pedido_id' => $idPedidos,
+                'user_id' => auth()->id(),
                 'chamados_id' => $idChamado,
                 'status' => $status,
                 'msg' => $msg,
@@ -50,7 +50,7 @@ class PedidosChamadosHistoricos extends Model
     public function remover($id)
     {
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->delete();
     }
 }

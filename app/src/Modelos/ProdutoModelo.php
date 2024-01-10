@@ -2,7 +2,7 @@
 
 namespace App\src\Modelos;
 
-class SimplesModelo
+class ProdutoModelo
 {
     private int $id = 2;
 

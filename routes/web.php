@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Pedidos;
+use App\Models\PedidosClientes;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,3 +20,23 @@ require __DIR__ . '/users/index.php';
 require __DIR__ . '/users/admin/index.php';
 require __DIR__ . '/users/consultor/index.php';
 require __DIR__ . '/users/geral/index.php';
+
+Route::name('dev.')
+    ->prefix('dev')
+    ->group(function () {
+        Route::get('atualizar-db', function () {
+
+            $notInValues = \App\Models\PedidosAcompanhamentos::whereNotIn('pedidos_id', function ($query) {
+                $query->select('id')->from('pedidos');
+            })->get();
+
+//            foreach ($notInValues as $inValue) {
+//                (new \App\Models\PedidosAcompanhamentos)->newQuery()->find($inValue->id)->delete();
+//            }
+
+            print_pre($notInValues->toArray());
+
+            print_pre('ATUALIZAR DB');
+        })
+            ->name('atualizar-db');
+    });

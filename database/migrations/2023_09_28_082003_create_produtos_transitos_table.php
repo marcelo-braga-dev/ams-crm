@@ -15,10 +15,13 @@ return new class extends Migration
     {
         Schema::create('produtos_transitos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->bigInteger('produtos_id');
             $table->integer('qtd');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->index('user_id');
         });
     }
 

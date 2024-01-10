@@ -12,7 +12,7 @@ class Notificacoes extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'categoria',
         'notificar',
         'titulo',
@@ -24,7 +24,7 @@ class Notificacoes extends Model
     {
         $this->newQuery()
             ->create([
-                'users_id' => $user,
+                'user_id' => $user,
                 'categoria' => $categoria,
                 'titulo' => $titulo,
                 'msg' => $msg,
@@ -35,7 +35,7 @@ class Notificacoes extends Model
     public function getUsuario(string $categoria)
     {
         return $this->newQuery()
-            ->where('users_id', id_usuario_atual())
+            ->where('user_id', id_usuario_atual())
             ->where('categoria', $categoria)
             ->orderByDesc('id')
             ->get()
@@ -60,13 +60,13 @@ class Notificacoes extends Model
             ->where('categoria', 'leads')
             ->orderByDesc('id');
 
-        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
-        if ($id) $query->where('users_id', $id);
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
+        if ($id) $query->where('user_id', $id);
 
         return $query->get()
             ->transform(function ($item) use ($nomes) {
                 return [
-                    'nome' => $nomes[$item->users_id],
+                    'nome' => $nomes[$item->user_id],
                     'msg' => $item->msg,
                     'data' => date('d/m/y H:i', strtotime($item->created_at))
                 ];
@@ -78,13 +78,13 @@ class Notificacoes extends Model
         $idUsuario = id_usuario_atual();
 
         $qtdPedidos = $this->newQuery()
-            ->where('users_id', $idUsuario)
+            ->where('user_id', $idUsuario)
             ->where('categoria', (new NotificacoesCategorias())->pedidos())
             ->where('notificar', 1)
             ->count();
 
         $qtdLeads = $this->newQuery()
-            ->where('users_id', $idUsuario)
+            ->where('user_id', $idUsuario)
             ->where('categoria', (new NotificacoesCategorias())->leads())
             ->where('notificar', 1)
             ->count();
@@ -124,7 +124,7 @@ class Notificacoes extends Model
     public function marcarTodasLidas()
     {
         $this->newQuery()
-            ->where('users_id', id_usuario_atual())
+            ->where('user_id', id_usuario_atual())
             ->update([
                 'notificar' => 0
             ]);
@@ -133,7 +133,7 @@ class Notificacoes extends Model
     public function deletar()
     {
         $this->newQuery()
-            ->where('users_id', id_usuario_atual())
+            ->where('user_id', id_usuario_atual())
             ->delete();
     }
 

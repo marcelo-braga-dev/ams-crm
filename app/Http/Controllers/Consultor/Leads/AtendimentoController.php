@@ -7,6 +7,8 @@ use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\LeadsDadosService;
+use App\src\Leads\Historicos\AtivadoHistorico;
+use App\src\Leads\Historicos\IniciarAtendimentoHistorico;
 use App\src\Leads\StatusAtendimentoLeads;
 use App\src\Leads\UpdateStatusLeads;
 use Illuminate\Http\Request;
@@ -23,6 +25,15 @@ class AtendimentoController extends Controller
 
         return Inertia::render('Consultor/Leads/Atendimento/Show',
             compact('dados', 'status', 'historicos', 'contatos'));
+    }
+
+    public function update($id)
+    {
+        (new UpdateStatusLeads())->setAtivo($id);
+        (new LeadsHistoricos())->createHistorico($id, (new AtivadoHistorico())->status());
+
+        modalSucesso('Status atualizado!');
+        return redirect()->route('consultor.leads.main.index');
     }
 
     public function store(Request $request)

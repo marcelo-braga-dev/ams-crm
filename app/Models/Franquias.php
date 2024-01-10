@@ -39,16 +39,10 @@ class Franquias extends Model
             ]);
     }
 
-    static function getNomes(): array
+    static function getNomes()
     {
-        $items = (new Franquias)->newQuery()
-            ->get(['id', 'nome']);
-
-        $res = [];
-        foreach ($items as $item) {
-            $res[$item->id] = $item->nome;
-        }
-        return $res;
+        return (new Franquias)->newQuery()
+            ->pluck('nome', 'id');
     }
 
     public function find($id)

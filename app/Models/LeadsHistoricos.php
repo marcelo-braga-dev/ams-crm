@@ -11,9 +11,9 @@ class LeadsHistoricos extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
-        'leads_id',
-        'pedidos_id',
+        'user_id',
+        'lead_id',
+        'pedido_id',
         'status',
         'msg',
         'meio_contato'
@@ -25,8 +25,8 @@ class LeadsHistoricos extends Model
 
         return $this->newQuery()
             ->create([
-                'users_id' => id_usuario_atual(),
-                'leads_id' => $id,
+                'user_id' => id_usuario_atual(),
+                'lead_id' => $id,
                 'status' => $status,
                 'msg' => $dados->msg,
                 'meio_contato' => $dados->meio_contato
@@ -37,9 +37,9 @@ class LeadsHistoricos extends Model
     {
         $this->newQuery()
             ->create([
-                'users_id' => id_usuario_atual(),
-                'leads_id' => $idLeads,
-                'pedidos_id' => $idPedido,
+                'user_id' => id_usuario_atual(),
+                'lead_id' => $idLeads,
+                'pedido_id' => $idPedido,
                 'status' => 0,
                 'msg' => 'Pedido Emitido'
             ]);
@@ -49,8 +49,8 @@ class LeadsHistoricos extends Model
     {
         $this->newQuery()
             ->create([
-                'users_id' => id_usuario_atual(),
-                'leads_id' => $idLeads,
+                'user_id' => id_usuario_atual(),
+                'lead_id' => $idLeads,
                 'status' => $status,
             ]);
     }
@@ -58,7 +58,7 @@ class LeadsHistoricos extends Model
     public function dados(int $id)
     {
         return $this->newQuery()
-            ->where('leads_id', $id)
+            ->where('lead_id', $id)
             ->orderByDesc('id')
             ->get();
     }
@@ -67,11 +67,11 @@ class LeadsHistoricos extends Model
     {
         $dados = $this->newQuery()
             ->orderBy('id')
-            ->get(['leads_id', 'msg', 'created_at']);
+            ->get(['lead_id', 'msg', 'created_at']);
 
         $items = [];
         foreach ($dados as $dado) {
-            $items[$dado->leads_id] = [
+            $items[$dado->lead_id] = [
                 'msg' => $dado->msg,
                 'data' => date('d/m/y H:i', strtotime($dado->created_at))
             ];
@@ -82,7 +82,7 @@ class LeadsHistoricos extends Model
     public function qtdAtendimentoTipo($idConsultor)
     {
         $dados = $this->newQuery()
-            ->where('users_id', $idConsultor)
+            ->where('user_id', $idConsultor)
             ->select('status', DB::raw('COUNT(*) as qtd'))
             ->groupBy('status')
             ->get();
@@ -97,7 +97,7 @@ class LeadsHistoricos extends Model
     public function qtdMeioContato($idConsultor)
     {
         $dados = $this->newQuery()
-            ->where('users_id', $idConsultor)
+            ->where('user_id', $idConsultor)
             ->select('meio_contato', DB::raw('COUNT(*) as qtd'))
             ->groupBy('meio_contato')
             ->get();

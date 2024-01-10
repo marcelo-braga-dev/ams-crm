@@ -40,7 +40,7 @@ class CalendarioController extends Controller
             $dia = date('d', strtotime($item->data));
 
             $avisosCalendario[$ano][intval($mes)][intval($dia)][] = [
-                'nome' => $nomes[$item->users_id],
+                'nome' => $nomes[$item->user_id],
                 'msg' => $item->msg
             ];
         }

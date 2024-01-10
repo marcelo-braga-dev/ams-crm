@@ -15,10 +15,13 @@ return new class extends Migration
     {
         Schema::create('leads_importar_historicos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->integer('setor');
             $table->integer('qtd')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->index('user_id');
         });
     }
 

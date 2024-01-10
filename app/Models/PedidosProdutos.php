@@ -10,7 +10,7 @@ class PedidosProdutos extends Model
     use HasFactory;
 
     protected $fillable = [
-        'pedidos_id',
+        'pedido_id',
         'fornecedores_id',
         'produtos_id',
         'nome',
@@ -28,7 +28,7 @@ class PedidosProdutos extends Model
             if ($item['qtd'] ?? null) {
                 $this->newQuery()
                     ->create([
-                        'pedidos_id' => $idPedido,
+                        'pedido_id' => $idPedido,
                         'fornecedores_id' => $item['fornecedor_id'],
                         'produtos_id' => $item['id'],
                         'nome' => $item['nome'],
@@ -47,7 +47,7 @@ class PedidosProdutos extends Model
     {
         $isAdmin = is_admin();
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->get()
             ->transform(function ($item) use ($isAdmin) {
                 return [
@@ -70,7 +70,7 @@ class PedidosProdutos extends Model
     public function getFaturamento($id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->get()
             ->transform(function ($item) {
                 return [

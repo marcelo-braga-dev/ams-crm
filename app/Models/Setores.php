@@ -12,7 +12,7 @@ class Setores extends Model
     protected $fillable = [
         'nome',
         'cor',
-        'franquia',
+        'franquia_id',
         'modelo'
     ];
 
@@ -32,7 +32,8 @@ class Setores extends Model
             ->create([
                 'nome' => $dados->nome,
                 'cor' => $dados->cor,
-                'franquia' => $dados->franquia
+                'franquia_id' => $dados->franquia,
+                'modelo' => $dados->modelo
             ]);
     }
 
@@ -40,7 +41,7 @@ class Setores extends Model
     {
         $item = $this->newQuery()
             ->find($id);
-
+        if (!$item) return [];
         return $this->dados($item, Franquias::getNomes());
     }
 
@@ -51,7 +52,7 @@ class Setores extends Model
             ->update([
                 'nome' => $request->nome,
                 'cor' => $request->cor,
-                'franquia' => $request->franquia
+                'franquia_id' => $request->franquia
             ]);
     }
 
@@ -108,8 +109,8 @@ class Setores extends Model
             'id' => $item->id,
             'nome' => $item->nome,
             'cor' => $item->cor,
-            'franquia' => $franquias[$item->franquia] ?? '',
-            'franquia_id' => $item->franquia
+            'franquia' => $franquias[$item->franquia_id] ?? '',
+            'franquia_id' => $item->franquia_id
         ];
     }
 }

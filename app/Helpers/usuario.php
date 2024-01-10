@@ -9,14 +9,14 @@ if (!function_exists('id_usuario_atual')) {
 if (!function_exists('setor_usuario_atual')) {
     function setor_usuario_atual()
     {
-        return auth()->user()->setor;
+        return auth()->user()->setor_id;
     }
 }
 
 if (!function_exists('franquia_usuario_atual')) {
     function franquia_usuario_atual()
     {
-        return auth()->user()->franquia;
+        return auth()->user()->franquia_id;
     }
 }
 

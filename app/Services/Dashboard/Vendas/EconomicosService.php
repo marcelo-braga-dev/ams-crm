@@ -20,7 +20,7 @@ class EconomicosService
             ->where('status', '!=', (new RevisarStatusPedido())->getStatus())
             ->where('status', '!=', (new CanceladoStatus())->getStatus())
             ->select(
-                'users_id',
+                'user_id',
                 'setor',
                 DB::raw('SUM(preco_venda) as vendas, SUM(preco_custo) as custo, MONTH(status_data) as mes'))
             ->groupBy(DB::raw('MONTH(status_data)'))
@@ -46,7 +46,7 @@ class EconomicosService
             $crescimentoTotal += $crescimento;
 
             $meses[$item->mes] = [
-                'nome' => $nomes[$item->users_id],
+                'nome' => $nomes[$item->user_id],
                 'vendas' => $item->vendas,
                 'vendas_money' => convert_float_money($item->vendas),
                 'custo' => $item->custo,

@@ -14,12 +14,15 @@ return new class extends Migration {
     {
         Schema::create('pedidos_arquivos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('pedidos_id');
+            $table->unsignedBigInteger('pedido_id');
             $table->string('chave');
             $table->string('valor')->nullable();
             $table->integer('indice')->default(1);
             $table->date('data')->nullable();
             $table->timestamps();
+
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->index('pedido_id');
         });
     }
 

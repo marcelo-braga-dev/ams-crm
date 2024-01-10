@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('pedidos_chamados_historicos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('pedidos_id');
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('pedido_id');
+            $table->unsignedBigInteger('user_id');
             $table->bigInteger('chamados_id');
             $table->string('status', 32);
             $table->string('msg', 1024)->nullable();
@@ -24,6 +24,11 @@ return new class extends Migration
             $table->string('anexo_2')->nullable();
             $table->integer('prazo')->default(0);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->index('user_id');
+            $table->index('pedido_id');
         });
     }
 

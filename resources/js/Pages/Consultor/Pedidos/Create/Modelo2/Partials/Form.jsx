@@ -4,7 +4,7 @@ import Pedidos from "@/Pages/Consultor/Pedidos/Create/Modelo2/Partials/Pedido";
 import {useForm} from "@inertiajs/react";
 import {useState} from "react";
 
-export default function Form({lead, url, urlProdutos, fornecedores, endereco, categorias, unidades, integradores, errors}) {
+export default function Form({lead, url, urlProdutos, fornecedores, endereco, categorias, unidades, errors}) {
     const {data, setData, post, progress, processing} = useForm({
         id_lead: lead.id,
         pessoa: lead.nome ? 'Pessoa Física' : 'Jurídica',
@@ -53,7 +53,7 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
                 <div className="row mb-5 pb-4 border-bottom">
                     <InfoCliente setData={setData} data={data}></InfoCliente>
                 </div>
-                <Pedidos fornecedores={fornecedores} integradores={integradores} setData={setData} data={data}
+                <Pedidos fornecedores={fornecedores} setData={setData} data={data}
                          categorias={categorias} unidades={unidades} urlProdutos={urlProdutos}/>
 
                 <div className="row text-center mb-3">

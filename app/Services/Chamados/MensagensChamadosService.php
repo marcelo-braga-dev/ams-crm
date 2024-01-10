@@ -21,7 +21,7 @@ class MensagensChamadosService
 
         return $dados->map(function ($dados) {
             return [
-                'nome' => $this->usuarios[$dados->users_id],
+                'nome' => $this->usuarios[$dados->user_id],
                 'status' => (new StatusChamados())->getNomeStatus($dados->status),
                 'msg' => $dados->msg,
                 'anexo_1' => $dados->anexo_1,

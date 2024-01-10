@@ -3,12 +3,8 @@
 namespace App\Http\Controllers\Consultor\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
-use App\Models\Clientes;
-use App\Models\Enderecos;
-use App\Models\Integradores;
 use App\Models\Leads;
 use App\Models\Pedidos;
-use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
 use App\Services\Fornecedores\FornecedoresService;
 use App\src\Pedidos\PedidoUpdateStatus;
@@ -30,23 +26,15 @@ class RevisarController extends Controller
         $preco = convert_float_money($pedido->preco_venda); //
 
         if ($pedido->modelo == 2) {
-            $cliente = (new Leads())->getDados($pedido->lead);
+            $cliente = (new Leads())->getDados($pedido->lead_id);
             return Inertia::render('Consultor/Pedidos/Revisar/Modelo2/Edit',
                 compact('pedido', 'cliente', 'preco', 'fornecedores', 'preco'));
         }
 
-        $cliente = $pedido->cliente ?
-            (new Clientes())->getCliente($pedido->cliente) :
-            (new PedidosClientes())->getCliente($pedido->id);
-
         $img = (new PedidosImagens())->getImagens($pedido->id);
 
-
-        $integradores = (new Integradores())->getUsuario();
-
-
         return Inertia::render('Consultor/Pedidos/Revisar/Modelo1/Edit',
-            compact('pedido', 'cliente', 'img', 'fornecedores', 'endereco', 'integradores'));
+            compact('pedido', 'img', 'fornecedores', 'endereco'));
     }
 
     public function update($id, Request $request)

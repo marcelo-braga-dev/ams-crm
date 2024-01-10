@@ -7,10 +7,9 @@ export default function Form({url, fornecedores, lead}) {
 
     const {data, setData, post, progress, processing} = useForm({
         documentos_check: 'cnh',
-        integrador: lead.id,
         pessoa: 'Pessoa Física',
 
-        id_lead: '',
+        id_lead: lead.id,
         nome: '',
         razao_social: '',
         nascimento: '',
@@ -21,10 +20,7 @@ export default function Form({url, fornecedores, lead}) {
         email: '',
         inscricao_estadual: '',
         preco: null,
-        produtos: [],
 
-        cidade: '',
-        estado: '',
         endereco: {
             cep: '',
             rua: '',

@@ -10,7 +10,7 @@ class Dev extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'status',
         'titulo',
         'descricao',
@@ -57,7 +57,7 @@ class Dev extends Model
 
         return [
             'id' => $dado->id,
-            'nome' => $nomes[$dado->users_id] ?? '',
+            'nome' => $nomes[$dado->user_id] ?? '',
             'status' => $dado->status,
             'titulo' => $dado->titulo,
             'descricao' => $dado->descricao,

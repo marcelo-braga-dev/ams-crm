@@ -15,11 +15,16 @@ return new class extends Migration
     {
         Schema::create('pedidos_acompanhamentos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
-            $table->bigInteger('pedidos_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('pedido_id');
             $table->string('msg', 512)->nullable();
             $table->integer('prazo')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->index('user_id');
+            $table->index('pedido_id');
         });
     }
 

@@ -10,7 +10,7 @@ class Comissoes extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'ano',
         'jan',
         'fev',
@@ -30,7 +30,7 @@ class Comissoes extends Model
     {
         $this->newQuery()
             ->create([
-                'users_id' => $id,
+                'user_id' => $id,
                 'margem' => $dados->margem,
                 'comissao' => $dados->comissao,
             ]);
@@ -39,7 +39,7 @@ class Comissoes extends Model
     public function comissao($id)
     {
         return $this->newQuery()
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->first();
     }
 
@@ -49,7 +49,7 @@ class Comissoes extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado['users_id']] = $dado;
+            $metas[$dado['user_id']] = $dado;
         }
         return $metas;
     }
@@ -58,7 +58,7 @@ class Comissoes extends Model
     {
         $this->newQuery()
             ->updateOrCreate(
-                ['users_id' => $id],
+                ['user_id' => $id],
                 [
                     'ano' => 2023,
                     'jan' => $dados->jan,

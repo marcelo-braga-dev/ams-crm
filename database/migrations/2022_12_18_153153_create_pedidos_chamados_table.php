@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pedidos_chamados', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('pedidos_id');
+            $table->unsignedBigInteger('pedido_id');
             $table->bigInteger('consultor');
             $table->bigInteger('admin');
             $table->bigInteger('cliente');
@@ -24,6 +24,9 @@ return new class extends Migration
             $table->string('titulo');
             $table->integer('prazo')->default(0);
             $table->timestamps();
+
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->index('pedido_id');
         });
     }
 

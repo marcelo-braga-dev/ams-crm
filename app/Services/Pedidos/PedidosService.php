@@ -43,7 +43,7 @@ class PedidosService
             $dados[] = [
                 'id' => $item->id,
                 'cliente' => $nomesClientes[$item->id] ?? '',
-                'consultor' => $nomes[$item->users_id] ?? '',
+                'consultor' => $nomes[$item->user_id] ?? '',
                 'integrador' => $nomesLeads[$item->integrador] ?? '',
                 'preco' => convert_float_money($item->preco_venda),
                 'status' => (new StatusPedidos())->getNomeStatus($item->status),

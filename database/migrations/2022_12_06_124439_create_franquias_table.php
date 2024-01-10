@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('franquias', function (Blueprint $table) {
-            $table->id();
-            $table->string('nome');
-            $table->string('cor', 16);
-            $table->timestamps();
-        });
+//        Schema::create('franquias', function (Blueprint $table) {
+//            $table->id();
+//            $table->string('nome');
+//            $table->string('cor', 16);
+//            $table->string('cor_texto', 16);
+//            $table->timestamps();
+//        });
     }
 
     /**
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('franquias');
+//        Schema::dropIfExists('franquias');
     }
 };

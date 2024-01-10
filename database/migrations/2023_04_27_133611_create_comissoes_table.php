@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('comissoes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->integer('ano');
             $table->float('jan', 12, 2)->default(0);
             $table->float('fev', 12, 2)->default(0);
@@ -30,6 +30,9 @@ return new class extends Migration
             $table->float('nov', 12, 2)->default(0);
             $table->float('dez', 12, 2)->default(0);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->index('user_id');
         });
     }
 

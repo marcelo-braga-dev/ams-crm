@@ -17,7 +17,7 @@ export default function InfoCliente({data, setData}) {
                 <div className="col">
                     <FormControl>
                         <RadioGroup
-                            row aria-labelledby="pessoa" defaultValue={data.pessoa}
+                            row aria-labelledby="pessoa" defaultValue="Pessoa Física"
                             name="row-radio-buttons-group" onChange={e => setData('pessoa', e.target.value)}>
                             <FormControlLabel value="Pessoa Física" control={<Radio/>} label="Pessoa Física"/>
                             <FormControlLabel value="Jurídica" control={<Radio/>} label="Jurídica"/>

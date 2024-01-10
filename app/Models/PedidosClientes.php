@@ -12,9 +12,8 @@ class PedidosClientes extends Model
 
     public $timestamps = false;
     protected $fillable = [
-        'pedidos_id',
-        'users_id',
-        'setor',
+        'pedido_id',
+        'user_id',
         'nome',
         'data_nascimento',
         'razao_social',
@@ -34,8 +33,8 @@ class PedidosClientes extends Model
         try {
             $this->newQuery()
                 ->create([
-                    'pedidos_id' => $id,
-                    'users_id' => id_usuario_atual(),
+                    'pedido_id' => $id,
+                    'user_id' => id_usuario_atual(),
                     'nome' => $dados->nome,
                     'razao_social' => $dados->razao_social,
                     'endereco' => $idEndereco,
@@ -46,27 +45,26 @@ class PedidosClientes extends Model
                     'cnpj' => $dados->cnpj,
                     'inscricao_estadual' => $dados->inscricao_estadual,
                     'data_nascimento' => $dados->nascimento,
-                    'setor' => setor_usuario_atual()
                 ]);
-        } catch (QueryException $exception) {
-            throw new \DomainException('Falha no cadastro do cliente.');
+        } catch (QueryException $exception) {print_pre($exception->getMessage());
+            throw new \DomainException('Falha no cadastro do clienteXxX.');
         }
     }
 
-    public function getCliente(int $id)
+    public function find(int $id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)->first();
+            ->where('pedido_id', $id)->first();
     }
 
     public function updateDados(int $id, $dados)
     {
-        $dadosAtualCliente = (new PedidosClientes())->getCliente($id);
+        $dadosAtualCliente = (new PedidosClientes())->find($id);
 
         (new Enderecos())->updateDados($dadosAtualCliente->endereco, $dados->get('endereco'));
 
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->update([
                 'nome' => $dados->nome,
                 'razao_social' => $dados->razao_social,
@@ -82,7 +80,7 @@ class PedidosClientes extends Model
 
     public function getNomeCliente($id)
     {
-        $cliente = $this->newQuery()->where('pedidos_id', $id)->first();
+        $cliente = $this->newQuery()->where('pedido_id', $id)->first();
         if ($cliente === null) return 'Não Encontrado';
         return $cliente->nome ?? $cliente->razao_social;
     }
@@ -90,12 +88,12 @@ class PedidosClientes extends Model
     public function getCardDados()
     {
         $items = $this->newQuery()->get([
-            'pedidos_id', 'nome', 'razao_social', 'telefone', 'email'
+            'pedido_id', 'nome', 'razao_social', 'telefone', 'email'
         ]);
 
         $dados = [];
         foreach ($items as $item) {
-            $dados[$item->pedidos_id] = [
+            $dados[$item->pedido_id] = [
                 'nome' => $item->nome ?? $item->razao_social,
                 'telefone' => $item->telefone,
                 'email' => $item->email
@@ -106,11 +104,11 @@ class PedidosClientes extends Model
 
     public function getNomes()
     {
-        $dados = $this->newQuery()->get(['pedidos_id', 'nome', 'razao_social']);
+        $dados = $this->newQuery()->get(['pedido_id', 'nome', 'razao_social']);
 
         $items = [];
         foreach ($dados as $dado) {
-            $items[$dado->pedidos_id] = $dado->nome ?? $dado->razao_social;
+            $items[$dado->pedido_id] = $dado->nome ?? $dado->razao_social;
         }
         return $items;
     }
@@ -118,7 +116,7 @@ class PedidosClientes extends Model
     public function getIdCliente($idPedido)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $idPedido)->first('id')->id;
+            ->where('pedido_id', $idPedido)->first('id')->id;
     }
 
     public function remover($id)

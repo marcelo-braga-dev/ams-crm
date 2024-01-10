@@ -2,16 +2,19 @@
 
 namespace App\Services\Usuarios;
 
+use App\Models\Franquias;
 use App\Models\Setores;
 use App\Models\User;
 
 class DadosUsuariosService
 {
     private array $setores;
+    private $franquias;
 
     public function __construct()
     {
         $this->setores = (new Setores())->getNomes();
+        $this->franquias = (new Franquias())->getNomes();
     }
 
     public function usuario($id): array
@@ -38,8 +41,9 @@ class DadosUsuariosService
             'email' => $dados->email,
             'status' => $dados->status,
             'tipo' => $dados->tipo,
-            'setor' => $dados->setor,
-            'setor_nome' => $this->setores[$dados->setor]['nome'] ?? null,
+            'setor_id' => $dados->setor_id,
+            'setor_nome' => $this->setores[$dados->setor_id]['nome'] ?? null,
+            'franquia' => $this->franquias[$dados->franquia_id],
             'foto' => $this->foto($dados->foto)
         ];
     }

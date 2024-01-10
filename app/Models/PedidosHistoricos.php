@@ -13,9 +13,9 @@ class PedidosHistoricos extends Model
     use HasFactory;
 
     protected $fillable = [
-        'pedidos_id',
-        'users_id',
-        'pedidos_id',
+        'pedido_id',
+        'user_id',
+        'pedido_id',
         'status',
         'prazo',
         'obs'
@@ -25,8 +25,8 @@ class PedidosHistoricos extends Model
     {
         $this->newQuery()
             ->create([
-                'pedidos_id' => $id,
-                'users_id' => auth()->id(),
+                'pedido_id' => $id,
+                'user_id' => auth()->id(),
                 'status' => $status,
                 'prazo' => $prazo,
                 'obs' => $obs,
@@ -36,7 +36,7 @@ class PedidosHistoricos extends Model
     function historico(int $id)
     {
         $historico = $this->newQuery()
-            ->where('pedidos_id', $id)->get();
+            ->where('pedido_id', $id)->get();
 
         $nomes = (new User())->getNomes();
 
@@ -45,7 +45,7 @@ class PedidosHistoricos extends Model
                 'id' => $dados->id,
                 'data' => date('d/m/y H:i', strtotime($dados->created_at)),
                 'status' => (new StatusPedidos())->getNomeStatus($dados->status),
-                'usuario' => $nomes[$dados->users_id] ?? '-',
+                'usuario' => $nomes[$dados->user_id] ?? '-',
                 'prazo' => $dados->prazo,
                 'obs' => $dados->obs
             ];
@@ -55,7 +55,7 @@ class PedidosHistoricos extends Model
     public function getMsg($idPedido, PedidosStatus $status)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $idPedido)
+            ->where('pedido_id', $idPedido)
             ->where('status', $status->getStatus())
             ->first()->obs ?? '';
     }
@@ -63,7 +63,7 @@ class PedidosHistoricos extends Model
     public function getPrazoEntreguaRetroceder($id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->where('status', (new FaturadoStatus())->getStatus())
             ->orderByDesc('id')
             ->first()
@@ -73,7 +73,7 @@ class PedidosHistoricos extends Model
     public function remover($id)
     {
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->delete();
     }
 }

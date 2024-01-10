@@ -29,7 +29,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                         <div className="col-1 px-1 mx-1 mr-2">
                             <PersonIcon sx={{fontSize: 22}}/>
                         </div>
-                        <div className="col-10 p-0 pt-1 text-truncate">
+                        <div className="col-10 p-1 pt-1 text-truncate">
                             <b>{dados.cliente.toUpperCase()}</b>
                         </div>
                     </div>
@@ -41,37 +41,59 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
 
             {/* Body */}
             <div className='row justify-content-between'>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td className="col-1 px-2">
+                            <div className=""><Money sx={{fontSize: 22}}/></div>
+                        </td>
+                        <td>
+                            R$ {dados.preco}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className="col-1 px-2">
+                            <PaymentIcon className='mr-2' sx={{fontSize: 20}}/>
+                        </td>
+                        <td>
+                            {dados.forma_pagamento.toUpperCase()}
+                        </td>
+                    </tr>
+                    {dados.fornecedor &&
+                        <tr>
+                            <td className="col-1 px-2">
+                                <TruckIcon className='mr-2' sx={{fontSize: 20}}/>
+                            </td>
+                            <td>
+                                {dados.fornecedor}
+                            </td>
+                        </tr>}
+                    <tr>
+                        <td className="col-1 px-2">
+
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
                 <div className='col'>
-                    {/*Preco*/}
-                    <div className="row">
-                        <div className="col-1 px-1 mx-1 mr-2"><Money sx={{fontSize: 22}}/></div>
-                        <div className="col-10 p-0 pt-1 text-truncate">R$ {dados.preco}</div>
-                    </div>
-                    {/*Forma Pagamento*/}
-                    <div className="row">
-                        <div className="col-1 px-1 mx-1 mr-2"><PaymentIcon className='mr-2' sx={{fontSize: 20}}/></div>
-                        <div className="col-10 p-0 ps-2 pt-1 text-truncate">{dados.forma_pagamento.toUpperCase()}</div>
-                    </div>
-                    {/*Fornecedor*/}
-                    {dados.fornecedor && <div className="row">
-                        <div className="col-1 px-1 mx-1 mr-2"><TruckIcon className='mr-2' sx={{fontSize: 20}}/></div>
-                        <div className="col-10 p-0 pt-1 text-truncate">{dados.fornecedor}</div>
-                    </div>}
                 </div>
                 {/* Btn Avanca Status */}
-                <div className='col-auto pt-4 text-right'>
+                <div className='col-auto pt-1 text-right'>
                     {btnAvancaStatus}
                 </div>
             </div>
 
             {/*Icons Buttons*/}
-            <div className="row pt-2">
+            <div className="row border pt-2">
                 <div className="col">
                     {/*<PinIcon dados={dados} />*/}
                     <TelefoneIcon dados={dados}/>
                     <EmailIcon dados={dados}/>
                 </div>
-                <div className="col text-right">
+                <div className="col-auto text-right">
                     <span className="text-sm text-muted">ID: #{dados.id}</span>
                 </div>
             </div>
@@ -91,7 +113,8 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                 {alerts}
             </div>
 
-            {/* Datas */}
+            {/* Datas */
+            }
             <div className='row border-top justify-content-between'>
                 <div className='col-auto'>
                     <CalendarMonthIcon sx={{fontSize: 16}} className='mr-1'></CalendarMonthIcon>

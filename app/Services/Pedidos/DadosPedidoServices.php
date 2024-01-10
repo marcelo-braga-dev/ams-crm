@@ -2,8 +2,6 @@
 
 namespace App\Services\Pedidos;
 
-use App\Models\Clientes;
-use App\Models\ClientesArquivos;
 use App\Models\Fornecedores;
 use App\Models\Leads;
 use App\Models\PedidosArquivos;
@@ -12,46 +10,41 @@ use App\Models\PedidosImagens;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\LeadsDadosService;
-use App\src\Pedidos\Arquivos\ChavesArquivosPedidos;
 use App\src\Pedidos\StatusPedidos;
-use App\src\Usuarios\Admins;
 use DateTime;
 
 class DadosPedidoServices
 {
-    private array $consultores;
+    private $consultores;
     private array $pedidoCliente;
-    private array $clientes;
-    private array $fornecedores;
-    private array $integradores;
+    private $fornecedores;
     private array $setores;
     private array $leads;
 
     public function __construct()
     {
-        $this->consultores = (new User())->getNomeConsultores();
+        $this->consultores = (new User())->getNomes();
         $this->pedidoCliente = (new PedidosClientes())->getCardDados();
-        $this->clientes = (new Clientes())->getCardDados();
-        $this->fornecedores = (new Fornecedores())->getCardDados();
-        $this->integradores = (new Leads())->getCardDados();
+        $this->fornecedores = (new Fornecedores())->getNomes();
         $this->setores = (new Setores())->getNomes();
         $this->leads = (new Leads())->getNomes();
     }
 
     public function dadosCard($pedido, $faturamento = null)
     {
-        $dadosCliente = (new ClienteDados())->dados($pedido, $this->leads, $this->clientes, $this->pedidoCliente);
+        if ($pedido->modelo === 1) $nomeCliente = $this->pedidoCliente[$pedido->id]['nome'] ?? '';
+        if ($pedido->modelo === 2) $nomeCliente = $this->leads[$pedido->lead_id] ?? '';
 
         if ($this->status($pedido->status) || $this->prazo($pedido))
             return [
                 'id' => $pedido->id,
                 'modelo' => $pedido->modelo,
-                'cliente' => $dadosCliente['nome'] ?? '',
-                'consultor' => $this->consultores[$pedido->users_id] ?? '',
+                'cliente' => $nomeCliente ?? '',
+                'consultor' => $this->consultores[$pedido->user_id] ?? '',
                 'preco' => convert_float_money($pedido->preco_venda),
-                'fornecedor' => $this->fornecedores[$pedido->fornecedor] ?? '',
-                'integrador' => $this->integradores[$pedido->integrador] ?? '',
-                'setor' => $this->setores[$pedido->setor] ?? '',
+                'fornecedor' => $this->fornecedores[$pedido->fornecedor_id] ?? '',
+                'integrador' => $this->leads[$pedido->lead_id] ?? '',
+                'setor' => $this->setores[$pedido->setor_id] ?? '',
                 'status' => $pedido->status,
                 'forma_pagamento' => $pedido->forma_pagamento,
                 'faturamento' => $faturamento,
@@ -77,15 +70,18 @@ class DadosPedidoServices
 
     public function dados($pedido): array
     {
-        $cliente = $pedido->lead ? (new Leads())->find($pedido->lead) : ($pedido->cliente ? (new Clientes())->find($pedido->cliente) : (new PedidosClientes())->getCliente($pedido->id));
-        $consultor = (new User)->get($pedido->users_id);
+        $consultor = (new User)->get($pedido->user_id);
         $fornecedor = (new Fornecedores())->find($pedido->fornecedor);
-        $integrador = $pedido->integrador ? (new LeadsDadosService())->lead($pedido->integrador) : '';
+        $integrador = $pedido->lead_id ? (new LeadsDadosService())->lead($pedido->lead_id) : '';
         $files = (new PedidosImagens())->getImagens($pedido->id);
-        $filesCliente = (new ClientesArquivos())->get($pedido->cliente);
-        $chavesArquivos = (new ChavesArquivosPedidos());
 
-        $dadosCliente = (new ClienteDados())->dados($pedido, $this->leads, $this->clientes, $this->pedidoCliente);
+        if ($pedido->modelo === 1) {
+            $cliente = (new PedidosClientes())->find($pedido->id);
+        }
+        if ($pedido->modelo === 2) {
+            $cliente = (new Leads())->find($pedido->lead_id);
+        }
+
         $isAdmin = is_admin();
         $precoCusto = $isAdmin
             ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
@@ -137,15 +133,15 @@ class DadosPedidoServices
                 'cnpj' => $integrador['cliente']['cnpj'] ?? ''
             ],
             'cliente' => [
-                'nome' => $dadosCliente['nome'] ?? '',
+                'nome' => $cliente->nome ?? '',
                 'endereco_id' => $cliente->endereco ?? '',
                 'endereco' => (($cliente->endereco ?? '') ? getEnderecoCompleto($cliente->endereco) : ''),
                 'nascimento' => ($cliente->data_nascimento ?? '') ? date('d/m/Y', strtotime($cliente->data_nascimento)) : null,
                 'email' => $cliente->email ?? '',
-                'telefone' => converterTelefone($cliente->telefone) ?? '',
+                'telefone' => converterTelefone($cliente->telefone ?? '') ?? '',
                 'rg' => $cliente->rg ?? '',
                 'cpf' => $cliente->cpf ?? '',
-                'cnpj' => converterCNPJ($cliente->cnpj) ?? '',
+                'cnpj' => converterCNPJ($cliente->cnpj ?? '') ?? '',
                 'inscricao_estadual' => $cliente->inscricao_estadual ?? '',
             ],
             'pedido_files' => [
@@ -159,10 +155,10 @@ class DadosPedidoServices
                 'planilha_pedido' => $files->url_planilha_pedido ?? null,
             ],
             'cliente_files' => [
-                'rg' => $files->url_rg ?? $filesCliente[$chavesArquivos->rg()] ?? (new PedidosArquivos())->getRG($pedido->id)[0]['url'] ?? null,
-                'cpf' => $files->url_cpf ?? $filesCliente[$chavesArquivos->cpf()] ?? (new PedidosArquivos())->getCPF($pedido->id)[0]['url'] ?? null,
-                'cnh' => $files->url_cnh ?? $filesCliente[$chavesArquivos->cnh()] ?? (new PedidosArquivos())->getCNH($pedido->id)[0]['url'] ?? null,
-                'cnpj' => $files->url_cnpj ?? $filesCliente[$chavesArquivos->cnpj()] ?? null,
+                'rg' => $files->url_rg ?? (new PedidosArquivos())->getRG($pedido->id)[0]['url'] ?? null,
+                'cpf' => $files->url_cpf ?? (new PedidosArquivos())->getCPF($pedido->id)[0]['url'] ?? null,
+                'cnh' => $files->url_cnh ?? (new PedidosArquivos())->getCNH($pedido->id)[0]['url'] ?? null,
+                'cnpj' => $files->url_cnpj ?? null,
                 'comprovante_residencia' => $files->url_comprovante_residencia ?? null,
             ]
         ];

@@ -14,13 +14,13 @@ return new class extends Migration {
     {
         Schema::create('leads', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('setor_id');
             $table->string('status', 32)->default('novo');
-            $table->integer('setor');
             $table->integer('importacao')->nullable();
             $table->string('nome');
             $table->string('atendente')->nullable();
-            $table->boolean('pessoa_fisica')->default(1);
+            $table->boolean('pessoa_juridica')->default(1);
             $table->string('cnpj')->nullable();
             $table->string('inscricao_estadual')->nullable();
             $table->string('razao_social')->nullable();
@@ -36,6 +36,9 @@ return new class extends Migration {
             $table->string('classificacao', 8)->nullable();
             $table->boolean('pedido_emitido')->default(0);
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('setor_id');
         });
     }
 

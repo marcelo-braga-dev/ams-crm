@@ -15,12 +15,15 @@ return new class extends Migration
     {
         Schema::create('calendarios', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('status', 32);
             $table->string('categoria', 32);
             $table->string('msg');
             $table->timestamp('data');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->index('user_id');
         });
     }
 

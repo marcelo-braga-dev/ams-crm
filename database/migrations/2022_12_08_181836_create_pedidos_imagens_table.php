@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('pedidos_imagens', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('pedidos_id');
+            $table->unsignedBigInteger('pedido_id');
             $table->string('url_orcamento')->nullable();
             $table->string('url_rg')->nullable();
             $table->string('url_cpf')->nullable();
@@ -30,6 +30,9 @@ return new class extends Migration
             $table->string('url_nota_fiscal')->nullable();
             $table->string('url_planilha_pedido')->nullable();
             $table->string('url_pagamento')->nullable();
+
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->index('pedido_id');
         });
     }
 

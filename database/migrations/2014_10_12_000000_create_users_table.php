@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('status', 32)->default((new AtivoStatusUsuario())->getStatus());
-            $table->integer('franquia');
-            $table->integer('setor');
-            $table->bigInteger('superior')->nullable();
+            $table->unsignedBigInteger('franquia_id');
+            $table->unsignedBigInteger('setor_id');
+            $table->unsignedBigInteger('superior_id')->nullable();
             $table->string('tipo', 32);
             $table->string('foto')->nullable();
             $table->timestamp('ultimo_login')->nullable();
@@ -29,6 +29,10 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->index('franquia_id');
+            $table->index('setor_id');
+            $table->index('superior_id');
         });
     }
 

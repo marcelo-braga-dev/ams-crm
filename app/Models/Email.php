@@ -10,7 +10,7 @@ class Email extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'email',
         'password',
         'count_inbox',
@@ -23,7 +23,7 @@ class Email extends Model
 
         $this->newQuery()
             ->updateOrCreate(
-                ['users_id' => $userId],
+                ['user_id' => $userId],
                 [
                     'email' => $email,
                     'password' => $senha,
@@ -35,14 +35,14 @@ class Email extends Model
     public function dadosUsuario(int $id)
     {
         return $this->newQuery()
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->first();
     }
 
     public function emailUsuario(int $id)
     {
         return $this->newQuery()
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->first()->email ?? null;
     }
 }

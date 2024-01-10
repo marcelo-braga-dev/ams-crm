@@ -58,7 +58,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                             <thead>
                             <tr>
                                 <th id="th-1">
-                                    <div style={{backgroundColor: coresAbas.reprovado, minWidth: 300}}
+                                    <div style={{backgroundColor: coresAbas.reprovado ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Reprovados</div>
                                         <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
@@ -67,7 +67,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-2">
-                                    <div style={{backgroundColor: coresAbas.encomenda}}
+                                    <div style={{backgroundColor: coresAbas.encomenda ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Encomenda</div>
                                         <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
@@ -76,7 +76,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-3">
-                                    <div style={{backgroundColor: coresAbas.conferencia}}
+                                    <div style={{backgroundColor: coresAbas.conferencia ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Conferência</div>
                                         <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
@@ -85,7 +85,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-4">
-                                    <div style={{backgroundColor: coresAbas.lancado}}
+                                    <div style={{backgroundColor: coresAbas.lancado ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Lançado</div>
                                         <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
@@ -112,7 +112,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-8">
-                                    <div style={{backgroundColor: coresAbas.entregue}}
+                                    <div style={{backgroundColor: coresAbas.entregue ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Entregue</div>
                                         <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
@@ -121,7 +121,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-9">
-                                    <div style={{backgroundColor: coresAbas.cancelados}}
+                                    <div style={{backgroundColor: coresAbas.cancelados ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-12'>Cancelados</div>
                                         <div className='col-12 text-end'>Qdt: {pedidos.cancelado.length}</div>

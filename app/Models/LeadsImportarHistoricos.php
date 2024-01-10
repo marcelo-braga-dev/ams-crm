@@ -10,7 +10,7 @@ class LeadsImportarHistoricos extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'setor',
         'qtd',
     ];
@@ -19,7 +19,7 @@ class LeadsImportarHistoricos extends Model
     {
         return $this->newQuery()
             ->create([
-                'users_id' => id_usuario_atual(),
+                'user_id' => id_usuario_atual(),
                 'setor' => $setor,
             ])->id;
     }
@@ -41,7 +41,7 @@ class LeadsImportarHistoricos extends Model
             ->get()
             ->transform(function ($item) use ($nomes, $setores) {
                 return [
-                    'nome' => $nomes[$item->users_id],
+                    'nome' => $nomes[$item->user_id],
                     'setor' => $setores[$item->setor] ?? '',
                     'qtd' => $item->qtd,
                     'data' => date('d/m/y H:i', strtotime($item->created_at))

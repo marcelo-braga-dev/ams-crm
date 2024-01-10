@@ -15,12 +15,17 @@ return new class extends Migration
     {
         Schema::create('pedidos_historicos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('pedidos_id');
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('pedido_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('status', 32);
             $table->integer('prazo');
             $table->string('obs')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->index('user_id');
+            $table->index('pedido_id');
         });
     }
 

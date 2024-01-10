@@ -13,7 +13,7 @@ class PedidosImagens extends Model
 
     public $timestamps = false;
     protected $fillable = [
-        'pedidos_id',
+        'pedido_id',
         'url_orcamento',
         'url_rg',
         'url_cpf',
@@ -43,7 +43,7 @@ class PedidosImagens extends Model
         try {
             $this->newQuery()
                 ->create([
-                    'pedidos_id' => $id,
+                    'pedido_id' => $id,
                     'url_orcamento' => $urlOrcamento,
                     'url_rg' => $urlRg,
                     'url_cpf' => $urlCpf,
@@ -60,7 +60,7 @@ class PedidosImagens extends Model
     public function getImagens(int $id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)->first();
+            ->where('pedido_id', $id)->first();
     }
 
     public function updateDados(int $id, $dados)
@@ -74,7 +74,7 @@ class PedidosImagens extends Model
         $urlCarta = (new Images())->armazenar($dados, 'file_carta_autorizacao', 'pedidos/' . $id);
 
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->update([
                 'url_orcamento' => $urlOrcamento,
                 'url_rg' => $urlRg,
@@ -92,14 +92,14 @@ class PedidosImagens extends Model
         $url2 = (new Images())->armazenar($dados, 'file_boleto_2', 'pedidos/' . $id);
 
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->updateOrCreate(
-                ['pedidos_id' => $id], ['url_boleto' => $url]
+                ['pedido_id' => $id], ['url_boleto' => $url]
             );
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->updateOrCreate(
-                ['pedidos_id' => $id], ['url_boleto_2' => $url2]
+                ['pedido_id' => $id], ['url_boleto_2' => $url2]
             );
     }
 
@@ -109,15 +109,15 @@ class PedidosImagens extends Model
         $url2 = (new Images())->armazenar($dados, 'file_recibo_2', 'pedidos/' . $id);
 
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->updateOrCreate(
-                ['pedidos_id' => $id], ['url_recibo_1' => $url1]
+                ['pedido_id' => $id], ['url_recibo_1' => $url1]
             );
 
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->updateOrCreate(
-                ['pedidos_id' => $id], ['url_recibo_2' => $url2]
+                ['pedido_id' => $id], ['url_recibo_2' => $url2]
             );
     }
 
@@ -126,9 +126,9 @@ class PedidosImagens extends Model
         $url = (new Images())->armazenar($dados, 'file_nota_fiscal', 'pedidos/' . $id);
 
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->updateOrCreate(
-                ['pedidos_id' => $id], ['url_nota_fiscal' => $url]
+                ['pedido_id' => $id], ['url_nota_fiscal' => $url]
             );
     }
 
@@ -137,18 +137,18 @@ class PedidosImagens extends Model
         $url = (new Images())->armazenar($dados, 'img_pedido', 'pedidos/' . $id);
 
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->updateOrCreate(
-                ['pedidos_id' => $id], ['url_planilha_pedido' => $url]
+                ['pedido_id' => $id], ['url_planilha_pedido' => $url]
             );
     }
 
     public function updateLinkPagamento($id, $request)
     {
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->updateOrCreate(
-                ['pedidos_id' => $id], ['url_pagamento' => $request->url_pagamento]
+                ['pedido_id' => $id], ['url_pagamento' => $request->url_pagamento]
             );
     }
 
@@ -156,7 +156,7 @@ class PedidosImagens extends Model
     {
         // Falta implementar remocao dos arquivos
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->delete();
     }
 
@@ -182,7 +182,7 @@ class PedidosImagens extends Model
         $url = (new Images())->armazenar($dados, $nameFile, 'pedidos/' . $id);
 
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->update([
                 $name => $url
             ]);

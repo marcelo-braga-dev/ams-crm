@@ -12,7 +12,7 @@ class PedidosArquivos extends Model
     use HasFactory;
 
     protected $fillable = [
-        'pedidos_id',
+        'pedido_id',
         'chave',
         'valor',
         'indice',
@@ -22,9 +22,9 @@ class PedidosArquivos extends Model
     public function insert($id, $chave, $valor, $indice = 1, $data = null): void
     {
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->updateOrCreate(
-                ['pedidos_id' => $id, 'chave' => $chave, 'indice' => $indice],
+                ['pedido_id' => $id, 'chave' => $chave, 'indice' => $indice],
                 ['valor' => $valor, 'data' => $data]
             );
     }
@@ -32,7 +32,7 @@ class PedidosArquivos extends Model
     public function getBoletos($id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->where('chave', (new ChavesArquivosPedidos())->boleto())
             ->orderBy('indice')
             ->get()
@@ -48,7 +48,7 @@ class PedidosArquivos extends Model
     public function getCheques($id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->where('chave', (new ChavesArquivosPedidos())->cheque())
             ->orderBy('indice')
             ->get()
@@ -64,7 +64,7 @@ class PedidosArquivos extends Model
     public function getPix($id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->where('chave', (new ChavesArquivosPedidos())->comprovantePix())
             ->orderBy('indice')
             ->get()
@@ -80,7 +80,7 @@ class PedidosArquivos extends Model
     public function getRG($id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->where('chave', (new ChavesArquivosPedidos())->rg())
             ->orderBy('indice')
             ->get()
@@ -96,7 +96,7 @@ class PedidosArquivos extends Model
     public function getCPF($id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->where('chave', (new ChavesArquivosPedidos())->cpf())
             ->orderBy('indice')
             ->get()
@@ -112,7 +112,7 @@ class PedidosArquivos extends Model
     public function getCNH($id)
     {
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->where('chave', (new ChavesArquivosPedidos())->cnh())
             ->orderBy('indice')
             ->get()

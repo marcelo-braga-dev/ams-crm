@@ -17,15 +17,9 @@ class ConfigCores extends Model
 
     public function getPedidos()
     {
-        $dados = $this->newQuery()
+        return $this->newQuery()
             ->where('categoria', 'pedidos')
-            ->get();
-
-        $cores = [];
-        foreach ($dados as $dado) {
-            $cores[$dado->chave] = $dado->valor;
-        }
-        return $cores;
+            ->pluck('valor', 'chave');
     }
 
     public function reprovado($valor)

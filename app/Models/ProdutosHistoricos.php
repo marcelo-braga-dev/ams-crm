@@ -15,7 +15,7 @@ class ProdutosHistoricos extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'produtos_id',
         'nome',
         'vendedor',
@@ -31,7 +31,7 @@ class ProdutosHistoricos extends Model
     {
         $this->newQuery()
             ->create([
-                'users_id' => id_usuario_atual(), // id consultor
+                'user_id' => id_usuario_atual(), // id consultor
                 'produtos_id' => $produto['id'],
                 'valor' => $valor,
                 'vendedor' => $vendedor,

@@ -12,7 +12,7 @@ class PedidosChamados extends Model
     use HasFactory;
 
     protected $fillable = [
-        'pedidos_id',
+        'pedido_id',
         'consultor',
         'admin',
         'cliente',
@@ -29,7 +29,7 @@ class PedidosChamados extends Model
 
         $dados = $this->newQuery()
             ->create([
-                'pedidos_id' => $idPedido,
+                'pedido_id' => $idPedido,
                 'consultor' => $idConsultor,
                 'admin' => auth()->id(),
                 'cliente' => $idCliente,
@@ -72,7 +72,7 @@ class PedidosChamados extends Model
     public function getChamadosPedido($id)
     {
         $items = $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->get();
 
         $chamados = [];
@@ -100,7 +100,7 @@ class PedidosChamados extends Model
     public function remover($id)
     {
         $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->delete();
     }
 }

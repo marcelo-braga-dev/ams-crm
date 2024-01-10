@@ -10,7 +10,7 @@ class Calendario extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'categoria',
         'status',
         'msg',
@@ -21,7 +21,7 @@ class Calendario extends Model
     {
         $this->newQuery()
             ->create([
-                'users_id' => $dados->usuario,
+                'user_id' => $dados->usuario,
                 'categoria' => 'geral',
                 'status' => 'novo',
                 'msg' => $dados->msg,

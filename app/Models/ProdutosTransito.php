@@ -12,7 +12,7 @@ class ProdutosTransito extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'produtos_id',
         'qtd',
     ];
@@ -20,7 +20,7 @@ class ProdutosTransito extends Model
     public function consultor($id, $idFornecedor)
     {
         $estoques = $this->newQuery()
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->get();
 
         $items = [];
@@ -42,14 +42,14 @@ class ProdutosTransito extends Model
         $produto = (new Produtos())->find($id);
 
         $valorAtual = $this->newQuery()
-            ->where('users_id', $dados->id_usuario)
+            ->where('user_id', $dados->id_usuario)
             ->where('produtos_id', $id)
             ->first()
             ->qtd ?? 0;
 
         $this->newQuery()
             ->updateOrCreate(
-                ['users_id' => $dados->id_usuario, 'produtos_id' => $id],
+                ['user_id' => $dados->id_usuario, 'produtos_id' => $id],
                 ['qtd' => $dados->qtd]
             );
 
@@ -60,7 +60,7 @@ class ProdutosTransito extends Model
     public function estoqueConsultor($id): array
     {
         $dados = $this->newQuery()
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->get();
 
         $res = [];
@@ -76,13 +76,13 @@ class ProdutosTransito extends Model
         foreach ($dados->produtos as $item) {
             if ($item['qtd'] ?? null) {
                 $estoque = $this->newQuery()
-                    ->where('users_id', id_usuario_atual())
+                    ->where('user_id', id_usuario_atual())
                     ->where('produtos_id', $item['id'])
                     ->first();
 
                 $this->newQuery()
                     ->updateOrCreate(
-                        ['users_id' => id_usuario_atual(), 'produtos_id' => $item['id']],
+                        ['user_id' => id_usuario_atual(), 'produtos_id' => $item['id']],
                         ['qtd' => ($estoque->qtd ?? 0) - $item['qtd']]
                     );
 

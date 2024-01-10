@@ -23,8 +23,8 @@ class HistoricoDadosService
         foreach ($items as $item) {
             $dados[] = [
                 'id' => $item['id'],
-                'id_pedido' => $item['pedidos_id'],
-                'nome' => $usuarios[$item['users_id']],
+                'id_pedido' => $item['pedido_id'],
+                'nome' => $usuarios[$item['user_id']],
                 'status' => $status[$item['status']] ?? 'Inderteminado',
                 'meio_contato' => $statusNomes[$item['meio_contato']] ?? '',
                 'msg' => $item->msg,

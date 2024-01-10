@@ -56,7 +56,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                             <thead>
                             <tr>
                                 <th id="th-1">
-                                    <div style={{backgroundColor: coresAbas.reprovado}}
+                                    <div style={{backgroundColor: coresAbas.reprovado ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Reprovados</div>
                                         <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
@@ -65,7 +65,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-2">
-                                    <div style={{backgroundColor: coresAbas.conferencia}}
+                                    <div style={{backgroundColor: coresAbas.conferencia ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Conferência</div>
                                         <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
@@ -74,7 +74,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-3">
-                                    <div style={{backgroundColor: coresAbas.lancado}}
+                                    <div style={{backgroundColor: coresAbas.lancado ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Lançado</div>
                                         <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
@@ -83,7 +83,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-4">
-                                    <div style={{backgroundColor: coresAbas.boleto}}
+                                    <div style={{backgroundColor: coresAbas.boleto ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Nota/Boleto</div>
                                         <div className='col-auto'>Qdt: {pedidos.nota.length}</div>
@@ -92,7 +92,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-5">
-                                    <div style={{backgroundColor: coresAbas.pagamento}}
+                                    <div style={{backgroundColor: coresAbas.pagamento ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Pagamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.pagamento.length}</div>
@@ -101,7 +101,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-6">
-                                    <div style={{backgroundColor: coresAbas.faturamento}}
+                                    <div style={{backgroundColor: coresAbas.faturamento ?? 'black'}}
                                          className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Faturamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.faturamento.length}</div>
@@ -110,7 +110,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-7">
-                                    <div style={{backgroundColor: coresAbas.faturado}}
+                                    <div style={{backgroundColor: coresAbas.faturado ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Faturado</div>
                                         <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
@@ -119,7 +119,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-8">
-                                    <div style={{backgroundColor: coresAbas.acompanhamento}}
+                                    <div style={{backgroundColor: coresAbas.acompanhamento ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Acompanhamento</div>
                                         <div className='col-auto'>Qdt: {pedidos.acompanhamento.length}</div>
@@ -128,7 +128,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-9">
-                                    <div style={{backgroundColor: coresAbas.entregue}}
+                                    <div style={{backgroundColor: coresAbas.entregue ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Entregue</div>
                                         <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
@@ -137,7 +137,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                     </div>
                                 </th>
                                 <th id="th-10">
-                                    <div style={{backgroundColor: coresAbas.cancelados}}
+                                    <div style={{backgroundColor: coresAbas.cancelados ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-12'>Cancelados</div>
                                         <div className='col-12 text-end'>Qdt: {pedidos.cancelado.length}</div>

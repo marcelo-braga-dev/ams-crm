@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('chat_internos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->bigInteger('destinatario');
             $table->string('status', 32);
             $table->boolean('status_chat')->default(1);
@@ -23,6 +23,9 @@ return new class extends Migration {
             $table->string('categoria', 16);
             $table->string('token', 32)->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->index('user_id');
         });
     }
 

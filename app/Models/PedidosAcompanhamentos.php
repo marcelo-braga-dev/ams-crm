@@ -10,8 +10,8 @@ class PedidosAcompanhamentos extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
-        'pedidos_id',
+        'user_id',
+        'pedido_id',
         'msg',
         'prazo',
     ];
@@ -21,11 +21,11 @@ class PedidosAcompanhamentos extends Model
         $nomes = (new User())->getNomes();
 
         return $this->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->get()
             ->transform(function ($dados) use ($nomes) {
                 return [
-                    'nome' => $nomes[$dados->users_id] ?? '',
+                    'nome' => $nomes[$dados->user_id] ?? '',
                     'msg' => $dados->msg,
                     'prazo' => $dados->prazo,
                 ];
@@ -36,8 +36,8 @@ class PedidosAcompanhamentos extends Model
     {
         $this->newQuery()
             ->create([
-                'users_id' => id_usuario_atual(),
-                'pedidos_id' => $idPedido,
+                'user_id' => id_usuario_atual(),
+                'pedido_id' => $idPedido,
                 'msg' => $msg
             ]);
     }

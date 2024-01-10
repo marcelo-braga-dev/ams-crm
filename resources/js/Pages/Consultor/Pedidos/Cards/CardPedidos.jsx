@@ -22,49 +22,43 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
         <div className="pesquisar-card shadow bg-white m-2 py-2 px-3 rounded"
              style={{width: 300, borderLeft: '3px solid ' + border}}>
 
-            {/* Nome e MenuMore */}
-            <div className='row'>
-                <div className='col-10'>
-                    <div className="row">
-                        <div className="col-1 px-1 mx-1 mr-2">
-                            <PersonIcon sx={{fontSize: 22}}/>
-                        </div>
-                        <div className="col-10 p-0 pt-1 text-truncate">
-                            <b>{dados.cliente.toUpperCase()}</b>
-                        </div>
-                    </div>
-                </div>
-                <div className='col-2 text-right'>
-                    {menuMore}
-                </div>
-            </div>
-
             {/* Body */}
             <div className='row justify-content-between'>
-                <div className='col'>
-                    {/*Preco*/}
-                    <div className="row">
-                        <div className="col-1 px-1 mx-1 mr-2"><Money sx={{fontSize: 22}}/></div>
-                        <div className="col-10 p-0 pt-1 text-truncate">R$ {dados.preco}</div>
-                    </div>
-                    {/*Forma Pagamento*/}
-                    <div className="row">
-                        <div className="col-1 px-1 mx-1 mr-2"><PaymentIcon className='mr-2' sx={{fontSize: 20}}/></div>
-                        <div className="col-10 p-0 ps-2 pt-1 text-truncate">{dados.forma_pagamento.toUpperCase()}</div>
-                    </div>
-                    {/*Fornecedor*/}
-                    <div className="row">
-                        <div className="col-1 px-1 mx-1 mr-2"><TruckIcon className='mr-2' sx={{fontSize: 20}}/></div>
-                        <div className="col-10 p-0 pt-1 text-truncate">{dados.fornecedor}</div>
-                    </div>
-                    {/*Integrador*/}
-                    {dados.integrador && <div className="row">
-                        <div className="col-1 px-1 mx-1 mr-2"><HandymanIcon className='mr-2' sx={{fontSize: 20}}/></div>
-                        <div className="col-10 p-0 pt-1 text-truncate">{dados.integrador.toUpperCase()}</div>
-                    </div>}
-                </div>
-                {/* Btn Avanca Status */}
-                <div className='col-auto pt-4 text-right'>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td className="col-1 px-2"><PersonIcon sx={{fontSize: 22}}/></td>
+                        <td><b>{dados.cliente.toUpperCase()}</b></td>
+                        <td className="col-1 px-0">{menuMore}</td>
+                    </tr>
+                    <tr>
+                        <td className="col-1 px-2"><Money sx={{fontSize: 22}}/></td>
+                        <td>R$ {dados.preco}</td>
+                    </tr>
+                    <tr>
+                        <td className="col-1 px-2"><PaymentIcon className='mr-2' sx={{fontSize: 20}}/></td>
+                        <td>{dados.forma_pagamento.toUpperCase()}</td>
+                    </tr>
+                    <tr>
+                        <td className="col-1 px-2"><TruckIcon className='mr-2' sx={{fontSize: 20}}/></td>
+                        <td>{dados.fornecedor}</td>
+                    </tr>
+                    <tr>
+                        <td className="col-1 px-2"><HandymanIcon className='mr-2' sx={{fontSize: 20}}/></td>
+                        <td>{dados.integrador.toUpperCase()}</td>
+                    </tr>
+                    <tr>
+                        <td className="col-1 px-2"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td className="col-1 px-2"></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div className='col'></div>
+                <div className='col-auto pt-1 text-right'>
                     {btnAvancaStatus}
                 </div>
             </div>

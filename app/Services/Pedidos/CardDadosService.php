@@ -56,7 +56,7 @@ class CardDadosService
         return $cards;
     }
 
-    private function getDadosCard($dados, $objeto, $status): array
+    private function getDadosCard($dados, DadosPedidoServices $objeto, $status): array
     {
         $items = $dados->where('status', $status);
         $faturamento = convert_float_money($items->sum('preco_venda'));

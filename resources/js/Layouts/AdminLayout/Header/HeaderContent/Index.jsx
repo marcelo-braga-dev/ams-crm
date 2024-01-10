@@ -17,8 +17,8 @@ import {isAdmin} from "@/Helpers/helper";
 const HeaderContent = ({titlePage, voltar}) => {
     const matchesXs = useMediaQuery((theme) => theme.breakpoints.down('md'));
     const franquias = usePage().props.franquias
-    const franquia_selecionada = parseInt(usePage().props.franquia_selecionada)
-    const franquia = franquias[franquias.findIndex((item) => item.id === franquia_selecionada)]
+    const franquia_selecionada = usePage().props.franquia_selecionada
+    const franquia = franquias[franquias.findIndex((item) => item.id === parseInt(franquia_selecionada))]
 
     const selecionaFranquia = (id) => {
         router.post(route('admin.franquias.seleciona-franquia', {id: id}))
@@ -35,11 +35,11 @@ const HeaderContent = ({titlePage, voltar}) => {
             </div>
 
             {isAdmin() && <div className="row w-100 text-truncate">
-                <div className="col-6 text-truncate pt-1">
+                <div className="col-8 text-truncate pt-2">
                     <TextField label="Franquia" select fullWidth size="small" className="bg-white rounded"
-                               defaultValue={franquia_selecionada}
+                               defaultValue={franquia_selecionada ?? ''}
                                onChange={e => selecionaFranquia(e.target.value)}>
-                        <MenuItem value={undefined}>Todas</MenuItem>
+                        <MenuItem value="">Todas</MenuItem>
                         {franquias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                     </TextField>
                 </div>

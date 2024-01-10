@@ -16,10 +16,13 @@ return new class extends Migration
         Schema::create('leads_historicos_comentarios', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('leads_historicos_id');
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('msg')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->index('user_id');
         });
     }
 

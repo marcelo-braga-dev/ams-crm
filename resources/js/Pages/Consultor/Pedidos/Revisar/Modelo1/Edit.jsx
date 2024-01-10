@@ -10,7 +10,7 @@ import Anexos from "./Partials/Anexos";
 import Pedidos from "./Partials/Pedido";
 import {Alert} from "@mui/material";
 
-export default function Edit({pedido, cliente, img, fornecedores, endereco, integradores}) {
+export default function Edit({pedido, cliente, img, fornecedores, endereco}) {
     const {errors} = usePage().props;
 
     const {data, setData, progress, processing} = useForm({
@@ -71,7 +71,7 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco, inte
                     <Anexos setData={setData} data={data} img={img}/>
 
                     <Pedidos fornecedores={fornecedores}
-                             setData={setData} data={data} img={img} integradores={integradores}/>
+                             setData={setData} data={data} img={img}/>
 
                     <div className="row text-center mb-3">
                         <div className="col">

@@ -30,4 +30,7 @@ Route::middleware(['auth', 'auth.consultores'])
 
         Route::post('atualizar-status', [LeadsController::class, 'atualizarStatus'])
             ->name('atualizar-status');
+
+        Route::get('get-leads', [LeadsController::class, 'getLeads'])
+            ->name('get-leads');
     });

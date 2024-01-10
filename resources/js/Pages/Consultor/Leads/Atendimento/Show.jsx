@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import LeadsDados from "@/Components/Leads/LeadsDados";
-import {useForm} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
@@ -12,6 +12,12 @@ export default function Show({dados, status, contatos, historicos}) {
         classificacao: dados.cliente.classificacao,
         idLead: dados.id
     });
+
+    function avancaStatus(id) {
+        router.post(route('consultor.leads.atendimento.update', id), {
+            '_method': 'PUT'
+        })
+    }
 
     function onSubmit(e) {
         e.preventDefault();
@@ -80,8 +86,8 @@ export default function Show({dados, status, contatos, historicos}) {
                         <div className="card-body">
                             <div className="row">
                                 <div className="col-auto">
-                                    <a href={route('consultor.integradores.create', {idLeads: dados.id})}
-                                       className="btn btn-success">Ativar Lead</a>
+                                    <button onClick={() => avancaStatus(dados.id)}
+                                       className="btn btn-success">Ativar Lead</button>
                                 </div>
                                 <div className="col-auto">
                                     <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"

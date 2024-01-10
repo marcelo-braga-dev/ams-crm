@@ -52,15 +52,18 @@ class LeadsDadosService
         return [
             'id' => $item->id,
             'consultor' => [
-                'nome' => $this->consultores[$item->users_id] ?? '',
-                'id' => $item->users_id
+                'nome' => $this->consultores[$item->user_id] ?? '',
+                'id' => $item->user_id
             ],
             'cliente' => [
                 'nome' => $item->nome,
                 'razao_social' => $item->razao_social,
                 'cnpj' => converterCNPJ($item->cnpj),
+                'rg' => $item->rg,
+                'cpf' => $item->cpf,
                 'cidade' => $item->cidade,
                 'estado' => $item->estado,
+                'endereco' => $item->endereco ? getEnderecoCompleto($item->endereco) : '',
                 'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
                 'classificacao' => $item->classificacao
             ],

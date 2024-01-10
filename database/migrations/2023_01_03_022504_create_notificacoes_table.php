@@ -15,13 +15,16 @@ return new class extends Migration
     {
         Schema::create('notificacoes', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('categoria', 32);
             $table->boolean('notificar')->default(1);
             $table->string('titulo');
             $table->string('msg')->nullable();
             $table->string('url')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->index('user_id');
         });
     }
 

@@ -18,7 +18,7 @@ class MensagensChatInternoService
         $users = [];
         $qtnNova = [];
         foreach ($mensagens as $mensagem) {
-            $id = $mensagem->destinatario === $usuarioAtual ? $mensagem->users_id : $mensagem->destinatario;
+            $id = $mensagem->destinatario === $usuarioAtual ? $mensagem->user_id : $mensagem->destinatario;
 
             if ($mensagem->destinatario === $usuarioAtual &&
                 $mensagem->status === 'novo') $qtnNova[$id][] = 'x';
@@ -74,14 +74,14 @@ class MensagensChatInternoService
                 'chat_destinatario' => $destinatario,
                 'id_destinatario' => $mensagem->destinatario,
                 'nome_destinatario' => $usuarios[$mensagem->destinatario],
-                'id_usuario' => $mensagem->users_id,
-                'nome_usuario' => $usuarios[$mensagem->users_id],
+                'id_usuario' => $mensagem->user_id,
+                'nome_usuario' => $usuarios[$mensagem->user_id],
                 'status' => $mensagem->status,
                 'mensagem' => $mensagem->mensagem,
                 'is_resposta' => id_usuario_atual() == $mensagem->destinatario ? 1 : 0,
                 'data' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
                 'tipo' => $mensagem->tipo,
-                'foto' => $fotos[$mensagem->users_id],
+                'foto' => $fotos[$mensagem->user_id],
                 'categoria' => $categoria,
                 'periodo_data' => date('d/m/Y') == $periodoMostrar ? 'Hoje' : $periodoMostrar
             ];

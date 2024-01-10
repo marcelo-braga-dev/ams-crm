@@ -13,7 +13,7 @@ class ChatInterno extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'destinatario',
         'status',
         'mensagem',
@@ -27,7 +27,7 @@ class ChatInterno extends Model
     {
         $this->newQuery()
             ->create([
-                'users_id' => id_usuario_atual(),
+                'user_id' => id_usuario_atual(),
                 'destinatario' => $destinatario,
                 'mensagem' => $msg,
                 'status' => (new NovoStatusChatInterno())->getStatus(),
@@ -43,19 +43,19 @@ class ChatInterno extends Model
 
         $this->newQuery()
             ->where([
-                ['users_id', $destinatarios], ['destinatario', $usuario], ['categoria', (new Chat())->categoria()]
+                ['user_id', $destinatarios], ['destinatario', $usuario], ['categoria', (new Chat())->categoria()]
             ])->update([
                 'status' => 'lido'
             ]);
 
         return $this->newQuery()
             ->where([
-                ['users_id', $usuario], ['destinatario', $destinatarios]
+                ['user_id', $usuario], ['destinatario', $destinatarios]
             ])
             ->where('status_chat', 1)
             ->where('categoria', (new Chat())->categoria())
             ->orWhere([
-                ['users_id', $destinatarios],
+                ['user_id', $destinatarios],
                 ['destinatario', $usuario],
                 ['status_chat', 1],
                 ['categoria', (new Chat())->categoria()]
@@ -67,7 +67,7 @@ class ChatInterno extends Model
         $usuario = id_usuario_atual();
 
         return $this->newQuery()
-            ->where('users_id', $usuario)
+            ->where('user_id', $usuario)
             ->where('status_chat', 1)
             ->where('categoria', (new Chat())->categoria())
             ->orWhere([['destinatario', $usuario], ['status_chat', 1], ['categoria', (new Chat())->categoria()]])
@@ -86,11 +86,11 @@ class ChatInterno extends Model
     {
         $this->newQuery()
             ->where([
-                ['users_id', id_usuario_atual()], ['destinatario', $idDestinatario]
+                ['user_id', id_usuario_atual()], ['destinatario', $idDestinatario]
             ])
             ->where('status_chat', 1)
             ->orWhere([
-                ['users_id', $idDestinatario], ['destinatario', id_usuario_atual()], ['status_chat', 1]
+                ['user_id', $idDestinatario], ['destinatario', id_usuario_atual()], ['status_chat', 1]
             ])->update([
                 'status_chat' => 0
             ]);

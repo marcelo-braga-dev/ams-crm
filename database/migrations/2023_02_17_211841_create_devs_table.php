@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('devs', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('setor_id')->nullable();
             $table->string('status', 32);
             $table->string('area', 32);
-            $table->integer('setor');
             $table->string('prioridade', 32);
             $table->string('titulo');
             $table->string('descricao')->nullable();
@@ -30,6 +30,11 @@ return new class extends Migration
             $table->float('valor_final')->nullable();
             $table->string('status_pagamento', 16)->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('setor_id')->references('id')->on('setores');
+            $table->index('user_id');
+            $table->index('setor_id');
         });
     }
 

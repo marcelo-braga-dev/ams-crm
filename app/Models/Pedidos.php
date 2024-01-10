@@ -18,13 +18,14 @@ class Pedidos extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
-        'cliente',
+        'user_id',
+        'setor_id',
+        'franquia_id',
+        'fornecedor_id',
+        'lead_id',
         'superior_id',
-        'franquia',
         'status',
         'status_data',
-        'setor',
         'prazo',
         'sac',
         'pin',
@@ -32,35 +33,31 @@ class Pedidos extends Model
         'preco_custo',
         'forma_pagamento',
         'info_pedido',
-        'fornecedor',
-        'integrador',
         'situacao',
         'obs',
-        'lead',
-        'modelo'
+        'modelo',
     ];
 
-    function create($dados, $idLead = null, $leadUser = null)
+    function create($dados, $leadUser = null)
     {
         $status = (new ConferenciaStatusPedido())->getStatus();
         $prazo = (new ConferenciaStatusPedido())->getPrazo();
         $isSupervisor = funcao_usuario_atual() == (new Supervisores())->getFuncao();
+
         try {
             $pedido = $this->newQuery()
                 ->create([
-                    'users_id' => $isSupervisor ? $leadUser : id_usuario_atual(),
-                    'cliente' => $idLead,
-                    'franquia' => franquia_usuario_atual(),
+                    'user_id' => $isSupervisor ? $leadUser : id_usuario_atual(),
+                    'franquia_id' => franquia_usuario_atual(),
                     'superior_id' => $isSupervisor ? id_usuario_atual() : null,
-                    'lead' => $idLead,
-                    'setor' => setor_usuario_atual(),
+                    'lead_id' => $dados->id_lead,
+                    'setor_id' => setor_usuario_atual(),
                     'status' => $status,
                     'status_data' => now(),
                     'prazo' => $prazo,
                     'preco_venda' => convert_money_float($dados->preco),
                     'forma_pagamento' => $dados->forma_pagamento,
-                    'fornecedor' => $dados->fornecedor,
-                    'integrador' => $dados->integrador,
+                    'fornecedor_id' => $dados->fornecedor,
                     'info_pedido' => $dados->obs,
                     'modelo' => modelo_usuario()
                 ]);
@@ -68,10 +65,9 @@ class Pedidos extends Model
             print_pre($exception->getMessage());
             throw new \DomainException('Falha no cadastro do pedido.');
         }
-        $consultor = $dados->integrador ?? $idLead;
 
         (new PedidosHistoricos())->create($pedido->id, $status, $prazo, null);
-        (new LeadsHistoricos())->createPedido($consultor, $pedido->id);
+        (new LeadsHistoricos())->createPedido($dados->id_lead, $pedido->id);
 
         return $pedido->id;
     }
@@ -80,8 +76,8 @@ class Pedidos extends Model
     {
         $query = $this->newQuery();
 
-        if ($setor) $query->where('setor', $setor);
-        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor());
+        if ($setor) $query->where('setor_id', $setor);
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor());
 
         return $query->orderByDesc('id')->get();
     }
@@ -89,7 +85,7 @@ class Pedidos extends Model
     public function pedidosUsuario()
     {
         return $this->newQuery()
-            ->where('users_id', id_usuario_atual())
+            ->where('user_id', id_usuario_atual())
             ->orderByDesc('id')
             ->get();
     }
@@ -126,8 +122,7 @@ class Pedidos extends Model
                 'prazo' => $prazo,
                 'preco_venda' => convert_money_float($dados->preco),
                 'forma_pagamento' => $dados->forma_pagamento,
-                'fornecedor' => $dados->fornecedor,
-                //'integrador' => $dados->integrador,
+                'fornecedor_id' => $dados->fornecedor,
                 'info_pedido' => $dados->obs
             ]);
     }
@@ -151,7 +146,7 @@ class Pedidos extends Model
     public function getPedidosUsuario(int $id)
     {
         return $this->newQuery()
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->get();
     }
 
@@ -175,7 +170,7 @@ class Pedidos extends Model
 
     public function getIdConsultor($id)
     {
-        return $this->newQuery()->find($id)->users_id;
+        return $this->newQuery()->find($id)->user_id;
     }
 
     public function remove($id)
@@ -185,7 +180,7 @@ class Pedidos extends Model
             $pedido = $this->newQuery()->find($id);
             $pedido->delete();
 
-            $cliente = (new PedidosClientes())->getCliente($pedido->id);
+            $cliente = (new PedidosClientes())->find($pedido->id);
 
             (new PedidosClientes())->remover($cliente->id ?? null);
             (new Enderecos())->remover($cliente->endereco ?? null);
@@ -207,7 +202,7 @@ class Pedidos extends Model
     public function restaurar($id)
     {
         $dados = (new PedidosHistoricos())->newQuery()
-            ->where('pedidos_id', $id)
+            ->where('pedido_id', $id)
             ->orderByDesc('id')
             ->get()[1];
 
@@ -218,11 +213,11 @@ class Pedidos extends Model
     {
         $query = $this->newQuery();
 
-        if ($idUsuario) $query->where('users_id', $idUsuario);
-        if (franquia_selecionada() && funcao_usuario_atual() === (new Admins)->getFuncao()) $query->where('franquia', franquia_selecionada());
-        if ($setorAtual) $query->where('setor', $setorAtual);
-        if ($fornecedorAtual) $query->where('fornecedor', $fornecedorAtual);
-        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor(true));
+        if ($idUsuario) $query->where('user_id', $idUsuario);
+        if (franquia_selecionada() && funcao_usuario_atual() === (new Admins)->getFuncao()) $query->where('franquia_id', franquia_selecionada());
+        if ($setorAtual) $query->where('setor_id', $setorAtual);
+        if ($fornecedorAtual) $query->where('fornecedor_id', $fornecedorAtual);
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
 
         return $query->get();
     }
@@ -231,8 +226,8 @@ class Pedidos extends Model
     {
         $query = $this->newQuery();
 
-        if ($setor) $query->where('setor', $setor);
-        if (is_supervisor()) $query->whereIn('users_id', (new User())->getIdsConsultoresSupervisor());
+        if ($setor) $query->where('setor_id', $setor);
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor());
 
         $nomes = (new User())->getNomes();
         $clientes = (new PedidosClientes())->getCardDados();
@@ -247,11 +242,11 @@ class Pedidos extends Model
                 return [
                     'id' => $item->id,
                     'status' => $status[$item->status] ?? '-',
-                    'cliente' => ($clientes[$item->id]['nome'] ?? null) ?? ($leads[$item->cliente] ?? null),
-                    'consultor' => $nomes[$item->users_id] ?? '-',
-                    'integrador' => $integradores[$item->integrador] ?? '-',
+                    'cliente' => ($clientes[$item->id]['nome'] ?? null) ?? ($leads[$item->cliente_id] ?? null),
+                    'consultor' => $nomes[$item->user_id] ?? '-',
+                    'integrador' => $integradores[$item->lead_id] ?? '-',
                     'preco' => convert_float_money($item->preco_venda),
-                    'setor' => $setorNomes[$item->setor] ?? '',
+                    'setor' => $setorNomes[$item->setor_id] ?? '',
                     'data' => date('d/m/y H:i', strtotime($item->status_data)),
                 ];
             });

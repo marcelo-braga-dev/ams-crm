@@ -17,10 +17,7 @@ class LeadsController extends Controller
 {
     public function index()
     {
-        $leads = (new CardsLeadsService())->getConsultor(id_usuario_atual());
-
-        return Inertia::render('Consultor/Leads/Index',
-            compact('leads'));
+        return Inertia::render('Consultor/Leads/Index');
     }
 
     public function create()
@@ -30,16 +27,8 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
-        $count = false;
+        (new Leads())->create($request, setor_usuario_atual(), id_usuario_atual());
 
-        foreach ($request->all() as $item) {
-            try {
-                $count = (new Leads())->create($item, setor_usuario_atual(), id_usuario_atual());
-            } catch (\DomainException) {
-                modalErro('Alguns LEADS não cadastrados');
-            }
-        }
-        if (!$count) return redirect()->back();
         return redirect()->route('consultor.leads.main.index');
     }
 
@@ -83,5 +72,11 @@ class LeadsController extends Controller
             modalSucesso('Status atualizado!');
             return redirect()->back();
         }
+    }
+
+    public function getLeads()
+    {
+        $leads = (new CardsLeadsService())->getConsultor(id_usuario_atual());
+        return response()->json($leads);
     }
 }

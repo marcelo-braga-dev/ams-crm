@@ -15,9 +15,15 @@ class UpdateStatusLeads
     {
         (new NovoStatusLeads())->updateStatus($id);
     }
+
     public function setAtendimento($id)
     {
         (new AtendimentoStatusLeads())->updateStatus($id);
+    }
+
+    public function setAtivo($id)
+    {
+        (new AtivoStatusLeads())->updateStatus($id);
     }
 
     public function setFinalizado($id)

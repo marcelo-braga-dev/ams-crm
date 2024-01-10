@@ -15,13 +15,20 @@ return new class extends Migration
     {
         Schema::create('leads_historicos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('users_id');
-            $table->bigInteger('leads_id');
-            $table->bigInteger('pedidos_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('lead_id');
+            $table->unsignedBigInteger('pedido_id')->nullable();
             $table->string('status', 32);
             $table->string('meio_contato', 32)->nullable();
             $table->string('msg')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('pedido_id')->references('id')->on('pedidos');
+            $table->foreign('lead_id')->references('id')->on('leads');
+            $table->index('user_id');
+            $table->index('pedido_id');
+            $table->index('lead_id');
         });
     }
 

@@ -11,7 +11,7 @@ class MetasVendas extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'ano',
         'jan',
         'fev',
@@ -31,7 +31,7 @@ class MetasVendas extends Model
     {
         $this->newQuery()
             ->updateOrCreate(
-                ['users_id' => $id],
+                ['user_id' => $id],
                 [
                     'ano' => 2023,
                     'jan' => convert_money_float($dados->jan),
@@ -56,7 +56,7 @@ class MetasVendas extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado->users_id] =
+            $metas[$dado->user_id] =
                 $dado->jan + $dado->fev + $dado->mar + $dado->abr + $dado->mai + $dado->jun +
                 $dado->jul + $dado->ago + $dado->set + $dado->out + $dado->nov + $dado->dez;
         }
@@ -69,7 +69,7 @@ class MetasVendas extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado['users_id']] = $dado;
+            $metas[$dado['user_id']] = $dado;
         }
         return $metas;
     }
@@ -77,7 +77,7 @@ class MetasVendas extends Model
     public function metasConsultoresPeriodo()
     {
         $dados = $this->newQuery()
-            ->select('users_id', DB::raw(
+            ->select('user_id', DB::raw(
                 '(jan + fev + mar + abr + mai + jun) as sem_1,
                 (jul + ago + `set` + `out` + nov + dez) as sem_2'
             ))
@@ -85,7 +85,7 @@ class MetasVendas extends Model
 
         $metas = [];
         foreach ($dados as $dado) {
-            $metas[$dado['users_id']] = [
+            $metas[$dado['user_id']] = [
                 'sem_1' => $dado->sem_1 ?? 0,
                 'sem_2' => $dado->sem_2 ?? 0,
                 'total' => $dado->sem_1 + $dado->sem_2,
@@ -98,7 +98,7 @@ class MetasVendas extends Model
     public function getMeta($id)
     {
         return $this->newQuery()
-            ->where('users_id', $id)
+            ->where('user_id', $id)
             ->first();
     }
 }

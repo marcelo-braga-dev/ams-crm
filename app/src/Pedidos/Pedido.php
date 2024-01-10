@@ -10,7 +10,7 @@ use App\Models\PedidosImagens;
 use App\Models\PedidosProdutos;
 use App\Models\ProdutosTransito;
 use App\src\Modelos\CompletoModelo;
-use App\src\Modelos\SimplesModelo;
+use App\src\Modelos\ProdutoModelo;
 use App\src\Pedidos\Arquivos\ArquivosPedido;
 use App\src\Pedidos\Status\PedidosStatus;
 use Illuminate\Database\QueryException;
@@ -25,25 +25,25 @@ class Pedido
                 {
                     DB::beginTransaction();
                     try {
-                        $lead = (new Leads())->find($request->integrador);
-                        $idPedido = (new Pedidos())->create($request, null, $lead->users_id ?? null);
+                        $lead = (new Leads())->find($request->id_lead);
+                        $idPedido = (new Pedidos())->create($request);
                         (new PedidosClientes())->create($idPedido, $request);
                         (new PedidosImagens())->create($idPedido, $request);
                     } catch (\DomainException|QueryException $exception) {
                         DB::rollBack();
                         modalErro($exception->getMessage());
-                        throw new \DomainException();
+                        throw new \DomainException($exception->getMessage());
                     }
                     DB::commit();
                 };
                 break;
-            case (new SimplesModelo())->modelo():
+            case (new ProdutoModelo())->modelo():
                 {
                     DB::beginTransaction();
                     try {
                         (new Leads())->atualizar($request->id_lead, $request);
                         $lead = (new Leads())->find($request->id_lead);
-                        $idPedido = (new Pedidos())->create($request, $request->id_lead, $lead->users_id ?? null);
+                        $idPedido = (new Pedidos())->create($request, $lead->user_id ?? null);
 
                         (new ArquivosPedido())->comprovantePix($idPedido, $request);
                         (new ArquivosPedido())->cheques($idPedido, $request);
