@@ -131,7 +131,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                             </thead>
                             <tbody>
                             <tr className="align-top">
-                                <td id="td-1" className='shadow-sm'>
+                                <td id="td-1" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.reprovado.map((dados) => {
                                         return (<CardReprovado key={dados.id} dados={dados}
                                                                cor={coresAbas.reprovado}/>)

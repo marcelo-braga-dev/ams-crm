@@ -133,7 +133,7 @@ class DadosPedidoServices
                 'cnpj' => $integrador['cliente']['cnpj'] ?? ''
             ],
             'cliente' => [
-                'nome' => $cliente->nome ?? '',
+                'nome' => $cliente->nome ?? $cliente->razao_social ?? '',
                 'endereco_id' => $cliente->endereco ?? '',
                 'endereco' => (($cliente->endereco ?? '') ? getEnderecoCompleto($cliente->endereco) : ''),
                 'nascimento' => ($cliente->data_nascimento ?? '') ? date('d/m/Y', strtotime($cliente->data_nascimento)) : null,
