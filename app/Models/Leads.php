@@ -87,7 +87,7 @@ class Leads extends Model
                         'atendente' => $dados['atendente'] ?? null,
                         'telefone' => $telefone,
                         'setor_id' => $setor,
-                        'pessoa_juridica' => !($dados['pessoa'] == 'Física'),
+                        'pessoa_juridica' => !($dados['pessoa'] ?? null == 'Física'),
                         'razao_social' => $dados['razao_social'] ?? null,
                         'cnpj' => $cnpj ?? null,
                         'email' => $dados['email'] ?? null,

@@ -16,7 +16,7 @@ class ProdutosHistoricos extends Model
 
     protected $fillable = [
         'user_id',
-        'produtos_id',
+        'produto_id',
         'nome',
         'vendedor',
         'valor',
@@ -32,7 +32,7 @@ class ProdutosHistoricos extends Model
         $this->newQuery()
             ->create([
                 'user_id' => id_usuario_atual(), // id consultor
-                'produtos_id' => $produto['id'],
+                'produto_id' => $produto['id'],
                 'valor' => $valor,
                 'vendedor' => $vendedor,
                 'status' => $status,
@@ -54,7 +54,7 @@ class ProdutosHistoricos extends Model
 //            ->whereMonth('data', $mes)
             ->select(
                 DB::raw('
-                id, produtos_id, status, valor, nome, categoria, fornecedor,
+                id, produto_id, status, valor, nome, categoria, fornecedor,
                 WEEK(data) as semana
                 '))
             ->orderBy('semana')
@@ -63,7 +63,7 @@ class ProdutosHistoricos extends Model
             ->transform(function ($item) use ($fornecedoresNomes) {
                 return [
                     'id' => $item->id,
-                    'id_produto' => $item->produtos_id,
+                    'id_produto' => $item->produto_id,
                     'valor' => $item->valor,
                     'status' => $item->status,
                     'nome' => $item->nome,
@@ -94,7 +94,7 @@ class ProdutosHistoricos extends Model
             ->whereMonth('data', $mes)
             ->select(
                 DB::raw('
-                id, produtos_id, status, valor, nome, categoria, fornecedor,
+                id, produto_id, status, valor, nome, categoria, fornecedor,
                 WEEK(data) as semana
                 '))
             ->orderBy('semana')
@@ -103,7 +103,7 @@ class ProdutosHistoricos extends Model
             ->transform(function ($item) use ($fornecedoresNomes) {
                 return [
                     'id' => $item->id,
-                    'id_produto' => $item->produtos_id,
+                    'id_produto' => $item->produto_id,
                     'valor' => $item->valor,
                     'status' => $item->status,
                     'nome' => $item->nome,
@@ -124,17 +124,17 @@ class ProdutosHistoricos extends Model
 //            ->whereMonth('data', $mes)
             ->select(
                 DB::raw('
-                    id, produtos_id, status, valor, nome, categoria, fornecedor,
+                    id, produto_id, status, valor, nome, categoria, fornecedor,
                     WEEK(data) as semana, MONTH(data) as mes, data
                 '))
 //            ->orderBy('semana')
-//            ->orderBy('produtos_id')
+//            ->orderBy('produto_id')
             ->orderBy('data')
             ->get()
             ->transform(function ($item) use ($fornecedoresNomes) {
                 return [
                     'id' => $item->id,
-                    'id_produto' => $item->produtos_id,
+                    'id_produto' => $item->produto_id,
                     'valor' => $item->valor,
                     'status' => $item->status,
                     'nome' => $item->nome,
