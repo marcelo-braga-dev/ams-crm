@@ -15,18 +15,6 @@ class HistoricoController extends Controller
 {
     public function index(Request $request)
     {
-        $notInValues = Pedidos::whereNotIn('integrador', function ($query) {
-            $query->select('id')->from('leads');
-        })->get();
-        foreach ($notInValues as $inValue) {
-            (new Pedidos())->newQuery()->find($inValue->id)
-                ->update(['integrador' => null]);
-        }
-        DB::table('pedidos')
-            ->whereNotNull('integrador')
-            ->update(['lead_id' => DB::raw('integrador')]);
-        print_pre('PAGINA EM CONSTRUCAO');
-
         $dadosSetor = session('sessaoSetor');
         if ($request->setor == 'todos') {
             session(['sessaoSetor' => null]);
