@@ -3,16 +3,30 @@
 namespace App\Http\Controllers\Admin\Pedidos;
 
 use App\Http\Controllers\Controller;
+use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Services\Pedidos\PedidosService;
 use App\Services\Setores\SetoresService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class HistoricoController extends Controller
 {
     public function index(Request $request)
     {
+        $notInValues = Pedidos::whereNotIn('integrador', function ($query) {
+            $query->select('id')->from('leads');
+        })->get();
+        foreach ($notInValues as $inValue) {
+            (new Pedidos())->newQuery()->find($inValue->id)
+                ->update(['integrador' => null]);
+        }
+        DB::table('pedidos')
+            ->whereNotNull('integrador')
+            ->update(['lead_id' => DB::raw('integrador')]);
+        print_pre('PAGINA EM CONSTRUCAO');
+
         $dadosSetor = session('sessaoSetor');
         if ($request->setor == 'todos') {
             session(['sessaoSetor' => null]);

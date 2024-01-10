@@ -36,6 +36,7 @@ class Pedidos extends Model
         'situacao',
         'obs',
         'modelo',
+        'integrador'
     ];
 
     function create($dados, $leadUser = null)
