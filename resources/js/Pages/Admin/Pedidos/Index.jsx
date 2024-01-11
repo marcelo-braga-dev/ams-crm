@@ -23,7 +23,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import ScrollControlHorizontal from '@/Helpers/scrollControlHorizontal';
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import {useForm, usePage} from "@inertiajs/react";
+import {usePage} from "@inertiajs/react";
 import LinearProgress from '@mui/material/LinearProgress';
 
 export default function Pedidos({fornecedores, setores, coresAbas}) {
@@ -31,12 +31,16 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
     const [modelo, setModelo] = useState()
     const [carregando, setCarregando] = useState(true)
 
+    const modelo1 = (modelo === 1 || modelo === null)
+    const modelo2 = (modelo === 2 || modelo === null)
+
     function atualizarPagina(forcededorId, setorId) {
         setCarregando(true)
-        setPedidos()
+        setPedidos(undefined)
         axios.get(route('admin.pedidos-cards', {setor: setorId, fornecedor: forcededorId}))
             .then(res => {
-                setPedidos(res.data)
+                setPedidos(res.data.pedidos)
+                setModelo(res.data.modelo)
             }).finally(() => setCarregando(false))
     }
 
@@ -45,7 +49,8 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
         setPedidos()
         axios.get(route('admin.pedidos-cards'))
             .then(res => {
-                setPedidos(res.data)
+                setPedidos(res.data.pedidos)
+                setModelo(res.data.modelo)
                 setCarregando(false)
             })
     }, [usePage().props.franquia_selecionada])
@@ -135,15 +140,16 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                                 className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
                                         </div>
                                     </th>
-                                    <th id="th-2" style={{minWidth: 300}}>
-                                        <div style={{backgroundColor: coresAbas.encomenda}}
-                                             className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Encomenda</div>
-                                            <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
-                                            <small
-                                                className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
-                                        </div>
-                                    </th>
+                                    {modelo2 &&
+                                        <th id="th-2" style={{minWidth: 300}}>
+                                            <div style={{backgroundColor: coresAbas.encomenda}}
+                                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                                <div className='col-auto'>Encomenda</div>
+                                                <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
+                                                <small
+                                                    className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
+                                            </div>
+                                        </th>}
                                     <th id="th-3" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: coresAbas.conferencia}}
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
@@ -162,7 +168,8 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                                 className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
                                         </div>
                                     </th>
-                                    <th id="th-5" style={{minWidth: 300}}>
+                                    {modelo1 &&
+                                        <th id="th-5" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: coresAbas.boleto}}
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Aguard. Nota/Boleto</div>
@@ -170,8 +177,9 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                             <small
                                                 className="d-block text-end">R$ {(pedidos.nota[0]?.faturamento ?? '0,00')}</small>
                                         </div>
-                                    </th>
-                                    <th id="th-6" style={{minWidth: 300}}>
+                                    </th>}
+                                    {modelo1 &&
+                                        <th id="th-6" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: coresAbas.pagamento}}
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Aguard. Pagamento</div>
@@ -179,8 +187,9 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                             <small
                                                 className="d-block text-end">R$ {(pedidos.pagamento[0]?.faturamento ?? '0,00')}</small>
                                         </div>
-                                    </th>
-                                    <th id="th-7" style={{minWidth: 300}}>
+                                    </th>}
+                                    {modelo1 &&
+                                        <th id="th-7" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: coresAbas.faturamento}}
                                              className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Aguard. Faturamento</div>
@@ -188,8 +197,9 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                             <small
                                                 className="d-block text-end">R$ {(pedidos.faturamento[0]?.faturamento ?? '0,00')}</small>
                                         </div>
-                                    </th>
-                                    <th id="th-8" style={{minWidth: 300}}>
+                                    </th>}
+                                    {modelo1 &&
+                                        <th id="th-8" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: coresAbas.faturado}}
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Faturado</div>
@@ -197,8 +207,9 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                             <small
                                                 className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
                                         </div>
-                                    </th>
-                                    <th id="th-9" style={{minWidth: 300}}>
+                                    </th>}
+                                    {modelo2 &&
+                                        <th id="th-9" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: 'rgba(59,189,13,0.6)'}}
                                              className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Faturado à Vista</div>
@@ -206,8 +217,9 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                             <small
                                                 className="d-block text-end">R$ {(pedidos.faturado_vista[0]?.faturamento ?? '0,00')}</small>
                                         </div>
-                                    </th>
-                                    <th id="th-10" style={{minWidth: 300}}>
+                                    </th>}
+                                    {modelo2 &&
+                                        <th id="th-10" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: "#854787"}}
                                              className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Faturado à Prazo</div>
@@ -215,8 +227,9 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                             <small
                                                 className="d-block text-end">R$ {(pedidos.faturado_prazo[0]?.faturamento ?? '0,00')}</small>
                                         </div>
-                                    </th>
-                                    <th id="th-11" style={{minWidth: 300}}>
+                                    </th>}
+                                    {modelo1 &&
+                                        <th id="th-11" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: coresAbas.acompanhamento}}
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Acompanhamento</div>
@@ -224,7 +237,7 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                             <small
                                                 className="d-block text-end">R$ {(pedidos.acompanhamento[0]?.faturamento ?? '0,00')}</small>
                                         </div>
-                                    </th>
+                                    </th>}
                                     <th id="th-12" style={{minWidth: 300}}>
                                         <div style={{backgroundColor: coresAbas.entregue}}
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
@@ -239,6 +252,8 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Cancelados</div>
                                             <div className='col-auto'>Qdt: {pedidos.cancelado.length}</div>
+                                            <small
+                                                className="d-block text-end">-</small>
                                         </div>
                                     </th>
                                 </tr>
@@ -251,14 +266,16 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                                                    cor={coresAbas.reprovado}/>)
                                         })}
                                     </td>
-                                    <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
-                                        {pedidos.encomenda.map((dados) => {
-                                            return (
-                                                <CardEncomenda key={dados.id} dados={dados}
-                                                               cor={coresAbas.encomenda}/>
-                                            )
-                                        })}
-                                    </td>
+                                    {modelo2 &&
+                                        <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
+                                            {pedidos.encomenda.map((dados) => {
+                                                return (
+                                                    <CardEncomenda key={dados.id} dados={dados}
+                                                                   cor={coresAbas.encomenda}/>
+                                                )
+                                            })}
+                                        </td>
+                                    }
                                     <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.conferencia.map((dados) => {
                                             return (
@@ -272,77 +289,84 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                                 <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
                                         })}
                                     </td>
-                                    <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
+                                    {modelo1 &&
+                                        <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.nota.map((dados) => {
                                             return (
                                                 <CardBoleto key={dados.id} dados={dados}
                                                             cor={coresAbas.boleto}/>)
                                         })}
-                                    </td>
+                                    </td>}
+                                    {modelo1 &&
                                         <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
-                                            {pedidos.pagamento.map((dados) => {
-                                                return (<CardPagamento key={dados.id} dados={dados}
-                                                                       cor={coresAbas.pagamento}/>)
-                                            })}
-                                        </td>
+                                        {pedidos.pagamento.map((dados) => {
+                                            return (<CardPagamento key={dados.id} dados={dados}
+                                                                   cor={coresAbas.pagamento}/>)
+                                        })}
+                                    </td>}
+                                    {modelo1 &&
                                         <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.faturamento.map((dados) => {
-                                        return (
-                                            <CardFaturando key={dados.id} dados={dados}
-                                                           cor={coresAbas.faturamento}/>)
-                                    })}
-                                </td>
-                                <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.faturado.map((dados) => {
-                                        return (<CardFaturado key={dados.id} dados={dados}
-                                                              cor={coresAbas.faturado}/>)
-                                    })}
-                                </td>
-                                <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.faturado_vista.map((dados) => {
-                                        return (
-                                            <CardFaturado key={dados.id} dados={dados}
-                                                          cor={"rgba(59,189,13,0.6)"}/>)
-                                    })}
-                                </td>
-                                <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.faturado_prazo.map((dados) => {
-                                        return (
-                                            <CardFaturado key={dados.id} dados={dados}
-                                                          cor={'#854787'}/>)
-                                    })}
-                                </td>
-                                <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.acompanhamento.map((dados) => {
-                                        return (
-                                            <CardEntregue key={dados.id} dados={dados} status="acompanhamento"
-                                                          cor={coresAbas.acompanhamento}/>)
-                                    })}
-                                </td>
-                                <td id="td-12" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.entregue.map((dados) => {
-                                        return (<CardEntregue key={dados.id} dados={dados}
-                                                              cor={coresAbas.entregue}/>)
-                                    })}
-                                </td>
-                                <td id="td-13" className='shadow-sm' style={{minWidth: 300}}>
-                                    {pedidos.cancelado.map((dados) => {
-                                        return (
-                                            <CardCancelado key={dados.id} dados={dados}
-                                                           cor={coresAbas.cancelados}/>)
-                                    })}
-                                </td>
+                                        {pedidos.faturamento.map((dados) => {
+                                            return (
+                                                <CardFaturando key={dados.id} dados={dados}
+                                                               cor={coresAbas.faturamento}/>)
+                                        })}
+                                    </td>}
+                                    {modelo1 &&
+                                        <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.faturado.map((dados) => {
+                                            return (<CardFaturado key={dados.id} dados={dados}
+                                                                  cor={coresAbas.faturado}/>)
+                                        })}
+                                    </td>}
+                                    {modelo2 &&
+                                        <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.faturado_vista.map((dados) => {
+                                            return (
+                                                <CardFaturado key={dados.id} dados={dados}
+                                                              cor={"rgba(59,189,13,0.6)"}/>)
+                                        })}
+                                    </td>}
+                                    {modelo2 &&
+                                        <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.faturado_prazo.map((dados) => {
+                                            return (
+                                                <CardFaturado key={dados.id} dados={dados}
+                                                              cor={'#854787'}/>)
+                                        })}
+                                    </td>}
+                                    {modelo1 &&
+                                        <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.acompanhamento.map((dados) => {
+                                            return (
+                                                <CardEntregue key={dados.id} dados={dados} status="acompanhamento"
+                                                              cor={coresAbas.acompanhamento}/>)
+                                        })}
+                                    </td>}
+                                    <td id="td-12" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.entregue.map((dados) => {
+                                            return (<CardEntregue key={dados.id} dados={dados}
+                                                                  cor={coresAbas.entregue}/>)
+                                        })}
+                                    </td>
+                                    <td id="td-13" className='shadow-sm' style={{minWidth: 300}}>
+                                        {pedidos.cancelado.map((dados) => {
+                                            return (
+                                                <CardCancelado key={dados.id} dados={dados}
+                                                               cor={coresAbas.cancelados}/>)
+                                        })}
+                                    </td>
                                 </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div className="col-auto pt-5 d-none d-md-block">
-                <ScrollControlHorizontal lateral="d"/>
-                </div>
+                    <div className="col-auto pt-5 d-none d-md-block">
+                        <ScrollControlHorizontal lateral="d"/>
+                    </div>
                 </div>
             }
             {carregando && <LinearProgress color="inherit"/>}
-                </Layout>
-                );
-            }
+        </Layout>
+    );
+}

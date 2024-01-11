@@ -51,7 +51,7 @@ export default function Create({pedido}) {
                         </div>
                     }
                     <div className="col-auto pt-2">
-                        <button type="submit" className="btn btn-success">Mrcar como Entregue</button>
+                        <button type="submit" className="btn btn-success">Marcar como Entregue</button>
                     </div>
                 </div>
             </form>

@@ -9,3 +9,9 @@ if(!function_exists('modelo_pedido')) {
         return  '';//auth()->id();
     }
 }
+
+if(!function_exists('modelo_setor')) {
+    function modelo_setor($setor) {
+        return  (new \App\Models\Setores())->getModelo($setor);
+    }
+}

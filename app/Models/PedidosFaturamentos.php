@@ -37,7 +37,7 @@ class PedidosFaturamentos extends Model
                         'status_pedido' => $pedido->status,
                         'valor' => $item['preco'],
                         'status_data' => now(),
-                        'setores_id' => $pedido->setor
+                        'setores_id' => $pedido->setor_id
                     ]
                 );
         }
