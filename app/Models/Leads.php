@@ -77,6 +77,8 @@ class Leads extends Model
             if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
             if ($telefone) $verificacaoTel = $this->newQuery()->orWhere('telefone', $telefone)->exists();
 
+            $idEndereco = (new Enderecos())->create($dados->endereco);
+
             if (!$verificacaoCnpj && !$verificacaoTel &&
                 (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))) {
                 $this->newQuery()
@@ -87,12 +89,17 @@ class Leads extends Model
                         'atendente' => $dados['atendente'] ?? null,
                         'telefone' => $telefone,
                         'setor_id' => $setor,
-                        'pessoa_juridica' => !($dados['pessoa'] ?? null == 'Física'),
+                        'endereco' => $idEndereco,
+                        'pessoa_juridica' => !(($dados['pessoa'] ?? null) == 'Pessoa Física'),
                         'razao_social' => $dados['razao_social'] ?? null,
+                        'inscricao_estadual' => $dados['inscricao_estadual'] ?? null,
                         'cnpj' => $cnpj ?? null,
+                        'rg' => $dados['rg'] ?? null,
+                        'cpf' => $dados['cpf'] ?? null,
                         'email' => $dados['email'] ?? null,
-                        'cidade' => $dados['cidade'] ?? null,
-                        'estado' => $dados['estado'] ?? null,
+                        'data_nascimento' => $dados['nascimento'] ?? null,
+                        'cidade' => $dados['cidade'] ?? $dados['endereco']['cidade'] ?? null,
+                        'estado' => $dados['estado'] ?? $dados['endereco']['estado'] ?? null,
                         'anotacoes' => $dados['anotacoes'] ?? null,
                         'status_data' => now(),
                         'infos' => $dados['infos'] ?? null,

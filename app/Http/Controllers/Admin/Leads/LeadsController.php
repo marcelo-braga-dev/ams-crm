@@ -38,13 +38,7 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
-        foreach ($request->all() as $item) {
-            try {
-                (new Leads())->create($item, $request->setor);
-            } catch (\DomainException) {
-                modalErro('Alguns LEADS não cadastrados');
-            }
-        }
+        (new Leads())->create($request, $request->setor);
 
         return redirect()->route('admin.clientes.leads.leads-main.index');
     }

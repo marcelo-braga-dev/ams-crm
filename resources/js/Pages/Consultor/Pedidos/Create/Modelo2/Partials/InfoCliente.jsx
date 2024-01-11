@@ -31,11 +31,16 @@ export default function InfoCliente({data, setData}) {
                         <TextField required label="Nome" id="nome" fullWidth defaultValue={data.nome}
                                    onChange={e => setData('nome', e.target.value)}/>
                     </div>)}
-                {data.pessoa === 'Jurídica' && (
+                {data.pessoa === 'Jurídica' && (<>
+                    <div className="col-md-6 mb-3">
+                        <TextField required label="Nome Fantasia" id="nome" fullWidth defaultValue={data.nome}
+                                   onChange={e => setData('nome', e.target.value)}/>
+                    </div>
                     <div className="col-md-6 mb-3">
                         <TextField label="Razão Social" id="razao_social" required defaultValue={data.razao_social}
                                    onChange={e => setData('razao_social', e.target.value)} fullWidth/>
-                    </div>)}
+                    </div>
+                </>)}
             </div>
             <div className="row">
                 {data.pessoa === 'Pessoa Física' && (<Col className={"mb-3"} lg={"4"}>

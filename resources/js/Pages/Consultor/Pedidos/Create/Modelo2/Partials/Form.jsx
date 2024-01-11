@@ -7,7 +7,7 @@ import {useState} from "react";
 export default function Form({lead, url, urlProdutos, fornecedores, endereco, categorias, unidades, errors}) {
     const {data, setData, post, progress, processing} = useForm({
         id_lead: lead.id,
-        pessoa: lead.nome ? 'Pessoa Física' : 'Jurídica',
+        pessoa: lead.pessoa_juridica ? 'Jurídica' : 'Pessoa Física',
         nome: lead.nome,
         razao_social: lead.razao_social,
         nascimento: lead.data_nascimento,
