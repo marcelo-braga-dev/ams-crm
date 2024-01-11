@@ -28,9 +28,9 @@ class Supervisores implements TiposUsuarios
             ->create([
                 'name' => $request->nome,
                 'tipo' => $this->tipo,
-                'franquia' => $request->franquia,
+                'franquia_id' => $request->franquia,
                 'email' => $request->email,
-                'setor' => $request->setor,
+                'setor_id' => $request->setor,
                 'password' => Hash::make($request->senha),
             ]);
 

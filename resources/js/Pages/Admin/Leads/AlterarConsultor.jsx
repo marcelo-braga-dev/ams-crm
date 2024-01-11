@@ -78,18 +78,15 @@ const FilterComponent = ({filterText, onFilter, setFiltro, setStatus}) => (
 
 const columns = [
     {
-        name: 'ID',
-        selector: row => <div className="py-3">#{row.id}<br/>{row.data_criacao}</div>,
-        grow: 0.8,
-    },
-    {
         name: 'Cliente',
         selector: row => <div className="text-wrap py-3">
-            <b>{row.classificacao} {row.name}</b><br/>
+            <b>{row.name}</b><br/>
+            ID: #{row.id} {row.classificacao}<br/>
             {row.razao_social}<br/>
             {row.cnpj && <span className="d-block">CNPJ: {row.cnpj}</span>}
             {row.telefone}<br/>
-            {row.cidade && <span>{row.cidade}/{row.estado}</span>}
+            {row.cidade && <span className="d-block">{row.cidade}/{row.estado}</span>}
+            {row.data_criacao}
         </div>,
         sortable: true,
         grow: 2,

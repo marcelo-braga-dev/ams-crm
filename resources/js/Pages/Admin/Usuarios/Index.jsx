@@ -8,6 +8,9 @@ import Box from '@mui/material/Box';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import BlockIcon from '@mui/icons-material/Block';
 import {Avatar} from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import {router} from "@inertiajs/react";
 
 // Tab
 function TabPanel(props) {
@@ -45,7 +48,7 @@ function a11yProps(index) {
 
 // Tab - fim
 
-export default function Index({usuarios}) {
+export default function Index({usuarios, status}) {
     // Tab
     const [value, setValue] = React.useState(0);
 
@@ -60,15 +63,28 @@ export default function Index({usuarios}) {
             <BlockIcon color="error"/>
     }
 
+    function escolherStatus(status) {
+        router.get(route('admin.usuarios.usuario.index', {status: !status}))
+    }
+
     return (
         <Layout container titlePage="Usuários" menu="usuarios" submenu="usuarios-contas">
             <Box sx={{width: '100%'}}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="Consultores" {...a11yProps(0)} />
-                        <Tab label="Supervisores" {...a11yProps(1)} />
-                        <Tab label="Admins" {...a11yProps(2)} />
-                    </Tabs>
+                    <div className="row">
+                        <div className="col">
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tab label="Consultores" {...a11yProps(0)} />
+                                <Tab label="Supervisores" {...a11yProps(1)} />
+                                <Tab label="Admins" {...a11yProps(2)} />
+                            </Tabs>
+                        </div>{status}
+                        <div className="col-auto">
+                            <FormControlLabel control={<Switch defaultChecked={status}/>}
+                                              label={status ? "Ativos" : "Todos"}
+                                              onChange={event => escolherStatus(event.target.checked)}/>
+                        </div>
+                    </div>
                 </Box>
                 {/*Consultores*/}
                 <TabPanel value={value} index={0}>

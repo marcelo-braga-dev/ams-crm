@@ -28,7 +28,8 @@ class Admins implements TiposUsuarios
                 'name' => $request->nome,
                 'tipo' => $this->tipo,
                 'email' => $request->email,
-                'setor' => $request->setor,
+                'setor_id' => $request->setor,
+                'franquia_id' => $request->franquia,
                 'password' => Hash::make($request->senha),
             ]);
 

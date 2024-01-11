@@ -7,6 +7,7 @@ use App\Services\Images;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Usuarios\Admins;
 use App\src\Usuarios\Consultores;
+use App\src\Usuarios\Status\AtivoStatusUsuario;
 use App\src\Usuarios\Supervisores;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\QueryException;
@@ -62,13 +63,14 @@ class User extends Authenticatable
         return $this->newQuery()->pluck('name', 'id');
     }
 
-    public function usuarios()
+    public function usuarios($ativos = false)
     {
         $setores = (new Setores())->getNomes();
         $franquias = Franquias::getNomes();
 
         $query = $this->newQuery();
         if (franquia_selecionada()) $query->where('franquia_id', franquia_selecionada());
+        if ($ativos) $query->where('status', (new AtivoStatusUsuario())->getStatus());
 
         return $query->orderByDesc('id')
             ->get()

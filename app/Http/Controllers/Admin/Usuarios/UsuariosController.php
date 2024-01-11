@@ -14,19 +14,17 @@ use Inertia\Inertia;
 
 class UsuariosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dados = (new User())->usuarios();
+        $status = !(bool)$request->status;
+        $dados = (new User())->usuarios($status);
 
-        $adminTipo = (new Admins)->getFuncao();
-        $supervisorTipo = (new Supervisores())->getFuncao();
-        $consultorTipo = (new Consultores())->getFuncao();
+        $usuarios['admins'] = [...$dados->where('tipo', (new Admins)->getFuncao())];
+        $usuarios['supervisores'] = [...$dados->where('tipo', (new Supervisores())->getFuncao())];
+        $usuarios['consultores'] = [...$dados->where('tipo', (new Consultores())->getFuncao())];
 
-        $usuarios['admins'] = [...$dados->where('tipo', $adminTipo)];
-        $usuarios['supervisores'] = [...$dados->where('tipo', $supervisorTipo)];
-        $usuarios['consultores'] = [...$dados->where('tipo', $consultorTipo)];
-
-        return Inertia::render('Admin/Usuarios/Index', compact('usuarios'));
+        return Inertia::render('Admin/Usuarios/Index',
+            compact('usuarios', 'status'));
     }
 
     public function updateSenha($id, Request $request)

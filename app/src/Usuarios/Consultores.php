@@ -28,9 +28,9 @@ class Consultores implements TiposUsuarios
                 'name' => $request->nome,
                 'tipo' => $this->tipo,
                 'email' => $request->email,
-                'franquia' => $request->franquia,
-                'setor' => $request->setor,
-                'superior' => $request->superior ?? null,
+                'franquia_id' => $request->franquia,
+                'setor_id' => $request->setor,
+                'superior_id' => $request->superior ?? null,
                 'password' => Hash::make($request->senha),
             ]);
 

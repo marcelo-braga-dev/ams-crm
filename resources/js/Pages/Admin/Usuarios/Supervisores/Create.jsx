@@ -1,4 +1,4 @@
-import {Head, Link, useForm} from '@inertiajs/react';
+import {useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {Button, Col, Container, Row, Table} from "reactstrap";
 import {TextField} from "@mui/material";

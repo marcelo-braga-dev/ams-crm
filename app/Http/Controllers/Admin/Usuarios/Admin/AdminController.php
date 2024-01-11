@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Usuarios\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Franquias;
 use App\Models\Setores;
 use App\Models\User;
 use App\src\Usuarios\Admins;
@@ -15,8 +16,10 @@ class AdminController extends Controller
     public function create()
     {
         $setores = (new Setores())->setores();
+        $franquias = (new Franquias())->get();
 
-        return Inertia::render('Admin/Usuarios/Admins/Create', compact('setores'));
+        return Inertia::render('Admin/Usuarios/Admins/Create',
+            compact('setores', 'franquias'));
     }
 
     public function store(Request $request)
