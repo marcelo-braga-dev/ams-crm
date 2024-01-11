@@ -123,16 +123,19 @@ class Leads extends Model
         }
     }
 
-    public function getAll($setor)
+    public function getResumido($setor)
     {
-        $query = $this->newQuery()
+        $nomeConsultores = (new User())->getNomes();
+
+        return $this->newQuery()
             ->where('status', '!=', (new OcultosLeadsStatus())->getStatus())
             ->where('setor_id', $setor)
-            ->orderByDesc('id');
+            ->orderByDesc('id')
+            ->get()
+            ->transform(function ($item) use ($nomeConsultores) {
+                return $this->dadosResumido($item, $nomeConsultores);
+            });
 
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
-
-        return $query->get();
     }
 
     public function getConsultores(int $id)
@@ -274,7 +277,8 @@ class Leads extends Model
         $query = $this->newQuery()
             ->where('user_id', '>', 0);
 
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true))
+            ->orWhere('user_id', id_usuario_atual());
 
         return $query->get();
     }
@@ -335,6 +339,45 @@ class Leads extends Model
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                 'contato' => $item->meio_contato,
                 'data_criacao' => date('d/m/y H:i', strtotime($item->updated_at)),
+            ],
+        ];
+    }
+
+    private function dadosResumido($item, $nomeConsultores = []): array
+    {
+        if (!$item) return [];
+
+        return [
+            'id' => $item->id,
+            'consultor' => [
+                'nome' => $nomeConsultores[$item->user_id] ?? '',
+                'id' => $item->user_id
+            ],
+            'cliente' => [
+                'nome' => $item->nome,
+                'razao_social' => $item->razao_social,
+                'cnpj' => converterCNPJ($item->cnpj),
+                'rg' => $item->rg,
+                'cpf' => $item->cpf,
+                'cidade' => $item->cidade,
+                'estado' => $item->estado,
+                'endereco' => $item->endereco ? getEnderecoCompleto($item->endereco) : '',
+                'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
+                'classificacao' => $item->classificacao
+            ],
+            'contato' => [
+                'email' => $item->email,
+                'telefone' => converterTelefone($item->telefone),
+                'atendente' => $item->atendente,
+            ],
+            'infos' => [
+                'setor' => $item->setor,
+                'status' => $item->status,
+                'status_anotacoes' => $item->status_anotacoes,
+                'anotacoes' => $item->infos,
+                'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
+                'contato' => $item->meio_contato,
+                'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
             ],
         ];
     }

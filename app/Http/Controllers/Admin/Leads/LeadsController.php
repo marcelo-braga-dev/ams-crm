@@ -67,8 +67,9 @@ class LeadsController extends Controller
     public function cadastrados(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
-        $dados = (new LeadsDadosService())->getAll($categoriaAtual);
         $categorias = (new SetoresService())->setores();
+
+        $dados = (new Leads())->getResumido($categoriaAtual);
 
         return Inertia::render('Admin/Leads/Cadastrados',
             compact('dados', 'categorias', 'categoriaAtual'));
@@ -181,6 +182,7 @@ class LeadsController extends Controller
     {
         $qtdLeads = (new LeadsUsuariosService())->get();
 
-        return Inertia::render('Admin/Leads/AcompanharLeads/Index', compact('qtdLeads'));
+        return Inertia::render('Admin/Leads/AcompanharLeads/Index',
+            compact('qtdLeads'));
     }
 }

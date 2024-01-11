@@ -23,7 +23,7 @@ class LeadsDadosService
 
     public function getAll(int $categoria): array
     {
-        $dados = (new Leads())->getAll($categoria);
+        $dados = (new Leads())->getResumido($categoria);
 
         return $this->dados($dados);
     }

@@ -10,7 +10,7 @@ export default function ({qtdLeads}) {
     }
 
     return (
-        <Layout container titlePage="Histórico dos Leads" menu="leads" submenu="acompanhar">
+        <Layout container titlePage="Histórico dos Leads" menu="leads" submenu="leads-historico">
             <div className="table table-responsive">
                 <table className="table text-center text-sm table-hover cursor-pointer">
                     <thead>

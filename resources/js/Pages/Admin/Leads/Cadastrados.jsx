@@ -43,35 +43,30 @@ const FilterComponent = ({filterText, onFilter, setFiltro}) => (
 
 const columns = [
     {
-        name: 'ID',
-        selector: row => <div>
-            {row.id}<br/>
-            {row.data_criacao}
-        </div>,
-        sortable: true,
-        grow: 0.5,
-    },
-    {
         name: 'Cliente',
         selector: row => <div className="py-3">
             <b>{row.name}</b><br/>
+            ID: #{row.id}<br/>
             {row.razao_social && <span className="d-block">{row.razao_social}</span>}
             {row.cnpj && <span className="d-block">CNPJ: {row.cnpj}</span>}
             {row.telefone && <span className="d-block">{row.telefone}</span>}
-            {row.cidade && <span className="d-block">{row.cidade}</span>}
+            {row.cidade && <span className="d-block">{row.cidade} / {row.estado}</span>}
+            {row.estado && <span className="d-block">{row.data_criacao}</span>}
         </div>,
         sortable: true,
+        grow: 3,
     },
     {
         name: 'Status',
         selector: row => row.status,
         sortable: true,
-        grow: 0,
+        grow: 1,
     },
     {
         name: 'Consultor',
         selector: row => <b>{row.consultor}</b>,
         sortable: true,
+        grow: 2,
     }, {
         cell: row => <a className="btn btn-primary btn-sm m-0"
                         href={route('admin.clientes.leads.leads-main.show', row.id)}>
@@ -127,6 +122,7 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
             cidade: items.cliente.cidade,
+            estado: items.cliente.estado,
         }
     });
     // Dados - fim
@@ -135,7 +131,7 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
 
     const [filtro, setFiltro] = useState('nome');
 
-     const filteredItems = getFilteredItems(linhas, filtro, filterText);
+    const filteredItems = getFilteredItems(linhas, filtro, filterText);
 
     const subHeaderComponentMemo = React.useMemo(() => {
         return (

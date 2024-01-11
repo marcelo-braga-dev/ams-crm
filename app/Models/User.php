@@ -157,9 +157,10 @@ class User extends Authenticatable
             ->where('tipo', (new Consultores())->getFuncao())
             ->orderBy('name');
 
-        if (is_supervisor()) $query->whereIn('superior_id', [id_usuario_atual()]);
         if ($setor) $query->where('setor_id', $setor);
         if ($status) $query->where('status', 'ativo');
+        if (is_supervisor()) $query->whereIn('superior_id', [id_usuario_atual()])
+            ->orWhere('id', id_usuario_atual());
 
         return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id'])
             ->except(['id' => 1])
