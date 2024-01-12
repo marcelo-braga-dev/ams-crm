@@ -356,4 +356,22 @@ class User extends Authenticatable
         }
         return $consultor;
     }
+
+    public function franquias($id)
+    {
+        $setores = (new Setores())->getNomes();
+
+        return $this->newQuery()
+            ->where('franquia_id', $id)
+            ->get()
+            ->transform(function ($item) use ($setores) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'funcao' => $item->tipo,
+                    'setor' => $setores[$item->setor_id]['nome'] ?? '',
+                    'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
+                ];
+            });
+    }
 }

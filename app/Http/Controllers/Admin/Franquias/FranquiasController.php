@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Franquias;
 
 use App\Http\Controllers\Controller;
 use App\Models\Franquias;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -32,8 +33,10 @@ class FranquiasController extends Controller
     public function show($id)
     {
         $franquia = (new Franquias())->find($id);
+        $usuarios = (new User())->franquias($id);
 
-        return Inertia::render('Admin/Config/Franquias/Show', compact('franquia'));
+        return Inertia::render('Admin/Config/Franquias/Show',
+            compact('franquia', 'usuarios'));
     }
 
     public function selecionaFranquia(Request $request)
