@@ -20,12 +20,11 @@ export default function RequestNotificacoes({url, urlPageChat, setQtdPedidos, se
             }
             qtdNotifiChatInterno = res.data.chat_interno;
         }).catch(function () {
-            console.log("ERROR")
         })
 
         setTimeout(function () {
             buscaQtnNotificacoes();
-        }, 5000)
+        }, 10000)
     }
 
     useEffect(() => {

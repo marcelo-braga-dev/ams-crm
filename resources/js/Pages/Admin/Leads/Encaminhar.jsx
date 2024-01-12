@@ -1,13 +1,29 @@
 import React, {useState} from 'react';
 import DataTable from 'react-data-table-component';
-import {Backdrop, CircularProgress, TextField} from "@mui/material";
+import {
+    Backdrop,
+    CircularProgress,
+    IconButton,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText, Select,
+    TextField
+} from "@mui/material";
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import MenuItem from "@mui/material/MenuItem";
-import {useForm} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Checkbox from "@mui/material/Checkbox";
+import ListItem from "@mui/material/ListItem";
+
+import PersonIcon from '@mui/icons-material/Person';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
+
+import FormControl from '@mui/material/FormControl';
 
 const FilterComponent = ({filterText, onFilter, setFiltro}) => (
     <>
@@ -54,39 +70,6 @@ const FilterComponent = ({filterText, onFilter, setFiltro}) => (
     </>
 );
 
-const columns = [
-    {
-        name: 'ID',
-        selector: row => <>
-            #{row.id}<br/>
-            {row.data_criacao}
-        </>,
-        ignoreRowClick: true,
-        allowOverflow: true,
-        button: true,
-        grow: 0,
-    },
-    {
-        name: 'Cliente',
-        selector: row => <div className="py-3 text-wrap">
-            <b>{row.name}</b>,<br/>
-            {row.razao_social}<br/>
-            {row.cnpj && <span className="d-block">{row.cnpj}</span>}
-            { row.telefone}
-        </div>,
-        sortable: true,
-        grow: 3,
-    },
-    {
-        cell: row => <a className="btn btn-primary btn-sm" href={route('admin.clientes.leads.leads-main.show', row.id)}>
-            Abrir
-        </a>,
-        ignoreRowClick: true,
-        allowOverflow: true,
-        button: true,
-        grow: 0,
-    },
-];
 
 export default function Filtering({dados, consultores, categorias, categoriaAtual}) {
     // loading
@@ -97,12 +80,114 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         'leads': []
     });
 
-    function submit() {
-        if (data.consultor && data.leads) {
-            setOpen(!open);
-            post(route('admin.clientes.leads.update-consultor'))
-            window.location.reload();
+    const [leadsChecked, setLeadsChecked] = React.useState([]);
+    const [consultorSelecionado, setConsultorSelecionado] = React.useState();
+
+    const handleToggle = (value) => () => {
+        const currentIndex = leadsChecked.indexOf(value);
+        const newChecked = [...leadsChecked];
+
+        if (currentIndex === -1) {
+            newChecked.push(value);
+        } else {
+            newChecked.splice(currentIndex, 1);
         }
+
+        setLeadsChecked(newChecked);
+    };
+
+    const columns = [
+        {
+            cell: row => <div className="row w-100 g-4">
+                <div className="col p-0">
+                    <ListItem
+                        key={1} disablePadding
+                        secondaryAction={
+                            <a className="btn btn-primary btn-sm mt-2"
+                               href={route('admin.clientes.leads.leads-main.show', row.id)}>
+                                Abrir
+                            </a>
+                        }>
+                        <ListItemButton role={undefined} onClick={handleToggle(row.id)} dense>
+                            <div className="row w-100 py-1">
+                                <div className="col-auto">
+                                    <ListItemIcon className="d-block ">
+                                        <Checkbox
+                                            edge="start"
+                                            checked={leadsChecked.indexOf(row.id) !== -1}
+                                            tabIndex={-1}
+                                            disableRipple
+                                        />
+                                    </ListItemIcon>
+                                </div>
+                                <div className="col-auto">
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td><PersonIcon sx={{fontSize: 25}}/></td>
+                                            <td>
+                                                <span className="d-block"
+                                                      style={{fontSize: 14}}><b>{row.name}</b></span>
+                                                <span style={{fontSize: 15}}>{row.razao_social}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <small className="me-4">ID: #{row.id}</small>
+                                                <small className="me-4">{row.data_criacao}</small>
+                                            </td>
+                                        </tr>
+                                        {row.cnpj && <tr>
+                                            <td>
+                                                <AssignmentOutlinedIcon sx={{fontSize: 20}}/>
+                                            </td>
+                                            <td>
+                                                <span className="d-block">CNPJ: {row.cnpj}</span>
+                                            </td>
+                                        </tr>}
+                                        {row.telefone && <tr>
+                                            <td>
+                                                <LocalPhoneOutlinedIcon sx={{fontSize: 20}}/>
+                                            </td>
+                                            <td>
+                                                <span className="d-block">{row.telefone}</span>
+                                            </td>
+                                        </tr>}
+
+                                        {(row.cidade || row.estado) && <tr>
+                                            <td>
+                                                <FmdGoodOutlinedIcon sx={{fontSize: 20}}/>
+                                            </td>
+                                            <td>
+                                                <span className="d-block">{row.cidade} {row.estado &&
+                                                    <span>- {row.estado}</span>}</span>
+                                            </td>
+                                        </tr>}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </ListItemButton>
+                    </ListItem>
+                </div>
+            </div>,
+        },
+    ];
+    console.log(leadsChecked)
+    console.log(consultorSelecionado)
+
+    function submit() {
+        if (consultorSelecionado && leadsChecked) {
+            setOpen(!open);
+            router.post(route('admin.clientes.leads.update-consultor',
+                {leadsSelecionados: leadsChecked, consultor: consultorSelecionado}))
+        }
+        router.on('success', (event) => {
+            setLeadsChecked([])
+            setConsultorSelecionado()
+            setOpen(false)
+        })
     }
 
     // form - fim
@@ -117,6 +202,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
             cidade: items.cliente.cidade,
+            estado: items.cliente.estado,
         }
     });
     // Dados - fim
@@ -181,9 +267,9 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     // Form Ocultar - fim
 
     function nomeConsultorSelecionado() {
-        const nome = consultores[consultores.findIndex(i => i.id === data.consultor)]?.name;
+        const nome = consultores[consultores.findIndex(i => i.id === consultorSelecionado)]?.name;
         return nome ? <>
-            Enviar <b>{data.leads.length}</b> Leads Selecionados para:<br/>
+            Enviar <b>{leadsChecked.length}</b> Leads Selecionados para:<br/>
             <h5>{nome}</h5>
         </> : <div className="alert alert-danger text-white">Selecione o Consultor</div>
     }
@@ -203,58 +289,60 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                 })}
             </div>
 
-                <form onSubmit={submit}>
-                    <div className="row justify-content-between mb-4">
-                        <div className="col-md-6">
-                            <div className="row mx-3">
-                                <div className="col-8 ml-4">
-                                    <TextField label="Selecione o Consultor..." select
-                                               fullWidth required size="small" defaultValue=""
-                                               onChange={e => setData('consultor', e.target.value)}>
-                                        {consultores.map((option) => (
-                                            <MenuItem key={option.id} value={option.id}>
-                                                #{option.id} - {option.name}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </div>
-                                <div className="col-4 p-0">
-                                    <button type="button" className="btn btn-dark" data-bs-toggle="modal"
-                                            data-bs-target="#modalEnviar">
-                                        ENVIAR
-                                    </button>
-                                </div>
+            <form onSubmit={submit}>
+                <div className="row justify-content-between mb-4">
+                    <div className="col-md-6">
+                        <div className="row mx-3">
+                            <div className="col-8 ml-4">
+                                <TextField label="Selecione o Consultor..." select
+                                           value={consultorSelecionado ?? ''}
+                                           fullWidth required
+                                           onChange={e => setConsultorSelecionado(e.target.value)}>
+                                    {consultores.map((option) => (
+                                        <MenuItem key={option.id} value={option.id}>
+                                            #{option.id} - {option.name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <div className="col-4 p-0">
+                                <button type="button" className="btn btn-dark" data-bs-toggle="modal"
+                                        data-bs-target="#modalEnviar">
+                                    ENVIAR
+                                </button>
                             </div>
                         </div>
-                        <div className="col-md-auto ">
-                            <button type="button" className="btn btn-link" data-bs-toggle="modal"
-                                    data-bs-target="#modalEsconder">
-                                <VisibilityOffIcon/>
-                                OCULTAR
-                            </button>
-                            <button type="button" className="btn btn-link text-danger" data-bs-toggle="modal"
-                                    data-bs-target="#modalExcluir">
-                                <DeleteIcon/>
-                                EXCLUIR
-                            </button>
-                        </div>
                     </div>
-                </form>
-                <DataTable
-                    columns={columns}
-                    data={filteredItems}
-                    pagination
-                    paginationPerPage={25}
-                    subHeader
-                    subHeaderComponent={subHeaderComponentMemo}
-                    selectableRows
-                    persistTableHead
-                    onSelectedRowsChange={handleChange}
-                    striped
-                    highlightOnHover
-                    selectableRowsHighlight
-                    selectableRowsComponent={Checkbox}
-                />
+                    <div className="col-md-auto ">
+                        <button type="button" className="btn btn-link" data-bs-toggle="modal"
+                                data-bs-target="#modalEsconder">
+                            <VisibilityOffIcon/>
+                            OCULTAR
+                        </button>
+                        <button type="button" className="btn btn-link text-danger" data-bs-toggle="modal"
+                                data-bs-target="#modalExcluir">
+                            <DeleteIcon/>
+                            EXCLUIR
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <DataTable
+                columns={columns}
+                data={filteredItems}
+                pagination
+                paginationPerPage={25}
+                subHeader
+                subHeaderComponent={subHeaderComponentMemo}
+                style={{width: '100%'}}
+                // selectableRows
+                // persistTableHead
+                // onSelectedRowsChange={handleChange}
+                // striped
+                // highlightOnHover
+                // selectableRowsHighlight
+                // selectableRowsComponent={Checkbox}
+            />
 
             {/*MODAL ENVIAR*/}
             <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
@@ -268,7 +356,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                         </div>
                         <div className="modal-body">
                             {nomeConsultorSelecionado()}
-                            {!data.leads.length &&
+                            {!leadsChecked.length &&
                                 <div className="alert alert-danger text-white">Selecione os Leads</div>}
                         </div>
                         <div className="modal-footer">
@@ -276,7 +364,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                                     data-bs-dismiss="modal">Fechar
                             </button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => submit()} disabled={!data.leads.length || !data.consultor}>
+                                    onClick={() => submit()} disabled={!leadsChecked.length || !consultorSelecionado}>
                                 Enviar
                             </button>
                         </div>
@@ -295,7 +383,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                                     aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            {data.leads.length ?
+                            {leadsChecked.length ?
                                 <>EXCLUIR LEADS SELECIONADOS?</> :
                                 <div className="alert alert-danger text-white">Selecione os leads para excluir.</div>
                             }
@@ -321,7 +409,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                                     aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            {data.leads.length ?
+                            {leadsChecked.length ?
                                 <>Ocultar Leads Selecionados?</> :
                                 <div className="alert alert-danger text-white">Selecione os leads para ocultar.</div>
                             }

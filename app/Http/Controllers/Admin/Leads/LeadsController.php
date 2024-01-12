@@ -47,15 +47,15 @@ class LeadsController extends Controller
     {
         try {
             $idLeads = [];
-            if (!empty($request->leads)) {
-                foreach ($request->leads as $item) {
-                    $idLeads[] = $item['id'];
-                    (new Leads())->setConsultor($item['id'], $request->consultor);
+            if (!empty($request->leadsSelecionados)) {
+                foreach ($request->leadsSelecionados as $item) {
+                    $idLeads[] = $item;
+                    (new Leads())->setConsultor($item, $request->consultor);
                 }
             }
 
             // Notificar Leads
-            if (count($request->leads)) (new LeadsNotificacao())->notificar($request->consultor, count($request->leads), $idLeads);
+            if (count($request->leadsSelecionados)) (new LeadsNotificacao())->notificar($request->consultor, count($request->leadsSelecionados), $idLeads);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
         }
