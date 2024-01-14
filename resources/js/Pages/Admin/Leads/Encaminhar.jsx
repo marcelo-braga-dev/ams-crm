@@ -3,87 +3,31 @@ import DataTable from 'react-data-table-component';
 import {
     Backdrop,
     CircularProgress,
-    IconButton,
     ListItemButton,
-    ListItemIcon,
-    ListItemText, Select,
     TextField
 } from "@mui/material";
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import MenuItem from "@mui/material/MenuItem";
-import {router, useForm} from "@inertiajs/react";
+import {router} from "@inertiajs/react";
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Checkbox from "@mui/material/Checkbox";
 import ListItem from "@mui/material/ListItem";
-
-import PersonIcon from '@mui/icons-material/Person';
-import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
-import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
-
-import FormControl from '@mui/material/FormControl';
-
-const FilterComponent = ({filterText, onFilter, setFiltro}) => (
-    <>
-        <TextField
-            id="outlined-select-currency"
-            select
-            placeholder="asas"
-            label="Filtro"
-            defaultValue="nome"
-            size="small"
-            onChange={event => setFiltro(event.target.value)}
-        >
-            <MenuItem value="id">
-                ID
-            </MenuItem>
-            <MenuItem value="nome">
-                Nome/Razão Social
-            </MenuItem>
-            <MenuItem value="cnpj">
-                CNPJ
-            </MenuItem>
-            <MenuItem value="consultor">
-                Consultor
-            </MenuItem>
-            <MenuItem value="cidade">
-                Cidade
-            </MenuItem>
-            <MenuItem value="ddd">
-                DDD
-            </MenuItem>
-            <MenuItem value="telefone">
-                Telefone
-            </MenuItem>
-
-        </TextField>
-        <TextField
-            id="search"
-            type="text"
-            placeholder="Pesquisar..."
-            value={filterText}
-            onChange={onFilter}
-            size="small"
-        />
-    </>
-);
-
+import InfoLead from "@/Pages/Admin/Leads/Componentes/InfoLead";
 
 export default function Filtering({dados, consultores, categorias, categoriaAtual}) {
     // loading
+    const [filterText, setFilterText] = React.useState('');
+    const [filtro, setFiltro] = useState('nome');
     const [open, setOpen] = useState(false);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [pageAtual, setPageAtual] = useState(1);
+    const [checkedPage, setCheckedPage] = useState(false);
+    const [leadsChecked, setLeadsChecked] = useState([]);
+    const [consultorSelecionado, setConsultorSelecionado] = useState();
 
-    // Form
-    const {data, post, setData} = useForm({
-        'leads': []
-    });
-
-    const [leadsChecked, setLeadsChecked] = React.useState([]);
-    const [consultorSelecionado, setConsultorSelecionado] = React.useState();
-
-    const handleToggle = (value) => () => {
+    function handleToggle(value) {
         const currentIndex = leadsChecked.indexOf(value);
         const newChecked = [...leadsChecked];
 
@@ -92,80 +36,55 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         } else {
             newChecked.splice(currentIndex, 1);
         }
-
         setLeadsChecked(newChecked);
-    };
+    }
+
+    function adicionarLeadsCheck(check) {
+        setCheckedPage(check)
+
+        let indice = (pageAtual - 1) * rowsPerPage
+        const newChecked = [...leadsChecked];
+
+        for (let i = 0; i < rowsPerPage; i++) {
+            const valueID = filteredItems?.[indice + i]?.id
+            if (check) newChecked.push(valueID);
+            else {
+                const currentIndex = leadsChecked.indexOf(valueID);
+                newChecked.splice(currentIndex)
+            }
+        }
+
+        const arraySemDuplicados = Array.from(new Set(newChecked));
+        setLeadsChecked(arraySemDuplicados);
+    }
 
     const columns = [
         {
-            cell: row => <div className="row w-100 g-4">
+            name: 'Ordernar por nome',
+            selector: row => row.name || row.razao_social,
+            sortable: true,
+            cell: row => <div key={row.id} className="row w-100">
                 <div className="col p-0">
                     <ListItem
-                        key={1} disablePadding
+                        disablePadding
                         secondaryAction={
                             <a className="btn btn-primary btn-sm mt-2"
                                href={route('admin.clientes.leads.leads-main.show', row.id)}>
                                 Abrir
                             </a>
                         }>
-                        <ListItemButton role={undefined} onClick={handleToggle(row.id)} dense>
+                        <ListItemButton role={undefined} onClick={() => handleToggle(row.id)} dense>
                             <div className="row w-100 py-1">
                                 <div className="col-auto">
-                                    <ListItemIcon className="d-block ">
-                                        <Checkbox
-                                            edge="start"
-                                            checked={leadsChecked.indexOf(row.id) !== -1}
-                                            tabIndex={-1}
-                                            disableRipple
-                                        />
-                                    </ListItemIcon>
+                                    <Checkbox
+                                        edge="start"
+                                        checked={leadsChecked.indexOf(row.id) !== -1}
+                                        tabIndex={-1}
+                                        disableRipple
+                                    />
                                 </div>
                                 <div className="col-auto">
-                                    <table>
-                                        <tbody>
-                                        <tr>
-                                            <td><PersonIcon sx={{fontSize: 25}}/></td>
-                                            <td>
-                                                <span className="d-block"
-                                                      style={{fontSize: 14}}><b>{row.name}</b></span>
-                                                <span style={{fontSize: 15}}>{row.razao_social}</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <small className="me-4">ID: #{row.id}</small>
-                                                <small className="me-4">{row.data_criacao}</small>
-                                            </td>
-                                        </tr>
-                                        {row.cnpj && <tr>
-                                            <td>
-                                                <AssignmentOutlinedIcon sx={{fontSize: 20}}/>
-                                            </td>
-                                            <td>
-                                                <span className="d-block">CNPJ: {row.cnpj}</span>
-                                            </td>
-                                        </tr>}
-                                        {row.telefone && <tr>
-                                            <td>
-                                                <LocalPhoneOutlinedIcon sx={{fontSize: 20}}/>
-                                            </td>
-                                            <td>
-                                                <span className="d-block">{row.telefone}</span>
-                                            </td>
-                                        </tr>}
-
-                                        {(row.cidade || row.estado) && <tr>
-                                            <td>
-                                                <FmdGoodOutlinedIcon sx={{fontSize: 20}}/>
-                                            </td>
-                                            <td>
-                                                <span className="d-block">{row.cidade} {row.estado &&
-                                                    <span>- {row.estado}</span>}</span>
-                                            </td>
-                                        </tr>}
-                                        </tbody>
-                                    </table>
+                                    <InfoLead dado={row}/>
                                 </div>
                             </div>
                         </ListItemButton>
@@ -174,30 +93,14 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             </div>,
         },
     ];
-    console.log(leadsChecked)
-    console.log(consultorSelecionado)
-
-    function submit() {
-        if (consultorSelecionado && leadsChecked) {
-            setOpen(!open);
-            router.post(route('admin.clientes.leads.update-consultor',
-                {leadsSelecionados: leadsChecked, consultor: consultorSelecionado}))
-        }
-        router.on('success', (event) => {
-            setLeadsChecked([])
-            setConsultorSelecionado()
-            setOpen(false)
-        })
-    }
-
     // form - fim
 
     // Dados
     const linhas = dados.map(function (items) {
         return {
             id: items.id,
-            name: items.cliente.nome,
-            razao_social: items.cliente.razao_social,
+            name: items.cliente.nome?.toUpperCase(),
+            razao_social: items.cliente.razao_social?.toUpperCase(),
             cnpj: items.cliente.cnpj,
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
@@ -206,10 +109,6 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         }
     });
     // Dados - fim
-
-    const [filterText, setFilterText] = React.useState('');
-
-    const [filtro, setFiltro] = useState('nome');
 
     const filteredItems = linhas.filter(
         item => filtro === 'id' &&
@@ -227,9 +126,6 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             || filtro === 'cidade' &&
             item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
 
-            || filtro === 'consultor' &&
-            item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
-
             || filtro === 'cnpj' &&
             item.cnpj && item.cnpj.toLowerCase().includes(filterText.toLowerCase())
 
@@ -238,31 +134,40 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             || filtro === 'ddd' && filterText === ''
     );
 
-    const subHeaderComponentMemo = React.useMemo(() => {
-        return (
-            <FilterComponent onFilter={e => setFilterText(e.target.value)}
-                             filterText={filterText}
-                             setFiltro={setFiltro}/>
-        );
-    }, [filterText]);
-
-    const handleChange = row => {
-        setData('leads', row.selectedRows)
-    };
+    function encaminharLead() {
+        if (consultorSelecionado && leadsChecked) {
+            setOpen(!open);
+            router.post(route('admin.clientes.leads.update-consultor',
+                {leadsSelecionados: leadsChecked, consultor: consultorSelecionado}))
+        }
+    }
 
     // Form Excluir
     function excluir() {
-        post(route('admin.clientes.leads.delete'))
-        window.location.reload();
+        if (leadsChecked) {
+            setOpen(!open);
+            router.post(route('admin.clientes.leads.delete',
+                {leadsSelecionados: leadsChecked}))
+        }
     }
 
     // Form Excluir - fim
 
     // Form Ocultar
     function ocultar() {
-        post(route('admin.clientes.leads.ocultar'))
-        window.location.reload();
+        if (leadsChecked) {
+            setOpen(!open);
+            router.post(route('admin.clientes.leads.ocultar',
+                {leadsSelecionados: leadsChecked}))
+        }
     }
+
+    router.on('success', (event) => {
+        setLeadsChecked([])
+        setConsultorSelecionado()
+        setOpen(false)
+        setCheckedPage(false)
+    })
 
     // Form Ocultar - fim
 
@@ -276,23 +181,26 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
 
     return (
         <Layout container titlePage="Enviar Leads para Consultores" menu="leads" submenu="leads-encaminhar">
-            <h6>Setores</h6>
-            <div className="btn-group mb-4" role="group" aria-label="Basic outlined example">
-                {categorias.map((categoria, index) => {
-                    return (
-                        <a type="button" key={index}
-                           href={route('admin.clientes.leads.leads-main.index', {categoria: categoria.id})}
-                           className={(categoria.id == categoriaAtual ? 'active' : '') + " btn btn-outline-dark"}>
-                            {categoria.nome}
-                        </a>
-                    )
-                })}
+            {/*Setores*/}
+            <div className="row border-bottom mb-4 pb-2">
+                <div className="col-md-5 mb-2">
+                    <TextField label="Setor" select fullWidth
+                               value={categoriaAtual ?? ''}
+                               onChange={e => router.get(route('admin.clientes.leads.leads-main.index', {categoria: e.target.value}))}>
+                        {categorias.map((option) => (
+                            <MenuItem key={option.id} value={option.id}>
+                                {option.nome}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </div>
             </div>
 
-            <form onSubmit={submit}>
+            <form onSubmit={encaminharLead}>
+                <span>Selecione o consultor(a) para enviar os leads.</span>
                 <div className="row justify-content-between mb-4">
                     <div className="col-md-6">
-                        <div className="row mx-3">
+                        <div className="row">
                             <div className="col-8 ml-4">
                                 <TextField label="Selecione o Consultor..." select
                                            value={consultorSelecionado ?? ''}
@@ -327,21 +235,67 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                     </div>
                 </div>
             </form>
+
+            {/*FILTRO*/}
+            <div className="row">
+                <div className="col ps-3">
+                    <Checkbox checked={checkedPage || false} onChange={e => adicionarLeadsCheck(e.target.checked)}/>
+                    {leadsChecked.length} selecionados
+                </div>
+                <div className="col-auto text-right">
+                    <TextField
+                        id="outlined-select-currency"
+                        select
+                        placeholder="asas"
+                        label="Filtro"
+                        defaultValue="nome"
+                        size="small"
+                        onChange={event => setFiltro(event.target.value)}
+                    >
+                        <MenuItem value="id">
+                            ID
+                        </MenuItem>
+                        <MenuItem value="nome">
+                            Nome/Razão Social
+                        </MenuItem>
+                        <MenuItem value="cnpj">
+                            CNPJ
+                        </MenuItem>
+                        <MenuItem value="cidade">
+                            Cidade
+                        </MenuItem>
+                        <MenuItem value="ddd">
+                            DDD
+                        </MenuItem>
+                        <MenuItem value="telefone">
+                            Telefone
+                        </MenuItem>
+                    </TextField>
+                    <TextField
+                        id="search"
+                        type="text"
+                        placeholder="Pesquisar..."
+                        value={filterText}
+                        onChange={e => setFilterText(e.target.value)}
+                        size="small"
+                    />
+                </div>
+            </div>
+
             <DataTable
                 columns={columns}
                 data={filteredItems}
                 pagination
-                paginationPerPage={25}
-                subHeader
-                subHeaderComponent={subHeaderComponentMemo}
-                style={{width: '100%'}}
-                // selectableRows
-                // persistTableHead
-                // onSelectedRowsChange={handleChange}
-                // striped
-                // highlightOnHover
-                // selectableRowsHighlight
-                // selectableRowsComponent={Checkbox}
+                paginationPerPage={rowsPerPage}
+                onChangeRowsPerPage={value => setRowsPerPage(value)}
+                onChangePage={value => {
+                    setPageAtual(value)
+                    setCheckedPage(false)
+                }}
+                paginationComponentOptions={{
+                    rowsPerPageText: 'Itens por página',
+                    rangeSeparatorText: 'de',
+                }}
             />
 
             {/*MODAL ENVIAR*/}
@@ -364,7 +318,8 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                                     data-bs-dismiss="modal">Fechar
                             </button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => submit()} disabled={!leadsChecked.length || !consultorSelecionado}>
+                                    onClick={() => encaminharLead()}
+                                    disabled={!leadsChecked.length || !consultorSelecionado}>
                                 Enviar
                             </button>
                         </div>

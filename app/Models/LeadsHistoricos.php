@@ -108,4 +108,11 @@ class LeadsHistoricos extends Model
         }
         return $items;
     }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->where('lead_id', $id)
+            ->delete();
+    }
 }

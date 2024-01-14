@@ -53,7 +53,6 @@ class LeadsController extends Controller
                     (new Leads())->setConsultor($item, $request->consultor);
                 }
             }
-
             // Notificar Leads
             if (count($request->leadsSelecionados)) (new LeadsNotificacao())->notificar($request->consultor, count($request->leadsSelecionados), $idLeads);
         } catch (\DomainException $exception) {
@@ -78,24 +77,26 @@ class LeadsController extends Controller
     public function delete(Request $request)
     {
         try {
-            if (!empty($request->leads)) {
-                foreach ($request->leads as $item) {
-                    (new Leads())->remover($item['id']);
+            if (!empty($request->leadsSelecionados)) {
+                foreach ($request->leadsSelecionados as $item) {
+                    (new Leads())->remover($item);
                 }
             }
-            modalSucesso("Leads removidos com sucesso!");
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
         }
-
     }
 
     public function ocultar(Request $request)
     {
-        if (!empty($request->leads)) {
-            foreach ($request->leads as $item) {
-                (new UpdateStatusLeads())->ocultar($item['id']);
+        try {
+            if (!empty($request->leadsSelecionados)) {
+                foreach ($request->leadsSelecionados as $item) {
+                    (new UpdateStatusLeads())->ocultar($item);
+                }
             }
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
         }
 
         modalSucesso("Leads ocultado com sucesso!");
@@ -165,16 +166,17 @@ class LeadsController extends Controller
     public function limparConsultor(Request $request)
     {
         try {
-            if (!empty($request->leads)) {
-                foreach ($request->leads as $item) {
-                    (new Leads())->setConsultor($item['id'], null);
+            if (!empty($request->leadsSelecionados)) {
+                foreach ($request->leadsSelecionados as $item) {
+                    (new UpdateStatusLeads())->ocultar($item);
+                    (new Leads())->setConsultor($item, null);
                 }
             }
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
         }
 
-        modalSucesso('Informações armazenadas com sucesso!');
+        modalSucesso('Informações atualizadas com sucesso!');
         return redirect()->back();
     }
 

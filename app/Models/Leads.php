@@ -135,7 +135,6 @@ class Leads extends Model
             ->transform(function ($item) use ($nomeConsultores) {
                 return $this->dadosResumido($item, $nomeConsultores);
             });
-
     }
 
     public function getConsultores(int $id)
@@ -162,11 +161,13 @@ class Leads extends Model
     public function remover(int $id)
     {
         $verificar = (new Pedidos())->newQuery()
-            ->where('lead', $id)
-            ->get();
+            ->where('lead_id', $id)
+            ->get('id');
 
-        if ($verificar->isEmpty()) {
+        if ($verificar) {
             try {
+                (new LeadsHistoricos())->remover($id);
+
                 $this->newQuery()
                     ->find($id)
                     ->delete();
