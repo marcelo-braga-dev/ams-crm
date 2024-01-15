@@ -8,7 +8,7 @@ use App\Models\Setores;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class CategoriasController extends Controller
+class SetoresController extends Controller
 {
     public function index()
     {

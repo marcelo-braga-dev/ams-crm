@@ -8,7 +8,8 @@ export default function ({dados, franquias}) {
     const {data, setData} = useForm({
         nome: dados.nome,
         cor: dados.cor,
-        franquia: dados.franquia_id
+        franquia: dados.franquia_id,
+        modelo: dados.modelo_id
     });
 
     function submit(e) {
@@ -39,6 +40,13 @@ export default function ({dados, franquias}) {
                     <div className="col-md-6">
                         <TextField label="Nome" defaultValue={data.nome}
                                    onChange={e => setData('nome', e.target.value)} required fullWidth/>
+                    </div>
+                    <div className="col-md-2">
+                        <TextField label="Emitir Pedidos" select required fullWidth defaultValue={data.modelo}
+                                   onChange={e => setData('modelo', e.target.value)}>
+                            <MenuItem value="2">Com produtos</MenuItem>
+                            <MenuItem value="1">Sem produtos</MenuItem>
+                        </TextField>
                     </div>
                     <div className="col-md-2">
                         <TextField label="Cor" defaultValue={data.cor} type="color"

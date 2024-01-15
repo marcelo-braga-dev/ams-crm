@@ -10,7 +10,7 @@ export default function () {
         post(route('admin.franquias.store'))
     }
     return (
-        <Layout container titlePage="Cadastrar Setor" voltar={route('admin.config.categorias.index')}
+        <Layout container titlePage="Cadastrar Franquia" voltar={route('admin.config.categorias.index')}
                 menu="config" submenu="setores">
 
             <form onSubmit={submit}>

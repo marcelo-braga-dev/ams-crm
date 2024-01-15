@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\Config\CategoriasController;
+use App\Http\Controllers\Admin\Config\SetoresController;
 use Illuminate\Support\Facades\Route;
 
 // Fornecedores
@@ -9,6 +9,6 @@ Route::middleware(['auth', 'auth.admins'])
     ->prefix('admin')
     ->group(function () {
         Route::resources([
-            'categorias' => CategoriasController::class
+            'categorias' => SetoresController::class
         ]);
     });

@@ -10,6 +10,7 @@ export default function ({franquias}) {
         e.preventDefault()
         post(route('admin.config.categorias.store'))
     }
+
     return (
         <Layout container titlePage="Cadastrar Setor" voltar={route('admin.config.categorias.index')}
                 menu="config" submenu="config-setores">
@@ -27,7 +28,15 @@ export default function ({franquias}) {
                 </div>
                 <div className="row mb-4">
                     <div className="col-md-6">
-                        <TextField label="Nome do Setor" onChange={e => setData('nome', e.target.value)} required fullWidth/>
+                        <TextField label="Nome do Setor" fullWidth  required
+                                   onChange={e => setData('nome', e.target.value)}/>
+                    </div>
+                    <div className="col-md-2">
+                        <TextField label="Emitir Pedidos" select required fullWidth
+                                   onChange={e => setData('modelo', e.target.value)}>
+                            <MenuItem value="2">Com produtos</MenuItem>
+                            <MenuItem value="1">Sem produtos</MenuItem>
+                        </TextField>
                     </div>
                     <div className="col-md-2">
                         <TextField label="Cor" type="color"

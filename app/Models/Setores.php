@@ -52,7 +52,8 @@ class Setores extends Model
             ->update([
                 'nome' => $request->nome,
                 'cor' => $request->cor,
-                'franquia_id' => $request->franquia
+                'franquia_id' => $request->franquia,
+                'modelo' => $request->modelo
             ]);
     }
 
@@ -103,7 +104,9 @@ class Setores extends Model
             'nome' => $item->nome,
             'cor' => $item->cor,
             'franquia' => $franquias[$item->franquia_id] ?? '',
-            'franquia_id' => $item->franquia_id
+            'franquia_id' => $item->franquia_id,
+            'modelo_id' => $item->modelo,
+            'modelo' => $item->modelo == 1 ? 'Sem Produtos' : 'Com Produtos'
         ];
     }
 }
