@@ -6,7 +6,7 @@ import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Show({dados, historicos, consultores}) {
+export default function Show({dados, historicos, consultores, status, contatos}) {
 
     const {data, setData, post} = useForm({
         lead: dados.id,
@@ -44,6 +44,12 @@ export default function Show({dados, historicos, consultores}) {
 
     function alterarConsultor() {
         post(route('admin.leads.update-consultor'))
+    }
+
+    function onSubmit(e) {
+        e.preventDefault();
+        post(route('admin.leads.atualizar-status'))
+        window.location.reload()
     }
 
     return (
@@ -106,13 +112,63 @@ export default function Show({dados, historicos, consultores}) {
                 </div>
             </div>
 
-            <div className="mb-4 border-bottom">
-                <div className="mt-4">
-                    <h6 className="mb-3">Histórico de Atendimento</h6>
-                    <HistoricoLista
-                        historicos={historicos} enviarComentario={enviarComentario}
-                        setData={setData} urlPedidos="admin.pedidos.show"
-                    />
+            <div className="card card-body mb-4">
+                <div className="card card-body mb-4">
+                    <form onSubmit={onSubmit}>
+                        <h6>Atualizar Status do Lead</h6>
+                        <div className="row">
+                            <div className="col">
+                                <TextField label="Status" select fullWidth required defaultValue="" size="small"
+                                           onChange={e => setData('status', e.target.value)}>
+                                    {status.map((option, index) => (
+                                        <MenuItem key={index} value={option.status}>
+                                            {option.nome}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <div className="col mb-4">
+                                <TextField label="Meio Contato" select fullWidth required defaultValue=""
+                                           size="small"
+                                           onChange={e => setData('meio_contato', e.target.value)}>
+                                    {contatos.map((option, index) => (
+                                        <MenuItem key={index} value={option.key}>
+                                            {option.nome}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col">
+                                <TextField label="Anotações" multiline rows="2" fullWidth
+                                           onChange={e => setData('msg', e.target.value)}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <div className="text-center">
+                                    <button className="btn btn-primary"
+                                            onClick={() => setData('salvar_msg', true)}
+                                            type="submit">
+                                        Enviar Anotações
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div className="card card-body mb-4">
+                <div className="mb-4 border-bottom">
+                    <div className="mt-4">
+                        <h6 className="mb-3">Histórico de Atendimento</h6>
+                        <HistoricoLista
+                            historicos={historicos} enviarComentario={enviarComentario}
+                            setData={setData} urlPedidos="admin.pedidos.show"
+                        />
+                    </div>
                 </div>
             </div>
 
