@@ -30,13 +30,14 @@ class FranquiasController extends Controller
         return redirect()->route('admin.franquias.index');
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
+        $status = !$request->status;
         $franquia = (new Franquias())->find($id);
-        $usuarios = (new User())->franquias($id);
+        $usuarios = (new User())->franquias($id, $status);
 
         return Inertia::render('Admin/Config/Franquias/Show',
-            compact('franquia', 'usuarios'));
+            compact('franquia', 'usuarios', 'status'));
     }
 
     public function selecionaFranquia(Request $request)

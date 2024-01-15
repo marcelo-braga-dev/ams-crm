@@ -78,9 +78,9 @@ export default function Index({usuarios, status}) {
                                 <Tab label="Supervisores" {...a11yProps(1)} />
                                 <Tab label="Admins" {...a11yProps(2)} />
                             </Tabs>
-                        </div>{status}
+                        </div>
                         <div className="col-auto">
-                            <FormControlLabel control={<Switch defaultChecked={status}/>}
+                            <FormControlLabel control={<Switch defaultChecked={!status}/>}
                                               label={status ? "Ativos" : "Todos"}
                                               onChange={event => escolherStatus(event.target.checked)}/>
                         </div>

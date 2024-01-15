@@ -357,12 +357,13 @@ class User extends Authenticatable
         return $consultor;
     }
 
-    public function franquias($id)
+    public function franquias($id, $status = false)
     {
         $setores = (new Setores())->getNomes();
 
-        return $this->newQuery()
-            ->where('franquia_id', $id)
+        $query = $this->newQuery();
+        if ($status) $query->where('status', (new AtivoStatusUsuario())->getStatus());
+        return $query->where('franquia_id', $id)
             ->get()
             ->transform(function ($item) use ($setores) {
                 return [
@@ -371,6 +372,7 @@ class User extends Authenticatable
                     'funcao' => $item->tipo,
                     'setor' => $setores[$item->setor_id]['nome'] ?? '',
                     'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
+                    'status' => $item->status
                 ];
             });
     }

@@ -16,7 +16,7 @@ class UsuariosController extends Controller
 {
     public function index(Request $request)
     {
-        $status = !(bool)$request->status;
+        $status = !$request->status;
         $dados = (new User())->usuarios($status);
 
         $usuarios['admins'] = [...$dados->where('tipo', (new Admins)->getFuncao())];

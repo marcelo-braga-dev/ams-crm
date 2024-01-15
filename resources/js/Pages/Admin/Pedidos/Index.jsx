@@ -30,6 +30,8 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
     const [pedidos, setPedidos] = useState()
     const [modelo, setModelo] = useState()
     const [carregando, setCarregando] = useState(true)
+    const [setorSelecionado, setSetorSelecionado] = useState()
+    const [fornecedorSelecionado, setFornecedorSelecionado] = useState()
 
     const modelo1 = (modelo === 1 || modelo === null)
     const modelo2 = (modelo === 2 || modelo === null)
@@ -37,6 +39,8 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
     function atualizarPagina(forcededorId, setorId) {
         setCarregando(true)
         setPedidos(undefined)
+        setSetorSelecionado(setorId)
+        setFornecedorSelecionado(forcededorId)
         axios.get(route('admin.pedidos-cards', {setor: setorId, fornecedor: forcededorId}))
             .then(res => {
                 setPedidos(res.data.pedidos)
@@ -52,6 +56,8 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                 setPedidos(res.data.pedidos)
                 setModelo(res.data.modelo)
                 setCarregando(false)
+                setSetorSelecionado()
+                setFornecedorSelecionado()
             })
     }, [usePage().props.franquia_selecionada])
 
@@ -63,7 +69,7 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                     <div className="row">
                         <div className="col-md-5">
                             <TextField select label="Setores" size="small" fullWidth
-                                       defaultValue=""
+                                       defaultValue="" value={setorSelecionado ?? ''}
                                        onChange={e => atualizarPagina(null, e.target.value)}>
                                 <MenuItem value="">Todos</MenuItem>
                                 {setores.map((setor, index) => {
@@ -75,7 +81,7 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                         </div>
                         <div className="col-md-5">
                             <TextField select size="small" label="Fornecedores" fullWidth
-                                       defaultValue=""
+                                       defaultValue="" value={fornecedorSelecionado ?? ''}
                                        onChange={e => atualizarPagina(e.target.value, '')}>
                                 <MenuItem value="">Todos</MenuItem>
                                 {fornecedores.map((item, index) => {
