@@ -16,7 +16,6 @@ class UsuariosController extends Controller
 
     public function usuariosOnline()
     {
-        $usuarios = (new User())->usuariosOnline();
-        return (new DadosUsuariosService())->transformar($usuarios);
+        return response()->json((new User())->usuariosOnline()) ;
     }
 }

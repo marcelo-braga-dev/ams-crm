@@ -16,6 +16,7 @@ import ListItemText from "@mui/material/ListItemText";
 import {styled} from "@mui/material/styles";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import setUltimoLoginUsuario from "@/Helpers/setUltimoLoginUsuario";
 
 const StyledBadge = styled(Badge)(({theme}) => ({
     '& .MuiBadge-badge': {
@@ -52,16 +53,18 @@ export default function NotificacoesIcones({corTexto}) {
     const [qtdChatInterno, setChatInterno] = React.useState();
     const [usuariosOnline, setUsuariosOnline] = useState([]);
 
+    setUltimoLoginUsuario()
+
     // Online
     function getUsuariosOnline() {
-        axios.post(route('geral.usuarios.usuarios-online')).then(response => {
-            setUsuariosOnline(response.data)
-        })
+        axios.post(route('geral.usuarios.usuarios-online'))
+            .then(response => {
+                setUsuariosOnline(response.data)
+            })
 
         setTimeout(function () {
             getUsuariosOnline();
-
-        }, 60000)
+        }, 30000)
     }
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -103,14 +106,14 @@ export default function NotificacoesIcones({corTexto}) {
 
         <IconButton disableRipple sx={{color: corTexto, mx: 1}}
                     href={route('admin.emails.index')}>
-            <Badge badgeContent={usuariosOnline.length} color="error">
+            <Badge badgeContent={0} color="error">
                 <EmailOutlinedIcon/>
             </Badge>
         </IconButton>
 
         <IconButton disableRipple sx={{color: corTexto, mx: 1}}
                     href={route('admin.agenda.calendario.index')}>
-            <Badge badgeContent={usuariosOnline.length} color="error">
+            <Badge badgeContent={0} color="error">
                 <CalendarMonthOutlinedIcon/>
             </Badge>
         </IconButton>
@@ -134,26 +137,25 @@ export default function NotificacoesIcones({corTexto}) {
             {usuariosOnline.length ? <List>
                     {usuariosOnline.map((dado, index) => {
                         return (
-                            <a key={index} href={route('admin.usuarios.consultores.show', dado.id)}>
-                                <ListItem className=" pb-0">
-                                    <ListItemAvatar>
-                                        <StyledBadge
-                                            overlap="circular"
-                                            anchorOrigin={{
-                                                vertical: 'bottom',
-                                                horizontal: 'right'
-                                            }}
-                                            variant="dot">
-                                            <Avatar src={dado.foto}/>
-                                        </StyledBadge>
+                            <ListItem className="pb-0 cursor-pointer"
+                                      onClick={() => window.location.href = route('admin.usuarios.consultores.show', dado.id)}>
+                                <ListItemAvatar>
+                                    <StyledBadge
+                                        overlap="circular"
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'right'
+                                        }}
+                                        variant="dot">
+                                        <Avatar src={dado.foto}/>
+                                    </StyledBadge>
 
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={dado.nome}
-                                        secondary={dado.setor_nome}
-                                    />
-                                </ListItem>
-                            </a>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={dado.nome}
+                                    secondary={dado.setor_nome}
+                                />
+                            </ListItem>
                         )
                     })}
                 </List> :

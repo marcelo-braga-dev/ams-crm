@@ -320,7 +320,9 @@ class User extends Authenticatable
 
     public function usuariosOnline()
     {
-        $intervalo = date('Y-m-d H:i:s', (strtotime(now()) - 31));
+        $setores = (new Setores())->getNomes();
+
+        $intervalo = date('Y-m-d H:i:s', (strtotime(now()) - 30));
 
         return $this->newQuery()
             ->where('ultimo_login', '>', $intervalo)
@@ -330,7 +332,18 @@ class User extends Authenticatable
                 ['id', '!=', 2],
                 ['id', '!=', 3],
             ])
-            ->get();
+            ->get()
+            ->transform(function ($item) use ($setores) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'status' => $item->status,
+                    'tipo' => $item->tipo,
+                    'setor_id' => $item->setor_id,
+                    'setor_nome' => $setores[$item->setor_id]['nome'] ?? null,
+                    'foto' => $item->foto ? asset('storage/' . $item->foto) : null
+                ];
+            });
     }
 
     public function getIdUsuarios()
