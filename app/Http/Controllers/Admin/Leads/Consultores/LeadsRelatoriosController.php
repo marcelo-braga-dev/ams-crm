@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
+use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Illuminate\Http\Request;
@@ -25,5 +26,15 @@ class LeadsRelatoriosController extends Controller
         (new LeadsNotificacao())->notificarComentarios($request->consultor, $request->msg, $request->lead);
 
         return redirect()->back();
+    }
+
+    public function atualizarStatus(Request $request)
+    {
+        if ($request->salvar_msg) {
+            (new LeadsHistoricos())->create($request->lead, $request, $request->status);
+
+            modalSucesso('Status atualizado!');
+            return redirect()->back();
+        }
     }
 }

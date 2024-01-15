@@ -68,4 +68,7 @@ Route::name('admin.leads.')
 
         Route::post('adicionar-comentarios', [LeadsRelatoriosController::class, 'adicionarComentarios'])
             ->name('adicionar-comentarios');
+
+        Route::post('atualizar-status', [LeadsRelatoriosController::class, 'atualizarStatus'])
+            ->name('atualizar-status');
     });
