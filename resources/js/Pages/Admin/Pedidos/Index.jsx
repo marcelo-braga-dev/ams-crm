@@ -36,10 +36,6 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
     const modelo1 = (modelo === 1 || modelo === null)
     const modelo2 = (modelo === 2 || modelo === null)
 
-    function x() {
-        return <CardAcompanhamento/>
-    }
-
     function atualizarPagina(forcededorId, setorId) {
         setCarregando(true)
         setPedidos(undefined)
@@ -272,7 +268,9 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                 <tr className="align-top">
                                     <td id="td-1" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.reprovado.map((dados) => {
-                                            return (<CardReprovado key={dados.id} dados={dados}
+                                            // return (<CardReprovado key={dados.id} dados={dados}
+                                            //                        cor={coresAbas.reprovado}/>)
+                                            return (<CardAcompanhamento key={dados.id} dados={dados}
                                                                    cor={coresAbas.reprovado}/>)
                                         })}
                                     </td>
