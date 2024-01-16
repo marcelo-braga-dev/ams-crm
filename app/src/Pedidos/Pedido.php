@@ -25,7 +25,6 @@ class Pedido
                 {
                     DB::beginTransaction();
                     try {
-                        $lead = (new Leads())->find($request->id_lead);
                         $idPedido = (new Pedidos())->create($request);
                         (new PedidosClientes())->create($idPedido, $request);
                         (new PedidosImagens())->create($idPedido, $request);
@@ -42,8 +41,7 @@ class Pedido
                     DB::beginTransaction();
                     try {
                         (new Leads())->atualizar($request->id_lead, $request);
-                        $lead = (new Leads())->find($request->id_lead);
-                        $idPedido = (new Pedidos())->create($request, $lead->user_id ?? null);
+                        $idPedido = (new Pedidos())->create($request);
 
                         (new ArquivosPedido())->comprovantePix($idPedido, $request);
                         (new ArquivosPedido())->cheques($idPedido, $request);

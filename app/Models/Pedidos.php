@@ -40,18 +40,22 @@ class Pedidos extends Model
         'modelo',
     ];
 
-    function create($dados, $leadUser = null)
+    function create($dados)
     {
+        $idUser = null;
         $status = (new ConferenciaStatusPedido())->getStatus();
         $prazo = (new ConferenciaStatusPedido())->getPrazo();
-        $isSupervisor = funcao_usuario_atual() == (new Supervisores())->getFuncao();
+        if (is_supervisor()) {
+            $lead = (new Leads())->find($dados->id_lead);
+            $idUser = $lead->user_id;
+        };
 
         try {
             $pedido = $this->newQuery()
                 ->create([
-                    'user_id' => $isSupervisor ? $leadUser : id_usuario_atual(),
+                    'user_id' => $idUser ?? id_usuario_atual(),
                     'franquia_id' => franquia_usuario_atual(),
-                    'superior_id' => $isSupervisor ? id_usuario_atual() : null,
+                    'superior_id' => $idUser ?? id_usuario_atual(),
                     'lead_id' => $dados->id_lead,
                     'setor_id' => setor_usuario_atual(),
                     'status' => $status,
