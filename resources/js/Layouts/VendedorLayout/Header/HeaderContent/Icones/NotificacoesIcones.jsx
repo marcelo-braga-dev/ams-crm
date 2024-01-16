@@ -5,11 +5,14 @@ import {Badge, IconButton} from "@mui/material";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import setUltimoLoginUsuario from "@/Helpers/setUltimoLoginUsuario";
 
 export default function NotificacoesIcones() {
     const [qtdLeads, setQtdLeads] = React.useState();
     const [qtdPedidos, setQtdPedidos] = React.useState();
     const [qtdChatInterno, setChatInterno] = React.useState();
+
+    setUltimoLoginUsuario()
 
     return (<>
         <RequestNotificacoes
