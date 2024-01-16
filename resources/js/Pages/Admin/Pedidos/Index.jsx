@@ -345,7 +345,7 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                         <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.acompanhamento.map((dados) => {
                                                 return (
-                                                    <CardEntregue key={dados.id} dados={dados} status="acompanhamento"
+                                                    <CardAcompanhamento key={dados.id} dados={dados} status="acompanhamento"
                                                                   cor={coresAbas.acompanhamento}/>)
                                             })}
                                         </td>}
