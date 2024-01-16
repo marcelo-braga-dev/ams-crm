@@ -96,9 +96,9 @@ class MensagensChatInternoService
         $dados = (new User())->usuariosOnline();
 
         $item = [];
-        foreach ($dados as $dado) {
-            $item[$dado->id] = true;
-        }
+//        foreach ($dados as $dado) {
+//            $item[$dado->id] = true;
+//        }
         return $item;
     }
 }
