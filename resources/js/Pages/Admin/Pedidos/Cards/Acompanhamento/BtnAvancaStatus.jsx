@@ -1,9 +1,9 @@
 import React from "react";
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrowRounded';
 
-export default function BtnAvancaStatus({dados}) {
+export default function BtnAvancaStatus({id}) {
     return (
-        <a href={route('admin.acompanhamento.show', dados.id)}>
+        <a href={route('admin.acompanhamento.show', id)}>
             <DoubleArrowIcon
                 className='shadow border-2 p-0 rounded-circle'
                 color='success'

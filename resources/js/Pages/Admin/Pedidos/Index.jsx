@@ -268,9 +268,7 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                                 <tr className="align-top">
                                     <td id="td-1" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.reprovado.map((dados) => {
-                                            // return (<CardReprovado key={dados.id} dados={dados}
-                                            //                        cor={coresAbas.reprovado}/>)
-                                            return (<CardAcompanhamento key={dados.id} dados={dados}
+                                            return (<CardReprovado key={dados.id} dados={dados}
                                                                    cor={coresAbas.reprovado}/>)
                                         })}
                                     </td>
