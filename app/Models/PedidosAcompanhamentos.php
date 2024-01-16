@@ -27,6 +27,7 @@ class PedidosAcompanhamentos extends Model
                 return [
                     'nome' => $nomes[$dados->user_id] ?? '',
                     'msg' => $dados->msg,
+                    'data' => date('d/m/Y H:i', strtotime($dados->created_at)),
                     'prazo' => $dados->prazo,
                 ];
             });

@@ -42,7 +42,7 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({pedido, produtos, historico}) {
+export default function Pedidos({pedido, produtos, historico, historicoAcompanhamento}) {
     const [value, setValue] = React.useState(0);
     const funcaoUsuario = usePage().props.auth.user.tipo
 
@@ -103,45 +103,81 @@ export default function Pedidos({pedido, produtos, historico}) {
                         </div>
                     </div>
                 </TabPanel>
+                {/*Anexos*/}
                 <TabPanel value={value} index={3}>
                     <Typography variant={"h6"}>Documentos</Typography>
                     <DadosPedidoFiles dados={pedido}></DadosPedidoFiles>
                 </TabPanel>
+                {/*Historico*/}
                 <TabPanel value={value} index={4}>
-                    <Typography variant="h6" className="mb-3">Histórico do Pedido</Typography>
-                    <table className="table">
-                        <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Prazo</th>
-                            <th>Responsável</th>
-                            <th>Status</th>
-                            <th>Anotações</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {historico.map((dado, index) => {
-                            return (
-                                <tr key={index}>
-                                    <th scope="row">
-                                        {dado.data}
-                                    </th>
-                                    <td className="col-1">
-                                        {dado.prazo} dias
-                                    </td>
-                                    <td>
-                                        {dado.usuario}
-                                    </td>
-                                    <td>
-                                        {dado.status}
-                                    </td>
-                                    <td>
-                                        {dado.obs}
-                                    </td>
-                                </tr>)
-                        })}
-                        </tbody>
-                    </table>
+                    <div className="card card-body">
+                        <span><b>Histórico do Pedido</b></span>
+                        <table className="table">
+                            <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Prazo</th>
+                                <th>Responsável</th>
+                                <th>Status</th>
+                                <th>Anotações</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {historico.map((dado, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <th scope="row">
+                                            {dado.data}
+                                        </th>
+                                        <td className="col-1">
+                                            {dado.prazo} dias
+                                        </td>
+                                        <td>
+                                            {dado.usuario}
+                                        </td>
+                                        <td>
+                                            {dado.status}
+                                        </td>
+                                        <td>
+                                            {dado.obs}
+                                        </td>
+                                    </tr>)
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/*Historico Acompanhamento*/}
+                    {historicoAcompanhamento.length > 0 &&
+                        <div className="card card-body">
+                            <span><b>Histórico de Acompanhamento do Pedido</b></span>
+                            <table className="table">
+                                <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Autor</th>
+                                    <th>Mensagem</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {historicoAcompanhamento.map((dado, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <th scope="row" className="col-2">
+                                                {dado.data}
+                                            </th>
+                                            <td>
+                                                {dado.nome}
+                                            </td>
+                                            <td>
+                                                {dado.msg}
+                                            </td>
+                                        </tr>)
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
+                    }
                 </TabPanel>
                 <TabPanel value={value} index={5}>
                     <h6>SAC</h6>

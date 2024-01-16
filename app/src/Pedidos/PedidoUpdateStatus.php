@@ -45,9 +45,9 @@ class PedidoUpdateStatus
         (new PedidosFaturamentos())->create($id);
     }
 
-    public function setEntregue($id, $pix): void
+    public function setEntregue($id, $pix = null): void
     {
-        (new ArquivosPedido())->comprovantePix($id, $pix);
+        if ($pix) (new ArquivosPedido())->comprovantePix($id, $pix);
         (new EntregueStatus())->updateStatus($id);
     }
 
