@@ -125,6 +125,38 @@ class PedidosArquivos extends Model
             });
     }
 
+    public function getResidencia($id)
+    {
+        return $this->newQuery()
+            ->where('pedido_id', $id)
+            ->where('chave', (new ChavesArquivosPedidos())->residencia())
+            ->orderBy('indice')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'indice' => $item->indice,
+                    'data' => date('d/m/Y', strtotime($item->data)),
+                    'url' => $item->valor,
+                ];
+            });
+    }
+
+    public function getCNPJ($id)
+    {
+        return $this->newQuery()
+            ->where('pedido_id', $id)
+            ->where('chave', (new ChavesArquivosPedidos())->cnpj())
+            ->orderBy('indice')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'indice' => $item->indice,
+                    'data' => date('d/m/Y', strtotime($item->data)),
+                    'url' => $item->valor,
+                ];
+            });
+    }
+
     public function setRG($idPedido, $request)
     {
         if ($request->img_rg) {
@@ -151,6 +183,23 @@ class PedidosArquivos extends Model
 
             (new PedidosArquivos())->insert($idPedido, (new ChavesArquivosPedidos())->cnh(), $url);
         }
+    }
 
+    public function setCNPJ($idPedido, $request)
+    {
+        if ($request->file_cartao_cnpj) {
+            $url = (new Images())->armazenar($request, 'file_cartao_cnpj', 'pedidos/' . $idPedido);
+
+            (new PedidosArquivos())->insert($idPedido, (new ChavesArquivosPedidos())->cnpj(), $url);
+        }
+    }
+
+    public function setResidencia($idPedido, $request)
+    {
+        if ($request->file_comprovante_residencia) {
+            $url = (new Images())->armazenar($request, 'file_comprovante_residencia', 'pedidos/' . $idPedido);
+
+            (new PedidosArquivos())->insert($idPedido, (new ChavesArquivosPedidos())->residencia(), $url);
+        }
     }
 }

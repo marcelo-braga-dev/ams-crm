@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 
+/**
+ * @deprecated
+ */
 class PedidosImagens extends Model
 {
     use HasFactory;
@@ -162,18 +165,11 @@ class PedidosImagens extends Model
 
     public function updateRevisao($id, $dados)
     {
-        if ($dados->img_pedido) {
-            $this->atualizarUrl($dados, $id, 'img_pedido', 'url_planilha_pedido');
+        if ($dados->file_comprovante_residencia) {
+            $this->atualizarUrl($dados, $id, 'file_comprovante_residencia', 'url_comprovante_residencia');
         }
-        if ($dados->img_cnh) {
-            $this->atualizarUrl($dados, $id, 'img_cnh', 'url_cnh');
-        }
-        if ($dados->img_rg) {
-            $this->atualizarUrl($dados, $id, 'img_rg', 'url_rg');
-        }
-        if ($dados->img_cpf) {
-            $this->atualizarUrl($dados, $id, 'img_cpf', 'url_cpf');
-            $this->atualizarUrl($dados, $id, 'img_cnh', 'url_cnh');
+        if ($dados->file_orcamento) {
+            $this->atualizarUrl($dados, $id, 'file_orcamento', 'url_orcamento');
         }
     }
 

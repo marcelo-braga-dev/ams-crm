@@ -156,11 +156,11 @@ class User extends Authenticatable
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
-            ->where('tipo', (new Consultores())->getFuncao())
             ->orderBy('name');
 
         if ($setor) $query->where('setor_id', $setor);
         if ($status) $query->where('status', 'ativo');
+        if (is_admin()) $query->where('tipo', '!=', (new Admins())->getFuncao());
         if (is_supervisor()) $query->whereIn('superior_id', [id_usuario_atual()])
             ->orWhere('id', id_usuario_atual());
 

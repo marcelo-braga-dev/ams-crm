@@ -23,6 +23,11 @@ use App\src\Pedidos\Status\RevisarStatusPedido;
 
 class PedidoUpdateStatus
 {
+    public function setConferencia($id, $alerta = null)
+    {
+        (new ConferenciaStatusPedido())->updateStatus($id, $alerta);
+    }
+
     public function setLancado(int $id): void
     {
         (new LancadoStatus())->updateStatus($id);

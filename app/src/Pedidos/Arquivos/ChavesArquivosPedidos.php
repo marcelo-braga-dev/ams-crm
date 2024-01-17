@@ -10,6 +10,7 @@ class ChavesArquivosPedidos
     private string $cnpj = 'cnpj';
     private string $boleto = 'boleto';
     private string $comprovantePix = 'comprovante_pix';
+    private string $comprovanteResidencia = 'comprovante_residencia';
     private string $cheque = 'cheque';
 
     public function cpf(): string
@@ -44,5 +45,9 @@ class ChavesArquivosPedidos
     public function cheque(): string
     {
         return $this->cheque;
+    }
+    public function residencia(): string
+    {
+        return $this->comprovanteResidencia;
     }
 }

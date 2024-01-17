@@ -25,7 +25,7 @@ export default function InfoLead({dado}) {
             </tr>
             {dado.cnpj && <tr>
                 <td>
-                    <AssignmentOutlinedIcon sx={{fontSize: 20}}/>
+                    <AssignmentOutlinedIcon sx={{fontSize: 18}}/>
                 </td>
                 <td>
                     <span className="d-block">CNPJ: {dado.cnpj}</span>
@@ -33,7 +33,7 @@ export default function InfoLead({dado}) {
             </tr>}
             {dado.telefone && <tr>
                 <td>
-                    <LocalPhoneOutlinedIcon sx={{fontSize: 20}}/>
+                    <LocalPhoneOutlinedIcon sx={{fontSize: 18}}/>
                 </td>
                 <td>
                     <span className="d-block">{dado.telefone}</span>
@@ -42,7 +42,7 @@ export default function InfoLead({dado}) {
 
             {(dado.cidade || dado.estado) && <tr>
                 <td>
-                    <FmdGoodOutlinedIcon sx={{fontSize: 20}}/>
+                    <FmdGoodOutlinedIcon sx={{fontSize: 18}}/>
                 </td>
                 <td>
                     <span className="d-block">{dado.cidade} {dado.estado &&

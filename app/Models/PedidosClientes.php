@@ -57,7 +57,7 @@ class PedidosClientes extends Model
             ->where('pedido_id', $id)->first();
     }
 
-    public function updateDados(int $id, $dados)
+    public function atualizar(int $id, $dados)
     {
         $dadosAtualCliente = (new PedidosClientes())->find($id);
 

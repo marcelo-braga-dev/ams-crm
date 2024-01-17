@@ -348,9 +348,9 @@ class Pedidos extends Model
                 'planilha_pedido' => $files->url_planilha_pedido ?? null,
             ],
             'cliente_files' => [
-                'rg' => $files->url_rg ?? (new PedidosArquivos())->getRG($pedido->id)[0]['url'] ?? null,
-                'cpf' => $files->url_cpf ?? (new PedidosArquivos())->getCPF($pedido->id)[0]['url'] ?? null,
-                'cnh' => $files->url_cnh ?? (new PedidosArquivos())->getCNH($pedido->id)[0]['url'] ?? null,
+                'rg' => (new PedidosArquivos())->getRG($pedido->id)[0]['url'] ?? $files->url_rg ??  null,
+                'cpf' => (new PedidosArquivos())->getCPF($pedido->id)[0]['url'] ?? $files->url_cpf ??  null,
+                'cnh' => (new PedidosArquivos())->getCNH($pedido->id)[0]['url'] ?? $files->url_cnh ??  null,
                 'cnpj' => $files->url_cnpj ?? null,
                 'comprovante_residencia' => $files->url_comprovante_residencia ?? null,
             ]

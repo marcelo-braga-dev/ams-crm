@@ -35,22 +35,22 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco}) {
             estado: endereco.estado
         },
 
-        file_rg: img.url_rg,
-        file_cpf: img.url_cpf,
-        file_cnh: img.url_cnh,
+        // img_rg: img.rg,
+        // img_cpf: img.cpf,
+        // img_cnh: img.cnh,
         file_cartao_cnpj: img.url_cnpj,
-        file_comprovante_residencia: img.url_comprovante_residencia,
+        // file_comprovante_residencia: img.url_comprovante_residencia,
 
         preco: new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2})
             .format(pedido.preco_venda),
         integrador: pedido.integrador,
-        fornecedor: pedido.fornecedor,
+        fornecedor: pedido.fornecedor_id,
         file_orcamento: img.url_orcamento,
         obs: pedido.info_pedido,
         forma_pagamento: pedido.forma_pagamento,
         motivo: pedido.obs
     });
-
+console.log(img.rg)
     function submit(e) {
         e.preventDefault()
         router.post(route('consultor.revisar.update', pedido.id), {
