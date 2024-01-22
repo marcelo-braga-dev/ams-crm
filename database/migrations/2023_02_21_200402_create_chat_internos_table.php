@@ -15,17 +15,21 @@ return new class extends Migration {
         Schema::create('chat_internos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->bigInteger('destinatario');
-            $table->string('status', 32);
-            $table->boolean('status_chat')->default(1);
-            $table->text('mensagem');
-            $table->string('tipo', 16);
+            $table->unsignedBigInteger('contato_id');
+            $table->boolean('lido')->default(false);
+            $table->text('mensagem')->nullable();
+            $table->string('url')->nullable();
+            $table->string('url_mime')->nullable();
             $table->string('categoria', 16);
             $table->string('token', 32)->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('contato_id')->references('id')->on('users');
             $table->index('user_id');
+            $table->index('contato_id');
+            $table->index('categoria');
         });
     }
 

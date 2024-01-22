@@ -26,10 +26,11 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
         axios.post(route('admin.chat-interno-excluir-aviso', {id: idExcluirAviso}))
     }
 
-    useEffect(() => {
-        virtuosoRef.current.scrollToIndex({index: mensagens.length - 1})
-        if (mensagens.length === '0') setProgress(false)
-    }, [infoChatSelecionado.id])
+    const virtuosoRef = useRef(null)
+    // useEffect(() => {
+    //     virtuosoRef.current.scrollToIndex({index: mensagens.length - 1})
+    //     if (mensagens.length === '0') setProgress(false)
+    // }, [infoChatSelecionado.id])
 
     useEffect(() => {
         setSemMensagem(false)
@@ -39,7 +40,6 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
         if (infoChatSelecionado.id && mensagens.length === 0) setSemMensagem(true)
     }, [mensagens])
 
-    const virtuosoRef = useRef(null)
 
     return (
         <>

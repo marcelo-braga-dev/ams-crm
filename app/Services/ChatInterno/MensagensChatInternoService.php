@@ -18,9 +18,9 @@ class MensagensChatInternoService
         $users = [];
         $qtnNova = [];
         foreach ($mensagens as $mensagem) {
-            $id = $mensagem->destinatario === $usuarioAtual ? $mensagem->user_id : $mensagem->destinatario;
+            $id = $mensagem->contato_id === $usuarioAtual ? $mensagem->user_id : $mensagem->contato_id;
 
-            if ($mensagem->destinatario === $usuarioAtual &&
+            if ($mensagem->contato_id === $usuarioAtual &&
                 $mensagem->status === 'novo') $qtnNova[$id][] = 'x';
 
             $users[$id] = [
@@ -29,7 +29,6 @@ class MensagensChatInternoService
                 'nome' => $nomes[$id],
                 'ultima_mensagem' => $mensagem->mensagem,
                 'data_mensagem' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
-                'tipo' => $mensagem->tipo,
                 'status' => $mensagem->status,
                 'foto' => $fotos[$id],
                 'online' => $online[$id] ?? false,
@@ -68,20 +67,21 @@ class MensagensChatInternoService
         $periodo = '';
         foreach ($mensagens as $mensagem) {
             $periodoAtual = date('d/m/Y', strtotime($mensagem->created_at));;
-            if ($periodo != $periodoAtual) $periodoMostrar = $periodoAtual; else $periodoMostrar = 0;
+            if ($periodo != $periodoAtual) $periodoMostrar = $periodoAtual;
+            else $periodoMostrar = false;
             $dados[] = [
                 'id_mensagem' => $mensagem->id,
                 'chat_destinatario' => $destinatario,
-                'id_destinatario' => $mensagem->destinatario,
-                'nome_destinatario' => $usuarios[$mensagem->destinatario],
+                'id_destinatario' => $mensagem->contato_id,
+                'nome_destinatario' => $usuarios[$mensagem->contato_id] ?? '',
                 'id_usuario' => $mensagem->user_id,
                 'nome_usuario' => $usuarios[$mensagem->user_id],
-                'status' => $mensagem->status,
+                'status' => $mensagem->lido,
                 'mensagem' => $mensagem->mensagem,
-                'is_resposta' => id_usuario_atual() == $mensagem->destinatario ? 1 : 0,
+                'url' => $mensagem->url,
+                'is_resposta' => id_usuario_atual() == $mensagem->contato_id ? 1 : 0,
                 'data' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
-                'tipo' => $mensagem->tipo,
-                'foto' => $fotos[$mensagem->user_id],
+                'foto' => $fotos[$mensagem->user_id] ?? '',
                 'categoria' => $categoria,
                 'periodo_data' => date('d/m/Y') == $periodoMostrar ? 'Hoje' : $periodoMostrar
             ];

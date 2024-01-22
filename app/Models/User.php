@@ -135,11 +135,11 @@ class User extends Authenticatable
     {
         $query = $this->newQuery()
             ->where('status', 'ativo');
+
         if (!is_admin()) {
             $query->where('franquia_id', franquia_usuario_atual());
-            $query->where('setor_id', setor_usuario_atual());
+//            $query->where('setor_id', setor_usuario_atual());
         }
-//        if (is_supervisor()) $query->whereIn('superior', [id_usuario_atual()]);
 
         return $query->get(['id', 'name', 'foto'])
             ->transform(function ($item) {
@@ -348,8 +348,7 @@ class User extends Authenticatable
 
     public function getIdUsuarios()
     {
-        return $this->newQuery()
-            ->get('id');
+        return $this->newQuery()->get('id');
     }
 
     public function modeloPedidos()

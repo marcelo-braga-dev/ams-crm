@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin\ChatInterno;
 
 use App\Http\Controllers\Controller;
 use App\Models\ChatInterno;
+use App\Models\Setores;
 use App\Models\User;
 use App\Services\ChatInterno\MensagensChatInternoService;
-use App\src\ChatInterno\Cadastrar;
+use App\src\ChatInterno\CadastrarChatInterno;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,14 +16,15 @@ class ChatInternoController extends Controller
     public function index()
     {
         $pessoas = (new User())->chatInterno();
+        $setores = (new Setores())->get();
 
         return Inertia::render('Admin/ChatInterno/Index',
-            compact('pessoas'));
+            compact('pessoas', 'setores'));
     }
 
     public function store(Request $request)
     {
-        (new Cadastrar())->mensagem($request);
+        (new CadastrarChatInterno())->salvar($request);
 
         return redirect()->back();
     }

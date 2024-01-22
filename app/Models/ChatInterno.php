@@ -4,34 +4,35 @@ namespace App\Models;
 
 use App\src\ChatInterno\Categorias\Avisos;
 use App\src\ChatInterno\Categorias\Chat;
-use App\src\ChatInterno\Status\NovoStatusChatInterno;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ChatInterno extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'user_id',
-        'destinatario',
-        'status',
+        'contato_id',
+        'lido',
         'mensagem',
-        'tipo',
-        'status_chat',
+        'url',
+        'url_mime',
         'categoria',
         'token'
     ];
 
-    public function create($destinatario, $msg, $tipo, $categoria, $token = null)
+    public function create($destinatario, $msg, $dadosAnexo, $categoria, $token = null)
     {
         $this->newQuery()
             ->create([
                 'user_id' => id_usuario_atual(),
-                'destinatario' => $destinatario,
+                'contato_id' => $destinatario ?? id_usuario_atual(),
                 'mensagem' => $msg,
-                'status' => (new NovoStatusChatInterno())->getStatus(),
-                'tipo' => $tipo,
+                'url' => $dadosAnexo['url'],
+                'url_mime' => $dadosAnexo['mime'],
                 'categoria' => $categoria,
                 'token' => $token
             ]);
@@ -43,21 +44,19 @@ class ChatInterno extends Model
 
         $this->newQuery()
             ->where([
-                ['user_id', $destinatarios], ['destinatario', $usuario], ['categoria', (new Chat())->categoria()]
+                ['user_id', $destinatarios], ['contato_id', $usuario], ['categoria', (new Chat())->categoria()]
             ])->update([
-                'status' => 'lido'
+                'lido' => 1
             ]);
 
         return $this->newQuery()
             ->where([
-                ['user_id', $usuario], ['destinatario', $destinatarios]
+                ['user_id', $usuario], ['contato_id', $destinatarios]
             ])
-            ->where('status_chat', 1)
             ->where('categoria', (new Chat())->categoria())
             ->orWhere([
                 ['user_id', $destinatarios],
-                ['destinatario', $usuario],
-                ['status_chat', 1],
+                ['contato_id', $usuario],
                 ['categoria', (new Chat())->categoria()]
             ])->get();
     }
@@ -68,17 +67,16 @@ class ChatInterno extends Model
 
         return $this->newQuery()
             ->where('user_id', $usuario)
-            ->where('status_chat', 1)
             ->where('categoria', (new Chat())->categoria())
-            ->orWhere([['destinatario', $usuario], ['status_chat', 1], ['categoria', (new Chat())->categoria()]])
+            ->orWhere([['contato_id', $usuario], ['categoria', (new Chat())->categoria()]])
             ->get();
     }
 
     public function countMensagenNovas(int $id)
     {
         return $this->newQuery()
-            ->where('destinatario', $id)
-            ->where('status', (new NovoStatusChatInterno())->getStatus())
+            ->where('contato_id', $id)
+            ->where('lido', 0)
             ->count();
     }
 
@@ -86,14 +84,10 @@ class ChatInterno extends Model
     {
         $this->newQuery()
             ->where([
-                ['user_id', id_usuario_atual()], ['destinatario', $idDestinatario]
-            ])
-            ->where('status_chat', 1)
-            ->orWhere([
-                ['user_id', $idDestinatario], ['destinatario', id_usuario_atual()], ['status_chat', 1]
-            ])->update([
-                'status_chat' => 0
-            ]);
+                ['user_id', id_usuario_atual()], ['contato_id', $idDestinatario]
+            ])->orWhere([
+                ['user_id', $idDestinatario], ['contato_id', id_usuario_atual()]
+            ])->delete();
     }
 
     public function getAvisos()
@@ -102,15 +96,14 @@ class ChatInterno extends Model
 
         $this->newQuery()
             ->where('categoria', $categoria)
-            ->where('destinatario', id_usuario_atual())
+            ->where('contato_id', id_usuario_atual())
             ->update([
-                'status' => 'lido'
+                'lido' => 1
             ]);
 
         return $this->newQuery()
             ->where('categoria', $categoria)
-            ->where('destinatario', id_usuario_atual())
-            ->where('status_chat', 1)
+            ->where('contato_id', id_usuario_atual())
             ->get();
     }
 
@@ -118,9 +111,8 @@ class ChatInterno extends Model
     {
         return $this->newQuery()
             ->where('categoria', (new Avisos())->categoria())
-            ->where('destinatario', id_usuario_atual())
-            ->where('status_chat', 1)
-            ->where('status', 'novo')
+            ->where('contato_id', id_usuario_atual())
+            ->where('lido', 0)
             ->count();
     }
 
@@ -131,8 +123,6 @@ class ChatInterno extends Model
 
         $this->newQuery()
             ->where('token', $msg->token)
-            ->update([
-                'status_chat' => 0
-            ]);
+            ->delete();
     }
 }

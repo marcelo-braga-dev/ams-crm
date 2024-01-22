@@ -82,7 +82,7 @@ async function atualizaMensagens() {
 
 atualizaMensagens()
 
-function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
+function ChatInterno({pessoas, setores, getUrl, urlSubmit, Layout, admin}) {
 
     const [mensagens, setMensagens] = useState([]);
     const [chats, setChats] = useState([]);
@@ -201,7 +201,9 @@ function ChatInterno({pessoas, getUrl, urlSubmit, Layout, admin}) {
                     <BottomBarContent
                         infoChatSelecionado={infoChatSelecionado}
                         urlSubmit={(urlSubmit)}
-                        admin={admin}/>
+                        admin={admin}
+                        setores={setores}
+                    />
                 </ChatWindow>
             </RootWrapper>
         </Layout>);

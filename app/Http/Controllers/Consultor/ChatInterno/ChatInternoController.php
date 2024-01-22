@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ChatInterno;
 use App\Services\ChatInterno\MensagensChatInternoService;
 use App\Services\Usuarios\UsuariosService;
-use App\src\ChatInterno\Cadastrar;
+use App\src\ChatInterno\CadastrarChatInterno;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,15 +15,16 @@ class ChatInternoController extends Controller
     public function index()
     {
         $conversas = (new MensagensChatInternoService())->conversas();
-        $pessoas = (new UsuariosService())->ativos(id_usuario_atual(), setor_usuario_atual(), true);
+        $pessoas = (new UsuariosService())->ativos(id_usuario_atual(), null, true);
+        $setores = [];
 
         return Inertia::render('Consultor/ChatInterno/Index',
-            compact('conversas', 'pessoas'));
+            compact('conversas', 'pessoas', 'setores'));
     }
 
     public function store(Request $request)
     {
-        (new Cadastrar())->mensagem($request);
+        (new CadastrarChatInterno())->salvar($request);
 
         return redirect()->back();
     }

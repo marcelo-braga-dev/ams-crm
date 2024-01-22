@@ -8,12 +8,13 @@ import {
 import AttachFileTwoToneIcon from '@mui/icons-material/AttachFileTwoTone';
 import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
-import {useForm} from "@inertiajs/react";
+import {useForm, usePage} from "@inertiajs/react";
 import React, {useEffect, useState} from "react";
 import EmojiPicker from "emoji-picker-react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import styled from 'styled-components'
 import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
 
 const MessageInputWrapper = styled(InputBase)(
     ({theme}) => `
@@ -41,7 +42,7 @@ const Container = styled.div`
 `
 
 
-function BottomBarContent({infoChatSelecionado, urlSubmit, admin}) {
+function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
     const {data, setData, post} = useForm({
         mensagem: '', anexo: ''
     });
@@ -153,6 +154,12 @@ function BottomBarContent({infoChatSelecionado, urlSubmit, admin}) {
 
                 <Box sx={{background: 'white', display: 'flex', py: 2}}>
                     <Box flexGrow={1} display="flex" alignItems="center">
+                        {setores.length > 0 ?
+                            <TextField label="Setor" select size="small"
+                                       sx={{width: 150, marginLeft: 1}}>
+                                <MenuItem>Todos</MenuItem>
+                                {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField> : ''}
                         <QuestionAnswerIcon className="mx-3"/>
                         <MessageInputWrapper
                             value={data.mensagem.length > 1 ? data.mensagem : data.mensagem.trim()}

@@ -2,7 +2,7 @@ import {Box, Card} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {usePage} from "@inertiajs/react";
 
 import styled from "styled-components";
@@ -16,8 +16,8 @@ const CardWrapperSecondary = styled(Card)`
     white-space: pre-line;
 `
 const CardWrapperPrimary = styled(Card)`
-    background: black;
-    color: white;
+    background: rgb(59, 189, 13,00.5);
+    color: black;
     padding: 10px;
     border-radius: 15px 3px 15px 15px;
     word-break: break-word;
@@ -56,13 +56,11 @@ export default function AreaChat({item, index, infoChatSelecionado, setProgress}
                             mr={15}
                         >
                             <CardWrapperSecondary>
-                                {item.tipo === 'msg' &&
-                                    <span>{item.mensagem}</span>}
-                                {item.tipo === 'file' &&
-                                    <span><ImagePdf url={item.mensagem}/></span>}
+                                {item.url && <span className="d-block"><ImagePdf url={item.url}/></span>}
+                                {item.mensagem && <span>{item.mensagem}</span>}
                             </CardWrapperSecondary>
                             <small className="font-italic pt-1" style={{fontSize: 12}}>
-                                <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
+                                <DoneAllIcon color={item.status ? 'info' : 'disabled'}
                                              style={{fontSize: 14}}/>
                                 {item.data}
                             </small>
@@ -84,16 +82,11 @@ export default function AreaChat({item, index, infoChatSelecionado, setProgress}
                             ml={15}
                         >
                             <CardWrapperPrimary>
-                                {item.tipo === 'msg' &&
-                                    <span>{item.mensagem}</span>
-                                }
-                                {item.tipo === 'file' &&
-                                    <span className="d-block"><ImagePdf url={item.mensagem}/> </span>
-                                }
-
+                                {item.url && <span className="d-block"><ImagePdf url={item.url}/></span>}
+                                {item.mensagem && <span>{item.mensagem}</span>}
                             </CardWrapperPrimary>
                             <small className="font-italic pt-1" style={{fontSize: 12}}>
-                                <DoneAllIcon color={item.status === 'lido' ? 'info' : 'disabled'}
+                                <DoneAllIcon color={item.status ? 'info' : 'disabled'}
                                              style={{fontSize: 14}}/>
                                 {item.data}
                             </small>
