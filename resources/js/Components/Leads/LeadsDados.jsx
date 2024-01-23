@@ -9,7 +9,7 @@ export default function LeadsDados({dados}) {
                 <span className="d-block"><b>Telefone:</b> {dados.contato.telefone}</span>
                 <span className="d-block"><b>Email:</b> {dados.contato.email}</span>
                 {dados.contato.atendente && <span className="d-block"><b>Atendente:</b> {dados.contato.atendente}</span>}
-                {!dados.cliente.endereco && <span className="d-block"><b>Cidade/Estado:</b> {dados.cliente.cidade} / {dados.cliente.estado}</span>}
+                {dados.cliente.cidade && <span className="d-block"><b>Cidade/Estado:</b> {dados.cliente.cidade} / {dados.cliente.estado}</span>}
                 {dados.cliente.endereco && <span className="d-block"><b>Endereço:</b> {dados.cliente.endereco}</span>}
                 <span className="d-block"><b>Status:</b> {dados.infos.status}</span>
                 <span className="d-block"><b>Anotações:</b> {dados.infos.anotacoes}</span>

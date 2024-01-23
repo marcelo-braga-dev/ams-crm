@@ -34,6 +34,7 @@ return new class extends Migration {
             $table->string('meio_contato')->nullable();
             $table->string('infos')->nullable();
             $table->string('classificacao', 8)->nullable();
+            $table->string('anotacoes')->nullable();
             $table->boolean('pedido_emitido')->default(0);
             $table->timestamps();
 

@@ -139,7 +139,7 @@ class LeadsController extends Controller
 
     public function show($id)
     {
-        $dados = (new LeadsDadosService())->lead($id);
+        $dados = (new Leads())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
 
         return Inertia::render('Admin/Leads/Lead/Show',

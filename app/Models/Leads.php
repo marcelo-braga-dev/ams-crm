@@ -38,7 +38,9 @@ class Leads extends Model
         'status_data',
         'meio_contato',
         'infos',
-        'classificacao'
+        'classificacao',
+        'anotacoes',
+        'pedido_emitido'
     ];
 
     public function getDisponiveis($setor)
@@ -120,7 +122,7 @@ class Leads extends Model
                 modalErro($msgErro);
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
-        } catch (QueryException $exception) {print_pre($exception->getMessage());
+        } catch (QueryException $exception) {
             throw new \DomainException('Falha na importação');
         }
     }
@@ -314,34 +316,35 @@ class Leads extends Model
         $nomes = (new User())->getNomeConsultores();
         return [
             'id' => $item->id,
-
             'consultor' => [
-                'nome' => $nomes[$item->user_id] ?? '-'
+                'nome' => $this->consultores[$item->user_id] ?? '',
+                'id' => $item->user_id
             ],
-
             'cliente' => [
-                'nome' => $item->nome ?: $item->razao_social,
+                'nome' => $item->nome,
+                'razao_social' => $item->razao_social,
+                'cnpj' => converterCNPJ($item->cnpj),
+                'rg' => $item->rg,
+                'cpf' => $item->cpf,
                 'cidade' => $item->cidade,
                 'estado' => $item->estado,
+                'endereco' => $item->endereco ? getEnderecoCompleto($item->endereco) : '',
                 'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
                 'classificacao' => $item->classificacao
             ],
-
             'contato' => [
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
                 'atendente' => $item->atendente,
             ],
-
             'infos' => [
+                'setor' => $item->setor,
                 'status' => $item->status,
                 'status_anotacoes' => $item->status_anotacoes,
                 'anotacoes' => $item->infos,
-                'ultima_msg' => $msg[$item->id]['msg'] ?? null,
-                'data_ultima_msg' => $msg[$item->id]['data'] ?? null,
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                 'contato' => $item->meio_contato,
-                'data_criacao' => date('d/m/y H:i', strtotime($item->updated_at)),
+                'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
             ],
         ];
     }
