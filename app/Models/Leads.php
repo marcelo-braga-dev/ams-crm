@@ -77,7 +77,9 @@ class Leads extends Model
             if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
             if ($telefone) $verificacaoTel = $this->newQuery()->orWhere('telefone', $telefone)->exists();
 
-            $idEndereco = (new Enderecos())->create($dados->endereco);
+            $idEndereco = (new Enderecos())->create($dados->endereco ?? null);
+
+            $pessoa = ($dados['pessoa'] ?? null) ? !(($dados['pessoa'] ?? null) == 'Pessoa Física') : substr($cnpj, -6, 4) == '0001';
 
             if (!$verificacaoCnpj && !$verificacaoTel &&
                 (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))) {
@@ -90,7 +92,7 @@ class Leads extends Model
                         'telefone' => $telefone,
                         'setor_id' => $setor,
                         'endereco' => $idEndereco,
-                        'pessoa_juridica' => !(($dados['pessoa'] ?? null) == 'Pessoa Física'),
+                        'pessoa_juridica' => $pessoa,
                         'razao_social' => $dados['razao_social'] ?? null,
                         'inscricao_estadual' => $dados['inscricao_estadual'] ?? null,
                         'cnpj' => $cnpj ?? null,
@@ -118,7 +120,7 @@ class Leads extends Model
                 modalErro($msgErro);
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
-        } catch (QueryException $exception) {
+        } catch (QueryException $exception) {print_pre($exception->getMessage());
             throw new \DomainException('Falha na importação');
         }
     }

@@ -2,13 +2,16 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import TextField from "@mui/material/TextField";
 import {useForm} from "@inertiajs/react";
 import MenuItem from "@mui/material/MenuItem";
-import React from "react";
+import React, {useState} from "react";
+import {CircularProgress} from "@mui/material";
 
 export default function ({setores, modelo}) {
     const {post, setData} = useForm()
+    const [pregress, setPregress] = useState(false);
 
     function submit(e) {
         e.preventDefault()
+        setPregress(true)
         post(route('admin.clientes.leads.importar.store'))
     }
 
@@ -19,7 +22,8 @@ export default function ({setores, modelo}) {
                     <a href={modelo} className="btn btn-link">Baixar Modelo</a>
                 </div>
                 <div className="col-auto">
-                    <a className="btn btn-primary btn-sm" href={route('admin.clientes.leads.importar-historico.index')}>Histórico</a>
+                    <a className="btn btn-primary btn-sm"
+                       href={route('admin.clientes.leads.importar-historico.index')}>Histórico</a>
                 </div>
             </div>
             <form onSubmit={submit}>
@@ -42,11 +46,16 @@ export default function ({setores, modelo}) {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col">
+                    <div className="col-auto">
                         <button className="btn btn-primary">Enviar</button>
+
+                    </div>
+                    <div className="col">
+                        {pregress && <CircularProgress/>}
                     </div>
                 </div>
             </form>
+
         </Layout>
     )
 }
