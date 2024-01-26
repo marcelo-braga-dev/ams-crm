@@ -50,6 +50,7 @@ class PlanilhaProdutos
         $this->sheet->setCellValue('H1', 'PREÇO UND');
         $this->sheet->setCellValue('I1', 'TOTAL');
         $this->sheet->setCellValue('J1', 'DATA');
+        $this->linhaTabelaProdutos++;
     }
 
     private function produtos($pedidos)
@@ -58,10 +59,9 @@ class PlanilhaProdutos
         foreach ($pedidos as $pedido) {
             $id = $pedido['pedido']['id'];
             $produtos = (new PedidosProdutos())->getProdutosPedido($id);
-            $this->linhaTabelaProdutos++;
 
             foreach ($produtos as $item) {
-                $this->sheet->setCellValue('A' . $this->linhaTabelaProdutos, '#' . $id);
+                $this->sheet->setCellValue('A' . $this->linhaTabelaProdutos, $id);
                 $this->sheet->setCellValue('B' . $this->linhaTabelaProdutos, $pedido['cliente']['nome'] . ' [#' . $pedido['cliente']['id'] . ']');
                 $this->sheet->setCellValue('C' . $this->linhaTabelaProdutos, $pedido['cliente']['telefone']);
                 $this->sheet->setCellValue('D' . $this->linhaTabelaProdutos, $pedido['cliente']['cidade'] . '/' . $pedido['cliente']['estado']);
@@ -74,7 +74,7 @@ class PlanilhaProdutos
 
                 $this->convertMoney('H' . $this->linhaTabelaProdutos);
                 $this->convertMoney('I' . $this->linhaTabelaProdutos);
-                $this->linhaTabelaProdutos++;
+                if ($item['nome']) $this->linhaTabelaProdutos++;
 
                 $res[] = [
                     'id' => '#' . $id,

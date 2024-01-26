@@ -43,13 +43,19 @@ export default function () {
                 </div>
             </form>
             {progress && <LinearProgress/>}
-            <div className="row mt-4">
-                <div className="col">
-                    {urlPlanilha && <a className="btn btn-success btn-sm" href={urlPlanilha}>
-                        <GridOnIcon fontSize="small"/> Baixar Planilha
-                    </a>}
+            {urlPlanilha &&
+                <div className="row mt-4">
+                    <div className="col">
+                        <a className="btn btn-success btn-sm" href={urlPlanilha}>
+                            <GridOnIcon fontSize="small"/> Baixar Planilha
+                        </a>
+                    </div>
+                    <div className="col text-end">
+                        <small className="text-muted">Quantidade: {pedidos.length}</small>
+                    </div>
+
                 </div>
-            </div>
+            }
             {pedidos.length > 0 &&
                 <div className="row">
                     <div className="col">
