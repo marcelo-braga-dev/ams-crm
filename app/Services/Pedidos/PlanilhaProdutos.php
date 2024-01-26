@@ -26,7 +26,7 @@ class PlanilhaProdutos
         $pedidos = (new Pedidos())->pedidosPeriodo($inicio, $fim, $setor = 3);
 
         $this->cabecalho();
-        $this->produtos($pedidos);
+        $items = $this->produtos($pedidos);
         $this->configStyle();
 
         $writer = new Xlsx($this->spreadsheet);
@@ -35,7 +35,7 @@ class PlanilhaProdutos
         $filePath = Storage::path($path);
         $writer->save($filePath);
 
-        return asset('storage/' . $path);
+        return ['url' => asset('storage/' . $path), 'pedidos' => $items];
     }
 
     private function cabecalho()
@@ -54,6 +54,7 @@ class PlanilhaProdutos
 
     private function produtos($pedidos)
     {
+        $res = [];
         foreach ($pedidos as $pedido) {
             $id = $pedido['pedido']['id'];
             $produtos = (new PedidosProdutos())->getProdutosPedido($id);
@@ -74,8 +75,22 @@ class PlanilhaProdutos
                 $this->convertMoney('H' . $this->linhaTabelaProdutos);
                 $this->convertMoney('I' . $this->linhaTabelaProdutos);
                 $this->linhaTabelaProdutos++;
+
+                $res[] = [
+                    'id' => '#' . $id,
+                    'nome' => $pedido['cliente']['nome'] . ' [#' . $pedido['cliente']['id'] . ']',
+                    'telefone' => $pedido['cliente']['telefone'],
+                    'localidade' => $pedido['cliente']['cidade'] . '/' . $pedido['cliente']['estado'],
+                    'produto' => $item['nome'],
+                    'und' => $item['unidade'],
+                    'qtd' => $item['qtd'],
+                    'preco' => convert_float_money($item['preco_venda_float']),
+                    'total' => convert_float_money($item['qtd'] * $item['preco_venda_float']),
+                    'data' => $pedido['pedido']['data_criacao'],
+                ];
             }
         }
+        return $res;
     }
 
     private function configStyle(): void

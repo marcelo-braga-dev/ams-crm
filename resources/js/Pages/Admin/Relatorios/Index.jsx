@@ -3,17 +3,25 @@ import {TextField} from "@mui/material";
 import {useState} from "react";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import * as React from "react";
+import LinearProgress from '@mui/material/LinearProgress';
 
 export default function () {
     const [dataInicio, setDataInicio] = useState()
     const [dataFim, setDataFim] = useState()
     const [urlPlanilha, setUrlPlanilha] = useState()
+    const [pedidos, setPedidos] = useState([])
+    const [progress, setProgress] = useState(false)
 
     const getDados = (e) => {
         e.preventDefault()
+        setProgress(e => !e)
         axios.post(route('admin.pedidos.gerar-planilha-pedidos'), {
             dataInicio: dataInicio, dataFim: dataFim
-        }).then(res => setUrlPlanilha(res.data))
+        }).then(res => {
+            setUrlPlanilha(res.data.url)
+            setPedidos(res.data.pedidos)
+            setProgress(e => !e)
+        })
     }
 
     return (
@@ -21,12 +29,12 @@ export default function () {
             Período
             <form onSubmit={getDados}>
                 <div className="row">
-                    <div className="col-auto">
-                        <TextField type="date" required
+                    <div className="col-md-3">
+                        <TextField type="date" required fullWidth
                                    onChange={e => setDataInicio(e.target.value)}/>
                     </div>
-                    <div className="col-auto">
-                        <TextField type="date" required
+                    <div className="col-md-3">
+                        <TextField type="date" required fullWidth
                                    onChange={e => setDataFim(e.target.value)}/>
                     </div>
                     <div className="col-auto">
@@ -34,6 +42,7 @@ export default function () {
                     </div>
                 </div>
             </form>
+            {progress && <LinearProgress/>}
             <div className="row mt-4">
                 <div className="col">
                     {urlPlanilha && <a className="btn btn-success btn-sm" href={urlPlanilha}>
@@ -41,11 +50,49 @@ export default function () {
                     </a>}
                 </div>
             </div>
-            <div className="row">
-                <div className="col">
+            {pedidos.length > 0 &&
+                <div className="row">
+                    <div className="col">
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead>
+                                <tr>
+                                    <th>ID PEDIDO</th>
+                                    <th>CLIENTE</th>
+                                    <th>TELEFONE</th>
+                                    <th>CIDADE</th>
+                                    <th>PRODUTO</th>
+                                    <th>UND</th>
+                                    <th>QTD</th>
+                                    <th>PREÇO UND</th>
+                                    <th>TOTAL</th>
+                                    <th>DATA</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {pedidos.map(item => {
+                                    return (
+                                        <tr key={item.id + item.produto}>
+                                            <td>{item.id}</td>
+                                            <td>{item.nome}</td>
+                                            <td>{item.telefone}</td>
+                                            <td>{item.localidade}</td>
+                                            <td>{item.produto}</td>
+                                            <td>{item.und}</td>
+                                            <td>{item.qtd}</td>
+                                            <td>{item.preco}</td>
+                                            <td>{item.total}</td>
+                                            <td>{item.data}</td>
+                                        </tr>
+                                    )
+                                })}
 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            }
         </Layout>
     )
 }
