@@ -21,4 +21,5 @@ Route::middleware(['auth', 'auth.admins'])
         require __DIR__ . '/produtos.php';
         require __DIR__ . '/franquias.php';
         require __DIR__ . '/home.php';
+        require __DIR__ . '/relatorios.php';
     });

@@ -326,9 +326,12 @@ class Pedidos extends Model
                 'cnpj' => $integrador['cliente']['cnpj'] ?? ''
             ],
             'cliente' => [
+                'id' => $cliente->id,
                 'nome' => $cliente->nome ?? $cliente->razao_social ?? '',
                 'endereco_id' => $cliente->endereco ?? '',
                 'endereco' => (($cliente->endereco ?? '') ? getEnderecoCompleto($cliente->endereco) : ''),
+                'cidade' => $cliente->cidade ?? '',
+                'estado' => $cliente->estado ?? '',
                 'nascimento' => ($cliente->data_nascimento ?? '') ? date('d/m/Y', strtotime($cliente->data_nascimento)) : null,
                 'email' => $cliente->email ?? '',
                 'telefone' => converterTelefone($cliente->telefone ?? '') ?? '',
@@ -348,9 +351,9 @@ class Pedidos extends Model
                 'planilha_pedido' => $files->url_planilha_pedido ?? null,
             ],
             'cliente_files' => [
-                'rg' => (new PedidosArquivos())->getRG($pedido->id)[0]['url'] ?? $files->url_rg ??  null,
-                'cpf' => (new PedidosArquivos())->getCPF($pedido->id)[0]['url'] ?? $files->url_cpf ??  null,
-                'cnh' => (new PedidosArquivos())->getCNH($pedido->id)[0]['url'] ?? $files->url_cnh ??  null,
+                'rg' => (new PedidosArquivos())->getRG($pedido->id)[0]['url'] ?? $files->url_rg ?? null,
+                'cpf' => (new PedidosArquivos())->getCPF($pedido->id)[0]['url'] ?? $files->url_cpf ?? null,
+                'cnh' => (new PedidosArquivos())->getCNH($pedido->id)[0]['url'] ?? $files->url_cnh ?? null,
                 'cnpj' => $files->url_cnpj ?? null,
                 'comprovante_residencia' => $files->url_comprovante_residencia ?? null,
             ]
@@ -363,5 +366,37 @@ class Pedidos extends Model
         $saida = new DateTime(date('Y-m-d H:i:s', strtotime("+$prazoLimite days", strtotime($prazoData))));
 
         return $saida->diff($entrada)->invert ? null : 1;
+    }
+
+    public function pedidosPeriodo($inicio, $fim, $setor)
+    {
+        $query = $this->newQuery();
+        if ($inicio) $query->whereDate('created_at', '>=', $inicio);
+        if ($fim) $query->whereDate('created_at', '<=', $fim);
+        if ($setor) $query->where('setor_id', $setor);
+
+        return $query->get()
+            ->transform(function ($pedido) {
+                if ($pedido->modelo === 1) {
+                    $cliente = (new PedidosClientes())->find($pedido->id);
+                }
+                if ($pedido->modelo === 2) {
+                    $cliente = (new Leads())->find($pedido->lead_id);
+                }
+
+                return [
+                    'pedido' => [
+                        'id' => $pedido->id,
+                        'data_criacao' => date('d/m/y H:i:s', strtotime($pedido->created_at))
+                    ],
+                    'cliente' => [
+                        'id' => $cliente->id,
+                        'nome' => $cliente->nome ?? $cliente->razao_social ?? '',
+                        'telefone' => converterTelefone($cliente->telefone ?? '') ?? '',
+                        'cidade' => $cliente->cidade ?? '',
+                        'estado' => $cliente->estado ?? '',
+                    ],
+                ];
+            });
     }
 }

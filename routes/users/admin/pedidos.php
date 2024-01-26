@@ -64,6 +64,9 @@ Route::name('admin.pedidos.')
 
         Route::post('config-cores-pedidos', [ConfigController::class, 'atualizarCoresPedidos'])
             ->name('config-cores-pedidos');
+
+        Route::post('gerar-planilha-pedidos', [PedidosController::class, 'gerarPlanilhaPedidos'])
+            ->name('gerar-planilha-pedidos');
     });
 
 Route::name('admin.modelo-2.pedidos.')

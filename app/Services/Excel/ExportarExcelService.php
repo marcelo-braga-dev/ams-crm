@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Style\Color;
 class ExportarExcelService
 {
     public function faturamento($dados)
-    {
+    {print_pre($dados);
         // Criar uma instância da classe Spreadsheet
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();

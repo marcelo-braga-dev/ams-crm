@@ -14,7 +14,8 @@ import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
-import {usePage} from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
+import GridOnIcon from '@mui/icons-material/GridOn';
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -66,12 +67,20 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                 </Box>
                 <TabPanel value={value} index={0}>
                     <div className="row mb-4">
-                        <div className="col-md-8">
+                        <div className="col">
                             <DadosPedido dados={pedido}></DadosPedido>
                         </div>
                     </div>
+                    <div className="row justify-content-end">
+                        <div className="col-auto">
+                            <button className="btn btn-success btn-sm"
+                                    onClick={() => router.post(route('admin.pedidos.gerar-planilha-pedidos', pedido.id))}>
+                                <GridOnIcon fontSize="small"/> Gerar Planilha
+                            </button>
+                        </div>
+                    </div>
                     <div className="row">
-                        <div className="col">{console.log()}
+                        <div className="col">
                             {funcaoUsuario === 'admin' ?
                                 <DadosProdutosCompleta dados={produtos}/> :
                                 <DadosProdutos dados={produtos}/>}

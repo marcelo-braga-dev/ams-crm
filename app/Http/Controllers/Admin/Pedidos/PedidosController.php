@@ -11,6 +11,7 @@ use App\Models\PedidosHistoricos;
 use App\Models\PedidosProdutos;
 use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
+use App\Services\Pedidos\PlanilhaProdutos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -60,5 +61,10 @@ class PedidosController extends Controller
         $pedidos = (new CardDadosService())->getCards(null, $request->fornecedor, $setorAtual);
 
         return response()->json(['pedidos' => $pedidos, 'modelo' => modelo_setor($setorAtual)]);
+    }
+
+    public function gerarPlanilhaPedidos(Request $request)
+    {
+        (new PlanilhaProdutos())->gerar($request->dataInicio, $request->dataFim, $request->setor);
     }
 }
