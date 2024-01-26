@@ -390,7 +390,7 @@ class Pedidos extends Model
                         'data_criacao' => date('d/m/y H:i:s', strtotime($pedido->created_at))
                     ],
                     'cliente' => [
-                        'id' => $cliente->id,
+                        'id' => $cliente->id ?? '-',
                         'nome' => $cliente->nome ?? $cliente->razao_social ?? '',
                         'telefone' => converterTelefone($cliente->telefone ?? '') ?? '',
                         'cidade' => $cliente->cidade ?? '',

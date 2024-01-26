@@ -59,7 +59,7 @@ class PlanilhaProdutos
             $id = $pedido['pedido']['id'];
             $produtos = (new PedidosProdutos())->getProdutosPedido($id);
             $this->linhaTabelaProdutos++;
-            $res[] = [];
+
             foreach ($produtos as $item) {
                 $this->sheet->setCellValue('A' . $this->linhaTabelaProdutos, '#' . $id);
                 $this->sheet->setCellValue('B' . $this->linhaTabelaProdutos, $pedido['cliente']['nome'] . ' [#' . $pedido['cliente']['id'] . ']');
@@ -80,7 +80,7 @@ class PlanilhaProdutos
                     'id' => '#' . $id,
                     'nome' => $pedido['cliente']['nome'] . ' [#' . $pedido['cliente']['id'] . ']',
                     'telefone' => $pedido['cliente']['telefone'],
-                    'localidade' => $pedido['cliente']['cidade'] . '/' . $pedido['cliente']['estado'],
+                    'localidade' => $pedido['cliente']['cidade'] . ($pedido['cliente']['estado'] ? '/' . $pedido['cliente']['estado'] : ''),
                     'produto' => $item['nome'],
                     'und' => $item['unidade'],
                     'qtd' => $item['qtd'],

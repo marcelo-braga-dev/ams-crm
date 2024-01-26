@@ -74,8 +74,8 @@ export default function () {
                                             <td>{item.id}</td>
                                             <td className="text-start">
                                                 <span className="d-block"><b>{item.nome}</b></span>
-                                                <span className="d-block">{item.telefone}</span>
-                                                <span className="d-block">{item.localidade}</span>
+                                                {item.telefone && <span className="d-block">{item.telefone}</span>}
+                                                {item.localidade && <span className="d-block">{item.localidade}</span>}
                                             </td>
                                             <td className="text-start">{item.produto}</td>
                                             <td>{item.und}</td>
