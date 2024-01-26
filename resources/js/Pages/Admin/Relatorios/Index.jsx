@@ -59,8 +59,6 @@ export default function () {
                                 <tr>
                                     <th>ID PEDIDO</th>
                                     <th>CLIENTE</th>
-                                    <th>TELEFONE</th>
-                                    <th>CIDADE</th>
                                     <th>PRODUTO</th>
                                     <th>UND</th>
                                     <th>QTD</th>
@@ -72,12 +70,14 @@ export default function () {
                                 <tbody>
                                 {pedidos.map(item => {
                                     return (
-                                        <tr key={item.id + item.produto}>
+                                        <tr key={item.id + item.produto} className="text-center">
                                             <td>{item.id}</td>
-                                            <td>{item.nome}</td>
-                                            <td>{item.telefone}</td>
-                                            <td>{item.localidade}</td>
-                                            <td>{item.produto}</td>
+                                            <td className="text-start">
+                                                <span className="d-block"><b>{item.nome}</b></span>
+                                                <span className="d-block">{item.telefone}</span>
+                                                <span className="d-block">{item.localidade}</span>
+                                            </td>
+                                            <td className="text-start">{item.produto}</td>
                                             <td>{item.und}</td>
                                             <td>{item.qtd}</td>
                                             <td>{item.preco}</td>
