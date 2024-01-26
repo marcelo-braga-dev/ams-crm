@@ -1,19 +1,19 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {TextField} from "@mui/material";
 import {useState} from "react";
-import {router} from "@inertiajs/react";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import * as React from "react";
 
-export default function ({relatorios, urlPlanilha}) {
+export default function () {
     const [dataInicio, setDataInicio] = useState()
     const [dataFim, setDataFim] = useState()
+    const [urlPlanilha, setUrlPlanilha] = useState()
 
     const getDados = (e) => {
         e.preventDefault()
-        router.post(route('admin.pedidos.gerar-planilha-pedidos'), {
+        axios.post(route('admin.pedidos.gerar-planilha-pedidos'), {
             dataInicio: dataInicio, dataFim: dataFim
-        })
+        }).then(res => setUrlPlanilha(res.data))
     }
 
     return (
@@ -36,9 +36,9 @@ export default function ({relatorios, urlPlanilha}) {
             </form>
             <div className="row mt-4">
                 <div className="col">
-                    <a className="btn btn-success btn-sm" href={urlPlanilha}>
-                        <GridOnIcon fontSize="small"/> Gerar Planilha
-                    </a>
+                    {urlPlanilha && <a className="btn btn-success btn-sm" href={urlPlanilha}>
+                        <GridOnIcon fontSize="small"/> Baixar Planilha
+                    </a>}
                 </div>
             </div>
             <div className="row">

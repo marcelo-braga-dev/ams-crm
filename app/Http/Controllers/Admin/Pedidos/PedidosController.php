@@ -65,6 +65,6 @@ class PedidosController extends Controller
 
     public function gerarPlanilhaPedidos(Request $request)
     {
-        (new PlanilhaProdutos())->gerar($request->dataInicio, $request->dataFim, $request->setor);
+        return response()->json((new PlanilhaProdutos())->gerar($request->dataInicio, $request->dataFim, $request->setor));
     }
 }

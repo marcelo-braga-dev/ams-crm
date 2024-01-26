@@ -35,7 +35,7 @@ class PlanilhaProdutos
         $filePath = Storage::path($path);
         $writer->save($filePath);
 
-        print_pre(asset('storage/' . $path));
+        return asset('storage/' . $path);
     }
 
     private function cabecalho()
