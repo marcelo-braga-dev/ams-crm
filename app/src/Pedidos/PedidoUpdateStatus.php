@@ -71,9 +71,9 @@ class PedidoUpdateStatus
         (new RevisarStatusPedido())->updateStatus($id, $alerta);
     }
 
-    public function lancado(int $id, $precoCusto)
+    public function lancado(int $id, $precoCusto, $imposto)
     {
-        (new AguardandoNotaStatus())->insertDadosStatus($id, $precoCusto);
+        (new AguardandoNotaStatus())->insertDadosStatus($id, $precoCusto, $imposto);
         (new AguardandoNotaStatus())->updateStatus($id);
     }
 

@@ -21,7 +21,10 @@ class LancadoController extends Controller
     public function update($id, Request $request)
     {
         try {
-            (new PedidoUpdateStatus())->lancado($id, convert_money_float($request->preco_custo));
+            $imposto = $request->imposto;
+            $imposto = $imposto ? convert_money_float($imposto) : null;
+
+            (new PedidoUpdateStatus())->lancado($id, convert_money_float($request->preco_custo), $imposto);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

@@ -123,7 +123,7 @@ class Leads extends Model
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
         } catch (QueryException $exception) {
-            throw new \DomainException('Falha na importação');
+            throw new \DomainException($exception->getMessage());
         }
     }
 

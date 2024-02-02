@@ -47,8 +47,8 @@ class AguardandoNotaStatus implements PedidosStatus
         (new PedidosAdminsNotificar())->notificar($id, $this->getNomeStatus());
     }
 
-    public function insertDadosStatus(int $id, float $precoCusto)
+    public function insertDadosStatus(int $id, float $precoCusto, $imposto)
     {
-        (new Pedidos())->insertPrecoCusto($id, $precoCusto);
+        (new Pedidos())->insertPrecoCusto($id, $precoCusto, $imposto);
     }
 }

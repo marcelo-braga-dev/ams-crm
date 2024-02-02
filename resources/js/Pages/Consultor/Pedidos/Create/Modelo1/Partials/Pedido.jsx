@@ -53,6 +53,24 @@ export default function Pedido({fornecedores, setData, data}) {
                         onChange={e => setData('file_carta_autorizacao', e.target.files[0])}/>}
             </div>
         </div>
+
+        <div className="row mb-4">
+            <div className="col-auto">
+                <FormControl>
+                    <FormLabel id="demo-row-radio-buttons-group-label">Repasse Integrador</FormLabel>
+                    <RadioGroup required row defaultValue="n" onChange={e => setData('is_repasse', e.target.value)}>
+                        <FormControlLabel value="n" control={<Radio/>} label="Não"/>
+                        <FormControlLabel value="s" control={<Radio/>} label="Sim"/>
+                    </RadioGroup>
+                </FormControl>
+            </div>
+            <div className="col-auto mb-3 pt-4">
+                {data.is_repasse === 's' &&
+                    <TextFieldMoney label="Valor do Repasse" value={data.repasse} setData={setData} index="repasse"
+                                    required/>}
+            </div>
+        </div>
+
         <div className="row">
             <div className="mb-3">
                 <TextField

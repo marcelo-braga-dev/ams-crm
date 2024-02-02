@@ -38,6 +38,8 @@ class Pedidos extends Model
         'situacao',
         'obs',
         'modelo',
+        'repasse',
+        'imposto',
     ];
 
     function create($dados)
@@ -65,7 +67,8 @@ class Pedidos extends Model
                     'forma_pagamento' => $dados->forma_pagamento,
                     'fornecedor_id' => $dados->fornecedor,
                     'info_pedido' => $dados->obs,
-                    'modelo' => modelo_usuario()
+                    'modelo' => modelo_usuario(),
+                    'repasse' => convert_money_float($dados->repasse)
                 ]);
         } catch (QueryException $exception) {
             print_pre($exception->getMessage());
@@ -157,12 +160,15 @@ class Pedidos extends Model
             ->get();
     }
 
-    public function insertPrecoCusto(int $id, float $precoCusto)
+    public function insertPrecoCusto(int $id, float $precoCusto, $imposto)
     {
         try {
             $this->newQuery()
                 ->find($id)
-                ->update(['preco_custo' => $precoCusto]);
+                ->update([
+                    'preco_custo' => $precoCusto,
+                    'imposto' => $imposto,
+                ]);
         } catch (QueryException $exception) {
             throw new \DomainException('Valor inválido');
         }
@@ -302,6 +308,8 @@ class Pedidos extends Model
                 'preco_float' => $pedido->preco_venda,
                 'preco' => convert_float_money($pedido->preco_venda),
                 'preco_custo' => $precoCusto,
+                'repasse_float' => $pedido->repasse,
+                'repasse' => convert_float_money($pedido->repasse),
                 'forma_pagamento' => $pedido->forma_pagamento,
                 'boletos' => (new PedidosArquivos())->getBoletos($pedido->id),
                 'cheques' => (new PedidosArquivos())->getCheques($pedido->id),
