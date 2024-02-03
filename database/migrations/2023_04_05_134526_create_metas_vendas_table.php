@@ -15,6 +15,7 @@ return new class extends Migration {
         Schema::create('metas_vendas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->string('chave');
             $table->integer('ano');
             $table->float('jan', 12, 2)->default(0);
             $table->float('fev', 12, 2)->default(0);

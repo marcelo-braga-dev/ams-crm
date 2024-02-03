@@ -28,7 +28,7 @@ if (!function_exists('convert_money_float')) {
             return 1;
         }
 
-        return $arg;
+        return $arg ?? 0;
     }
 }
 

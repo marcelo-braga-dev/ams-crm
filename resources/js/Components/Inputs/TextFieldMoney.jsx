@@ -14,9 +14,8 @@ export default function TextFieldMoney({ label, value, setData, index, required 
 
     return (
         <TextField
-            label={label} fullWidth required={required}
+            label={label} fullWidth required={required} value={value ?? ''}
             InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
-            value={value ?? ''}
             onChange={e => maskMoney(e.target.value)}/>
     );
 }

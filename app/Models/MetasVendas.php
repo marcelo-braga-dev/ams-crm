@@ -12,6 +12,7 @@ class MetasVendas extends Model
 
     protected $fillable = [
         'user_id',
+        'chave',
         'ano',
         'jan',
         'fev',
@@ -29,25 +30,28 @@ class MetasVendas extends Model
 
     public function createOrUpdate($id, $dados)
     {
-        $this->newQuery()
-            ->updateOrCreate(
-                ['user_id' => $id],
-                [
-                    'ano' => 2023,
-                    'jan' => convert_money_float($dados->jan),
-                    'fev' => convert_money_float($dados->fev),
-                    'mar' => convert_money_float($dados->mar),
-                    'abr' => convert_money_float($dados->abr),
-                    'mai' => convert_money_float($dados->mai),
-                    'jun' => convert_money_float($dados->jun),
-                    'jul' => convert_money_float($dados->jul),
-                    'ago' => convert_money_float($dados->ago),
-                    'set' => convert_money_float($dados->set),
-                    'out' => convert_money_float($dados->out),
-                    'nov' => convert_money_float($dados->nov),
-                    'dez' => convert_money_float($dados->dez),
-                ]
-            );
+
+        foreach ($dados as $key => $item) {
+            $this->newQuery()
+                ->updateOrCreate(
+                    ['user_id' => $id, 'chave' => $key],
+                    [
+                        'ano' => date('Y'),
+                        'jan' => convert_money_float($item['jan'] ?? null),
+                        'fev' => convert_money_float($item['fev'] ?? null),
+                        'mar' => convert_money_float($item['mar'] ?? null),
+                        'abr' => convert_money_float($item['abr'] ?? null),
+                        'mai' => convert_money_float($item['mai'] ?? null),
+                        'jun' => convert_money_float($item['jun'] ?? null),
+                        'jul' => convert_money_float($item['jul'] ?? null),
+                        'ago' => convert_money_float($item['ago'] ?? null),
+                        'set' => convert_money_float($item['set'] ?? null),
+                        'out' => convert_money_float($item['out'] ?? null),
+                        'nov' => convert_money_float($item['nov'] ?? null),
+                        'dez' => convert_money_float($item['dez'] ?? null),
+                    ]
+                );
+        }
     }
 
     public function metas()
@@ -97,8 +101,16 @@ class MetasVendas extends Model
 
     public function getMeta($id)
     {
-        return $this->newQuery()
+        $dados = $this->newQuery()
             ->where('user_id', $id)
-            ->first();
+            ->get();
+
+        return [
+            'metas' => $dados->where('chave', 'meta')->first(),
+            'comissoes' => $dados->where('chave', 'comissao')->first(),
+            'bonus' => $dados->where('chave', 'bonus')->first(),
+            'comissoes_equipe' => $dados->where('chave', 'comissao_equipe')->first(),
+            'bonus_equipe' => $dados->where('chave', 'bonus_equipe')->first(),
+        ];
     }
 }

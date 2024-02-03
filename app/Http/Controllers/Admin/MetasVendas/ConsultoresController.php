@@ -31,7 +31,8 @@ class ConsultoresController extends Controller
 
     public function update($id, Request $request)
     {
-        (new MetasVendas())->createOrUpdate($id, $request);
+        //print_pre($request->all())
+        (new MetasVendas())->createOrUpdate($id, $request->except('_method'));
 
         modalSucesso('Dados atualizados com sucesso!');
         return redirect()->route('admin.metas-vendas.consultores.index');
