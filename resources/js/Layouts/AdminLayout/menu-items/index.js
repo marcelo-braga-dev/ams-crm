@@ -9,9 +9,10 @@ import config from './config';
 import dashboard from './dashboard';
 import dev from './dev';
 import relatorios from './relatorios';
+import fluxoCaixa from './fluxo-caixa';
 
 const menuItems = {
-    items: [pedidos, leads, produtos, dashboard, relatorios, chats, metasVendas, usuarios, sac, config, dev]
+    items: [pedidos, leads, produtos, dashboard, relatorios, chats, fluxoCaixa, metasVendas, usuarios, sac, config, dev]
 };
 
 export default menuItems;
