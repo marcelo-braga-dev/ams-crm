@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Services\Leads\LeadsDadosService;
 use App\Services\Pedidos\DadosPedidoServices;
+use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\StatusPedidos;
@@ -86,7 +87,7 @@ class Pedidos extends Model
         $query = $this->newQuery();
 
         if ($setor) $query->where('setor_id', $setor);
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor());
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados());
 
         return $query->orderByDesc('id')->get();
     }
@@ -230,7 +231,7 @@ class Pedidos extends Model
         if (franquia_selecionada() && funcao_usuario_atual() === (new Admins)->getFuncao()) $query->where('franquia_id', franquia_selecionada());
         if ($setorAtual) $query->where('setor_id', $setorAtual);
         if ($fornecedorAtual) $query->where('fornecedor_id', $fornecedorAtual);
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
 
         return $query->get();
     }
@@ -240,7 +241,7 @@ class Pedidos extends Model
         $query = $this->newQuery();
 
         if ($setor) $query->where('setor_id', $setor);
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor());
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados());
 
         $nomes = (new User())->getNomes();
         $clientes = (new PedidosClientes())->getCardDados();
@@ -406,5 +407,48 @@ class Pedidos extends Model
                     ],
                 ];
             });
+    }
+
+    public function vendasMensaisUsuario($id, $ano)
+    {
+        return [
+            'jan' => $this->getVendasMesUsuario($id, 1, $ano),
+            'fev' => $this->getVendasMesUsuario($id, 2, $ano),
+            'mar' => $this->getVendasMesUsuario($id, 3, $ano),
+            'abr' => $this->getVendasMesUsuario($id, 4, $ano),
+            'mai' => $this->getVendasMesUsuario($id, 5, $ano),
+            'jun' => $this->getVendasMesUsuario($id, 6, $ano),
+            'jul' => $this->getVendasMesUsuario($id, 7, $ano),
+            'ago' => $this->getVendasMesUsuario($id, 8, $ano),
+            'set' => $this->getVendasMesUsuario($id, 9, $ano),
+            'out' => $this->getVendasMesUsuario($id, 10, $ano),
+            'nov' => $this->getVendasMesUsuario($id, 11, $ano),
+            'dez' => $this->getVendasMesUsuario($id, 12, $ano),
+        ];
+    }
+
+    public function vendasMensaisSubordinados($id, $ano)
+    {
+        $items = (new User())->getIdsSubordinados(false, $id);
+        $nomes = (new User())->getNomes();
+        $metas = (new MetasVendas)->getMetasUsuarios($ano);
+
+        $dados = [];
+        foreach ($items as $item) {
+            $dados[$item]['nome'] = $nomes[$item] ?? '';
+            $dados[$item]['metas'] = $metas[$item] ?? '';
+            $dados[$item]['vendas'] = $this->vendasMensaisUsuario($item, $ano);
+        }
+        return [...$dados];
+    }
+
+    private function getVendasMesUsuario($id, $mes, $ano)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->whereMonth('created_at', $mes)
+            ->whereYear('created_at', $ano)
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->sum('preco_venda');
     }
 }

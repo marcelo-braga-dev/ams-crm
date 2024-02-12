@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\MetasVendas;
 
 use App\Http\Controllers\Controller;
 use App\Models\MetasVendas;
+use App\Models\Pedidos;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -12,29 +13,32 @@ class ConsultoresController extends Controller
 {
     public function index()
     {
-        $consultores = (new User())->getConsultores();
-        $metasMensal = (new MetasVendas())->metasConsultores();
-        $metasPeriodo = (new MetasVendas())->metasConsultoresPeriodo();
+        $usuarios = (new User())->getConsultores();
 
         return Inertia::render('Admin/MetasVendas/Consultores/Index',
-            compact('consultores', 'metasMensal', 'metasPeriodo'));
+            compact('usuarios'));
     }
 
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        $metas = (new MetasVendas())->getMeta($id);
-        $consultor = (new User())->get($id);
+        $ano = $request->ano ?? date('Y');
+
+        $usuario = (new User())->get($id);
+
+        $dados = (new MetasVendas())->getMeta($id, $ano);
+        $vendasMensalUsuario = (new Pedidos())->vendasMensaisUsuario($id, $ano);
+        $vendasMensalSubordinados = (new Pedidos())->vendasMensaisSubordinados($id, $ano);
 
         return Inertia::render('Admin/MetasVendas/Consultores/Edit',
-            compact('consultor', 'metas'));
+            compact('usuario', 'dados', 'ano', 'vendasMensalUsuario', 'vendasMensalSubordinados'));
     }
 
     public function update($id, Request $request)
     {
-        //print_pre($request->all())
-        (new MetasVendas())->createOrUpdate($id, $request->except('_method'));
+        $ano = $request->ano ?? date('Y');
+        (new MetasVendas())->createOrUpdate($id, $request->except('_method'), $ano);
 
         modalSucesso('Dados atualizados com sucesso!');
-        return redirect()->route('admin.metas-vendas.consultores.index');
+        return redirect()->back();
     }
 }

@@ -1,86 +1,87 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
-import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {router, useForm} from "@inertiajs/react";
-import TextFieldPorcentagem from "@/Components/Inputs/TextFieldPorcentagem";
 import {InputAdornment, TextField} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import convertFloatToMoney, {convertMoneyFloat} from "@/Helpers/converterDataHorario";
 
-export default function ({consultor, metas}) {
+export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensalSubordinados}) {
     const {data, setData} = useForm({
+        ano: ano,
         metas: {
-            jan: maskMoney((metas?.metas?.jan * 100).toString()),
-            fev: metas?.metas?.fev,
-            mar: metas?.metas?.mar,
-            abr: metas?.metas?.abr,
-            mai: metas?.metas?.mai,
-            jun: metas?.metas?.jun,
-            jul: metas?.metas?.jul,
-            ago: metas?.metas?.ago,
-            set: metas?.metas?.set,
-            out: metas?.metas?.out,
-            nov: metas?.metas?.nov,
-            dez: metas?.metas?.dez
+            jan: dados?.metas?.jan,
+            fev: dados?.metas?.fev,
+            mar: dados?.metas?.mar,
+            abr: dados?.metas?.abr,
+            mai: dados?.metas?.mai,
+            jun: dados?.metas?.jun,
+            jul: dados?.metas?.jul,
+            ago: dados?.metas?.ago,
+            set: dados?.metas?.set,
+            out: dados?.metas?.out,
+            nov: dados?.metas?.nov,
+            dez: dados?.metas?.dez
         },
         comissoes: {
-            jan: metas?.comissoes?.jan,
-            fev: metas?.comissoes?.fev,
-            mar: metas?.comissoes?.mar,
-            abr: metas?.comissoes?.abr,
-            mai: metas?.comissoes?.mai,
-            jun: metas?.comissoes?.jun,
-            jul: metas?.comissoes?.jul,
-            ago: metas?.comissoes?.ago,
-            set: metas?.comissoes?.set,
-            out: metas?.comissoes?.out,
-            nov: metas?.comissoes?.nov,
-            dez: metas?.comissoes?.dez
+            jan: dados?.comissoes?.jan,
+            fev: dados?.comissoes?.fev,
+            mar: dados?.comissoes?.mar,
+            abr: dados?.comissoes?.abr,
+            mai: dados?.comissoes?.mai,
+            jun: dados?.comissoes?.jun,
+            jul: dados?.comissoes?.jul,
+            ago: dados?.comissoes?.ago,
+            set: dados?.comissoes?.set,
+            out: dados?.comissoes?.out,
+            nov: dados?.comissoes?.nov,
+            dez: dados?.comissoes?.dez
         },
         bonus: {
-            jan: metas?.bonus?.jan,
-            fev: metas?.bonus?.fev,
-            mar: metas?.bonus?.mar,
-            abr: metas?.bonus?.abr,
-            mai: metas?.bonus?.mai,
-            jun: metas?.bonus?.jun,
-            jul: metas?.bonus?.jul,
-            ago: metas?.bonus?.ago,
-            set: metas?.bonus?.set,
-            out: metas?.bonus?.out,
-            nov: metas?.bonus?.nov,
-            dez: metas?.bonus?.dez
+            jan: dados?.bonus?.jan,
+            fev: dados?.bonus?.fev,
+            mar: dados?.bonus?.mar,
+            abr: dados?.bonus?.abr,
+            mai: dados?.bonus?.mai,
+            jun: dados?.bonus?.jun,
+            jul: dados?.bonus?.jul,
+            ago: dados?.bonus?.ago,
+            set: dados?.bonus?.set,
+            out: dados?.bonus?.out,
+            nov: dados?.bonus?.nov,
+            dez: dados?.bonus?.dez
         },
         comissoes_equipe: {
-            jan: metas?.comissoes_equipe?.jan,
-            fev: metas?.comissoes_equipe?.fev,
-            mar: metas?.comissoes_equipe?.mar,
-            abr: metas?.comissoes_equipe?.abr,
-            mai: metas?.comissoes_equipe?.mai,
-            jun: metas?.comissoes_equipe?.jun,
-            jul: metas?.comissoes_equipe?.jul,
-            ago: metas?.comissoes_equipe?.ago,
-            set: metas?.comissoes_equipe?.set,
-            out: metas?.comissoes_equipe?.out,
-            nov: metas?.comissoes_equipe?.nov,
-            dez: metas?.comissoes_equipe?.dez
+            jan: dados?.comissoes_equipe?.jan,
+            fev: dados?.comissoes_equipe?.fev,
+            mar: dados?.comissoes_equipe?.mar,
+            abr: dados?.comissoes_equipe?.abr,
+            mai: dados?.comissoes_equipe?.mai,
+            jun: dados?.comissoes_equipe?.jun,
+            jul: dados?.comissoes_equipe?.jul,
+            ago: dados?.comissoes_equipe?.ago,
+            set: dados?.comissoes_equipe?.set,
+            out: dados?.comissoes_equipe?.out,
+            nov: dados?.comissoes_equipe?.nov,
+            dez: dados?.comissoes_equipe?.dez
         },
         bonus_equipe: {
-            jan: metas?.bonus_equipe?.jan,
-            fev: metas?.bonus_equipe?.fev,
-            mar: metas?.bonus_equipe?.mar,
-            abr: metas?.bonus_equipe?.abr,
-            mai: metas?.bonus_equipe?.mai,
-            jun: metas?.bonus_equipe?.jun,
-            jul: metas?.bonus_equipe?.jul,
-            ago: metas?.bonus_equipe?.ago,
-            set: metas?.bonus_equipe?.set,
-            out: metas?.bonus_equipe?.out,
-            nov: metas?.bonus_equipe?.nov,
-            dez: metas?.bonus_equipe?.dez
+            jan: dados?.bonus_equipe?.jan,
+            fev: dados?.bonus_equipe?.fev,
+            mar: dados?.bonus_equipe?.mar,
+            abr: dados?.bonus_equipe?.abr,
+            mai: dados?.bonus_equipe?.mai,
+            jun: dados?.bonus_equipe?.jun,
+            jul: dados?.bonus_equipe?.jul,
+            ago: dados?.bonus_equipe?.ago,
+            set: dados?.bonus_equipe?.set,
+            out: dados?.bonus_equipe?.out,
+            nov: dados?.bonus_equipe?.nov,
+            dez: dados?.bonus_equipe?.dez
         },
     });
 
     function submit(e) {
         e.preventDefault()
-        router.post(route('admin.metas-vendas.consultores.update', consultor.id), {
+        router.post(route('admin.metas-vendas.consultores.update', usuario.id), {
             '_method': 'put',
             ...data
         });
@@ -88,7 +89,7 @@ export default function ({consultor, metas}) {
 
     const items = [
         {
-            mes: 'JANEIRO',
+            mes: 'JANEIRO/' + ano,
             meta: data?.metas?.jan,
             meta_index: 'jan',
             comissao: data?.comissoes?.jan,
@@ -100,7 +101,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_jan,
             bonus_equipe_index: 'bonus_equipe_jan',
         }, {
-            mes: 'FEVEREIRO',
+            mes: 'FEVEREIRO/' + ano,
             meta: data?.metas?.fev,
             meta_index: 'fev',
             comissao: data?.comissoes?.fev,
@@ -112,7 +113,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_fev,
             bonus_equipe_index: 'bonus_equipe_fev',
         }, {
-            mes: 'MARÇO',
+            mes: 'MARÇO/' + ano,
             meta: data?.metas?.mar,
             meta_index: 'mar',
             comissao: data?.comissoes?.mar,
@@ -124,7 +125,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_mar,
             bonus_equipe_index: 'bonus_equipe_mar',
         }, {
-            mes: 'ABRIL',
+            mes: 'ABRIL/' + ano,
             meta: data?.metas?.abr,
             meta_index: 'abr',
             comissao: data?.comissoes?.abr,
@@ -136,7 +137,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_abr,
             bonus_equipe_index: 'bonus_equipe_abr',
         }, {
-            mes: 'MAIO',
+            mes: 'MAIO/' + ano,
             meta: data?.metas?.mai,
             meta_index: 'mai',
             comissao: data?.comissoes?.mai,
@@ -148,7 +149,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_mai,
             bonus_equipe_index: 'bonus_equipe_mai',
         }, {
-            mes: 'JUNHO',
+            mes: 'JUNHO/' + ano,
             meta: data?.metas?.jun,
             meta_index: 'jun',
             comissao: data?.comissoes?.jun,
@@ -160,7 +161,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_jun,
             bonus_equipe_index: 'bonus_equipe_jun',
         }, {
-            mes: 'JULHO',
+            mes: 'JULHO/' + ano,
             meta: data?.metas?.jul,
             meta_index: 'jul',
             comissao: data?.comissoes?.jul,
@@ -172,7 +173,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_jul,
             bonus_equipe_index: 'bonus_equipe_jul',
         }, {
-            mes: 'AGOSTO',
+            mes: 'AGOSTO/' + ano,
             meta: data?.metas?.ago,
             meta_index: 'ago',
             comissao: data?.comissoes?.ago,
@@ -184,7 +185,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_ago,
             bonus_equipe_index: 'bonus_equipe_ago',
         }, {
-            mes: 'SETEMBRO',
+            mes: 'SETEMBRO/' + ano,
             meta: data?.metas?.set,
             meta_index: 'set',
             comissao: data?.comissoes?.set,
@@ -196,7 +197,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_set,
             bonus_equipe_index: 'bonus_equipe_set',
         }, {
-            mes: 'OUTUBRO',
+            mes: 'OUTUBRO/' + ano,
             meta: data?.metas?.out,
             meta_index: 'out',
             comissao: data?.comissoes?.out,
@@ -208,7 +209,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_out,
             bonus_equipe_index: 'bonus_equipe_out',
         }, {
-            mes: 'NOVEMBRO',
+            mes: 'NOVEMBRO/' + ano,
             meta: data?.metas?.nov,
             meta_index: 'nov',
             comissao: data?.comissoes?.nov,
@@ -220,7 +221,7 @@ export default function ({consultor, metas}) {
             bonus_equipe: data.bonus_equipe_nov,
             bonus_equipe_index: 'bonus_equipe_nov',
         }, {
-            mes: 'DEZEMBRO',
+            mes: 'DEZEMBRO/' + ano,
             meta: data?.metas?.dez,
             meta_index: 'dez',
             comissao: data?.comissoes?.dez,
@@ -244,156 +245,195 @@ export default function ({consultor, metas}) {
     }
 
     return (
-        <Layout container titlePage="Editar Meta de Venda" menu="meta-vendas" submenu="consultores"
+        <Layout container titlePage="Editar Meta de Venda" menu="menu-meta-vendas" submenu="meta-vendas"
                 voltar={route('admin.metas-vendas.consultores.index')}>
             <div className="row mb-3 card card-body">
-                <h6>Nome: {consultor.nome}</h6>
-                <h6>Função: Supervisor</h6>
-                <h6>Setor: Energia Solar</h6>
+                <h6>Nome: {usuario.nome}</h6>
+                <h6>Função: {usuario.tipo}</h6>
+                <h6>Setor: {usuario.setor}</h6>
+            </div>
+            <div className="row">
+                <div className="row">
+                    <div className="col-2">
+                        <TextField label="Ano" select fullWidth defaultValue={ano}
+                                   onChange={e => router.get(route('admin.metas-vendas.consultores.edit', usuario.id), {ano: e.target.value})}>
+                            <MenuItem value="2023">2023</MenuItem>
+                            <MenuItem value="2024">2024</MenuItem>
+                        </TextField>
+                    </div>
+                </div>
             </div>
 
             <form onSubmit={submit}>
-                {items.map(item =>
-                    <div className="row row-cols-1 p-3">
-                        <div className="col mb-4">
-                            <div className='row card card-body flex-row'>
-                                <div className="row border-bottom mb-2">
-                                    <h5>MÊS: {item.mes}</h5>
-                                </div>
-                                <div className="row">
-                                    <div className="row mb-3">
-                                        <div className="col">
-                                            <span>INDIVIDUAL</span>
-                                        </div>
-                                        <div className="col">
-                                            <span className={'text-danger'}> Alcançado: R$ 564.564,00 (-23%)</span>
-                                        </div>
-                                    </div>
-                                    <div className="row mb-4">
-                                        <div className='col'>
-                                            <TextField
-                                                label="Meta" fullWidth defaultValue={item.meta}
-                                                value={data.metas?.[item.meta_index] ?? ''}
-                                                InputProps={{
-                                                    startAdornment: <InputAdornment position="start">R$</InputAdornment>
-                                                }}
-                                                onChange={e => setData({
-                                                    ...data,
-                                                    metas: {...data.metas, [item.meta_index]: maskMoney(e.target.value)}
-                                                })}/>
-                                        </div>
-                                        <div className='col'>
-                                            <TextField
-                                                label="Comissão" fullWidth defaultValue={item.comissao}
-                                                value={data.comissoes?.[item.meta_index] ?? ''}
-                                                InputProps={{
-                                                    endAdornment: <InputAdornment position="start">%</InputAdornment>
-                                                }}
-                                                onChange={e => setData({
-                                                    ...data,
-                                                    comissoes: {
-                                                        ...data.comissoes,
-                                                        [item.meta_index]: maskMoney(e.target.value, 3)
-                                                    }
-                                                })}/>
-                                        </div>
-                                        <div className='col'>
-                                            <TextField
-                                                label="Bônus" fullWidth defaultValue={item.bonus}
-                                                value={data.bonus?.[item.meta_index] ?? ''}
-                                                InputProps={{
-                                                    startAdornment: <InputAdornment position="start">R$</InputAdornment>
-                                                }}
-                                                onChange={e => setData({
-                                                    ...data,
-                                                    bonus: {...data.bonus, [item.meta_index]: maskMoney(e.target.value)}
-                                                })}/>
-                                        </div>
-                                    </div>
+                {items.map(item => {
+                        const vendaMensal = vendasMensalUsuario[item.meta_index]
+                        const metaMensal = convertMoneyFloat(data.metas?.[item?.meta_index] ?? 0)
+                        const margemAtingida = (-(metaMensal - vendaMensal) / (metaMensal) * 100)
+                        let somaAlcancadoSubordinados = 0
+                        let somaMetasSubordinados = 0
+                        let margemTotal = 0
 
-                                    <div className="row mb-3">
-                                        <div className="col">
-                                            <span>EQUIPE</span>
+                        return (
+                            <div className="row row-cols-1 p-3">
+                                <div className="col mb-4">
+                                    <div className='row card card-body flex-row'>
+                                        <div className="row border-bottom mb-2">
+                                            <h6>MÊS: {item.mes}</h6>
                                         </div>
-                                    </div>
+                                        <div className="row">
+                                            <div className="row mb-3">
+                                                <div className="col">
+                                                    <span>INDIVIDUAL</span>
+                                                </div>
+                                                <div className="col">
+                                                    <span
+                                                        className={margemAtingida > 0 ? 'text-success' : (margemAtingida < 0 ? 'text-danger' : '')}>
+                                                        Alcançado: R$ {convertFloatToMoney(vendaMensal)} ({convertFloatToMoney(margemAtingida)}%)
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="row mb-4">
+                                                <div className='col'>
+                                                    <TextField
+                                                        label="Meta" fullWidth defaultValue={item.meta}
+                                                        value={data.metas?.[item.meta_index] ?? ''}
+                                                        InputProps={{
+                                                            startAdornment: <InputAdornment
+                                                                position="start">R$</InputAdornment>
+                                                        }}
+                                                        onChange={e => setData({
+                                                            ...data,
+                                                            metas: {
+                                                                ...data.metas,
+                                                                [item.meta_index]: maskMoney(e.target.value)
+                                                            }
+                                                        })}/>
+                                                </div>
+                                                <div className='col'>
+                                                    <TextField
+                                                        label="Comissão" fullWidth defaultValue={item.comissao}
+                                                        value={data.comissoes?.[item.meta_index] ?? ''}
+                                                        InputProps={{
+                                                            endAdornment: <InputAdornment
+                                                                position="start">%</InputAdornment>
+                                                        }}
+                                                        onChange={e => setData({
+                                                            ...data,
+                                                            comissoes: {
+                                                                ...data.comissoes,
+                                                                [item.meta_index]: maskMoney(e.target.value, 3)
+                                                            }
+                                                        })}/>
+                                                </div>
+                                                <div className='col'>
+                                                    <TextField
+                                                        label="Bônus" fullWidth defaultValue={item.bonus}
+                                                        value={data.bonus?.[item.meta_index] ?? ''}
+                                                        InputProps={{
+                                                            startAdornment: <InputAdornment
+                                                                position="start">R$</InputAdornment>
+                                                        }}
+                                                        onChange={e => setData({
+                                                            ...data,
+                                                            bonus: {
+                                                                ...data.bonus,
+                                                                [item.meta_index]: maskMoney(e.target.value)
+                                                            }
+                                                        })}/>
+                                                </div>
+                                            </div>
 
-                                    <div className="row mb-3">
-                                        <div className="col-4">
-                                            <span>Meta Equipe: R$ 300.000,00</span>
-                                            <span className={'text-success d-block'}>
-                                            Alcançado: R$ 447.564,00 (+15,3%)
-                                        </span>
-                                        </div>
-                                        <div className='col-md-4'>
-                                            <TextField
-                                                label="Comissão Equipe" fullWidth defaultValue={item.comissao_equipe}
-                                                value={data.comissoes_equipe?.[item.meta_index] ?? ''}
-                                                InputProps={{
-                                                    endAdornment: <InputAdornment position="start">%</InputAdornment>
-                                                }}
-                                                onChange={e => setData({
-                                                    ...data,
-                                                    comissoes_equipe: {
-                                                        ...data.comissoes_equipe,
-                                                        [item.meta_index]: maskMoney(e.target.value, 3)
-                                                    }
-                                                })}/>
-                                        </div>
-                                        <div className='col-md-4'>
-                                            <TextField
-                                                label="Bônus" fullWidth defaultValue={item.bonus_equipe}
-                                                value={data.bonus_equipe?.[item.meta_index] ?? ''}
-                                                InputProps={{
-                                                    startAdornment: <InputAdornment position="start">R$</InputAdornment>
-                                                }}
-                                                onChange={e => setData({
-                                                    ...data,
-                                                    bonus_equipe: {
-                                                        ...data.bonus_equipe,
-                                                        [item.meta_index]: maskMoney(e.target.value)
-                                                    }
-                                                })}/>
-                                        </div>
-                                    </div>
+                                            {usuario.tipo === 'supervisor' && <>
+                                            <div className="row mb-3">
+                                                <div className="col">
+                                                    <span>EQUIPE</span>
+                                                </div>
+                                            </div>
 
-                                    <div className="row">
-                                        <table className="table">
-                                            <thead>
-                                            <tr>
-                                                <td>Consultor(a)</td>
-                                                <td>Meta</td>
-                                                <td>Alcançado</td>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>
-                                                    PESSOA 1
-                                                </td>
-                                                <td>R$150.00,00</td>
-                                                <td>R$180.00,00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    PESSOA 2
-                                                </td>
-                                                <td>R$150.00,00</td>
-                                                <td>R$180.00,00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    PESSOA 3
-                                                </td>
-                                                <td>R$150.00,00</td>
-                                                <td>R$180.00,00</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                            <div className="row mb-3">
+                                                <div className='col-md-4'>
+                                                    <TextField
+                                                        label="Comissão Equipe" fullWidth
+                                                        defaultValue={item.comissao_equipe}
+                                                        value={data.comissoes_equipe?.[item.meta_index] ?? ''}
+                                                        InputProps={{
+                                                            endAdornment: <InputAdornment
+                                                                position="start">%</InputAdornment>
+                                                        }}
+                                                        onChange={e => setData({
+                                                            ...data,
+                                                            comissoes_equipe: {
+                                                                ...data.comissoes_equipe,
+                                                                [item.meta_index]: maskMoney(e.target.value, 3)
+                                                            }
+                                                        })}/>
+                                                </div>
+                                                <div className='col-md-4'>
+                                                    <TextField
+                                                        label="Bônus" fullWidth defaultValue={item.bonus_equipe}
+                                                        value={data.bonus_equipe?.[item.meta_index] ?? ''}
+                                                        InputProps={{
+                                                            startAdornment: <InputAdornment
+                                                                position="start">R$</InputAdornment>
+                                                        }}
+                                                        onChange={e => setData({
+                                                            ...data,
+                                                            bonus_equipe: {
+                                                                ...data.bonus_equipe,
+                                                                [item.meta_index]: maskMoney(e.target.value)
+                                                            }
+                                                        })}/>
+                                                </div>
+                                            </div>
+
+                                            {/*Tabela comissões subordinados*/}
+                                            <div className="row">
+                                                <table className="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <td>Consultor(a)</td>
+                                                        <td>Meta</td>
+                                                        <td>Alcançado</td>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {vendasMensalSubordinados.map(subordinado => {
+                                                            const meta = subordinado.metas[item.meta_index]
+                                                            const vendas = subordinado.vendas[item.meta_index]
+                                                            const margem = -(meta - vendas) / (meta) * 100
+                                                            somaAlcancadoSubordinados += (vendas ?? 0)
+                                                            somaMetasSubordinados += (meta ?? 0)
+                                                            margemTotal = -(somaMetasSubordinados - somaAlcancadoSubordinados) / (somaMetasSubordinados) * 100
+
+                                                            return (
+                                                                <tr className={margem > 0 ? 'text-success' : (margem < 0 ? 'text-danger' : '')}>
+                                                                    <td>
+                                                                        {subordinado.nome}
+                                                                    </td>
+                                                                    <td>R$ {convertFloatToMoney(meta)}</td>
+                                                                    <td>R$ {convertFloatToMoney(vendas)} ({convertFloatToMoney(margem)}%)</td>
+                                                                </tr>
+                                                            )
+                                                        }
+                                                    )}
+                                                    <tr className={'bg-light ' + (margemTotal > 0 ? 'text-success' : (margemTotal < 0 ? 'text-danger' : ''))}>
+                                                        <td>
+                                                            TOTAL
+                                                        </td>
+                                                        <td>R$ {convertFloatToMoney(somaMetasSubordinados)}</td>
+                                                        <td>R$ {convertFloatToMoney(somaAlcancadoSubordinados)} ({convertFloatToMoney(margemTotal)}%)</td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            </>}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>)
+                        )
+                    }
+                )
                 }
 
 

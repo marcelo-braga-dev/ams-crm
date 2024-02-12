@@ -2,7 +2,7 @@ import pedidos from './pedidos';
 import produtos from './produtos';
 import chats from './chats';
 import leads from './leads';
-import metasVendas from './metasVendas';
+import metasVendas from './metas-vendas';
 import usuarios from './usuarios';
 import sac from './sac';
 import config from './config';

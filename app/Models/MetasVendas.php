@@ -28,30 +28,47 @@ class MetasVendas extends Model
         'dez',
     ];
 
-    public function createOrUpdate($id, $dados)
+    public function createOrUpdate($id, $dados, $ano)
     {
 
         foreach ($dados as $key => $item) {
-            $this->newQuery()
-                ->updateOrCreate(
-                    ['user_id' => $id, 'chave' => $key],
-                    [
-                        'ano' => date('Y'),
-                        'jan' => convert_money_float($item['jan'] ?? null),
-                        'fev' => convert_money_float($item['fev'] ?? null),
-                        'mar' => convert_money_float($item['mar'] ?? null),
-                        'abr' => convert_money_float($item['abr'] ?? null),
-                        'mai' => convert_money_float($item['mai'] ?? null),
-                        'jun' => convert_money_float($item['jun'] ?? null),
-                        'jul' => convert_money_float($item['jul'] ?? null),
-                        'ago' => convert_money_float($item['ago'] ?? null),
-                        'set' => convert_money_float($item['set'] ?? null),
-                        'out' => convert_money_float($item['out'] ?? null),
-                        'nov' => convert_money_float($item['nov'] ?? null),
-                        'dez' => convert_money_float($item['dez'] ?? null),
-                    ]
-                );
+            if ($key != 'ano')
+                $this->newQuery()
+                    ->updateOrCreate(
+                        ['user_id' => $id, 'chave' => $key, 'ano' => $ano],
+                        [
+                            'jan' => convert_money_float($item['jan'] ?? null, 3),
+                            'fev' => convert_money_float($item['fev'] ?? null, 3),
+                            'mar' => convert_money_float($item['mar'] ?? null, 3),
+                            'abr' => convert_money_float($item['abr'] ?? null, 3),
+                            'mai' => convert_money_float($item['mai'] ?? null, 3),
+                            'jun' => convert_money_float($item['jun'] ?? null, 3),
+                            'jul' => convert_money_float($item['jul'] ?? null, 3),
+                            'ago' => convert_money_float($item['ago'] ?? null, 3),
+                            'set' => convert_money_float($item['set'] ?? null, 3),
+                            'out' => convert_money_float($item['out'] ?? null, 3),
+                            'nov' => convert_money_float($item['nov'] ?? null, 3),
+                            'dez' => convert_money_float($item['dez'] ?? null, 3),
+                        ]
+                    );
         }
+    }
+
+    public function usuariosCadastrados()
+    {
+        $nomes = (new User())->usuarios();
+
+        $dados = $this->newQuery()->get('user_id');
+
+        $res = [];
+        foreach ($dados as $item) {
+            $res[$item->user_id] = $nomes[$item->user_id] ?? '';
+        }
+        return [...$res];
+    }
+
+    public function getMetas()
+    {
     }
 
     public function metas()
@@ -99,18 +116,53 @@ class MetasVendas extends Model
         return $metas;
     }
 
-    public function getMeta($id)
+    public function getMeta($id, $ano)
     {
         $dados = $this->newQuery()
             ->where('user_id', $id)
-            ->get();
+            ->where('ano', $ano)
+            ->get()
+            ->transform(function ($item) {
+                $casas = 2;
+                if ($item->chave == 'comissoes' || $item->chave == 'comissoes_equipe') $casas = 3;
+                return [
+                    'chave' => $item->chave,
+                    'ano' => $item->ano,
+                    'jan' => convert_float_money($item->jan, $casas),
+                    'fev' => convert_float_money($item->fev, $casas),
+                    'mar' => convert_float_money($item->mar, $casas),
+                    'abr' => convert_float_money($item->abr, $casas),
+                    'mai' => convert_float_money($item->mai, $casas),
+                    'jun' => convert_float_money($item->jun, $casas),
+                    'jul' => convert_float_money($item->jul, $casas),
+                    'ago' => convert_float_money($item->ago, $casas),
+                    'set' => convert_float_money($item->set, $casas),
+                    'out' => convert_float_money($item->out, $casas),
+                    'nov' => convert_float_money($item->nov, $casas),
+                    'dez' => convert_float_money($item->dez, $casas),
+                ];
+            });
 
         return [
-            'metas' => $dados->where('chave', 'meta')->first(),
-            'comissoes' => $dados->where('chave', 'comissao')->first(),
+            'metas' => $dados->where('chave', 'metas')->first(),
+            'comissoes' => $dados->where('chave', 'comissoes')->first(),
             'bonus' => $dados->where('chave', 'bonus')->first(),
-            'comissoes_equipe' => $dados->where('chave', 'comissao_equipe')->first(),
+            'comissoes_equipe' => $dados->where('chave', 'comissoes_equipe')->first(),
             'bonus_equipe' => $dados->where('chave', 'bonus_equipe')->first(),
         ];
+    }
+
+    public function getMetasUsuarios($ano)
+    {
+        $dados = $this->newQuery()
+            ->where('chave', 'metas')
+            ->where('ano', $ano)
+            ->get();
+
+        $res = [];
+        foreach ($dados as $dado) {
+            $res[$dado->user_id] = $dado;
+        }
+        return $res;
     }
 }

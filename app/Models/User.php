@@ -164,7 +164,7 @@ class User extends Authenticatable
         if (is_supervisor()) $query->whereIn('superior_id', [id_usuario_atual()])
             ->orWhere('id', id_usuario_atual());
 
-        return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id'])
+        return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id', 'foto'])
             ->except(['id' => 1])
             ->except(['id' => 2])
             ->except(['id' => 3])
@@ -172,10 +172,12 @@ class User extends Authenticatable
                 return [
                     'id' => $item->id,
                     'name' => $item->name,
+                    'nome' => $item->name,
                     'email' => $item->email,
                     'tipo' => $item->tipo,
                     'status' => $item->status,
                     'setor' => $setores[$item->setor_id]['nome'] ?? '',
+                    'foto' => asset('storage/' . $item->foto),
                 ];
             });
     }
@@ -358,11 +360,15 @@ class User extends Authenticatable
         return (new Setores())->getModelo($dados->setor_id);
     }
 
-    public function getIdsConsultoresSupervisor($suprvisorIncluso = false)
+    public function getIdsSubordinados($suprvisorIncluso = false, $supervisor = null)
     {
-        $consultores = (new User())->newQuery()->where('superior_id', id_usuario_atual())->get('id');
+        $supervisor ?? id_usuario_atual();
+
+        $consultores = (new User())->newQuery()->where('superior_id', $supervisor)->get('id');
         $consultor = [];
+
         if ($suprvisorIncluso) $consultor[] = id_usuario_atual();
+
         foreach ($consultores as $item) {
             $consultor[] = $item->id;
         }

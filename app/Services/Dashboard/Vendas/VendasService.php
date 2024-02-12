@@ -24,7 +24,7 @@ class VendasService
             ->where('status', '!=', (new CanceladoStatus())->getStatus())
             ->select(
                 'user_id',
-                'setor',
+                'setor_id',
                 DB::raw('SUM(preco_venda) as vendas'))
             ->groupBy('user_id')
             ->get()
@@ -39,7 +39,7 @@ class VendasService
                     'margem_money' => '',
                     'diferenca_meta' => (($metas[$item->user_id] ?? 0) - $item->vendas),
                     'diferenca_meta_money' => convert_float_money(($metas[$item->user_id] ?? 0) - $item->vendas),
-                    'setor' => $setores[$item->setor]
+                    'setor' => $setores[$item->setor_id]
                 ];
             });
 

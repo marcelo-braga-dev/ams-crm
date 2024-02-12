@@ -21,7 +21,7 @@ class EconomicosService
             ->where('status', '!=', (new CanceladoStatus())->getStatus())
             ->select(
                 'user_id',
-                'setor',
+                'setor_id',
                 DB::raw('SUM(preco_venda) as vendas, SUM(preco_custo) as custo, MONTH(status_data) as mes'))
             ->groupBy(DB::raw('MONTH(status_data)'))
             ->orderBy('mes')

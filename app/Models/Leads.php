@@ -205,7 +205,7 @@ class Leads extends Model
             ->where('user_id', '>', 0)
             ->where('setor_id', $setor)
             ->orderByDesc('id');
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
         return $query->get();
     }
 
@@ -282,7 +282,7 @@ class Leads extends Model
         $query = $this->newQuery()
             ->where('user_id', '>', 0);
 
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true))
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true))
             ->orWhere('user_id', id_usuario_atual());
 
         return $query->get();

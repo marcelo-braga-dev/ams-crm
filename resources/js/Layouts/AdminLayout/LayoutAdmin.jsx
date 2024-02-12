@@ -24,7 +24,7 @@ const Layout = ({titlePage, menu, submenu, children, voltar}) => {
     };
 
     return (
-        <Box sx={{display: 'flex', width: '100%'}}>
+        <Box sx={{display: 'flex', width: '100%'}} className="mb-5">
             <Head title={titlePage}/>
             <ModalsAlerts/>
             <Header open={!open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle}/>
