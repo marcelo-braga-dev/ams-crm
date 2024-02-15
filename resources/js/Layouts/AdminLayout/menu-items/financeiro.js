@@ -17,6 +17,11 @@ const dashboard = {
                     title: 'Fluxo de Caixa',
                     type: 'item',
                     url: route('admin.financeiro.fluxo-caixa.index'),
+                }, {
+                    id: 'financeiro-config',
+                    title: 'Configurações',
+                    type: 'item',
+                    url: route('admin.financeiro.config.index'),
                 }
             ]
         }

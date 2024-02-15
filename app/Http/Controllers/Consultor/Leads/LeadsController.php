@@ -41,14 +41,17 @@ class LeadsController extends Controller
 
     public function update($id, Request $request)
     {
-        (new Leads())->atualizar($id, $request);
-        $leads = (new Leads())->find($id);
-
-        modalSucesso("Dados atualizado com sucesso!");
-
-        if ($leads->status == (new AtendimentoStatusLeads())->getStatus()) return redirect()->route('consultor.leads.atendimento.show', $id);
-        if ($leads->status == (new AtivoStatusLeads())->getStatus()) return redirect()->route('consultor.leads.ativo.show', $id);
-        return redirect()->route('consultor.leads.main.index');
+        try {
+            (new Leads())->atualizar($id, $request);
+            $leads = (new Leads())->find($id);
+            modalSucesso("Dados atualizado com sucesso!");
+            if ($leads->status == (new AtendimentoStatusLeads())->getStatus()) return redirect()->route('consultor.leads.atendimento.show', $id);
+            if ($leads->status == (new AtivoStatusLeads())->getStatus()) return redirect()->route('consultor.leads.ativo.show', $id);
+            return redirect()->route('consultor.leads.main.index');
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+            return redirect()->back();
+        }
     }
 
     public function updateClassificacao(Request $request)

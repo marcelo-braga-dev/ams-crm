@@ -2,51 +2,75 @@ import LayoutAdmin from "@/Layouts/AdminLayout/LayoutAdmin";
 import React, {useState} from "react";
 import Switch from "@mui/material/Switch";
 import {TextField} from "@mui/material";
+import {router} from "@inertiajs/react";
 
-export default function () {
-    const [status, setStatus] = useState(false)
-    const [alterarStatus, setAlterarStatus] = useState(false)
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+
+export default function ({dados}) {
+    const [chaveStatus, setChaveStatus] = useState()
+    const [idStatus, setIdStatus] = useState()
+    const alterarStatus = (status) => {
+        router.post(route('admin.financeiro.fluxo-caixa.alterar-status', {id: idStatus, status: status}))
+    }
+
+    router.on('success', () => setChaveStatus(''))
 
     return (
         <LayoutAdmin titlePage="Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa">
             <a className="btn btn-primary" href={route('admin.financeiro.fluxo-caixa.create')}>Cadastrar</a>
             <div className="row">
                 <div className="col">
-                    <table className="table">
-                        <thead>
-                        <tr>
-                            <th>Data</th>
-                            <th>Tipo</th>
-                            <th>Fornecedor</th>
-                            <th>Empresa</th>
-                            <th>N° NF</th>
-                            <th>Valor</th>
-                            <th>Data Vencimento</th>
-                            <th>Valor Baixa</th>
-                            <th>Data Baixa</th>
-                            <th>Banco</th>
-                            <th>Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr className={status ? 'bg-success text-white' : (1 > 2 ? 'bg-danger text-white' : '')}>
-                            <td>03/02/2024</td>
-                            <td className="text-center">Entrada</td>
-                            <td>Fornecedor 1</td>
-                            <td>AMS 360</td>
-                            <td>51512</td>
-                            <td>R$ 52.365,01</td>
-                            <td className="text-center">05/02/2024</td>
-                            <td>R$ 53.225,00</td>
-                            <td className="text-center">06/02/2024</td>
-                            <td>Sicoob</td>
-                            <td className="text-center">
-                                <Switch checked={status} data-bs-toggle="modal" data-bs-target="#exampleModal"/>
-                                {status ? 'Pago' : 'Aberto'}
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div className="table-responsive">
+                        <table className="table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>ID</th>
+                                <th>Data</th>
+                                <th>Tipo</th>
+                                <th>Status</th>
+                                <th>Fornecedor</th>
+                                <th>Empresa</th>
+                                <th>N° NF</th>
+                                <th>Valor</th>
+                                <th>Data Vencimento</th>
+                                <th>Valor Baixa</th>
+                                <th>Data Baixa</th>
+                                <th>Banco</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {dados.map(item =>
+                                <tr key={item.id}
+                                    className={(item.tipo === 'entrada' ? 'text-success' : 'text-danger') + (item.atrasado ? ' bg-danger text-white' : '')}>
+                                    <td className="text-center">
+                                        <a className="btn btn-link btn-sm p-0"
+                                           href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
+                                            <RemoveRedEyeOutlinedIcon />
+                                        </a>
+                                    </td>
+                                    <td className="text-center">#{item.id}</td>
+                                    <td>{item.data}</td>
+                                    <td className="text-center">{item.tipo}</td>
+                                    <td className="text-center">
+                                        <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
+                                                onClick={() => setIdStatus(item.id)}
+                                                data-bs-target="#exampleModal"/>
+                                        {item.status}
+                                    </td>
+                                    <td className="text-wrap">{item.fornecedor}{item.fornecedor}{item.fornecedor}{item.fornecedor}</td>
+                                    <td>{item.empresa}</td>
+                                    <td>{item.nota_fiscal}</td>
+                                    <td>R$ {item.valor}</td>
+                                    <td className="text-center">{item.data_vencimento}</td>
+                                    <td>{item.valor_baixa && <>R$ {item.valor_baixa}</>}</td>
+                                    <td className="text-center">{item.data_baixa}</td>
+                                    <td>{item.banco}</td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -61,13 +85,14 @@ export default function () {
                         </div>
                         <div className="modal-body">
                             Digite "ALTERAR" para atualizar o Status:<br/>
-                            <TextField onChange={e => setAlterarStatus(e.target.value)}/>
+                            <TextField value={chaveStatus ?? ''} onChange={e => setChaveStatus(e.target.value)}/>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" data-bs-dismiss="modal" className="btn btn-primary"
-                                    disabled={alterarStatus !== 'ALTERAR'}
-                                    onClick={() => setStatus(e => !e)}>Alterar Status
+                                    disabled={chaveStatus !== 'ALTERAR'}
+                                    onClick={() => alterarStatus('pago')}>
+                                Alterar Status
                             </button>
                         </div>
                     </div>
