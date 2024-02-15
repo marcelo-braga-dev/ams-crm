@@ -28,7 +28,7 @@ return new class extends Migration
             $table->date('data_baixa')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('fluxo_caixas_configs');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->index('user_id');
             $table->foreign('banco_id')->references('id')->on('fluxo_caixas_configs');
             $table->index('banco_id');

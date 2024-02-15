@@ -58,7 +58,7 @@ export default function ({dados}) {
                                                 data-bs-target="#exampleModal"/>
                                         {item.status}
                                     </td>
-                                    <td className="text-wrap">{item.fornecedor}{item.fornecedor}{item.fornecedor}{item.fornecedor}</td>
+                                    <td className="text-wrap">{item.fornecedor}</td>
                                     <td>{item.empresa}</td>
                                     <td>{item.nota_fiscal}</td>
                                     <td>R$ {item.valor}</td>
