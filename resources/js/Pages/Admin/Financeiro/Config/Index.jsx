@@ -68,7 +68,7 @@ export default function ({bancos, empresas, fornecedores}) {
                                 <ListItem
                                     className="border-bottom mb-2"
                                     secondaryAction={
-                                        <IconButton edge="end" aria-label="delete">
+                                        <IconButton edge="end" aria-label="delete" onClick={() => deletar(item.id)}>
                                             <DeleteOutlineOutlinedIcon/>
                                         </IconButton>
                                     }>
@@ -94,7 +94,7 @@ export default function ({bancos, empresas, fornecedores}) {
                                 <ListItem
                                     className="border-bottom mb-2"
                                     secondaryAction={
-                                        <IconButton edge="end" aria-label="delete">
+                                        <IconButton edge="end" aria-label="delete" onClick={() => deletar(item.id)}>
                                             <DeleteOutlineOutlinedIcon/>
                                         </IconButton>
                                     }>
