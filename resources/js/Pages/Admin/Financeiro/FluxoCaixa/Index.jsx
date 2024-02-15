@@ -4,6 +4,9 @@ import Switch from "@mui/material/Switch";
 import {TextField} from "@mui/material";
 import {router} from "@inertiajs/react";
 
+import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
+import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
+
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
 export default function ({dados}) {
@@ -51,7 +54,9 @@ export default function ({dados}) {
                                         </td>
                                         <td className="text-center">#{item.id}</td>
                                         <td>{item.data}</td>
-                                        <td className="text-center">{item.tipo}</td>
+                                        <td className="text-center">
+                                            {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon /> : <ArrowDownwardOutlinedIcon />}
+                                        </td>
                                         <td className="text-center">
                                             <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
                                                     onClick={() => setIdStatus(item.id)}
