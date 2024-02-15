@@ -21,6 +21,7 @@ class FluxoCaixa extends Model
         'data_vencimento',
         'valor_baixa',
         'data_baixa',
+        'descricao'
     ];
 
     use HasFactory;
@@ -42,6 +43,7 @@ class FluxoCaixa extends Model
                 'data_vencimento' => $dados->data_vencimento,
                 'valor_baixa' => $dados->valor_baixa,
                 'data_baixa' => $dados->data_baixa,
+                'descricao' => $dados->descricao
             ]);
     }
 
@@ -80,6 +82,7 @@ class FluxoCaixa extends Model
             'data_baixa' => $item->data_baixa ? date('d/m/Y', strtotime($item->data_baixa)) : '',
             'banco' => $nomes[$item->banco_id] ?? '',
             'status' => $item->status,
+            'descricao' => $item->descricao,
             'atrasado' => $item->status == 'aberto' && (strtotime($item->data_vencimento) > strtotime(now())) && $item->tipo == 'entrada'
         ];
     }

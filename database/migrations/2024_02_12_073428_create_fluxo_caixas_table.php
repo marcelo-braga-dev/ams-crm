@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -26,6 +25,7 @@ return new class extends Migration
             $table->date('data_vencimento')->nullable();
             $table->float('valor_baixa')->nullable();
             $table->date('data_baixa')->nullable();
+            $table->text('descricao')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

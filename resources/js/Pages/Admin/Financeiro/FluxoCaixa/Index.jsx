@@ -41,32 +41,36 @@ export default function ({dados}) {
                             </thead>
                             <tbody>
                             {dados.map(item =>
-                                <tr key={item.id}
-                                    className={(item.tipo === 'entrada' ? 'text-success' : 'text-danger') + (item.atrasado ? ' bg-danger text-white' : '')}>
-                                    <td className="text-center">
-                                        <a className="btn btn-link btn-sm p-0"
-                                           href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
-                                            <RemoveRedEyeOutlinedIcon />
-                                        </a>
-                                    </td>
-                                    <td className="text-center">#{item.id}</td>
-                                    <td>{item.data}</td>
-                                    <td className="text-center">{item.tipo}</td>
-                                    <td className="text-center">
-                                        <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
-                                                onClick={() => setIdStatus(item.id)}
-                                                data-bs-target="#exampleModal"/>
-                                        {item.status}
-                                    </td>
-                                    <td className="text-wrap">{item.fornecedor}</td>
-                                    <td>{item.empresa}</td>
-                                    <td>{item.nota_fiscal}</td>
-                                    <td>R$ {item.valor}</td>
-                                    <td className="text-center">{item.data_vencimento}</td>
-                                    <td>{item.valor_baixa && <>R$ {item.valor_baixa}</>}</td>
-                                    <td className="text-center">{item.data_baixa}</td>
-                                    <td>{item.banco}</td>
-                                </tr>
+                                    <tr key={item.id}
+                                        className={(item.tipo === 'entrada' ? 'text-success' : 'text-danger') + (item.atrasado ? ' bg-danger text-white' : '')}>
+                                        <td className="text-center">
+                                            <a className="btn btn-link btn-sm p-0"
+                                               href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
+                                                <RemoveRedEyeOutlinedIcon/>
+                                            </a>
+                                        </td>
+                                        <td className="text-center">#{item.id}</td>
+                                        <td>{item.data}</td>
+                                        <td className="text-center">{item.tipo}</td>
+                                        <td className="text-center">
+                                            <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
+                                                    onClick={() => setIdStatus(item.id)}
+                                                    data-bs-target="#exampleModal"/>
+                                            {item.status}
+                                        </td>
+                                        <td>
+                                            <span className="d-inline-block text-truncate" style={{maxWidth: 150}}>
+                                              {item.fornecedor}
+                                            </span>
+                                        </td>
+                                        <td>{item.empresa}</td>
+                                        <td>{item.nota_fiscal}</td>
+                                        <td>R$ {item.valor}</td>
+                                        <td className="text-center">{item.data_vencimento}</td>
+                                        <td>{item.valor_baixa && <>R$ {item.valor_baixa}</>}</td>
+                                        <td className="text-center">{item.data_baixa}</td>
+                                        <td>{item.banco}</td>
+                                    </tr>
                             )}
                             </tbody>
                         </table>

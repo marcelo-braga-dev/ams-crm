@@ -37,6 +37,12 @@ export default function ({dados}) {
                     <span className="d-block"><b>Data Baixa:</b> R$ {dados.data_baixa}</span>
                 </div>
             </div>
+
+            <div className="row">
+                <div className="col mb-4">
+                    <span className="d-block"><b>Descrição:</b> {dados.descricao}</span>
+                </div>
+            </div>
             {dados.status === 'aberto' && dados.tipo === 'saida' &&
                 <form onSubmit={submit}>
                     <div className="row">

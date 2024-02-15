@@ -31,8 +31,8 @@ class FluxoCaixaController extends Controller
     public function store(Request $request)
     {
         (new FluxoCaixa())->create($request);
-        modalSucesso('Operação realizada com sucesso@');
 
+        modalSucesso('Operação realizada com sucesso@');
         return redirect()->route('admin.financeiro.fluxo-caixa.index');
     }
 

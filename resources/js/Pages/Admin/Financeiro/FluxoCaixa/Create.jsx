@@ -65,7 +65,8 @@ export default function ({dados}) {
                                             required/>
                         </div>
                         {tipo === 'saida' && <div className="col mb-4">
-                            <TextField type="date" fullWidth label="Data Vencimento" InputLabelProps={{shrink: true}} required
+                            <TextField type="date" fullWidth label="Data Vencimento" InputLabelProps={{shrink: true}}
+                                       required
                                        onChange={e => setData('data_vencimento', e.target.value)}/>
                         </div>}
                         {tipo === 'entrada' && <div className="col mb-4">
@@ -74,7 +75,8 @@ export default function ({dados}) {
                                        onChange={e => setData('previsao_recebimento', e.target.value)}/>
                         </div>}
                         {tipo === 'saida' && <div className="col mb-4">
-                            <TextFieldMoney fullWidth label="Valor Baixa" index="valor_baixa" value={data.valor_baixa} setData={setData} />
+                            <TextFieldMoney fullWidth label="Valor Baixa" index="valor_baixa" value={data.valor_baixa}
+                                            setData={setData}/>
                         </div>}
                         {tipo === 'saida' && <div className="col mb-4">
                             <TextField fullWidth type="date" label="Data Baixa" InputLabelProps={{shrink: true}}
@@ -93,6 +95,12 @@ export default function ({dados}) {
                                 <MenuItem value="aberto">Aberto</MenuItem>
                                 <MenuItem value="pago">Pago</MenuItem>
                             </TextField>
+                        </div>
+                    </div>
+                    <div className="row justify-content-center">
+                        <div className="col mb-4">
+                            <TextField label="Descrição" multiline rows="3" fullWidth required
+                                       onChange={e => setData('descricao', e.target.value)}/>
                         </div>
                     </div>
                     <div className="row justify-content-center">
