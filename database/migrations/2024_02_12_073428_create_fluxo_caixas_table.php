@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('fluxo_caixas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->integer('banco_id')->nullable();
-            $table->integer('fornecedor_id');
-            $table->integer('empresa_id')->nullable();
+            $table->unsignedBigInteger('banco_id')->nullable();
+            $table->unsignedBigInteger('fornecedor_id');
+            $table->unsignedBigInteger('empresa_id')->nullable();
             $table->string('status');
             $table->date('data');
             $table->string('tipo');
@@ -27,6 +27,15 @@ return new class extends Migration
             $table->float('valor_baixa')->nullable();
             $table->date('data_baixa')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('fluxo_caixas_configs');
+            $table->index('user_id');
+            $table->foreign('banco_id')->references('id')->on('fluxo_caixas_configs');
+            $table->index('banco_id');
+            $table->foreign('fornecedor_id')->references('id')->on('fluxo_caixas_configs');
+            $table->index('fornecedor_id');
+            $table->foreign('empresa_id')->references('id')->on('fluxo_caixas_configs');
+            $table->index('empresa_id');
         });
     }
 

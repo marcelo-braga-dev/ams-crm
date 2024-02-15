@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\QueryException;
 
 class FluxoCaixasConfig extends Model
 {
     protected $fillable = [
         'chave',
+        'valor',
     ];
 
     protected $casts = [
@@ -64,8 +66,19 @@ class FluxoCaixasConfig extends Model
     {
         $this->newQuery()
             ->updateOrCreate(
-                [$dados->chave],
-                [$dados->valor]
+                ['chave'=> $dados->chave, 'valor' => $dados->valor],
+//                [$dados->valor]
             );
+    }
+
+    public function remover($id)
+    {
+        try {
+            $this->newQuery()
+                ->find($id)
+                ->delete();
+        } catch (QueryException) {
+            throw new \DomainException('Não é possível deletar esta dado pois ele está em uso.');
+        }
     }
 }
