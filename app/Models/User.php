@@ -365,7 +365,9 @@ class User extends Authenticatable
         $supervisor = $supervisor ?? id_usuario_atual();
 
         $consultores = $this->newQuery()
-            ->where('superior_id', $supervisor)->get('id');
+            ->where('superior_id', $supervisor)
+            ->where('status', (new AtivoStatusUsuario())->getStatus())
+            ->get('id');
         $consultor = [];
 
         if ($suprvisorIncluso) $consultor[] = id_usuario_atual();
