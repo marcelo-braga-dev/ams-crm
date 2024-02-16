@@ -13,6 +13,13 @@ class LeadsUsuariosService
         $leads = (new Leads())->qtdLeadsUsuarios();
 
         $dados = [];
+        foreach ((new User())->getIdsSubordinados(true) as $id) {
+            $dados[$id] = [];
+            $dados[$id]['status'][] = [];
+            $dados[$id]['nome'] = $nomes[$id] ?? 'Não Encontrado';
+            $dados[$id]['id'] = $id;
+        }
+
         foreach ($leads as $lead) {
             $dados[$lead->user_id]['status'][$lead->status][] = [];
             $dados[$lead->user_id]['nome'] = $nomes[$lead->user_id] ?? 'Não Encontrado';

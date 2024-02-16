@@ -52,6 +52,7 @@ class FluxoCaixa extends Model
         $nomes = (new FluxoCaixasConfig())->getNomes();
 
         return $this->newQuery()
+            ->orderByDesc('data_vencimento')
             ->orderByDesc('id')
             ->get()
             ->transform(function ($item) use ($nomes) {

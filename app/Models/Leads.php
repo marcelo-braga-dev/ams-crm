@@ -279,11 +279,13 @@ class Leads extends Model
 
     public function qtdLeadsUsuarios()
     {
-        $query = $this->newQuery()
-            ->where('user_id', '>', 0);
+        $query = $this->newQuery();
 
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true))
-            ->orWhere('user_id', id_usuario_atual());
+        if (is_supervisor()) {
+            $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
+        } else {
+            $query->where('user_id', '>', 0);
+        }
 
         return $query->get();
     }

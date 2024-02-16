@@ -362,9 +362,10 @@ class User extends Authenticatable
 
     public function getIdsSubordinados($suprvisorIncluso = false, $supervisor = null)
     {
-        $supervisor ?? id_usuario_atual();
+        $supervisor = $supervisor ?? id_usuario_atual();
 
-        $consultores = (new User())->newQuery()->where('superior_id', $supervisor)->get('id');
+        $consultores = $this->newQuery()
+            ->where('superior_id', $supervisor)->get('id');
         $consultor = [];
 
         if ($suprvisorIncluso) $consultor[] = id_usuario_atual();
