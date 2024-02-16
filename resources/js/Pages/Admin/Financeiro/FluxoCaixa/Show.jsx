@@ -2,10 +2,15 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {router, useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 
 
-export default function ({dados}) {
-    const {data, setData} = useForm()
+export default function ({dados, bancos}) {
+    const {data, setData} = useForm({
+        'valor_baixa': dados.valor_baixa,
+        'banco': dados.banco_id,
+        'data_baixa': dados.data_baixa_valor,
+    })
 
     function submit(e) {
         e.preventDefault()
@@ -15,6 +20,7 @@ export default function ({dados}) {
     router.on('success', function () {
         data.valor_baixa = ''
         data.data_baixa = ''
+        data.banco = ''
     })
 
     return (
@@ -46,16 +52,23 @@ export default function ({dados}) {
             {dados.status === 'aberto' && dados.tipo === 'saida' &&
                 <form onSubmit={submit}>
                     <div className="row">
-                        <div className="col-3">
+                        <div className="col-md-2">
                             <TextFieldMoney index="valor_baixa" value={data.valor_baixa} label="Valor Baixa"
-                                            setData={setData}
+                                            setData={setData} de
                                             required/>
                         </div>
-                        <div className="col-3">
+                        <div className="col-md-2">
                             <TextField type="date" fullWidth required value={data.data_baixa ?? ''}
                                        onChange={e => setData('data_baixa', e.target.value)}/>
                         </div>
-                        <div className="col-3">
+                        <div className="col-md-2 mb-4">
+                            <TextField select label="Banco" fullWidth required value={data.banco ?? ''}
+                                       onChange={e => setData('banco', e.target.value)}>
+                                {bancos.map(item => <MenuItem key={item.id}
+                                                              value={item.id}>{item.valor}</MenuItem>)}
+                            </TextField>
+                        </div>
+                        <div className="col-md-2">
                             <button className="btn btn-primary">Salvar</button>
                         </div>
                     </div>

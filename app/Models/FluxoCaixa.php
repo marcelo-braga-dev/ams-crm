@@ -81,6 +81,8 @@ class FluxoCaixa extends Model
             'data_vencimento' => $item->data_vencimento ? date('d/m/Y', strtotime($item->data_vencimento)) : '',
             'valor_baixa' => $item->valor_baixa ? convert_float_money($item->valor_baixa) : '',
             'data_baixa' => $item->data_baixa ? date('d/m/Y', strtotime($item->data_baixa)) : '',
+            'data_baixa_valor' => $item->data_baixa ?? '',
+            'banco_id' => $item->banco_id ?? '',
             'banco' => $nomes[$item->banco_id] ?? '',
             'status' => $item->status,
             'descricao' => $item->descricao,
@@ -95,6 +97,7 @@ class FluxoCaixa extends Model
             ->update([
                 'valor_baixa' => convert_money_float($dados->valor_baixa),
                 'data_baixa' => $dados->data_baixa,
+                'banco_id' => $dados->banco,
             ]);
 
     }

@@ -16,7 +16,8 @@ export default function ({dados}) {
     }
 
     return (
-        <Layout titlePage="Inserir Informações" menu="financeiro" submenu="fluxo-caixa">
+        <Layout titlePage="Inserir Informações" menu="financeiro" submenu="fluxo-caixa"
+        voltar={route('admin.financeiro.fluxo-caixa.index')}>
             <div className="row">
                 <div className="col">
                     Tipo de Entrada<br/>
@@ -83,7 +84,7 @@ export default function ({dados}) {
                                        onChange={e => setData('data_baixa', e.target.value)}/>
                         </div>}
                         <div className="col mb-4">
-                            <TextField select label="Banco" fullWidth required
+                            <TextField select label="Banco" fullWidth
                                        onChange={e => setData('banco', e.target.value)}>
                                 {dados.bancos.map(item => <MenuItem key={item.id}
                                                                     value={item.id}>{item.valor}</MenuItem>)}

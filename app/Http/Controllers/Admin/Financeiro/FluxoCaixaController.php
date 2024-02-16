@@ -39,8 +39,10 @@ class FluxoCaixaController extends Controller
     public function show($id)
     {
         $dados = (new FluxoCaixa())->find($id);
+        $bancos = (new FluxoCaixasConfig())->getBancos();
 
-        return Inertia::render('Admin/Financeiro/FluxoCaixa/Show', compact('dados'));
+        return Inertia::render('Admin/Financeiro/FluxoCaixa/Show',
+            compact('dados', 'bancos'));
     }
 
     public function update($id, Request $request)
