@@ -68,11 +68,15 @@ export default function ({dados}) {
                                         {item.status}
                                     </td>
                                     <td>
-                                            <span className="d-inline-block text-truncate" style={{maxWidth: 150}}>
-                                              {item.fornecedor}
-                                            </span>
+                                        <span className="d-inline-block text-truncate" style={{maxWidth: 200}}>
+                                          {item.fornecedor}
+                                        </span>
                                     </td>
-                                    <td>{item.empresa}</td>
+                                    <td>
+                                        <span className="d-inline-block text-truncate" style={{maxWidth: 200}}>
+                                          {item.empresa}
+                                        </span>
+                                    </td>
                                     <td>{item.nota_fiscal}</td>
                                     <td>R$ {item.valor}</td>
                                     <td className="text-center">{item.data_vencimento}</td>

@@ -99,7 +99,6 @@ class FluxoCaixa extends Model
                 'data_baixa' => $dados->data_baixa,
                 'banco_id' => $dados->banco,
             ]);
-
     }
 
     public function updateStatus($id, $status)
