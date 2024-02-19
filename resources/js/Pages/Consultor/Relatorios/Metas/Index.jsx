@@ -233,15 +233,18 @@ export default function ({vendasMensalUsuario, ano, dados}) {
     return (
         <Layout titlePage="Metas de Vendas" menu="relatorios-metas">
             <div className="row">
-                <div className="col mb-4">
-                    <TextField label="Ano" select defaultValue={ano}
+                <div className="col-auto mb-4 pt-2">
+                    <h6>Metas x Vendas de</h6>
+                </div>
+                <div className="col-md-2 mb-4">
+                    <TextField label="Ano" select fullWidth defaultValue={ano}
                                onChange={e => router.get(route('consultor.relatorios.metas.index'), {ano: e.target.value})}>
                         <MenuItem value="2023">2023</MenuItem>
                         <MenuItem value="2024">2024</MenuItem>
                     </TextField>
-                    <MetasAtingidas vendasMensalUsuario={vendasMensalUsuario} items={items} dados={data}/>
                 </div>
             </div>
+            <MetasAtingidas vendasMensalUsuario={vendasMensalUsuario} items={items} dados={data}/>
             <div className="row">
                 <div className="col">
                     <div className="table-responsive">
@@ -249,33 +252,37 @@ export default function ({vendasMensalUsuario, ano, dados}) {
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>JAN</th>
-                                <th>FEV</th>
-                                <th>MAR</th>
-                                <th>ABR</th>
-                                <th>MAI</th>
-                                <th>JUN</th>
-                                <th>JUL</th>
-                                <th>AGO</th>
-                                <th>SET</th>
-                                <th>OUT</th>
-                                <th>NOV</th>
-                                <th>DEZ</th>
+                                <th>JAN/{ano}</th>
+                                <th>FEV/{ano}</th>
+                                <th>MAR/{ano}</th>
+                                <th>ABR/{ano}</th>
+                                <th>MAI/{ano}</th>
+                                <th>JUN/{ano}</th>
+                                <th>JUL/{ano}</th>
+                                <th>AGO/{ano}</th>
+                                <th>SET/{ano}</th>
+                                <th>OUT/{ano}</th>
+                                <th>NOV/{ano}</th>
+                                <th>DEZ/{ano}</th>
                             </tr>
 
                             </thead>
                             <tbody>
                             <tr>
                                 <td><b>META</b></td>
-                                {items.map(item => <>
-                                    <td>R$ {dados.metas?.[item.meta_index] ?? 0}</td>
-                                </>)}
+                                {items.map(item =>
+                                    <td key={item.meta_index}>
+                                        R$ {dados.metas?.[item.meta_index] ?? 0}
+                                    </td>
+                                )}
                             </tr>
                             <tr>
                                 <td><b>VENDAS</b></td>
-                                {items.map(item => <>
-                                    <td>R$ {convertFloatToMoney(vendasMensalUsuario[item.meta_index] ?? 0)}</td>
-                                </>)}
+                                {items.map(item =>
+                                    <td key={item.meta_index}>
+                                        R$ {convertFloatToMoney(vendasMensalUsuario[item.meta_index] ?? 0)}
+                                    </td>
+                                )}
                             </tr>
                             <tr>
                                 <td><b>DIFERENÇA</b></td>
@@ -283,7 +290,8 @@ export default function ({vendasMensalUsuario, ano, dados}) {
                                     const valor = convertMoneyFloat(dados.metas?.[item.meta_index] ?? 0) - (vendasMensalUsuario[item.meta_index] ?? 0)
 
                                     return (
-                                        <td className={valor > 0 ? 'text-danger' : 'text-success'}>
+                                        <td key={item.meta_index}
+                                            className={valor > 0 ? 'text-danger' : 'text-success'}>
                                             R$ {convertFloatToMoney(-valor)}
                                         </td>
                                     )
@@ -297,7 +305,8 @@ export default function ({vendasMensalUsuario, ano, dados}) {
                                         const margemAtingida = -(((metaMensal - vendaMensal) / (metaMensal) * 100) - 100)
 
                                         return (
-                                            <td className={margemAtingida >= 100 ? 'text-success' : 'text-danger'}>
+                                            <td key={item.meta_index}
+                                                className={margemAtingida >= 100 ? 'text-success' : 'text-danger'}>
                                                 {convertFloatToMoney(margemAtingida)}%
                                             </td>
                                         )
