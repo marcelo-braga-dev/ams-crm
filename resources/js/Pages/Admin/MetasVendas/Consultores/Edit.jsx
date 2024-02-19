@@ -255,22 +255,20 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                 <h6>Função: {usuario.tipo}</h6>
                 <h6>Setor: {usuario.setor}</h6>
             </div>
-            <div className="row mb-4">
-                <div className="row">
-                    <div className="col-2">
-                        <TextField label="Ano" select fullWidth defaultValue={ano}
-                                   onChange={e => router.get(route('admin.metas-vendas.consultores.edit', usuario.id), {ano: e.target.value})}>
-                            <MenuItem value="2023">2023</MenuItem>
-                            <MenuItem value="2024">2024</MenuItem>
-                        </TextField>
-                    </div>
+            <div className="row">
+                <div className="col-2">
+                    <TextField label="Ano" select fullWidth defaultValue={ano}
+                               onChange={e => router.get(route('admin.metas-vendas.consultores.edit', usuario.id), {ano: e.target.value})}>
+                        <MenuItem value="2023">2023</MenuItem>
+                        <MenuItem value="2024">2024</MenuItem>
+                    </TextField>
                 </div>
             </div>
 
             <div className="row">
                 <div className="col">
                     <h6>Meta x Vendas de {ano} de {usuario.nome}</h6>
-                    <MetasAtingidas items={items} dados={data} vendasMensalUsuario={vendasMensalUsuario} />
+                    <MetasAtingidas items={items} dados={data} vendasMensalUsuario={vendasMensalUsuario}/>
                 </div>
             </div>
 
@@ -354,88 +352,88 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                             </div>
 
                                             {usuario.tipo === 'supervisor' && <>
-                                            <div className="row mb-3">
-                                                <div className="col">
-                                                    <span>EQUIPE</span>
+                                                <div className="row mb-3">
+                                                    <div className="col">
+                                                        <span>EQUIPE</span>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div className="row mb-3">
-                                                <div className='col-md-4'>
-                                                    <TextField
-                                                        label="Comissão Equipe" fullWidth
-                                                        defaultValue={item.comissao_equipe}
-                                                        value={data.comissoes_equipe?.[item.meta_index] ?? ''}
-                                                        InputProps={{
-                                                            endAdornment: <InputAdornment
-                                                                position="start">%</InputAdornment>
-                                                        }}
-                                                        onChange={e => setData({
-                                                            ...data,
-                                                            comissoes_equipe: {
-                                                                ...data.comissoes_equipe,
-                                                                [item.meta_index]: maskMoney(e.target.value, 3)
+                                                <div className="row mb-3">
+                                                    <div className='col-md-4'>
+                                                        <TextField
+                                                            label="Comissão Equipe" fullWidth
+                                                            defaultValue={item.comissao_equipe}
+                                                            value={data.comissoes_equipe?.[item.meta_index] ?? ''}
+                                                            InputProps={{
+                                                                endAdornment: <InputAdornment
+                                                                    position="start">%</InputAdornment>
+                                                            }}
+                                                            onChange={e => setData({
+                                                                ...data,
+                                                                comissoes_equipe: {
+                                                                    ...data.comissoes_equipe,
+                                                                    [item.meta_index]: maskMoney(e.target.value, 3)
+                                                                }
+                                                            })}/>
+                                                    </div>
+                                                    <div className='col-md-4'>
+                                                        <TextField
+                                                            label="Bônus" fullWidth defaultValue={item.bonus_equipe}
+                                                            value={data.bonus_equipe?.[item.meta_index] ?? ''}
+                                                            InputProps={{
+                                                                startAdornment: <InputAdornment
+                                                                    position="start">R$</InputAdornment>
+                                                            }}
+                                                            onChange={e => setData({
+                                                                ...data,
+                                                                bonus_equipe: {
+                                                                    ...data.bonus_equipe,
+                                                                    [item.meta_index]: maskMoney(e.target.value)
+                                                                }
+                                                            })}/>
+                                                    </div>
+                                                </div>
+
+                                                {/*Tabela comissões subordinados*/}
+                                                <div className="row">
+                                                    <table className="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <td>Consultor(a)</td>
+                                                            <td>Meta</td>
+                                                            <td>Alcançado</td>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        {vendasMensalSubordinados.map(subordinado => {
+                                                                const meta = subordinado.metas[item.meta_index]
+                                                                const vendas = subordinado.vendas[item.meta_index]
+                                                                const margem = -(meta - vendas) / (meta) * 100
+                                                                somaAlcancadoSubordinados += (vendas ?? 0)
+                                                                somaMetasSubordinados += (meta ?? 0)
+                                                                margemTotal = -(somaMetasSubordinados - somaAlcancadoSubordinados) / (somaMetasSubordinados) * 100
+
+                                                                return (
+                                                                    <tr className={margem > 0 ? 'text-success' : (margem < 0 ? 'text-danger' : '')}>
+                                                                        <td>
+                                                                            {subordinado.nome}
+                                                                        </td>
+                                                                        <td>R$ {convertFloatToMoney(meta)}</td>
+                                                                        <td>R$ {convertFloatToMoney(vendas)} ({convertFloatToMoney(margem)}%)</td>
+                                                                    </tr>
+                                                                )
                                                             }
-                                                        })}/>
+                                                        )}
+                                                        <tr className={'bg-light ' + (margemTotal > 0 ? 'text-success' : (margemTotal < 0 ? 'text-danger' : ''))}>
+                                                            <td>
+                                                                TOTAL
+                                                            </td>
+                                                            <td>R$ {convertFloatToMoney(somaMetasSubordinados)}</td>
+                                                            <td>R$ {convertFloatToMoney(somaAlcancadoSubordinados)} ({convertFloatToMoney(margemTotal)}%)</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                                <div className='col-md-4'>
-                                                    <TextField
-                                                        label="Bônus" fullWidth defaultValue={item.bonus_equipe}
-                                                        value={data.bonus_equipe?.[item.meta_index] ?? ''}
-                                                        InputProps={{
-                                                            startAdornment: <InputAdornment
-                                                                position="start">R$</InputAdornment>
-                                                        }}
-                                                        onChange={e => setData({
-                                                            ...data,
-                                                            bonus_equipe: {
-                                                                ...data.bonus_equipe,
-                                                                [item.meta_index]: maskMoney(e.target.value)
-                                                            }
-                                                        })}/>
-                                                </div>
-                                            </div>
-
-                                            {/*Tabela comissões subordinados*/}
-                                            <div className="row">
-                                                <table className="table">
-                                                    <thead>
-                                                    <tr>
-                                                        <td>Consultor(a)</td>
-                                                        <td>Meta</td>
-                                                        <td>Alcançado</td>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {vendasMensalSubordinados.map(subordinado => {
-                                                            const meta = subordinado.metas[item.meta_index]
-                                                            const vendas = subordinado.vendas[item.meta_index]
-                                                            const margem = -(meta - vendas) / (meta) * 100
-                                                            somaAlcancadoSubordinados += (vendas ?? 0)
-                                                            somaMetasSubordinados += (meta ?? 0)
-                                                            margemTotal = -(somaMetasSubordinados - somaAlcancadoSubordinados) / (somaMetasSubordinados) * 100
-
-                                                            return (
-                                                                <tr className={margem > 0 ? 'text-success' : (margem < 0 ? 'text-danger' : '')}>
-                                                                    <td>
-                                                                        {subordinado.nome}
-                                                                    </td>
-                                                                    <td>R$ {convertFloatToMoney(meta)}</td>
-                                                                    <td>R$ {convertFloatToMoney(vendas)} ({convertFloatToMoney(margem)}%)</td>
-                                                                </tr>
-                                                            )
-                                                        }
-                                                    )}
-                                                    <tr className={'bg-light ' + (margemTotal > 0 ? 'text-success' : (margemTotal < 0 ? 'text-danger' : ''))}>
-                                                        <td>
-                                                            TOTAL
-                                                        </td>
-                                                        <td>R$ {convertFloatToMoney(somaMetasSubordinados)}</td>
-                                                        <td>R$ {convertFloatToMoney(somaAlcancadoSubordinados)} ({convertFloatToMoney(margemTotal)}%)</td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
                                             </>}
                                         </div>
                                     </div>
