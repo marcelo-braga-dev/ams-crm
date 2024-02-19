@@ -283,7 +283,7 @@ export default function ({vendasMensalUsuario, ano, dados}) {
                                     const valor = convertMoneyFloat(dados.metas?.[item.meta_index] ?? 0) - (vendasMensalUsuario[item.meta_index] ?? 0)
 
                                     return (
-                                        <td className={valor >= 0 ? 'text-danger' : 'text-success'}>
+                                        <td className={valor > 0 ? 'text-danger' : 'text-success'}>
                                             R$ {convertFloatToMoney(-valor)}
                                         </td>
                                     )
