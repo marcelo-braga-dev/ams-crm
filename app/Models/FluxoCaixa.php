@@ -47,12 +47,19 @@ class FluxoCaixa extends Model
             ]);
     }
 
-    public function getValores()
+    public function getValores($incio = null, $fim = null, $tipo = null, $status = null)
     {
         $nomes = (new FluxoCaixasConfig())->getNomes();
 
-        return $this->newQuery()
-            ->orderByDesc('data_vencimento')
+        $query = $this->newQuery();
+
+        if ($incio) $query->whereDate('data', '>=', date('Y-m-d',strtotime($incio)))
+            ->whereDate('data', '<=', date('Y-m-d',strtotime($fim)));
+
+        if ($tipo) $query->where('tipo', $tipo);
+        if ($status) $query->where('status', $status);
+
+        return $query->orderByDesc('data_vencimento')
             ->orderByDesc('id')
             ->get()
             ->transform(function ($item) use ($nomes) {
@@ -78,10 +85,11 @@ class FluxoCaixa extends Model
             'empresa' => $nomes[$item->empresa_id] ?? '',
             'nota_fiscal' => $item->nota_fiscal,
             'valor' => convert_float_money($item->valor),
+            'valor_float' => $item->valor,
             'data_vencimento' => $item->data_vencimento ? date('d/m/Y', strtotime($item->data_vencimento)) : '',
             'valor_baixa' => $item->valor_baixa ? convert_float_money($item->valor_baixa) : '',
             'data_baixa' => $item->data_baixa ? date('d/m/Y', strtotime($item->data_baixa)) : '',
-            'data_baixa_valor' => $item->data_baixa ?? '',
+            'data_baixa_float' => $item->data_baixa ?? '',
             'banco_id' => $item->banco_id ?? '',
             'banco' => $nomes[$item->banco_id] ?? '',
             'status' => $item->status,

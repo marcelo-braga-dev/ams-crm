@@ -10,11 +10,18 @@ use Inertia\Inertia;
 
 class FluxoCaixaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dados = (new FluxoCaixa())->getValores();
+        $dataInicio = $request->periodoInicio;
+        $dataFim = $request->periodoFim;
+        $tipo = $request->tipo;
+        $status = $request->status;
 
-        return Inertia::render('Admin/Financeiro/FluxoCaixa/Index', compact('dados'));
+
+        $dados = (new FluxoCaixa())->getValores($dataInicio, $dataFim, $tipo, $status);
+
+        return Inertia::render('Admin/Financeiro/FluxoCaixa/Index',
+            compact('dados', 'dataInicio', 'dataFim', 'tipo', 'status'));
     }
 
     public function create()

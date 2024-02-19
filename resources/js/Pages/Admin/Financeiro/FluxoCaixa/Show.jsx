@@ -9,7 +9,7 @@ export default function ({dados, bancos}) {
     const {data, setData} = useForm({
         'valor_baixa': dados.valor_baixa,
         'banco': dados.banco_id,
-        'data_baixa': dados.data_baixa_valor,
+        'data_baixa': dados.data_baixa_float,
     })
 
     function submit(e) {
