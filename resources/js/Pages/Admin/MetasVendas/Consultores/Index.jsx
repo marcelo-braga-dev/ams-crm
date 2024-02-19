@@ -21,6 +21,7 @@ export default function ({usuarios}) {
                                 </ListItemAvatar>
                                 <ListItemText primary={item.nome} secondary={
                                     <>
+                                        {item.franquia}<br/>
                                         {item.setor}<br/>
                                         {item.tipo}<br/>
                                     </>

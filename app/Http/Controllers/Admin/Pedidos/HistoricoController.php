@@ -15,7 +15,6 @@ class HistoricoController extends Controller
 {
     public function index(Request $request)
     {
-        $dadosSetor = session('sessaoSetor');
         if ($request->setor == 'todos') {
             session(['sessaoSetor' => null]);
         }

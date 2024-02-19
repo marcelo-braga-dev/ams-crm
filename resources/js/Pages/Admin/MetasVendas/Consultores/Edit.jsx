@@ -4,6 +4,9 @@ import {InputAdornment, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import convertFloatToMoney, {convertMoneyFloat} from "@/Helpers/converterDataHorario";
 
+import "chart.js/auto";
+import MetasAtingidas from "./Graficos/MetasAtingidas";
+
 export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensalSubordinados}) {
     const {data, setData} = useForm({
         ano: ano,
@@ -252,7 +255,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                 <h6>Função: {usuario.tipo}</h6>
                 <h6>Setor: {usuario.setor}</h6>
             </div>
-            <div className="row">
+            <div className="row mb-4">
                 <div className="row">
                     <div className="col-2">
                         <TextField label="Ano" select fullWidth defaultValue={ano}
@@ -261,6 +264,13 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                             <MenuItem value="2024">2024</MenuItem>
                         </TextField>
                     </div>
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="col">
+                    <h6>Meta x Vendas de {ano} de {usuario.nome}</h6>
+                    <MetasAtingidas items={items} dados={data} vendasMensalUsuario={vendasMensalUsuario} />
                 </div>
             </div>
 

@@ -241,7 +241,7 @@ class Pedidos extends Model
         $query = $this->newQuery();
 
         if ($setor) $query->where('setor_id', $setor);
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados());
+        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
 
         $nomes = (new User())->getNomes();
         $clientes = (new PedidosClientes())->getCardDados();

@@ -154,21 +154,23 @@ class User extends Authenticatable
     public function getConsultores($setor = null, $status = true)
     {
         $setores = (new Setores())->getNomes();
+        $franquias = (new Franquias())->getNomes();
+        $franquiaSelecionada = franquia_selecionada();
 
-        $query = $this->newQuery()
-            ->orderBy('name');
+        $query = $this->newQuery()->orderBy('name');
 
+        if ($franquiaSelecionada) $query->where('franquia_id', $franquiaSelecionada);
         if ($setor) $query->where('setor_id', $setor);
         if ($status) $query->where('status', 'ativo');
         if (is_admin()) $query->where('tipo', '!=', (new Admins())->getFuncao());
         if (is_supervisor()) $query->whereIn('superior_id', [id_usuario_atual()])
             ->orWhere('id', id_usuario_atual());
 
-        return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id', 'foto'])
+        return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id', 'franquia_id', 'foto'])
             ->except(['id' => 1])
             ->except(['id' => 2])
             ->except(['id' => 3])
-            ->transform(function ($item) use ($setores) {
+            ->transform(function ($item) use ($setores, $franquias) {
                 return [
                     'id' => $item->id,
                     'name' => $item->name,
@@ -177,6 +179,7 @@ class User extends Authenticatable
                     'tipo' => $item->tipo,
                     'status' => $item->status,
                     'setor' => $setores[$item->setor_id]['nome'] ?? '',
+                    'franquia' => $franquias[$item->franquia_id] ?? '',
                     'foto' => asset('storage/' . $item->foto),
                 ];
             });
