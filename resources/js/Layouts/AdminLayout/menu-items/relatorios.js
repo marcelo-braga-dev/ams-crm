@@ -22,6 +22,7 @@ const dashboard = {
                 }, {
                     id: 'relatorios-vendas',
                     title: 'Vendas',
+                    admin: true,
                     type: 'item',
                     url: route('admin.relatorios.vendas.index'),
                 },
