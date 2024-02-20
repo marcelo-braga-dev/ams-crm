@@ -80,6 +80,7 @@ class User extends Authenticatable
                     'nome' => $item->name,
                     'franquia' => $franquias[$item->franquia_id] ?? '',
                     'setor' => $setores[$item->setor_id] ?? '',
+                    'setor_nome' => $setores[$item->setor_id]['nome'] ?? null,
                     'email' => $item->email,
                     'tipo' => $item->tipo,
                     'status' => $item->status,
@@ -312,15 +313,6 @@ class User extends Authenticatable
             $items[$dado->id] = $dado->foto ? asset('storage/' . $dado->foto) : null;
         }
         return $items;
-    }
-
-    public function setUltimoLoginUsuario()
-    {
-        $this->newQuery()
-            ->find(id_usuario_atual())
-            ->update([
-                'ultimo_login' => now()
-            ]);
     }
 
     public function usuariosOnline()

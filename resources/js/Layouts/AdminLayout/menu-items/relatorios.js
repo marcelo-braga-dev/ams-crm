@@ -25,6 +25,11 @@ const dashboard = {
                     admin: true,
                     type: 'item',
                     url: route('admin.relatorios.vendas.index'),
+                }, {
+                    id: 'metas-vendas',
+                    title: 'Meta de Vendas',
+                    type: 'item',
+                    url: route('admin.relatorios.meta-vendas.index'),
                 },
             ]
         }
