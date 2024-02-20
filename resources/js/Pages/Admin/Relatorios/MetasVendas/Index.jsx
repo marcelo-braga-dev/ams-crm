@@ -1,5 +1,6 @@
 import "chart.js/auto";
 import MetasAtingidas from "./Graficos/MetasAtingidas";
+import MetasSubordinados from "./Graficos/MetasSubordinados";
 import {router, useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
@@ -230,10 +231,6 @@ export default function ({vendasMensalUsuario, ano, dados, vendasMensalSubordina
         }
     ]
 
-    let somaAlcancadoSubordinados = 0
-    let somaMetasSubordinados = 0
-    let margemTotal = 0
-
     return (
         <Layout titlePage="Metas de Vendas" menu="relatorios" submenu="metas-vendas">
             <div className="row">
@@ -249,7 +246,7 @@ export default function ({vendasMensalUsuario, ano, dados, vendasMensalSubordina
                 </div>
             </div>
             <MetasAtingidas vendasMensalUsuario={vendasMensalUsuario} items={items} dados={data}/>
-            <div className="row">
+            <div className="row mb-5">
                 <div className="col">
                     <div className="table-responsive">
                         <table className="table">
@@ -323,69 +320,12 @@ export default function ({vendasMensalUsuario, ano, dados, vendasMensalSubordina
                 </div>
             </div>
 
-            <div className="table-responsive mt-5">
-                <table className="table table-sm">
-                    <thead>
-                    <tr>
-                        <th>Consultor(a)</th>
-                        <th></th>
-                        <th>JAN/{ano}</th>
-                        <th>FEV/{ano}</th>
-                        <th>MAR/{ano}</th>
-                        <th>ABR/{ano}</th>
-                        <th>MAI/{ano}</th>
-                        <th>JUN/{ano}</th>
-                        <th>JUL/{ano}</th>
-                        <th>AGO/{ano}</th>
-                        <th>SET/{ano}</th>
-                        <th>OUT/{ano}</th>
-                        <th>NOV/{ano}</th>
-                        <th>DEZ/{ano}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {vendasMensalSubordinados.map(subordinado => {
-                        const meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez']
-                        const meta = subordinado.metas['jan']
-                        const vendas = subordinado.vendas['jan']
-                        const margem = -(meta - vendas) / (meta) * 100
+            {vendasMensalSubordinados.map(subordinado => {
 
-                        somaAlcancadoSubordinados += (vendas ?? 0)
-                        somaMetasSubordinados += (meta ?? 0)
-                        margemTotal = -(somaMetasSubordinados - somaAlcancadoSubordinados) / (somaMetasSubordinados) * 100
-
-                        return (<>
-                                <tr>
-                                    <td rowSpan={3} className="text-wrap"><b>{subordinado.nome}</b></td>
-                                    <td><b>METAS</b></td>
-                                    {meses.map(mes => <td>R$ {convertFloatToMoney(subordinado.vendas[mes])}</td>)}
-                                </tr>
-                                <tr>
-                                    <td><b>VENDAS</b></td>
-                                    {meses.map(mes => <td>R$ {convertFloatToMoney(subordinado?.metas?.[mes])}</td>)}
-                                </tr>
-                                <tr>
-                                    <td><b>MARGEM</b></td>
-                                    {meses.map(mes => {
-                                        const margem = -((((subordinado.vendas?.[mes] ?? 0) - (subordinado?.metas?.[mes] ?? 0)) / (subordinado.vendas?.[mes] ?? 1) * 100) - 100)
-
-                                        return (
-                                                <td className={margem >= 100 ? 'text-success' : 'text-danger'}>
-                                                    {convertFloatToMoney(margem)}%
-                                                </td>
-                                            )
-                                        }
-                                    )}
-                                </tr>
-                                <tr>
-                                    <td className="p-4 border-0"></td>
-                                </tr>
-                            </>
-                        )
-                    })}
-                    </tbody>
-                </table>
-            </div>
+                return (
+                    <MetasSubordinados dados={subordinado} ano={ano}/>
+                )
+            })}
         </Layout>
     )
 }
