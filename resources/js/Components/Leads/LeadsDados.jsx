@@ -7,6 +7,7 @@ export default function LeadsDados({dados}) {
                 {dados.cliente.rg && <span className="d-block"><b>RG:</b> {dados.cliente.rg}</span>}
                 {dados.cliente.cpf && <span className="d-block"><b>CPF:</b> {dados.cliente.cpf}</span>}
                 <span className="d-block"><b>Telefone:</b> {dados.contato.telefone}</span>
+                {dados.contato.telefones.length > 0 && <span className="d-block"><b>Telefones:</b> {dados.contato.telefones.map(item => item + ', ')}</span>}
                 <span className="d-block"><b>Email:</b> {dados.contato.email}</span>
                 {dados.contato.atendente && <span className="d-block"><b>Atendente:</b> {dados.contato.atendente}</span>}
                 {dados.cliente.cidade && <span className="d-block"><b>Cidade/Estado:</b> {dados.cliente.cidade} / {dados.cliente.estado}</span>}

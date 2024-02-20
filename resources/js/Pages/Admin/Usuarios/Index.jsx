@@ -80,7 +80,7 @@ export default function Index({usuarios, status}) {
                             </Tabs>
                         </div>
                         <div className="col-auto">
-                            <FormControlLabel control={<Switch defaultChecked={!status}/>}
+                            <FormControlLabel control={<Switch defaultChecked={status}/>}
                                               label={status ? "Ativos" : "Todos"}
                                               onChange={event => escolherStatus(event.target.checked)}/>
                         </div>

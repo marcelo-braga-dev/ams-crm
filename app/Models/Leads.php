@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\src\Leads\Status\AtivoStatusLeads;
+use App\src\Leads\Dados\DadosLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
@@ -72,12 +72,10 @@ class Leads extends Model
             $verificacaoCnpj = null;
             $verificacaoTel = null;
 
-            $telefone = preg_replace('/[^0-9]/', '', $dados['telefone'] ?? null);
-            $telefone = preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null);
             $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
             if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
-            if ($telefone) $verificacaoTel = $this->newQuery()->orWhere('telefone', $telefone)->exists();
+//            if ($telefone) $verificacaoTel = $this->newQuery()->orWhere('telefone', $telefone)->exists();
 
             $idEndereco = (new Enderecos())->create($dados->endereco ?? null);
 
@@ -85,13 +83,13 @@ class Leads extends Model
 
             if (!$verificacaoCnpj && !$verificacaoTel &&
                 (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))) {
-                $this->newQuery()
+                $lead = $this->newQuery()
                     ->create([
                         'user_id' => $usuario,
                         'nome' => $dados['nome'] ?? null,
                         'importacao' => $importacao,
                         'atendente' => $dados['atendente'] ?? null,
-                        'telefone' => $telefone,
+//                        'telefone' => $telefone,
                         'setor_id' => $setor,
                         'endereco' => $idEndereco,
                         'pessoa_juridica' => $pessoa,
@@ -108,6 +106,9 @@ class Leads extends Model
                         'status_data' => now(),
                         'infos' => $dados['infos'] ?? null,
                     ]);
+
+                $this->cadastrarTelefone($lead->id, $dados['telefone'] ?? null);
+
                 return 1;
             } else {
                 $msgErro = '';
@@ -124,6 +125,21 @@ class Leads extends Model
             }
         } catch (QueryException $exception) {
             throw new \DomainException($exception->getMessage());
+        }
+    }
+
+    private function cadastrarTelefone($id, $telefone): void
+    {
+        $items = explode(',', $telefone);
+
+        foreach ($items as $item) {
+            $telefone = preg_replace('/[^0-9]/', '', $item);
+            $telefone = trim(preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null));
+
+            $this->newQuery()->find($id)->update(['telefone' => $telefone]);
+
+            $chaves = (new DadosLeads());
+            (new LeadsDados())->create($id, $chaves->chaveTelefone(), $telefone, $chaves->nomeTelefone());
         }
     }
 
@@ -315,7 +331,8 @@ class Leads extends Model
 
     private function dados($item, $msg = [])
     {
-        $nomes = (new User())->getNomeConsultores();
+        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
+
         return [
             'id' => $item->id,
             'consultor' => [
@@ -337,6 +354,7 @@ class Leads extends Model
             'contato' => [
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
+                'telefones' => $telefones,
                 'atendente' => $item->atendente,
             ],
             'infos' => [
@@ -354,6 +372,8 @@ class Leads extends Model
     private function dadosResumido($item, $nomeConsultores = []): array
     {
         if (!$item) return [];
+
+        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
 
         return [
             'id' => $item->id,
@@ -376,6 +396,7 @@ class Leads extends Model
             'contato' => [
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
+                'telefones' => $telefones,
                 'atendente' => $item->atendente,
             ],
             'infos' => [

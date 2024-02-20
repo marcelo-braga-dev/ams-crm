@@ -17,32 +17,32 @@ export default function ({dados}) {
     }
 
     return (
-        <Layout container titlePage="Migrar Conteúdo de Consultor(a)"
+        <Layout container titlePage="Migrar Conteúdo de Usuários"
                 menu="usuarios" submenu="usuarios-migrar">
             <h6 className="text-danger d-block mb-3">ESSA OPERAÇÃO É IRREVERSÍVEL!</h6>
 
             <form>
                 <div className="row">
                     <div className="col-md-4 mb-4">
-                        <span className="d-block">Enviar dados de Consultor(a) </span>
-                        <TextField label="Selecione o Consultor..." select
+                        <span className="d-block">Enviar dados do Usuário</span>
+                        <TextField label="Selecione o Usuário..." select
                                    fullWidth required size="small" defaultValue=""
                                    onChange={e => setData('consultor_antigo', e.target.value)}>
                             {dados.map((option) => (
                                 <MenuItem key={option.id} value={option.id}>
-                                    #{option.id} - {option.name}
+                                    #{option.id} - {option.nome}
                                 </MenuItem>
                             ))}
                         </TextField>
                     </div>
                     <div className="col-md-4 mb-4">
-                        <span className="d-block">Para Consultor(a) Recebedor</span>
-                        <TextField label="Selecione o Consultor..." select
+                        <span className="d-block">Para Usuário Recebedor</span>
+                        <TextField label="Selecione o Usuário..." select
                                    fullWidth required size="small" defaultValue=""
                                    onChange={e => setData('novo_consultor', e.target.value)}>
                             {dados.map((option) => (
                                 <MenuItem key={option.id} value={option.id}>
-                                    #{option.id} - {option.name}
+                                    #{option.id} - {option.nome}
                                 </MenuItem>
                             ))}
                         </TextField>
@@ -75,16 +75,15 @@ export default function ({dados}) {
                                     aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <p>Confirmar Migração de <b>TODOS</b> os dados de um consultor para o outro.</p>
+                            <p>Confirmar Migração de <b>TODOS</b> os dados de um usuário para o outro.</p>
                             <h6 className="text-danger d-block mb-3">ESSA OPERAÇÃO É IRREVERSÍVEL!</h6>
 
-
-                            <b>{dados[dados.findIndex(i => i.id == data.consultor_antigo)]?.name} </b>
-                            >>>
-                            <b> {dados[dados.findIndex(i => i.id == data.novo_consultor)]?.name}</b>
+                            <b>{dados[dados.findIndex(i => i.id == data.consultor_antigo)]?.nome} </b>
+                            para
+                            <b> {dados[dados.findIndex(i => i.id == data.novo_consultor)]?.nome}</b>
 
                             {(!data.consultor_antigo || !data.novo_consultor) &&
-                                <div className="alert alert-danger text-white">Selecione os Consultores</div>}
+                                <div className="alert alert-danger text-white">Selecione o Usuário</div>}
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-outline-secondary me-4"

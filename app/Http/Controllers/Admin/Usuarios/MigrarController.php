@@ -11,7 +11,7 @@ class MigrarController extends Controller
 {
     public function index()
     {
-        $dados = (new User())->getConsultores();
+        $dados = (new User())->usuarios();
 
         return Inertia::render('Admin/Usuarios/Migrar/Index', compact('dados'));
     }
