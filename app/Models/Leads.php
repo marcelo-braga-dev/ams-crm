@@ -109,17 +109,17 @@ class Leads extends Model
 
                 $this->cadastrarTelefone($lead->id, $dados['telefone'] ?? null);
 
-                return 1;
+                return $lead->id;
             } else {
                 $msgErro = '';
                 if ($verificacaoCnpj) {
                     $dados = $this->newQuery()->where('cnpj', $cnpj)->first();
                     $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO CNPJ: ' . converterCNPJ($dados['cnpj']));
                 }
-                if ($verificacaoTel) {
-                    $dados = $this->newQuery()->where('telefone', $telefone)->first();
-                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
-                }
+//                if ($verificacaoTel) {
+//                    $dados = $this->newQuery()->where('telefone', $telefone)->first();
+//                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
+//                }
                 modalErro($msgErro);
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }

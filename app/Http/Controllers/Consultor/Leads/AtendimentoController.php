@@ -32,8 +32,8 @@ class AtendimentoController extends Controller
         (new UpdateStatusLeads())->setAtivo($id);
         (new LeadsHistoricos())->createHistorico($id, (new AtivadoHistorico())->status());
 
-        modalSucesso('Status atualizado!');
-        return redirect()->route('consultor.leads.main.index');
+        modalSucesso('Cliente Ativo com Sucesso!');
+        return redirect()->route('consultor.leads.ativo.show', $id);
     }
 
     public function store(Request $request)

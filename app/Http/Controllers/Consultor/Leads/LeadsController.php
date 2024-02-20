@@ -27,9 +27,14 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
-        (new Leads())->create($request, setor_usuario_atual(), id_usuario_atual());
+        $id = (new Leads())->create($request, setor_usuario_atual(), id_usuario_atual());
 
-        return redirect()->route('consultor.leads.main.index');
+        if ($id) {
+            modalSucesso('Cliente cadastrado com sucesso!');
+            return redirect()->route('consultor.leads.novo.show', $id);
+        };
+
+        return redirect()->back();
     }
 
     public function edit($id)

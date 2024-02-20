@@ -3,8 +3,11 @@ import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 
 import {router} from "@inertiajs/react";
+import maskJquery from "@/Helpers/maskJquery";
 
 export default function Edit({dados}) {
+    maskJquery()
+
     const {setData, data} = useForm({
         nome: dados.nome,
         razao_social: dados.razao_social,
@@ -55,7 +58,7 @@ export default function Edit({dados}) {
                                    onChange={e => setData('atendente', e.target.value)}/>
                     </div>
                     <div className="col mb-3">
-                        <TextField label="Telefone:" value={data.telefone} fullWidth
+                        <TextField label="Telefone:" value={data.telefone} fullWidth  className="phone"
                                    onChange={e => setData('telefone', e.target.value)}/>
                     </div>
                     <div className="col mb-3">
