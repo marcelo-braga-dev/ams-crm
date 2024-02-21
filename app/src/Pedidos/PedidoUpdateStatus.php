@@ -33,9 +33,13 @@ class PedidoUpdateStatus
         (new LancadoStatus())->updateStatus($id);
     }
 
-    public function setFaturado($id): void
+    public function setFaturado($id, $request): void
     {
-        (new FaturadoStatus())->updateStatus($id, null, 0);
+        (new PedidosImagens())->updateNotaFiscal($id, $request);
+        (new FaturadoStatus())->updateStatus($id, null, $request->prazo);
+        (new Pedidos())->updatePrazo($id, $request->prazo);
+
+        (new PedidosFaturamentos())->create($id);
     }
 
     public function setFaturadoVista($id): void

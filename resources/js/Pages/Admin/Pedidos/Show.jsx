@@ -71,14 +71,6 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                             <DadosPedido dados={pedido}></DadosPedido>
                         </div>
                     </div>
-                    <div className="row justify-content-end">
-                        <div className="col-auto">
-                            <button className="btn btn-success btn-sm"
-                                    onClick={() => router.post(route('admin.pedidos.gerar-planilha-pedidos', pedido.id))}>
-                                <GridOnIcon fontSize="small"/> Gerar Planilha
-                            </button>
-                        </div>
-                    </div>
                     <div className="row">
                         <div className="col">
                             {funcaoUsuario === 'admin' ?

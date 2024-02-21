@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\Pedidos\StatusPedidosServices;
+use App\src\Pedidos\StatusPedidos;
 use App\src\Produtos\ProdutosStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,21 +28,80 @@ class PedidosFaturamentos extends Model
     {
         $pedido = (new Pedidos())->find($idPedido);
         $produtos = (new PedidosProdutos())->getFaturamento($idPedido);
-
-        foreach ($produtos as $item) {
+        if ($produtos) {
+            foreach ($produtos as $item) {
+                $this->newQuery()
+                    ->updateOrCreate(
+                        ['pedido_id' => $idPedido, 'produtos_id' => $item['produto_id']],
+                        [
+                            'user_id' => $pedido->user_id,
+                            'status' => 'novo',
+                            'status_pedido' => $pedido->status,
+                            'valor' => $item['preco'],
+                            'status_data' => now(),
+                            'setores_id' => $pedido->setor_id
+                        ]
+                    );
+            }
+        } else {
             $this->newQuery()
-                ->updateOrCreate(
-                    ['pedido_id' => $idPedido, 'produtos_id' => $item['produto_id']],
+                ->create(
                     [
+                        'pedido_id' => $idPedido,
                         'user_id' => $pedido->user_id,
                         'status' => 'novo',
                         'status_pedido' => $pedido->status,
-                        'valor' => $item['preco'],
+                        'valor' => $pedido->preco_venda,
                         'status_data' => now(),
                         'setores_id' => $pedido->setor_id
                     ]
                 );
         }
+    }
+
+    public function faturadosPeriodo($id = null, $mes = null, $ano = null)
+    {
+        $pedidos = (new Pedidos())->newQuery()
+            ->where('user_id', $id)
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->get('id')
+            ->transform(function ($item) {
+                return $item->id;
+            });
+
+        $queryPedidosHistoricos = (new PedidosHistoricos())->newQuery()
+            ->whereIn('pedido_id', $pedidos)
+            ->where('status', 'faturado');
+
+        if ($mes) $queryPedidosHistoricos->whereMonth('created_at', $mes);
+        if ($ano) $queryPedidosHistoricos->whereYear('created_at', $ano);
+
+        $historicoFaturados = $queryPedidosHistoricos->get()
+            ->transform(function ($item) {
+                return [
+                    'pedido_id' => $item->pedido_id,
+                    'data' => date('d/m/Y H:i', strtotime($item->created_at)),
+                ];
+            });
+
+        $idPedidosFaturados = [];
+        $dadosPedido = [];
+        foreach ($historicoFaturados as $item) {
+            $idPedidosFaturados[] = $item['pedido_id'];
+            $dadosPedido[$item['pedido_id']] = $item;
+        }
+
+        return (new Pedidos())->newQuery()
+            ->whereIn('id', $idPedidosFaturados)
+            ->get()
+            ->transform(function ($item) use ($dadosPedido) {
+                return [
+                    'id' => $item->id,
+                    'valor' => $item->preco_venda,
+                    'status' => $item->status,
+                    'data' => $dadosPedido[$item->id]['data'],
+                ];
+            });
     }
 
     public function get($mes, $fornecedor, $consultor)

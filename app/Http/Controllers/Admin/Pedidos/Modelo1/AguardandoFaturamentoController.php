@@ -23,7 +23,7 @@ class AguardandoFaturamentoController extends Controller
 
     public function update($id, Request $request)
     {
-        (new PedidoUpdateStatus())->faturando($id, $request);
+        (new PedidoUpdateStatus())->setFaturado($id, $request);
 
         modalSucesso('Atualizado com sucesso!');
         return redirect()->route('admin.pedidos.index');

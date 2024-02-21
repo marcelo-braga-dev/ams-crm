@@ -154,13 +154,6 @@ class Pedidos extends Model
             ]);
     }
 
-    public function getPedidosUsuario(int $id)
-    {
-        return $this->newQuery()
-            ->where('user_id', $id)
-            ->get();
-    }
-
     public function insertPrecoCusto(int $id, float $precoCusto, $imposto)
     {
         try {
@@ -444,11 +437,38 @@ class Pedidos extends Model
 
     private function getVendasMesUsuario($id, $mes, $ano)
     {
-        return $this->newQuery()
+        $pedidos = (new Pedidos())->newQuery()
             ->where('user_id', $id)
-            ->whereMonth('created_at', $mes)
-            ->whereYear('created_at', $ano)
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->get('id')
+            ->transform(function ($item) {
+                return $item->id;
+            });
+
+        $queryPedidosHistoricos = (new PedidosHistoricos())->newQuery()
+            ->whereIn('pedido_id', $pedidos)
+            ->where('status', 'faturado');
+
+        if ($mes) $queryPedidosHistoricos->whereMonth('created_at', $mes);
+        if ($ano) $queryPedidosHistoricos->whereYear('created_at', $ano);
+
+        $historicoFaturados = $queryPedidosHistoricos->get()
+            ->transform(function ($item) {
+                return [
+                    'pedido_id' => $item->pedido_id,
+                    'data' => date('d/m/Y H:i', strtotime($item->created_at)),
+                ];
+            });
+
+        $idPedidosFaturados = [];
+        $dadosPedido = [];
+        foreach ($historicoFaturados as $item) {
+            $idPedidosFaturados[] = $item['pedido_id'];
+            $dadosPedido[$item['pedido_id']] = $item;
+        }
+
+        return (new Pedidos())->newQuery()
+            ->whereIn('id', $idPedidosFaturados)
             ->sum('preco_venda');
     }
 }

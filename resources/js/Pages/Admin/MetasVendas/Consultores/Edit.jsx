@@ -95,6 +95,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'JANEIRO/' + ano,
             meta: data?.metas?.jan,
             meta_index: 'jan',
+            mes_num: 1,
             comissao: data?.comissoes?.jan,
             comissao_index: 'comissao_jan',
             bonus: data.bonus_jan,
@@ -107,6 +108,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'FEVEREIRO/' + ano,
             meta: data?.metas?.fev,
             meta_index: 'fev',
+            mes_num: 2,
             comissao: data?.comissoes?.fev,
             comissao_index: 'comissao_fev',
             bonus: data.bonus_fev,
@@ -119,6 +121,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'MARÇO/' + ano,
             meta: data?.metas?.mar,
             meta_index: 'mar',
+            mes_num: 3,
             comissao: data?.comissoes?.mar,
             comissao_index: 'comissao_mar',
             bonus: data.bonus_mar,
@@ -131,6 +134,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'ABRIL/' + ano,
             meta: data?.metas?.abr,
             meta_index: 'abr',
+            mes_num: 4,
             comissao: data?.comissoes?.abr,
             comissao_index: 'comissao_abr',
             bonus: data.bonus_abr,
@@ -143,6 +147,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'MAIO/' + ano,
             meta: data?.metas?.mai,
             meta_index: 'mai',
+            mes_num: 5,
             comissao: data?.comissoes?.mai,
             comissao_index: 'comissao_mai',
             bonus: data.bonus_mai,
@@ -155,6 +160,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'JUNHO/' + ano,
             meta: data?.metas?.jun,
             meta_index: 'jun',
+            mes_num: 6,
             comissao: data?.comissoes?.jun,
             comissao_index: 'comissao_jun',
             bonus: data.bonus_jun,
@@ -167,6 +173,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'JULHO/' + ano,
             meta: data?.metas?.jul,
             meta_index: 'jul',
+            mes_num: 7,
             comissao: data?.comissoes?.jul,
             comissao_index: 'comissao_jul',
             bonus: data.bonus_jul,
@@ -179,6 +186,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'AGOSTO/' + ano,
             meta: data?.metas?.ago,
             meta_index: 'ago',
+            mes_num: 8,
             comissao: data?.comissoes?.ago,
             comissao_index: 'comissao_ago',
             bonus: data.bonus_ago,
@@ -191,6 +199,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'SETEMBRO/' + ano,
             meta: data?.metas?.set,
             meta_index: 'set',
+            mes_num: 9,
             comissao: data?.comissoes?.set,
             comissao_index: 'comissao_set',
             bonus: data.bonus_set,
@@ -203,6 +212,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'OUTUBRO/' + ano,
             meta: data?.metas?.out,
             meta_index: 'out',
+            mes_num: 10,
             comissao: data?.comissoes?.out,
             comissao_index: 'comissao_out',
             bonus: data.bonus_out,
@@ -215,6 +225,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'NOVEMBRO/' + ano,
             meta: data?.metas?.nov,
             meta_index: 'nov',
+            mes_num: 11,
             comissao: data?.comissoes?.nov,
             comissao_index: 'comissao_nov',
             bonus: data.bonus_nov,
@@ -227,6 +238,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
             mes: 'DEZEMBRO/' + ano,
             meta: data?.metas?.dez,
             meta_index: 'dez',
+            mes_num: 12,
             comissao: data?.comissoes?.dez,
             comissao_index: 'comissao_dez',
             bonus: data.bonus_dez,
@@ -276,7 +288,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                 {items.map(item => {
                         const vendaMensal = vendasMensalUsuario[item.meta_index]
                         const metaMensal = convertMoneyFloat(data.metas?.[item?.meta_index] ?? 0)
-                        const margemAtingida = (-(metaMensal - vendaMensal) / (metaMensal) * 100)
+                        const margemAtingida = metaMensal > 0 ? (vendaMensal / metaMensal * 100) : null
                         let somaAlcancadoSubordinados = 0
                         let somaMetasSubordinados = 0
                         let margemTotal = 0
@@ -295,9 +307,19 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                 </div>
                                                 <div className="col">
                                                     <span
-                                                        className={margemAtingida > 0 ? 'text-success' : (margemAtingida < 0 ? 'text-danger' : '')}>
-                                                        Alcançado: R$ {convertFloatToMoney(vendaMensal)} ({convertFloatToMoney(margemAtingida)}%)
+                                                        className={margemAtingida ? (margemAtingida >= 100 ? 'text-success' : 'text-danger') : ''}>
+                                                        Alcançado: R$ {convertFloatToMoney(vendaMensal)} {margemAtingida ? `(${convertFloatToMoney(margemAtingida)}%)` : ''}
                                                     </span>
+                                                </div>
+                                                <div className="col">
+                                                    <a className="btn btn-primary btn-sm"
+                                                       href={route('admin.metas-vendas.vendas-faturadas.index', {
+                                                           id: usuario.id,
+                                                           mes: item.mes_num,
+                                                           ano: ano
+                                                       })}>
+                                                        Ver Vendas
+                                                    </a>
                                                 </div>
                                             </div>
                                             <div className="row mb-4">
@@ -408,13 +430,13 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                         {vendasMensalSubordinados.map(subordinado => {
                                                                 const meta = subordinado.metas[item.meta_index]
                                                                 const vendas = subordinado.vendas[item.meta_index]
-                                                                const margem = -(meta - vendas) / (meta) * 100
+                                                                const margem = meta > 0 ? (vendas / meta * 100) : null
                                                                 somaAlcancadoSubordinados += (vendas ?? 0)
                                                                 somaMetasSubordinados += (meta ?? 0)
-                                                                margemTotal = -(somaMetasSubordinados - somaAlcancadoSubordinados) / (somaMetasSubordinados) * 100
+                                                                margemTotal = somaMetasSubordinados > 0 ? (somaAlcancadoSubordinados / somaMetasSubordinados * 100) : null
 
                                                                 return (
-                                                                    <tr className={margem > 0 ? 'text-success' : (margem < 0 ? 'text-danger' : '')}>
+                                                                    <tr className={margem ? (margem >= 100 ? 'text-success' : 'text-danger') : ''}>
                                                                         <td>
                                                                             {subordinado.nome}
                                                                         </td>
@@ -424,7 +446,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                                 )
                                                             }
                                                         )}
-                                                        <tr className={'bg-light ' + (margemTotal > 0 ? 'text-success' : (margemTotal < 0 ? 'text-danger' : ''))}>
+                                                        <tr className={'bg-light ' + (margemTotal ? (margemTotal >= 100 ? 'text-success' : 'text-danger') : '')}>
                                                             <td>
                                                                 TOTAL
                                                             </td>
@@ -443,7 +465,6 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                     }
                 )
                 }
-
 
                 <div className="col text-center">
                     <button type="submit" className="btn btn-primary">Salvar</button>
