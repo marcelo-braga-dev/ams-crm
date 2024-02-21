@@ -91,12 +91,17 @@ class PedidosFaturamentos extends Model
             $dadosPedido[$item['pedido_id']] = $item;
         }
 
+        $nomeLeads = (new Leads())->getNomes();
+        $nomeClientes = (new PedidosClientes())->getNomes();
+
         return (new Pedidos())->newQuery()
             ->whereIn('id', $idPedidosFaturados)
             ->get()
-            ->transform(function ($item) use ($dadosPedido) {
+            ->transform(function ($item) use ($dadosPedido, $nomeLeads, $nomeClientes) {
                 return [
                     'id' => $item->id,
+                    'lead' => $nomeLeads[$item->lead_id] ?? '',
+                    'cliente' => $nomeClientes[$item->id] ?? '',
                     'valor' => $item->preco_venda,
                     'status' => $item->status,
                     'data' => $dadosPedido[$item->id]['data'],

@@ -36,6 +36,7 @@ export default function ({vendas, usuario, periodo}) {
                         <tr>
                             <th>ID do Pedido</th>
                             <th>Data</th>
+                            <th></th>
                             <th>Status Atual</th>
                             <th>Valor</th>
                             <th></th>
@@ -47,6 +48,10 @@ export default function ({vendas, usuario, periodo}) {
                                 <tr key={item.id} className="cursor-pointer" onClick={() => router.get(route('admin.pedidos.show', item.id))}>
                                     <td className="text-center col-1">#{item.id}</td>
                                     <td>{item.data}</td>
+                                    <td>
+                                        <b>Integrador:</b> {item.lead}<br/>
+                                        <b>Cliente:</b> {item.cliente}<br/>
+                                    </td>
                                     <td>{item.status}</td>
                                     <td>R$ {convertFloatToMoney(item.valor)}</td>
                                     <td>
