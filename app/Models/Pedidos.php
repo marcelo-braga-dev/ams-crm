@@ -447,7 +447,7 @@ class Pedidos extends Model
 
         $queryPedidosHistoricos = (new PedidosHistoricos())->newQuery()
             ->whereIn('pedido_id', $pedidos)
-            ->where('status', 'faturado');
+            ->where('status', 'aguardando_faturamento');
 
         if ($mes) $queryPedidosHistoricos->whereMonth('created_at', $mes);
         if ($ano) $queryPedidosHistoricos->whereYear('created_at', $ano);
