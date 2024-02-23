@@ -45,15 +45,12 @@ class Leads extends Model
 
     public function getDisponiveis($setor)
     {
-        $query = $this->newQuery()
-            ->where('status', '=', (new NovoStatusLeads())->getStatus())
+        return $this->newQuery()
             ->where('setor_id', $setor)
             ->where('user_id', '=', null)
-            ->orderByDesc('id');
-
-//        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsConsultoresSupervisor(true));
-
-        return $query->get();
+            ->orWhere([['setor_id', '=', $setor], ['status', '=', 'finalizado']])
+            ->orderByDesc('id')
+            ->get();
     }
 
     public function setConsultor($idLead, $idConsultor)

@@ -63,34 +63,43 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             name: 'Ordernar por nome',
             selector: row => row.name || row.razao_social,
             sortable: true,
-            cell: row => <div key={row.id} className="row w-100">
-                <div className="col p-0">
-                    <ListItem
-                        disablePadding
-                        secondaryAction={
-                            <a className="btn btn-primary btn-sm mt-2"
-                               href={route('admin.clientes.leads.leads-main.show', row.id)}>
-                                Abrir
-                            </a>
-                        }>
-                        <ListItemButton role={undefined} onClick={() => handleToggle(row.id)} dense>
-                            <div className="row w-100 py-1">
-                                <div className="col-auto">
-                                    <Checkbox
-                                        edge="start"
-                                        checked={leadsChecked.indexOf(row.id) !== -1}
-                                        tabIndex={-1}
-                                        disableRipple
-                                    />
+            cell: row =>
+                <div key={row.id} className="row w-100">
+                    <div className="col p-0">
+                        <ListItem
+                            disablePadding
+                            secondaryAction={
+                                <a className="btn btn-primary btn-sm mt-2"
+                                   href={route('admin.clientes.leads.leads-main.show', row.id)}>
+                                    Abrir
+                                </a>
+                            }>
+                            <ListItemButton role={undefined} onClick={() => handleToggle(row.id)} dense>
+                                <div className="row w-100 py-1">
+                                    <div className="col-auto">
+                                        <Checkbox
+                                            edge="start"
+                                            checked={leadsChecked.indexOf(row.id) !== -1}
+                                            tabIndex={-1}
+                                            disableRipple
+                                        />
+                                    </div>
+                                    <div className="col-6">
+                                        <InfoLead dado={row}/>
+                                    </div>
+                                    {row.consultor &&
+                                        <div className="col">
+                                            Status: {row.status}<br/><br/>
+                                            Último Vendedor(a):<br/>
+                                            {row.consultor}
+                                        </div>
+                                    }
                                 </div>
-                                <div className="col-auto">
-                                    <InfoLead dado={row}/>
-                                </div>
-                            </div>
-                        </ListItemButton>
-                    </ListItem>
+                            </ListItemButton>
+                        </ListItem>
+                    </div>
                 </div>
-            </div>,
+            ,
         },
     ];
     // form - fim
@@ -100,12 +109,14 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         return {
             id: items.id,
             name: items.cliente.nome?.toUpperCase(),
+            consultor: items.consultor.nome?.toUpperCase(),
             razao_social: items.cliente.razao_social?.toUpperCase(),
             cnpj: items.cliente.cnpj,
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,
             cidade: items.cliente.cidade,
             estado: items.cliente.estado,
+            status: items.infos.status,
         }
     });
     // Dados - fim
