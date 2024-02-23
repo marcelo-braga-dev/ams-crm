@@ -87,7 +87,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                                     <div className="col-6">
                                         <InfoLead dado={row}/>
                                     </div>
-                                    {row.consultor &&
+                                    {(row.consultor || row.status) &&
                                         <div className="col">
                                             Status: {row.status}<br/><br/>
                                             Último Vendedor(a):<br/>
