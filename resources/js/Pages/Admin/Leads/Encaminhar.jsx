@@ -89,9 +89,11 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                                     </div>
                                     {(row.consultor || row.status) &&
                                         <div className="col">
-                                            Status: {row.status}<br/><br/>
-                                            Último Vendedor(a):<br/>
-                                            {row.consultor}
+                                            {row.status === 'finalizado' && <span>Status: {row.status}<br/><br/></span>}
+                                            {row.consultor &&
+                                                <span>Último Vendedor(a):<br/>
+                                                    {row.consultor}</span>
+                                            }
                                         </div>
                                     }
                                 </div>
