@@ -19,3 +19,29 @@ export default function TextFieldMoney({ label, value, setData, index, required 
             onChange={e => maskMoney(e.target.value)}/>
     );
 }
+
+export function TextFieldMoney2({ label, setData, required, data, i }) {
+
+    //if (required) required=true
+    function maskMoney(valor) {
+        let value = valor.replace('.', '').replace(',', '').replace(/\D/g, '')
+        const options = { minimumFractionDigits: 2 }
+        return new Intl.NumberFormat('pt-BR', options).format(
+            parseFloat(value) / 100
+        )
+    }
+
+    return (
+        <TextField
+            label={label} fullWidth required={required} value={data?.camposPagamentos?.[i]?.valor ?? ''}
+            InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
+
+            onChange={e => setData('camposPagamentos', {
+                ...data.camposPagamentos,
+                [i]: {
+                    ...data?.camposPagamentos?.[i],
+                    valor: maskMoney(e.target.value)
+                }
+            })}/>
+    );
+}

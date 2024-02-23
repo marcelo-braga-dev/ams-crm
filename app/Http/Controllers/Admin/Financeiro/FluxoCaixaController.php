@@ -16,12 +16,13 @@ class FluxoCaixaController extends Controller
         $dataFim = $request->periodoFim;
         $tipo = $request->tipo;
         $status = $request->status;
+        $fornecedor = $request->fornecedor;
 
-
-        $dados = (new FluxoCaixa())->getValores($dataInicio, $dataFim, $tipo, $status);
+        $dados = (new FluxoCaixa())->getValores($dataInicio, $dataFim, $tipo, $status, $fornecedor);
+        $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
 
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Index',
-            compact('dados', 'dataInicio', 'dataFim', 'tipo', 'status'));
+            compact('dados', 'dataInicio', 'dataFim', 'tipo', 'status', 'fornecedor', 'fornecedores'));
     }
 
     public function create()
@@ -37,7 +38,9 @@ class FluxoCaixaController extends Controller
 
     public function store(Request $request)
     {
-        (new FluxoCaixa())->create($request);
+        foreach ($request['camposPagamentos'] as $i => $item) {
+            (new FluxoCaixa())->create($request, $item['valor'], $item['data_vencimento'] ?? null, $i, count($request['camposPagamentos']));
+        }
 
         modalSucesso('Operação realizada com sucesso@');
         return redirect()->route('admin.financeiro.fluxo-caixa.index');

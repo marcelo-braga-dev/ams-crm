@@ -26,6 +26,8 @@ return new class extends Migration {
             $table->float('valor_baixa')->nullable();
             $table->date('data_baixa')->nullable();
             $table->text('descricao')->nullable();
+            $table->integer('n_pagamento')->nullable();
+            $table->integer('total_pagamentos')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

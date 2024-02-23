@@ -17,11 +17,12 @@ import 'react-date-range/dist/theme/default.css';
 import MenuItem from "@mui/material/MenuItem"; // theme css file
 
 
-export default function ({dados, dataInicio, dataFim, tipo, status}) {
+export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, fornecedores}) {
     const [chaveStatus, setChaveStatus] = useState()
     const [idStatus, setIdStatus] = useState()
     const [filtroTipo, setFiltoTipo] = useState(tipo)
     const [filtroStatus, setFiltoStatus] = useState(status)
+    const [filtroFornecedor, setFiltoFornecedor] = useState(fornecedor)
 
     const alterarStatus = (status) => {
         router.post(route('admin.financeiro.fluxo-caixa.alterar-status', {id: idStatus, status: status}))
@@ -41,7 +42,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status}) {
 
     const atualizaFiltro = (event) => {
         router.get(route('admin.financeiro.fluxo-caixa.index',
-            {periodoInicio: filtroData?.[0]?.startDate, periodoFim: filtroData?.[0]?.endDate, tipo: filtroTipo, status: filtroStatus}))
+            {periodoInicio: filtroData?.[0]?.startDate, periodoFim: filtroData?.[0]?.endDate, tipo: filtroTipo, status: filtroStatus, fornecedor: filtroFornecedor}))
     }
 
     const limparFiltroData = (event) => {
@@ -85,13 +86,21 @@ export default function ({dados, dataInicio, dataFim, tipo, status}) {
                             <MenuItem value="entrada">Entrada</MenuItem>
                             <MenuItem value="saida">Saída</MenuItem>
                         </TextField>
-                        <TextField label="Status" select fullWidth
+
+                        <TextField className="mb-3" label="Status" select fullWidth
                                    value={filtroStatus ?? ''}
-                        onChange={e => setFiltoStatus(e.target.value)}>
+                                    onChange={e => setFiltoStatus(e.target.value)}>
                             <MenuItem value={undefined}>Todas</MenuItem>
                             <MenuItem value="pago">Pago</MenuItem>
                             <MenuItem value="aberto">Aberto</MenuItem>
                         </TextField>
+
+                        <TextField label="Fornecedor" select fullWidth
+                                   value={filtroFornecedor ?? ''}
+                                   onChange={e => setFiltoFornecedor(e.target.value)}>
+                            {fornecedores.map(item => <MenuItem value={item.id}>{item.valor}</MenuItem>)}
+                        </TextField>
+
                         <div className="row mt-4">
                             <div className="col">
                                 <button className="btn btn-outline-primary"
@@ -126,6 +135,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status}) {
                                 <tr>
                                     <th></th>
                                     <th>ID</th>
+                                    <th></th>
                                     <th>Data</th>
                                     <th>Tipo</th>
                                     <th>Status</th>
@@ -153,6 +163,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status}) {
                                             </a>
                                         </td>
                                         <td className="text-center">#{item.id}</td>
+                                        <td>{item.n_pagamento}</td>
                                         <td>{item.data}</td>
                                         <td className="text-center">
                                             {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon/> :

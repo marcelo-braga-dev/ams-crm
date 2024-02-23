@@ -1,23 +1,57 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import {useState} from "react";
-import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
+import React, {useState} from "react";
+import TextFieldMoney, {TextFieldMoney2} from "@/Components/Inputs/TextFieldMoney";
 import MenuItem from "@mui/material/MenuItem";
 import {router, useForm} from "@inertiajs/react";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export default function ({dados}) {
+
     const [tipo, setTipo] = useState()
-    const {data, setData} = useForm()
+    const {data, setData} = useForm({
+        qtd_pagamentos: 1
+    })
 
     function submit(e) {
         e.preventDefault()
         router.post(route('admin.financeiro.fluxo-caixa.store'), {...data, tipo: tipo})
     }
 
+    let camposValores = []
+
+    function qtdPagamentos() {
+
+        for (let i = 1; i <= data.qtd_pagamentos; i++)
+            camposValores.push(
+                <div key={i} className="row align-items-center">
+                    <div className="col-3 mb-4">
+                        <TextFieldMoney2 fullWidth label={"Valor " + i + "° Pagaemnto"} data={data} setData={setData} i={i} required/>
+                    </div>
+                    {tipo === 'saida' &&
+                        <div className="col-3 mb-4">
+                            <TextField type="date" label="Data Vencimento" fullWidth
+                                       InputLabelProps={{shrink: true}} required
+                                       onChange={e => setData('camposPagamentos', {
+                                           ...data.camposPagamentos,
+                                           [i]: {
+                                               ...data?.camposPagamentos?.[i],
+                                               data_vencimento: e.target.value
+                                           }
+                                       })}/>
+
+                        </div>
+                    }
+                </div>
+            )
+
+        return camposValores
+    }
+
     return (
         <Layout titlePage="Inserir Informações" menu="financeiro" submenu="fluxo-caixa"
-        voltar={route('admin.financeiro.fluxo-caixa.index')}>
+                voltar={route('admin.financeiro.fluxo-caixa.index')}>
             <div className="row">
                 <div className="col">
                     Tipo de Entrada<br/>
@@ -39,6 +73,16 @@ export default function ({dados}) {
                                        onChange={e => setData('data', e.target.value)}/>
                         </div>
                     </div>
+
+                    <div className="row">
+                        <div className="col-md-1 mb-4">
+                            <TextField label="Qtd de Pagamentos" type="number" value={data.qtd_pagamentos} required fullWidth
+                                       onChange={e => setData('qtd_pagamentos', e.target.value)}/>
+                        </div>
+                    </div>
+
+                    {qtdPagamentos()}
+
                     <div className="row">
                         <div className="col mb-4">
                             <TextField select label="Empresa" fullWidth required
@@ -61,22 +105,14 @@ export default function ({dados}) {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col mb-4">
-                            <TextFieldMoney fullWidth label="Valor" value={data.valor} index="valor" setData={setData}
-                                            required/>
-                        </div>
-                        {tipo === 'saida' && <div className="col mb-4">
-                            <TextField type="date" fullWidth label="Data Vencimento" InputLabelProps={{shrink: true}}
-                                       required
-                                       onChange={e => setData('data_vencimento', e.target.value)}/>
-                        </div>}
                         {tipo === 'entrada' && <div className="col mb-4">
                             <TextField type="date" fullWidth label="Previsão do Recebimento" required
                                        InputLabelProps={{shrink: true}}
                                        onChange={e => setData('previsao_recebimento', e.target.value)}/>
                         </div>}
                         {tipo === 'saida' && <div className="col mb-4">
-                            <TextFieldMoney fullWidth label="Valor Baixa" index="valor_baixa" value={data.valor_baixa}
+                            <TextFieldMoney fullWidth label="Valor Baixa" index="valor_baixa"
+                                            value={data.valor_baixa}
                                             setData={setData}/>
                         </div>}
                         {tipo === 'saida' && <div className="col mb-4">
@@ -98,6 +134,7 @@ export default function ({dados}) {
                             </TextField>
                         </div>
                     </div>
+
                     <div className="row justify-content-center">
                         <div className="col mb-4">
                             <TextField label="Descrição" multiline rows="3" fullWidth required
@@ -110,6 +147,8 @@ export default function ({dados}) {
                         </div>
                     </div>
                 </form>
+
+
             }
         </Layout>
     )

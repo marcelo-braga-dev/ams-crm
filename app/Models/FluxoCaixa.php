@@ -21,12 +21,14 @@ class FluxoCaixa extends Model
         'data_vencimento',
         'valor_baixa',
         'data_baixa',
-        'descricao'
+        'descricao',
+        'n_pagamento',
+        'total_pagamentos',
     ];
 
     use HasFactory;
 
-    public function create($dados)
+    public function create($dados, $valor, $dataVencimento, $i, $total)
     {
         $this->newQuery()
             ->create([
@@ -35,19 +37,21 @@ class FluxoCaixa extends Model
                 'data' => $dados->data,
                 'empresa_id' => $dados->empresa,
                 'fornecedor_id' => $dados->fornecedores,
-                'valor' => convert_money_float($dados->valor),
+                'valor' => convert_money_float($valor),
                 'previsao_recebimento' => $dados->previsao_recebimento,
                 'banco_id' => $dados->banco,
                 'status' => $dados->status,
                 'nota_fiscal' => $dados->nota_fiscal,
-                'data_vencimento' => $dados->data_vencimento,
+                'data_vencimento' => $dataVencimento,
                 'valor_baixa' => $dados->valor_baixa,
                 'data_baixa' => $dados->data_baixa,
-                'descricao' => $dados->descricao
+                'descricao' => $dados->descricao,
+                'n_pagamento' => $i,
+                'total_pagamentos' => $total,
             ]);
     }
 
-    public function getValores($incio = null, $fim = null, $tipo = null, $status = null)
+    public function getValores($incio = null, $fim = null, $tipo = null, $status = null, $fornecedor = null)
     {
         $nomes = (new FluxoCaixasConfig())->getNomes();
 
@@ -58,6 +62,7 @@ class FluxoCaixa extends Model
 
         if ($tipo) $query->where('tipo', $tipo);
         if ($status) $query->where('status', $status);
+        if ($fornecedor) $query->where('fornecedor_id', $fornecedor);
 
         return $query->orderByDesc('data_vencimento')
             ->orderByDesc('id')
@@ -94,6 +99,7 @@ class FluxoCaixa extends Model
             'banco' => $nomes[$item->banco_id] ?? '',
             'status' => $item->status,
             'descricao' => $item->descricao,
+            'n_pagamento' => ($item->n_pagamento ?? 1) . '/' . ($item->total_pagamentos ?? 1),
             'atrasado' => $item->status == 'aberto' && (strtotime($item->data_vencimento) > strtotime(now())) && $item->tipo == 'entrada'
         ];
     }
