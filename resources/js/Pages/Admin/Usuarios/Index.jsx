@@ -86,7 +86,7 @@ export default function Index({usuarios, status}) {
                         </div>
                     </div>
                 </Box>
-                {/*Consultores*/}
+                {/*Vendedores*/}
                 <TabPanel value={value} index={0}>
                     <Row className={"mb-3 text-right"}>
                         <Col>

@@ -3,11 +3,12 @@
 namespace App\src\Usuarios;
 
 use App\Models\User;
+use App\src\Usuarios\Funcoes\FuncoesUsuarios;
 use Illuminate\Support\Facades\Hash;
 
 class Usuarios
 {
-    public function cadastrar($request, TiposUsuarios $tiposUsuarios)
+    public function cadastrar($request, FuncoesUsuarios $tiposUsuarios)
     {
         $tiposUsuarios->cadastrarUsuario($request);
     }

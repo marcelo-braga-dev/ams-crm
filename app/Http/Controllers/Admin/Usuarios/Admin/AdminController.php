@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Franquias;
 use App\Models\Setores;
 use App\Models\User;
-use App\src\Usuarios\Admins;
+use App\src\Usuarios\Funcoes\Admins;
 use App\src\Usuarios\Usuarios;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

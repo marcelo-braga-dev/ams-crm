@@ -1,8 +1,8 @@
 <?php
 
-namespace App\src\Usuarios;
+namespace App\src\Usuarios\Funcoes;
 
-interface TiposUsuarios
+interface FuncoesUsuarios
 {
     function getFuncao(): string;
 

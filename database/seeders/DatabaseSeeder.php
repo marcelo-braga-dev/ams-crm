@@ -5,9 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Franquias;
 use App\Models\Setores;
-use App\src\Usuarios\Admins;
-use App\src\Usuarios\Consultores;
-use App\src\Usuarios\Supervisores;
+use App\src\Usuarios\Funcoes\Admins;
+use App\src\Usuarios\Funcoes\Vendedores;
+use App\src\Usuarios\Funcoes\Supervisores;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,13 +22,13 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        (new Franquias)->create((object)[
+        (new Franquias)->create([
             'nome' => 'Franquia 1',
             'cor' => '#000',
             'cor_texto' => '#fff',
         ]);
 
-        (new Setores())->create((object)[
+        (new Setores())->create([
             'nome' => 'Setor 1',
             'franquia' => 1,
             'modelo' => 1,
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'franquia_id' => 1,
             'setor_id' => 1,
             'password' => Hash::make('1234'),
-            'tipo' => (new Consultores)->getFuncao()
+            'tipo' => (new Vendedores)->getFuncao()
         ]);
 
         \App\Models\User::factory()->create([

@@ -5,10 +5,10 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Services\Images;
 use App\src\Leads\Status\AtivoStatusLeads;
-use App\src\Usuarios\Admins;
-use App\src\Usuarios\Consultores;
+use App\src\Usuarios\Funcoes\Admins;
+use App\src\Usuarios\Funcoes\Vendedores;
+use App\src\Usuarios\Funcoes\Supervisores;
 use App\src\Usuarios\Status\AtivoStatusUsuario;
-use App\src\Usuarios\Supervisores;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -225,7 +225,7 @@ class User extends Authenticatable
                     'status' => $dados->status,
                     'setor_id' => $dados->setor,
                     'tipo' => $dados->funcao,
-                    'superior_id' => $dados->funcao == (new Consultores())->getFuncao() ? $dados->superior : null
+                    'superior_id' => $dados->funcao == (new Vendedores())->getFuncao() ? $dados->superior : null
                 ]);
         } catch (QueryException) {
             throw new \DomainException("Este email está em uso.");

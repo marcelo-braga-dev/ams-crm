@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use App\Services\Leads\LeadsDadosService;
-use App\Services\Pedidos\DadosPedidoServices;
 use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\StatusPedidos;
-use App\src\Usuarios\Admins;
-use App\src\Usuarios\Supervisores;
+use App\src\Usuarios\Funcoes\Admins;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

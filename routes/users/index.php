@@ -7,11 +7,11 @@ Route::get('/', function () {
     $funcao = auth()->user()->tipo;
 
     switch ($funcao) {
-        case (new \App\src\Usuarios\Admins())->getFuncao() :
+        case (new \App\src\Usuarios\Funcoes\Admins())->getFuncao() :
             return redirect()->route('admin.home.index');
-        case (new \App\src\Usuarios\Consultores())->getFuncao() :
+        case (new \App\src\Usuarios\Funcoes\Vendedores())->getFuncao() :
             return redirect()->route('consultor.pedidos.index');
-        case (new \App\src\Usuarios\Supervisores())->getFuncao() :
+        case (new \App\src\Usuarios\Funcoes\Supervisores())->getFuncao() :
             return redirect()->route('admin.pedidos.index');
         default :
         {

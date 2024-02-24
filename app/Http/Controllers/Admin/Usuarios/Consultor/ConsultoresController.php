@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Admin\Usuarios\Consultor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Franquias;
-use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
-use App\src\Pedidos\StatusPedidos;
-use App\src\Usuarios\Consultores;
+use App\src\Usuarios\Funcoes\Vendedores;
 use App\src\Usuarios\Usuarios;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +15,7 @@ class ConsultoresController extends Controller
 {
     public function index()
     {
-        $tipo = (new Consultores())->getFuncao();
+        $tipo = (new Vendedores())->getFuncao();
         $consultores = (new User())->newQuery()->where('tipo', $tipo)->get();
 
         return Inertia::render('Admin/Usuarios/Consultores/Index', compact('consultores'));
@@ -35,7 +33,7 @@ class ConsultoresController extends Controller
 
     public function store(Request $request)
     {
-        (new Usuarios())->cadastrar($request, new Consultores);
+        (new Usuarios())->cadastrar($request, new Vendedores);
 
         modalSucesso('Cadastrado com sucesso!');
         return redirect()->route('admin.usuarios.usuario.index');

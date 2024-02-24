@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin\Usuarios;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Services\Usuarios\UsuariosService;
-use App\src\Usuarios\Admins;
-use App\src\Usuarios\Consultores;
-use App\src\Usuarios\Supervisores;
+use App\src\Usuarios\Funcoes\Admins;
+use App\src\Usuarios\Funcoes\Vendedores;
+use App\src\Usuarios\Funcoes\Supervisores;
 use App\src\Usuarios\Usuarios;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,7 +20,7 @@ class UsuariosController extends Controller
 
         $usuarios['admins'] = [...$dados->where('tipo', (new Admins)->getFuncao())];
         $usuarios['supervisores'] = [...$dados->where('tipo', (new Supervisores())->getFuncao())];
-        $usuarios['consultores'] = [...$dados->where('tipo', (new Consultores())->getFuncao())];
+        $usuarios['consultores'] = [...$dados->where('tipo', (new Vendedores())->getFuncao())];
 
         return Inertia::render('Admin/Usuarios/Index',
             compact('usuarios', 'status'));

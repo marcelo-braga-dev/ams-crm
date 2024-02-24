@@ -1,18 +1,19 @@
 <?php
 
-namespace App\src\Usuarios;
+namespace App\src\Usuarios\Funcoes;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 
-class Consultores implements TiposUsuarios
+class Supervisores implements FuncoesUsuarios
 {
-    private string $tipo = 'consultor';
+
+    private string $funcao = 'supervisor';
 
     public function getFuncao(): string
     {
-        return $this->tipo;
+        return $this->funcao;
     }
 
     function cadastrarUsuario($request)
@@ -26,11 +27,10 @@ class Consultores implements TiposUsuarios
         $user = (new User())
             ->create([
                 'name' => $request->nome,
-                'tipo' => $this->tipo,
-                'email' => $request->email,
+                'tipo' => $this->funcao,
                 'franquia_id' => $request->franquia,
+                'email' => $request->email,
                 'setor_id' => $request->setor,
-                'superior_id' => $request->superior ?? null,
                 'password' => Hash::make($request->senha),
             ]);
 

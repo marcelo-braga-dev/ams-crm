@@ -128,7 +128,7 @@ export const ItemsMenuSidebar = [
         'icone': <TrendingUpOutlinedIcon/>,
         'tag': 'meta-vendas',
         'submenu': [
-            {'menu': 'Consultores', 'url': route('admin.metas-vendas.consultores.index'), 'tag': 'consultores'},
+            {'menu': 'Vendedores', 'url': route('admin.metas-vendas.consultores.index'), 'tag': 'consultores'},
             {'menu': 'Comissões', 'url': route('admin.metas-vendas.comissoes.index'), 'tag': 'comissoes'},
         ]
     }, {

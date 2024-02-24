@@ -16,7 +16,7 @@ class Consultores
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->tipo === (new \App\src\Usuarios\Consultores())->getFuncao()) {
+        if (auth()->user()->tipo === (new \App\src\Usuarios\Funcoes\Vendedores())->getFuncao()) {
             return $next($request);
         }
 

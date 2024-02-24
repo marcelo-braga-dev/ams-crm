@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Pedidos;
 use App\Http\Controllers\Controller;
 use App\Models\ConfigCores;
 use App\Models\Fornecedores;
+use App\Models\Franquias;
 use App\Models\Pedidos;
 use App\Models\PedidosAcompanhamentos;
 use App\Models\PedidosHistoricos;
@@ -13,7 +14,6 @@ use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
 use App\Services\Pedidos\PlanilhaProdutos;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class PedidosController extends Controller
