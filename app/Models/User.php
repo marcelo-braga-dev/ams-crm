@@ -355,7 +355,7 @@ class User extends Authenticatable
         return (new Setores())->getModelo($dados->setor_id);
     }
 
-    public function getIdsSubordinados($suprvisorIncluso = false, $supervisor = null)
+    public function getIdsSubordinados($usuarioIncluso = false, $supervisor = null, $supervisorIncluso = false)
     {
         $supervisor = $supervisor ?? id_usuario_atual();
 
@@ -365,7 +365,8 @@ class User extends Authenticatable
             ->get('id');
         $consultor = [];
 
-        if ($suprvisorIncluso) $consultor[] = id_usuario_atual();
+        if ($usuarioIncluso) $consultor[] = id_usuario_atual();
+        if ($supervisorIncluso) $consultor[] = $supervisor;
 
         foreach ($consultores as $item) {
             $consultor[] = $item->id;

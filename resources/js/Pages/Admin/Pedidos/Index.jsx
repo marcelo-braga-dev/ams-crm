@@ -26,7 +26,10 @@ import MenuItem from "@mui/material/MenuItem";
 import {usePage} from "@inertiajs/react";
 import LinearProgress from '@mui/material/LinearProgress';
 
-export default function Pedidos({fornecedores, setores, coresAbas}) {
+import Fab from '@mui/material/Fab';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+
+export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
     const [pedidos, setPedidos] = useState()
     const [modelo, setModelo] = useState()
     const [carregando, setCarregando] = useState(true)
@@ -61,9 +64,33 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
             })
     }, [usePage().props.franquia_selecionada])
 
+    useEffect(() => {
+        if (pedidos && goCard) goCardPosicao()
+    }, [pedidos]);
+
+    function goCardPosicao() {
+        const element = document.getElementById("card-id-" + goCard);
+        const posicaoElemento = element?.getBoundingClientRect();
+
+        if (posicaoElemento) {
+            const table = document.getElementById("scrollControlHorizontal");
+
+            if (posicaoElemento.x > 0) window.scrollTo({
+                left: (posicaoElemento.x - 320),
+                top: (posicaoElemento.y - 100),
+                behavior: 'smooth'
+            })
+
+            table.scrollTo((posicaoElemento.x - 320), posicaoElemento.y - 100);
+        }
+    }
+
+    // const element = document.getElementById();
+    const posicaoElemento = document.documentElement.scrollTop;
+    console.log(posicaoElemento)
+
     return (
         <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="pedidos-lista">
-
             <div className="row justify-content-around mb-2">
                 <div className="col-md-5">
                     <div className="row">
@@ -125,14 +152,19 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                     </div>
                 </div>
             </div>
+            <div className="row justify-content-end">
+                <div className="col-auto">
+                    {/*<small>Qtd Pedidos: ?</small>*/}
+                </div>
+            </div>
 
             {/*/!*Tabela*!/*/}
             {pedidos &&
-                <div className="row my-4 g-">
-                    <div className="col-auto pt-5 d-none d-md-block">
+                <div className="row g-0">
+                    <div style={{maxWidth: '1%'}} className="d-none d-md-block">
                         <ScrollControlHorizontal lateral="e"/>
                     </div>
-                    <div className="col-12 col-md-11">
+                    <div style={{maxWidth: '98%'}}>
                         <div id="scrollControlHorizontal" className="overflow-scroll">
                             <table>
                                 <thead>
@@ -367,12 +399,26 @@ export default function Pedidos({fornecedores, setores, coresAbas}) {
                             </table>
                         </div>
                     </div>
-                    <div className="col-auto pt-5 d-none d-md-block">
+                    <div style={{maxWidth: '1%'}} className="d-none d-md-block">
                         <ScrollControlHorizontal lateral="d"/>
                     </div>
                 </div>
             }
             {carregando && <LinearProgress color="inherit"/>}
+
+            <Fab size="small" color="default" sx={{
+                position: 'fixed',
+                bottom: 16,
+                right: 50,
+                zIndex: 1800
+            }}
+            onClick={() => window.scrollTo({
+                    top: (0),
+                    behavior: 'smooth'
+                })}
+            >
+                <ArrowUpwardIcon/>
+            </Fab>
         </Layout>
     );
 }

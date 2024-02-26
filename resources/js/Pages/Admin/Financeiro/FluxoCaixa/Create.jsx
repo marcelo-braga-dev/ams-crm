@@ -5,7 +5,6 @@ import React, {useState} from "react";
 import TextFieldMoney, {TextFieldMoney2} from "@/Components/Inputs/TextFieldMoney";
 import MenuItem from "@mui/material/MenuItem";
 import {router, useForm} from "@inertiajs/react";
-import ClearIcon from "@mui/icons-material/Clear";
 
 export default function ({dados}) {
 
@@ -23,26 +22,59 @@ export default function ({dados}) {
 
     function qtdPagamentos() {
 
-        for (let i = 1; i <= data.qtd_pagamentos; i++)
+        for (let i = 0; i < data.qtd_pagamentos; i++)
             camposValores.push(
-                <div key={i} className="row align-items-center">
+                <div key={i} className="row border-bottom mb-4">
                     <div className="col-3 mb-4">
-                        <TextFieldMoney2 fullWidth label={"Valor " + i + "° Pagaemnto"} data={data} setData={setData} i={i} required/>
+                        <TextFieldMoney2 fullWidth label={"Valor " + (i + 1) + "° Pagamento"}
+                                         value={data?.campos_pagamentos?.[i]?.valor ?? ''}
+                                         indice="valor" chave="campos_pagamentos"
+                                         data={data} setData={setData} i={i} required/>
                     </div>
                     {tipo === 'saida' &&
                         <div className="col-3 mb-4">
                             <TextField type="date" label="Data Vencimento" fullWidth
                                        InputLabelProps={{shrink: true}} required
-                                       onChange={e => setData('camposPagamentos', {
-                                           ...data.camposPagamentos,
+                                       value={data?.campos_pagamentos?.[i]?.data_vencimento}
+                                       onChange={e => setData('campos_pagamentos', {
+                                           ...data.campos_pagamentos,
                                            [i]: {
-                                               ...data?.camposPagamentos?.[i],
+                                               ...data?.campos_pagamentos?.[i],
                                                data_vencimento: e.target.value
                                            }
                                        })}/>
 
                         </div>
                     }
+                    {tipo === 'saida' && <div className="col mb-4">
+                        <TextFieldMoney2 label="Valor Baixa" fullWidth
+                                         value={data?.campos_pagamentos?.[i]?.valor_baixa ?? ''}
+                                         indice="valor_baixa" chave="campos_pagamentos"
+                                         data={data} setData={setData} i={i}/>
+                    </div>}
+                    {tipo === 'saida' && <div className="col mb-4">
+                        <TextField fullWidth type="date" label="Data Baixa" InputLabelProps={{shrink: true}}
+                                   value={data?.campos_pagamentos?.[i]?.data_baixa}
+                                   onChange={e => setData('campos_pagamentos', {
+                                       ...data.campos_pagamentos,
+                                       [i]: {
+                                           ...data?.campos_pagamentos?.[i],
+                                           data_baixa: e.target.value
+                                       }
+                                   })}/>
+                    </div>}
+                    {tipo === 'entrada' && <div className="col-md-3 mb-4">
+                        <TextField type="date" label="Previsão do Recebimento" required fullWidth
+                                   value={data?.campos_pagamentos?.[i]?.previsao_recebimento}
+                                   InputLabelProps={{shrink: true}}
+                                   onChange={e => setData('campos_pagamentos', {
+                                       ...data.campos_pagamentos,
+                                       [i]: {
+                                           ...data?.campos_pagamentos?.[i],
+                                           previsao_recebimento: e.target.value
+                                       }
+                                   })}/>
+                    </div>}
                 </div>
             )
 
@@ -67,83 +99,76 @@ export default function ({dados}) {
             </div>
             {tipo &&
                 <form onSubmit={submit}>
-                    <div className="row">
-                        <div className="col mb-4">
-                            <TextField type="date" required
-                                       onChange={e => setData('data', e.target.value)}/>
+                    <div className="card card-body mb-4">
+                        <div className="row">
+                            <div className="col mb-4">
+                                <TextField type="date" required
+                                           onChange={e => setData('data', e.target.value)}/>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col mb-4">
+                                <TextField select label="Empresa" fullWidth required
+                                           onChange={e => setData('empresa', e.target.value)}>
+                                    {dados.empresas.map(item =>
+                                        <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>
+                                    )}
+                                </TextField>
+                            </div>
+                            <div className="col mb-4">
+                                <TextField select label="Fornecedores" fullWidth required
+                                           onChange={e => setData('fornecedores', e.target.value)}>
+                                    {dados.fornecedores.map(item => <MenuItem key={item.id}
+                                                                              value={item.id}>{item.valor}</MenuItem>)}
+                                </TextField>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col mb-4">
+                                <TextField fullWidth label="N° NF"
+                                           onChange={e => setData('nota_fiscal', e.target.value)}/>
+                            </div>
+                            <div className="col mb-4">
+                                <TextField select label="Banco" fullWidth
+                                           onChange={e => setData('banco', e.target.value)}>
+                                    {dados.bancos.map(item => <MenuItem key={item.id}
+                                                                        value={item.id}>{item.valor}</MenuItem>)}
+                                </TextField>
+                            </div>
+                            <div className="col mb-4">
+                                <TextField select label="Status" fullWidth required
+                                           onChange={e => setData('status', e.target.value)}>
+                                    <MenuItem value="aberto">Aberto</MenuItem>
+                                    <MenuItem value="pago">Pago</MenuItem>
+                                </TextField>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="row">
-                        <div className="col-md-1 mb-4">
-                            <TextField label="Qtd de Pagamentos" type="number" value={data.qtd_pagamentos} required fullWidth
-                                       onChange={e => setData('qtd_pagamentos', e.target.value)}/>
+                    <div className="card card-body mb-4">
+                        <div className="row border-bottom mb-4">
+                            <div className="col-md-2 mb-3">
+                                <TextField label="Qtd de Pagamentos" type="number" value={data.qtd_pagamentos} required
+                                           fullWidth
+                                           onChange={e => setData('qtd_pagamentos', e.target.value)}/>
+                            </div>
                         </div>
+
+                        {qtdPagamentos()}
                     </div>
 
-                    {qtdPagamentos()}
-
-                    <div className="row">
-                        <div className="col mb-4">
-                            <TextField select label="Empresa" fullWidth required
-                                       onChange={e => setData('empresa', e.target.value)}>
-                                {dados.empresas.map(item =>
-                                    <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>
-                                )}
-                            </TextField>
+                    <div className="card card-body mb-4">
+                        <div className="row justify-content-center">
+                            <div className="col mb-4">
+                                <TextField label="Descrição" multiline rows="3" fullWidth required
+                                           onChange={e => setData('descricao', e.target.value)}/>
+                            </div>
                         </div>
-                        <div className="col mb-4">
-                            <TextField select label="Fornecedores" fullWidth required
-                                       onChange={e => setData('fornecedores', e.target.value)}>
-                                {dados.fornecedores.map(item => <MenuItem key={item.id}
-                                                                          value={item.id}>{item.valor}</MenuItem>)}
-                            </TextField>
-                        </div>
-                        <div className="col mb-4">
-                            <TextField fullWidth label="N° NF"
-                                       onChange={e => setData('nota_fiscal', e.target.value)}/>
-                        </div>
-                    </div>
-                    <div className="row">
-                        {tipo === 'entrada' && <div className="col mb-4">
-                            <TextField type="date" fullWidth label="Previsão do Recebimento" required
-                                       InputLabelProps={{shrink: true}}
-                                       onChange={e => setData('previsao_recebimento', e.target.value)}/>
-                        </div>}
-                        {tipo === 'saida' && <div className="col mb-4">
-                            <TextFieldMoney fullWidth label="Valor Baixa" index="valor_baixa"
-                                            value={data.valor_baixa}
-                                            setData={setData}/>
-                        </div>}
-                        {tipo === 'saida' && <div className="col mb-4">
-                            <TextField fullWidth type="date" label="Data Baixa" InputLabelProps={{shrink: true}}
-                                       onChange={e => setData('data_baixa', e.target.value)}/>
-                        </div>}
-                        <div className="col mb-4">
-                            <TextField select label="Banco" fullWidth
-                                       onChange={e => setData('banco', e.target.value)}>
-                                {dados.bancos.map(item => <MenuItem key={item.id}
-                                                                    value={item.id}>{item.valor}</MenuItem>)}
-                            </TextField>
-                        </div>
-                        <div className="col mb-4">
-                            <TextField select label="Status" fullWidth required
-                                       onChange={e => setData('status', e.target.value)}>
-                                <MenuItem value="aberto">Aberto</MenuItem>
-                                <MenuItem value="pago">Pago</MenuItem>
-                            </TextField>
-                        </div>
-                    </div>
-
-                    <div className="row justify-content-center">
-                        <div className="col mb-4">
-                            <TextField label="Descrição" multiline rows="3" fullWidth required
-                                       onChange={e => setData('descricao', e.target.value)}/>
-                        </div>
-                    </div>
-                    <div className="row justify-content-center">
-                        <div className="col-auto">
-                            <button className="btn btn-primary">Salvar</button>
+                        <div className="row justify-content-center">
+                            <div className="col-auto">
+                                <button className="btn btn-primary">Salvar</button>
+                            </div>
                         </div>
                     </div>
                 </form>

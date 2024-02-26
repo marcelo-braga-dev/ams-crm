@@ -8,7 +8,7 @@ use App\src\Chamados\StatusChamados;
 
 class MensagensChamadosService
 {
-    private array $usuarios;
+    private $usuarios;
 
     public function __construct()
     {

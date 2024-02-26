@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\Chamados\ChamadoDadosService;
 use App\src\Chamados\StatusChamados;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -53,7 +52,7 @@ class PedidosChamados extends Model
     {
         $dados = $this->newQuery()->findOrFail($id);
 
-        return (new ChamadoDadosService())->dados($dados);
+        return $this->dados($dados);
     }
 
     // Atualiza Status do Chamado
@@ -77,7 +76,7 @@ class PedidosChamados extends Model
 
         $chamados = [];
         foreach ($items as $item) {
-            $chamados[] = (new ChamadoDadosService())->dados($item);
+            $chamados[] = $this->dados($item);
         }
 
         return $chamados;
@@ -102,5 +101,18 @@ class PedidosChamados extends Model
         $this->newQuery()
             ->where('pedido_id', $id)
             ->delete();
+    }
+
+    private function dados($dados)
+    {
+        return [
+            'id' => $dados->id,
+            'id_pedido' => $dados->pedido_id,
+            'cliente' => getNomeCliente($dados->pedido_id),
+            'status' => (new StatusChamados())->getNomeStatus($dados->status),
+            'titulo' => $dados->titulo,
+            'prazo' => $dados->prazo,
+            'data' => date('d/m/y H:i', strtotime($dados->status_data))
+        ];
     }
 }

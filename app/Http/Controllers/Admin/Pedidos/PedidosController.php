@@ -18,14 +18,15 @@ use Inertia\Inertia;
 
 class PedidosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $setores = (new Setores())->get();
         $fornecedores = (new Fornecedores())->get();
         $coresAbas = (new ConfigCores())->getPedidos();
+        $goCard = $request->id_card;
 
         return Inertia::render('Admin/Pedidos/Index',
-            compact('fornecedores', 'setores', 'coresAbas'));
+            compact('fornecedores', 'setores', 'coresAbas', 'goCard'));
     }
 
     public function show($id)

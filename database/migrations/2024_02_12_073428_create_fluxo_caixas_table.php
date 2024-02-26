@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('banco_id')->nullable();
             $table->unsignedBigInteger('fornecedor_id');
             $table->unsignedBigInteger('empresa_id')->nullable();
+            $table->unsignedBigInteger('franquia_id')->nullable();
             $table->string('status');
             $table->date('data');
             $table->string('tipo');
@@ -38,6 +39,8 @@ return new class extends Migration {
             $table->index('fornecedor_id');
             $table->foreign('empresa_id')->references('id')->on('fluxo_caixas_configs');
             $table->index('empresa_id');
+            $table->foreign('franquia_id')->references('id')->on('franquias');
+            $table->index('franquia_id');
         });
     }
 

@@ -65,9 +65,8 @@ class FluxoCaixasConfig extends Model
     public function create($dados)
     {
         $this->newQuery()
-            ->updateOrCreate(
-                ['chave'=> $dados->chave, 'valor' => $dados->valor],
-//                [$dados->valor]
+            ->create(
+                ['chave' => $dados->chave, 'valor' => $dados->valor],
             );
     }
 
@@ -80,5 +79,12 @@ class FluxoCaixasConfig extends Model
         } catch (QueryException) {
             throw new \DomainException('Não é possível deletar esta dado pois ele está em uso.');
         }
+    }
+
+    public function atualizar($id, $valor)
+    {
+        if ($valor) $this->newQuery()
+            ->find($id)
+            ->update(['valor' => $valor]);
     }
 }

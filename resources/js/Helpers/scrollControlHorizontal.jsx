@@ -15,7 +15,7 @@ export default function ScrollControlHorizontal({lateral = null}) {
         del += old;
         ele.scrollTo(del, 0);
 
-        if (atu < 30) {
+        if (atu < 100) {
             window.requestAnimationFrame(function () {
                 scrollSuave(old, des, atu, ele);
             });

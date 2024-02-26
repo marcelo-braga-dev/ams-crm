@@ -9,7 +9,7 @@ import ImagePdf from "@/Components/Elementos/ImagePdf";
 export default function Create({chamado, pedido, mensagens}) {
     // Envio da Resposta
     const {data, setData} = useForm(
-        {id_chamado: chamado.id, id_pedido: chamado.id_pedido});
+        {id_chamado: chamado.id, id_pedido: chamado.id_pedido, mensagem: ''});
 
     function submit(e) {
         e.preventDefault()
@@ -17,14 +17,15 @@ export default function Create({chamado, pedido, mensagens}) {
             _method: 'put',
             ...data
         })
-        window.location.reload()
     }
+
+    router.on('success', () => window.location.reload())
 
     // Envio da Resposta - fim
 
     return (
         <Layout container titlePage="Abrir SAQ" voltar={route('admin.chamado.index')}
-                menu="sac" submenu="chamados">
+                menu="sac" submenu="sac-chamdos">
             <div className="row justify-content-between mb-4">
                 <div className="col">
                     <DadosPedidoMinimo dados={pedido}/>
@@ -77,7 +78,7 @@ export default function Create({chamado, pedido, mensagens}) {
                 <div className="row pt-4 mb-3">
                     <div className="col">
                         <TextField
-                            multiline rows={6} label="Resposta" fullWidth required
+                            multiline rows={6} label="Resposta" fullWidth required value={data.mensagem ?? ''}
                             onChange={e => setData('mensagem', e.target.value)}/>
                     </div>
                 </div>

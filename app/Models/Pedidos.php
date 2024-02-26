@@ -9,6 +9,7 @@ use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\StatusPedidos;
 use App\src\Usuarios\Funcoes\Admins;
 use DateTime;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
@@ -40,6 +41,16 @@ class Pedidos extends Model
         'repasse',
         'imposto',
     ];
+
+    public function franquiaUsuario(): Builder
+    {
+        return $this->newQuery()->where('franquia_id',  franquia_usuario_atual());
+    }
+
+    private function idUsuario(): Builder
+    {
+        return $this->newQuery()->where('franquia_id',  franquia_usuario_atual());
+    }
 
     function create($dados)
     {
@@ -420,7 +431,8 @@ class Pedidos extends Model
 
     public function vendasMensaisSubordinados($id, $ano)
     {
-        $items = (new User())->getIdsSubordinados(false, $id);
+        $items = (new User())->getIdsSubordinados(false, $id, true);
+
         $nomes = (new User())->getNomes();
         $metas = (new MetasVendas)->getMetasUsuarios($ano);
 

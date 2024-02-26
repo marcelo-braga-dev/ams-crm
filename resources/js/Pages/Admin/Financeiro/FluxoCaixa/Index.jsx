@@ -42,7 +42,13 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
 
     const atualizaFiltro = (event) => {
         router.get(route('admin.financeiro.fluxo-caixa.index',
-            {periodoInicio: filtroData?.[0]?.startDate, periodoFim: filtroData?.[0]?.endDate, tipo: filtroTipo, status: filtroStatus, fornecedor: filtroFornecedor}))
+            {
+                periodoInicio: filtroData?.[0]?.startDate,
+                periodoFim: filtroData?.[0]?.endDate,
+                tipo: filtroTipo,
+                status: filtroStatus,
+                fornecedor: filtroFornecedor
+            }))
     }
 
     const limparFiltroData = (event) => {
@@ -89,7 +95,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
 
                         <TextField className="mb-3" label="Status" select fullWidth
                                    value={filtroStatus ?? ''}
-                                    onChange={e => setFiltoStatus(e.target.value)}>
+                                   onChange={e => setFiltoStatus(e.target.value)}>
                             <MenuItem value={undefined}>Todas</MenuItem>
                             <MenuItem value="pago">Pago</MenuItem>
                             <MenuItem value="aberto">Aberto</MenuItem>
@@ -144,6 +150,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                                     <th>N° NF</th>
                                     <th>Valor</th>
                                     <th>Data Vencimento</th>
+                                    <th>Prev. Recebiemnto</th>
                                     <th>Valor Baixa</th>
                                     <th>Data Baixa</th>
                                     <th>Banco</th>
@@ -153,7 +160,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                                 {dados.map(item =>
                                     <tr key={item.id}
                                         className={
-                                            item.status === 'pago' ? 'text-info' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger') +
+                                            item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger') +
                                                 (item.atrasado ? ' bg-danger text-white' : '')
                                         }>
                                         <td className="text-center">
@@ -163,7 +170,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                                             </a>
                                         </td>
                                         <td className="text-center">#{item.id}</td>
-                                        <td>{item.n_pagamento}</td>
+                                        <td>{item.qtd_parcelas}</td>
                                         <td>{item.data}</td>
                                         <td className="text-center">
                                             {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon/> :
@@ -176,18 +183,19 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                                             {item.status}
                                         </td>
                                         <td>
-                                        <span className="d-inline-block text-truncate" style={{maxWidth: 200}}>
-                                          {item.fornecedor}
-                                        </span>
+                                            <span className="d-inline-block text-truncate" style={{maxWidth: 200}}>
+                                              {item.fornecedor}
+                                            </span>
                                         </td>
                                         <td>
-                                        <span className="d-inline-block text-truncate" style={{maxWidth: 200}}>
-                                          {item.empresa}
-                                        </span>
+                                            <span className="d-inline-block text-truncate" style={{maxWidth: 200}}>
+                                              {item.empresa}
+                                            </span>
                                         </td>
                                         <td>{item.nota_fiscal}</td>
                                         <td>R$ {item.valor}</td>
                                         <td className="text-center">{item.data_vencimento}</td>
+                                        <td className="text-center">{item.previsao_recebimento}</td>
                                         <td>{item.valor_baixa && <>R$ {item.valor_baixa}</>}</td>
                                         <td className="text-center">{item.data_baixa}</td>
                                         <td>{item.banco}</td>

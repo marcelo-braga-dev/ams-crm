@@ -27,6 +27,19 @@ class FluxoCaixaConfigController extends Controller
         return redirect()->back();
     }
 
+    public function update($id, Request $request)
+    {
+        if ($request->valor) {
+            (new FluxoCaixasConfig())->atualizar($request->id, $request->valor);
+
+            modalSucesso('Dados atualizado com sucesso!');
+            return redirect()->back();
+        }
+
+        modalErro('Nenhum valor inserido.');
+        return redirect()->back();
+    }
+
     public function destroy($id)
     {
         try{

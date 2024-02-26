@@ -38,11 +38,9 @@ class FluxoCaixaController extends Controller
 
     public function store(Request $request)
     {
-        foreach ($request['camposPagamentos'] as $i => $item) {
-            (new FluxoCaixa())->create($request, $item['valor'], $item['data_vencimento'] ?? null, $i, count($request['camposPagamentos']));
-        }
+        (new FluxoCaixa())->create($request);
 
-        modalSucesso('Operação realizada com sucesso@');
+        modalSucesso('Operação realizada com sucesso!');
         return redirect()->route('admin.financeiro.fluxo-caixa.index');
     }
 
@@ -55,7 +53,28 @@ class FluxoCaixaController extends Controller
             compact('dados', 'bancos'));
     }
 
+    public function edit($id)
+    {
+        $flucoCaixa = (new FluxoCaixa())->find($id);
+        $dados = [
+            'empresas' => (new FluxoCaixasConfig())->getEmpresas(),
+            'fornecedores' => (new FluxoCaixasConfig())->getFornecedores(),
+            'bancos' => (new FluxoCaixasConfig())->getBancos(),
+        ];
+
+        return Inertia::render('Admin/Financeiro/FluxoCaixa/Edit',
+            compact('flucoCaixa', 'dados'));
+    }
+
     public function update($id, Request $request)
+    {
+        (new FluxoCaixa())->atualizar($id, $request);
+
+        modalSucesso('Dados atualizado com sucesso!');
+        return redirect()->back();
+    }
+
+    public function alterarBaixa($id, Request $request)
     {
         (new FluxoCaixa())->atualizarBaixa($id, $request);
 

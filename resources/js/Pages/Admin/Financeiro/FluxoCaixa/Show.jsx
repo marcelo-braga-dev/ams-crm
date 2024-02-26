@@ -14,7 +14,7 @@ export default function ({dados, bancos}) {
 
     function submit(e) {
         e.preventDefault()
-        router.post(route('admin.financeiro.fluxo-caixa.update', dados.id), {...data, _method: 'PUT'})
+        router.post(route('admin.financeiro.fluxo-caixa.atualizar-baixa', dados.id), {...data, _method: 'PUT'})
     }
 
     router.on('success', function () {
@@ -41,6 +41,10 @@ export default function ({dados, bancos}) {
                     <span className="d-block"><b>Data Vencimento:</b> {dados.data_vencimento}</span>
                     <span className="d-block pt-3"><b>Valor Baixa:</b> R$ {dados.valor_baixa}</span>
                     <span className="d-block"><b>Data Baixa:</b> R$ {dados.data_baixa}</span>
+                </div>
+                <div className="col-auto">
+                    <a className="btn btn-primary btn-sm"
+                       href={route('admin.financeiro.fluxo-caixa.edit', dados.id)}>Editar</a>
                 </div>
             </div>
 
