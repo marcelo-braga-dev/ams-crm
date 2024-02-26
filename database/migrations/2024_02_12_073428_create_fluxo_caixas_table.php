@@ -29,6 +29,7 @@ return new class extends Migration {
             $table->text('descricao')->nullable();
             $table->integer('n_pagamento')->nullable();
             $table->integer('total_pagamentos')->nullable();
+            $table->string('token', 32)->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
