@@ -19,7 +19,7 @@ class Leads extends Model
     protected $fillable = [
         'user_id',
         'status',
-        'importacao',
+        'id_importacao',
         'nome',
         'setor_id',
         'cnpj',
@@ -84,7 +84,7 @@ class Leads extends Model
                     ->create([
                         'user_id' => $usuario,
                         'nome' => $dados['nome'] ?? null,
-                        'importacao' => $importacao,
+                        'id_importacao' => $importacao,
                         'atendente' => $dados['atendente'] ?? null,
 //                        'telefone' => $telefone,
                         'setor_id' => $setor,
@@ -482,5 +482,15 @@ class Leads extends Model
             ->where('user_id', $id)
             ->orderBy('status_data', 'desc')
             ->get();
+    }
+
+    public function importacao($id)
+    {
+        return $this->newQuery()
+            ->where('id_importacao', $id)
+            ->get()
+            ->transform(function ($item) {
+                return $this->dados($item);
+            });
     }
 }

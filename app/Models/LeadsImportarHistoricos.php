@@ -41,11 +41,28 @@ class LeadsImportarHistoricos extends Model
             ->get()
             ->transform(function ($item) use ($nomes, $setores) {
                 return [
+                    'id' => $item->id,
                     'nome' => $nomes[$item->user_id],
                     'setor' => $setores[$item->setor] ?? '',
                     'qtd' => $item->qtd,
                     'data' => date('d/m/y H:i', strtotime($item->created_at))
                 ];
             });
+    }
+
+    public function getDados($id)
+    {
+        $nomes = (new User())->getNomes();
+        $setores = (new Setores())->getNome();
+
+        $item = $this->newQuery()->find($id);
+
+        return [
+            'id' => $item->id,
+            'nome' => $nomes[$item->user_id],
+            'setor' => $setores[$item->setor] ?? '',
+            'qtd' => $item->qtd,
+            'data' => date('d/m/y H:i', strtotime($item->created_at))
+        ];
     }
 }

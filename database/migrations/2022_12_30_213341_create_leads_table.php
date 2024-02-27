@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('setor_id');
             $table->string('status', 32)->default('novo');
-            $table->integer('importacao')->nullable();
+            $table->integer('id_importacao')->nullable();
             $table->string('atendente')->nullable();
             $table->boolean('pessoa_juridica')->default(1);
             $table->string('cnpj')->nullable();

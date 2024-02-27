@@ -191,6 +191,13 @@ class FluxoCaixa extends Model
         }
     }
 
+    public function excluir($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->delete();
+    }
+
     private function token($token): Builder
     {
         return $this->newQuery()->where('token', $token);

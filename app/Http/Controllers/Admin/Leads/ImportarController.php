@@ -31,8 +31,9 @@ class ImportarController extends Controller
 
             $qtd = 0;
             foreach ($dadosSeparados as $item) {
-                $qtd += (new Leads())->create($item, $request->setor, null, $idHistorico);
+                if ((new Leads())->create($item, $request->setor, null, $idHistorico)) $qtd++;
             }
+
             (new LeadsImportarHistoricos())->atualizar($idHistorico, $qtd);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());

@@ -87,4 +87,12 @@ class FluxoCaixaController extends Controller
 
         modalSucesso("Status atualizado com sucesso!");
     }
+
+    public function destroy($id)
+    {
+        (new FluxoCaixa())->excluir($id);
+
+        modalSucesso('Pagamento excluído com sucesso!');
+        return redirect()->route('admin.financeiro.fluxo-caixa.index');
+    }
 }

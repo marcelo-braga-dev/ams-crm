@@ -17,6 +17,10 @@ export default function ({dados, bancos}) {
         router.post(route('admin.financeiro.fluxo-caixa.atualizar-baixa', dados.id), {...data, _method: 'PUT'})
     }
 
+    const excluir = () => {
+        router.post(route('admin.financeiro.fluxo-caixa.destroy', dados.id), {...data, _method: 'DELETE'})
+    }
+
     router.on('success', function () {
         data.valor_baixa = ''
         data.data_baixa = ''
@@ -24,7 +28,7 @@ export default function ({dados, bancos}) {
     })
 
     return (
-        <Layout titlePage="Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa"
+        <Layout titlePage="Informações do Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa"
                 voltar={route('admin.financeiro.fluxo-caixa.index')}>
             <div className="row mb-4">
                 <div className="col">
@@ -43,8 +47,11 @@ export default function ({dados, bancos}) {
                     <span className="d-block"><b>Data Baixa:</b> R$ {dados.data_baixa}</span>
                 </div>
                 <div className="col-auto">
-                    <a className="btn btn-primary btn-sm"
+                    <a className="btn btn-primary btn-sm d-block"
                        href={route('admin.financeiro.fluxo-caixa.edit', dados.id)}>Editar</a>
+                    <button className="btn btn-danger btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#exampleExcluir">Excluir
+                    </button>
                 </div>
             </div>
 
@@ -77,6 +84,29 @@ export default function ({dados, bancos}) {
                         </div>
                     </div>
                 </form>}
+
+            <div className="modal fade mt-5" id="exampleExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Excluir Pagamento</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Deseja realmente excluir este pagamento?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
+                                    onClick={() => excluir()}>Excluir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </Layout>
     )
 }
