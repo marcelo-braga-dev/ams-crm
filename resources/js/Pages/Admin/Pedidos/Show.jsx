@@ -43,17 +43,17 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({pedido, produtos, historico, historicoAcompanhamento}) {
+export default function Pedidos({pedido, produtos, historico, historicoAcompanhamento, urlPrevious}) {
     const [value, setValue] = React.useState(0);
     const funcaoUsuario = usePage().props.auth.user.tipo
-
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     return (
-        <Layout container titlePage="Informações do Pedido" menu="pedidos" submenu="pedidos-lista">
+        <Layout container titlePage="Informações do Pedido" menu="pedidos" submenu="pedidos-lista"
+        voltar={urlPrevious}>
             <Box sx={{width: '100%'}}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

@@ -36,8 +36,10 @@ class PedidosController extends Controller
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
         $historicoAcompanhamento = (new PedidosAcompanhamentos())->get($id);
 
+        $urlPrevious = url()->previous();
+
         return Inertia::render('Admin/Pedidos/Show',
-            compact('pedido', 'historico', 'produtos', 'historicoAcompanhamento'));
+            compact('pedido', 'historico', 'produtos', 'historicoAcompanhamento', 'urlPrevious'));
     }
 
     public function destroy($id)
