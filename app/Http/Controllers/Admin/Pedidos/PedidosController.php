@@ -36,7 +36,7 @@ class PedidosController extends Controller
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
         $historicoAcompanhamento = (new PedidosAcompanhamentos())->get($id);
 
-        $urlPrevious = url()->previous();
+        $urlPrevious = \Illuminate\Http\Request::create(url()->previous())->fullUrlWithQuery(['id_card' => $id]);
 
         return Inertia::render('Admin/Pedidos/Show',
             compact('pedido', 'historico', 'produtos', 'historicoAcompanhamento', 'urlPrevious'));
