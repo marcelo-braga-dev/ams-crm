@@ -17,7 +17,7 @@ export default function Pedido({fornecedores, setData, data}) {
                 <TextFieldMoney label="Preço" value={data.preco} setData={setData} index="preco" required/>
             </div>
             <div className="col-md-4 mb-3">
-                <TextField label="Distribuidora" select fullWidth required defaultValue={""}
+                <TextField label="Distribuidora" select fullWidth required
                            onChange={e => setData('fornecedor', e.target.value)}>
                     {fornecedores.map((option, index) => (
                         <MenuItem key={index} value={option.id}>
@@ -35,48 +35,48 @@ export default function Pedido({fornecedores, setData, data}) {
             </div>
         </div>
 
-        <div className="row mb-4">
-            <div className="col">
-                <TextField label="Marca do Inversor" select fullWidth required defaultValue={""}
-                           onChange={e => setData('fornecedor', e.target.value)}>
-                    {fornecedores.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </div>
-            <div className="col">
-                <TextField label="" select fullWidth required defaultValue={""}
-                           onChange={e => setData('fornecedor', e.target.value)}>
-                    {fornecedores.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </div>
-            <div className="col">
-                <TextField label="Fornecedor" select fullWidth required defaultValue={""}
-                           onChange={e => setData('fornecedor', e.target.value)}>
-                    {fornecedores.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </div>
-            <div className="col">
-                <TextField label="Fornecedor" select fullWidth required defaultValue={""}
-                           onChange={e => setData('fornecedor', e.target.value)}>
-                    {fornecedores.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </div>
-        </div>
+        {/*<div className="row mb-4">*/}
+        {/*<div className="col">*/}
+        {/*    <TextField label="Marca do Inversor" select fullWidth required defaultValue={""}*/}
+        {/*               onChange={e => setData('fornecedor', e.target.value)}>*/}
+        {/*        {fornecedores.map((option, index) => (*/}
+        {/*            <MenuItem key={index} value={option.id}>*/}
+        {/*                {option.nome}*/}
+        {/*            </MenuItem>*/}
+        {/*        ))}*/}
+        {/*    </TextField>*/}
+        {/*</div>*/}
+        {/*<div className="col">*/}
+        {/*    <TextField label="" select fullWidth required defaultValue={""}*/}
+        {/*               onChange={e => setData('fornecedor', e.target.value)}>*/}
+        {/*        {fornecedores.map((option, index) => (*/}
+        {/*            <MenuItem key={index} value={option.id}>*/}
+        {/*                {option.nome}*/}
+        {/*            </MenuItem>*/}
+        {/*        ))}*/}
+        {/*    </TextField>*/}
+        {/*</div>*/}
+        {/*<div className="col">*/}
+        {/*    <TextField label="Fornecedor" select fullWidth required defaultValue={""}*/}
+        {/*               onChange={e => setData('fornecedor', e.target.value)}>*/}
+        {/*        {fornecedores.map((option, index) => (*/}
+        {/*            <MenuItem key={index} value={option.id}>*/}
+        {/*                {option.nome}*/}
+        {/*            </MenuItem>*/}
+        {/*        ))}*/}
+        {/*    </TextField>*/}
+        {/*</div>*/}
+        {/*<div className="col">*/}
+        {/*    <TextField label="Fornecedor" select fullWidth required defaultValue={""}*/}
+        {/*               onChange={e => setData('fornecedor', e.target.value)}>*/}
+        {/*        {fornecedores.map((option, index) => (*/}
+        {/*            <MenuItem key={index} value={option.id}>*/}
+        {/*                {option.nome}*/}
+        {/*            </MenuItem>*/}
+        {/*        ))}*/}
+        {/*    </TextField>*/}
+        {/*</div>*/}
+        {/*</div>*/}
 
         <div className="row">
             <div className="col">

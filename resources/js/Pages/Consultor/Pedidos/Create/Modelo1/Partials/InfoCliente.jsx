@@ -96,7 +96,6 @@ export default function InfoCliente({data, setData}) {
                                    ...data.endereco,
                                    complemento: e.target.value
                                })}/>
-                    {/*'complemento', e.target.value)}/>*/}
                 </Col>
                 <Col className="mb-3 col-12 col-md-6">
                     <TextField label="Bairro" fullWidth required
@@ -108,12 +107,12 @@ export default function InfoCliente({data, setData}) {
                 <Col>
                     <TextField label="Cidade" fullWidth required id="cidade" defaultValue={data.endereco.cidade}
                                InputLabelProps={{shrink: true}}
-                               onChange={e => setData('cidade', e.target.value)}/>
+                               onChange={e => setData('endereco', {...data.endereco, cidade: e.target.value})}/>
                 </Col>
                 <Col>
                     <TextField label="Estado" fullWidth required id="estado"
                                InputLabelProps={{shrink: true}} defaultValue={data.endereco.estado}
-                               onChange={e => setData('estado', e.target.value)}/>
+                               onChange={e => setData('endereco', {...data.endereco, estado: e.target.value})}/>
                 </Col>
             </div>
         </>
