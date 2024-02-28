@@ -76,4 +76,22 @@ class PedidosHistoricos extends Model
             ->where('pedido_id', $id)
             ->delete();
     }
+
+    public function retrocederStatus($id)
+    {
+        $historico = $this->newQuery()
+            ->where('pedido_id', $id)
+            ->orderByDesc('id')
+            ->limit(2)
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'pedido_id' => $item->pedido_id,
+                    'status' => $item->status,
+                    'prazo' => $item->prazo,
+                ];
+            });
+
+        return $historico[1]['status'] ?? null;
+    }
 }

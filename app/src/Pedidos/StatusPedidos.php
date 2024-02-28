@@ -51,7 +51,7 @@ class StatusPedidos
         ];
     }
 
-    public function getNomeStatus(string $status) : string
+    public function getNomeStatus(string $status): string
     {
         return $this->getStatus()[$status] ?? '';
     }

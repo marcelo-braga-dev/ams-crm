@@ -4,12 +4,17 @@ namespace App\src\Pedidos;
 
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
+use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
 use App\src\Pedidos\Status\AguardandoNotaStatus;
 use App\src\Pedidos\Status\AguardandoPagamentoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
+use App\src\Pedidos\Status\EncomendaStatus;
+use App\src\Pedidos\Status\EntregueStatus;
 use App\src\Pedidos\Status\FaturadoStatus;
+use App\src\Pedidos\Status\FaturadoVistaStatus;
 use App\src\Pedidos\Status\LancadoStatus;
+use App\src\Pedidos\Status\RevisarStatusPedido;
 
 class PedidoRetrocederStatus
 {
@@ -20,32 +25,22 @@ class PedidoRetrocederStatus
 
     public function reprovado(int $id, string $motivo): void
     {
-        (new ConferenciaStatusPedido())->updateStatus($id, $motivo);
+        (new RevisarStatusPedido())->updateStatus($id, $motivo);
     }
 
     public function lancado(int $id, $motivo)
-    {
-        (new ConferenciaStatusPedido())->updateStatus($id, $motivo);
-    }
-
-    public function boleto($id, $motivo)
     {
         (new LancadoStatus())->updateStatus($id, $motivo);
     }
 
     public function pagamento($id, $motivo)
     {
-        (new AguardandoNotaStatus())->updateStatus($id, $motivo);
-    }
-
-    public function faturando($id, $motivo)
-    {
-        (new AguardandoPagamentoStatus())->updateStatus($id, $motivo);
+//        (new AguardandoNotaStatus())->updateStatus($id, $motivo);
     }
 
     public function faturado($id, $motivo)
     {
-        (new AguardandoFaturamentoStatus())->updateStatus($id, $motivo);
+//        (new AguardandoFaturamentoStatus())->updateStatus($id, $motivo);
     }
 
     public function cancelado($id, $motivo)
@@ -53,10 +48,43 @@ class PedidoRetrocederStatus
         (new Pedidos())->restaurar($id);
     }
 
-    public function entregre($id, $motivo)
+    public function entregue($id, $motivo)
     {
-        $prazo = (new PedidosHistoricos())->getPrazoEntreguaRetroceder($id);
+        (new EntregueStatus())->updateStatus($id, $motivo);
+    }
 
-        (new FaturadoStatus())->updateStatus($id, $motivo, $prazo);
+    public function encomenda($id, $motivo)
+    {
+        (new EncomendaStatus())->updateStatus($id, $motivo);
+    }
+
+    public function aguardandoNota($id, $motivo)
+    {
+        (new AguardandoNotaStatus())->updateStatus($id, $motivo);
+    }
+
+    public function aguardandoPagamento($id, $motivo)
+    {
+        (new AguardandoPagamentoStatus())->updateStatus($id, $motivo);
+    }
+
+    public function aguardandoFaturamento($id, $motivo)
+    {
+        (new AguardandoFaturamentoStatus())->updateStatus($id, $motivo);
+    }
+
+    public function faturadoVista($id, $motivo)
+    {
+        (new FaturadoVistaStatus())->updateStatus($id, $motivo);
+    }
+
+    public function faturadoPrazo($id, $motivo)
+    {
+        (new FaturadoVistaStatus())->updateStatus($id, $motivo);
+    }
+
+    public function acompanhamento($id, $motivo)
+    {
+        (new AcompanhamentoStatus())->updateStatus($id, $motivo);
     }
 }

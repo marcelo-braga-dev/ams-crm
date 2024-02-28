@@ -19,9 +19,13 @@ class RetrocederController extends Controller
 
     public function update($id, Request $request)
     {
-        (new RetrocederStatusService())->retroceder($id, $request->get('motivo'));
+        try {
+            (new RetrocederStatusService())->retroceder($id, $request->get('motivo'));
+            modalSucesso("Pedido Regredito Status com Sucesso!");
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+        }
 
-        modalSucesso("Pedido Regredito Status com Sucesso!");
         return redirect()->route('admin.pedidos.index');
     }
 }
