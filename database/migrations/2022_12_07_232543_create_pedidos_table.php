@@ -25,7 +25,6 @@ return new class extends Migration {
             $table->dateTime('status_data');
             $table->integer('prazo');
             $table->boolean('sac')->default(0);
-            $table->boolean('pin')->default(0);
             $table->float('preco_venda', 10);
             $table->float('preco_custo', 10)->nullable();
             $table->float('repasse', 10)->nullable();

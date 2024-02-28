@@ -30,7 +30,6 @@ class Pedidos extends Model
         'status_data',
         'prazo',
         'sac',
-        'pin',
         'preco_venda',
         'preco_custo',
         'forma_pagamento',
@@ -41,16 +40,6 @@ class Pedidos extends Model
         'repasse',
         'imposto',
     ];
-
-    public function franquiaUsuario(): Builder
-    {
-        return $this->newQuery()->where('franquia_id',  franquia_usuario_atual());
-    }
-
-    private function idUsuario(): Builder
-    {
-        return $this->newQuery()->where('franquia_id',  franquia_usuario_atual());
-    }
 
     function create($dados)
     {

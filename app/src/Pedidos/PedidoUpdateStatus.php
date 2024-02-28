@@ -2,6 +2,8 @@
 
 namespace App\src\Pedidos;
 
+use App\Models\Comissoes;
+use App\Models\MetasVendas;
 use App\Models\Pedidos;
 use App\Models\PedidosArquivos;
 use App\Models\PedidosFaturamentos;
@@ -65,6 +67,12 @@ class PedidoUpdateStatus
         (new EncomendaStatus())->updateStatus($id, null, $prazo);
     }
 
+    public function setAguardandoFaturamento($id, $request): void
+    {
+        (new PedidosImagens())->updateRecibo($id, $request);
+        (new AguardandoFaturamentoStatus())->updateStatus($id);
+    }
+
     public function conferencia(int $id): void
     {
         (new LancadoStatus())->updateStatus($id);
@@ -87,7 +95,7 @@ class PedidoUpdateStatus
         (new AguardandoPagamentoStatus())->updateStatus($id);
     }
 
-    public function pagamento($id, $request)
+    public function pagamento($id, $request)////
     {
         (new PedidosImagens())->updateRecibo($id, $request);
         (new AguardandoFaturamentoStatus())->updateStatus($id);
