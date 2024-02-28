@@ -56,6 +56,7 @@ export default function Pedidos({dados, produtos, historico}) {
                         <Tab label="Cliente" {...a11yProps(1)} />
                         <Tab label="Financeiro" {...a11yProps(2)} />
                         <Tab label="Anexos" {...a11yProps(3)} />
+                        <Tab label="Histórico" {...a11yProps(3)} />
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
@@ -116,9 +117,9 @@ export default function Pedidos({dados, produtos, historico}) {
                             {historico.map((dado) => {
                                 return (
                                     <tr key={dado.id} className={"align-middle"}>
-                                        <th scope="row">
+                                        <td scope="row">
                                             {dado.data}
-                                        </th>
+                                        </td>
                                         <td>
                                             {dado.prazo} dias
                                         </td>
