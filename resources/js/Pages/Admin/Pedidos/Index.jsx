@@ -35,6 +35,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
     const [carregando, setCarregando] = useState(true)
     const [setorSelecionado, setSetorSelecionado] = useState()
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState()
+    const [qtdPedidos, setQtdPedidos] = useState(0)
 
     const modelo1 = (modelo === 1 || modelo === null)
     const modelo2 = (modelo === 2 || modelo === null)
@@ -61,6 +62,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                 setCarregando(false)
                 setSetorSelecionado()
                 setFornecedorSelecionado()
+                setQtdPedidos(res.data.pedidos.total)
             })
     }, [usePage().props.franquia_selecionada])
 
@@ -84,10 +86,6 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
             table.scrollTo((posicaoElemento.x - 320), posicaoElemento.y - 100);
         }
     }
-
-    // const element = document.getElementById();
-    const posicaoElemento = document.documentElement.scrollTop;
-    console.log(posicaoElemento)
 
     return (
         <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="pedidos-lista">
@@ -154,7 +152,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
             </div>
             <div className="row justify-content-end">
                 <div className="col-auto">
-                    {/*<small>Qtd Pedidos: ?</small>*/}
+                    <small>Qtd Total Pedidos: {qtdPedidos}</small>
                 </div>
             </div>
 
@@ -315,11 +313,11 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                         </td>
                                     }
                                     <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>
-                                        {pedidos.conferencia.map((dados) => {
-                                            return (
-                                                <ConferenciaCard key={dados.id} dados={dados}
-                                                                 cor={coresAbas.conferencia}/>)
-                                        })}
+                                        {pedidos.conferencia.map((dados) =>
+                                            <ConferenciaCard key={dados.id}
+                                                             dados={dados}
+                                                             cor={coresAbas.conferencia}/>
+                                        )}
                                     </td>
                                     <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.lancado.map((dados) => {
@@ -412,10 +410,10 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                 right: 50,
                 zIndex: 1800
             }}
-            onClick={() => window.scrollTo({
-                    top: (0),
-                    behavior: 'smooth'
-                })}
+                 onClick={() => window.scrollTo({
+                     top: (0),
+                     behavior: 'smooth'
+                 })}
             >
                 <ArrowUpwardIcon/>
             </Fab>

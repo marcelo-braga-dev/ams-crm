@@ -37,7 +37,7 @@ return new class extends Migration {
             $table->string('infos')->nullable();
             $table->string('classificacao', 8)->nullable();
             $table->string('anotacoes')->nullable();
-            $table->boolean('pedido_emitido')->default(0);
+            $table->dateTime('ultimo_pedido_data')->nullable();
             $table->timestamps();
 
             $table->index('user_id');

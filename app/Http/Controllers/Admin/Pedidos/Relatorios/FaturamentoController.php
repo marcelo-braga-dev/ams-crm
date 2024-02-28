@@ -10,6 +10,9 @@ use App\Services\Setores\SetoresService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+/**
+ * @deprecated
+ */
 class FaturamentoController extends Controller
 {
     public function index(Request $request)

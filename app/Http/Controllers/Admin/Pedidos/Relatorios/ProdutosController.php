@@ -10,6 +10,9 @@ use App\Services\Pedidos\Relatorios\ProdutosService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+/**
+ * @deprecated
+ */
 class ProdutosController extends Controller
 {
     public function index(Request $request)

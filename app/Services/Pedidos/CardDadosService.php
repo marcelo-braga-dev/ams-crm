@@ -19,6 +19,8 @@ use App\src\Pedidos\Status\RevisarStatusPedido;
 
 class CardDadosService
 {
+    private int $countCards = 0;
+
     // Retorna todos os cards
     public function getCards($id = null, ?int $fornecedorAtual = null, ?int $setorAtual = null): array
     {
@@ -52,6 +54,7 @@ class CardDadosService
         $cards['entregue'] = $this->getDadosCard($dados, $objeto, $entregueStatus);
         $cards['cancelado'] = $this->getDadosCard($dados, $objeto, $canceladoStatus);
         $cards['encomenda'] = $this->getDadosCard($dados, $objeto, $encomendaStatus);
+        $cards['total'] = $this->countCards;
 
         return $cards;
     }
@@ -66,6 +69,7 @@ class CardDadosService
             $card = $objeto->dadosCard($dado, $faturamento);
             if ($card) $res[] = $card;
         }
+        $this->countCards += count($res);
         return $res;
     }
 }

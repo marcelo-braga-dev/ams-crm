@@ -46,6 +46,7 @@ class Pedidos extends Model
         $idUser = null;
         $status = (new ConferenciaStatusPedido())->getStatus();
         $prazo = (new ConferenciaStatusPedido())->getPrazo();
+
         if (is_supervisor()) {
             $lead = (new Leads())->find($dados->id_lead);
             $idUser = $lead->user_id;
@@ -70,10 +71,11 @@ class Pedidos extends Model
                     'repasse' => convert_money_float($dados->repasse)
                 ]);
         } catch (QueryException $exception) {
-            print_pre($exception->getMessage());
+            modalErro($exception->getMessage());
             throw new \DomainException('Falha no cadastro do pedido.');
         }
 
+        (new Leads())->atualizarDataUltimoPedido($dados->id_lead);
         (new PedidosHistoricos())->create($pedido->id, $status, $prazo, null);
         (new LeadsHistoricos())->createPedido($dados->id_lead, $pedido->id);
 
@@ -322,6 +324,7 @@ class Pedidos extends Model
                 'nome' => $fornecedor['nome'] ?? ''
             ],
             'integrador' => [
+                'id' => $integrador['id'] ?? '',
                 'nome' => $integrador['cliente']['nome'] ?? '',
                 'cnpj' => $integrador['cliente']['cnpj'] ?? ''
             ],

@@ -40,7 +40,7 @@ class Leads extends Model
         'infos',
         'classificacao',
         'anotacoes',
-        'pedido_emitido'
+        'ultimo_pedido_data'
     ];
 
     public function getDisponiveis($setor)
@@ -492,5 +492,12 @@ class Leads extends Model
             ->transform(function ($item) {
                 return $this->dados($item);
             });
+    }
+
+    public function atualizarDataUltimoPedido($id): void
+    {
+        if ($id) $this->newQuery()
+            ->find($id)
+            ->update(['ultimo_pedido_data' => now()]);
     }
 }
