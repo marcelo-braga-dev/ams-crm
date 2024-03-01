@@ -21,28 +21,31 @@ class FluxoCaixaConfigController extends Controller
 
     public function store(Request $request)
     {
-        (new FluxoCaixasConfig())->create($request);
+        try {
+            (new FluxoCaixasConfig())->create($request);
 
-        modalSucesso('Dados atualizados com sucesso!');
+            modalSucesso('Dados atualizados com sucesso!');
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+        }
         return redirect()->back();
     }
 
     public function update($id, Request $request)
     {
-        if ($request->valor) {
-            (new FluxoCaixasConfig())->atualizar($request->id, $request->valor);
+        try {
+            (new FluxoCaixasConfig())->atualizar($request->id, $request);
 
             modalSucesso('Dados atualizado com sucesso!');
-            return redirect()->back();
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
         }
-
-        modalErro('Nenhum valor inserido.');
         return redirect()->back();
     }
 
     public function destroy($id)
     {
-        try{
+        try {
             (new FluxoCaixasConfig())->remover($id);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());

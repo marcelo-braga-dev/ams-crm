@@ -305,25 +305,10 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                 <div className="col">
                                                     <span>INDIVIDUAL</span>
                                                 </div>
-                                                <div className="col">
-                                                    <span
-                                                        className={margemAtingida ? (margemAtingida >= 100 ? 'text-success' : 'text-danger') : ''}>
-                                                        Alcançado: R$ {convertFloatToMoney(vendaMensal)} {margemAtingida ? `(${convertFloatToMoney(margemAtingida)}%)` : ''}
-                                                    </span>
-                                                </div>
-                                                <div className="col">
-                                                    <a className="btn btn-primary btn-sm"
-                                                       href={route('admin.metas-vendas.vendas-faturadas.index', {
-                                                           id: usuario.id,
-                                                           mes: item.mes_num,
-                                                           ano: ano
-                                                       })}>
-                                                        Ver Vendas
-                                                    </a>
-                                                </div>
                                             </div>
-                                            <div className="row mb-4">
-                                                <div className='col'>
+
+                                            <div className="row">
+                                                <div className='col-md-2 mb-3'>
                                                     <TextField
                                                         label="Meta" fullWidth defaultValue={item.meta}
                                                         value={data.metas?.[item.meta_index] ?? ''}
@@ -339,7 +324,25 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                             }
                                                         })}/>
                                                 </div>
-                                                <div className='col'>
+                                                <div className="col-3 pt-2">
+                                                    <span
+                                                        className={margemAtingida ? (margemAtingida >= 100 ? 'text-success' : 'text-danger') : ''}>
+                                                        Alcançado: R$ {convertFloatToMoney(vendaMensal)} {margemAtingida ? `(${convertFloatToMoney(margemAtingida)}%)` : ''}
+                                                    </span>
+                                                </div>
+                                                <div className="col-auto">
+                                                    {margemAtingida ? <a className="btn btn-primary btn-sm"
+                                                                         href={route('admin.metas-vendas.vendas-faturadas.index', {
+                                                                             id: usuario.id,
+                                                                             mes: item.mes_num,
+                                                                             ano: ano
+                                                                         })}>
+                                                        Ver Vendas
+                                                    </a> : ''}
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-2 mb-3">
                                                     <TextField
                                                         label="Comissão" fullWidth defaultValue={item.comissao}
                                                         value={data.comissoes?.[item.meta_index] ?? ''}
@@ -355,7 +358,9 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                             }
                                                         })}/>
                                                 </div>
-                                                <div className='col'>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-2 mb-3">
                                                     <TextField
                                                         label="Bônus" fullWidth defaultValue={item.bonus}
                                                         value={data.bonus?.[item.meta_index] ?? ''}
@@ -374,7 +379,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                             </div>
 
                                             {usuario.tipo === 'supervisor' && <>
-                                                <div className="row mb-3">
+                                                <div className="row mb-3 pt-4 border-top">
                                                     <div className="col">
                                                         <span>EQUIPE</span>
                                                     </div>
@@ -424,6 +429,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                             <td>Consultor(a)</td>
                                                             <td>Meta</td>
                                                             <td>Alcançado</td>
+                                                            <td></td>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -442,6 +448,17 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                                         </td>
                                                                         <td>R$ {convertFloatToMoney(meta)}</td>
                                                                         <td>R$ {convertFloatToMoney(vendas)} ({convertFloatToMoney(margem)}%)</td>
+                                                                        <td>
+                                                                            {margem ?
+                                                                                <a className="btn btn-link text-dark btn-sm mb-0"
+                                                                                   href={route('admin.metas-vendas.vendas-faturadas.index', {
+                                                                                       id: subordinado.id,
+                                                                                       mes: item.mes_num,
+                                                                                       ano: ano
+                                                                                   })}>
+                                                                                    Ver Vendas
+                                                                                </a> : ''}
+                                                                        </td>
                                                                     </tr>
                                                                 )
                                                             }
@@ -452,6 +469,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                             </td>
                                                             <td>R$ {convertFloatToMoney(somaMetasSubordinados)}</td>
                                                             <td>R$ {convertFloatToMoney(somaAlcancadoSubordinados)} ({convertFloatToMoney(margemTotal)}%)</td>
+                                                            <td></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>

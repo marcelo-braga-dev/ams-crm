@@ -9,12 +9,8 @@ class FluxoCaixasConfig extends Model
 {
     protected $fillable = [
         'chave',
-        'valor',
-    ];
-
-    protected $casts = [
-        'data' => 'date',
-        'data_vencimento' => 'date',
+        'nome',
+        'cnpj',
     ];
 
     public function getBancos()
@@ -25,7 +21,7 @@ class FluxoCaixasConfig extends Model
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
-                    'valor' => $item->valor,
+                    'valor' => $item->nome,
                 ];
             });
     }
@@ -38,7 +34,7 @@ class FluxoCaixasConfig extends Model
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
-                    'valor' => $item->valor,
+                    'valor' => $item->nome,
                 ];
             });
     }
@@ -51,7 +47,8 @@ class FluxoCaixasConfig extends Model
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
-                    'valor' => $item->valor,
+                    'valor' => $item->nome,
+                    'cnpj' => $item->cnpj
                 ];
             });
     }
@@ -59,14 +56,19 @@ class FluxoCaixasConfig extends Model
     public function getNomes()
     {
         return $this->newQuery()
-            ->pluck('valor', 'id');
+            ->pluck('nome', 'id');
     }
 
     public function create($dados)
     {
+        if ($dados->cnpj) {
+            $exist = $this->newQuery()->where('cnpj', $dados->cnpj)->exists();
+            if ($exist) throw new \DomainException('CNPJ já cadastrado');
+        }
+
         $this->newQuery()
             ->create(
-                ['chave' => $dados->chave, 'valor' => $dados->valor],
+                ['chave' => $dados->chave, 'nome' => $dados->valor, 'cnpj' => $dados->cnpj],
             );
     }
 
@@ -81,10 +83,26 @@ class FluxoCaixasConfig extends Model
         }
     }
 
-    public function atualizar($id, $valor)
+    public function atualizar($id, $dados)
     {
-        if ($valor) $this->newQuery()
-            ->find($id)
-            ->update(['valor' => $valor]);
+        if ($dados->valor) $this->newQuery()
+            ->updateOrCreate(
+                ['id' => $id],
+                ['nome' => $dados->valor]
+            );
+
+        if ($dados->cnpj) {
+            $exist = $this->newQuery()
+                ->where('cnpj', $dados->cnpj)
+                ->exists();
+
+            if ($exist) throw new \DomainException('CNPJ já cadastrado');
+
+            $this->newQuery()
+                ->updateOrCreate(
+                    ['id' => $id],
+                    ['cnpj' => $dados->cnpj]
+                );
+        }
     }
 }

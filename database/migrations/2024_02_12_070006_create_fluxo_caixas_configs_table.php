@@ -10,7 +10,8 @@ return new class extends Migration {
         Schema::create('fluxo_caixas_configs', function (Blueprint $table) {
             $table->id();
             $table->string('chave');
-            $table->string('valor');
+            $table->string('nome');
+            $table->string('cnpj')->nullable();
             $table->timestamps();
         });
     }

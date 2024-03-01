@@ -49,6 +49,7 @@ class Leads extends Model
             ->where('setor_id', $setor)
             ->where('user_id', '=', null)
             ->orWhere([['setor_id', '=', $setor], ['status', '=', 'finalizado']])
+            ->orderByDesc('status')
             ->orderByDesc('id')
             ->get();
     }

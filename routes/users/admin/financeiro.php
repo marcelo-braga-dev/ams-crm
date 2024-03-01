@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Financeiro\FluxoCaixaConfigController;
 use App\Http\Controllers\Admin\Financeiro\FluxoCaixaController;
+use App\Http\Controllers\Admin\Financeiro\SalariosController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.financeiro.')
@@ -14,4 +15,6 @@ Route::name('admin.financeiro.')
             ->name('fluxo-caixa.atualizar-baixa');
 
         Route::resource('config', FluxoCaixaConfigController::class);
+        Route::resource('salarios', SalariosController::class);
+        Route::get('salarios-dados', [SalariosController::class, 'salariosMensais'])->name('salarios.mensais');
     });

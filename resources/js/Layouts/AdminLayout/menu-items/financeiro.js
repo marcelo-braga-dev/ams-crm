@@ -19,6 +19,11 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.financeiro.fluxo-caixa.index'),
                 }, {
+                    id: 'salarios',
+                    title: 'Salários',
+                    type: 'item',
+                    url: route('admin.financeiro.salarios.index'),
+                }, {
                     id: 'financeiro-config',
                     title: 'Configurações',
                     type: 'item',

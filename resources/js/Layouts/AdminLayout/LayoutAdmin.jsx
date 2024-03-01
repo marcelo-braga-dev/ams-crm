@@ -11,7 +11,7 @@ import ModalsAlerts from "@/Components/Modals/AlertsModals";
 
 import BoxStyled from "./Content/Box";
 
-const Layout = ({titlePage, menu, submenu, children, voltar}) => {
+const Layout = ({titlePage, menu, submenu, children, voltar, empty}) => {
     const theme = useTheme();
     const matchDownLG = useMediaQuery(theme.breakpoints.down('lg'));
     const stateMenu = sessionStorage.getItem('menuOpen');
@@ -31,9 +31,11 @@ const Layout = ({titlePage, menu, submenu, children, voltar}) => {
             <Drawer open={!open} menu={menu} submenu={submenu} handleDrawerToggle={handleDrawerToggle}/>
             <BoxStyled open={!open}>
                 <Container maxWidth={false}>
-                    <Card className="p-3">
-                        {children}
-                    </Card>
+                    {empty ? children :
+                        <Card className="p-3">
+                            {children}
+                        </Card>
+                    }
                 </Container>
             </BoxStyled>
         </Box>

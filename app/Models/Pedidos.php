@@ -430,6 +430,7 @@ class Pedidos extends Model
 
         $dados = [];
         foreach ($items as $item) {
+            $dados[$item]['id'] = $item;
             $dados[$item]['nome'] = $nomes[$item] ?? '';
             $dados[$item]['metas'] = $metas[$item] ?? '';
             $dados[$item]['vendas'] = $this->vendasMensaisUsuario($item, $ano);
