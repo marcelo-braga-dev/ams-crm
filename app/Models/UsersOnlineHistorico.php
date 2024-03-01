@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class UsersOnlineHistorico extends Model
 {
@@ -43,5 +44,33 @@ class UsersOnlineHistorico extends Model
             ->transform(function ($item) use ($usuarios) {
                 return array_merge($usuarios[$item->user_id], ['ultimo_login' => date('d/m/y H:i', strtotime($item->data))]);
             });
+    }
+
+    public function tempoOnline($mes)
+    {
+        $nomes = (new User())->getNomes();
+
+        $items = $this->newQuery()
+            ->whereMonth('created_at', $mes)
+            ->groupBy(DB::raw('user_id, DAY(created_at)'))
+            ->select(DB::raw('COUNT(id) as qtd, user_id, DAY(created_at) as dia, MONTH(created_at) as mes'))
+            ->get()
+            ->transform(function ($item) use ($nomes) {
+                return [
+                    'id' => $item->user_id,
+                    'nome' => $nomes[$item->user_id] ?? '',
+                    'qtd' => $item->qtd,
+                    'min' => ($item->qtd / 2),
+                    'horas' => ($item->qtd / 2) / 60,
+                    'dia' => $item->dia,
+                    'mes' => $item->mes,
+                ];
+            });
+
+        $res = [];
+        foreach ($items as $item) {
+            $res[$item['id']][] = $item;
+        }
+        return [...$res];
     }
 }
