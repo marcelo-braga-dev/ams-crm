@@ -36,7 +36,7 @@ class PedidosController extends Controller
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
         $historicoAcompanhamento = (new PedidosAcompanhamentos())->get($id);
 
-        $urlPrevious = \Illuminate\Http\Request::create(url()->previous())->fullUrlWithQuery(['id_card' => $id]);
+        $urlPrevious = go_card($id);
 
         return Inertia::render('Admin/Pedidos/Show',
             compact('pedido', 'historico', 'produtos', 'historicoAcompanhamento', 'urlPrevious'));
@@ -61,9 +61,12 @@ class PedidosController extends Controller
             session(['sessaoSetor' => $dadosSetor]);
         }
 
-        $pedidos = (new CardDadosService())->getCards(null, $request->fornecedor, $setorAtual);
+        $sessao = session('sessaoSetor');
+        $setorPedidos = $sessao['id'] ?? $setorAtual;
 
-        return response()->json(['pedidos' => $pedidos, 'modelo' => modelo_setor($setorAtual)]);
+        $pedidos = (new CardDadosService())->getCards(null, $request->fornecedor, $setorPedidos);
+
+        return response()->json(['pedidos' => $pedidos, 'modelo' => modelo_setor($setorPedidos), 'setor' => $setorPedidos]);
     }
 
     public function gerarPlanilhaPedidos(Request $request)

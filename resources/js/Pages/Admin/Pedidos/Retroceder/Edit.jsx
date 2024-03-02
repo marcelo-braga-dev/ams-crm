@@ -17,7 +17,7 @@ export default function Create({dados}) {
     }
 
     return (
-        <Layout titlePage="Retroceder Pedido" container voltar={route('admin.pedidos.index')}
+        <Layout titlePage="Retroceder Pedido" container voltar={route('admin.pedidos.index', {id_card:  dados.pedido.id})}
                 menu="pedidos" submenu="pedidos-lista">
             <form onSubmit={submit}>
                 <div className="row">

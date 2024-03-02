@@ -19,7 +19,7 @@ export default function Pedidos({pedido, cliente, img}) {
         })
     }
 
-    return (<Layout titlePage="Pedidos" voltar={route('admin.pedidos.index')} container
+    return (<Layout titlePage="Pedidos" voltar={route('admin.pedidos.index', {id_card:  pedido.pedido.id})} container
                     menu="pedidos" submenu="pedidos-lista">
         <Typography>Atualizar Preço</Typography>
         <Typography>Fornecedor</Typography>

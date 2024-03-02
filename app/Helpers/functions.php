@@ -70,3 +70,10 @@ if (!function_exists('convert_data')) {
         return date('d/m/y H:i:s', strtotime($valor));
     }
 }
+
+if (!function_exists('go_card')) {
+    function go_card($id)
+    {
+        return \Illuminate\Http\Request::create(url()->previous())->fullUrlWithQuery(['id_card' => $id]);
+    }
+}

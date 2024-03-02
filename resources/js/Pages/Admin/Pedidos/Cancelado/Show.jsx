@@ -22,7 +22,7 @@ export default function Create({pedido}) {
         })
     }
 
-    return (<Layout titlePage="Pedido Cancelado" container voltar={route('admin.pedidos.index')}
+    return (<Layout titlePage="Pedido Cancelado" container voltar={route('admin.pedidos.index', {id_card:  pedido.pedido.id})}
                     menu="pedidos" submenu="pedidos-lista">
         <div className="row">
             <div className="col">
