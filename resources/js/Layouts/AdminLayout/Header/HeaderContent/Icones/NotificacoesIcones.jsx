@@ -64,7 +64,7 @@ export default function NotificacoesIcones({corTexto}) {
 
         setTimeout(function () {
             getUsuariosOnline();
-        }, 30000)
+        }, 60000)
     }
 
     const [anchorEl, setAnchorEl] = useState(null);

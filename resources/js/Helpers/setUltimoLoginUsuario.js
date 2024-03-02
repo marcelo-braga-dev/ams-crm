@@ -7,7 +7,7 @@ export default function setUltimoLoginUsuario() {
 
         setTimeout(function () {
             atualizaUltimoLogin();
-        }, 30000)
+        }, 60000)
     }
 
     useEffect(function () {
