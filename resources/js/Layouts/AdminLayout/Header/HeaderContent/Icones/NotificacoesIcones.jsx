@@ -137,7 +137,7 @@ export default function NotificacoesIcones({corTexto}) {
             {usuariosOnline.length ? <List>
                     {usuariosOnline.map((dado, index) => {
                         return (
-                            <ListItem className="pb-0 cursor-pointer"
+                            <ListItem key={dado.id} className="pb-0 cursor-pointer"
                                       onClick={() => window.location.href = route('admin.usuarios.consultores.show', dado.id)}>
                                 <ListItemAvatar>
                                     <StyledBadge

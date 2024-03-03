@@ -16,9 +16,11 @@ import PersonIcon from "@mui/icons-material/Person";
 import {usePage} from "@inertiajs/react";
 
 export default function CardModelo2({dados, menuMore, btnAvancaStatus, alerts, border}) {
+
     const goCard = usePage().props.goCard
+
     return (
-        <div className="pesquisar-card shadow bg-white m-2 py-2 px-3 rounded"
+        <div className="pesquisar-card shadow bg-white m-2 py-2 px-3 rounded" id={'card-id-' + dados.id}
              style={{
                  width: 300,
                  border: (goCard === dados.id.toString()) ? ('3px solid ' + border) : '',
