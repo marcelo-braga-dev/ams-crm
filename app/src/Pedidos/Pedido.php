@@ -20,6 +20,7 @@ class Pedido
 {
     public function salvar($request)
     {
+        $idPedido = null;
         switch (modelo_usuario()) {
             case (new CompletoModelo())->modelo():
                 {
@@ -63,6 +64,7 @@ class Pedido
                 };
                 break;
         }
+        return $idPedido;
     }
 
     public function updateStatus(int $id, PedidosStatus $pedido, $alerta = null)

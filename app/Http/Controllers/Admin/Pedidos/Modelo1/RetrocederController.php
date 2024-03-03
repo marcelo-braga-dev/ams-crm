@@ -26,6 +26,6 @@ class RetrocederController extends Controller
             modalErro($exception->getMessage());
         }
 
-        return redirect()->route('admin.pedidos.index');
+        return redirect()->route('admin.pedidos.index', ['id_card' => $id]);
     }
 }

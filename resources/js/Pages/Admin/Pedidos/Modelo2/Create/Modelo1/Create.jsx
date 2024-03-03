@@ -22,7 +22,8 @@ export default function Create({fornecedores, lead}) {
     }
 
     return (
-        <Layout container titlePage="Cadastrar Pedido" voltar={route('consultor.pedidos.index')}>
+        <Layout container titlePage="Cadastrar Pedido"
+                voltar={route('admin.pedidos.index')}>
             <div className="border-bottom mb-4">
                 <h5>LEAD: {lead.nome} (#{lead.id})</h5>
                 <AlertDanger errors={errors}></AlertDanger>

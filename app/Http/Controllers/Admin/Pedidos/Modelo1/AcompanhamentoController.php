@@ -37,6 +37,6 @@ class AcompanhamentoController extends Controller
         (new PedidoUpdateStatus())->setEntregue($id);
 
         modalSucesso('Atualizado com sucesso!');
-        return redirect()->route('admin.pedidos.index');
+        return redirect()->route('admin.pedidos.index', ['id_card' => $id]);
     }
 }

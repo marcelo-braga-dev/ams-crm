@@ -23,6 +23,6 @@ class AguardandoNotaController extends Controller
         (new PedidoUpdateStatus())->aguardandoBoleto($id, $request);
 
         modalSucesso('Atualizado com sucesso!');
-        return redirect()->route('admin.pedidos.index');
+        return redirect()->route('admin.pedidos.index', ['id_card' => $id]);
     }
 }

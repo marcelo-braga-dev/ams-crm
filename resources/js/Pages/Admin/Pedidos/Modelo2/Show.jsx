@@ -52,7 +52,7 @@ export default function Pedidos({dados, historico}) {
     };
 
     return (
-        <Layout titlePage="Pedidos" button={true} url={route('admin.pedidos.index')} textButton={'Voltar'}>
+        <Layout titlePage="Pedidos" button={true} url={route('admin.pedidos.index', {id_card:  dados.pedido.id})} textButton={'Voltar'}>
 
             <div className="container bg-white rounded">
                 <Box sx={{width: '100%'}}>

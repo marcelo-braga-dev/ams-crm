@@ -29,6 +29,6 @@ class ConferenciaController extends Controller
         } else (new PedidoUpdateStatus())->setLancado($id);
 
         modalSucesso('Atualizado com sucesso!');
-        return redirect()->route('admin.pedidos.index');
+        return redirect()->route('admin.pedidos.index', ['id_card' => $id]);
     }
 }

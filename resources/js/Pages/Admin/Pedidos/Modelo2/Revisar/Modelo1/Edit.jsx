@@ -61,7 +61,7 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco, inte
 
     return (<Layout
             titlePage="Revisar Pedido"
-            url={route('consultor.pedidos.index')} textButton="Voltar">
+            voltar={route('admin.pedidos.index', {id_card:  pedido.pedido.id})} textButton="Voltar">
             <div className="container bg-white px-lg-6 py-lg-5 mb-4">
                 <Alert severity="warning">
                     {pedido.obs}

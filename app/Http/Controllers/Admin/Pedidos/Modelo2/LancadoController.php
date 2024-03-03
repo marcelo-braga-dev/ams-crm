@@ -56,6 +56,6 @@ class LancadoController extends Controller
         }
 
         modalSucesso('Atualizado com sucesso!');
-        return redirect()->route('admin.pedidos.index');
+        return redirect()->route('admin.pedidos.index', ['id_card' => $id]);
     }
 }

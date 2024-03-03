@@ -22,7 +22,8 @@ export default function Create({fornecedores, integradores}) {
     }
 
     return (
-        <Layout container titlePage="Cadastrar Pedido" voltar={route('consultor.pedidos.index')}>
+        <Layout container titlePage="Cadastrar Pedido"
+                voltar={route('admin.pedidos.index', {id_card:  pedido.pedido.id})}>
 
             <form onSubmit={submit}>
                 <div className="row mb-5 pb-4 border-bottom">

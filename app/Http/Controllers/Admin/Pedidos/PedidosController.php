@@ -55,7 +55,7 @@ class PedidosController extends Controller
         if ($request->setor == 'todos') {
             session(['sessaoSetor' => null]);
         }
-        if ($request->setor) {
+        elseif  ($request->setor) {
             $setorAtual = $request->setor;
             $dadosSetor = (new Setores())->find($setorAtual);
             session(['sessaoSetor' => $dadosSetor]);

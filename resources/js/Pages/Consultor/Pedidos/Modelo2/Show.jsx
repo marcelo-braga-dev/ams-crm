@@ -51,7 +51,7 @@ export default function Pedidos({dados, historico}) {
     };
 
     return (
-        <Layout titlePage="Pedidos" voltar={route('admin.pedidos.index')} menu="pedidos-lista">
+        <Layout titlePage="Pedidos" voltar={route('admin.pedidos.index', {id_card:  dados.pedido.id})} menu="pedidos-lista">
 
             <div className="container bg-white rounded">
                 <Box sx={{width: '100%'}}>

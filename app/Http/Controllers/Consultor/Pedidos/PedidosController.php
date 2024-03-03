@@ -80,14 +80,14 @@ class PedidosController extends Controller
     public function store(Request $request)
     {
         try {
-            (new Pedido())->salvar($request);
+            $idPedido = (new Pedido())->salvar($request);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();
         }
 
         modalSucesso('Pedido cadastrado com sucesso!');
-        return redirect()->route('consultor.pedidos.index');
+        return redirect()->route('consultor.pedidos.index', ['id_card' => $idPedido]);
     }
 
     public function buscarProdutosFornecedor(Request $request)

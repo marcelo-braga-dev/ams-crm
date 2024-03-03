@@ -55,14 +55,14 @@ class EmitirPedidosController extends Controller
     public function store(Request $request)
     {
         try {
-            (new Pedido())->salvar($request);
+            $id = (new Pedido())->salvar($request);
         } catch (\DomainException) {
             modalErro('Falha do cadastro do pedido.');
             return redirect()->back();
         }
 
         modalSucesso('Pedido cadastrado com sucesso!');
-        return redirect()->route('admin.pedidos.index');
+        return redirect()->route('admin.pedidos.index', ['id_card' => $id]);
     }
 
     public function buscarProdutosFornecedor(Request $request)

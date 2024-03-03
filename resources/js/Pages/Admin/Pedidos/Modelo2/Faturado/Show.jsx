@@ -15,8 +15,8 @@ export default function Create({pedido}) {
     }
 
     return (
-        <Layout voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado"
-                menu="pedidos" submenu="pedidos-lista">
+        <Layout titlePage="Pedido Faturado" menu="pedidos" submenu="pedidos-lista"
+                voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}>
             <div className="row">
                 <div className="col mb-4">
                     <DadosPedido dados={pedido}/>
@@ -31,17 +31,19 @@ export default function Create({pedido}) {
                         <h6>Link de pagamento</h6>
                         <span>{pedido.pedido_files.link_pagamento}</span>
                     </div>
-                </div>}
-            {funcaoUsuario === 'admin' &&
-                <div className="row justify-content-center mt-4">
-                <div className="col-auto">
-                    <button className="btn btn-warning" onClick={() => avancarStatus()}>
-                        Marcar como Entregue
-                    </button>
                 </div>
-            </div>}
+            }
 
             <DadosPedidoFinanceiroFiles dados={pedido}/>
+
+            {funcaoUsuario === 'admin' &&
+                <div className="row justify-content-center mt-4">
+                    <div className="col-auto">
+                        <button className="btn btn-warning" onClick={() => avancarStatus()}>
+                            Marcar como Entregue
+                        </button>
+                    </div>
+                </div>}
         </Layout>
     )
 }

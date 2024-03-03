@@ -82,7 +82,7 @@ export default function Pedidos({dados, produtos}) {
     }
 
     return (
-        <Layout container voltar={route('admin.pedidos.index')} titlePage="Pedido Lançado"
+        <Layout container voltar={route('admin.pedidos.index', {id_card:  dados.pedido.id})} titlePage="Pedido Lançado"
                 menu="pedidos" submenu="pedidos-lista">
 
             <div className="row mb-4 shadow p-2">
