@@ -234,7 +234,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                         </th>}
                                     {modelo2 &&
                                         <th id="th-9" style={{minWidth: 300}} className="sticky-top">
-                                            <div style={{backgroundColor: 'rgba(59,189,13,0.6)'}}
+                                            <div style={{backgroundColor: '#3B087AFF'}}
                                                  className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Faturado à Vista</div>
                                                 <div className='col-auto'>Qdt: {pedidos.faturado_vista.length}</div>
@@ -244,7 +244,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                         </th>}
                                     {modelo2 &&
                                         <th id="th-10" style={{minWidth: 300}} className="sticky-top">
-                                            <div style={{backgroundColor: "#854787"}}
+                                            <div style={{backgroundColor: "#b81919"}}
                                                  className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                                 <div className='col-auto'>Faturado à Prazo</div>
                                                 <div className='col-auto'>Qdt: {pedidos.faturado_prazo.length}</div>
@@ -348,7 +348,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                             {pedidos.faturado_vista.map((dados) => {
                                                 return (
                                                     <CardFaturado key={dados.id} dados={dados}
-                                                                  cor={"rgba(59,189,13,0.6)"}/>)
+                                                                  cor={"#3B087A"}/>)
                                             })}
                                         </td>}
                                     {modelo2 &&
@@ -356,7 +356,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                             {pedidos.faturado_prazo.map((dados) => {
                                                 return (
                                                     <CardFaturado key={dados.id} dados={dados}
-                                                                  cor={'#854787'}/>)
+                                                                  cor={'#b81919'}/>)
                                             })}
                                         </td>}
                                     {modelo1 &&
