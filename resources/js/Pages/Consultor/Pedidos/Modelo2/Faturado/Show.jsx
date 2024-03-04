@@ -18,7 +18,7 @@ export default function Create({pedido}) {
     }
 
     return (
-        <Layout menu="pedidos-lista" voltar={route('consultor.pedidos.index')} titlePage="Pedido Faturado">
+        <Layout menu="pedidos-lista" voltar={route('consultor.pedidos.index', {id_card:  pedido.pedido.id})} titlePage="Pedido Faturado">
             <div className="row mb-4">
                 <div className="col mb-4">
                     <DadosPedido dados={pedido}/>

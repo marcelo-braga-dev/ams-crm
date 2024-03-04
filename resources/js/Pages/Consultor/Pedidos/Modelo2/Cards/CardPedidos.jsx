@@ -15,12 +15,18 @@ import TelefoneIcon from './IconsCard/TelefoneIcon';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PinIcon from "./IconsCard/PinIcon";
 import PaymentIcon from "@mui/icons-material/Payment";
+import {usePage} from "@inertiajs/react";
 
 export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, border}) {
+    const goCard = usePage().props.goCard
 
     return (
-        <div className="pesquisar-card shadow bg-white m-2 py-2 px-3 rounded"
-             style={{width: 300, borderLeft: '3px solid ' + border}}>
+        <div className="pesquisar-card shadow bg-white m-2 py-2 px-3 rounded" id={"card-id-" + dados.id}
+             style={{
+                 width: 300,
+                 border: (goCard === dados.id.toString()) ? ('3px solid ' + border) : '',
+                 borderLeft: '3px solid ' + border
+             }}>
 
             {/* Nome e MenuMore */}
             <div className='row'>
@@ -87,7 +93,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
             </div>
 
             {/*Icons Buttons*/}
-            <div className="row border pt-2">
+            <div className="row pt-2">
                 <div className="col">
                     {/*<PinIcon dados={dados} />*/}
                     <TelefoneIcon dados={dados}/>

@@ -31,7 +31,7 @@ export default function Create({pedido, historicos, infoEntrega}) {
 
     return (
         <Layout container titlePage="Acompanhamento do Pedido" menu="pedidos" submenu="pedidos-lista"
-                voltar={route('consultor.pedidos.index')}>
+                voltar={route('consultor.pedidos.index', {id_card:  pedido.pedido.id})}>
             <div className="row mb-4">
                 <div className="col-12 mb-3">
                     <DadosPedidoMinimo dados={pedido}/>

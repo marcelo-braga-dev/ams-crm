@@ -48,7 +48,7 @@ export default function Pedidos({dados, produtos, historico}) {
     };
 
     return (
-        <Layout titlePage="Pedidos" menu="pedidos-lista" voltar={route('admin.pedidos.index', {id_card:  dados.pedido.id})}>
+        <Layout titlePage="Pedidos" menu="pedidos-lista" voltar={route('consultor.pedidos.index', {id_card:  dados.pedido.id})}>
             <Box sx={{width: '100%'}}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

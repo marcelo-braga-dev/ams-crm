@@ -23,18 +23,19 @@ use Inertia\Inertia;
 
 class PedidosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $coresAbas = (new ConfigCores())->getPedidos();
         $pedidos = (new CardDadosService())->getCards(id_usuario_atual());
+        $goCard = $request->id_card;
 
         switch (modelo_usuario()) {
             case (new CompletoModelo())->modelo():
                 return Inertia::render('Consultor/Pedidos/Index',
-                    compact('pedidos', 'coresAbas'));
+                    compact('pedidos', 'coresAbas', 'goCard'));
             case (new ProdutoModelo())->modelo():
                 return Inertia::render('Consultor/Pedidos/Modelo2/Index',
-                    compact('pedidos', 'coresAbas'));
+                    compact('pedidos', 'coresAbas', 'goCard'));
 
         }
         print_pre('FALHA AO ENCONTRAR O MODELO');

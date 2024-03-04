@@ -20,7 +20,7 @@ export default function Create({dados}) {
         })
     }
 
-    return (<Layout titlePage="Pedidos" url={route('consultor.pedidos.index')} textButton="Voltar">
+    return (<Layout titlePage="Pedidos" url={route('consultor.pedidos.index', {id_card:  dados.pedido.id})} textButton="Voltar">
             {/*Baixar Nota*/}
             <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 mb-4">
                 <div className="row mb-4">

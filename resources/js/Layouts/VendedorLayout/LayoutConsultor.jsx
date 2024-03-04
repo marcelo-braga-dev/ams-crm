@@ -11,7 +11,7 @@ import ModalsAlerts from "@/Components/Modals/AlertsModals";
 
 import BoxStyled from "./Content/Box";
 
-const Layout = ({titlePage, menu, children, voltar}) => {
+const Layout = ({titlePage, menu, children, voltar, empty}) => {
     const theme = useTheme();
     const matchDownLG = useMediaQuery(theme.breakpoints.down('lg'));
     const stateMenu = sessionStorage.getItem('menuOpen');
@@ -24,16 +24,18 @@ const Layout = ({titlePage, menu, children, voltar}) => {
     };
 
     return (
-        <Box sx={{display: 'flex', width: '100%'}} className="mb-5">
+        <Box sx={{display: 'flex', width: '100%'}} className="mb-5" >
             <Head title={titlePage}/>
             <ModalsAlerts/>
             <Header open={!open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle}/>
             <Drawer open={!open} menu={menu} handleDrawerToggle={handleDrawerToggle}/>
             <BoxStyled open={!open}>
                 <Container maxWidth={false}>
-                    <Card className="p-3">
-                        {children}
-                    </Card>
+                    {empty ? children :
+                        <Card className="p-3">
+                            {children}
+                        </Card>
+                    }
                 </Container>
             </BoxStyled>
         </Box>

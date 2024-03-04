@@ -1,3 +1,5 @@
+import React, {useEffect, useState} from "react";
+import pesquisaCards from "@/Helpers/pesquisaCards";
 import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 
 import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
@@ -15,47 +17,55 @@ import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import Card from "@mui/material/Card";
+
+import ScrollContainer from "react-indiana-drag-scroll";
+
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
-import pesquisaCards from "@/Helpers/pesquisaCards";
-import React from "react";
-import ScrollControlHorizontal from "@/Helpers/scrollControlHorizontal";
+export default function Dashboard({pedidos, coresAbas, goCard}) {
+    const [qtdPedidos, setQtdPedidos] = useState(pedidos.total)
 
-export default function Dashboard({pedidos, coresAbas}) {
+    useEffect(() => {
+        if (pedidos && goCard) goCardPosicao()
+    }, [pedidos]);
+
+    function goCardPosicao() {
+        const elemento = document.getElementById("card-id-" + goCard);
+        if (elemento) elemento.scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});
+    }
 
     return (
-        <Layout titlePage="Lista de Pedidos" menu="pedidos-lista">
+        <Layout titlePage="Lista de Pedidos" menu="pedidos-lista" empty>
             {/*Pesquisa*/}
-            <div className="row justify-content-between mb-3">
-                <div className="col-auto">
-                    <ScrollControlHorizontal/>
+            <Card className="p-3 mb-3">
+                <div className="row justify-content-between">
+                    <div className="col-auto text-right">
+                        <FormControl variant="outlined" className="bg-white" size="small">
+                            <InputLabel htmlFor="search">Pesquisar...</InputLabel>
+                            <OutlinedInput id="search" label="Pesquisar..."
+                                           endAdornment={
+                                               <InputAdornment position="end">
+                                                   <SearchOutlinedIcon></SearchOutlinedIcon>
+                                               </InputAdornment>
+                                           }
+                                           onChange={e => pesquisaCards(e.target.value)}/>
+                        </FormControl>
+                    </div>
+                    <div className="col-auto">
+                        <small className="text-muted">Qtd. Total Pedidos: {qtdPedidos}</small>
+                    </div>
                 </div>
-                <div className="col-auto text-right">
-                    <FormControl variant="outlined" className="bg-white" size="small">
-                        <InputLabel htmlFor="search">Pesquisar...</InputLabel>
-                        <OutlinedInput id="search" label="Pesquisar..."
-                                       endAdornment={
-                                           <InputAdornment position="end">
-                                               <SearchOutlinedIcon></SearchOutlinedIcon>
-                                           </InputAdornment>
-                                       }
-                                       onChange={e => pesquisaCards(e.target.value)}/>
-                    </FormControl>
-                </div>
-            </div>
-
+            </Card>
 
             {/*Tabela*/}
-            <div className="row my-2 justify-content-center">
-                <div className="col-auto pt-5 d-none d-md-block w-3">
-                    <ScrollControlHorizontal lateral="e"/>
-                </div>
-                <div className="col-12 col-md-11 table-responsive">
-                    <div id="scrollControlHorizontal" className="overflow-scroll table-responsive">
+            <Card className="p-3">
+                <ScrollContainer hideScrollbars={false}>
+                    <div style={{height: '75vh'}}>
                         <table>
                             <thead>
                             <tr>
-                                <th id="th-1">
+                                <th id="th-1" className="sticky-top">
                                     <div style={{backgroundColor: coresAbas.reprovado ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Reprovados</div>
@@ -64,16 +74,16 @@ export default function Dashboard({pedidos, coresAbas}) {
                                             className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-2">
+                                <th id="th-2" className="sticky-top pt-0 mt-0">
                                     <div style={{backgroundColor: coresAbas.conferencia ?? 'black'}}
-                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                         className='row justify-content-between rounded-top text-white mx-1 p-2 mt-0'>
                                         <div className='col-auto'>Conferência</div>
                                         <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
                                         <small
                                             className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-3">
+                                <th id="th-3" className="sticky-top">
                                     <div style={{backgroundColor: coresAbas.lancado ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Lançado</div>
@@ -82,7 +92,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                             className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-4">
+                                <th id="th-4" className="sticky-top">
                                     <div style={{backgroundColor: coresAbas.boleto ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Nota/Boleto</div>
@@ -91,7 +101,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                             className="d-block text-end">R$ {(pedidos.nota[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-5">
+                                <th id="th-5" className="sticky-top">
                                     <div style={{backgroundColor: coresAbas.pagamento ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Pagamento</div>
@@ -100,7 +110,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                             className="d-block text-end">R$ {(pedidos.pagamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-6">
+                                <th id="th-6" className="sticky-top">
                                     <div style={{backgroundColor: coresAbas.faturamento ?? 'black'}}
                                          className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Aguard. Faturamento</div>
@@ -109,7 +119,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                             className="d-block text-end">R$ {(pedidos.faturamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-7">
+                                <th id="th-7" className="sticky-top">
                                     <div style={{backgroundColor: coresAbas.faturado ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Faturado</div>
@@ -118,7 +128,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                             className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-8">
+                                <th id="th-8" className="sticky-top">
                                     <div style={{backgroundColor: coresAbas.acompanhamento ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Acompanhamento</div>
@@ -127,7 +137,7 @@ export default function Dashboard({pedidos, coresAbas}) {
                                             className="d-block text-end">R$ {(pedidos.acompanhamento[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-9">
+                                <th id="th-9" className="sticky-top">
                                     <div style={{backgroundColor: coresAbas.entregue ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Entregue</div>
@@ -136,11 +146,12 @@ export default function Dashboard({pedidos, coresAbas}) {
                                             R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
                                     </div>
                                 </th>
-                                <th id="th-10">
+                                <th id="th-10" className="sticky-top">
                                     <div style={{backgroundColor: coresAbas.cancelados ?? 'black'}}
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-12'>Cancelados</div>
-                                        <div className='col-12 text-end'>Qdt: {pedidos.cancelado.length}</div>
+                                        <div
+                                            className='col-12 text-end'>Qdt: {pedidos.cancelado.length}</div>
                                     </div>
                                 </th>
                             </tr>
@@ -162,13 +173,15 @@ export default function Dashboard({pedidos, coresAbas}) {
                                 <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.lancado.map((dados) => {
                                         return (
-                                            <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
+                                            <CardLancado key={dados.id} dados={dados}
+                                                         cor={coresAbas.lancado}/>)
                                     })}
                                 </td>
                                 <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
                                     {pedidos.nota.map((dados) => {
                                         return (
-                                            <CardBoleto key={dados.id} dados={dados} cor={coresAbas.boleto}/>)
+                                            <CardBoleto key={dados.id} dados={dados}
+                                                        cor={coresAbas.boleto}/>)
                                     })}
                                 </td>
                                 <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
@@ -211,18 +224,8 @@ export default function Dashboard({pedidos, coresAbas}) {
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div className="col-auto pt-5 d-none d-md-block w-3">
-                    <ScrollControlHorizontal lateral="d"/>
-                </div>
-            </div>
-
-            <div className="row mb-3">
-                <div className="col text-center">
-                    <ScrollControlHorizontal/>
-                </div>
-            </div>
-
+                </ScrollContainer>
+            </Card>
         </Layout>
     )
 }
