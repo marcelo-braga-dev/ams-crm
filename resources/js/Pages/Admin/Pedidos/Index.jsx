@@ -2,16 +2,16 @@ import React, {useEffect, useState} from "react";
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 
 import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
-import CardReprovado from './Cards/Reprovado/ReprovadoCard';
-import CardLancado from './Cards/Lancado/CardLancado';
-import CardEncomenda from './Cards/Encomenda/EncomendaCard';
-import CardBoleto from './Cards/Boleto/CardBoleto';
-import CardPagamento from './Cards/Pagamento/CardPagamento';
-import CardFaturando from './Cards/Faturando/CardFaturando';
-import CardFaturado from './Cards/Faturado/CardFaturado';
-import CardAcompanhamento from './Cards/Acompanhamento/CardAcompanhamento';
-import CardEntregue from './Cards/Entregue/CardEntregue';
-import CardCancelado from './Cards/Cancelado/CardCancelado';
+// import CardReprovado from './Cards/Reprovado/ReprovadoCard';
+// import CardLancado from './Cards/Lancado/CardLancado';
+// import CardEncomenda from './Cards/Encomenda/EncomendaCard';
+// import CardBoleto from './Cards/Boleto/CardBoleto';
+// import CardPagamento from './Cards/Pagamento/CardPagamento';
+// import CardFaturando from './Cards/Faturando/CardFaturando';
+// import CardFaturado from './Cards/Faturado/CardFaturado';
+// import CardAcompanhamento from './Cards/Acompanhamento/CardAcompanhamento';
+// import CardEntregue from './Cards/Entregue/CardEntregue';
+// import CardCancelado from './Cards/Cancelado/CardCancelado';
 
 import pesquisaCards from "@/Helpers/pesquisaCards";
 import FormControl from "@mui/material/FormControl";
@@ -286,7 +286,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                 <tr className="align-top">
                                     <td id="td-1" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.reprovado.map((dados) => {
-                                            return (<CardReprovado key={dados.id} dados={dados}
+                                            return (<ConferenciaCard key={dados.id} dados={dados}
                                                                    cor={coresAbas.reprovado}/>)
                                         })}
                                     </td>
@@ -294,7 +294,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                         <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.encomenda.map((dados) => {
                                                 return (
-                                                    <CardEncomenda key={dados.id} dados={dados}
+                                                    <ConferenciaCard key={dados.id} dados={dados}
                                                                    cor={coresAbas.encomenda}/>
                                                 )
                                             })}
@@ -310,21 +310,21 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                     <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.lancado.map((dados) => {
                                             return (
-                                                <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
+                                                <ConferenciaCard key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
                                         })}
                                     </td>
                                     {modelo1 &&
                                         <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.nota.map((dados) => {
                                                 return (
-                                                    <CardBoleto key={dados.id} dados={dados}
+                                                    <ConferenciaCard key={dados.id} dados={dados}
                                                                 cor={coresAbas.boleto}/>)
                                             })}
                                         </td>}
                                     {modelo1 &&
                                         <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.pagamento.map((dados) => {
-                                                return (<CardPagamento key={dados.id} dados={dados}
+                                                return (<ConferenciaCard key={dados.id} dados={dados}
                                                                        cor={coresAbas.pagamento}/>)
                                             })}
                                         </td>}
@@ -332,14 +332,14 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                         <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturamento.map((dados) => {
                                                 return (
-                                                    <CardFaturando key={dados.id} dados={dados}
+                                                    <ConferenciaCard key={dados.id} dados={dados}
                                                                    cor={coresAbas.faturamento}/>)
                                             })}
                                         </td>}
                                     {modelo1 &&
                                         <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturado.map((dados) => {
-                                                return (<CardFaturado key={dados.id} dados={dados}
+                                                return (<ConferenciaCard key={dados.id} dados={dados}
                                                                       cor={coresAbas.faturado}/>)
                                             })}
                                         </td>}
@@ -347,7 +347,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                         <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturado_vista.map((dados) => {
                                                 return (
-                                                    <CardFaturado key={dados.id} dados={dados}
+                                                    <ConferenciaCard key={dados.id} dados={dados}
                                                                   cor={"#3B087A"}/>)
                                             })}
                                         </td>}
@@ -355,7 +355,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                         <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturado_prazo.map((dados) => {
                                                 return (
-                                                    <CardFaturado key={dados.id} dados={dados}
+                                                    <ConferenciaCard key={dados.id} dados={dados}
                                                                   cor={'#b81919'}/>)
                                             })}
                                         </td>}
@@ -363,21 +363,21 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                         <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.acompanhamento.map((dados) => {
                                                 return (
-                                                    <CardEntregue key={dados.id} dados={dados}
+                                                    <ConferenciaCard key={dados.id} dados={dados}
                                                                   status="acompanhamento"
                                                                   cor={coresAbas.acompanhamento}/>)
                                             })}
                                         </td>}
                                     <td id="td-12" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.entregue.map((dados) => {
-                                            return (<CardEntregue key={dados.id} dados={dados}
+                                            return (<ConferenciaCard key={dados.id} dados={dados}
                                                                   cor={coresAbas.entregue}/>)
                                         })}
                                     </td>
                                     <td id="td-13" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.cancelado.map((dados) => {
                                             return (
-                                                <CardCancelado key={dados.id} dados={dados}
+                                                <ConferenciaCard key={dados.id} dados={dados}
                                                                cor={coresAbas.cancelados}/>)
                                         })}
                                     </td>
