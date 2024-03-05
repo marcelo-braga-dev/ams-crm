@@ -24,6 +24,7 @@ class PedidosController extends Controller
         $fornecedores = (new Fornecedores())->get();
         $coresAbas = (new ConfigCores())->getPedidos();
         $goCard = $request->id_card;
+        return 'TESTE';
 
         return Inertia::render('Admin/Pedidos/Index',
             compact('fornecedores', 'setores', 'coresAbas', 'goCard'));
