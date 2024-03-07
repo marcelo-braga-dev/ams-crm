@@ -45,7 +45,7 @@ class PedidoRetrocederStatus
 
     public function cancelado($id, $motivo)
     {
-        (new Pedidos())->restaurar($id);
+        (new Pedidos())->restaurar($id, $motivo);
     }
 
     public function entregue($id, $motivo)

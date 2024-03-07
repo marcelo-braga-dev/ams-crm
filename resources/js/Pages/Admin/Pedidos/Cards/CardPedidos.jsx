@@ -28,7 +28,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
              }}
         >
 
-            <div className='row'>
+            <div className="row">
                 <table>
                     <tbody>
                     <tr>
@@ -48,18 +48,14 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                         <td className="col-1 px-2"><PaymentIcon className='mr-2' sx={{fontSize: 20}}/></td>
                         <td>{dados.forma_pagamento.toUpperCase()}</td>
                     </tr>
-                    <tr>
+                    {dados.fornecedor && <tr>
                         <td className="col-1 px-2"><TruckIcon className='mr-2' sx={{fontSize: 20}}/></td>
                         <td>{dados.fornecedor}</td>
-                    </tr>
-                    <tr>
+                    </tr>}
+                    {dados.integrador && <tr>
                         <td className="col-1 px-2"><HandymanIcon className='mr-2' sx={{fontSize: 20}}/></td>
                         <td>{dados.integrador.toUpperCase()}</td>
-                    </tr>
-                    <tr>
-                        <td className="col-1 px-2"></td>
-                        <td></td>
-                    </tr>
+                    </tr>}
                     </tbody>
                 </table>
             </div>

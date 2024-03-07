@@ -3,8 +3,9 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 
 import React from 'react';
 import {useForm} from '@inertiajs/react';
-import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 import {TextField} from "@mui/material";
+import DadosPedido from "@/Components/Pedidos/DadosPedido";
+import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 
 export default function Create({pedido}) {
     const {data, setData, post} = useForm({
@@ -21,17 +22,23 @@ export default function Create({pedido}) {
     }
 
     return (
-        <Layout titlePage="Pedido Faturado" container voltar={route('admin.pedidos.index', {id_card:  pedido.pedido.id})}
+        <Layout titlePage="Pedido Faturado" container voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}
                 menu="pedidos" submenu="pedidos-lista">
-            <div className="row mb-4">
-                <div className="col">
-                    <DadosPedidoMinimo dados={pedido}/>
+
+            <div className="row">
+                <div className="col mb-4">
+                    <DadosPedido dados={pedido}/>
+                </div>
+                <div className="col mb-4">
+                    <DadosPedidoCliente dados={pedido}/>
                 </div>
             </div>
 
-            <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAvancarStatus">
-                Atualizar Status para Acompanhamento
-            </button>
+            <div className="col mx-auto">
+                <button className="btn btn-primary mx-auto" data-bs-toggle="modal" data-bs-target="#modalAvancarStatus">
+                    Atualizar Status para Acompanhamento
+                </button>
+            </div>
 
             {/*Modal*/}
             <div className="modal fade mt-5" id="modalAvancarStatus" tabIndex="-1" aria-labelledby="exampleModalLabel"

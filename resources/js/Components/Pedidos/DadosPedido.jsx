@@ -9,7 +9,7 @@ export default function DadosPedido({dados}) {
         {dados.integrador.nome && <Typography><b>Integrador:</b> {dados.integrador.nome} [#{dados.integrador.id}]</Typography>}
         {dados.integrador.cnpj && <Typography><b>CNPJ do Integrador:</b> {dados.integrador.cnpj}</Typography>}
         {dados.fornecedor.nome && <Typography><b>Fornecedor:</b> {dados.fornecedor.nome}</Typography>}
-        {dados.pedido.setor.nome && <Typography><b>Setor:</b> {dados.pedido.setor.nome}</Typography>}
+        {dados.pedido.setor && <Typography><b>Setor:</b> {dados.pedido.setor}</Typography>}
         <div className="row mt-3">
             {dados.financeiro.preco && <span><b>Valor Total:</b> R$ {dados.financeiro.preco}</span>}
             {dados.financeiro.forma_pagamento &&

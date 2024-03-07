@@ -1,17 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 
-import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
-// import CardReprovado from './Cards/Reprovado/ReprovadoCard';
-// import CardLancado from './Cards/Lancado/CardLancado';
-// import CardEncomenda from './Cards/Encomenda/EncomendaCard';
-// import CardBoleto from './Cards/Boleto/CardBoleto';
-// import CardPagamento from './Cards/Pagamento/CardPagamento';
-// import CardFaturando from './Cards/Faturando/CardFaturando';
-// import CardFaturado from './Cards/Faturado/CardFaturado';
-// import CardAcompanhamento from './Cards/Acompanhamento/CardAcompanhamento';
-// import CardEntregue from './Cards/Entregue/CardEntregue';
-// import CardCancelado from './Cards/Cancelado/CardCancelado';
+import CardPedidos from './Cards/Card';
 
 import pesquisaCards from "@/Helpers/pesquisaCards";
 import FormControl from "@mui/material/FormControl";
@@ -114,16 +104,9 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                     <div className="col-md-5">
                         {/*Pesquisa*/}
                         <div className="row justify-content-end">
-                                <div className="col-auto pt-2">
-                                    <small className="text-muted">Qtd. Total Pedidos: {qtdPedidos}</small>
-                                </div>
-                            {/*<div className="col-md-4">*/}
-                            {/*    <div className="mt-2">*/}
-                            {/*        /!*<span className="badge" style={{backgroundColor: dadosSetor?.cor}}>*!/*/}
-                            {/*        /!*{dadosSetor?.nome}*!/*/}
-                            {/*        /!*</span>*!/*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
+                            <div className="col-auto pt-2">
+                                <small className="text-muted">Qtd. Total Pedidos: {qtdPedidos}</small>
+                            </div>
                             <div className="col-md-6 text-end">
                                 <FormControl variant="outlined" className="bg-white" size="small">
                                     <InputLabel htmlFor="search">Pesquisar...</InputLabel>
@@ -140,11 +123,6 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                         </div>
                     </div>
                 </div>
-                {/*<div className="row justify-content-end">*/}
-                {/*    <div className="col-auto">*/}
-                {/*        <small>Qtd Total Pedidos: {qtdPedidos}</small>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
             </Card>
 
             {/*/!*Tabela*!/*/}
@@ -286,99 +264,102 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                 <tr className="align-top">
                                     <td id="td-1" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.reprovado.map((dados) => {
-                                            return (<ConferenciaCard key={dados.id} dados={dados}
-                                                                   cor={coresAbas.reprovado}/>)
+                                            return (<CardPedidos key={dados.id} dados={dados}
+                                                                 status="reprovado"
+                                                                 cor={coresAbas.reprovado}/>)
                                         })}
                                     </td>
                                     {modelo2 &&
                                         <td id="td-2" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.encomenda.map((dados) => {
                                                 return (
-                                                    <ConferenciaCard key={dados.id} dados={dados}
-                                                                   cor={coresAbas.encomenda}/>
+                                                    <CardPedidos key={dados.id} dados={dados}
+                                                                 status="encomenda"
+                                                                 cor={coresAbas.encomenda}/>
                                                 )
                                             })}
                                         </td>
                                     }
                                     <td id="td-3" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.conferencia.map((dados) =>
-                                            <ConferenciaCard key={dados.id}
-                                                             dados={dados}
-                                                             cor={coresAbas.conferencia}/>
+                                            <CardPedidos key={dados.id} status="conferencia"
+                                                         dados={dados}
+                                                         cor={coresAbas.conferencia}/>
                                         )}
                                     </td>
                                     <td id="td-4" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.lancado.map((dados) => {
                                             return (
-                                                <ConferenciaCard key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
+                                                <CardPedidos key={dados.id} status="lancado" dados={dados}
+                                                             cor={coresAbas.lancado}/>)
                                         })}
                                     </td>
                                     {modelo1 &&
                                         <td id="td-5" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.nota.map((dados) => {
                                                 return (
-                                                    <ConferenciaCard key={dados.id} dados={dados}
-                                                                cor={coresAbas.boleto}/>)
+                                                    <CardPedidos key={dados.id} dados={dados} status="nota"
+                                                                 cor={coresAbas.boleto}/>)
                                             })}
                                         </td>}
                                     {modelo1 &&
                                         <td id="td-6" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.pagamento.map((dados) => {
-                                                return (<ConferenciaCard key={dados.id} dados={dados}
-                                                                       cor={coresAbas.pagamento}/>)
+                                                return (<CardPedidos key={dados.id} dados={dados} status="pagamento"
+                                                                     cor={coresAbas.pagamento}/>)
                                             })}
                                         </td>}
                                     {modelo1 &&
                                         <td id="td-7" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturamento.map((dados) => {
                                                 return (
-                                                    <ConferenciaCard key={dados.id} dados={dados}
-                                                                   cor={coresAbas.faturamento}/>)
+                                                    <CardPedidos key={dados.id} dados={dados} status="faturamento"
+                                                                 cor={coresAbas.faturamento}/>)
                                             })}
                                         </td>}
                                     {modelo1 &&
                                         <td id="td-8" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturado.map((dados) => {
-                                                return (<ConferenciaCard key={dados.id} dados={dados}
-                                                                      cor={coresAbas.faturado}/>)
+                                                return (<CardPedidos key={dados.id} dados={dados} status="faturado"
+                                                                     cor={coresAbas.faturado}/>)
                                             })}
                                         </td>}
                                     {modelo2 &&
                                         <td id="td-9" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturado_vista.map((dados) => {
                                                 return (
-                                                    <ConferenciaCard key={dados.id} dados={dados}
-                                                                  cor={"#3B087A"}/>)
+                                                    <CardPedidos key={dados.id} dados={dados} status="faturado_vista"
+                                                                 cor={"#3B087A"}/>)
                                             })}
                                         </td>}
                                     {modelo2 &&
                                         <td id="td-10" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.faturado_prazo.map((dados) => {
                                                 return (
-                                                    <ConferenciaCard key={dados.id} dados={dados}
-                                                                  cor={'#b81919'}/>)
+                                                    <CardPedidos key={dados.id} dados={dados} status="faturado_prazo"
+                                                                 cor={'#b81919'}/>)
                                             })}
                                         </td>}
                                     {modelo1 &&
                                         <td id="td-11" className='shadow-sm' style={{minWidth: 300}}>
                                             {pedidos.acompanhamento.map((dados) => {
                                                 return (
-                                                    <ConferenciaCard key={dados.id} dados={dados}
-                                                                  status="acompanhamento"
-                                                                  cor={coresAbas.acompanhamento}/>)
+                                                    <CardPedidos key={dados.id} dados={dados}
+                                                                 status="acompanhamento"
+                                                                 cor={coresAbas.acompanhamento}/>)
                                             })}
                                         </td>}
                                     <td id="td-12" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.entregue.map((dados) => {
-                                            return (<ConferenciaCard key={dados.id} dados={dados}
-                                                                  cor={coresAbas.entregue}/>)
+                                            return (<CardPedidos key={dados.id} dados={dados} status="entregue"
+                                                                 cor={coresAbas.entregue}/>)
                                         })}
                                     </td>
                                     <td id="td-13" className='shadow-sm' style={{minWidth: 300}}>
                                         {pedidos.cancelado.map((dados) => {
                                             return (
-                                                <ConferenciaCard key={dados.id} dados={dados}
-                                                               cor={coresAbas.cancelados}/>)
+                                                <CardPedidos key={dados.id} dados={dados} status="cancelado"
+                                                             cor={coresAbas.cancelados}/>)
                                         })}
                                     </td>
                                 </tr>

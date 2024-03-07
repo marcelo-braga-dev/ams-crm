@@ -42,7 +42,7 @@ class RetrocederStatusService
 
         $retroceder = (new PedidoRetrocederStatus());
 
-        if ($entregue) {
+        if ($pedido->status == $entregue) {
             $status = (new PedidosHistoricos())->retrocederStatus($id);
 
             switch ($status) {
@@ -84,6 +84,9 @@ class RetrocederStatusService
                 break;
             case $acompanhamento:
                 $retroceder->faturado($id, $motivo);
+                break;
+            case $cancelado:
+                $retroceder->cancelado($id, $motivo);
                 break;
             default:
                 throw new \DomainException('Falha na atualização do pedido!');

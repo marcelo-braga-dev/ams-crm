@@ -18,15 +18,6 @@ use Inertia\Inertia;
 
 class LancadoController extends Controller
 {
-    public function show($id)
-    {
-        $dados = (new Pedidos())->getDadosPedido($id);
-        $produtos = (new PedidosProdutos())->getProdutosPedido($id);
-
-        return Inertia::render('Admin/Pedidos/Modelo2/Lancado/Show',
-            compact('dados', 'produtos'));
-    }
-
     public function update($id, Request $request)
     {
         try {

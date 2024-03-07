@@ -12,14 +12,15 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 // MoreMenu - fim
 
-export default function MenuMore({id}) {
+export default function MenuMore({id, status}) {
     // MoreMenu
     const moreMenu = [
         {title: 'Ver Informações', url: route('admin.pedidos.show', id)},
-        {title: 'Carcelar Pedido', url: route('admin.cancelado.show', id)},
-        {title: 'Retroceder Pedido', url: route('admin.retroceder.edit', id)},
+        status !== 'conferencia' ? {title: 'Retroceder Pedido', url: route('admin.retroceder.edit', id)} : {},
+        status !== 'entregue' ? {title: 'Carcelar Pedido', url: route('admin.cancelado.show', id)} : {},
         {title: 'Abrir SAC', url: route('admin.chamado.create', {id: id})},
     ];
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => setAnchorEl(event.currentTarget);
@@ -37,11 +38,13 @@ export default function MenuMore({id}) {
                 anchorEl={anchorEl} open={open} onClose={handleClose}
                 PaperProps={{style: {minWidth: '10rem'}}}>
                 {moreMenu.map(({title, url}, index) => {
-                    return (<Link key={index} href={url} underline="none" color="inherit">
-                        <MenuItem onClick={handleClose}>
-                            {title}
-                        </MenuItem>
-                    </Link>)
+                    return (
+                        title && <Link key={index} href={url} underline="none" color="inherit">
+                            <MenuItem onClick={handleClose}>
+                                {title}
+                            </MenuItem>
+                        </Link>
+                    )
                 })}
             </Menu>
         </div>)

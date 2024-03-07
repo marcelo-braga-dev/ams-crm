@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pedidos\Modelo1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
+use App\Models\PedidosProdutos;
 use App\src\Pedidos\PedidoUpdateStatus;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,8 +15,13 @@ class LancadoController extends Controller
     {
         $dados = (new Pedidos())->getDadosPedido($id);
 
-        return Inertia::render('Admin/Pedidos/Lancado/Show',
+        if ($dados['pedido']['modelo'] == 1) return Inertia::render('Admin/Pedidos/Lancado/Show',
             compact('dados'));
+
+        $produtos = (new PedidosProdutos())->getProdutosPedido($id);
+
+        return Inertia::render('Admin/Pedidos/Modelo2/Lancado/Show',
+            compact('dados', 'produtos'));
     }
 
     public function update($id, Request $request)

@@ -206,14 +206,14 @@ class Pedidos extends Model
         return $this->newQuery()->findOrFail($id);
     }
 
-    public function restaurar($id)
+    public function restaurar($id, $motivo)
     {
         $dados = (new PedidosHistoricos())->newQuery()
             ->where('pedido_id', $id)
             ->orderByDesc('id')
             ->get()[1];
 
-        $this->updateStatus($id, $dados->status, $dados->prazo);
+        $this->updateStatus($id, $dados->status, $dados->prazo, $motivo);
     }
 
     public function getPedidos($idUsuario, $setorAtual, $fornecedorAtual)
@@ -293,6 +293,7 @@ class Pedidos extends Model
                 'forma_pagamento' => $pedido->forma_pagamento, //remover
                 'sac' => $pedido->sac,
                 'data_criacao' => date('d/m/y H:i:s', strtotime($pedido->created_at)),
+                'modelo' => $pedido->modelo
             ],
             'consultor' => [
                 'id' => $consultor['id'],
