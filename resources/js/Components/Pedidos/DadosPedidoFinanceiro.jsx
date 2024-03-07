@@ -1,6 +1,7 @@
 export default function DadosPedidoFinanceiro({dados}) {
     return (<>
             {dados.financeiro.preco && <span><b>Valor Total:</b> R$ {dados.financeiro.preco}</span>}
+            {dados.financeiro.repasse_float && <span className="d-block"><b>Repasse:</b> R$ {dados.financeiro.repasse}</span>}
             {dados.financeiro.preco_custo &&
                 <span className="d-block"><b>Preço de Custo:</b> R$ {dados.financeiro.preco_custo}</span>}
             {dados.financeiro.forma_pagamento &&
