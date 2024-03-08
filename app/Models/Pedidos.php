@@ -41,6 +41,44 @@ class Pedidos extends Model
         'imposto',
     ];
 
+    protected Builder $query;
+
+    private function initQuery(): void
+    {
+        $this->query = $this->newQuery();
+    }
+
+    private function franquia(): void
+    {
+        if (is_admin() && !franquia_usuario_atual()) {
+            $fraquia = franquia_selecionada();
+            if ($fraquia) $this->query->where('franquia_id', $fraquia);
+            return;
+        }
+
+        $this->query->where('franquia_id', franquia_usuario_atual());
+    }
+
+    private function pedidosSubordinados(): void
+    {
+        if (is_supervisor()) $this->query->whereIn('user_id', (new User())->getIdsSubordinados(true));
+    }
+
+    public function usuario($idUsuario = null): void
+    {
+        if ($idUsuario) $this->query->where('user_id', $idUsuario);
+    }
+
+    public function setor($setor = null): void
+    {
+        if ($setor) $this->query->where('setor_id', $setor);
+    }
+
+    public function fornecedor($fornecedor = null): void
+    {
+        if ($fornecedor) $this->query->where('fornecedor_id', $fornecedor);
+    }
+
     function create($dados)
     {
         $idUser = null;
@@ -218,18 +256,16 @@ class Pedidos extends Model
 
     public function getPedidos($idUsuario, $setorAtual, $fornecedorAtual)
     {
-        $query = $this->newQuery();
-
-        if ($idUsuario) $query->where('user_id', $idUsuario);
-        if (franquia_selecionada() && funcao_usuario_atual() === (new Admins)->getFuncao()) $query->where('franquia_id', franquia_selecionada());
-        if ($setorAtual) $query->where('setor_id', $setorAtual);
-        if ($fornecedorAtual) $query->where('fornecedor_id', $fornecedorAtual);
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
-
-        return $query->get();
+        $this->initQuery();
+        $this->franquia();
+        $this->pedidosSubordinados();
+        $this->usuario($idUsuario);
+        $this->setor($setorAtual);
+        $this->fornecedor($fornecedorAtual);
+        return $this->get();
     }
 
-    public function get(?int $setor)
+    public function getDados(?int $setor)
     {
         $query = $this->newQuery();
 

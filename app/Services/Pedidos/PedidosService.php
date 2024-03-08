@@ -12,7 +12,7 @@ class PedidosService
 {
     public function todosPedidos(?int $setor = null)
     {
-        return (new Pedidos())->get($setor);
+        return (new Pedidos())->getDados($setor);
     }
 
     public function pedidosConsultor()
