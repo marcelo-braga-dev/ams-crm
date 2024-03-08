@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Consultor\Leads\MeioContatoLeads;
 use App\Http\Controllers\Controller;
+use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
 use App\Models\User;
@@ -20,7 +21,7 @@ class AtivoController extends Controller
 {
     public function show($id)
     {
-        $dados = (new LeadsDadosService())->lead($id);
+        $dados = (new Leads())->getDados($id);
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);

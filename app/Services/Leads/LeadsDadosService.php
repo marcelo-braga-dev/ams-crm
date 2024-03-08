@@ -28,6 +28,9 @@ class LeadsDadosService
         return $this->dados($dados);
     }
 
+    /**
+     * @deprecated
+     */
     public function lead($id): array
     {
         $dados = (new Leads())->find($id);

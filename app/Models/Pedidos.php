@@ -300,7 +300,7 @@ class Pedidos extends Model
         // Consulta unica
         $consultor = (new User)->get($pedido->user_id);
         $fornecedor = (new Fornecedores())->find($pedido->fornecedor_id);
-        $integrador = $pedido->lead_id ? (new LeadsDadosService())->lead($pedido->lead_id) : '';
+        $integrador = $pedido->lead_id ? (new Leads())->getDados($pedido->lead_id) : '';
         $files = (new PedidosImagens())->getImagens($pedido->id);
         $setores = (new Setores())->getNomes();
 

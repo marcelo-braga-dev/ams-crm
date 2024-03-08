@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
+use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
@@ -16,7 +17,7 @@ class NovoController extends Controller
 {
     public function edit($id)
     {
-        $dados = (new LeadsDadosService())->lead($id);
+        $dados = (new Leads())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getConsultores($dados['infos']['setor']);
 

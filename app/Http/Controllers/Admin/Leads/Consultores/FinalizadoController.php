@@ -21,7 +21,7 @@ class FinalizadoController extends Controller
 {
     public function show($id)
     {
-        $dados = (new LeadsDadosService())->lead($id);
+        $dados = (new Leads())->getDados($id);
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
