@@ -76,14 +76,17 @@ class Enderecos extends Model
     {
         $dados = $this->newQuery()->find($id);
 
-        $complemento = '';
-        if ($dados->complemento) $complemento = ' | COMPLEMENTO: ' . $dados->complemento;
+        $enderecoCompleto = '';
 
-        return 'RUA/AV: ' . $dados->rua .
-            ' | NÚMERO: ' . $dados->numero . $complemento . ' | CEP: ' . $dados->cep .
-            ' | BAIRRO: ' . $dados->bairro . ' | CIDADE: ' . $dados->cidade . ' | ESTADO: ' . $dados->estado;
+        if ($dados->rua) $enderecoCompleto .= 'RUA/AV: ' . $dados->rua;
+        if ($dados->numero) $enderecoCompleto .= ' | NÚMERO: ' . $dados->numero;
+        if ($dados->complemento) $enderecoCompleto .= ' | COMPLEMENTO: ' . $dados->complemento;
+        if ($dados->bairro) $enderecoCompleto .= ' | BAIRRO: ' . $dados->bairro;
+        if ($dados->cidade) $enderecoCompleto .= ' | CIDADE: ' . $dados->cidade;
+        if ($dados->estado) $enderecoCompleto .= ' | ESTADO: ' . $dados->estado;
+        if ($dados->cep) $enderecoCompleto .= ' | CEP: ' . $dados->cep;
 
-
+        return $enderecoCompleto;
     }
 
     public function getEnderecoLegivel($id): string
@@ -97,8 +100,8 @@ class Enderecos extends Model
     public function remover($id)
     {
         $id ?
-        $this->newQuery()
-            ->find($id)
-            ->delete() : null;
+            $this->newQuery()
+                ->find($id)
+                ->delete() : null;
     }
 }

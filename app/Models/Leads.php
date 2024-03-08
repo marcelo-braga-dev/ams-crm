@@ -40,7 +40,15 @@ class Leads extends Model
         'infos',
         'classificacao',
         'anotacoes',
-        'ultimo_pedido_data'
+        'ultimo_pedido_data',
+        'capital_social',
+        'tipo',
+        'porte',
+        'atividade_principal',
+        'natureza_juridica',
+        'quadro_societario',
+        'data_situacao',
+        'data_abertura',
     ];
 
     public function getDisponiveis($setor)
@@ -75,7 +83,7 @@ class Leads extends Model
             if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
 //            if ($telefone) $verificacaoTel = $this->newQuery()->orWhere('telefone', $telefone)->exists();
 
-            $idEndereco = (new Enderecos())->create($dados->endereco ?? null);
+            $idEndereco = (new Enderecos())->create($dados['endereco'] ?? null);
 
             $pessoa = ($dados['pessoa'] ?? null) ? !(($dados['pessoa'] ?? null) == 'Pessoa Física') : substr($cnpj, -6, 4) == '0001';
 
@@ -85,24 +93,32 @@ class Leads extends Model
                     ->create([
                         'user_id' => $usuario,
                         'nome' => $dados['nome'] ?? null,
+                        'razao_social' => $dados['razao_social'] ?? null,
+                        'cnpj' => $cnpj ?? null,
+                        'inscricao_estadual' => $dados['inscricao_estadual'] ?? null,
+                        'email' => $dados['email'] ?? null,
                         'id_importacao' => $importacao,
                         'atendente' => $dados['atendente'] ?? null,
-//                        'telefone' => $telefone,
                         'setor_id' => $setor,
                         'endereco' => $idEndereco,
                         'pessoa_juridica' => $pessoa,
-                        'razao_social' => $dados['razao_social'] ?? null,
-                        'inscricao_estadual' => $dados['inscricao_estadual'] ?? null,
-                        'cnpj' => $cnpj ?? null,
                         'rg' => $dados['rg'] ?? null,
                         'cpf' => $dados['cpf'] ?? null,
-                        'email' => $dados['email'] ?? null,
                         'data_nascimento' => $dados['nascimento'] ?? null,
                         'cidade' => $dados['cidade'] ?? $dados['endereco']['cidade'] ?? null,
                         'estado' => $dados['estado'] ?? $dados['endereco']['estado'] ?? null,
                         'anotacoes' => $dados['anotacoes'] ?? null,
                         'status_data' => now(),
                         'infos' => $dados['infos'] ?? null,
+
+                        'capital_social' => $dados['capital_social'] ?? null,
+                        'tipo' => $dados['tipo'] ?? null,
+                        'porte' => $dados['porte'] ?? null,
+                        'atividade_principal' => $dados['atividade_principal'] ?? null,
+                        'natureza_juridica' => $dados['natureza_juridica'] ?? null,
+                        'quadro_societario' => $dados['quadro_societario'] ?? null,
+                        'data_situacao' => $dados['data_situacao'] ?? null,
+                        'data_abertura' => $dados['data_abertura'] ?? null,
                     ]);
 
                 $this->cadastrarTelefone($lead->id, $dados['telefone'] ?? null);
@@ -348,6 +364,16 @@ class Leads extends Model
                 'endereco' => $item->endereco ? getEnderecoCompleto($item->endereco) : '',
                 'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
                 'classificacao' => $item->classificacao
+            ],
+            'dados' => [
+                'capital_social' => $item->capital_social,
+                'tipo' => $item->tipo,
+                'porte' => $item->porte,
+                'atividade_principal' => $item->atividade_principal,
+                'natureza_juridica' => $item->natureza_juridica,
+                'quadro_societario' => $item->quadro_societario,
+                'data_situacao' => $item->data_situacao,
+                'data_abertura' => $item->data_abertura,
             ],
             'contato' => [
                 'email' => $item->email,
