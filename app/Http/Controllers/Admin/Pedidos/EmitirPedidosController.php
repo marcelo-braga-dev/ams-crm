@@ -56,8 +56,8 @@ class EmitirPedidosController extends Controller
     {
         try {
             $id = (new Pedido())->salvar($request);
-        } catch (\DomainException) {
-            modalErro('Falha do cadastro do pedido.');
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
             return redirect()->back();
         }
 

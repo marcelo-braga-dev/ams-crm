@@ -66,6 +66,7 @@ class DadosPedidoServices
                     'sac' => $pedido->sac,
                 ],
             ];
+        return [];
     }
 
     public function dados($pedido): array

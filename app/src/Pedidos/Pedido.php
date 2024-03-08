@@ -57,8 +57,7 @@ class Pedido
                         (new ProdutosTransito())->subtrairVendaPedido($request);
                     } catch (\DomainException|QueryException $exception) {
                         DB::rollBack();
-                        modalErro($exception->getMessage());
-                        throw new \DomainException();
+                        throw new \DomainException($exception->getMessage());
                     }
                     DB::commit();
                 };

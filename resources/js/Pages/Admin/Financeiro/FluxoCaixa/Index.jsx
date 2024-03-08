@@ -16,7 +16,6 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css';
 import MenuItem from "@mui/material/MenuItem"; // theme css file
 
-
 export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, fornecedores}) {
     const [chaveStatus, setChaveStatus] = useState()
     const [idStatus, setIdStatus] = useState()
@@ -132,6 +131,67 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                             <AddOutlinedIcon/> Cadastrar</a>
                     </div>
                 </div>
+
+                <div className="row">
+                    <div className="col">
+                        <div className="table-responsive">
+                            <table className="table">
+                                <thead>
+                                <tr>
+                                    <th>INFO</th>
+                                    <th>VALOR</th>
+                                    <th></th>
+                                    <th>Data Vencimento</th>
+                                    <th>Prev. Recebiemnto</th>
+                                    <th>Valor Baixa</th>
+                                    <th>Data Baixa</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {dados.map(item =>
+                                    <tr key={item.id}
+                                        className={
+                                            item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger') +
+                                                (item.atrasado ? ' bg-danger text-white' : '')
+                                        }>
+                                        <td>
+                                            <span className="d-block text-truncate" style={{maxWidth: 200}}>
+                                              <RemoveRedEyeOutlinedIcon/> {item.data} <small>[#{item.id}]</small>
+                                            </span>
+                                            <span className="d-block text-truncate" style={{maxWidth: 200}}>
+                                              <RemoveRedEyeOutlinedIcon/> {item.empresa}
+                                            </span>
+                                            <span className="d-block text-truncate" style={{maxWidth: 200}}>
+                                              <RemoveRedEyeOutlinedIcon/> {item.banco}
+                                            </span>
+                                            <a className="btn btn-link btn-sm p-0"
+                                               href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
+                                                <RemoveRedEyeOutlinedIcon/>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon/> :
+                                                <ArrowDownwardOutlinedIcon/>} R$ {item.valor} <br/>
+                                            Parcela: {item.qtd_parcelas} <br/>
+                                            NF: {item.nota_fiscal} <br/>
+                                            <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
+                                                    onClick={() => setIdStatus(item.id)}
+                                                    data-bs-target="#exampleModal"/>
+                                            {item.status}
+                                        </td>
+                                        <td></td>
+                                        <td className="text-center">{item.data_vencimento}</td>
+                                        <td className="text-center">{item.previsao_recebimento}</td>
+                                        <td>{item.valor_baixa && <>R$ {item.valor_baixa}</>}</td>
+                                        <td className="text-center">{item.data_baixa}</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div className="row">
                     <div className="col">
