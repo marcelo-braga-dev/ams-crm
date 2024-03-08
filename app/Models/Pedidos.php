@@ -262,7 +262,7 @@ class Pedidos extends Model
         $this->usuario($idUsuario);
         $this->setor($setorAtual);
         $this->fornecedor($fornecedorAtual);
-        return $this->get();
+        return $this->query->get();
     }
 
     public function getDados(?int $setor)
