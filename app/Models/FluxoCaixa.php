@@ -61,8 +61,9 @@ class FluxoCaixa extends Model
 
     }
 
-    public function getValores($incio = null, $fim = null, $tipo = null, $status = null, $fornecedor = null)
+    public function getValores($incio = null, $fim = null, $tipo = null, $status = null, $fornecedor = null, $franquia = null)
     {
+        $franquias = (new Franquias())->getNomes();
         $nomes = (new FluxoCaixasConfig())->getNomes();
 
         $query = $this->newQuery();
@@ -73,24 +74,27 @@ class FluxoCaixa extends Model
         if ($tipo) $query->where('tipo', $tipo);
         if ($status) $query->where('status', $status);
         if ($fornecedor) $query->where('fornecedor_id', $fornecedor);
+        if ($franquia) $query->where('franquia_id', $franquia);
 
         return $query->orderByDesc('data_vencimento')
             ->orderByDesc('id')
             ->get()
-            ->transform(function ($item) use ($nomes) {
-                return $this->dados($item, $nomes);
+            ->transform(function ($item) use ($nomes, $franquias) {
+                return $this->dados($item, $nomes, $franquias);
             });
     }
 
     public function find($id)
     {
+        $franquias = (new Franquias())->getNomes();
+
         $item = $this->newQuery()->find($id);
         $nomes = (new FluxoCaixasConfig())->getNomes();
 
-        return $this->dados($item, $nomes);
+        return $this->dados($item, $nomes, $franquias);
     }
 
-    private function dados($item, $nomes)
+    private function dados($item, $nomes, $franquias)
     {
         $parcelas = $item->token ? $this->newQuery()
             ->where('token', $item->token)
@@ -115,6 +119,7 @@ class FluxoCaixa extends Model
             'fornecedor_id' => $item->fornecedor_id,
             'empresa' => $nomes[$item->empresa_id] ?? '',
             '_empresa' => $item->empresa_id,
+            'franquia' => $franquias[$item['franquia_id']] ?? '',
             'nota_fiscal' => $item->nota_fiscal,
             'valor' => convert_float_money($item->valor),
             'valor_float' => $item->valor,

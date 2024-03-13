@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Financeiro;
 use App\Http\Controllers\Controller;
 use App\Models\FluxoCaixa;
 use App\Models\FluxoCaixasConfig;
+use App\Models\Franquias;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,12 +18,14 @@ class FluxoCaixaController extends Controller
         $tipo = $request->tipo;
         $status = $request->status;
         $fornecedor = $request->fornecedor;
+        $franquia = $request->franquia;
 
-        $dados = (new FluxoCaixa())->getValores($dataInicio, $dataFim, $tipo, $status, $fornecedor);
+        $dados = (new FluxoCaixa())->getValores($dataInicio, $dataFim, $tipo, $status, $fornecedor, $franquia);
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
+        $franquias = (new Franquias())->get();
 
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Index',
-            compact('dados', 'dataInicio', 'dataFim', 'tipo', 'status', 'fornecedor', 'fornecedores'));
+            compact('dados', 'dataInicio', 'dataFim', 'tipo', 'status', 'fornecedor', 'fornecedores', 'franquias', 'franquia'));
     }
 
     public function create()
@@ -31,6 +34,7 @@ class FluxoCaixaController extends Controller
             'empresas' => (new FluxoCaixasConfig())->getEmpresas(),
             'fornecedores' => (new FluxoCaixasConfig())->getFornecedores(),
             'bancos' => (new FluxoCaixasConfig())->getBancos(),
+            'franquias' => (new Franquias())->get()
         ];
 
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Create', compact('dados'));

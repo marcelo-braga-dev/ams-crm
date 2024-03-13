@@ -117,6 +117,14 @@ export default function ({dados}) {
                                 </TextField>
                             </div>
                             <div className="col mb-4">
+                                <TextField select label="Franquia" fullWidth required
+                                           onChange={e => setData('franquia', e.target.value)}>
+                                    {dados.franquias.map(item =>
+                                        <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
+                                    )}
+                                </TextField>
+                            </div>
+                            <div className="col mb-4">
                                 <TextField select label="Fornecedores" fullWidth required
                                            onChange={e => setData('fornecedores', e.target.value)}>
                                     {dados.fornecedores.map(item => <MenuItem key={item.id}

@@ -18,12 +18,13 @@ import MenuItem from "@mui/material/MenuItem"; // theme css file
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, fornecedores}) {
+export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, fornecedores, franquias, franquia}) {
     const [chaveStatus, setChaveStatus] = useState()
     const [idStatus, setIdStatus] = useState()
     const [filtroTipo, setFiltoTipo] = useState(tipo)
     const [filtroStatus, setFiltoStatus] = useState(status)
     const [filtroFornecedor, setFiltoFornecedor] = useState(fornecedor)
+    const [filtroFranquia, setFiltoFranquia] = useState(franquia)
 
     const alterarStatus = (status) => {
         router.post(route('admin.financeiro.fluxo-caixa.alterar-status', {id: idStatus, status: status}))
@@ -48,7 +49,8 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                 periodoFim: filtroData?.[0]?.endDate,
                 tipo: filtroTipo,
                 status: filtroStatus,
-                fornecedor: filtroFornecedor
+                fornecedor: filtroFornecedor,
+                franquia: filtroFranquia
             }))
     }
 
@@ -102,10 +104,16 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                             <MenuItem value="aberto">Aberto</MenuItem>
                         </TextField>
 
-                        <TextField label="Fornecedor" select fullWidth
+                        <TextField label="Fornecedor" className="mb-3" select fullWidth
                                    value={filtroFornecedor ?? ''}
                                    onChange={e => setFiltoFornecedor(e.target.value)}>
-                            {fornecedores.map(item => <MenuItem value={item.id}>{item.valor}</MenuItem>)}
+                            {fornecedores.map(item => <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>)}
+                        </TextField>
+
+                        <TextField label="Franquia" select fullWidth
+                                   value={filtroFranquia ?? ''}
+                                   onChange={e => setFiltoFranquia(e.target.value)}>
+                            {franquias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                         </TextField>
 
                         <div className="row mt-4">
@@ -134,7 +142,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
             </div>
 
             {dados.map(item =>
-                <Card className="mb-4 shadow">
+                <Card key={item.id} className="mb-4 shadow">
                     <div key={item.id}
                          className={'row p-3 ' +
                              (item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger')) +
@@ -175,7 +183,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                                     <b>Banco:</b> {item.banco}
                             </span>
                             <span className="d-block">
-                                <b>Franquia:</b>
+                                <b>Franquia:</b> {item.franquia}
                             </span>
                         </div>
                         <div className="col-3 cursor-pointer"
