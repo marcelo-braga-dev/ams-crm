@@ -3,9 +3,15 @@ import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {router, useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
+import React, {useState} from "react";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 
 export default function ({dados, bancos}) {
+    const [idStatus, setIdStatus] = useState()
+    const [chaveStatus, setChaveStatus] = useState()
+
     const {data, setData} = useForm({
         'valor_baixa': dados.valor_baixa,
         'banco': dados.banco_id,
@@ -26,6 +32,10 @@ export default function ({dados, bancos}) {
         data.data_baixa = ''
         data.banco = ''
     })
+
+    const alterarStatus = (status) => {
+        router.post(route('admin.financeiro.fluxo-caixa.alterar-status', {id: idStatus, status: status}))
+    }
 
     return (
         <Layout titlePage="Informações do Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa"
@@ -60,9 +70,22 @@ export default function ({dados, bancos}) {
                     <span className="d-block"><b>Descrição:</b> {dados.descricao}</span>
                 </div>
             </div>
+
+            <FormControlLabel
+                value="bottom"
+                control={
+                    <Switch checked={dados.status === 'pago'} data-bs-toggle="modal"
+                            onClick={() => setIdStatus(dados.id)}
+                            data-bs-target="#exampleModal"/>
+                }
+                label={dados.status}
+                className="text-muted"
+                // labelPlacement="bottom"
+            />
+
             {dados.status === 'aberto' && dados.tipo === 'saida' &&
                 <form onSubmit={submit}>
-                    <div className="row">
+                    <div className="row mt-3">
                         <div className="col-md-2">
                             <TextFieldMoney index="valor_baixa" value={data.valor_baixa} label="Valor Baixa"
                                             setData={setData} de
@@ -101,6 +124,33 @@ export default function ({dados, bancos}) {
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
                                     onClick={() => excluir()}>Excluir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*Modal*/}
+            <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Digite "ALTERAR" para atualizar o Status:<br/>
+                            <TextField value={chaveStatus ?? ''} onChange={e => setChaveStatus(e.target.value)}/>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar
+                            </button>
+                            <button type="button" data-bs-dismiss="modal" className="btn btn-primary"
+                                    disabled={chaveStatus !== 'ALTERAR'}
+                                    onClick={() => alterarStatus('pago')}>
+                                Alterar Status
                             </button>
                         </div>
                     </div>

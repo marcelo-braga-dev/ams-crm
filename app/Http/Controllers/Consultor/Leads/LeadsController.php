@@ -85,6 +85,7 @@ class LeadsController extends Controller
     public function getLeads()
     {
         $leads = (new CardsLeadsService())->getConsultor(id_usuario_atual());
+
         return response()->json($leads);
     }
 }

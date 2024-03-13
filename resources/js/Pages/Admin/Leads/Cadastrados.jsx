@@ -9,7 +9,7 @@ import InfoLead from "@/Pages/Admin/Leads/Componentes/InfoLead";
 const columns = [
     {
         name: 'Ordernar por nome', selector: row => row.name || row.razao_social,
-        cell: row => <InfoLead dado={row} />
+        cell: row => <InfoLead dado={row}/>
         , sortable: true, grow: 3,
     }, {
         name: 'Consultor(a)',
@@ -42,8 +42,10 @@ function getFilteredItems(linhas, filtro, filterText) {
 
 export default function Filtering({dados, categorias, categoriaAtual}) {
 
+    const [leads, setLeads] = useState(dados)
+
     // Dados
-    const linhas = dados.map(function (items) {
+    const linhas = leads.map(function (items) {
         return {
             id: items.id,
             name: items.cliente.nome,
@@ -63,77 +65,81 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
     const [filtro, setFiltro] = useState('nome');
     const filteredItems = getFilteredItems(linhas, filtro, filterText);
 
-    return (<Layout container titlePage="Leads Cadastrados" menu="leads" submenu="leads-cadastrados">
-        {/*Setores*/}
-        <div className="row border-bottom mb-4 pb-2">
-            <div className="col-md-5">
-                <TextField label="Setor" select fullWidth
-                           value={categoriaAtual ?? ''}
-                           onChange={e => router.get(route('admin.clientes.leads.leads-cadastrados', {categoria: e.target.value}))}>
-                    {categorias.map((option) => (<MenuItem key={option.id} value={option.id}>
-                        {option.nome}
-                    </MenuItem>))}
-                </TextField>
-            </div>
-        </div>
-
-        <div className="row justify-content-between">
-            <div className="col-md-auto">
-                {/*FILTRO*/}
-                <div className="row">
-                    <div className="col-auto text-right">
-                        <TextField
-                            id="outlined-select-currency"
-                            select
-                            placeholder="asas"
-                            label="Filtro"
-                            defaultValue="nome"
-                            size="small"
-                            onChange={event => setFiltro(event.target.value)}
-                        >
-                            <MenuItem value="id">
-                                ID
-                            </MenuItem>
-                            <MenuItem value="nome">
-                                Nome/Razão Social
-                            </MenuItem>
-                            <MenuItem value="cnpj">
-                                CNPJ
-                            </MenuItem>
-                            <MenuItem value="cidade">
-                                Cidade
-                            </MenuItem>
-                            <MenuItem value="ddd">
-                                DDD
-                            </MenuItem>
-                            <MenuItem value="telefone">
-                                Telefone
-                            </MenuItem>
-                        </TextField>
-                        <TextField
-                            id="search"
-                            type="text"
-                            placeholder="Pesquisar..."
-                            value={filterText}
-                            onChange={e => setFilterText(e.target.value)}
-                            size="small"
-                        />
-                    </div>
+    return (
+        <Layout container titlePage="Leads Cadastrados" menu="leads" submenu="leads-cadastrados">
+            {/*Setores*/}
+            <div className="row border-bottom mb-4 pb-2">
+                <div className="col-md-5">
+                    <TextField label="Setor" select fullWidth
+                               value={categoriaAtual ?? ''}
+                               onChange={e => router.get(route('admin.clientes.leads.leads-cadastrados', {categoria: e.target.value}))}>
+                        {categorias.map((option) =>
+                            <MenuItem key={option.id} value={option.id}>
+                                {option.nome}
+                            </MenuItem>)
+                        }
+                    </TextField>
                 </div>
             </div>
-            <div className="col-md-auto">
-                <a href={route('admin.clientes.leads.ocultos')} className="btn btn-dark btn-sm">
-                    Ocultos</a>
-            </div>
-        </div>
 
-        <DataTable
-            columns={columns}
-            data={filteredItems}
-            pagination
-            paginationPerPage={25}
-            striped
-            highlightOnHover
-        />
-    </Layout>);
+            <div className="row justify-content-between">
+                <div className="col-md-auto">
+                    {/*FILTRO*/}
+                    <div className="row">
+                        <div className="col-auto text-right">
+                            <TextField
+                                id="outlined-select-currency"
+                                select
+                                placeholder="asas"
+                                label="Filtro"
+                                defaultValue="nome"
+                                size="small"
+                                onChange={event => setFiltro(event.target.value)}
+                            >
+                                <MenuItem value="id">
+                                    ID
+                                </MenuItem>
+                                <MenuItem value="nome">
+                                    Nome/Razão Social
+                                </MenuItem>
+                                <MenuItem value="cnpj">
+                                    CNPJ
+                                </MenuItem>
+                                <MenuItem value="cidade">
+                                    Cidade
+                                </MenuItem>
+                                <MenuItem value="ddd">
+                                    DDD
+                                </MenuItem>
+                                <MenuItem value="telefone">
+                                    Telefone
+                                </MenuItem>
+                            </TextField>
+                            <TextField
+                                id="search"
+                                type="text"
+                                placeholder="Pesquisar..."
+                                value={filterText}
+                                onChange={e => setFilterText(e.target.value)}
+                                size="small"
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-auto">
+                    <a href={route('admin.clientes.leads.ocultos')} className="btn btn-dark btn-sm">
+                        Ocultos</a>
+                </div>
+            </div>
+
+            <DataTable
+                columns={columns}
+                data={filteredItems}
+                pagination
+                paginationPerPage={25}
+                striped
+                highlightOnHover
+            />
+        </Layout>
+    );
 };

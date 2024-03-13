@@ -1,7 +1,7 @@
 import LayoutAdmin from "@/Layouts/AdminLayout/LayoutAdmin";
 import React, {useState} from "react";
 import Switch from "@mui/material/Switch";
-import {TextField} from "@mui/material";
+import {Card, TextField} from "@mui/material";
 import {router} from "@inertiajs/react";
 
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
@@ -15,6 +15,8 @@ import {ptBR} from 'react-date-range/src/locale';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css';
 import MenuItem from "@mui/material/MenuItem"; // theme css file
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, fornecedores}) {
     const [chaveStatus, setChaveStatus] = useState()
@@ -55,7 +57,7 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
     }
 
     return (
-        <LayoutAdmin titlePage="Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa">
+        <LayoutAdmin titlePage="Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa" empty>
             <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col-auto">
@@ -123,151 +125,171 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                 </div>
             </div>
 
-            <div className="card card-body mb-4">
-                <div className="row">
-                    <div className="col">
-                        <a className="btn btn-primary"
-                           href={route('admin.financeiro.fluxo-caixa.create')}>
-                            <AddOutlinedIcon/> Cadastrar</a>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col">
-                        <div className="table-responsive">
-                            <table className="table">
-                                <thead>
-                                <tr>
-                                    <th>INFO</th>
-                                    <th>VALOR</th>
-                                    <th></th>
-                                    <th>Data Vencimento</th>
-                                    <th>Prev. Recebiemnto</th>
-                                    <th>Valor Baixa</th>
-                                    <th>Data Baixa</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {dados.map(item =>
-                                    <tr key={item.id}
-                                        className={
-                                            item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger') +
-                                                (item.atrasado ? ' bg-danger text-white' : '')
-                                        }>
-                                        <td>
-                                            <span className="d-block text-truncate" style={{maxWidth: 200}}>
-                                              <RemoveRedEyeOutlinedIcon/> {item.data} <small>[#{item.id}]</small>
-                                            </span>
-                                            <span className="d-block text-truncate" style={{maxWidth: 200}}>
-                                              <RemoveRedEyeOutlinedIcon/> {item.empresa}
-                                            </span>
-                                            <span className="d-block text-truncate" style={{maxWidth: 200}}>
-                                              <RemoveRedEyeOutlinedIcon/> {item.banco}
-                                            </span>
-                                            <a className="btn btn-link btn-sm p-0"
-                                               href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
-                                                <RemoveRedEyeOutlinedIcon/>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon/> :
-                                                <ArrowDownwardOutlinedIcon/>} R$ {item.valor} <br/>
-                                            Parcela: {item.qtd_parcelas} <br/>
-                                            NF: {item.nota_fiscal} <br/>
-                                            <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
-                                                    onClick={() => setIdStatus(item.id)}
-                                                    data-bs-target="#exampleModal"/>
-                                            {item.status}
-                                        </td>
-                                        <td></td>
-                                        <td className="text-center">{item.data_vencimento}</td>
-                                        <td className="text-center">{item.previsao_recebimento}</td>
-                                        <td>{item.valor_baixa && <>R$ {item.valor_baixa}</>}</td>
-                                        <td className="text-center">{item.data_baixa}</td>
-                                    </tr>
-                                )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div className="row">
-                    <div className="col">
-                        <div className="table-responsive">
-                            <table className="table">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>ID</th>
-                                    <th></th>
-                                    <th>Data</th>
-                                    <th>Tipo</th>
-                                    <th>Status</th>
-                                    <th>Fornecedor</th>
-                                    <th>Empresa</th>
-                                    <th>N° NF</th>
-                                    <th>Valor</th>
-                                    <th>Data Vencimento</th>
-                                    <th>Prev. Recebiemnto</th>
-                                    <th>Valor Baixa</th>
-                                    <th>Data Baixa</th>
-                                    <th>Banco</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {dados.map(item =>
-                                    <tr key={item.id}
-                                        className={
-                                            item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger') +
-                                                (item.atrasado ? ' bg-danger text-white' : '')
-                                        }>
-                                        <td className="text-center">
-                                            <a className="btn btn-link btn-sm p-0"
-                                               href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
-                                                <RemoveRedEyeOutlinedIcon/>
-                                            </a>
-                                        </td>
-                                        <td className="text-center">#{item.id}</td>
-                                        <td>{item.qtd_parcelas}</td>
-                                        <td>{item.data}</td>
-                                        <td className="text-center">
-                                            {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon/> :
-                                                <ArrowDownwardOutlinedIcon/>}
-                                        </td>
-                                        <td className="text-center">
-                                            <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
-                                                    onClick={() => setIdStatus(item.id)}
-                                                    data-bs-target="#exampleModal"/>
-                                            {item.status}
-                                        </td>
-                                        <td>
-                                            <span className="d-inline-block text-truncate" style={{maxWidth: 200}}>
-                                              {item.fornecedor}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span className="d-inline-block text-truncate" style={{maxWidth: 200}}>
-                                              {item.empresa}
-                                            </span>
-                                        </td>
-                                        <td>{item.nota_fiscal}</td>
-                                        <td>R$ {item.valor}</td>
-                                        <td className="text-center">{item.data_vencimento}</td>
-                                        <td className="text-center">{item.previsao_recebimento}</td>
-                                        <td>{item.valor_baixa && <>R$ {item.valor_baixa}</>}</td>
-                                        <td className="text-center">{item.data_baixa}</td>
-                                        <td>{item.banco}</td>
-                                    </tr>
-                                )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+            <div className="row mb-3">
+                <div className="col">
+                    <a className="btn btn-primary"
+                       href={route('admin.financeiro.fluxo-caixa.create')}>
+                        <AddOutlinedIcon/> Cadastrar</a>
                 </div>
             </div>
 
+            {dados.map(item =>
+                <Card className="mb-4 shadow">
+                    <div key={item.id}
+                         className={'row p-3 ' +
+                             (item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger')) +
+                             (item.atrasado ? ' bg-danger text-white' : '')
+                         }>
+                        <div className="col-1 text-center">
+                            {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon/> :
+                                <ArrowDownwardOutlinedIcon/>}
+                            <small className="d-block">{item.tipo}</small>
+                            <FormControlLabel
+                                value="bottom"
+                                control={
+                                    <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
+                                            className="mt-3"
+                                            onClick={() => setIdStatus(item.id)}
+                                            data-bs-target="#exampleModal"/>
+                                }
+                                label={<small>{item.status}</small>}
+                                className="text-muted"
+                                labelPlacement="bottom"
+                            />
+                        </div>
+                        <div className="col-7 cursor-pointer"
+                             onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
+                            <span className="d-blo ck text-truncate">
+                                <b>Data:</b> {item.data}
+                            </span>
+                            <span className="d-b lock text-truncate ps-4">
+                                <b>NF n°:</b> {item.nota_fiscal}
+                            </span>
+                            <span className="d-block text-truncate">
+                                  <b>Fornecedor:</b> {item.fornecedor}
+                            </span>
+                            <span className="d-block text-truncate">
+                                  <b>Empresa:</b> {item.empresa}
+                            </span>
+                            <span className="d-block text-truncate">
+                                    <b>Banco:</b> {item.banco}
+                            </span>
+                            <span className="d-block">
+                                <b>Franquia:</b>
+                            </span>
+                        </div>
+                        <div className="col-3 cursor-pointer"
+                             onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
+                            <span className="mt-3 fs-6">
+                                <b>R$ {item.valor}</b> <br/>
+                            </span>
+                            <span className="mt-3">
+                                <b>Parcela:</b> {item.qtd_parcelas} <br/>
+                            </span>
+                            <span className="d-block">
+                                <b>Vencimento:</b> {item.data_vencimento}
+                            </span>
+                            <span className="d-block">
+                                <b>Prev. Recebimento:</b> {item.previsao_recebimento}
+                            </span>
+                            <span className="d-block">
+                                <b>Valor Baixa:</b> {item.valor_baixa && <>R$ {item.valor_baixa}</>}
+                            </span>
+                            <span className="d-block">
+                                <b>Data Baixa:</b> {item.data_baixa}
+                            </span>
+                        </div>
+                        <div className="col-1 cursor-pointer"
+                             onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
+                            <a className="btn btn-link btn-sm p-0"
+                               href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
+                                <RemoveRedEyeOutlinedIcon/>
+                            </a>
+                        </div>
+                    </div>
+
+
+                    {/*<table className="table">*/}
+                    {/*    <tbody>*/}
+                    {/*    <tr key={item.id}*/}
+                    {/*        className={*/}
+                    {/*            item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger') +*/}
+                    {/*                (item.atrasado ? ' bg-danger text-white' : '')*/}
+                    {/*        }>*/}
+                    {/*        <td className="text-center col-1">*/}
+                    {/*            {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon/> :*/}
+                    {/*                <ArrowDownwardOutlinedIcon/>}*/}
+                    {/*            <small className="d-block">{item.tipo}</small>*/}
+                    {/*            <FormControlLabel*/}
+                    {/*                value="bottom"*/}
+                    {/*                control={*/}
+                    {/*                    <Switch checked={item.status === 'pago'} data-bs-toggle="modal"*/}
+                    {/*                            className="mt-3"*/}
+                    {/*                            onClick={() => setIdStatus(item.id)}*/}
+                    {/*                            data-bs-target="#exampleModal"/>*/}
+                    {/*                }*/}
+                    {/*                label={<small>{item.status}</small>}*/}
+                    {/*                className="text-muted"*/}
+                    {/*                labelPlacement="bottom"*/}
+                    {/*            />*/}
+                    {/*        </td>*/}
+                    {/*        <td className="cursor-pointer" style={{maxWidth: 100}}*/}
+                    {/*            onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>*/}
+                    {/*                <span className="d-block text-truncate">*/}
+                    {/*                    <b>Data:</b> {item.data} <small className="ps-4"><b>ID: </b>[#{item.id}]</small>*/}
+                    {/*                </span>*/}
+                    {/*                <b>NF n°:</b> {item.nota_fiscal} <br/>*/}
+                    {/*                <span className="d-block text-truncate">*/}
+                    {/*                  <b>Fornecedor:</b> {item.fornecedor}*/}
+                    {/*                </span>*/}
+                    {/*                <span className="d-block text-truncate">*/}
+                    {/*                  <b>Empresa:</b> {item.empresa}*/}
+                    {/*                </span>*/}
+                    {/*                <span className="d-block text-truncate">*/}
+                    {/*                    <b>Banco:</b> {item.banco}*/}
+                    {/*                </span>*/}
+                    {/*                <span className="d-block">*/}
+                    {/*                    <b>Franquia:</b>*/}
+                    {/*                </span>*/}
+                    {/*        </td>*/}
+                    {/*        <td className="cursor-pointer" style={{maxWidth: 100}}*/}
+                    {/*            onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>*/}
+                    {/*                        <span className="mt-3 fs-6">*/}
+                    {/*                        <b>R$ {item.valor}</b> <br/>*/}
+                    {/*                        </span>*/}
+                    {/*            <span className="mt-3">*/}
+                    {/*                            <b>Parcela:</b> {item.qtd_parcelas} <br/>*/}
+                    {/*                        </span>*/}
+                    {/*            <span className="d-block">*/}
+                    {/*                            <b>Vencimento:</b> {item.data_vencimento}*/}
+                    {/*                        </span>*/}
+                    {/*            <span className="d-block">*/}
+                    {/*                            <b>Prev. Recebimento:</b> {item.previsao_recebimento}*/}
+                    {/*                        </span>*/}
+                    {/*        </td>*/}
+                    {/*        <td className="cursor-pointer" style={{maxWidth: 100}}*/}
+                    {/*            onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>*/}
+                    {/*                        <span className="d-block">*/}
+                    {/*                            Valor Baixa: {item.valor_baixa && <>R$ {item.valor_baixa}</>}*/}
+                    {/*                        </span>*/}
+                    {/*            <span className="d-block">*/}
+                    {/*                            Data Baixa: {item.data_baixa}*/}
+                    {/*                        </span>*/}
+                    {/*        </td>*/}
+                    {/*        <td className="cursor-pointer" style={{maxWidth: 100}}*/}
+                    {/*            onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>*/}
+                    {/*            <a className="btn btn-link btn-sm p-0"*/}
+                    {/*               href={route('admin.financeiro.fluxo-caixa.show', item.id)}>*/}
+                    {/*                <RemoveRedEyeOutlinedIcon/>*/}
+                    {/*            </a>*/}
+                    {/*        </td>*/}
+                    {/*    </tr>*/}
+                    {/*    </tbody>*/}
+                    {/*</table>*/}
+                </Card>
+            )}
+
+            {/*Modal*/}
             <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">

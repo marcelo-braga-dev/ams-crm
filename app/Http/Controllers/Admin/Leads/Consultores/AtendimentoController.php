@@ -31,18 +31,18 @@ class AtendimentoController extends Controller
             compact('dados', 'status', 'historicos', 'contatos', 'consultores'));
     }
 
-    public function update($id, Request $request)
-    {
-        if ($request->salvar_msg) {
-            (new LeadsHistoricos())->create($id, $request, $request->status);
-        } else {
-            (new UpdateStatusLeads())->atendimento($id); // Finaliza Atendimento
-            (new LeadsHistoricos())->create($id, $request, 'finalizado');
-        }
-
-        modalSucesso('Status atualizado!');
-        return redirect()->route('consultor.leads.main.index');
-    }
+//    public function update($id, Request $request)
+//    {
+//        if ($request->salvar_msg) {
+//            (new LeadsHistoricos())->create($id, $request, $request->status);
+//        } else {
+//            (new UpdateStatusLeads())->atendimento($id); // Finaliza Atendimento
+//            (new LeadsHistoricos())->create($id, $request, 'finalizado');
+//        }
+//
+//        modalSucesso('Status atualizado!');
+//        return redirect()->route('consultor.leads.main.index');
+//    }
 
     public function voltarStatus($id)
     {

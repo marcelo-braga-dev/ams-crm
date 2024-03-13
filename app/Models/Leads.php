@@ -397,7 +397,7 @@ class Leads extends Model
     {
         if (!$item) return [];
 
-        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
+//        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
 
         return [
             'id' => $item->id,
@@ -420,7 +420,7 @@ class Leads extends Model
             'contato' => [
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
-                'telefones' => $telefones,
+//                'telefones' => $telefones,
                 'atendente' => $item->atendente,
             ],
             'infos' => [
