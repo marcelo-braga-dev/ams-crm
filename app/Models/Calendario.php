@@ -28,4 +28,27 @@ class Calendario extends Model
                 'data' => $dados->data
             ]);
     }
+
+    public function mensagens($idUsuario = null)
+    {
+        $query = $this->newQuery();
+        if ($idUsuario) $query->where('user_id', $idUsuario);
+        $calendario = $query->get();
+
+        $nomes = (new User())->getNomes();
+
+        $avisosCalendario = [];
+        foreach ($calendario as $item) {
+            $ano = date('Y', strtotime($item->data));
+            $mes = date('m', strtotime($item->data));
+            $dia = date('d', strtotime($item->data));
+
+            $avisosCalendario[$ano][intval($mes)][intval($dia)][] = [
+                'nome' => $nomes[$item->user_id],
+                'msg' => $item->msg
+            ];
+        }
+
+        return $avisosCalendario;
+    }
 }

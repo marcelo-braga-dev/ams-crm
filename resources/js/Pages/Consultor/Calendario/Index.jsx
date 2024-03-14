@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import {useState} from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -59,39 +59,29 @@ export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
         switch (valor) {
             case 'revisar':
                 return {backgroundColor: coresPedidos.reprovado};
-                break;
             case 'conferencia':
                 return {backgroundColor: coresPedidos.conferencia};
-                break;
             case 'lancado':
                 return {backgroundColor: coresPedidos.lancado};
-                break;
             case 'aguardando_nota':
                 return {backgroundColor: coresPedidos.boleto};
-                break;
             case 'aguardando_pagamento':
                 return {backgroundColor: coresPedidos.pagamento};
-                break;
             case 'aguardando_faturamento':
                 return {backgroundColor: coresPedidos.faturamento};
-                break;
             case 'faturado':
                 return {backgroundColor: coresPedidos.faturado};
-                break;
             case 'acompanhamento':
                 return {backgroundColor: coresPedidos.acompanhamento};
-                break;
             case 'entregue':
                 return {backgroundColor: coresPedidos.entregue};
-                break;
             case 'cancelado':
                 return {backgroundColor: coresPedidos.cancelados};
-                break;
         }
     }
 
     return (
-        <Layout container titlePage="Calendário" menu="agenda" submenu="calendario">
+        <Layout container titlePage="Calendário" menu="calendario-agenda">
 
             <div className="row mb-3 justify-content-between">
                 <div className="col-md-6">
@@ -109,10 +99,10 @@ export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
                         </div>
                     </div>
                 </div>
-                <div className="col-auto">
-                    <a href={route('admin.agenda.calendario.create')} className="btn btn-primary btn-sm">Novo
-                        registro</a>
-                </div>
+                {/*<div className="col-auto">*/}
+                {/*    <a href={route('admin.agenda.calendario.create')} className="btn btn-primary btn-sm">Novo*/}
+                {/*        registro</a>*/}
+                {/*</div>*/}
             </div>
 
             <div className="">

@@ -511,4 +511,26 @@ class Pedidos extends Model
             ->whereIn('id', $idPedidosFaturados)
             ->sum('preco_venda');
     }
+
+    public function prazos($idUsuario = null)
+    {
+        $query = $this->newQuery();
+        if ($idUsuario) $query->where('user_id', $idUsuario);
+        $pedidos = $query->get(['id', 'status', 'status_data', 'prazo']);
+
+        $prazosPedidos = [];
+        foreach ($pedidos as $pedido) {
+            if ($pedido->status !== 'entregue' && $pedido->status !== 'cancelado') {
+                $ano = date('Y', strtotime($pedido->status_data));
+                $mes = date('m', strtotime($pedido->status_data));
+                $dia = date('d', strtotime('+' . $pedido->prazo . ' days', strtotime($pedido->status_data)));
+
+                $prazosPedidos[$ano][intval($mes)][intval($dia)][] = [
+                    'id' => $pedido->id,
+                    'status' => $pedido->status
+                ];
+            }
+        }
+        return $prazosPedidos;
+    }
 }

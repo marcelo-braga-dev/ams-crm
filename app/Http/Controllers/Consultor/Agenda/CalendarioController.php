@@ -1,27 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Agenda;
+namespace App\Http\Controllers\Consultor\Agenda;
 
 use App\Http\Controllers\Controller;
 use App\Models\Calendario;
 use App\Models\ConfigCores;
 use App\Models\Pedidos;
-use App\Models\User;
 use App\Services\Usuarios\UsuariosService;
-use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CalendarioController extends Controller
 {
     public function index()
     {
-        $prazosPedidos = (new Pedidos())->prazos();
+        $prazosPedidos = (new Pedidos())->prazos(id_usuario_atual());
 
-        $avisosCalendario = (new Calendario())->mensagens();
+        $avisosCalendario = (new Calendario())->mensagens(id_usuario_atual());
 
         $coresPedidos = (new ConfigCores())->getPedidos();
 
-        return Inertia::render('Admin/Calendario/Index',
+        return Inertia::render('Consultor/Calendario/Index',
             compact('prazosPedidos', 'avisosCalendario', 'coresPedidos'));
     }
 
@@ -29,7 +28,7 @@ class CalendarioController extends Controller
     {
         $usuarios = (new UsuariosService())->ativos();
 
-        return Inertia::render('Admin/Calendario/Create', compact('usuarios'));
+        return Inertia::render('Consultor/Calendario/Create', compact('usuarios'));
     }
 
     public function store(Request $request)

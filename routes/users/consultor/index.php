@@ -12,4 +12,5 @@ Route::middleware(['auth', 'auth.consultores'])
         require __DIR__ . '/chat-interno.php';
         require __DIR__ . '/produtos.php';
         require __DIR__ . '/relatorios.php';
+        require __DIR__ . '/calendario.php';
     });

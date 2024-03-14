@@ -5,9 +5,10 @@ import chatInterno from './chatInterno';
 import sac from './sac';
 import perfil from './perfil';
 import relatorios from './relatorios';
+import calendario from './calendario';
 
 const menuItems = {
-  items: [pedidos, clientes, produtos, chatInterno, relatorios, sac, perfil]
+  items: [pedidos, clientes, produtos, chatInterno, calendario, relatorios, sac, perfil]
 };
 
 export default menuItems;

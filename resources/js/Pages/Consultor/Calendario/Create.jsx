@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
@@ -26,6 +26,7 @@ export default function ({usuarios}) {
                     <div className="col-md-4">
                         <TextField label="Usuário" select fullWidth required defaultValue=""
                                    onChange={e => setData('usuario', e.target.value)}>
+                            <MenuItem value="todos">Todos Usuários</MenuItem>
                             {usuarios.map((item, index) => {
                                 return (
                                     <MenuItem key={index} value={item.id}>#{item.id} - {item.nome}</MenuItem>
