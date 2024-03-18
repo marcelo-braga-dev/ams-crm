@@ -18,7 +18,7 @@ export default function Card({dados, status, cor}) {
     return <CardPedidos
         dados={dados}
         menuMore={<MenuMore id={dados.id} status={status}/>}
-        btnAvancaStatus={avancarStatus(dados.id, status)}
+        btnAvancaStatus={avancarStatus(dados.id, status, dados.infos.situacao)}
         alerts={<AlertsCard dados={dados}/>}
         border={cor}/>
 }

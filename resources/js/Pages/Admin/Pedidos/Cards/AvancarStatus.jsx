@@ -1,4 +1,6 @@
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrowRounded";
+import DownloadIcon from "@mui/icons-material/DownloadRounded";
+import React from "react";
 
 function btnStatusPadrao(link) {
     return (
@@ -11,7 +13,24 @@ function btnStatusPadrao(link) {
     )
 }
 
-const avancarStatus = (id, status) => {
+function btnStatusFaturando(link, situacao) {
+    return (
+        <a href={link}>
+            {situacao === 'novo' &&
+                <button className="btn btn-danger btn-sm p-1">
+                    <DownloadIcon></DownloadIcon>
+                </button>}
+            {situacao === 'visualizado' &&
+                <DoubleArrowIcon
+                    className='shadow border-2 p-0 rounded-circle'
+                    color='success'
+                    sx={{fontSize: 32}}/>
+            }
+        </a>
+    )
+}
+
+const avancarStatus = (id, status, situacao) => {
 
     switch (status) {
         case 'reprovado':
@@ -27,7 +46,7 @@ const avancarStatus = (id, status) => {
         case 'pagamento':
             return btnStatusPadrao(route('admin.aguardando-pagamento.show', id))
         case 'faturamento':
-            return btnStatusPadrao(route('admin.aguardando-faturamento.show', id))
+            return btnStatusFaturando(route('admin.aguardando-faturamento.show', id), situacao)
         case 'faturado':
             return btnStatusPadrao(route('admin.faturado.show', id))
         case 'faturado_vista':
