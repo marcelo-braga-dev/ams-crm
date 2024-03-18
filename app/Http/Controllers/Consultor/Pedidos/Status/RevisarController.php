@@ -68,7 +68,6 @@ class RevisarController extends Controller
             (new Pedidos())->updateDados($id, $request, $prazo);
         } catch (\DomainException|QueryException|\ErrorException $exception) {
             DB::rollBack();
-            print_pre($exception->getMessage());
             modalErro('Falha na atualização.');
             return redirect()->back();
         }

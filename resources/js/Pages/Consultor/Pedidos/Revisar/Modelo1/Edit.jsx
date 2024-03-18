@@ -60,7 +60,7 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco}) {
     }
 
     return (
-        <Layout titlePage="Revisar Pedido" voltar={route('consultor.pedidos.index', {id_card:  pedido.pedido.id})}>
+        <Layout titlePage="Revisar Pedido" voltar={route('consultor.pedidos.index', {id_card:  pedido.id})}>
 
             <Alert severity="warning">{pedido.obs}</Alert>
 
