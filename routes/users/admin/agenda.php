@@ -8,4 +8,6 @@ Route::middleware(['auth', 'auth.admins'])
     ->prefix('admin/agenda')
     ->group(function () {
         Route::resource('calendario', CalendarioController::class);
+        Route::post('registros', [CalendarioController::class, 'registros'])->name('registros');
+        Route::post('alterar-status', [CalendarioController::class, 'alterarStatus'])->name('alterar-status');
     });

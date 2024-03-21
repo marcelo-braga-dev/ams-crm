@@ -73,6 +73,22 @@ class Setores extends Model
         return $dados;
     }
 
+    public function getSetoresFranquias(): array
+    {
+        $items = $this->newQuery()->get();
+        $dados = [];
+
+        foreach ($items as $item) {
+            $dados[$item->franquia_id][] = [
+                'id' => $item->id,
+                'nome' => $item->nome,
+                'cor' => $item->cor
+            ];
+        }
+
+        return $dados;
+    }
+
     public function setores()
     {
         $items = $this->newQuery()->get();

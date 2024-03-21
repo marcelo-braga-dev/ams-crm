@@ -6,33 +6,40 @@ import {router, useForm} from "@inertiajs/react";
 
 export default function ({usuarios}) {
     const {post, data, setData} = useForm({
-        usuario: ''
+        registroPessoal: true
     });
 
     function submit(e) {
         e.preventDefault()
-        router.post(route('admin.agenda.calendario.store'), data)
+        router.post(route('consultor.calendario.agenda.store'), data)
     }
 
     return (
-        <Layout titlePage="Novo Registro de Calendário" menu="agenda" submenu="calendario"
-                voltar={route('admin.agenda.calendario.index')}>
+        <Layout titlePage="Novo Registro de Agenda" menu="calendario-agenda"
+                voltar={route('consultor.calendario.agenda.index')}>
             <form onSubmit={submit}>
-                <div className="row">
-                    <div className="col-auto">
-                        <TextField type="date" required
+                <div className="row mb-5">
+                    <div className="col-3">
+                        <TextField type="datetime-local" required fullWidth
                                    onChange={e => setData('data', e.target.value)}/>
                     </div>
-                    <div className="col-md-4">
-                        <TextField label="Usuário" select fullWidth required defaultValue=""
-                                   onChange={e => setData('usuario', e.target.value)}>
-                            <MenuItem value="todos">Todos Usuários</MenuItem>
-                            {usuarios.map((item, index) => {
-                                return (
-                                    <MenuItem key={index} value={item.id}>#{item.id} - {item.nome}</MenuItem>
-                                )
-                            })}
+                    <div className="col-md-3">
+                        <TextField label="Categoria" select fullWidth required defaultValue=""
+                                   onChange={e => setData('categoria', e.target.value)}>
+                            <MenuItem value="reuniao">Reunião</MenuItem>
+                            <MenuItem value="visita">Visitas</MenuItem>
+                            <MenuItem value="anotacoes">Anotações</MenuItem>
                         </TextField>
+                    </div>
+                    <div className="col">
+
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col">
+                        <TextField label="Título" fullWidth required
+                                   onChange={e => setData('titulo', e.target.value)}/>
                     </div>
                 </div>
 

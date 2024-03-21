@@ -93,7 +93,7 @@ export default function Index({emails, folders, folderAtual}) {
     }
 
     return (
-        <Layout container titlePage="Caixa de Entrada" menu="emails" submenu="recebidas">
+        <Layout container titlePage="Caixa de Entrada" menu="ferramentas" submenu="ferramentas-email">
             <div className="row">
                 <div className="col-md-3 p-0">
                     <form>

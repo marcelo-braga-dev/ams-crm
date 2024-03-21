@@ -10,7 +10,7 @@ const dashboard = {
         id: 'calendario-agenda',
         title: 'Agenda',
         type: 'item',
-        url: route('consultor.agenda.index'),
+        url: route('consultor.calendario.agenda.index'),
         icon: CalendarMonthOutlinedIcon,
         breadcrumbs: false
     }]

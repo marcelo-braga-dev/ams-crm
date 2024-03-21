@@ -1,9 +1,34 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import {router} from "@inertiajs/react";
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import CardTravelOutlinedIcon from '@mui/icons-material/CardTravelOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+
+export default function ({coresPedidos}) {
+
+    const [registrosPedidos, setRegistrosPedidos] = useState([]);
+    const [registrosReunioes, setRegistrosReunioes] = useState([]);
+    const [tipoSelecionado, setTipoSelecionado] = useState(['pedidos', 'reunioes', 'visitas', 'anotacoes']);
+
+    const handleFormat = (event, newFormats) => setTipoSelecionado(newFormats);
+
+    function buscarRegistros(tipos) {
+        axios.post(route('admin.agenda.registros', {tipos: tipoSelecionado}))
+            .then(res => {
+                setRegistrosPedidos(res.data.pedidos)
+                setRegistrosReunioes(res.data.reunioes)
+            })
+    }
+
+    useEffect(() => {
+        buscarRegistros()
+    }, [tipoSelecionado]);
 
     const months = [
         "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
@@ -59,42 +84,32 @@ export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
         switch (valor) {
             case 'revisar':
                 return {backgroundColor: coresPedidos.reprovado};
-                break;
             case 'conferencia':
                 return {backgroundColor: coresPedidos.conferencia};
-                break;
             case 'lancado':
                 return {backgroundColor: coresPedidos.lancado};
-                break;
             case 'aguardando_nota':
                 return {backgroundColor: coresPedidos.boleto};
-                break;
             case 'aguardando_pagamento':
                 return {backgroundColor: coresPedidos.pagamento};
-                break;
             case 'aguardando_faturamento':
                 return {backgroundColor: coresPedidos.faturamento};
-                break;
             case 'faturado':
                 return {backgroundColor: coresPedidos.faturado};
-                break;
             case 'acompanhamento':
                 return {backgroundColor: coresPedidos.acompanhamento};
-                break;
             case 'entregue':
                 return {backgroundColor: coresPedidos.entregue};
-                break;
             case 'cancelado':
                 return {backgroundColor: coresPedidos.cancelados};
-                break;
         }
     }
 
     return (
-        <Layout container titlePage="Calendário" menu="agenda" submenu="calendario">
+        <Layout titlePage="Agenda" menu="ferramentas" submenu="ferramentas-agenda">
 
-            <div className="row mb-3 justify-content-between">
-                <div className="col-md-6">
+            <div className="row mb-3">
+                <div className="col-md-3">
                     <div className="row">
                         <div className="col-auto">
                             <button className="btn btn-link p-0 m-2" onClick={() => mudarMes(-1)}>
@@ -110,12 +125,31 @@ export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
                     </div>
                 </div>
                 <div className="col-auto">
-                    <a href={route('admin.agenda.calendario.create')} className="btn btn-primary btn-sm">Novo
-                        registro</a>
+                    <a href={route('admin.agenda.calendario.create')} className="btn btn-primary btn-sm">
+                        Novo registro
+                    </a>
                 </div>
             </div>
 
-            <div className="">
+            <div className="mb-4">
+                <ToggleButtonGroup value={tipoSelecionado} onChange={handleFormat}>
+                    <ToggleButton value="pedidos">
+                        Pedidos
+                    </ToggleButton>
+                    <ToggleButton value="reunioes">
+                        Reuniões
+                    </ToggleButton>
+                    <ToggleButton value="visitas">
+                        Visitas
+                    </ToggleButton>
+                    <ToggleButton value="anotacoes">
+                        Anotacões
+                    </ToggleButton>
+                </ToggleButtonGroup>
+            </div>
+
+            <div className="mb-2">
+                <small className="d-block text-muted">Status Pedidos</small>
                 <small style={{backgroundColor: coresPedidos.reprovado}}
                        className="badge rounded-pill mb-2 me-2 text-white">
                     Reprovado
@@ -157,13 +191,13 @@ export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
                 <table className="table">
                     <thead>
                     <tr className="text-center ">
-                        <th className="border text-sm text-danger" style={{width: '14%'}}>DOM</th>
+                        <th className="border text-sm text-danger" style={{width: '14.28%'}}>DOM</th>
                         <th className="border text-sm">SEG</th>
-                        <th className="border text-sm" style={{width: '14%'}}>TER</th>
-                        <th className="border text-sm" style={{width: '14%'}}>QUA</th>
-                        <th className="border text-sm" style={{width: '14%'}}>QUI</th>
-                        <th className="border text-sm" style={{width: '14%'}}>SEX</th>
-                        <th className="border text-sm" style={{width: '14%'}}>SAB</th>
+                        <th className="border text-sm" style={{width: '14.28%'}}>TER</th>
+                        <th className="border text-sm" style={{width: '14.28%'}}>QUA</th>
+                        <th className="border text-sm" style={{width: '14.28%'}}>QUI</th>
+                        <th className="border text-sm" style={{width: '14.28%'}}>SEX</th>
+                        <th className="border text-sm" style={{width: '14.28%'}}>SAB</th>
                     </tr>
                     </thead>
                     <tbody className="align-text-top">
@@ -171,54 +205,106 @@ export default function ({prazosPedidos, avisosCalendario, coresPedidos}) {
                         return (
                             <tr key={indexRow}>
                                 {row.map((dia, indexCol) => {
-                                    let alert = []
+                                    let pedidos = []
 
                                     function pedidosPrazo() {
                                         try {
-                                            alert.push(prazosPedidos[activeDate.getFullYear()][activeDate.getMonth() + 1][dia])
+                                            pedidos.push(registrosPedidos[activeDate.getFullYear()][activeDate.getMonth() + 1][dia])
                                         } catch (e) {
                                         }
-                                        return (alert[0]?.map((dado, index) => {
-                                            return (
-                                                <small key={index} style={corPedidos(dado.status)}
-                                                       className="badge d-block rounded-pill mt-2 py-2 text-wrap">
-                                                    <a href={route('admin.pedidos.show', dado.id)}
-                                                       className="text-white">
-                                                        Prazo Pedido #{dado.id}</a>
-                                                </small>
-                                            )
-                                        }))
+                                        return pedidos[0] &&
+                                            <span className="d-block border shadow p-1 border-success rounded">
+                                            Fim Prazo Pedidos:<br/>
+                                                {pedidos[0]?.map((dado, index) => {
+                                                    return (
+                                                        <span key={index} className="badge m-1" style={corPedidos(dado.status)}>
+                                                         <a className="text-white"
+                                                            href={route('admin.pedidos.show', dado.id)}>#{dado.id}</a>
+                                                     </span>
+                                                    )
+                                                })}
+                                        </span>
                                     }
 
-                                    let avisosTag = []
+                                    let registroReunioes = []
+                                    let registroVisitas = []
+                                    let registroAnotacoes = []
+
+                                    function infos(item, Icon) {
+                                        return (<>
+                                            <div className="row">
+                                                <div className="col">
+                                                    <small><Icon sx={{fontSize: 15}}/> {item.categoria}</small>
+                                                </div>
+                                                <div className="col-auto text-end">
+
+
+                                                </div>
+                                            </div>
+                                            {item.status === 'novo' ?
+                                                <div className="d-block text-end mb-2"><span className="badge bg-success">{item.status_nome}</span></div> :
+                                                <small className="d-block text-end mb-2"><b>{item.status_nome}</b></small>
+                                            }
+                                            <span className="d-block text-center"><b>{item.titulo}</b></span>
+                                            <small className="d-block text-muted mb-2 text-center">{item.data}</small>
+                                            <span className="d-block text-start mb-2">{item.msg}</span>
+                                            <small className="d-block text-end font-italic"><b>{item.autor}</b></small>
+                                        </>)
+                                    }
 
                                     function avisosCalendarioTag() {
                                         try {
-                                            avisosTag.push(avisosCalendario[activeDate.getFullYear()][activeDate.getMonth() + 1][dia])
+                                            registroReunioes.push(registrosReunioes[activeDate.getFullYear()][activeDate.getMonth() + 1][dia]['reuniao'])
+                                            registroVisitas.push(registrosReunioes[activeDate.getFullYear()][activeDate.getMonth() + 1][dia]['visita'])
+                                            registroAnotacoes.push(registrosReunioes[activeDate.getFullYear()][activeDate.getMonth() + 1][dia]['anotacoes'])
                                         } catch (e) {
                                         }
-                                        return (avisosTag[0]?.map(({msg, nome}, index) => {
+
+                                        const reunioes = registroReunioes[0]?.map((item) => {
                                             return (
-                                                <small key={index}
-                                                       className="d-block bg-dark mt-2 p-1 py-2 text-center text-white rounded text-wrap">
-                                                    <b>{nome}</b><br/>
-                                                    {msg}
-                                                </small>
+                                                <div key={item.id}
+                                                     onClick={() => router.get(route('admin.agenda.calendario.show', item.id))}
+                                                     className="mb-3 p-2 border border-warning rounded text-wrap shadow cursor-pointer">
+                                                    {infos(item, GroupsOutlinedIcon)}
+                                                </div>
                                             )
-                                        }))
+                                        })
+
+                                        const visitas = registroVisitas[0]?.map((item, index) => {
+                                            return (
+                                                <div key={item.id}
+                                                     onClick={() => router.get(route('admin.agenda.calendario.show', item.id))}
+                                                     className="mb-3 p-2 border border-info rounded text-wrap shadow cursor-pointer">
+                                                    {infos(item, CardTravelOutlinedIcon)}
+                                                </div>
+                                            )
+                                        })
+
+                                        const anotacoes = registroAnotacoes[0]?.map((item, index) => {
+                                            return (
+                                                <div key={item.id}
+                                                     onClick={() => router.get(route('admin.agenda.calendario.show', item.id))}
+                                                     className="mb-3 p-2 border border-dark rounded text-wrap shadow cursor-pointer">
+                                                    {infos(item, ArticleOutlinedIcon)}
+                                                </div>
+                                            )
+                                        })
+
+                                        return ([reunioes, visitas, anotacoes])
                                     }
 
                                     return (
-                                        <td key={indexCol} className="border" style={{maxWidth: 10}}>
-                                            <div className="row px-1 mb-4">
-                                                <small
-                                                    className={(indexCol === 0 ? 'text-danger ' : '') + "d-block text-end"}>
+                                        <td key={indexCol} className="border text-wrap">
+                                            <div className="row mb-4 text-wrap">
+                                                <span
+                                                    className={(indexCol === 0 ? 'text-danger ' : '') + "d-block text-end text-wrap fs-6 mb-2"}>
                                                     {dia === dataAtual && activeDate.getMonth() === mesAtual ?
                                                         <span className="badge rounded-pill bg-dark">{dia}</span> : dia}
-
+                                                </span>
+                                                <span className="m-1">
                                                     {avisosCalendarioTag()}
                                                     {pedidosPrazo()}
-                                                </small>
+                                                </span>
                                             </div>
                                         </td>
                                     )

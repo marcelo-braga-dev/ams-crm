@@ -58,9 +58,31 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getNomes()
+    public function getNomes($ativos = false)
     {
-        return $this->newQuery()->pluck('name', 'id');
+        return $this->newQuery()
+            ->where($ativos ? [['status', (new AtivoStatusUsuario())->getStatus()]] : null)
+            ->pluck('name', 'id');
+    }
+
+    public function getNomesAvatar($ativos = false)
+    {
+        $items = $this->newQuery()
+            ->where($ativos ? [['status', (new AtivoStatusUsuario())->getStatus()]] : null)
+            ->get(['id', 'name', 'foto'])
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
+                ];
+            });
+
+        $dados = [];
+        foreach ($items as $item) {
+            $dados[$item['id']] = $item;
+        }
+        return $dados;
     }
 
     public function usuarios($ativos = false)
@@ -392,5 +414,16 @@ class User extends Authenticatable
                     'status' => $item->status
                 ];
             });
+    }
+
+    public function filtrar($franquia = null, $setor = null, $ativos = true)
+    {
+        $query = $this->newQuery();
+
+        if ($franquia) $query->where('franquia_id', $franquia);
+        if ($setor) $query->where('setor_id', $setor);
+        if ($ativos) $query->where('status', (new AtivoStatusUsuario())->getStatus());
+
+        return $query->pluck('name', 'id');
     }
 }
