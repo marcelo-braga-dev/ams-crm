@@ -6,19 +6,20 @@ use App\Models\MetasVendas;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
+use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\RevisarStatusPedido;
 use Illuminate\Support\Facades\DB;
 
 class EconomicosService
 {
-    public function lucros()
+    public function lucros($ano)
     {
         $nomes = (new User())->getNomes();
 
         $vendas = (new Pedidos())->newQuery()
-            ->where('status', '!=', (new RevisarStatusPedido())->getStatus())
-            ->where('status', '!=', (new CanceladoStatus())->getStatus())
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereYear('created_at', $ano)
             ->select(
                 'user_id',
                 'setor_id',
@@ -63,7 +64,7 @@ class EconomicosService
         $meses['custo_total'] = convert_float_money($custoTotal);
         $meses['margem_lucro_total'] = convert_float_money($margemLucroTotal / (count($vendas) > 0 ?: 1));
         $meses['crescimento_total'] = convert_float_money($crescimentoTotal / (count($vendas) > 0 ?: 1));
-//        print_pre($meses);
+
         return $meses;
     }
 }

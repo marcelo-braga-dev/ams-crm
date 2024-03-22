@@ -12,16 +12,19 @@ use Inertia\Inertia;
 
 class VendasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $valores = (new ValoresService())->dados();
-        $metaVendas = (new VendasService())->metaVendas();
-        $topConsultores = (new TopVendasService())->consultores();
-        $topCompradores = (new TopVendasService())->integradores();
-        $vendasMensais = (new VendasMensaisService())->vendas($valores['meta_float']);
+        $mes = $request->mes ?? date('n');
+        $ano = $request->ano ?? date('Y');
+
+        $valores = (new ValoresService())->dados($mes, $ano);
+        $metaVendas = (new VendasService())->metaVendas($mes, $ano);
+        $topConsultores = (new TopVendasService())->consultores($mes, $ano);
+        $topCompradores = (new TopVendasService())->integradores($mes, $ano);
+        $vendasMensais = (new VendasMensaisService())->vendas($valores['meta_float'], $ano);
 
         return Inertia::render('Admin/Dashboard/Vendas/Index',
             compact('metaVendas', 'topConsultores', 'topCompradores', 'valores',
-                'vendasMensais'));
+                'vendasMensais', 'mes', 'ano'));
     }
 }

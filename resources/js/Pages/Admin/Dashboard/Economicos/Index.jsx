@@ -2,10 +2,30 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import "chart.js/auto";
 import Lucro from "./Graficos/Lucro";
 import LucroPie from "@/Pages/Admin/Dashboard/Economicos/Graficos/LucroPie";
+import {router} from "@inertiajs/react";
+import {TextField} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 
-export default function ({lucros}) {
+export default function ({lucros, ano}) {
+
+    function filtrar(anoSelecionado) {
+        router.get(route('admin.dashboard.economicos.index'), {ano: anoSelecionado})
+    }
+
     return (
-        <Layout container titlePage="Indicadores Econômicos" menu="dashboard" submenu="economicos">
+        <Layout container titlePage="Indicadores Econômicos" menu="dashboard" submenu="dashboard-economico">
+            <div className="card card-body mb-4">
+                <div className="row">
+                    <div className="col-2">
+                        <TextField label="Ano" select fullWidth defaultValue={ano}
+                                   onChange={e => filtrar(e.target.value)}>
+                            <MenuItem value="2023">2023</MenuItem>
+                            <MenuItem value="2024">2024</MenuItem>
+                        </TextField>
+                    </div>
+                </div>
+            </div>
+
             <div className="card">
                 <div className="card-body">
                     <div className="row">

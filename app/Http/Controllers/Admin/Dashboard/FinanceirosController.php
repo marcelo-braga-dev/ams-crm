@@ -9,12 +9,14 @@ use Inertia\Inertia;
 
 class FinanceirosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $faturamento = (new FinanceirosService())->faturamento();
-        $prazos = (new FinanceirosService())->prazos();
+        $ano = $request->ano ?? date('Y');
+
+        $faturamento = (new FinanceirosService())->faturamento($ano);
+        $prazos = (new FinanceirosService())->prazos($ano);
 
         return Inertia::render('Admin/Dashboard/Financeiros/Index',
-            compact('faturamento', 'prazos'));
+            compact('faturamento', 'prazos', 'ano'));
     }
 }

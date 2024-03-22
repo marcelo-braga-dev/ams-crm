@@ -9,11 +9,13 @@ use Inertia\Inertia;
 
 class EconomicosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $lucros = (new EconomicosService())->lucros();
+        $ano = $request->ano ?? date('Y');
+
+        $lucros = (new EconomicosService())->lucros($ano);
 
         return Inertia::render('Admin/Dashboard/Economicos/Index',
-        compact('lucros'));
+            compact('lucros', 'ano'));
     }
 }

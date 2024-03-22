@@ -7,9 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class VendasMensaisService
 {
-    public function vendas($meta)
+    public function vendas($meta, $ano)
     {
         $items = (new Pedidos())->newQuery()
+            ->whereYear('created_at', $ano)
             ->select(
                 DB::raw('MONTH(created_at) as mes'),
                 DB::raw('SUM(preco_venda) as vendas')

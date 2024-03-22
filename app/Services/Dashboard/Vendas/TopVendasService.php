@@ -2,17 +2,23 @@
 
 namespace App\Services\Dashboard\Vendas;
 
+use App\Models\Leads;
 use App\Models\Pedidos;
 use App\Models\User;
+use App\Services\Pedidos\StatusPedidosServices;
+use App\src\Pedidos\StatusPedidos;
 use Illuminate\Support\Facades\DB;
 
 class TopVendasService
 {
-    public function consultores()
+    public function consultores($mes, $ano)
     {
         $nomes = (new User())->getNomes();
 
         return (new Pedidos())->newQuery()
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereMonth('created_at', $mes)
+            ->whereYear('created_at', $ano)
             ->select('user_id', DB::raw('SUM(preco_venda) as vendas'))
             ->orderByDesc('vendas')
             ->groupBy('user_id')
@@ -26,17 +32,22 @@ class TopVendasService
             });
     }
 
-    public function integradores()
+    public function integradores($mes, $ano)
     {
+        $nomes = (new Leads())->getNomes();
+
         return (new Pedidos())->newQuery()
-            ->select('user_id', 'integrador', DB::raw('SUM(preco_venda) as vendas'))
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereMonth('created_at', $mes)
+            ->whereYear('created_at', $ano)
+            ->select('user_id', 'lead_id', DB::raw('SUM(preco_venda) as vendas'))
             ->orderByDesc('vendas')
-            ->groupBy('integrador')
+            ->groupBy('lead_id')
             ->limit(5)
             ->get()
-            ->transform(function ($item) {
+            ->transform(function ($item) use ($nomes) {
                 return [
-                    'nome' => $nomes[$item->user_id] ?? '',
+                    'nome' => $nomes[$item->lead_id] ?? '',
                     'valor' => $item->vendas
                 ];
             });

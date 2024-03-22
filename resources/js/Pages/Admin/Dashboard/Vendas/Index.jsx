@@ -8,11 +8,46 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import TopVendas from "@/Pages/Admin/Dashboard/Vendas/Graficos/TopVendas";
 import VendasMensasPie from "@/Pages/Admin/Dashboard/Vendas/Graficos/VendasMensasPie";
+import {TextField} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import {useEffect, useState} from "react";
+import {router} from "@inertiajs/react";
 
-export default function ({metaVendas, topConsultores, topCompradores, valores, vendasMensais}) {
+export default function ({metaVendas, topConsultores, topCompradores, valores, vendasMensais, mes, ano}) {
+    function filtrar(mes, ano) {
+        router.get(route('admin.dashboard.vendas.index'), {mes: mes, ano: ano})
+    }
 
     return (
-        <Layout container titlePage="Indicadores de Vendas" menu="dashboard" submenu="vendas">
+        <Layout container titlePage="Indicadores de Vendas" menu="dashboard" submenu="dashboard-vendas">
+            <div className="card card-body mb-4">
+                <div className="row">
+                    <div className="col-2">
+                        <TextField label="Ano" select fullWidth defaultValue={ano}
+                                   onChange={e => filtrar(mes, e.target.value)}>
+                            <MenuItem value="2023">2023</MenuItem>
+                            <MenuItem value="2024">2024</MenuItem>
+                        </TextField>
+                    </div>
+                    <div className="col-2">
+                        <TextField label="Mês" select fullWidth defaultValue={mes}
+                                   onChange={e => filtrar(e.target.value, ano)}>
+                            <MenuItem value="1">Janeiro</MenuItem>
+                            <MenuItem value="2">Fevereiro</MenuItem>
+                            <MenuItem value="3">Março</MenuItem>
+                            <MenuItem value="4">Abril</MenuItem>
+                            <MenuItem value="5">Maio</MenuItem>
+                            <MenuItem value="6">Junho</MenuItem>
+                            <MenuItem value="7">Julho</MenuItem>
+                            <MenuItem value="8">Agosto</MenuItem>
+                            <MenuItem value="9">Setembro</MenuItem>
+                            <MenuItem value="10">Outubro</MenuItem>
+                            <MenuItem value="11">Novembro</MenuItem>
+                            <MenuItem value="12">Dezembro</MenuItem>
+                        </TextField>
+                    </div>
+                </div>
+            </div>
 
             {/*Cards*/}
             <div className="row row-cols-3 mb-4">
@@ -115,7 +150,8 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                                         <td>{item.margem_money}%</td>
                                         <td>
                                             {item.diferenca_meta < 0 ?
-                                                <span className="text-danger">R$ {item.diferenca_meta_money}</span> :
+                                                <span
+                                                    className="text-danger">R$ {item.diferenca_meta_money}</span> :
                                                 <span>R$ {item.diferenca_meta_money}</span>}
                                         </td>
                                     </tr>
@@ -132,7 +168,7 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                     <div className="card">
                         <div className="card-body">
                             <h6>Vendas Mensais</h6>
-                            <VendasMensasPie dados={vendasMensais} />
+                            <VendasMensasPie dados={vendasMensais}/>
                         </div>
                     </div>
                 </div>
