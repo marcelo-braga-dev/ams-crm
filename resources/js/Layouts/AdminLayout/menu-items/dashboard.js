@@ -17,6 +17,11 @@ const dashboard = {
             admin: true,
             submenu: [
                 {
+                    id: 'dashboard-relatorios',
+                    title: 'Relatórios',
+                    type: 'item',
+                    url: route('admin.dashboard.relatorios.index'),
+                }, {
                     id: 'dashboard-vendas',
                     title: 'Indicadores de Vendas',
                     type: 'item',
