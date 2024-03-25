@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('status');
             $table->date('data');
             $table->string('tipo');
-            $table->string('nota_fiscal');
+            $table->string('nota_fiscal')->nullable();
             $table->float('valor');
             $table->date('previsao_recebimento')->nullable();
             $table->date('data_vencimento')->nullable();

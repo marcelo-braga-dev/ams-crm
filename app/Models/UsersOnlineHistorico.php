@@ -27,9 +27,9 @@ class UsersOnlineHistorico extends Model
 
     public function usuariosOnline()
     {
-        $intervalo = date('Y-m-d H:i:s', (strtotime(now()) - 30));
+        $intervalo = date('Y-m-d H:i:s', (strtotime(now()) - 60));
 
-        $items = (new User())->usuarios(true);
+        $items = (new User())->usuarios();
 
         $usuarios = [];
         foreach ($items as $item) {
