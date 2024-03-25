@@ -65,13 +65,10 @@ class LeadsController extends Controller
 
     public function cadastrados(Request $request)
     {
-        $categoriaAtual = $request->categoria ?? 1;
         $categorias = (new SetoresService())->setores();
 
-        $dados = (new Leads())->getResumido($categoriaAtual);
-
         return Inertia::render('Admin/Leads/Cadastrados',
-            compact('dados', 'categorias', 'categoriaAtual'));
+            compact('categorias'));
     }
 
     public function delete(Request $request)
@@ -157,7 +154,12 @@ class LeadsController extends Controller
 
     public function update($id, Request $request)
     {
-        (new Leads())->atualizar($id, $request);
+        try {
+            (new Leads())->atualizar($id, $request);
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+            return redirect()->back();
+        }
 
         modalSucesso("Dados atualizado com sucesso!");
         return redirect($request->url);
@@ -186,5 +188,13 @@ class LeadsController extends Controller
 
         return Inertia::render('Admin/Leads/AcompanharLeads/Index',
             compact('qtdLeads'));
+    }
+
+    public function leads(Request $request)
+    {
+        $categoriaAtual = $request->setor ?? 1;
+        $dados = (new Leads())->getResumido($categoriaAtual);
+
+        return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual]);
     }
 }

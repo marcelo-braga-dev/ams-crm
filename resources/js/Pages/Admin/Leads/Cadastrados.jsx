@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DataTable from 'react-data-table-component';
 import TextField from "@mui/material/TextField";
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import MenuItem from "@mui/material/MenuItem";
-import {router} from "@inertiajs/react";
 import InfoLead from "@/Pages/Admin/Leads/Componentes/InfoLead";
+import LinearProgress from '@mui/material/LinearProgress';
 
 const columns = [
     {
@@ -42,9 +42,19 @@ function getFilteredItems(linhas, filtro, filterText) {
 
 export default function Filtering({dados, categorias, categoriaAtual}) {
 
-    const [leads, setLeads] = useState(dados)
+    const [leads, setLeads] = useState([])
+    const [carregando, setCarregando] = useState(true)
+    const [setorSelecionado, setSetorSelecionado] = useState()
 
-    // Dados
+    useEffect(() => {
+        setCarregando(true)
+        axios.get(route('admin.clientes.leads.get-leads-cadastrados', {setor: setorSelecionado}))
+            .then(res => {
+                setLeads(res.data.leads)
+                setCarregando(false)
+            })
+    }, [setorSelecionado]);
+
     const linhas = leads.map(function (items) {
         return {
             id: items.id,
@@ -59,7 +69,6 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
             estado: items.cliente.estado,
         }
     });
-    // Dados - fim
 
     const [filterText, setFilterText] = useState('');
     const [filtro, setFiltro] = useState('nome');
@@ -71,8 +80,8 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
             <div className="row border-bottom mb-4 pb-2">
                 <div className="col-md-5">
                     <TextField label="Setor" select fullWidth
-                               value={categoriaAtual ?? ''}
-                               onChange={e => router.get(route('admin.clientes.leads.leads-cadastrados', {categoria: e.target.value}))}>
+                               value={setorSelecionado ?? ''}
+                               onChange={e => setSetorSelecionado(e.target.value)}>
                         {categorias.map((option) =>
                             <MenuItem key={option.id} value={option.id}>
                                 {option.nome}
@@ -132,14 +141,16 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
                 </div>
             </div>
 
-            <DataTable
+            {carregando && <LinearProgress />}
+
+            {!carregando && <DataTable
                 columns={columns}
                 data={filteredItems}
                 pagination
                 paginationPerPage={25}
                 striped
                 highlightOnHover
-            />
+            />}
         </Layout>
     );
 };
