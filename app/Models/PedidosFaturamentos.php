@@ -78,7 +78,9 @@ class PedidosFaturamentos extends Model
         if ($mes) $queryPedidosHistoricos->whereMonth('created_at', $mes);
         if ($ano) $queryPedidosHistoricos->whereYear('created_at', $ano);
 
-        $historicoFaturados = $queryPedidosHistoricos->get()
+        $historicoFaturados = $queryPedidosHistoricos
+            ->groupBy('pedido_id')
+            ->get()
             ->transform(function ($item) {
                 return [
                     'pedido_id' => $item->pedido_id,
