@@ -6,7 +6,6 @@ import {useState} from "react";
 export default function ({graficos}) {
     const [graficoSelecionado, setGraficoSelecionado] = useState('')
 
-    const grafico = '<iframe title="Vendas" width="1024" height="1060" src="https://app.powerbi.com/view?r=eyJrIjoiYTkzODgzYjMtYThiOC00NjM2LWFhZjYtM2Q3MzQ4MjExZjEzIiwidCI6IjYxMWQyMjMxLWUwYTUtNDIxOS04YTAwLWU0NTNiZDMxZWJlMiJ9" frameBorder="0"></iframe>'
     const fullscream = graficoSelecionado
         .replace(/width="600"|width="800"|width="1024"/, 'width="100%"')
         .replace(/height="373.5"|height="486"|height="636|height="836"|height="612"|height="804"/, 'height="1060"')

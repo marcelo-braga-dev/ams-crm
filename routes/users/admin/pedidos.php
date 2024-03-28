@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Pedidos\Modelo1\ConferenciaController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\EntregueController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\FaturadoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\LancadoController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\ReprovadosController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\RetrocederController;
 use App\Http\Controllers\Admin\Pedidos\PedidosController;
 use App\Http\Controllers\Admin\Pedidos\Quadros\PedidosQuadrosController;
@@ -26,6 +27,7 @@ Route::name('admin.')
             ->name('pedidos-cards');
 
         Route::resource('pedidos', PedidosController::class);
+        Route::resource('reprovado', ReprovadosController::class);
         Route::resource('conferencia', ConferenciaController::class);
         Route::resource('lancado', LancadoController::class);
         Route::resource('aguardando-nota', AguardandoNotaController::class);
@@ -40,8 +42,6 @@ Route::name('admin.')
         Route::resource('retroceder', RetrocederController::class);
 
         Route::resource('historico', HistoricoController::class);
-
-
     });
 
 Route::name('admin.pedidos.relatorios.')
