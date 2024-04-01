@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Financeiro;
 
 use App\Http\Controllers\Controller;
+use App\Models\FinanceirosSalarios;
 use App\Models\FluxoCaixa;
 use App\Models\FluxoCaixasConfig;
 use App\Models\Franquias;
@@ -13,19 +14,23 @@ class FluxoCaixaController extends Controller
 {
     public function index(Request $request)
     {
-        $dataInicio = $request->periodoInicio;
-        $dataFim = $request->periodoFim;
-        $tipo = $request->tipo;
-        $status = $request->status;
-        $fornecedor = $request->fornecedor;
-        $franquia = $request->franquia;
+//        $dataInicio = $request->periodoInicio ?? now();
+//        $dataFim = $request->periodoFim ?? now();
+//        $tipo = $request->tipo;
+//        $status = $request->status;
+//        $fornecedor = $request->fornecedor;
+//        $franquia = $request->franquia;
+//        $empresa = $request->empresa;
+//
+//        $dados = (new FluxoCaixa())->getValores($dataInicio, $dataFim, $tipo, $status, $fornecedor, $franquia, $empresa);
+//        print_pre((new FinanceirosSalarios())->financeiro(now(), now()));
+//        print_pre($dados);
 
-        $dados = (new FluxoCaixa())->getValores($dataInicio, $dataFim, $tipo, $status, $fornecedor, $franquia);
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
+        $empresas = (new FluxoCaixasConfig())->getEmpresas();
         $franquias = (new Franquias())->get();
-
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Index',
-            compact('dados', 'dataInicio', 'dataFim', 'tipo', 'status', 'fornecedor', 'fornecedores', 'franquias', 'franquia'));
+            compact('fornecedores', 'franquias', 'empresas'));
     }
 
     public function create()
@@ -98,5 +103,21 @@ class FluxoCaixaController extends Controller
 
         modalSucesso('Pagamento excluído com sucesso!');
         return redirect()->route('admin.financeiro.fluxo-caixa.index');
+    }
+
+    public function registros(Request $request)
+    {
+        $dataInicio = $request->periodoInicio ?? now();
+        $dataFim = $request->periodoFim ?? now();
+        $tipo = $request->tipo;
+        $status = $request->status;
+        $fornecedor = $request->fornecedor;
+        $franquia = $request->franquia;
+        $empresa = $request->empresa;
+
+        $dados = (new FluxoCaixa())->getValores($dataInicio, $dataFim, $tipo, $status, $fornecedor, $franquia, $empresa);
+        $salarios = (new FinanceirosSalarios())->financeiro($dataInicio, $dataFim);
+
+        return response()->json(['registros' => $dados, 'salarios' => $salarios]);
     }
 }

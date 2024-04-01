@@ -19,11 +19,10 @@ return new class extends Migration {
             $table->unsignedBigInteger('franquia_id')->nullable();
             $table->string('status');
             $table->date('data');
+            $table->date('data_pagamento');
             $table->string('tipo');
             $table->string('nota_fiscal')->nullable();
             $table->float('valor');
-            $table->date('previsao_recebimento')->nullable();
-            $table->date('data_vencimento')->nullable();
             $table->float('valor_baixa')->nullable();
             $table->date('data_baixa')->nullable();
             $table->text('descricao')->nullable();

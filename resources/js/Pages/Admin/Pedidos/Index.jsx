@@ -42,6 +42,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
             .then(res => {
                 setPedidos(res.data.pedidos)
                 setModelo(res.data.modelo)
+                setQtdPedidos(res.data.pedidos.total)
             }).finally(() => setCarregando(false))
     }
 

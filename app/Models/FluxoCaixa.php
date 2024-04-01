@@ -18,11 +18,12 @@ class FluxoCaixa extends Model
         'franquia_id',
         'status',
         'data',
+        'data_pagamento',
         'tipo',
         'nota_fiscal',
         'valor',
-        'previsao_recebimento',
-        'data_vencimento',
+//        'previsao_recebimento',
+//        'data_vencimento',
         'valor_baixa',
         'data_baixa',
         'descricao',
@@ -44,7 +45,7 @@ class FluxoCaixa extends Model
                     'fornecedor_id' => $dados->fornecedores,
                     'franquia_id' => $dados->franquia ?? franquia_usuario_atual(),
                     'valor' => convert_money_float($item['valor']),
-                    'previsao_recebimento' => $item['previsao_recebimento'] ?? null,
+                    'data_pagamento' => $item['previsao_recebimento'] ?? $item['data_vencimento'] ?? null,
                     'banco_id' => $dados->banco,
                     'status' => $dados->status,
                     'nota_fiscal' => $dados->nota_fiscal,
@@ -61,27 +62,28 @@ class FluxoCaixa extends Model
 
     }
 
-    public function getValores($incio = null, $fim = null, $tipo = null, $status = null, $fornecedor = null, $franquia = null)
+    public function getValores($incio = null, $fim = null, $tipo = null, $status = null, $fornecedor = null, $franquia = null, $empresa = null)
     {
         $franquias = (new Franquias())->getNomes();
         $nomes = (new FluxoCaixasConfig())->getNomes();
 
         $query = $this->newQuery();
 
-        if ($incio) $query->whereDate('data', '>=', date('Y-m-d', strtotime($incio)))
-            ->whereDate('data', '<=', date('Y-m-d', strtotime($fim)));
+        if ($incio) $query->whereDate('data_pagamento', '>=', date('Y-m-d', strtotime($incio)))
+            ->whereDate('data_pagamento', '<=', date('Y-m-d', strtotime($fim)));
 
         if ($tipo) $query->where('tipo', $tipo);
         if ($status) $query->where('status', $status);
         if ($fornecedor) $query->where('fornecedor_id', $fornecedor);
         if ($franquia) $query->where('franquia_id', $franquia);
+        if ($empresa) $query->where('empresa_id', $empresa);
 
-        return $query->orderByDesc('data_vencimento')
+        return ($query->orderByDesc('data_pagamento')
             ->orderByDesc('id')
             ->get()
             ->transform(function ($item) use ($nomes, $franquias) {
                 return $this->dados($item, $nomes, $franquias);
-            });
+            }));
     }
 
     public function find($id)
@@ -98,7 +100,7 @@ class FluxoCaixa extends Model
     {
         $parcelas = $item->token ? $this->newQuery()
             ->where('token', $item->token)
-            ->get(['id', 'valor', 'data_vencimento', 'valor_baixa', 'data_baixa', 'previsao_recebimento'])
+            ->get(['id', 'valor', 'data_pagamento', 'valor_baixa', 'data_baixa'])
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
@@ -106,14 +108,14 @@ class FluxoCaixa extends Model
                     'data_vencimento' => $item->data_vencimento,
                     'valor_baixa' => $item->valor_baixa ? convert_float_money($item->valor_baixa) : '',
                     'data_baixa' => $item->data_baixa ?? '',
-                    'previsao_recebimento' => $item->previsao_recebimento ?? ''
+                    'previsao_recebimento' => $item->data_pagamento ?? ''
                 ];
             }) : [];
 
         return [
             'id' => $item->id,
-            'data' => date('d/m/Y', strtotime($item->data)),
-            '_data' => $item->data,
+            'data' => date('d/m/Y', strtotime($item->data_pagamento)),
+            '_data' => $item->data_pagamento,
             'tipo' => $item->tipo,
             'fornecedor' => $nomes[$item->fornecedor_id] ?? '',
             'fornecedor_id' => $item->fornecedor_id,
@@ -127,7 +129,7 @@ class FluxoCaixa extends Model
             'valor_baixa' => $item->valor_baixa ? convert_float_money($item->valor_baixa) : '',
             'data_baixa' => $item->data_baixa ? date('d/m/Y', strtotime($item->data_baixa)) : '',
             'data_baixa_float' => $item->data_baixa ?? '',
-            'previsao_recebimento' => $item->previsao_recebimento ? date('d/m/Y', strtotime($item->previsao_recebimento)) : '',
+            'previsao_recebimento' => $item->data_pagamento ? date('d/m/Y', strtotime($item->data_pagamento)) : '',
             'banco_id' => $item->banco_id,
             'banco' => $nomes[$item->banco_id] ?? '',
             'status' => $item->status,
@@ -180,7 +182,7 @@ class FluxoCaixa extends Model
                         'fornecedor_id' => $dados->fornecedores,
                         'franquia_id' => $dados->franquia ?? franquia_usuario_atual(),
                         'valor' => convert_money_float($item['valor'] ?? 0),
-                        'previsao_recebimento' => $item['previsao_recebimento'] ?? null,
+                        'previsao_recebimento' => $item['data_pagamento'] ?? null,
                         'banco_id' => $dados->banco,
                         'status' => $dados->status,
                         'nota_fiscal' => $dados->nota_fiscal,

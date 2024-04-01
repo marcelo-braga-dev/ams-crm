@@ -13,6 +13,7 @@ Route::name('admin.financeiro.')
             ->name('fluxo-caixa.alterar-status');
         Route::put('fluxo-caixa-alterar-baixa/{id}', [FluxoCaixaController::class, 'alterarBaixa'])
             ->name('fluxo-caixa.atualizar-baixa');
+        Route::get('registros', [FluxoCaixaController::class, 'registros'])->name('registros');
 
         Route::resource('config', FluxoCaixaConfigController::class);
         Route::resource('salarios', SalariosController::class);

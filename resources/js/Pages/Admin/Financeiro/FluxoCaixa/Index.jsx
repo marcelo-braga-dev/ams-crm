@@ -1,5 +1,5 @@
 import LayoutAdmin from "@/Layouts/AdminLayout/LayoutAdmin";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Switch from "@mui/material/Switch";
 import {Card, TextField} from "@mui/material";
 import {router} from "@inertiajs/react";
@@ -18,45 +18,79 @@ import MenuItem from "@mui/material/MenuItem"; // theme css file
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, fornecedores, franquias, franquia}) {
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
+import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import LocalAtmOutlinedIcon from '@mui/icons-material/LocalAtmOutlined';
+
+export default function ({fornecedores, franquias, empresas}) {
+    const [dados, setDados] = useState([])
+    const [registrosSalarios, setRegistrosSalarios] = useState([])
     const [chaveStatus, setChaveStatus] = useState()
     const [idStatus, setIdStatus] = useState()
-    const [filtroTipo, setFiltoTipo] = useState(tipo)
-    const [filtroStatus, setFiltoStatus] = useState(status)
-    const [filtroFornecedor, setFiltoFornecedor] = useState(fornecedor)
-    const [filtroFranquia, setFiltoFranquia] = useState(franquia)
+    const [filtroTipo, setFiltoTipo] = useState()
+    const [filtroStatus, setFiltoStatus] = useState()
+    const [filtroFornecedor, setFiltoFornecedor] = useState()
+    const [filtroFranquia, setFiltoFranquia] = useState()
+    const [filtroEmpresa, setFiltoEmpresa] = useState()
+    const [atualizarStatus, setAtualizarStatus] = useState(false)
+
+    const [totalSaida, setTotalSaida] = useState(0)
+    const [totalEntrada, setTotalEntrada] = useState(0)
+    let totalSaida2 = 0
 
     const alterarStatus = (status) => {
-        router.post(route('admin.financeiro.fluxo-caixa.alterar-status', {id: idStatus, status: status}))
+        axios.post(route('admin.financeiro.fluxo-caixa.alterar-status', {id: idStatus, status: status}))
+        setChaveStatus(undefined)
+        setAtualizarStatus(res => !res)
     }
 
-    router.on('success', () => setChaveStatus(''))
+    router.on('success', () => window.location.reload())
 
     const [filtroData, setFiltroData] = useState()
     const [state, setState] = useState([
         {
-            startDate: dataInicio ? new Date(dataInicio) : new Date,
-            endDate: dataFim ? new Date(dataFim) : new Date,
+            startDate: new Date,
+            endDate: new Date,
             key: 'selection',
             color: '#102030'
         }
     ]);
 
-    const atualizaFiltro = (event) => {
-        router.get(route('admin.financeiro.fluxo-caixa.index',
+    useEffect(() => {
+        axios.get(route('admin.financeiro.registros',
             {
                 periodoInicio: filtroData?.[0]?.startDate,
                 periodoFim: filtroData?.[0]?.endDate,
                 tipo: filtroTipo,
                 status: filtroStatus,
                 fornecedor: filtroFornecedor,
-                franquia: filtroFranquia
+                franquia: filtroFranquia,
+                empresa: filtroEmpresa,
             }))
-    }
+            .then(res => {
+                setDados(res.data.registros)
+                setRegistrosSalarios(res.data.salarios.registros)
+
+                setTotalEntrada(0)
+                setTotalSaida(0)
+
+                res.data.registros.map(item => (item.tipo === 'entrada') ?
+                    setTotalEntrada(prevState => prevState + item.valor_float) :
+                    setTotalSaida(prevState => prevState + item.valor_float))
+
+                setTotalSaida(prevState => prevState + res.data.salarios.total)
+            })
+    }, [filtroData, filtroTipo, filtroStatus, filtroFornecedor, filtroFranquia, filtroEmpresa, atualizarStatus]);
 
     const limparFiltroData = (event) => {
         router.get(route('admin.financeiro.fluxo-caixa.index'))
     }
+
+    const itemsFornecedor = fornecedores.map(item => {
+        return {label: item.valor, id: item.id}
+    })
 
     return (
         <LayoutAdmin titlePage="Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa" empty>
@@ -73,62 +107,76 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                             months={1}
                             ranges={state}
                             direction="horizontal"
-
-                            // onRangeFocusChange={e => filtroData(e)}
-
                             showDateDisplay={false}
                             locale={ptBR}
                             dateDisplayFormat="d/MM/yyyy"
                         />
                     </div>
-                    <div className="col-3 align-items-center mt-3">
-                        {dataInicio && <>
-                            <span className="pb-3">
-                                Filtro de {(new Date(dataInicio)).toLocaleDateString()} até {(new Date(dataFim)).toLocaleDateString()}
-                            </span>
-
-                        </>}
-                        <TextField className="mb-3 mt-3" label="Tipo" select fullWidth
-                                   value={filtroTipo ?? ''}
-                                   onChange={e => setFiltoTipo(e.target.value)}>
-                            <MenuItem value={undefined}>Todas</MenuItem>
-                            <MenuItem value="entrada">Entrada</MenuItem>
-                            <MenuItem value="saida">Saída</MenuItem>
-                        </TextField>
-
-                        <TextField className="mb-3" label="Status" select fullWidth
-                                   value={filtroStatus ?? ''}
-                                   onChange={e => setFiltoStatus(e.target.value)}>
-                            <MenuItem value={undefined}>Todas</MenuItem>
-                            <MenuItem value="pago">Pago</MenuItem>
-                            <MenuItem value="aberto">Aberto</MenuItem>
-                        </TextField>
-
-                        <TextField label="Fornecedor" className="mb-3" select fullWidth
-                                   value={filtroFornecedor ?? ''}
-                                   onChange={e => setFiltoFornecedor(e.target.value)}>
-                            {fornecedores.map(item => <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>)}
-                        </TextField>
-
-                        <TextField label="Franquia" select fullWidth
-                                   value={filtroFranquia ?? ''}
-                                   onChange={e => setFiltoFranquia(e.target.value)}>
-                            {franquias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
-                        </TextField>
-
-                        <div className="row mt-4">
+                    <div className="col-md-5 align-items-center mt-3">
+                        <div className="row row-cols-2">
                             <div className="col">
-                                <button className="btn btn-outline-primary"
-                                        onClick={() => atualizaFiltro()}>
-                                    <SearchOutlinedIcon/> Filtrar
-                                </button>
+                                <TextField className="mb-3" label="Tipo" select fullWidth
+                                           value={filtroTipo ?? ''}
+                                           onChange={e => setFiltoTipo(e.target.value)}>
+                                    <MenuItem value={undefined}>Todas</MenuItem>
+                                    <MenuItem value="entrada">Entrada</MenuItem>
+                                    <MenuItem value="saida">Saída</MenuItem>
+                                </TextField>
                             </div>
-                            <div className="col-auto">
-                                <button className="btn btn-link text-primary"
-                                        onClick={() => limparFiltroData()}>Limpar filtro
-                                </button>
+                            <div className="col">
+                                <TextField className="mb-3" label="Status" select fullWidth
+                                           value={filtroStatus ?? ''}
+                                           onChange={e => setFiltoStatus(e.target.value)}>
+                                    <MenuItem value={undefined}>Todas</MenuItem>
+                                    <MenuItem value="pago">Pago</MenuItem>
+                                    <MenuItem value="aberto">Aberto</MenuItem>
+                                </TextField></div>
+                            <div className="col">
+                                <Autocomplete
+                                    className="mb-3" disablePortal
+                                    options={itemsFornecedor}
+                                    onChange={(event, newValue) => setFiltoFornecedor(newValue?.id)}
+                                    renderInput={(params) => <TextField {...params} label="Fornecedor:"/>}
+                                />
+                            </div>
+                            <div className="col">
+                                <TextField label="Franquia" select fullWidth
+                                           value={filtroFranquia ?? ''}
+                                           onChange={e => setFiltoFranquia(e.target.value)}>
+                                    <MenuItem value={undefined}>Todas</MenuItem>
+                                    {franquias.map(item => <MenuItem key={item.id}
+                                                                     value={item.id}>{item.nome}</MenuItem>)}
+                                </TextField>
+                            </div>
+                            <div className="col">
+                                <TextField label="Empresa" select fullWidth
+                                           value={filtroEmpresa ?? ''}
+                                           onChange={e => setFiltoEmpresa(e.target.value)}>
+                                    <MenuItem value={undefined}>Todas</MenuItem>
+                                    {empresas.map(item => <MenuItem key={item.id}
+                                                                    value={item.id}>{item.valor}</MenuItem>)}
+                                </TextField>
                             </div>
                         </div>
+                        <div className="row mt-4">
+                            <div className="col">
+                            </div>
+                            <div className="col-auto">
+                                <small className="cursor-pointer" onClick={() => limparFiltroData()}>Limpar
+                                    filtro</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="card card-body m-2">
+
+                            <Stack direction="column" spacing={1} className="d-inline">
+                                <ArrowUpwardOutlinedIcon color="success"/> ENTRADA: R$ {convertFloatToMoney(totalEntrada)}<br/>
+                                <ArrowDownwardOutlinedIcon color="error"/> TOTAL SAÍDA: R$ {convertFloatToMoney(totalSaida)}<br/>
+                            </Stack>
+
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -141,160 +189,140 @@ export default function ({dados, dataInicio, dataFim, tipo, status, fornecedor, 
                 </div>
             </div>
 
-            {dados.map(item =>
-                <Card key={item.id} className="mb-4 shadow">
-                    <div key={item.id}
-                         className={'row p-3 ' +
-                             (item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger')) +
-                             (item.atrasado ? ' bg-danger text-white' : '')
-                         }>
-                        <div className="col-1 text-center">
-                            {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon/> :
-                                <ArrowDownwardOutlinedIcon/>}
-                            <small className="d-block">{item.tipo}</small>
-                            <FormControlLabel
-                                value="bottom"
-                                control={
-                                    <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
-                                            className="mt-3"
-                                            onClick={() => setIdStatus(item.id)}
-                                            data-bs-target="#exampleModal"/>
-                                }
-                                label={<small>{item.status}</small>}
-                                className="text-muted"
-                                labelPlacement="bottom"
-                            />
-                        </div>
-                        <div className="col-7 cursor-pointer"
-                             onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
+            <Stack className="mb-3" direction="row" spacing={1}>
+                <Chip variant="outlined"
+                      label={'Período: ' + (filtroData?.[0] ? (
+                              (new Date(filtroData?.[0]?.startDate)).toLocaleDateString() + (
+                                  (filtroData?.[0]?.endDate !== filtroData?.[0]?.startDate) ?
+                                      (' até ' + (new Date(filtroData?.[0]?.endDate)).toLocaleDateString()) : ''
+                              )) : new Date().toLocaleDateString()
+                      )}
+                />
+                <Chip label={'Tipo: ' + (filtroTipo ?? 'Todos')} variant="outlined"/>
+                <Chip label={'Status: ' + (filtroStatus ?? 'Todos')} variant="outlined"/>
+                <Chip variant="outlined"
+                      label={'Fornec.: ' + (filtroFornecedor ? (fornecedores.filter(function (item) {
+                          return (item.id === filtroFornecedor);
+                      }))?.[0]?.valor : 'Todos')}/>
+                <Chip variant="outlined"
+                      label={'Franquia: ' + (filtroFranquia ? (franquias.filter(function (item) {
+                          return (item.id === filtroFranquia);
+                      }))?.[0]?.nome : 'Todos')}/>
+            </Stack>
+
+            {dados.map(item => <div key={item.id}>
+                    <Card className="mb-4 shadow"
+                          style={{
+                              borderLeft: '3px solid ' + (item.tipo === 'entrada' ? 'green' : 'red')
+                          }}>
+                        <div key={item.id}
+                             className={'row p-3 ' +
+                                 (item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger')) +
+                                 (item.atrasado ? ' bg-danger text-white' : '')
+                             }>
+                            <div className="col-1 text-center">
+                                {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon color="success"/> :
+                                    <ArrowDownwardOutlinedIcon color="error"/>}
+                                <small className="d-block">{item.tipo}</small>
+                                <FormControlLabel
+                                    value="bottom"
+                                    control={
+                                        <Switch checked={item.status === 'pago'} data-bs-toggle="modal"
+                                                className="mt-3"
+                                                onClick={() => setIdStatus(item.id)}
+                                                data-bs-target="#exampleModal"/>
+                                    }
+                                    label={<small>{item.status}</small>}
+                                    className="text-muted"
+                                    labelPlacement="bottom"
+                                />
+                            </div>
+                            <div className="col-7 cursor-pointer"
+                                 onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
                             <span className="d-blo ck text-truncate">
                                 <b>Data:</b> {item.data}
                             </span>
-                            <span className="d-b lock text-truncate ps-4">
+                                <span className="d-b lock text-truncate ps-4">
                                 <b>NF n°:</b> {item.nota_fiscal}
                             </span>
-                            <span className="d-block text-truncate">
+                                <span className="d-block text-truncate">
                                   <b>Fornecedor:</b> {item.fornecedor}
                             </span>
-                            <span className="d-block text-truncate">
+                                <span className="d-block text-truncate">
                                   <b>Empresa:</b> {item.empresa}
                             </span>
-                            <span className="d-block text-truncate">
+                                <span className="d-block text-truncate">
                                     <b>Banco:</b> {item.banco}
                             </span>
-                            <span className="d-block">
+                                <span className="d-block">
                                 <b>Franquia:</b> {item.franquia}
                             </span>
-                        </div>
-                        <div className="col-3 cursor-pointer"
-                             onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
+                            </div>
+                            <div className="col-3 cursor-pointer"
+                                 onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
                             <span className="mt-3 fs-6">
                                 <b>R$ {item.valor}</b> <br/>
                             </span>
-                            <span className="mt-3">
+                                <span className="mt-3">
                                 <b>Parcela:</b> {item.qtd_parcelas} <br/>
                             </span>
-                            <span className="d-block">
-                                <b>Vencimento:</b> {item.data_vencimento}
-                            </span>
-                            <span className="d-block">
-                                <b>Prev. Recebimento:</b> {item.previsao_recebimento}
-                            </span>
-                            <span className="d-block">
+                                <span className="d-block">
                                 <b>Valor Baixa:</b> {item.valor_baixa && <>R$ {item.valor_baixa}</>}
                             </span>
-                            <span className="d-block">
+                                <span className="d-block">
                                 <b>Data Baixa:</b> {item.data_baixa}
                             </span>
+                            </div>
+                            <div className="col-1 cursor-pointer"
+                                 onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
+                                <a className="btn btn-link btn-sm p-0"
+                                   href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
+                                    <RemoveRedEyeOutlinedIcon/>
+                                </a>
+                            </div>
                         </div>
-                        <div className="col-1 cursor-pointer"
-                             onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
-                            <a className="btn btn-link btn-sm p-0"
-                               href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
-                                <RemoveRedEyeOutlinedIcon/>
-                            </a>
-                        </div>
-                    </div>
+                    </Card>
 
+                    {/*Salario*/}
+                    {registrosSalarios?.[item._data]?.map(item => {
+                        return (
+                            <Card key={item.id} className="mb-4 shadow"
+                                  style={{
+                                borderLeft: '3px solid orange'
+                            }}>
+                                <div
+                                    className={'row p-3 ' +
+                                        (item.status === 1 ? '' : (item.status === 1 ? 'text-success' : ' text-danger')) +
+                                        (item.atrasado ? ' bg-danger text-white' : '')
+                                    }>
+                                    <div className="col-1 text-center">
+                                        <LocalAtmOutlinedIcon/>
+                                        <small className="d-block">Salário</small>
+                                    </div>
+                                    <div className="col-4 cursor-pointer"
+                                         onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
+                                        Nome: {item.nome}<br/>
+                                        Data: {item.data}<br/>
+                                    </div>
+                                    <div className="col-6 cursor-pointer"
+                                         onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
+                                        Valor: R$ {convertFloatToMoney(item.valor) ?? '-'}<br/>
+                                        Status: {item.status === 1 ? 'Pago' : 'Em Aberto'}
+                                    </div>
+                                    <div className="col cursor-pointer"
+                                         onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
+                                        {/*<a className="btn btn-link btn-sm p-0"*/}
+                                        {/*   href={route('admin.financeiro.fluxo-caixa.show', item.id)}>*/}
+                                        {/*    <RemoveRedEyeOutlinedIcon/>*/}
+                                        {/*</a>*/}
+                                    </div>
+                                </div>
+                            </Card>
+                        )
+                    })}
 
-                    {/*<table className="table">*/}
-                    {/*    <tbody>*/}
-                    {/*    <tr key={item.id}*/}
-                    {/*        className={*/}
-                    {/*            item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger') +*/}
-                    {/*                (item.atrasado ? ' bg-danger text-white' : '')*/}
-                    {/*        }>*/}
-                    {/*        <td className="text-center col-1">*/}
-                    {/*            {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon/> :*/}
-                    {/*                <ArrowDownwardOutlinedIcon/>}*/}
-                    {/*            <small className="d-block">{item.tipo}</small>*/}
-                    {/*            <FormControlLabel*/}
-                    {/*                value="bottom"*/}
-                    {/*                control={*/}
-                    {/*                    <Switch checked={item.status === 'pago'} data-bs-toggle="modal"*/}
-                    {/*                            className="mt-3"*/}
-                    {/*                            onClick={() => setIdStatus(item.id)}*/}
-                    {/*                            data-bs-target="#exampleModal"/>*/}
-                    {/*                }*/}
-                    {/*                label={<small>{item.status}</small>}*/}
-                    {/*                className="text-muted"*/}
-                    {/*                labelPlacement="bottom"*/}
-                    {/*            />*/}
-                    {/*        </td>*/}
-                    {/*        <td className="cursor-pointer" style={{maxWidth: 100}}*/}
-                    {/*            onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>*/}
-                    {/*                <span className="d-block text-truncate">*/}
-                    {/*                    <b>Data:</b> {item.data} <small className="ps-4"><b>ID: </b>[#{item.id}]</small>*/}
-                    {/*                </span>*/}
-                    {/*                <b>NF n°:</b> {item.nota_fiscal} <br/>*/}
-                    {/*                <span className="d-block text-truncate">*/}
-                    {/*                  <b>Fornecedor:</b> {item.fornecedor}*/}
-                    {/*                </span>*/}
-                    {/*                <span className="d-block text-truncate">*/}
-                    {/*                  <b>Empresa:</b> {item.empresa}*/}
-                    {/*                </span>*/}
-                    {/*                <span className="d-block text-truncate">*/}
-                    {/*                    <b>Banco:</b> {item.banco}*/}
-                    {/*                </span>*/}
-                    {/*                <span className="d-block">*/}
-                    {/*                    <b>Franquia:</b>*/}
-                    {/*                </span>*/}
-                    {/*        </td>*/}
-                    {/*        <td className="cursor-pointer" style={{maxWidth: 100}}*/}
-                    {/*            onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>*/}
-                    {/*                        <span className="mt-3 fs-6">*/}
-                    {/*                        <b>R$ {item.valor}</b> <br/>*/}
-                    {/*                        </span>*/}
-                    {/*            <span className="mt-3">*/}
-                    {/*                            <b>Parcela:</b> {item.qtd_parcelas} <br/>*/}
-                    {/*                        </span>*/}
-                    {/*            <span className="d-block">*/}
-                    {/*                            <b>Vencimento:</b> {item.data_vencimento}*/}
-                    {/*                        </span>*/}
-                    {/*            <span className="d-block">*/}
-                    {/*                            <b>Prev. Recebimento:</b> {item.previsao_recebimento}*/}
-                    {/*                        </span>*/}
-                    {/*        </td>*/}
-                    {/*        <td className="cursor-pointer" style={{maxWidth: 100}}*/}
-                    {/*            onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>*/}
-                    {/*                        <span className="d-block">*/}
-                    {/*                            Valor Baixa: {item.valor_baixa && <>R$ {item.valor_baixa}</>}*/}
-                    {/*                        </span>*/}
-                    {/*            <span className="d-block">*/}
-                    {/*                            Data Baixa: {item.data_baixa}*/}
-                    {/*                        </span>*/}
-                    {/*        </td>*/}
-                    {/*        <td className="cursor-pointer" style={{maxWidth: 100}}*/}
-                    {/*            onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>*/}
-                    {/*            <a className="btn btn-link btn-sm p-0"*/}
-                    {/*               href={route('admin.financeiro.fluxo-caixa.show', item.id)}>*/}
-                    {/*                <RemoveRedEyeOutlinedIcon/>*/}
-                    {/*            </a>*/}
-                    {/*        </td>*/}
-                    {/*    </tr>*/}
-                    {/*    </tbody>*/}
-                    {/*</table>*/}
-                </Card>
+                    {registrosSalarios[item._data] = []}
+                </div>
             )}
 
             {/*Modal*/}
