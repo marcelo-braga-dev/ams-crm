@@ -19,7 +19,7 @@ class EstoqueTransitoController extends Controller
         $setorAtual = $request->setor;
         $setores = (new SetoresService())->setores();
 
-        $usuarios = (new User())->getConsultores($setorAtual);
+        $usuarios = (new User())->getUsuarios($setorAtual);
 
         return Inertia::render('Admin/Produtos/EstoqueTransito/Index',
             compact('usuarios', 'setores', 'setorAtual'));

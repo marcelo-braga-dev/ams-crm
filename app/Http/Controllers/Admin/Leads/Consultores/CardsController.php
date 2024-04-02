@@ -15,7 +15,7 @@ class CardsController extends Controller
     {
         $leads = (new CardLeadsService())->getConsultor($request->id);
         $usuario = (new User())->get($request->id);
-        $consultores = (new User())->getConsultores();
+        $consultores = (new User())->getUsuarios();
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Index',
             compact('leads', 'usuario', 'consultores'));

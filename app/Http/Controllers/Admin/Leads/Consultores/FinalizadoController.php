@@ -22,7 +22,7 @@ class FinalizadoController extends Controller
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
-        $consultores = (new User())->getConsultores($dados['infos']['setor']);
+        $consultores = (new User())->getUsuarios($dados['infos']['setor']);
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Finalizado/Show',
             compact('dados', 'status', 'historicos', 'contatos', 'consultores'));

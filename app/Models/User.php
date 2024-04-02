@@ -174,7 +174,7 @@ class User extends Authenticatable
             });
     }
 
-    public function getConsultores($setor = null, $status = true)
+    public function getUsuarios($setor = null, $status = true)
     {
         $setores = (new Setores())->getNomes();
         $franquias = (new Franquias())->getNomes();

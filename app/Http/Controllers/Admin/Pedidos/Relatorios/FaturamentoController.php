@@ -19,7 +19,7 @@ class FaturamentoController extends Controller
     {
         $setorAtual = $request->setor;
         $setores = (new SetoresService())->setores();
-        $consultores = (new User())->getConsultores($setorAtual);
+        $consultores = (new User())->getUsuarios($setorAtual);
 
         return Inertia::render('Admin/Pedidos/Relatorio/Faturamento/Index',
         compact('consultores', 'setores', 'setorAtual'));

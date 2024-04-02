@@ -13,7 +13,7 @@ class ConsultoresController extends Controller
 {
     public function index()
     {
-        $usuarios = (new User())->getConsultores();
+        $usuarios = (new User())->getUsuarios();
 
         return Inertia::render('Admin/MetasVendas/Consultores/Index',
             compact('usuarios'));

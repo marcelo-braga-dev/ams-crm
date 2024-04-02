@@ -19,7 +19,7 @@ class NovoController extends Controller
     {
         $dados = (new Leads())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
-        $consultores = (new User())->getConsultores($dados['infos']['setor']);
+        $consultores = (new User())->getUsuarios($dados['infos']['setor']);
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Novo/Edit',
             compact('dados', 'historicos', 'consultores'));

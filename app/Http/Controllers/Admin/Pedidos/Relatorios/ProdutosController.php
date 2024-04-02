@@ -26,7 +26,7 @@ class ProdutosController extends Controller
 //        $historicos = (new ProdutosRelatoriosService())->relatorio($mes, $consultor, $fornecedor);
 
         $fornecedores = (new Fornecedores())->getAll(null);
-        $consultores = (new User())->getConsultores();
+        $consultores = (new User())->getUsuarios();
 
         return Inertia::render('Admin/Pedidos/Relatorio/Produtos/Index',
             compact('historicos', 'fornecedores', 'fornecedor',

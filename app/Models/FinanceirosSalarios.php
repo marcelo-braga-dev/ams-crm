@@ -27,55 +27,52 @@ class FinanceirosSalarios extends Model
         'bonus_status',
     ];
 
-    public function salarios($mes, $ano)
+    public function salarios($idUsuario, $ano)
     {
-        $salarios = $this->newQuery()
-            ->where('mes', $mes)
-//            ->where('ano', $ano)
-            ->get();
+        $items = $this->newQuery()
+            ->where('user_id', $idUsuario)
+            ->where('ano', $ano)
+            ->orderBy('mes')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'mes' => $item->mes,
+                    'salario_fixo' => convert_float_money($item['salario_fixo'] ?? 0),
+                    'salario_fixo_data' => $item['salario_fixo_pago'] ?? '',
+                    'salario_fixo_status' => $item['salario_fixo_status'] ?? '',
 
-        $valores = [];
-        foreach ($salarios as $salario) {
-            $valores[$salario->user_id] = $salario;
-        }
+                    'premio' => convert_float_money($item['premio'] ?? 0),
+                    'premio_data' => ($item['premio_pago'] ?? null) ? date('Y-m-d', strtotime($item['premio_pago'] ?? '')) : '',
+                    'premio_status' => $item['premio_status'] ?? '',
 
-        $usuarios = (new User())->getConsultores();
+                    'comissao' => convert_float_money($item['comissao'] ?? 0),
+                    'comissao_data' => $item['comissao_pago'] ?? '',
+                    'comissao_status' => $item['comissao_status'] ?? '',
+
+                    'bonus' => convert_float_money($item['bonus'] ?? 0),
+                    'bonus_data' => $item['bonus_pago'] ?? '',
+                    'bonus_status' => $item['bonus_status'] ?? '',
+
+                    'total' => convert_float_money(
+                        ($item['salario_fixo'] ?? 0) +
+                        ($item['premio'] ?? 0) +
+                        ($item['comissao'] ?? 0) +
+                        ($item['bonus'] ?? 0)
+                    )
+                ];
+            });
 
         $res = [];
-        foreach ($usuarios as $item) {
-            $res[] = [
-                ...$item,
-                'salario_fixo' => convert_float_money($valores[$item['id']]['salario_fixo'] ?? 0),
-                'salario_fixo_data' => $valores[$item['id']]['salario_fixo_pago'] ?? '',
-                'salario_fixo_status' => $valores[$item['id']]['salario_fixo_status'] ?? '',
-
-                'premio' => convert_float_money($valores[$item['id']]['premio'] ?? 0),
-                'premio_data' => ($valores[$item['id']]['premio_pago'] ?? null) ? date('Y-m-d', strtotime($valores[$item['id']]['premio_pago'] ?? '')) : '',
-                'premio_status' => $valores[$item['id']]['premio_status'] ?? '',
-
-                'comissao' => convert_float_money($valores[$item['id']]['comissao'] ?? 0),
-                'comissao_data' => $valores[$item['id']]['comissao_pago'] ?? '',
-                'comissao_status' => $valores[$item['id']]['comissao_status'] ?? '',
-
-                'bonus' => convert_float_money($valores[$item['id']]['bonus'] ?? 0),
-                'bonus_data' => $valores[$item['id']]['bonus_pago'] ?? '',
-                'bonus_status' => $valores[$item['id']]['bonus_status'] ?? '',
-
-                'total' => convert_float_money(
-                    ($valores[$item['id']]['salario_fixo'] ?? 0) +
-                    ($valores[$item['id']]['premio'] ?? 0) +
-                    ($valores[$item['id']]['comissao'] ?? 0) +
-                    ($valores[$item['id']]['bonus'] ?? 0)
-                )
-            ];
+        foreach ($items as $item) {
+            $res[$item['mes']] = $item;
         }
-
         return $res;
     }
 
     public function atualizar($dados)
     {
-        $filtro = ['user_id' => $dados->id, 'mes' => $dados->mes, 'ano' => $dados->ano];
+        $filtro = ['user_id' => $dados->user_id, 'mes' => $dados->mes, 'ano' => $dados->ano];
 
         // Salario
         if ($dados->campo == 'salario' && $dados->valor) $this->newQuery()
