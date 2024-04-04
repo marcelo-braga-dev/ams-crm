@@ -479,8 +479,6 @@ class Pedidos extends Model
     {
         $pedidos = (new Pedidos())->newQuery()
             ->where('user_id', $id)
-            ->whereMonth('status_data', $mes)
-            ->whereYear('status_data', $ano)
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
             ->get('id')
             ->transform(function ($item) {
@@ -491,8 +489,8 @@ class Pedidos extends Model
             ->whereIn('pedido_id', $pedidos)
             ->where('status', 'aguardando_faturamento');
 
-        if ($mes) $queryPedidosHistoricos->whereMonth('created_at', $mes);
-        if ($ano) $queryPedidosHistoricos->whereYear('created_at', $ano);
+        $queryPedidosHistoricos->whereMonth('created_at', $mes);
+        $queryPedidosHistoricos->whereYear('created_at', $ano);
 
         $historicoFaturados = $queryPedidosHistoricos
             ->groupBy('pedido_id')

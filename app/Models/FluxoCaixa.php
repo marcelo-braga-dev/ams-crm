@@ -78,12 +78,18 @@ class FluxoCaixa extends Model
         if ($franquia) $query->where('franquia_id', $franquia);
         if ($empresa) $query->where('empresa_id', $empresa);
 
-        return ($query->orderByDesc('data_pagamento')
+        $items = ($query->orderByDesc('data_pagamento')
             ->orderByDesc('id')
             ->get()
             ->transform(function ($item) use ($nomes, $franquias) {
                 return $this->dados($item, $nomes, $franquias);
             }));
+
+        $res = [];
+        foreach ($items as $item) {
+            $res[intval($item['dia'])][] = $item;
+        }
+        return $res;
     }
 
     public function find($id)
@@ -115,6 +121,7 @@ class FluxoCaixa extends Model
         return [
             'id' => $item->id,
             'data' => date('d/m/Y', strtotime($item->data_pagamento)),
+            'dia' => date('d', strtotime($item->data_pagamento)),
             '_data' => $item->data_pagamento,
             'tipo' => $item->tipo,
             'fornecedor' => $nomes[$item->fornecedor_id] ?? '',

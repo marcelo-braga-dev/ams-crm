@@ -13,8 +13,8 @@ class VendasFaturadasController extends Controller
     public function index(Request $request)
     {
         $periodo = $request->mes . '/'. $request->ano;
-        $vendas = (new PedidosFaturamentos())->faturadosPeriodo($request->id, $request->mes, $request->ano);
         $usuario = (new User())->get($request->id);
+        $vendas = (new PedidosFaturamentos())->faturadosPeriodo($request->id, $request->mes, $request->ano);
 
         return Inertia::render('Admin/MetasVendas/VedasFaturadas/Index',
             compact('vendas', 'usuario', 'periodo'));

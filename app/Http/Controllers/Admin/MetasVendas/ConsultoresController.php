@@ -21,6 +21,7 @@ class ConsultoresController extends Controller
 
     public function edit($id, Request $request)
     {
+        $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
 
         $usuario = (new User())->get($id);
@@ -30,7 +31,7 @@ class ConsultoresController extends Controller
         $vendasMensalSubordinados = (new Pedidos())->vendasMensaisSubordinados($id, $ano);
 
         return Inertia::render('Admin/MetasVendas/Consultores/Edit',
-            compact('usuario', 'dados', 'ano', 'vendasMensalUsuario', 'vendasMensalSubordinados'));
+            compact('usuario', 'dados', 'mes', 'ano', 'vendasMensalUsuario', 'vendasMensalSubordinados'));
     }
 
     public function update($id, Request $request)

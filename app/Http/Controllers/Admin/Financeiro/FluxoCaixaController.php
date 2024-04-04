@@ -14,18 +14,6 @@ class FluxoCaixaController extends Controller
 {
     public function index(Request $request)
     {
-//        $dataInicio = $request->periodoInicio ?? now();
-//        $dataFim = $request->periodoFim ?? now();
-//        $tipo = $request->tipo;
-//        $status = $request->status;
-//        $fornecedor = $request->fornecedor;
-//        $franquia = $request->franquia;
-//        $empresa = $request->empresa;
-//
-//        $dados = (new FluxoCaixa())->getValores($dataInicio, $dataFim, $tipo, $status, $fornecedor, $franquia, $empresa);
-//        print_pre((new FinanceirosSalarios())->financeiro(now(), now()));
-//        print_pre($dados);
-
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
         $empresas = (new FluxoCaixasConfig())->getEmpresas();
         $franquias = (new Franquias())->get();

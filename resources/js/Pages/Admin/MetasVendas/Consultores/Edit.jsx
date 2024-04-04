@@ -6,8 +6,11 @@ import convertFloatToMoney, {convertMoneyFloat} from "@/Helpers/converterDataHor
 
 import "chart.js/auto";
 import MetasAtingidas from "./Graficos/MetasAtingidas";
+import {useState} from "react";
 
-export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensalSubordinados}) {
+export default function ({usuario, dados, mes, ano, vendasMensalUsuario, vendasMensalSubordinados}) {
+    const [mesSelecionado, setMesSelecionado] = useState(mes)
+
     const {data, setData} = useForm({
         ano: ano,
         metas: {
@@ -259,6 +262,21 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
         )
     }
 
+    const meses = [
+        {mes: '1', nome: 'Janeiro'},
+        {mes: '2', nome: 'Fevereiro'},
+        {mes: '3', nome: 'Março'},
+        {mes: '4', nome: 'Abril'},
+        {mes: '5', nome: 'Maio'},
+        {mes: '6', nome: 'Junho'},
+        {mes: '7', nome: 'Julho'},
+        {mes: '8', nome: 'Agosto'},
+        {mes: '9', nome: 'Setembro'},
+        {mes: '10', nome: 'Outubro'},
+        {mes: '11', nome: 'Novembro'},
+        {mes: '12', nome: 'Dezembro'},
+    ]
+
     return (
         <Layout container titlePage="Editar Meta de Venda" menu="menu-meta-vendas" submenu="meta-vendas"
                 voltar={route('admin.metas-vendas.consultores.index')}>
@@ -267,20 +285,21 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                 <h6>Função: {usuario.tipo}</h6>
                 <h6>Setor: {usuario.setor}</h6>
             </div>
-            <div className="row">
-                <div className="col-2">
-                    <TextField label="Ano" select fullWidth defaultValue={ano}
-                               onChange={e => router.get(route('admin.metas-vendas.consultores.edit', usuario.id), {ano: e.target.value})}>
-                        <MenuItem value="2023">2023</MenuItem>
-                        <MenuItem value="2024">2024</MenuItem>
-                    </TextField>
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="col">
-                    <h6>Meta x Vendas de {ano} de {usuario.nome}</h6>
-                    <MetasAtingidas items={items} dados={data} vendasMensalUsuario={vendasMensalUsuario}/>
+            <div className="card card-body mb-4">
+                <div className="row">
+                    <div className="col-2">
+                        <TextField label="Mẽs" select fullWidth defaultValue={mesSelecionado}
+                                   onChange={e => setMesSelecionado(e.target.value)}>
+                            {meses.map(item => <MenuItem value={item.mes}>{item.nome}</MenuItem>)}
+                        </TextField>
+                    </div>
+                    <div className="col-2">
+                        <TextField label="Ano" select fullWidth defaultValue={ano}
+                                   onChange={e => router.get(route('admin.metas-vendas.consultores.edit', usuario.id), {ano: e.target.value})}>
+                            <MenuItem value="2023">2023</MenuItem>
+                            <MenuItem value="2024">2024</MenuItem>
+                        </TextField>
+                    </div>
                 </div>
             </div>
 
@@ -294,11 +313,23 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                         let margemTotal = 0
 
                         return (
+                            (item.mes_num == mesSelecionado) &&
                             <div className="row row-cols-1 p-3">
                                 <div className="col mb-4">
                                     <div className='row card card-body flex-row'>
                                         <div className="row border-bottom mb-2">
-                                            <h6>MÊS: {item.mes}</h6>
+                                            <div className="col"><h6>MÊS: {item.mes}</h6></div>
+                                            <div className="col-auto">
+                                                {margemAtingida ? <a className="btn btn-primary btn-sm mb-1 py-1"
+                                                                     href={route('admin.metas-vendas.vendas-faturadas.index', {
+                                                                         id: usuario.id,
+                                                                         mes: item.mes_num,
+                                                                         ano: ano
+                                                                     })}>
+                                                    Ver Vendas
+                                                </a> : ''}
+                                            </div>
+
                                         </div>
                                         <div className="row">
                                             <div className="row mb-3">
@@ -331,14 +362,7 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                                                     </span>
                                                 </div>
                                                 <div className="col-auto">
-                                                    {margemAtingida ? <a className="btn btn-primary btn-sm"
-                                                                         href={route('admin.metas-vendas.vendas-faturadas.index', {
-                                                                             id: usuario.id,
-                                                                             mes: item.mes_num,
-                                                                             ano: ano
-                                                                         })}>
-                                                        Ver Vendas
-                                                    </a> : ''}
+                                                    <button type="submit" className="btn btn-success">Salvar</button>
                                                 </div>
                                             </div>
                                             <div className="row">
@@ -483,11 +507,14 @@ export default function ({usuario, dados, ano, vendasMensalUsuario, vendasMensal
                     }
                 )
                 }
-
-                <div className="col text-center">
-                    <button type="submit" className="btn btn-primary">Salvar</button>
-                </div>
             </form>
+
+            <div className="row">
+                <div className="col">
+                    <h6>Meta x Vendas de {ano} de {usuario.nome}</h6>
+                    <MetasAtingidas items={items} dados={data} vendasMensalUsuario={vendasMensalUsuario}/>
+                </div>
+            </div>
 
         </Layout>
     )

@@ -27,10 +27,11 @@ class FinanceirosSalarios extends Model
         'bonus_status',
     ];
 
-    public function salarios($idUsuario, $ano)
+    public function salarios($idUsuario, $mes, $ano)
     {
         $items = $this->newQuery()
             ->where('user_id', $idUsuario)
+//            ->where('mes', $mes)
             ->where('ano', $ano)
             ->orderBy('mes')
             ->get()
@@ -169,25 +170,29 @@ class FinanceirosSalarios extends Model
         foreach ($items->where('salario_fixo_pago', '!=', null)
                      ->where('salario_fixo_pago', '>=', date('Y-m-d', strtotime($dataInicio)))
                      ->where('salario_fixo_pago', '<=', date('Y-m-d', strtotime($dataFim))) as $item) {
-            $res[$item->salario_fixo_pago][] = ['tipo' => 'Salário', 'id' => $item->id, 'nome' => $nomes[$item->user_id], 'data' => converterData($item->salario_fixo_pago), 'valor' => $item->salario_fixo, 'status' => $item->salario_fixo_status];
+            $dia = intval(date('d', strtotime($item->salario_fixo_pago)));
+            $res[$dia][] = ['tipo' => 'Salário', 'id' => $item->id, 'user_id' => $item->user_id, 'nome' => $nomes[$item->user_id], 'data' => converterData($item->salario_fixo_pago), 'mes' => $item->mes, 'valor' => $item->salario_fixo, 'status' => $item->salario_fixo_status];
             $total += $item->salario_fixo;
         }
         foreach ($items->where('premio_pago', '!=', null)
                      ->where('premio_pago', '>=', date('Y-m-d', strtotime($dataInicio)))
                      ->where('premio_pago', '<=', date('Y-m-d', strtotime($dataFim))) as $item) {
-            $res[$item->premio_pago][] = ['tipo' => 'Prêmio', 'id' => $item->id, 'nome' => $nomes[$item->user_id], 'data' => converterData($item->premio_pago), 'valor' => $item->premio, 'status' => $item->premio_status];
+            $dia = intval(date('d', strtotime($item->premio_pago)));
+            $res[$dia][] = ['tipo' => 'Prêmio', 'id' => $item->id, 'user_id' => $item->user_id, 'nome' => $nomes[$item->user_id], 'data' => converterData($item->premio_pago), 'mes' => $item->mes, 'valor' => $item->premio, 'status' => $item->premio_status];
             $total += $item->premio;
         }
         foreach ($items->where('comissao_pago', '!=', null)
                      ->where('comissao_pago', '>=', date('Y-m-d', strtotime($dataInicio)))
                      ->where('comissao_pago', '<=', date('Y-m-d', strtotime($dataFim))) as $item) {
-            $res[$item->comissao_pago][] = ['tipo' => 'Comissão', 'id' => $item->id, 'nome' => $nomes[$item->user_id], 'data' => converterData($item->comissao_pago), 'valor' => $item->comissao, 'status' => $item->comissao_status];
+            $dia = intval(date('d', strtotime($item->comissao_pago)));
+            $res[$dia][] = ['tipo' => 'Comissão', 'id' => $item->id, 'user_id' => $item->user_id, 'nome' => $nomes[$item->user_id], 'data' => converterData($item->comissao_pago), 'mes' => $item->mes, 'valor' => $item->comissao, 'status' => $item->comissao_status];
             $total += $item->comissao;
         }
         foreach ($items->where('bonus_pago', '!=', null)
                      ->where('bonus_pago', '>=', date('Y-m-d', strtotime($dataInicio)))
                      ->where('bonus_pago', '<=', date('Y-m-d', strtotime($dataFim))) as $item) {
-            $res[$item->bonus_pago][] = ['tipo' => 'Bônus', 'id' => $item->id, 'nome' => $nomes[$item->user_id], 'data' => converterData($item->bonus_pago), 'valor' => $item->bonus, 'status' => $item->bonus_status];
+            $dia = intval(date('d', strtotime($item->bonus_pago)));
+            $res[$dia][] = ['tipo' => 'Bônus', 'id' => $item->id, 'user_id' => $item->user_id, 'nome' => $nomes[$item->user_id], 'data' => converterData($item->bonus_pago), 'mes' => $item->mes, 'valor' => $item->bonus, 'status' => $item->bonus_status];
             $total += $item->bonus;
         }
 

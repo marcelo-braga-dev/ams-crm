@@ -17,5 +17,4 @@ Route::name('admin.financeiro.')
 
         Route::resource('config', FluxoCaixaConfigController::class);
         Route::resource('salarios', SalariosController::class);
-        Route::get('salarios-dados', [SalariosController::class, 'salariosMensais'])->name('salarios.mensais');
     });
