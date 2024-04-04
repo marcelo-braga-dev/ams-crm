@@ -74,9 +74,9 @@ export default function ({fornecedores, franquias, empresas}) {
                 setTotalEntrada(0)
                 setTotalSaida(0)
 
-                res.data.registros.map(item => (item.tipo === 'entrada') ?
+                Object.values(res.data.registros).map(a => a.map(item => (item.tipo === 'entrada') ?
                     setTotalEntrada(prevState => prevState + item.valor_float) :
-                    setTotalSaida(prevState => prevState + item.valor_float))
+                    setTotalSaida(prevState => prevState + item.valor_float)))
 
                 setTotalSaida(prevState => prevState + res.data.salarios.total)
             })
@@ -91,7 +91,6 @@ export default function ({fornecedores, franquias, empresas}) {
     })
 
     const dias = Array.from({length: 31}, (_, i) => i + 1);
-    console.log(dias)
 
     return (
         <Layout titlePage="Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa" empty>
@@ -212,7 +211,6 @@ export default function ({fornecedores, franquias, empresas}) {
                           return (item.id === filtroFranquia);
                       }))?.[0]?.nome : 'Todos')}/>
             </Stack>
-            {console.log(dados[4])}
 
             {dias.map(dia =>
                 <>
@@ -294,7 +292,7 @@ export default function ({fornecedores, franquias, empresas}) {
                         </div>
                     )}
                     {/*Salario*/}
-                    {registrosSalarios?.[dia]?.map(item => {console.log(item)
+                    {registrosSalarios?.[dia]?.map(item => {
                         const link = () => router.get(route('admin.financeiro.salarios.edit', item.user_id), { mes: item.mes})
                         return (
                             <Card key={item.id} className="mb-4 shadow"
