@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FinanceirosSalarios;
 use App\Models\MetasVendas;
 use App\Models\Pedidos;
+use App\Models\Setores;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,12 +14,14 @@ use Inertia\Inertia;
 
 class SalariosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $usuarios = (new User())->getUsuarios(true);
-
+        $setor = $request->setor;
+        $usuarios = (new User())->getUsuarios($setor);
+        $setores = (new Setores())->get();
+//print_pre($setor);
         return Inertia::render('Admin/Financeiro/Salarios/Index',
-            compact('usuarios'));
+            compact('usuarios', 'setores', 'setor'));
     }
 
     public function edit($id, Request $request)
@@ -29,9 +32,6 @@ class SalariosController extends Controller
 
         $usuario = (new User())->get($userId);
         $dados = (new FinanceirosSalarios())->salariosMes($id, $mes, $ano);
-
-//        $metaMes = (new MetasVendas())->getMetaMes($userId, $mes, $ano);
-//        print_pre($metaMes);
 
         return Inertia::render('Admin/Financeiro/Salarios/Edit',
             compact('dados', 'usuario', 'mes', 'ano', 'userId'));
