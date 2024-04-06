@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->integer('ano');
             $table->integer('mes');
+            $table->integer('competencia');
 
             $table->float('salario_fixo')->nullable();
             $table->date('salario_fixo_pago')->nullable();

@@ -475,7 +475,7 @@ class Pedidos extends Model
         return [...$dados];
     }
 
-    private function getVendasMesUsuario($id, $mes, $ano)
+    public function getVendasMesUsuario($id, $mes, $ano)
     {
         $pedidos = (new Pedidos())->newQuery()
             ->where('user_id', $id)

@@ -13,6 +13,7 @@ class FinanceirosSalarios extends Model
         'user_id',
         'ano',
         'mes',
+        'competencia',
         'salario_fixo',
         'salario_fixo_pago',
         'salario_fixo_status',
@@ -71,84 +72,121 @@ class FinanceirosSalarios extends Model
         return $res;
     }
 
+    public function salariosMes($idUsuario, $mes, $ano)
+    {
+        return $this->newQuery()
+            ->where('user_id', $idUsuario)
+            ->where('mes', $mes)
+            ->where('ano', $ano)
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'mes' => $item->mes,
+                    'salario_fixo' => convert_float_money($item['salario_fixo'] ?? 0),
+                    'salario_fixo_data' => $item['salario_fixo_pago'] ?? '',
+                    'salario_fixo_status' => $item['salario_fixo_status'] ?? '',
+
+                    'premio' => convert_float_money($item['premio'] ?? 0),
+                    'premio_data' => ($item['premio_pago'] ?? null) ? date('Y-m-d', strtotime($item['premio_pago'] ?? '')) : '',
+                    'premio_status' => $item['premio_status'] ?? '',
+
+                    'comissao' => convert_float_money($item['comissao'] ?? 0),
+                    'comissao_data' => $item['comissao_pago'] ?? '',
+                    'comissao_status' => $item['comissao_status'] ?? '',
+
+                    'bonus' => convert_float_money($item['bonus'] ?? 0),
+                    'bonus_data' => $item['bonus_pago'] ?? '',
+                    'bonus_status' => $item['bonus_status'] ?? '',
+
+                    'total' => convert_float_money(
+                        ($item['salario_fixo'] ?? 0) +
+                        ($item['premio'] ?? 0) +
+                        ($item['comissao'] ?? 0) +
+                        ($item['bonus'] ?? 0)
+                    )
+                ];
+            })[0] ?? [];
+    }
+
     public function atualizar($dados)
     {
-        $filtro = ['user_id' => $dados->user_id, 'mes' => $dados->mes, 'ano' => $dados->ano];
+        $filtro = ['user_id' => $dados->user_id, 'mes' => $dados->mes, 'ano' => $dados->ano, 'competencia' => $dados->competencia];
 
         // Salario
-        if ($dados->campo == 'salario' && $dados->valor) $this->newQuery()
+        if ($dados->campo == 'salario' && isset($dados['salario']['valor'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['salario_fixo' => convert_money_float($dados->valor)]
+                ['salario_fixo' => convert_money_float($dados['salario']['valor'])]
             );
 
-        if ($dados->campo == 'salario' && $dados->data) $this->newQuery()
+        if ($dados->campo == 'salario' && isset($dados['salario']['data'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['salario_fixo_pago' => $dados->data]
+                ['salario_fixo_pago' => $dados['salario']['data']]
             );
 
-        if ($dados->campo == 'salario' && isset($dados->status)) $this->newQuery()
+        if ($dados->campo == 'salario' && isset($dados['salario']['status'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['salario_fixo_status' => $dados->status]
+                ['salario_fixo_status' => $dados['salario']['status']]
             );
 
         // Premio
-        if ($dados->campo == 'premio' && $dados->valor) $this->newQuery()
+        if ($dados->campo == 'premio' && isset($dados['premio']['valor'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['premio' => convert_money_float($dados->valor)]
+                ['premio' => convert_money_float($dados['premio']['valor'])]
             );
 
-        if ($dados->campo == 'premio' && $dados->data) $this->newQuery()
+        if ($dados->campo == 'premio' && isset($dados['premio']['data'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['premio_pago' => $dados->data]
+                ['premio_pago' => $dados['premio']['data']]
             );
 
-        if ($dados->campo == 'premio' && isset($dados->status)) $this->newQuery()
+        if ($dados->campo == 'premio' && isset($dados['premio']['status'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['premio_status' => $dados->status]
+                ['premio_status' => $dados['premio']['status']]
             );
 
         // Comissao
-        if ($dados->campo == 'comissao' && $dados->valor) $this->newQuery()
+        if ($dados->campo == 'comissao' && isset($dados['comissao']['valor'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['comissao' => convert_money_float($dados->valor)]
+                ['comissao' => convert_money_float($dados['comissao']['valor'])]
             );
 
-        if ($dados->campo == 'comissao' && $dados->data) $this->newQuery()
+        if ($dados->campo == 'comissao' && isset($dados['comissao']['data'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['comissao_pago' => $dados->data]
+                ['comissao_pago' => $dados['comissao']['data']]
             );
 
-        if ($dados->campo == 'comissao' && isset($dados->status)) $this->newQuery()
+        if ($dados->campo == 'comissao' && isset($dados['comissao']['status'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['comissao_status' => $dados->status]
+                ['comissao_status' => $dados['comissao']['status']]
             );
 
         // Bonus
-        if ($dados->campo == 'bonus' && $dados->valor) $this->newQuery()
+        if ($dados->campo == 'bonus' && isset($dados['bonus']['valor'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['bonus' => convert_money_float($dados->valor)]
+                ['bonus' => convert_money_float($dados['bonus']['valor'])]
             );
 
-        if ($dados->campo == 'bonus' && $dados->data) $this->newQuery()
+        if ($dados->campo == 'bonus' && isset($dados['bonus']['data'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['bonus_pago' => $dados->data]
+                ['bonus_pago' => $dados['bonus']['data']]
             );
 
-        if ($dados->campo == 'bonus' && isset($dados->status)) $this->newQuery()
+        if ($dados->campo == 'bonus' && isset($dados['bonus']['status'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
-                ['bonus_status' => $dados->status]
+                ['bonus_status' => $dados['bonus']['status']]
             );
     }
 
