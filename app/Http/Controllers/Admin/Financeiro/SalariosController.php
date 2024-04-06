@@ -19,7 +19,7 @@ class SalariosController extends Controller
         $setor = $request->setor;
         $usuarios = (new User())->getUsuarios($setor);
         $setores = (new Setores())->get();
-//print_pre($setor);
+
         return Inertia::render('Admin/Financeiro/Salarios/Index',
             compact('usuarios', 'setores', 'setor'));
     }
