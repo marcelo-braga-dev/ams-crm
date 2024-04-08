@@ -16,11 +16,11 @@ export default function MetasAtingidas({metasAnual, vendasAnual}) {
         {mes: 9, nome: 'set'},
         {mes: 10, nome: 'out'},
         {mes: 11, nome: 'nov'},
-        {mes: 12, nome: 'dev'},
+        {mes: 12, nome: 'dez'},
     ]
 
     const meses = mesesRegistros.map((item) => {
-        return item.mes ?? ''
+        return item.nome ?? ''
     })
 
     const metas = mesesRegistros.map((item) => {
