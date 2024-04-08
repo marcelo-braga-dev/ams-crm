@@ -12,6 +12,7 @@ import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {useEffect, useState} from "react";
 import {router} from "@inertiajs/react";
+import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
 export default function ({metaVendas, topConsultores, topCompradores, valores, vendasMensais, mes, ano}) {
     function filtrar(mes, ano) {
@@ -136,24 +137,22 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                                 <th>Nome</th>
                                 <th>Meta</th>
                                 <th>Venda</th>
-                                <th>Margem</th>
                                 <th>Diferença</th>
+                                <th>Margem</th>
                             </tr>
                             </thead>
                             <tbody>
                             {metaVendas.map((item, index) => {
+                                const dif = item.vendas - item.meta
                                 return (
-                                    <tr key={index}>
+                                    <tr key={index} className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}>
                                         <td><b>{item.nome}</b></td>
-                                        <td>R$ {item.meta_money}</td>
-                                        <td>R$ {item.vendas_money}</td>
-                                        <td>{item.margem_money}%</td>
+                                        <td>R$ {convertFloatToMoney(item.meta)}</td>
+                                        <td>R$ {convertFloatToMoney(item.vendas)}</td>
                                         <td>
-                                            {item.diferenca_meta < 0 ?
-                                                <span
-                                                    className="text-danger">R$ {item.diferenca_meta_money}</span> :
-                                                <span>R$ {item.diferenca_meta_money}</span>}
+                                            R$ {convertFloatToMoney(item.vendas - item.meta)}
                                         </td>
+                                        <td>{convertFloatToMoney(((item.vendas - item.meta) / item.meta * 100) + 100)}%</td>
                                     </tr>
                                 )
                             })}
