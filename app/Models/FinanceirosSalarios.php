@@ -18,9 +18,11 @@ class FinanceirosSalarios extends Model
         'salario_fixo_pago',
         'salario_fixo_status',
         'premio',
+        'premio_margem',
         'premio_pago',
         'premio_status',
         'comissao',
+        'comissao_margem',
         'comissao_pago',
         'comissao_status',
         'bonus',
@@ -88,10 +90,12 @@ class FinanceirosSalarios extends Model
                     'salario_fixo_status' => $item['salario_fixo_status'] ?? '',
 
                     'premio' => convert_float_money($item['premio'] ?? 0),
+                    'premio_margem' => ($item['premio_margem'] ?? 0),
                     'premio_data' => ($item['premio_pago'] ?? null) ? date('Y-m-d', strtotime($item['premio_pago'] ?? '')) : '',
                     'premio_status' => $item['premio_status'] ?? '',
 
                     'comissao' => convert_float_money($item['comissao'] ?? 0),
+                    'premio_extra_margem' => $item['comissao_margem'] ?? 0,
                     'comissao_data' => $item['comissao_pago'] ?? '',
                     'comissao_status' => $item['comissao_status'] ?? '',
 
@@ -139,6 +143,13 @@ class FinanceirosSalarios extends Model
                 ['premio' => convert_money_float($dados['premio']['valor'])]
             );
 
+        if ($dados->campo == 'premio' && isset($dados['premio']['premio_margem']))
+            $this->newQuery()
+                ->updateOrCreate(
+                    $filtro,
+                    ['premio_margem' => convert_money_float($dados['premio']['premio_margem'], 3)]
+                );
+
         if ($dados->campo == 'premio' && isset($dados['premio']['data'])) $this->newQuery()
             ->updateOrCreate(
                 $filtro,
@@ -157,6 +168,13 @@ class FinanceirosSalarios extends Model
                 $filtro,
                 ['comissao' => convert_money_float($dados['comissao']['valor'])]
             );
+
+        if ($dados->campo == 'comissao' && isset($dados['comissao']['comissao_margem']))
+            $this->newQuery()
+                ->updateOrCreate(
+                    $filtro,
+                    ['comissao_margem' => convert_money_float($dados['comissao']['comissao_margem'], 3)]
+                );
 
         if ($dados->campo == 'comissao' && isset($dados['comissao']['data'])) $this->newQuery()
             ->updateOrCreate(

@@ -10,11 +10,11 @@ export default function convertFloatToMoney(valor, precisao = 2) {
 
     return res ?? 15
 }
-export const convertMoneyFloat = (valor) => {
+export const convertMoneyFloat = (valor = 0, precisao = 2) => {
     valor = valor.toString()
     return parseFloat(valor.replace('.', '')
         .replace(',', '')
-        .replace(/\D/g, '')) / 100
+        .replace(/\D/g, '')) / (10 ** precisao)
 }
 
 export function x() {return 5050}

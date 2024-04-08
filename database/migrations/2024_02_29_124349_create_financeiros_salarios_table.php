@@ -22,10 +22,12 @@ return new class extends Migration {
             $table->boolean('salario_fixo_status')->default(0);
 
             $table->float('premio')->nullable();
+            $table->float('premio_margem', 8, 3)->nullable();
             $table->date('premio_pago')->nullable();
             $table->boolean('premio_status')->default(0);
 
             $table->float('comissao')->nullable();
+            $table->float('comissao_margem', 8 , 3)->nullable();
             $table->date('comissao_pago')->nullable();
             $table->boolean('comissao_status')->default(0);
 

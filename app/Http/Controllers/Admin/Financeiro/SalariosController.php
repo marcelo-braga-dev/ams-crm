@@ -29,6 +29,7 @@ class SalariosController extends Controller
         $userId = $id;
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
+//        print_pre((new Pedidos())->vendasMensaisUsuario(25, $ano));
 
         $usuario = (new User())->get($userId);
         $dados = (new FinanceirosSalarios())->salariosMes($id, $mes, $ano);
@@ -53,7 +54,10 @@ class SalariosController extends Controller
         $registros = (new FinanceirosSalarios())->salariosMes($request->id, $mes, $ano);
         $vendasMensalUsuario = (new Pedidos())->getVendasMesUsuario($request->id, $mes, $ano);
         $metaMes = (new MetasVendas())->getMetaMes($request->id, $mes, $ano);
+        $metasAnual = (new MetasVendas())->getMetasUsuario($request->id, $ano);
+        $vendasAnualUsuario = (new Pedidos())->vendasMensaisUsuario($request->id, $ano);
 
-        return ['registros' => $registros, 'vendas_mes' => $vendasMensalUsuario, 'meta_mes' => $metaMes];
+        return ['registros' => $registros, 'vendas_mes' => $vendasMensalUsuario, 'meta_mes' => $metaMes, 'metas_anual' => $metasAnual,
+            'vendas_anual' => $vendasAnualUsuario];
     }
 }

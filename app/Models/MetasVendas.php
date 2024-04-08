@@ -55,23 +55,6 @@ class MetasVendas extends Model
         }
     }
 
-    public function usuariosCadastrados()
-    {
-        $nomes = (new User())->usuarios();
-
-        $dados = $this->newQuery()->get('user_id');
-
-        $res = [];
-        foreach ($dados as $item) {
-            $res[$item->user_id] = $nomes[$item->user_id] ?? '';
-        }
-        return [...$res];
-    }
-
-    public function getMetas()
-    {
-    }
-
     public function metas()
     {
         $dados = $this->newQuery()->get();
@@ -82,38 +65,6 @@ class MetasVendas extends Model
                 $dado->jan + $dado->fev + $dado->mar + $dado->abr + $dado->mai + $dado->jun +
                 $dado->jul + $dado->ago + $dado->set + $dado->out + $dado->nov + $dado->dez;
         }
-        return $metas;
-    }
-
-    public function metasConsultores()
-    {
-        $dados = $this->newQuery()->get();
-
-        $metas = [];
-        foreach ($dados as $dado) {
-            $metas[$dado['user_id']] = $dado;
-        }
-        return $metas;
-    }
-
-    public function metasConsultoresPeriodo()
-    {
-        $dados = $this->newQuery()
-            ->select('user_id', DB::raw(
-                '(jan + fev + mar + abr + mai + jun) as sem_1,
-                (jul + ago + `set` + `out` + nov + dez) as sem_2'
-            ))
-            ->get();
-
-        $metas = [];
-        foreach ($dados as $dado) {
-            $metas[$dado['user_id']] = [
-                'sem_1' => $dado->sem_1 ?? 0,
-                'sem_2' => $dado->sem_2 ?? 0,
-                'total' => $dado->sem_1 + $dado->sem_2,
-            ];
-        }
-
         return $metas;
     }
 
@@ -168,6 +119,15 @@ class MetasVendas extends Model
                     'meta' => ($item[$mesSelecionado]),
                 ];
             })[0]['meta'] ?? 0;
+    }
+
+    public function getMetasUsuario($id, $ano)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->where('chave', 'metas')
+            ->where('ano', $ano)
+            ->first();
     }
 
     public function getMetasUsuarios($ano)
