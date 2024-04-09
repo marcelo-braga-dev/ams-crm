@@ -14,20 +14,44 @@ use Illuminate\Support\Facades\DB;
 
 class VendasService
 {
-    public function metaVendas($mes, $ano)
+    public function metaVendas($mes, $ano, $setor): array
     {
-        $nomes = (new User())->getNomes();
-        $usuarios = (new User())->getUsuarios();
+        $usuarios = (new User())->getUsuarios($setor);
 
         $vendasUsuarios = [];
+        $totalVendas = 0;
+        $totalMetas = 0;
+
         foreach ($usuarios as $usuario) {
+            $vendas = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano);
+            $metas = (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano);
+
+            $totalVendas += $vendas;
+            $totalMetas += $metas;
+
             $vendasUsuarios[] = [
+                'vendas' => $vendas,
                 'id' => $usuario['id'],
-                'nome' => $nomes[$usuario['id']] ?? '',
-                'vendas' => (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano),
-                'meta' => (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano)
+                'nome' => $usuario['nome'],
+                'meta' => $metas
             ];
         }
-        return $vendasUsuarios;
+        rsort($vendasUsuarios);
+
+        return ['vendas' => $vendasUsuarios, 'totalVendas' => $totalVendas, 'totalMetas' => $totalMetas];
+    }
+
+    public function metaVendasAnual($ano, $setor): array
+    {
+        $meses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $nomeMes = [1 => 'jan', 2 => 'fev', 3 => 'mar', 4 => 'abr', 5 => 'mai', 6 => 'jun', 7 => 'jul', 8 => 'ago', 9 => 'set', 10 => 'out', 11 => 'nov', 12 => 'dez'];
+
+        $dados = [];
+        foreach ($meses as $mes) {
+            $item = $this->metaVendas($mes, $ano, $setor);
+            $dados[] = ['mes' => $nomeMes[$mes], 'total_vendas' => $item['totalVendas'], 'total_metas' => $item['totalMetas']];
+        }
+
+        return $dados;
     }
 }

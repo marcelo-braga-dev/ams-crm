@@ -1,19 +1,22 @@
 import React from "react";
-import {Pie} from "react-chartjs-2";
+import {Pie, Bar} from "react-chartjs-2";
 
 export default function VendasMensasPie({dados}) {
+
+    const vendas = dados.map(item => item.total_vendas)
+    const metas = dados.map(item => item.total_metas)
 
     const data = {
         labels: ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'],
         datasets: [
             {
+                label: "Metas",
+                data: metas,
+                backgroundColor: "#3b087a",
+            },{
                 label: "Vendas",
-                data: [
-                    dados[1]?.valor, dados[2]?.valor, dados[3]?.valor,
-                    dados[4]?.valor, dados[5]?.valor, dados[6]?.valor,
-                    dados[7]?.valor, dados[8]?.valor, dados[9]?.valor,
-                    dados[10]?.valor, dados[11]?.valor, dados[12]?.valor
-                ],
+                data: vendas,
+                backgroundColor: "#177a08",
             },
         ],
     };
@@ -32,7 +35,7 @@ export default function VendasMensasPie({dados}) {
     };
 
     return (
-        <Pie options={options} data={data}
+        <Bar options={options} data={data}
              height={500} width={500}/>
     )
 }

@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 
 class ValoresService
 {
-    public function dados($mes, $ano)
+    public function dados($mes, $ano, $setor)
     {
-        $vendas = $this->vendas($mes, $ano);
-        $metas = $this->metas($mes, $ano);
+        $vendas = $this->vendas($mes, $ano, $setor);
+        $metas = $this->metas($mes, $ano, $setor);
         $difVendasMeta = $vendas - $metas;
 
         return [
@@ -23,10 +23,11 @@ class ValoresService
         ];
     }
 
-    private function vendas($mes, $ano)
+    private function vendas($mes, $ano, $setor)
     {
         return (new Pedidos())->newQuery()
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->where('setor_id', $setor)
             ->whereMonth('created_at', $mes)
             ->whereYear('created_at', $ano)
             ->sum('preco_venda');

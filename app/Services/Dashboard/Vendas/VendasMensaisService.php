@@ -17,14 +17,16 @@ class VendasMensaisService
             )
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->get();
-
+        $total = 0;
         $dados = [];
         foreach ($items as $item) {
+            $total += $item['vendas'];
             $dados[$item->mes] = [
                 'valor' => $item['vendas'],
                 'money' => convert_float_money($item['vendas']),
                 'meta' => convert_float_money($meta / 6 ),
                 'diferenca' => convert_float_money($item['vendas'] - ($meta / 6)),
+                'total' => $total
             ];
         }
         return $dados;

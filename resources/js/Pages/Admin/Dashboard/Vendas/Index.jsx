@@ -14,25 +14,34 @@ import {useEffect, useState} from "react";
 import {router} from "@inertiajs/react";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
-export default function ({metaVendas, topConsultores, topCompradores, valores, vendasMensais, mes, ano}) {
-    function filtrar(mes, ano) {
-        router.get(route('admin.dashboard.vendas.index'), {mes: mes, ano: ano})
+export default function ({
+                             metaVendas,
+                             metasVendasAnual,
+                             topCompradores,
+                             mes,
+                             ano,
+                             setores,
+                             setor
+                         }) {
+    function filtrar(mes, ano, setor) {
+        router.get(route('admin.dashboard.vendas.index'), {mes: mes, ano: ano, setor: setor})
     }
+
+    // const totalVendas = vendasMensais.map(item => item.valor)
 
     return (
         <Layout container titlePage="Indicadores de Vendas" menu="dashboard" submenu="dashboard-vendas">
             <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col-2">
-                        <TextField label="Ano" select fullWidth defaultValue={ano}
-                                   onChange={e => filtrar(mes, e.target.value)}>
-                            <MenuItem value="2023">2023</MenuItem>
-                            <MenuItem value="2024">2024</MenuItem>
+                        <TextField label="Setor" select fullWidth defaultValue={setor}
+                                   onChange={e => filtrar(mes, ano, e.target.value)}>
+                            {setores.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
                         </TextField>
                     </div>
                     <div className="col-2">
                         <TextField label="Mês" select fullWidth defaultValue={mes}
-                                   onChange={e => filtrar(e.target.value, ano)}>
+                                   onChange={e => filtrar(e.target.value, ano, setor)}>
                             <MenuItem value="1">Janeiro</MenuItem>
                             <MenuItem value="2">Fevereiro</MenuItem>
                             <MenuItem value="3">Março</MenuItem>
@@ -45,6 +54,13 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                             <MenuItem value="10">Outubro</MenuItem>
                             <MenuItem value="11">Novembro</MenuItem>
                             <MenuItem value="12">Dezembro</MenuItem>
+                        </TextField>
+                    </div>
+                    <div className="col-2">
+                        <TextField label="Ano" select fullWidth defaultValue={ano}
+                                   onChange={e => filtrar(mes, e.target.value, setor)}>
+                            <MenuItem value="2023">2023</MenuItem>
+                            <MenuItem value="2024">2024</MenuItem>
                         </TextField>
                     </div>
                 </div>
@@ -63,7 +79,7 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                                 </div>
                                 <div className="col-auto">
                                     <small className="">Vendas</small>
-                                    <h5 className="text-end">R$ {valores.vendas}</h5>
+                                    <h5 className="text-end">R$ {convertFloatToMoney(metaVendas.totalVendas)}</h5>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +96,7 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                                 </div>
                                 <div className="col-auto">
                                     <small className="">Meta</small>
-                                    <h5 className="text-end">R$ {valores.meta}</h5>
+                                    <h5 className="text-end">R$ {convertFloatToMoney(metaVendas.totalMetas)}</h5>
                                 </div>
                             </div>
                         </div>
@@ -97,28 +113,9 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                                 </div>
                                 <div className="col-auto">
                                     <small className="">Diferença Vendas e Meta</small>
-                                    <h5 className="text-end">R$ {valores.dif_vendas_meta}</h5>
+                                    <h5 className="text-end">R$ {convertFloatToMoney(metaVendas.totalVendas - metaVendas.totalMetas)}</h5>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="row mb-4">
-                <div className="col-md-6">
-                    <div className="card">
-                        <div className="card-body">
-                            <h6>Top 5 Consultores(as)</h6>
-                            <TopVendas dados={topConsultores} cor="#ffa500aa"/>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-6">
-                    <div className="card">
-                        <div className="card-body">
-                            <h6>Top 5 Integradores</h6>
-                            <TopVendas dados={topCompradores} cor="#cb0ec5aa"/>
                         </div>
                     </div>
                 </div>
@@ -142,13 +139,14 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                             </tr>
                             </thead>
                             <tbody>
-                            {metaVendas.map((item, index) => {
+                            {metaVendas.vendas.map((item, index) => {
                                 const dif = item.vendas - item.meta
                                 return (
-                                    <tr key={index} className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}>
-                                        <td><b>{item.nome}</b></td>
-                                        <td>R$ {convertFloatToMoney(item.meta)}</td>
-                                        <td>R$ {convertFloatToMoney(item.vendas)}</td>
+                                    <tr key={index}
+                                        className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}>
+                                        <td className="text-dark"><b>{item.nome}</b></td>
+                                        <td className="text-dark">R$ {convertFloatToMoney(item.meta)}</td>
+                                        <td className="text-dark">R$ {convertFloatToMoney(item.vendas)}</td>
                                         <td>
                                             R$ {convertFloatToMoney(item.vendas - item.meta)}
                                         </td>
@@ -156,6 +154,18 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                                     </tr>
                                 )
                             })}
+                            <tr
+                                className={'bg-light ' + ((metaVendas.totalVendas - metaVendas.totalMetas) > 0 ? 'text-success' : (metaVendas.totalVendas - metaVendas.totalMetas < 0 ? 'text-danger' : ''))}>
+                                <td className="text-dark"><b>TOTAL</b></td>
+                                <td className="text-dark">R$ {convertFloatToMoney(metaVendas.totalMetas)}</td>
+                                <td className="text-dark">R$ {convertFloatToMoney(metaVendas.totalVendas)}</td>
+                                <td>
+                                    R$ {convertFloatToMoney(metaVendas.totalVendas - metaVendas.totalMetas)}
+                                </td>
+                                <td>
+                                    {convertFloatToMoney(((metaVendas.totalVendas - metaVendas.totalMetas) / metaVendas.totalMetas * 100) + 100)}%
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -166,98 +176,40 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                 <div className="col-md-5">
                     <div className="card">
                         <div className="card-body">
-                            <h6>Vendas Mensais</h6>
-                            <VendasMensasPie dados={vendasMensais}/>
+                            <h6>Vendas Anuais</h6>
+                            <VendasMensasPie dados={metasVendasAnual}/>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-7">
                     <div className="card">
                         <div className="card-body">
-                            <h6>Vendas Mensais</h6>
+                            <h6>Vendas Anuais</h6>
                             <div className="table-responsive">
                                 <table className="table table-sm text-sm">
                                     <thead>
                                     <tr>
-                                        <th>Mẽs</th>
+                                        <th className="text-center">Mẽs</th>
                                         <th>Meta</th>
                                         <th>Vendas</th>
                                         <th>Diferença</th>
+                                        <th>Margem</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
-                                        <td><b>JAN</b></td>
-                                        <td>R$ {vendasMensais[1]?.meta}</td>
-                                        <td>R$ {vendasMensais[1]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[1]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>FEV</b></td>
-                                        <td>R$ {vendasMensais[2]?.meta}</td>
-                                        <td>R$ {vendasMensais[2]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[2]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>MAR</b></td>
-                                        <td>R$ {vendasMensais[3]?.meta}</td>
-                                        <td>R$ {vendasMensais[3]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[3]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>ABR</b></td>
-                                        <td>R$ {vendasMensais[4]?.meta}</td>
-                                        <td>R$ {vendasMensais[4]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[4]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>MAI</b></td>
-                                        <td>R$ {vendasMensais[5]?.meta}</td>
-                                        <td>R$ {vendasMensais[5]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[5]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>JUN</b></td>
-                                        <td>R$ {vendasMensais[6]?.meta}</td>
-                                        <td>R$ {vendasMensais[6]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[6]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>JUL</b></td>
-                                        <td>R$ {vendasMensais[7]?.meta}</td>
-                                        <td>R$ {vendasMensais[7]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[7]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>AGO</b></td>
-                                        <td>R$ {vendasMensais[8]?.meta}</td>
-                                        <td>R$ {vendasMensais[8]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[8]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>SET</b></td>
-                                        <td>R$ {vendasMensais[9]?.meta}</td>
-                                        <td>R$ {vendasMensais[9]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[9]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>OUT</b></td>
-                                        <td>R$ {vendasMensais[10]?.meta}</td>
-                                        <td>R$ {vendasMensais[10]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[10]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>NOV</b></td>
-                                        <td>R$ {vendasMensais[11]?.meta}</td>
-                                        <td>R$ {vendasMensais[11]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[11]?.diferenca ?? '0,00'}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>DEZ</b></td>
-                                        <td>R$ {vendasMensais[12]?.meta}</td>
-                                        <td>R$ {vendasMensais[12]?.money ?? '0,00'}</td>
-                                        <td>R$ {vendasMensais[12]?.diferenca ?? '0,00'}</td>
-                                    </tr>
+                                    {metasVendasAnual.map(item => {
+                                        const dif = item.total_vendas - item.total_metas
+                                        return (
+                                            <tr className={dif >= 0 ? 'text-success' : (item.total_vendas > 0 ? 'text-danger' : '')}>
+                                                <td className="text-center text-dark"><b>{(item.mes).toUpperCase()}</b>
+                                                </td>
+                                                <td className="text-dark">R$ {convertFloatToMoney(item.total_metas)}</td>
+                                                <td className="text-dark">R$ {convertFloatToMoney(item.total_vendas)}</td>
+                                                <td>R$ {item.total_vendas > 0 ? convertFloatToMoney(dif) : '0,00'}</td>
+                                                <td>{convertFloatToMoney(((item.total_vendas - item.total_metas) / item.total_metas * 100) + 100)}%</td>
+                                            </tr>
+                                        )
+                                    })}
                                     </tbody>
                                 </table>
                             </div>
@@ -265,6 +217,25 @@ export default function ({metaVendas, topConsultores, topCompradores, valores, v
                     </div>
                 </div>
             </div>
+
+            {/*<div className="row mb-4">*/}
+            {/*    <div className="col-md-6">*/}
+            {/*        <div className="card">*/}
+            {/*            <div className="card-body">*/}
+            {/*                <h6>Top 5 Consultores(as)</h6>*/}
+            {/*                <TopVendas dados={metaVendas.vendas} cor="#ffa500aa"/>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*    <div className="col-md-6">*/}
+            {/*        <div className="card">*/}
+            {/*            <div className="card-body">*/}
+            {/*                <h6>Top 5 Integradores</h6>*/}
+            {/*                <TopVendas dados={topCompradores} cor="#cb0ec5aa"/>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </Layout>
     )
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setores;
 use App\Services\Dashboard\Vendas\TopVendasService;
 use App\Services\Dashboard\Vendas\ValoresService;
 use App\Services\Dashboard\Vendas\VendasMensaisService;
@@ -16,15 +17,18 @@ class VendasController extends Controller
     {
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
+        $setor = $request->setor ?? 1;
 
-        $valores = (new ValoresService())->dados($mes, $ano);
-        $metaVendas = (new VendasService())->metaVendas($mes, $ano);
-        $topConsultores = (new TopVendasService())->consultores($mes, $ano);
-        $topCompradores = (new TopVendasService())->integradores($mes, $ano);
-        $vendasMensais = (new VendasMensaisService())->vendas($valores['meta_float'], $ano);
+        $setores = (new Setores())->get();
+
+        $metaVendas = (new VendasService())->metaVendas($mes, $ano, $setor);
+        $metasVendasAnual = (new VendasService())->metaVendasAnual($ano, $setor);
+
+//        $topConsultores = (new TopVendasService())->consultores($mes, $ano);
+//        $topCompradores = (new TopVendasService())->integradores($mes, $ano);
 
         return Inertia::render('Admin/Dashboard/Vendas/Index',
-            compact('metaVendas', 'topConsultores', 'topCompradores', 'valores',
-                'vendasMensais', 'mes', 'ano'));
+            compact('metaVendas', 'metasVendasAnual',
+                 'mes', 'ano', 'setores', 'setor'));
     }
 }

@@ -3,13 +3,13 @@ import React from "react";
 
 export default function MetaVendas({dados}) {
 
-    const nomes = dados.map((item) => {
+    const nomes = dados.vendas.map((item) => {
         return item.nome
     })
-    const meta = dados.map((item) => {
+    const meta = dados.vendas.map((item) => {
         return item.meta
     })
-    const venda = dados.map((item) => {
+    const venda = dados.vendas.map((item) => {
         return item.vendas
     })
 
@@ -18,11 +18,11 @@ export default function MetaVendas({dados}) {
         datasets: [
             {
                 label: "Meta",
-                backgroundColor: "#3bbd0daa",
+                backgroundColor: "#11258d",
                 data: meta,
             }, {
                 label: "Venda",
-                backgroundColor: "#0000FFaa",
+                backgroundColor: "rgba(211,84,16,0.89)",
                 data: venda,
             },
         ],
@@ -42,6 +42,7 @@ export default function MetaVendas({dados}) {
     };
 
     return (
-        <Bar options={options} data={data}/>
+        <Bar options={options} data={data}
+             height={80}/>
     )
 }

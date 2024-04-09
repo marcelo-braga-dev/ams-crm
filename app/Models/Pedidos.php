@@ -487,7 +487,7 @@ class Pedidos extends Model
 
         $queryPedidosHistoricos = (new PedidosHistoricos())->newQuery()
             ->whereIn('pedido_id', $pedidos)
-            ->where('status', 'aguardando_faturamento');
+            ->where('status', 'faturado_vista');
 
         $queryPedidosHistoricos->whereMonth('created_at', $mes);
         $queryPedidosHistoricos->whereYear('created_at', $ano);
@@ -504,6 +504,28 @@ class Pedidos extends Model
 
         $idPedidosFaturados = [];
         $dadosPedido = [];
+        foreach ($historicoFaturados as $item) {
+            $idPedidosFaturados[] = $item['pedido_id'];
+            $dadosPedido[$item['pedido_id']] = $item;
+        }
+
+        $queryPedidosHistoricos = (new PedidosHistoricos())->newQuery()
+            ->whereIn('pedido_id', $pedidos)
+            ->where('status', 'aguardando_faturamento');
+
+        $queryPedidosHistoricos->whereMonth('created_at', $mes);
+        $queryPedidosHistoricos->whereYear('created_at', $ano);
+
+        $historicoFaturados = $queryPedidosHistoricos
+            ->groupBy('pedido_id')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'pedido_id' => $item->pedido_id,
+                    'data' => date('d/m/Y H:i', strtotime($item->created_at)),
+                ];
+            });
+
         foreach ($historicoFaturados as $item) {
             $idPedidosFaturados[] = $item['pedido_id'];
             $dadosPedido[$item['pedido_id']] = $item;
