@@ -29,6 +29,7 @@ class AguardandoFaturamentoStatus implements PedidosStatus
     function updateStatus($id, $alerta = null)
     {
         (new Pedidos())->updateStatus($id, $this->getStatus(), $this->getPrazo(), $alerta);
+        (new Pedidos())->dataPagamento($id);
 
         (new PedidosConsultorNotificar())->notificar($id, $this->getNomeStatus());
         (new PedidosAdminsNotificar())->notificar($id, $this->getNomeStatus());

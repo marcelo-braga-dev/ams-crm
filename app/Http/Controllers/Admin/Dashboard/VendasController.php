@@ -24,9 +24,6 @@ class VendasController extends Controller
         $metaVendas = (new VendasService())->metaVendas($mes, $ano, $setor);
         $metasVendasAnual = (new VendasService())->metaVendasAnual($ano, $setor);
 
-//        $topConsultores = (new TopVendasService())->consultores($mes, $ano);
-//        $topCompradores = (new TopVendasService())->integradores($mes, $ano);
-
         return Inertia::render('Admin/Dashboard/Vendas/Index',
             compact('metaVendas', 'metasVendasAnual',
                  'mes', 'ano', 'setores', 'setor'));
