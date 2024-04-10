@@ -53,17 +53,26 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
 
     return (
         <Layout container titlePage="Informações do Pedido" menu="pedidos" submenu="pedidos-lista"
-        voltar={urlPrevious}>
+                voltar={urlPrevious}>
             <Box sx={{width: '100%'}}>
                 <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <Tab label="Pedido" {...a11yProps(0)} />
-                        <Tab label="Cliente" {...a11yProps(1)} />
-                        <Tab label="Financeiro" {...a11yProps(2)} />
-                        <Tab label="Anexos" {...a11yProps(3)} />
-                        <Tab label="Histórico" {...a11yProps(4)} />
-                        <Tab label="SAC" {...a11yProps(5)} />
-                    </Tabs>
+                    <div className="row justify-content-between">
+                        <div className="col">
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tab label="Pedido" {...a11yProps(0)} />
+                                <Tab label="Cliente" {...a11yProps(1)} />
+                                <Tab label="Financeiro" {...a11yProps(2)} />
+                                <Tab label="Anexos" {...a11yProps(3)} />
+                                <Tab label="Histórico" {...a11yProps(4)} />
+                                <Tab label="SAC" {...a11yProps(5)} />
+                            </Tabs>
+                        </div>
+                        <div className="col-auto  m-0">
+                            <a className="btn btn-primary btn-sm"
+                                href={route('admin.pedidos.edit', pedido.id)}>Editar</a>
+                        </div>
+                    </div>
+
                 </Box>
                 <TabPanel value={value} index={0}>
                     <div className="row mb-4">

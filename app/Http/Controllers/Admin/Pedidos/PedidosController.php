@@ -42,6 +42,21 @@ class PedidosController extends Controller
             compact('pedido', 'historico', 'produtos', 'historicoAcompanhamento', 'urlPrevious'));
     }
 
+    public function edit($id)
+    {
+        $pedido = (new Pedidos())->getDadosPedido($id);
+
+        return Inertia::render('Admin/Pedidos/Edit', compact('pedido'));
+    }
+
+    public function update($id, Request $request)
+    {
+        (new Pedidos())->atualizar($id, $request);
+
+        modalSucesso('Dados atualizado com sucesso!');
+        return redirect()->back();
+    }
+
     public function destroy($id)
     {
         (new Pedidos())->remove($id);

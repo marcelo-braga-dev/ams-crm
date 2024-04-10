@@ -514,4 +514,12 @@ class Pedidos extends Model
             ->find($id)
             ->update(['data_faturamento' => now()]);
     }
+
+    public function atualizar($id, $dados)
+    {
+        $query = $this->newQuery()
+            ->find($id);
+
+        if ($dados['preco_custo']) $query->update(['preco_custo' => convert_money_float($dados['preco_custo'])]);
+    }
 }
