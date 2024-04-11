@@ -17,23 +17,11 @@ return new class extends Migration {
             $table->integer('mes');
             $table->integer('competencia');
 
-            $table->float('salario_fixo')->nullable();
-            $table->date('salario_fixo_pago')->nullable();
-            $table->boolean('salario_fixo_status')->default(0);
-
-            $table->float('premio')->nullable();
-            $table->float('premio_margem', 8, 3)->nullable();
-            $table->date('premio_pago')->nullable();
-            $table->boolean('premio_status')->default(0);
-
-            $table->float('comissao')->nullable();
-            $table->float('comissao_margem', 8 , 3)->nullable();
-            $table->date('comissao_pago')->nullable();
-            $table->boolean('comissao_status')->default(0);
-
-            $table->float('bonus')->nullable();
-            $table->date('bonus_pago')->nullable();
-            $table->boolean('bonus_status')->default(0);
+            $table->string('chave');
+            $table->float('valor')->nullable();
+            $table->float('margem', 8, 3)->nullable();
+            $table->date('data_pagamento')->nullable();
+            $table->string('status')->nullable();
 
             $table->timestamps();
 

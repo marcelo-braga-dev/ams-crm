@@ -28,7 +28,7 @@ export default function MetasAtingidas({metasAnual, vendasAnual}) {
     })
 
     const atingida = mesesRegistros.map((item) => {
-        return vendasAnual?.[item.nome] ?? 0
+        return vendasAnual?.[item.nome]?.vendas ?? 0
     })
 
 

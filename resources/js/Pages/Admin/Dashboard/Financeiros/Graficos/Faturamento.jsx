@@ -1,29 +1,31 @@
 import {Bar, Line} from "react-chartjs-2";
 import React from "react";
 
-export default function Faturamento({dados}) {
-    const medias = () => {
-        let medias = []
-        for (let i = 1; i <= 12; i++) {
-            medias.push(dados[i] ? dados.media : null)
-        }
-        return medias
+export default function Faturamento({dados, salarios}) {
+
+    let entradasDia = []
+    let saidasDia = []
+    let dias = []
+    for (let i = 1; i <= dados.ultimoDia; i++) {
+        dias.push(i)
+        entradasDia.push(dados?.movimentacao?.[i]?.entrada ?? 0)
+        saidasDia.push(((dados?.movimentacao?.[i]?.saida ?? 0) + (salarios?.registros?.[i]?.total ?? 0)))
     }
 
     const data = {
-        labels: ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'],
+        labels: dias,
         datasets: [
             {
-                label: "Vendas",
+                label: "Entradas",
                 backgroundColor: "#3bbd0d",
                 borderColor: "rgb(156,255,99)",
-                data: [dados[1], dados[2], dados[3], dados[4], dados[5], dados[6], dados[7], dados[8], dados[9], dados[10], dados[11], dados[12]],
+                data: entradasDia,
             },
             {
-                label: "Média",
-                backgroundColor: "rgba(5,5,148,0.7)",
-                borderColor: "rgba(0,0,255,0.5)",
-                data: medias(),
+                label: "Saída",
+                backgroundColor: "rgb(184,25,25)",
+                borderColor: "rgb(231,17,17)",
+                data: saidasDia,
             }
         ],
     };
@@ -42,6 +44,6 @@ export default function Faturamento({dados}) {
     };
 
     return (
-        <Line options={options} data={data}/>
+        <Line options={options} data={data} height="70"/>
     )
 }

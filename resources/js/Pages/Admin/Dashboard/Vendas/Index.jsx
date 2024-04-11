@@ -17,7 +17,6 @@ import convertFloatToMoney from "@/Helpers/converterDataHorario";
 export default function ({
                              metaVendas,
                              metasVendasAnual,
-                             topCompradores,
                              mes,
                              ano,
                              setores,
@@ -36,7 +35,7 @@ export default function ({
                     <div className="col-2">
                         <TextField label="Setor" select fullWidth defaultValue={setor}
                                    onChange={e => filtrar(mes, ano, e.target.value)}>
-                            {setores.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
+                            {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                         </TextField>
                     </div>
                     <div className="col-2">
@@ -123,19 +122,18 @@ export default function ({
 
             <div className="card mb-4">
                 <div className="card-body">
-                    <div className="row">
-                        <h6>Meta x Vendas</h6>
-                        <MetaVendas dados={metaVendas}/>
-                    </div>
+                    <h6>Meta x Vendas</h6>
                     <div className="table-responsive">
                         <table className="table table-sm text-sm">
                             <thead>
                             <tr>
                                 <th>Nome</th>
                                 <th>Meta</th>
-                                <th>Venda</th>
-                                <th>Diferença</th>
-                                <th>Margem</th>
+                                <th>Total Vendas</th>
+                                <th className="text-center">Qtd. Vendas</th>
+                                <th>Lucro Bruto</th>
+                                <th>Meta x Vendas</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -147,10 +145,15 @@ export default function ({
                                         <td className="text-dark"><b>{item.nome}</b></td>
                                         <td className="text-dark">R$ {convertFloatToMoney(item.meta)}</td>
                                         <td className="text-dark">R$ {convertFloatToMoney(item.vendas)}</td>
-                                        <td>
-                                            R$ {convertFloatToMoney(item.vendas - item.meta)}
+                                        <td className="text-dark text-center">{item.qtd}</td>
+                                        <td className="text-dark">
+                                            R$ {convertFloatToMoney(item.vendas - item.custos)} (
+                                            {convertFloatToMoney((item.vendas - item.custos) / item.custos * 100)}%)
                                         </td>
-                                        <td>{convertFloatToMoney(((item.vendas - item.meta) / item.meta * 100) + 100)}%</td>
+                                        <td>
+                                            R$ {convertFloatToMoney(item.vendas - item.meta)} (
+                                            {convertFloatToMoney(((item.vendas - item.meta) / item.meta * 100) + 100)}%)
+                                        </td>
                                     </tr>
                                 )
                             })}
@@ -159,15 +162,21 @@ export default function ({
                                 <td className="text-dark"><b>TOTAL</b></td>
                                 <td className="text-dark">R$ {convertFloatToMoney(metaVendas.totalMetas)}</td>
                                 <td className="text-dark">R$ {convertFloatToMoney(metaVendas.totalVendas)}</td>
+                                <td className="text-center text-dark">{metaVendas.totalQtd}</td>
                                 <td>
-                                    R$ {convertFloatToMoney(metaVendas.totalVendas - metaVendas.totalMetas)}
+                                    R$ {convertFloatToMoney(metaVendas.totalVendas - metaVendas.totalCustos)}(
+                                    {convertFloatToMoney((metaVendas.totalVendas - metaVendas.totalCustos) / metaVendas.totalCustos * 100)}%)
                                 </td>
                                 <td>
-                                    {convertFloatToMoney(((metaVendas.totalVendas - metaVendas.totalMetas) / metaVendas.totalMetas * 100) + 100)}%
+                                    R$ {convertFloatToMoney(metaVendas.totalVendas - metaVendas.totalMetas)} (
+                                    {convertFloatToMoney(((metaVendas.totalVendas - metaVendas.totalMetas) / metaVendas.totalMetas * 100) + 100)}%)
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div className="row">
+                        <MetaVendas dados={metaVendas}/>
                     </div>
                 </div>
             </div>
@@ -217,25 +226,6 @@ export default function ({
                     </div>
                 </div>
             </div>
-
-            {/*<div className="row mb-4">*/}
-            {/*    <div className="col-md-6">*/}
-            {/*        <div className="card">*/}
-            {/*            <div className="card-body">*/}
-            {/*                <h6>Top 5 Consultores(as)</h6>*/}
-            {/*                <TopVendas dados={metaVendas.vendas} cor="#ffa500aa"/>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*    <div className="col-md-6">*/}
-            {/*        <div className="card">*/}
-            {/*            <div className="card-body">*/}
-            {/*                <h6>Top 5 Integradores</h6>*/}
-            {/*                <TopVendas dados={topCompradores} cor="#cb0ec5aa"/>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
         </Layout>
     )
 }

@@ -12,7 +12,7 @@ import MetasAtingidas from "./Graficos/MetasAtingidas"
 const startAdornment = {startAdornment: <InputAdornment position="start">R$</InputAdornment>}
 const endAdornment = {endAdornment: <InputAdornment position="end">%</InputAdornment>}
 
-export default function ({usuario, ano, mes, userId}) {
+export default function ({usuario, ano, mes}) {
     const [registros, setRegistros] = useState([])
     const [mesSelecionado, setMesSelecionado] = useState(mes)
     const [anoSelecionado, setAnoSelecionado] = useState(ano)
@@ -21,6 +21,9 @@ export default function ({usuario, ano, mes, userId}) {
     const [vendasMes, setVendasMes] = useState(0)
     const [metaMes, setMetaMes] = useState(0)
     const [margemAtingida, setMargemAtingida] = useState(0)
+    const [margemAtingidaEquipe, setMargemAtingidaEquipe] = useState(0)
+    const [vendasEquipe, setVendasEquipe] = useState(0)
+    const [metasEquipe, setMetasEquipe] = useState(0)
     const [metasAnual, setMetasAnual] = useState([])
     const [vendasAnual, setVendasAnual] = useState([])
 
@@ -37,7 +40,7 @@ export default function ({usuario, ano, mes, userId}) {
             mes: mesSelecionado,
             competencia: competenciaSelecionado,
             ano: anoSelecionado,
-            user_id: userId,
+            user_id: usuario.id,
         }), {}, {preserveScroll: true})
         buscarRegistros()
     }
@@ -52,13 +55,18 @@ export default function ({usuario, ano, mes, userId}) {
             competencia: competenciaSelecionado,
         })).then(res => {
             setRegistros(res.data.registros)
-            setVendasMes(res.data.vendas_mes)
+            setVendasMes(res.data.vendas_mes.vendas)
             setMetaMes(res.data.meta_mes)
             setMetasAnual(res.data.metas_anual)
             setVendasAnual(res.data.vendas_anual)
+            setMetasEquipe(res.data.metas_equipe)
+            setVendasEquipe(res.data.vendas_equipe)
 
-            const valorMargemAtingida = res.data.meta_mes > 0 ? (res.data.vendas_mes / res.data.meta_mes * 100) : null
+            const valorMargemAtingida = res.data.meta_mes > 0 ? (res.data.vendas_mes.vendas / res.data.meta_mes * 100) : null
             setMargemAtingida(valorMargemAtingida)
+
+            const valorMargemAtingidaEquipe = res.data.metas_equipe > 0 ? (res.data.vendas_equipe / res.data.metas_equipe * 100) : null
+            setMargemAtingidaEquipe(valorMargemAtingidaEquipe)
         })
     }
 
@@ -131,14 +139,10 @@ export default function ({usuario, ano, mes, userId}) {
                 </div>
             </div>
 
-
             <div className="card card-body mb-4 border">
-                <div className="row px-4 pb-2">
+                <div className="row row-cols-3 px-4">
                     <div className="col">
-                        {/*<span><b>{item.nome}/{ano}</b></span>*/}
-                    </div>
-                    <div className="col">
-                        <span><b>Meta do Mês:</b> R$ {convertFloatToMoney(metaMes)}</span>
+                        <span><b>Meta:</b> R$ {convertFloatToMoney(metaMes)}</span>
                     </div>
                     <div className="col">
                         <span
@@ -146,8 +150,28 @@ export default function ({usuario, ano, mes, userId}) {
                             <b>Alcançado:</b> R$ {convertFloatToMoney(vendasMes)} {margemAtingida ? `(${convertFloatToMoney(margemAtingida)}%)` : ''}
                         </span>
                     </div>
-                    <div className="col">
-                        <span className="d-block text-lg"><b>Salário Total: R$ {registros?.total}</b></span>
+                </div>
+
+                {vendasEquipe > 0 &&
+                    <div className="row row-cols-3 px-4">
+                        <div className="col">
+                            <span><b>Meta da Equipe:</b> R$ {convertFloatToMoney(metasEquipe)}</span>
+                        </div>
+                        <div className="col">
+                            <span
+                                className={margemAtingidaEquipe ? (margemAtingidaEquipe >= 100 ? 'text-success' : 'text-danger') : ''}>
+                                <b>Alcançado pela Equipe:</b> R$ {convertFloatToMoney(vendasEquipe)} {margemAtingidaEquipe ? `(${convertFloatToMoney(margemAtingidaEquipe)}%)` : ''}
+                            </span>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div className="card card-body mb-4 border">
+                <div className="row">
+                    <div className="col mb-2">
+                        <span
+                            className="d-block text-lg"><b>Salário Total: R$ {convertFloatToMoney(registros?.total)}</b></span>
                     </div>
                 </div>
                 <div className="row row-cols-4">
@@ -156,49 +180,49 @@ export default function ({usuario, ano, mes, userId}) {
                         <div className="card card-body border">
                             <span className="mb-3"><b>Salário Fixo</b></span>
                             <TextField fullWidth label="Valor Salário"
-                                       value={(data?.salario?.valor ?? registros?.salario_fixo) ?? ''}
+                                       value={(data?.salario_fixo?.valor ?? convertFloatToMoney(registros?.salario_fixo?.valor)) ?? ''}
                                        InputProps={startAdornment}
                                        onChange={e => {
                                            setData({
-                                               'salario': {
-                                                   ...data.salario,
+                                               'salario_fixo': {
+                                                   ...data.salario_fixo,
                                                    valor: mascaraMoeda(e),
                                                }
                                            })
-                                           setCampoEditar('salario')
+                                           setCampoEditar('salario_fixo')
                                        }}/>
                             <br/>
                             <TextField type="date" className="mt-4" fullWidth
                                        label="Pagamento Realizado Dia" InputLabelProps={{shrink: true}}
-                                       value={(data?.salario?.data ?? registros?.salario_fixo_data) ?? ''}
+                                       value={(data?.salario_fixo?.data ?? registros?.salario_fixo?.data_pagamento) ?? ''}
                                        onChange={e => {
                                            setData({
-                                               'salario': {
-                                                   ...data.salario,
+                                               'salario_fixo': {
+                                                   ...data.salario_fixo,
                                                    data: e.target.value,
                                                }
                                            })
-                                           setCampoEditar('salario')
+                                           setCampoEditar('salario_fixo')
                                        }}/>
                             <div className="row justify-content-between pt-3">
                                 <div className="col-auto">
                                     <Switch
-                                        checked={((data?.salario?.status)?.toString()) ? data?.salario?.status : registros?.salario_fixo_status}
+                                        checked={((data?.salario_fixo?.status)?.toString()) ? data?.salario_fixo?.status : registros?.salario_fixo?.status}
                                         onChange={e => {
                                             setData({
-                                                'salario': {
-                                                    ...data.salario,
+                                                'salario_fixo': {
+                                                    ...data.salario_fixo,
                                                     status: e.target.checked,
                                                 }
                                             })
-                                            setCampoEditar('salario')
+                                            setCampoEditar('salario_fixo')
                                         }}/>
-                                    <small>{((data?.salario?.status)?.toString() ? data?.salario?.status : registros?.salario_fixo_status) ? 'Pago' : 'Aberto'}</small>
+                                    <small>{((data?.salario_fixo?.status)?.toString() ? data?.salario_fixo?.status : registros?.salario_fixo?.status) ? 'Pago' : 'Aberto'}</small>
                                 </div>
                                 <div className="col-auto">
-                                    {campoEditar === 'salario' &&
+                                    {campoEditar === 'salario_fixo' &&
                                         <button className="btn btn-success btn-sm p-1 m-1 px-2 mt-2"
-                                                onClick={() => submit('salario')}>Salvar</button>
+                                                onClick={() => submit('salario_fixo')}>Salvar</button>
                                     }
                                 </div>
                             </div>
@@ -212,26 +236,26 @@ export default function ({usuario, ano, mes, userId}) {
                             <div className="row">
                                 <div className="col mb-2">
                                     <TextField fullWidth label="Valor Prêmio"
-                                               value={(data?.premio?.premio_margem ?? convertFloatToMoney(registros?.premio_margem, 3)) ?? ''}
+                                               value={(data?.premio?.margem ?? convertFloatToMoney(registros?.premio?.margem, 3)) ?? ''}
                                                InputProps={endAdornment}
                                                onChange={e => {
                                                    setData({
                                                        'premio': {
                                                            ...data.premio,
-                                                           premio_margem: mascaraMoeda(e, 3),
-                                                           valor: metaMes * (mascaraMoeda(e, 3) ? (convertMoneyFloat(mascaraMoeda(e, 3)) / 10) : registros?.premio_margem)
+                                                           margem: mascaraMoeda(e, 3),
+                                                           valor: metaMes * (mascaraMoeda(e, 3) ? (convertMoneyFloat(mascaraMoeda(e, 3)) / 10) : registros?.premio?.margem)
                                                        }
                                                    })
                                                    setCampoEditar('premio')
                                                }}/>
                                 </div>
                                 <div className="col pt-2">
-                                    R$ {convertFloatToMoney(metaMes * (data?.premio?.premio_margem ? convertMoneyFloat(data?.premio?.premio_margem) / 10 : registros?.premio_margem))}
+                                    R$ {convertFloatToMoney(metaMes * (data?.premio?.margem ? convertMoneyFloat(data?.premio?.margem) / 10 : registros?.premio?.margem))}
                                 </div>
                             </div>
                             <TextField type="date" className="mt-3" fullWidth
                                        label="Pagamento Realizado Dia" InputLabelProps={{shrink: true}}
-                                       value={(data?.premio?.data ?? registros?.premio_data) ?? ''}
+                                       value={(data?.premio?.data ?? registros?.premio?.data_pagamento) ?? ''}
                                        onChange={e => {
                                            //
                                            setCampoEditar('premio')
@@ -244,10 +268,10 @@ export default function ({usuario, ano, mes, userId}) {
                                        }}/>
 
                             <div className="col-12 text-start">
-                                <div className="row justify-content-between">
+                                <div className="row justify-content-between pt-3">
                                     <div className="col-auto">
                                         <Switch
-                                            checked={((data?.premio?.status)?.toString()) ? data?.premio?.status : registros?.premio_status}
+                                            checked={((data?.premio?.status)?.toString()) ? data?.premio?.status : registros?.premio?.status}
                                             onChange={e => {
                                                 setData({
                                                     'premio': {
@@ -257,7 +281,7 @@ export default function ({usuario, ano, mes, userId}) {
                                                 })
                                                 setCampoEditar('premio')
                                             }}/>
-                                        <small>{((data?.premio?.status)?.toString() ? data?.premio?.status : registros?.premio_status) ? 'Pago' : 'Aberto'}</small>
+                                        <small>{((data?.premio?.status)?.toString() ? data?.premio?.status : registros?.premio?.status) ? 'Pago' : 'Aberto'}</small>
                                     </div>
                                     <div className="col-auto">
                                         {campoEditar === 'premio' &&
@@ -277,57 +301,57 @@ export default function ({usuario, ano, mes, userId}) {
                             <div className="row">
                                 <div className="col mb-2">
                                     <TextField fullWidth label="Valor Prêmio"
-                                               value={(data?.comissao?.comissao_margem ?? convertFloatToMoney(registros?.premio_extra_margem, 3)) ?? ''}
+                                               value={(data?.premio_extra?.margem ?? convertFloatToMoney(registros?.premio_extra?.margem, 3)) ?? ''}
                                                InputProps={endAdornment}
                                                onChange={e => {
                                                    setData({
-                                                       'comissao': {
-                                                           ...data.comissao,
-                                                           comissao_margem: mascaraMoeda(e, 3),
-                                                           valor: metaMes * (mascaraMoeda(e, 3) ? (convertMoneyFloat(mascaraMoeda(e, 3)) / 10) : registros?.premio_extra_margem)
+                                                       'premio_extra': {
+                                                           ...data.premio_extra,
+                                                           margem: mascaraMoeda(e, 3),
+                                                           valor: metaMes * (mascaraMoeda(e, 3) ? (convertMoneyFloat(mascaraMoeda(e, 3)) / 10) : registros?.premio_extra?.margem)
                                                        }
                                                    })
-                                                   setCampoEditar('comissao')
+                                                   setCampoEditar('premio_extra')
                                                }}/>
                                 </div>
                                 <div className="col pt-2">
-                                    R$ {convertFloatToMoney(metaMes * (data?.comissao?.comissao_margem ? convertMoneyFloat(data?.comissao?.comissao_margem) / 10 : registros?.premio_extra_margem))}
+                                    R$ {convertFloatToMoney(metaMes * (data?.premio_extra?.margem ? convertMoneyFloat(data?.premio_extra?.margem) / 10 : registros?.premio_extra?.margem))}
                                 </div>
                             </div>
                             <br/>
                             <TextField type="date" className="mt-3" fullWidth
                                        label="Pagamento Realizado Dia" InputLabelProps={{shrink: true}}
-                                       value={(data?.comissao?.data ?? registros?.comissao_data) ?? ''}
+                                       value={(data?.premio_extra?.data ?? registros?.premio_extra?.data_pagamento) ?? ''}
                                        onChange={e => {
                                            setData({
-                                               'comissao': {
-                                                   ...data.comissao,
+                                               'premio_extra': {
+                                                   ...data.premio_extra,
                                                    data: e.target.value
                                                }
                                            })
-                                           setCampoEditar('comissao')
+                                           setCampoEditar('premio_extra')
                                        }}/>
 
                             <div className="col-12 text-start pt-3">
                                 <div className="row justify-content-between">
                                     <div className="col-auto">
                                         <Switch
-                                            checked={((data?.comissao?.status)?.toString()) ? data?.comissao?.status : registros?.comissao_status}
+                                            checked={((data?.premio_extra?.status)?.toString()) ? data?.premio_extra?.status : registros?.premio_extra?.status}
                                             onChange={e => {
                                                 setData({
-                                                    'comissao': {
-                                                        ...data.comissao,
+                                                    'premio_extra': {
+                                                        ...data.premio_extra,
                                                         status: e.target.checked
                                                     }
                                                 })
-                                                setCampoEditar('comissao')
+                                                setCampoEditar('premio_extra')
                                             }}/>
-                                        <small>{((data?.comissao?.status)?.toString() ? data?.comissao?.status : registros?.comissao_status) ? 'Pago' : 'Aberto'}</small>
+                                        <small>{((data?.premio_extra?.status)?.toString() ? data?.premio_extra?.status : registros?.premio_extra?.status) ? 'Pago' : 'Aberto'}</small>
                                     </div>
                                     <div className="col-auto">
-                                        {campoEditar === 'comissao' &&
+                                        {campoEditar === 'premio_extra' &&
                                             <button className="btn btn-success btn-sm p-1 m-1 px-2 mt-2"
-                                                    onClick={() => submit('comissao')}>Salvar</button>
+                                                    onClick={() => submit('premio_extra')}>Salvar</button>
                                         }
                                     </div>
                                 </div>
@@ -340,7 +364,7 @@ export default function ({usuario, ano, mes, userId}) {
                         <div className="card card-body border">
                             <span className="mb-3"><b>Bônus do Mês</b></span>
                             <TextField fullWidth label="Valor do Bônus"
-                                       value={(data?.bonus?.valor ?? registros?.bonus) ?? ''}
+                                       value={(data?.bonus?.valor ?? convertFloatToMoney(registros?.bonus?.valor)) ?? ''}
                                        InputProps={startAdornment}
                                        onChange={e => {
                                            setData({
@@ -355,7 +379,7 @@ export default function ({usuario, ano, mes, userId}) {
                             <TextField type="date" className="mt-4" fullWidth
                                        label="Pagamento Realizado Dia"
                                        InputLabelProps={{shrink: true}}
-                                       value={(data?.bonus?.data ?? registros?.bonus_data) ?? ''}
+                                       value={(data?.bonus?.data ?? registros?.bonus?.data_pagamento) ?? ''}
                                        onChange={e => {
                                            setData({
                                                'bonus': {
@@ -368,7 +392,7 @@ export default function ({usuario, ano, mes, userId}) {
                             <div className="row justify-content-between pt-3">
                                 <div className="col-auto">
                                     <Switch
-                                        checked={((data?.bonus?.status)?.toString()) ? data?.bonus?.status : registros?.bonus_status}
+                                        checked={((data?.bonus?.status)?.toString()) ? data?.bonus?.status : registros?.bonus?.status}
                                         onChange={e => {
                                             setData({
                                                 'bonus': {
@@ -378,7 +402,7 @@ export default function ({usuario, ano, mes, userId}) {
                                             })
                                             setCampoEditar('bonus')
                                         }}/>
-                                    <small>{((data?.bonus?.status)?.toString() ? data?.bonus?.status : registros?.bonus_status) ? 'Pago' : 'Aberto'}</small>
+                                    <small>{((data?.bonus?.status)?.toString() ? data?.bonus?.status : registros?.bonus?.status) ? 'Pago' : 'Aberto'}</small>
                                 </div>
                                 <div className="col-auto">
                                     {campoEditar === 'bonus' &&
@@ -396,7 +420,7 @@ export default function ({usuario, ano, mes, userId}) {
                 <div className="row">
                     <div className="col">
                         <h6>Meta x Vendas de {ano} de {usuario.nome}</h6>
-                        <MetasAtingidas metasAnual={metasAnual} vendasAnual={vendasAnual} />
+                        <MetasAtingidas metasAnual={metasAnual} vendasAnual={vendasAnual}/>
                     </div>
                 </div>
             </div>

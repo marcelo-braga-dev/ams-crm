@@ -483,7 +483,12 @@ class Pedidos extends Model
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
             ->whereMonth('data_faturamento', $mes)
             ->whereYear('data_faturamento', $ano)
-            ->sum('preco_venda');
+            ->select(DB::raw('
+                count(*) as qtd,
+                SUM(preco_venda) as vendas,
+                SUM(preco_custo) + SUM(repasse) as custos
+                '))
+            ->first();
     }
 
     public function prazos($idUsuario = null)

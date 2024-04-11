@@ -1,6 +1,3 @@
-import * as React from "react";
-
-import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
 import InsertChartOutlinedRoundedIcon from "@mui/icons-material/InsertChartOutlinedRounded";
 
 const dashboard = {
@@ -18,7 +15,7 @@ const dashboard = {
             submenu: [
                 {
                     id: 'dashboard-relatorios',
-                    title: 'Relatórios',
+                    title: 'Relatórios Integrados',
                     type: 'item',
                     url: route('admin.dashboard.relatorios.index'),
                 }, {
@@ -27,15 +24,15 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.dashboard.vendas.index'),
                 }, {
-                    id: 'dashboard-economico',
-                    title: 'Indicadores de Econômicos',
-                    type: 'item',
-                    url: route('admin.dashboard.economicos.index'),
-                }, {
                     id: 'dashboard-financeiro',
-                    title: 'Indicadores de Financeiros',
+                    title: 'Indicadores Financeiros',
                     type: 'item',
                     url: route('admin.dashboard.financeiros.index'),
+                }, {
+                    id: 'dashboard-economico',
+                    title: 'Indicadores Econômicos',
+                    type: 'item',
+                    url: route('admin.dashboard.economicos.index'),
                 }
             ]
         }

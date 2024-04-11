@@ -21,16 +21,23 @@ class VendasService
         $vendasUsuarios = [];
         $totalVendas = 0;
         $totalMetas = 0;
+        $totalCustos = 0;
+        $totalQtd = 0;
 
         foreach ($usuarios as $usuario) {
             $vendas = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano);
+
             $metas = (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano);
 
-            $totalVendas += $vendas;
+            $totalVendas += $vendas->vendas;
+            $totalCustos += $vendas->custos;
             $totalMetas += $metas;
+            $totalQtd += $vendas->qtd;
 
             $vendasUsuarios[] = [
-                'vendas' => $vendas,
+                'vendas' => $vendas->vendas,
+                'custos' => $vendas->custos,
+                'qtd' => $vendas->qtd,
                 'id' => $usuario['id'],
                 'nome' => $usuario['nome'],
                 'meta' => $metas
@@ -38,7 +45,8 @@ class VendasService
         }
         rsort($vendasUsuarios);
 
-        return ['vendas' => $vendasUsuarios, 'totalVendas' => $totalVendas, 'totalMetas' => $totalMetas];
+        return ['vendas' => $vendasUsuarios, 'totalVendas' => $totalVendas, 'totalMetas' => $totalMetas, 'totalCustos' => $totalCustos,
+            'totalQtd' => $totalQtd];
     }
 
     public function metaVendasAnual($ano, $setor): array

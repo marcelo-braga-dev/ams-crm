@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class FluxoCaixa extends Model
 {
@@ -210,6 +211,54 @@ class FluxoCaixa extends Model
         $this->newQuery()
             ->find($id)
             ->delete();
+    }
+
+    public function entradas($mes, $ano)
+    {
+        $items = $this->newQuery()
+            ->whereMonth('data_pagamento', $mes)
+            ->whereYear('data_pagamento', $ano)
+            ->select(DB::raw('
+                SUM(CASE WHEN tipo = "entrada" THEN valor ELSE 0 END) AS entrada,
+                SUM(CASE WHEN tipo = "entrada" AND status = "pago" THEN valor ELSE 0 END) AS entrada_pago,
+                SUM(CASE WHEN tipo = "entrada" AND status = "aberto" THEN valor ELSE 0 END) AS entrada_aberto,
+
+                SUM(CASE WHEN tipo = "saida" THEN valor ELSE 0 END) AS saida,
+                SUM(CASE WHEN tipo = "saida" AND status = "pago" THEN valor ELSE 0 END) AS saida_pago,
+                SUM(CASE WHEN tipo = "saida" AND status = "aberto" THEN valor ELSE 0 END) AS saida_aberto,
+
+                SUM(valor) as total,
+                DAY(data_pagamento) as dia
+            '))
+            ->orderBy('data_pagamento')
+            ->groupBy('data_pagamento')
+            ->get();
+
+        $fluxo = [];
+        foreach ($items as $item) {
+            $fluxo[$item->dia] = $item;
+        }
+
+        $totais = $this->newQuery()
+            ->whereMonth('data_pagamento', $mes)
+            ->whereYear('data_pagamento', $ano)
+            ->select(DB::raw('
+                SUM(CASE WHEN tipo = "entrada" THEN valor ELSE 0 END) AS entrada,
+                SUM(CASE WHEN tipo = "entrada" AND status = "pago" THEN valor ELSE 0 END) AS entrada_pago,
+                SUM(CASE WHEN tipo = "entrada" AND status = "aberto" THEN valor ELSE 0 END) AS entrada_aberto,
+
+                SUM(CASE WHEN tipo = "saida" THEN valor ELSE 0 END) AS saida,
+                SUM(CASE WHEN tipo = "saida" AND status = "pago" THEN valor ELSE 0 END) AS saida_pago,
+                SUM(CASE WHEN tipo = "saida" AND status = "aberto" THEN valor ELSE 0 END) AS saida_aberto,
+
+                SUM(valor) as total,
+                DAY(data_pagamento) as dia
+            '))
+            ->first();
+
+        $ultimoDia = date('t', strtotime($ano . '-' . $mes . '-' . '1'));
+
+        return ['movimentacao' => $fluxo, 'totais' => $totais, 'ultimoDia' => $ultimoDia];
     }
 
     private function token($token): Builder

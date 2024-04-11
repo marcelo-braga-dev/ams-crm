@@ -227,10 +227,12 @@ export default function ({fornecedores, franquias, empresas}) {
                                              (item.status === 'pago' ? '' : (item.tipo === 'entrada' ? 'text-success' : ' text-danger')) +
                                              (item.atrasado ? ' bg-danger text-white' : '')
                                          }>
-                                        <div className="col-1 text-center">
+                                        <div className="col text-center pt-4">
                                             {item.tipo === 'entrada' ? <ArrowUpwardOutlinedIcon color="success"/> :
                                                 <ArrowDownwardOutlinedIcon color="error"/>}
                                             <small className="d-block">{item.tipo}</small>
+                                        </div>
+                                        <div className="col-auto text-center">
                                             <FormControlLabel
                                                 value="bottom"
                                                 control={
@@ -244,43 +246,43 @@ export default function ({fornecedores, franquias, empresas}) {
                                                 labelPlacement="bottom"
                                             />
                                         </div>
-                                        <div className="col-7 cursor-pointer"
+                                        <div className="col-6 cursor-pointer"
                                              onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
-                            <span className="d-blo ck text-truncate">
-                                <b>Data:</b> {item.data}
-                            </span>
+                                            <span className="d-blo ck text-truncate">
+                                                <b>Data:</b> {item.data}
+                                            </span>
                                             <span className="d-b lock text-truncate ps-4">
-                                <b>NF n°:</b> {item.nota_fiscal}
-                            </span>
+                                                <b>NF n°:</b> {item.nota_fiscal}
+                                            </span>
                                             <span className="d-block text-truncate">
-                                  <b>Fornecedor:</b> {item.fornecedor}
-                            </span>
+                                                  <b>Fornecedor:</b> {item.fornecedor}
+                                            </span>
                                             <span className="d-block text-truncate">
-                                  <b>Empresa:</b> {item.empresa}
-                            </span>
+                                                  <b>Empresa:</b> {item.empresa}
+                                            </span>
                                             <span className="d-block text-truncate">
-                                    <b>Banco:</b> {item.banco}
-                            </span>
+                                                    <b>Banco:</b> {item.banco}
+                                            </span>
                                             <span className="d-block">
-                                <b>Franquia:</b> {item.franquia}
-                            </span>
+                                                <b>Franquia:</b> {item.franquia}
+                                            </span>
                                         </div>
                                         <div className="col-3 cursor-pointer"
                                              onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
-                            <span className="mt-3 fs-6">
-                                <b>R$ {item.valor}</b> <br/>
-                            </span>
+                                            <span className="mt-3 fs-6">
+                                                <b>R$ {item.valor}</b> <br/>
+                                            </span>
                                             <span className="mt-3">
-                                <b>Parcela:</b> {item.qtd_parcelas} <br/>
-                            </span>
+                                                <b>Parcela:</b> {item.qtd_parcelas} <br/>
+                                            </span>
                                             <span className="d-block">
-                                <b>Valor Baixa:</b> {item.valor_baixa && <>R$ {item.valor_baixa}</>}
-                            </span>
+                                                <b>Valor Baixa:</b> {item.valor_baixa && <>R$ {item.valor_baixa}</>}
+                                            </span>
                                             <span className="d-block">
-                                <b>Data Baixa:</b> {item.data_baixa}
-                            </span>
+                                                <b>Data Baixa:</b> {item.data_baixa}
+                                            </span>
                                         </div>
-                                        <div className="col-1 cursor-pointer"
+                                        <div className="col cursor-pointer"
                                              onClick={() => router.get(route('admin.financeiro.fluxo-caixa.show', item.id))}>
                                             <a className="btn btn-link btn-sm p-0"
                                                href={route('admin.financeiro.fluxo-caixa.show', item.id)}>
@@ -289,10 +291,9 @@ export default function ({fornecedores, franquias, empresas}) {
                                         </div>
                                     </div>
                                 </Card>
-
-
                             </div>
                         )}
+
                         {/*Salario*/}
                         {registrosSalarios?.[dia]?.map(item => {
                             const link = () => router.get(route('admin.financeiro.salarios.edit', item.user_id), {mes: item.mes})
@@ -306,16 +307,28 @@ export default function ({fornecedores, franquias, empresas}) {
                                             (item.status === 1 ? '' : (item.status === 1 ? 'text-success' : ' text-danger')) +
                                             (item.atrasado ? ' bg-danger text-white' : '')
                                         }>
-                                        <div className="col-1 text-center">
+                                        <div className="col pt-4 text-center">
                                             <LocalAtmOutlinedIcon/>
-                                            <small className="d-block">Salário</small>
+                                            <small className="d-block">{item.tipo}</small>
+                                        </div>
+                                        <div className="col-auto text-center">
+                                            <FormControlLabel
+                                                control={
+                                                    <Switch checked={item.status === '1'} data-bs-toggle="modal"
+                                                            className="mt-3"
+                                                            onClick={() => setIdStatus(item.id)}
+                                                            data-bs-target="#exampleModal"/>
+                                                }
+                                                label={<small>{item.status === '1' ? 'Pago' : 'Aberto'}</small>}
+                                                className="text-muted" labelPlacement="bottom"
+                                            />
                                         </div>
                                         <div className="col-4 cursor-pointer"
                                              onClick={() => link()}>
                                             Nome: {item.nome}<br/>
-                                            Data: {item.data}<br/>
+                                            Data Pagamento: {item.data}<br/>
                                         </div>
-                                        <div className="col-6 cursor-pointer"
+                                        <div className="col-5 cursor-pointer"
                                              onClick={() => link()}>
                                             Valor: R$ {convertFloatToMoney(item.valor) ?? '-'}<br/>
                                             Status: {item.status === 1 ? 'Pago' : 'Em Aberto'}
