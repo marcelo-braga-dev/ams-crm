@@ -298,26 +298,19 @@ export default function ({usuario, ano, mes}) {
                     <div className="col">
                         <div className="card card-body border">
                             <span className="mb-3"><b>Prêmio Extra</b></span>
-                            <div className="row">
-                                <div className="col mb-2">
-                                    <TextField fullWidth label="Valor Prêmio"
-                                               value={(data?.premio_extra?.margem ?? convertFloatToMoney(registros?.premio_extra?.margem, 3)) ?? ''}
-                                               InputProps={endAdornment}
-                                               onChange={e => {
-                                                   setData({
-                                                       'premio_extra': {
-                                                           ...data.premio_extra,
-                                                           margem: mascaraMoeda(e, 3),
-                                                           valor: convertMoneyFloat(mascaraMoeda(e, 3), 3) * vendasEquipe / 100
-                                                       }
-                                                   })
-                                                   setCampoEditar('premio_extra')
-                                               }}/>
-                                </div>
-                                <div className="col pt-2">
-                                    R$ {convertFloatToMoney((data?.premio_extra?.margem ? convertMoneyFloat(data?.premio_extra?.margem, 3) : registros?.premio_extra?.margem) * vendasEquipe / 100)}
-                                </div>
-                            </div>
+                            <TextField fullWidth label="Valor Prêmio"
+                                       value={(data?.premio_extra?.valor ?? convertFloatToMoney(registros?.premio_extra?.valor)) ?? ''}
+                                       InputProps={startAdornment}
+                                       onChange={e => {
+                                           setData({
+                                               'premio_extra': {
+                                                   ...data.premio_extra,
+                                                   valor: mascaraMoeda(e),
+                                               }
+                                           })
+                                           setCampoEditar('premio_extra')
+                                       }}/>
+
                             <br/>
                             <TextField type="date" className="mt-3" fullWidth
                                        label="Pagamento Realizado Dia" InputLabelProps={{shrink: true}}
