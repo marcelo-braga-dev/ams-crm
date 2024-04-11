@@ -14,18 +14,7 @@ const dashboard = {
             url: undefined,
             icon: BarChartIcon,
             submenu: [
-                {
-                    id: 'relatorios-leads',
-                    title: 'Leads',
-                    type: 'item',
-                    url: route('admin.leads.relatorios.index'),
-                }, {
-                    id: 'relatorios-vendas',
-                    title: 'Vendas',
-                    admin: true,
-                    type: 'item',
-                    url: route('admin.relatorios.vendas.index'),
-                }, {
+                 , {
                     id: 'metas-vendas',
                     title: 'Meta de Vendas',
                     type: 'item',

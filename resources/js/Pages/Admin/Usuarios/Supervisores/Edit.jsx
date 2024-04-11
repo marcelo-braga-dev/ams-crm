@@ -9,7 +9,7 @@ export default function Edit({usuario, setores, errors}) {
         nome: usuario.nome,
         email: usuario.email,
         status: usuario.status,
-        setor: usuario.setor,
+        setor: usuario.setor_id,
         funcao: usuario.tipo
     });
 
@@ -58,7 +58,7 @@ export default function Edit({usuario, setores, errors}) {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-4">
+                    <div className="col-md-4">{console.log(data)}
                         {/*Setores*/}
                         <TextField label="Setor" select required fullWidth
                                    defaultValue={data.setor}

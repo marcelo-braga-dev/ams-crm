@@ -39,6 +39,11 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.clientes.leads.alterar-consultor'),
                 }, {
+                    id: 'leads-relatorios',
+                    title: 'Relatórios',
+                    type: 'item',
+                    url: route('admin.leads.relatorios.index'),
+                },{
                     id: 'leads-importar',
                     title: 'Importar Planilhas',
                     type: 'item',

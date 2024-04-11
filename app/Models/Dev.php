@@ -18,7 +18,7 @@ class Dev extends Model
         'data_prazo_inicial',
         'area',
         'prioridade',
-        'setor',
+        'setor_id',
         'valor_inicial',
         'valor_final',
         'data_prazo_final',
@@ -36,7 +36,7 @@ class Dev extends Model
                 'status' => 'novo',
                 'area' => $request->area,
                 'prioridade' => $request->prioridade,
-                'setor' => $request->setor,
+                'setor_id' => $request->setor,
                 'valor_inicial' => convert_money_float($request->valor_servico)
             ]);
         return $dados->id;
@@ -65,7 +65,7 @@ class Dev extends Model
             'data_inicial' => date('d/m/Y', strtotime($dado->data_prazo_inicial)),
             'area' => $dado->area,
             'prioridade' => $dado->prioridade,
-            'setor' => $setor[$dado->setor] ?? '-',
+            'setor' => $setor[$dado->setor_id] ?? '-',
             'valor_inicial' => convert_float_money($dado->valor_inicial),
             'valor_final' => convert_float_money($dado->valor_final),
             'data_final' => date('d/m/Y', strtotime($dado->data_prazo_final)),

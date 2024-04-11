@@ -16,13 +16,12 @@ export default function Faturamento({dados, salarios}) {
         labels: dias,
         datasets: [
             {
-                label: "Entradas",
+                label: "Receitas",
                 backgroundColor: "#3bbd0d",
                 borderColor: "rgb(156,255,99)",
                 data: entradasDia,
-            },
-            {
-                label: "Saída",
+            }, {
+                label: "Despesas + Salários",
                 backgroundColor: "rgb(184,25,25)",
                 borderColor: "rgb(231,17,17)",
                 data: saidasDia,

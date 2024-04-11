@@ -30,18 +30,25 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.historico.index'),
                 }, {
+                    id: 'pedidos-relatorios',
+                    title: 'Relatórios',
+                    admin: true,
+                    type: 'item',
+                    url: route('admin.relatorios.vendas.index'),
+                }, {
                     id: 'pedidos-config',
                     title: 'Configurações',
                     type: 'item',
                     admin: true,
                     url: route('admin.config.index'),
-                }, {
-                    id: 'pedidos-quadros',
-                    title: 'Quadros',
-                    type: 'item',
-                    admin: true,
-                    url: route('admin.pedidos.quadros.index'),
-                }
+                },
+                // {
+                //     id: 'pedidos-quadros',
+                //     title: 'Quadros',
+                //     type: 'item',
+                //     admin: true,
+                //     url: route('admin.pedidos.quadros.index'),
+                // }
             ]
         }
     ]

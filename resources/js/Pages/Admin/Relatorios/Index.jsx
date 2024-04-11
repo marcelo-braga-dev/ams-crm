@@ -25,7 +25,7 @@ export default function () {
     }
 
     return (
-        <Layout titlePage="Relatório de Pedidos" menu="relatorios" submenu="relatorios-vendas">
+        <Layout titlePage="Relatório de Pedidos" menu="pedidos" submenu="pedidos-relatorios">
             Período
             <form onSubmit={getDados}>
                 <div className="row">

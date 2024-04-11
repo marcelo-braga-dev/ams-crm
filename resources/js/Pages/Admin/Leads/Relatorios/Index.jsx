@@ -93,7 +93,7 @@ export default function ({qtdLeads, historicoLeads}) {
     }, [filterText]);
 
     return (
-        <Layout container titlePage="Relatórios dos Leads" menu="relatorios" submenu="relatorios-leads">
+        <Layout container titlePage="Relatórios dos Leads" menu="leads" submenu="leads-relatorios">
 
             <div className="row">
                 <div className="col">
