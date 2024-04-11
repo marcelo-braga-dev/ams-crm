@@ -229,7 +229,7 @@ export default function ({usuario, ano, mes}) {
                         </div>
                     </div>
 
-                    {/*Premio*/}
+                    {/*Prêmio Mensal*/}
                     <div className="col">
                         <div className="card card-body border">
                             <span className="mb-3"><b>Prêmio Mensal</b></span>
@@ -243,14 +243,14 @@ export default function ({usuario, ano, mes}) {
                                                        'premio': {
                                                            ...data.premio,
                                                            margem: mascaraMoeda(e, 3),
-                                                           valor: metaMes * (mascaraMoeda(e, 3) ? (convertMoneyFloat(mascaraMoeda(e, 3)) / 10) : registros?.premio?.margem)
+                                                           valor: convertMoneyFloat(mascaraMoeda(e, 3), 3) * vendasMes / 100
                                                        }
                                                    })
                                                    setCampoEditar('premio')
                                                }}/>
                                 </div>
                                 <div className="col pt-2">
-                                    R$ {convertFloatToMoney(metaMes * (data?.premio?.margem ? convertMoneyFloat(data?.premio?.margem) / 10 : registros?.premio?.margem))}
+                                    R$ {convertFloatToMoney((data?.premio?.margem ? convertMoneyFloat(data?.premio?.margem, 3) : registros?.premio?.margem) * vendasMes / 100)}
                                 </div>
                             </div>
                             <TextField type="date" className="mt-3" fullWidth
@@ -294,7 +294,7 @@ export default function ({usuario, ano, mes}) {
                         </div>
                     </div>
 
-                    {/*Comissão*/}
+                    {/*Prêmio Extra*/}
                     <div className="col">
                         <div className="card card-body border">
                             <span className="mb-3"><b>Prêmio Extra</b></span>
@@ -308,14 +308,14 @@ export default function ({usuario, ano, mes}) {
                                                        'premio_extra': {
                                                            ...data.premio_extra,
                                                            margem: mascaraMoeda(e, 3),
-                                                           valor: metaMes * (mascaraMoeda(e, 3) ? (convertMoneyFloat(mascaraMoeda(e, 3)) / 10) : registros?.premio_extra?.margem)
+                                                           valor: convertMoneyFloat(mascaraMoeda(e, 3), 3) * vendasEquipe / 100
                                                        }
                                                    })
                                                    setCampoEditar('premio_extra')
                                                }}/>
                                 </div>
                                 <div className="col pt-2">
-                                    R$ {convertFloatToMoney(metaMes * (data?.premio_extra?.margem ? convertMoneyFloat(data?.premio_extra?.margem) / 10 : registros?.premio_extra?.margem))}
+                                    R$ {convertFloatToMoney((data?.premio_extra?.margem ? convertMoneyFloat(data?.premio_extra?.margem, 3) : registros?.premio_extra?.margem) * vendasEquipe / 100)}
                                 </div>
                             </div>
                             <br/>
