@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Services\Excel\RelatorioLeads;
 use App\src\Leads\Dados\DadosLeads;
+use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
@@ -526,5 +528,35 @@ class Leads extends Model
         if ($id) $this->newQuery()
             ->find($id)
             ->update(['ultimo_pedido_data' => now()]);
+    }
+
+    public function relatorio()
+    {
+        // leads -ativo, -nome, -consultor atual, -ultima compra, -total de vendas;
+        $dados = $this->newQuery()
+            ->where('leads.status', (new AtivoStatusLeads())->getStatus())
+            ->leftJoin('users', 'leads.user_id', '=', 'users.id')
+            ->leftJoin('pedidos', 'leads.id', '=', 'pedidos.lead_id')
+            ->select(DB::raw('
+                leads.id as lead_id, nome, razao_social, cnpj, name as consultor, pedidos.created_at as pedido_data,
+                SUM(preco_venda) as vendas, COUNT(pedidos.id) as pedidos_qtd
+                '))
+            ->groupBy('leads.id')
+            ->orderByDesc('pedidos.created_at')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'lead_id' => $item->lead_id,
+                    'lead_nome' => $item->nome,
+                    'razao_social' => $item->razao_social,
+                    'cnpj' => converterCNPJ($item->cnpj),
+                    'consultor_nome' => $item->consultor,
+                    'pedido_data' => date('d/m/Y', strtotime($item->pedido_data)),
+                    'pedidos_qtd' => $item->pedidos_qtd,
+                    'pedidos_vendas' => $item->vendas,
+                ];
+            });
+
+        return (new RelatorioLeads())->gerar($dados);
     }
 }

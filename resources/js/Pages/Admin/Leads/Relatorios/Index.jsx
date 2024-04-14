@@ -94,6 +94,12 @@ export default function ({qtdLeads, historicoLeads}) {
 
     return (
         <Layout container titlePage="Relatórios dos Leads" menu="leads" submenu="leads-relatorios">
+            <div className="row">
+                <div className="col">
+                    <a className="btn btn-warning btn-sm" target="_blank"
+                        href={route('admin.clientes.leads.leads-relatorio')}>Baixar Relatório de Leads</a>
+                </div>
+            </div>
 
             <div className="row">
                 <div className="col">

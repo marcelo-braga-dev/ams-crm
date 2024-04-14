@@ -31,6 +31,7 @@ Route::name('admin.clientes.leads.')
         Route::get('alterar-consultor', [LeadsController::class, 'alterarConsultor'])->name('alterar-consultor');
         Route::post('limpar-consultor', [LeadsController::class, 'limparConsultor'])->name('limpar-consultor');
         Route::get('get-leads-cadastrados', [LeadsController::class, 'leads'])->name('get-leads-cadastrados');
+        Route::get('leads-relatorio', [LeadsController::class, 'relatorio'])->name('leads-relatorio');
 
     });
 
