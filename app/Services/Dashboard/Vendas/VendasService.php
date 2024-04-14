@@ -5,6 +5,7 @@ namespace App\Services\Dashboard\Vendas;
 use App\Models\MetasVendas;
 use App\Models\Pedidos;
 use App\Models\PedidosFaturamentos;
+use App\Models\PedidosHistoricos;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Pedidos\StatusPedidosServices;
@@ -16,7 +17,7 @@ class VendasService
 {
     public function metaVendas($mes, $ano, $setor): array
     {
-        $usuarios = (new User())->getUsuarios($setor);
+        $usuarios = (new User())->getUsuarios($setor, false);
 
         $vendasUsuarios = [];
         $totalVendas = 0;
@@ -25,23 +26,27 @@ class VendasService
         $totalQtd = 0;
 
         foreach ($usuarios as $usuario) {
-            $vendas = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano);
 
+            $vendas = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano);
             $metas = (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano);
 
-            $totalVendas += $vendas->vendas;
-            $totalCustos += $vendas->custos;
-            $totalMetas += $metas;
-            $totalQtd += $vendas->qtd;
+            if ($usuario['status'] == 'ativo') $totalMetas += $metas;
 
-            $vendasUsuarios[] = [
-                'vendas' => $vendas->vendas,
-                'custos' => $vendas->custos,
-                'qtd' => $vendas->qtd,
-                'id' => $usuario['id'],
-                'nome' => $usuario['nome'],
-                'meta' => $metas
-            ];
+            if ($usuario['status'] == 'ativo' || $vendas->qtd > 0) {
+
+                $totalVendas += $vendas->vendas;
+                $totalCustos += $vendas->custos;
+                $totalQtd += $vendas->qtd;
+
+                $vendasUsuarios[] = [
+                    'vendas' => $vendas->vendas,
+                    'custos' => $vendas->custos,
+                    'qtd' => $vendas->qtd,
+                    'id' => $usuario['id'],
+                    'nome' => $usuario['nome'],
+                    'meta' => $metas
+                ];
+            }
         }
         rsort($vendasUsuarios);
 

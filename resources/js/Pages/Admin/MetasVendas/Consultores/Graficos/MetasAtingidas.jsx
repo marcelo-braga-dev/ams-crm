@@ -11,7 +11,7 @@ export default function MetasAtingidas({items, dados, vendasMensalUsuario}) {
         return convertMoneyFloat(dados.metas?.[item.meta_index] ?? 0)
     })
     const atingida = items.map((item) => {
-        return vendasMensalUsuario[item.meta_index] ?? 0
+        return vendasMensalUsuario[item.meta_index]?.vendas ?? 0
     })
 
 

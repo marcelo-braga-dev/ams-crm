@@ -32,7 +32,7 @@ const Layout = ({titlePage, menu, submenu, children, voltar, empty}) => {
             <BoxStyled open={!open}>
                 <Container maxWidth={false}>
                     {empty ? children :
-                        <Card className="p-3">
+                        <Card className="p-3 mb-4">
                             {children}
                         </Card>
                     }

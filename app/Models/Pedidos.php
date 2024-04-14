@@ -479,8 +479,11 @@ class Pedidos extends Model
     public function getVendasMesUsuario($id, $mes, $ano)
     {
         return (new Pedidos())->newQuery()
-            ->where('user_id', $id)
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->join('pedidos_historicos', 'pedidos.id', '=', 'pedidos_historicos.pedido_id')
+            ->where('pedidos_historicos.user_id', $id)
+            ->where('pedidos_historicos.status', 'conferencia')
+
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
             ->whereMonth('data_faturamento', $mes)
             ->whereYear('data_faturamento', $ano)
             ->select(DB::raw('

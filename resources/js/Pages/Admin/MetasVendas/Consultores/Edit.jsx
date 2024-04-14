@@ -305,9 +305,6 @@ export default function ({usuario, dados, mes, ano, vendasMensalUsuario, vendasM
 
             <form onSubmit={submit}>
                 {items.map(item => {
-                        const vendaMensal = vendasMensalUsuario[item.meta_index]
-                        const metaMensal = convertMoneyFloat(data.metas?.[item?.meta_index] ?? 0)
-                        const margemAtingida = metaMensal > 0 ? (vendaMensal / metaMensal * 100) : null
                         let somaAlcancadoSubordinados = 0
                         let somaMetasSubordinados = 0
                         let margemTotal = 0
@@ -319,22 +316,11 @@ export default function ({usuario, dados, mes, ano, vendasMensalUsuario, vendasM
                                     <div className='row card card-body flex-row'>
                                         <div className="row border-bottom mb-2">
                                             <div className="col"><h6>MÊS: {item.mes}</h6></div>
-                                            <div className="col-auto">
-                                                {margemAtingida ? <a className="btn btn-primary btn-sm mb-1 py-1"
-                                                                     href={route('admin.metas-vendas.vendas-faturadas.index', {
-                                                                         id: usuario.id,
-                                                                         mes: item.mes_num,
-                                                                         ano: ano
-                                                                     })}>
-                                                    Ver Vendas
-                                                </a> : ''}
-                                            </div>
-
                                         </div>
                                         <div className="row">
                                             <div className="row mb-3">
                                                 <div className="col">
-                                                    <span>INDIVIDUAL</span>
+                                                    <span>Meta Individual</span>
                                                 </div>
                                             </div>
 
@@ -355,50 +341,8 @@ export default function ({usuario, dados, mes, ano, vendasMensalUsuario, vendasM
                                                             }
                                                         })}/>
                                                 </div>
-                                                <div className="col-3 pt-2">
-                                                    <span
-                                                        className={margemAtingida ? (margemAtingida >= 100 ? 'text-success' : 'text-danger') : ''}>
-                                                        Alcançado: R$ {convertFloatToMoney(vendaMensal)} {margemAtingida ? `(${convertFloatToMoney(margemAtingida)}%)` : ''}
-                                                    </span>
-                                                </div>
                                                 <div className="col-auto">
                                                     <button type="submit" className="btn btn-success">Salvar</button>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-md-2 mb-3">
-                                                    <TextField
-                                                        label="Comissão" fullWidth defaultValue={item.comissao}
-                                                        value={data.comissoes?.[item.meta_index] ?? ''}
-                                                        InputProps={{
-                                                            endAdornment: <InputAdornment
-                                                                position="start">%</InputAdornment>
-                                                        }}
-                                                        onChange={e => setData({
-                                                            ...data,
-                                                            comissoes: {
-                                                                ...data.comissoes,
-                                                                [item.meta_index]: maskMoney(e.target.value, 3)
-                                                            }
-                                                        })}/>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-md-2 mb-3">
-                                                    <TextField
-                                                        label="Bônus" fullWidth defaultValue={item.bonus}
-                                                        value={data.bonus?.[item.meta_index] ?? ''}
-                                                        InputProps={{
-                                                            startAdornment: <InputAdornment
-                                                                position="start">R$</InputAdornment>
-                                                        }}
-                                                        onChange={e => setData({
-                                                            ...data,
-                                                            bonus: {
-                                                                ...data.bonus,
-                                                                [item.meta_index]: maskMoney(e.target.value)
-                                                            }
-                                                        })}/>
                                                 </div>
                                             </div>
 
@@ -409,42 +353,6 @@ export default function ({usuario, dados, mes, ano, vendasMensalUsuario, vendasM
                                                     </div>
                                                 </div>
 
-                                                <div className="row mb-3">
-                                                    <div className='col-md-4'>
-                                                        <TextField
-                                                            label="Comissão Equipe" fullWidth
-                                                            defaultValue={item.comissao_equipe}
-                                                            value={data.comissoes_equipe?.[item.meta_index] ?? ''}
-                                                            InputProps={{
-                                                                endAdornment: <InputAdornment
-                                                                    position="start">%</InputAdornment>
-                                                            }}
-                                                            onChange={e => setData({
-                                                                ...data,
-                                                                comissoes_equipe: {
-                                                                    ...data.comissoes_equipe,
-                                                                    [item.meta_index]: maskMoney(e.target.value, 3)
-                                                                }
-                                                            })}/>
-                                                    </div>
-                                                    <div className='col-md-4'>
-                                                        <TextField
-                                                            label="Bônus" fullWidth defaultValue={item.bonus_equipe}
-                                                            value={data.bonus_equipe?.[item.meta_index] ?? ''}
-                                                            InputProps={{
-                                                                startAdornment: <InputAdornment
-                                                                    position="start">R$</InputAdornment>
-                                                            }}
-                                                            onChange={e => setData({
-                                                                ...data,
-                                                                bonus_equipe: {
-                                                                    ...data.bonus_equipe,
-                                                                    [item.meta_index]: maskMoney(e.target.value)
-                                                                }
-                                                            })}/>
-                                                    </div>
-                                                </div>
-
                                                 {/*Tabela comissões subordinados*/}
                                                 <div className="row">
                                                     <table className="table">
@@ -452,8 +360,6 @@ export default function ({usuario, dados, mes, ano, vendasMensalUsuario, vendasM
                                                         <tr>
                                                             <td>Consultor(a)</td>
                                                             <td>Meta</td>
-                                                            <td>Alcançado</td>
-                                                            <td></td>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -471,18 +377,6 @@ export default function ({usuario, dados, mes, ano, vendasMensalUsuario, vendasM
                                                                             {subordinado.nome}
                                                                         </td>
                                                                         <td>R$ {convertFloatToMoney(meta)}</td>
-                                                                        <td>R$ {convertFloatToMoney(vendas)} ({convertFloatToMoney(margem)}%)</td>
-                                                                        <td>
-                                                                            {margem ?
-                                                                                <a className="btn btn-link text-dark btn-sm mb-0"
-                                                                                   href={route('admin.metas-vendas.vendas-faturadas.index', {
-                                                                                       id: subordinado.id,
-                                                                                       mes: item.mes_num,
-                                                                                       ano: ano
-                                                                                   })}>
-                                                                                    Ver Vendas
-                                                                                </a> : ''}
-                                                                        </td>
                                                                     </tr>
                                                                 )
                                                             }
@@ -492,8 +386,6 @@ export default function ({usuario, dados, mes, ano, vendasMensalUsuario, vendasM
                                                                 TOTAL
                                                             </td>
                                                             <td>R$ {convertFloatToMoney(somaMetasSubordinados)}</td>
-                                                            <td>R$ {convertFloatToMoney(somaAlcancadoSubordinados)} ({convertFloatToMoney(margemTotal)}%)</td>
-                                                            <td></td>
                                                         </tr>
                                                         </tbody>
                                                     </table>

@@ -154,6 +154,16 @@ export default function ({
                                             R$ {convertFloatToMoney(item.vendas - item.meta)} (
                                             {convertFloatToMoney(((item.vendas - item.meta) / item.meta * 100) + 100)}%)
                                         </td>
+                                        <td>
+                                            <a className="btn btn-link text-dark btn-sm mb-0"
+                                               href={route('admin.metas-vendas.vendas-faturadas.index', {
+                                                   id: item.id,
+                                                   mes: mes,
+                                                   ano: ano
+                                               })}>
+                                                Ver Vendas
+                                            </a>
+                                        </td>
                                     </tr>
                                 )
                             })}
@@ -171,6 +181,7 @@ export default function ({
                                     R$ {convertFloatToMoney(metaVendas.totalVendas - metaVendas.totalMetas)} (
                                     {convertFloatToMoney(((metaVendas.totalVendas - metaVendas.totalMetas) / metaVendas.totalMetas * 100) + 100)}%)
                                 </td>
+                                <td></td>
                             </tr>
                             </tbody>
                         </table>
