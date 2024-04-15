@@ -52,13 +52,18 @@ class Notificacoes extends Model
             });
     }
 
-    public function getHistorico($id = null)
+    public function getHistorico($id = null, $setor = 1)
     {
         $nomes = (new User())->getNomes();
 
         $query = $this->newQuery()
             ->where('categoria', 'leads')
             ->orderByDesc('id');
+
+        if ($id == null) {
+            $idsUser = (new User)->getIdSetor($setor);
+            $query->whereIn('user_id', $idsUser);
+        }
 
         if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
         if ($id) $query->where('user_id', $id);

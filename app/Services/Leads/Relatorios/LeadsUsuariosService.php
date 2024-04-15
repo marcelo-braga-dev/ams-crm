@@ -7,10 +7,10 @@ use App\Models\User;
 
 class LeadsUsuariosService
 {
-    public function get()
+    public function get($setor = 1)
     {
         $nomes = (new User())->getNomes();
-        $leads = (new Leads())->qtdLeadsUsuarios();
+        $leads = (new Leads())->qtdLeadsUsuarios($setor);
 
         $dados = [];
         foreach ((new User())->getIdsSubordinados(true) as $id) {

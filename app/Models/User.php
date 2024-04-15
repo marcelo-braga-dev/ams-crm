@@ -426,4 +426,11 @@ class User extends Authenticatable
 
         return $query->pluck('name', 'id');
     }
+
+    public function getIdSetor($setor)
+    {
+        return $this->newQuery()
+            ->where('setor_id', $setor)
+            ->get('id');
+    }
 }

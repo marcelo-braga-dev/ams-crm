@@ -197,10 +197,4 @@ class LeadsController extends Controller
 
         return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual]);
     }
-
-    public function relatorio()
-    {
-        $url = (new Leads())->relatorio();
-        return redirect($url);
-    }
 }

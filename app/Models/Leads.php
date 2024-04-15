@@ -309,9 +309,10 @@ class Leads extends Model
             ->update(['status_data' => now()]);
     }
 
-    public function qtdLeadsUsuarios()
+    public function qtdLeadsUsuarios($setor = 1)
     {
-        $query = $this->newQuery();
+        $query = $this->newQuery()
+            ->where('setor_id', $setor);
 
         if (is_supervisor()) {
             $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
@@ -530,15 +531,15 @@ class Leads extends Model
             ->update(['ultimo_pedido_data' => now()]);
     }
 
-    public function relatorio()
+    public function relatorio($setor)
     {
-        // leads -ativo, -nome, -consultor atual, -ultima compra, -total de vendas;
         $dados = $this->newQuery()
             ->where('leads.status', (new AtivoStatusLeads())->getStatus())
+            ->where('leads.setor_id', $setor)
             ->leftJoin('users', 'leads.user_id', '=', 'users.id')
             ->leftJoin('pedidos', 'leads.id', '=', 'pedidos.lead_id')
             ->select(DB::raw('
-                leads.id as lead_id, nome, razao_social, cnpj, name as consultor, pedidos.created_at as pedido_data,
+                leads.id as lead_id, nome, razao_social, cnpj, cpf, name as consultor, pedidos.created_at as pedido_data,
                 SUM(preco_venda) as vendas, COUNT(pedidos.id) as pedidos_qtd
                 '))
             ->groupBy('leads.id')
@@ -550,6 +551,7 @@ class Leads extends Model
                     'lead_nome' => $item->nome,
                     'razao_social' => $item->razao_social,
                     'cnpj' => converterCNPJ($item->cnpj),
+                    'cpf' => $item->cpf,
                     'consultor_nome' => $item->consultor,
                     'pedido_data' => date('d/m/Y', strtotime($item->pedido_data)),
                     'pedidos_qtd' => $item->pedidos_qtd,

@@ -1,10 +1,11 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import "chart.js/auto";
 import QtdLeadsStatus from "./Graficos/Geral/QtdLeadsStatus";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import MenuItem from "@mui/material/MenuItem";
 import {TextField} from "@mui/material";
 import DataTable from "react-data-table-component";
+import {router} from "@inertiajs/react";
 
 const FilterComponent = ({filterText, onFilter}) => (
     <TextField
@@ -17,18 +18,30 @@ const FilterComponent = ({filterText, onFilter}) => (
     />
 )
 
-export default function ({qtdLeads, historicoLeads}) {
+export default function ({setores, setor}) {
     let nomes = [], qtd = [], varQtdLeads = [];
     const [qtdStatus, setQtsStatus] = useState(qtd)
+    const [setorSelecionado, setSetorSelecionado] = useState(setor)
+
+    const [statusLeads, setStatusLeads] = useState([])
+    const [historicoLeads, setHistoricoLeads] = useState([])
 
     function dadosGrafico(nome, total) {
         nomes.push(nome)
         qtd.push(total)
     }
 
+    useEffect(() => {
+        axios.get(route('admin.clientes.leads.leads-dados-relatorio', {setor: setorSelecionado}))
+            .then(res => {
+                setStatusLeads(res.data.status_leads)
+                setHistoricoLeads(res.data.historico_leads)
+            })
+    }, [setorSelecionado]);
+
     function qtdLeadsStatus(status) {
         varQtdLeads = []
-        qtdLeads.map((value) => {
+        statusLeads.map((value) => {
             switch (status) {
                 case 'novo':
                     varQtdLeads.push(value.novo);
@@ -64,16 +77,17 @@ export default function ({qtdLeads, historicoLeads}) {
             name: 'Data',
             selector: row => row.data,
             sortable: true,
-            grow: 0.08,
+            grow: 1,
         }, {
             name: 'Consultor(a)',
             selector: row => <b>{row.nome}</b>,
             sortable: true,
-            grow: 0.1,
+            grow: 1,
         }, {
             name: 'Mensagem',
-            selector: row => row.msg,
+            selector: row => <span>{row.msg}</span>,
             sortable: true,
+            grow: 8,
         },
     ];
 
@@ -94,43 +108,57 @@ export default function ({qtdLeads, historicoLeads}) {
 
     return (
         <Layout container titlePage="Relatórios dos Leads" menu="leads" submenu="leads-relatorios">
-            <div className="row">
-                <div className="col">
-                    <a className="btn btn-warning btn-sm" target="_blank"
-                        href={route('admin.clientes.leads.leads-relatorio')}>Baixar Relatório de Leads</a>
-                </div>
-            </div>
-
-            <div className="row">
-                <div className="col">
-                    <div className="card">
-                        <div className="card-body">
-                            <h6>Total de Leads</h6>
-                            <TextField className="w-25" select label="Status do Leads" defaultValue="total" size="small"
-                                       fullWidth
-                                       onChange={event => qtdLeadsStatus(event.target.value)}>
-                                <MenuItem value="novo">
-                                    Novo
-                                </MenuItem>
-                                <MenuItem value="atendimento">
-                                    Atendimento
-                                </MenuItem>
-                                <MenuItem value="ativo">
-                                    Ativo
-                                </MenuItem>
-                                <MenuItem value="finalizado">
-                                    Finalizado
-                                </MenuItem>
-                                <MenuItem value="total">
-                                    Total
-                                </MenuItem>
-                            </TextField>
-
-                            <QtdLeadsStatus nomes={nomes} qtd={qtdStatus}/>
-                        </div>
+            <div className="card card-body mb-3">
+                <div className="row">
+                    <div className="col-md-3">
+                        <TextField select label="Setor" defaultValue={setor} fullWidth
+                                   onChange={e => setSetorSelecionado(e.target.value)}>
+                            {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                        </TextField>
                     </div>
                 </div>
             </div>
+
+            <div className="card card-body mb-3">
+                <div className="row">
+                    <div className="col">
+                        <a className="btn btn-warning btn-sm" target="_blank"
+                           href={route('admin.clientes.leads.leads-relatorio', {setor: setorSelecionado})}>Baixar Relatório de Leads</a>
+                    </div>
+                </div>
+            </div>
+
+            {/*<div className="row">*/}
+            {/*    <div className="col">*/}
+            {/*        <div className="card">*/}
+            {/*            <div className="card-body">*/}
+            {/*                <h6>Total de Leads</h6>*/}
+            {/*                <TextField className="w-25" select label="Status do Leads" defaultValue="total"*/}
+            {/*                           size="small"*/}
+            {/*                           fullWidth*/}
+            {/*                           onChange={event => qtdLeadsStatus(event.target.value)}>*/}
+            {/*                    <MenuItem value="novo">*/}
+            {/*                        Novo*/}
+            {/*                    </MenuItem>*/}
+            {/*                    <MenuItem value="atendimento">*/}
+            {/*                        Atendimento*/}
+            {/*                    </MenuItem>*/}
+            {/*                    <MenuItem value="ativo">*/}
+            {/*                        Ativo*/}
+            {/*                    </MenuItem>*/}
+            {/*                    <MenuItem value="finalizado">*/}
+            {/*                        Finalizado*/}
+            {/*                    </MenuItem>*/}
+            {/*                    <MenuItem value="total">*/}
+            {/*                        Total*/}
+            {/*                    </MenuItem>*/}
+            {/*                </TextField>*/}
+
+            {/*                <QtdLeadsStatus nomes={nomes} qtd={qtdStatus}/>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
             <div className="card mt-4">
                 <div className="card-body">
@@ -139,7 +167,6 @@ export default function ({qtdLeads, historicoLeads}) {
                         <table className="table text-center text-sm table-hover cursor-pointer">
                             <thead>
                             <tr>
-                                <th></th>
                                 <th>ID</th>
                                 <th>Nome</th>
                                 <th>Novo</th>
@@ -147,21 +174,16 @@ export default function ({qtdLeads, historicoLeads}) {
                                 <th>Ativo</th>
                                 <th>Finalizado</th>
                                 <th>Total</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
-                            {qtdLeads.map((dado, index) => {
+                            {statusLeads.map((dado, index) => {
                                 const total = (dado.novo ?? 0) + (dado.atendimento ?? 0) + (dado.ativo ?? 0) + (dado.finalizado ?? 0)
                                 dadosGrafico(dado.nome, total)
                                 return (
                                     <tr key={index} className=""
                                         onClick={() => window.location.href = route('admin.leads.relatorios.show', dado.id)}>
-                                        <td>
-                                            <a className="btn btn-primary btn-sm mb-0 px-3 py-1"
-                                               href={route('admin.leads.relatorios.show', dado.id)}>
-                                                Ver
-                                            </a>
-                                        </td>
                                         <td>#{dado.id}</td>
                                         <td className="text-wrap text-start"><b>{dado.nome}</b></td>
                                         <td>{dado.novo ?? 0}</td>
@@ -169,6 +191,12 @@ export default function ({qtdLeads, historicoLeads}) {
                                         <td>{dado.ativo ?? 0}</td>
                                         <td>{dado.finalizado ?? 0}</td>
                                         <td>{total}</td>
+                                        <td>
+                                            <a className="btn btn-primary btn-sm mb-0 px-3 py-1"
+                                               href={route('admin.leads.relatorios.show', dado.id)}>
+                                                Ver
+                                            </a>
+                                        </td>
                                     </tr>
                                 )
                             })}
