@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import MenuItem from "@mui/material/MenuItem";
 import {TextField} from "@mui/material";
 import DataTable from "react-data-table-component";
-import {router} from "@inertiajs/react";
+import LinearProgress from '@mui/material/LinearProgress';
 
 const FilterComponent = ({filterText, onFilter}) => (
     <TextField
@@ -25,6 +25,7 @@ export default function ({setores, setor}) {
 
     const [statusLeads, setStatusLeads] = useState([])
     const [historicoLeads, setHistoricoLeads] = useState([])
+    const [carregando, setCarregando] = useState(true)
 
     function dadosGrafico(nome, total) {
         nomes.push(nome)
@@ -32,10 +33,12 @@ export default function ({setores, setor}) {
     }
 
     useEffect(() => {
+        setCarregando(true)
         axios.get(route('admin.clientes.leads.leads-dados-relatorio', {setor: setorSelecionado}))
             .then(res => {
                 setStatusLeads(res.data.status_leads)
                 setHistoricoLeads(res.data.historico_leads)
+                setCarregando(false)
             })
     }, [setorSelecionado]);
 
@@ -108,6 +111,7 @@ export default function ({setores, setor}) {
 
     return (
         <Layout container titlePage="Relatórios dos Leads" menu="leads" submenu="leads-relatorios">
+
             <div className="card card-body mb-3">
                 <div className="row">
                     <div className="col-md-3">
@@ -123,10 +127,13 @@ export default function ({setores, setor}) {
                 <div className="row">
                     <div className="col">
                         <a className="btn btn-warning btn-sm" target="_blank"
-                           href={route('admin.clientes.leads.leads-relatorio', {setor: setorSelecionado})}>Baixar Relatório de Leads</a>
+                           href={route('admin.clientes.leads.leads-relatorio', {setor: setorSelecionado})}>Baixar
+                            Relatório de Leads</a>
                     </div>
                 </div>
             </div>
+
+            {carregando && <LinearProgress/>}
 
             {/*<div className="row">*/}
             {/*    <div className="col">*/}
@@ -160,69 +167,74 @@ export default function ({setores, setor}) {
             {/*    </div>*/}
             {/*</div>*/}
 
-            <div className="card mt-4">
-                <div className="card-body">
-                    <h6>Relatórios (clique para abrir)</h6>
-                    <div className="table table-responsive">
-                        <table className="table text-center text-sm table-hover cursor-pointer">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>Novo</th>
-                                <th>Atendimento</th>
-                                <th>Ativo</th>
-                                <th>Finalizado</th>
-                                <th>Total</th>
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {statusLeads.map((dado, index) => {
-                                const total = (dado.novo ?? 0) + (dado.atendimento ?? 0) + (dado.ativo ?? 0) + (dado.finalizado ?? 0)
-                                dadosGrafico(dado.nome, total)
-                                return (
-                                    <tr key={index} className=""
-                                        onClick={() => window.location.href = route('admin.leads.relatorios.show', dado.id)}>
-                                        <td>#{dado.id}</td>
-                                        <td className="text-wrap text-start"><b>{dado.nome}</b></td>
-                                        <td>{dado.novo ?? 0}</td>
-                                        <td>{dado.atendimento ?? 0}</td>
-                                        <td>{dado.ativo ?? 0}</td>
-                                        <td>{dado.finalizado ?? 0}</td>
-                                        <td>{total}</td>
-                                        <td>
-                                            <a className="btn btn-primary btn-sm mb-0 px-3 py-1"
-                                               href={route('admin.leads.relatorios.show', dado.id)}>
-                                                Ver
-                                            </a>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
-                            </tbody>
-                        </table>
+            {!carregando &&
+                <div className="card mt-4">
+                    <div className="card-body">
+                        <h6>Relatórios (clique para abrir)</h6>
+                        <div className="table table-responsive">
+                            <table className="table text-center text-sm table-hover cursor-pointer">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Novo</th>
+                                    <th>Atendimento</th>
+                                    <th>Ativo</th>
+                                    <th>Finalizado</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {statusLeads.map((dado, index) => {
+                                    const total = (dado.novo ?? 0) + (dado.atendimento ?? 0) + (dado.ativo ?? 0) + (dado.finalizado ?? 0)
+                                    dadosGrafico(dado.nome, total)
+                                    return (
+                                        <tr key={index} className=""
+                                            onClick={() => window.location.href = route('admin.leads.relatorios.show', dado.id)}>
+                                            <td>#{dado.id}</td>
+                                            <td className="text-wrap text-start"><b>{dado.nome}</b></td>
+                                            <td>{dado.novo ?? 0}</td>
+                                            <td>{dado.atendimento ?? 0}</td>
+                                            <td>{dado.ativo ?? 0}</td>
+                                            <td>{dado.finalizado ?? 0}</td>
+                                            <td>{total}</td>
+                                            <td>
+                                                <a className="btn btn-primary btn-sm mb-0 px-3 py-1"
+                                                   href={route('admin.leads.relatorios.show', dado.id)}>
+                                                    Ver
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
 
-            <div className="card mt-4">
-                <div className="card-body">
-                    <h6>Histórico de Envio de Leads</h6>
-                    <DataTable
-                        columns={columns}
-                        data={filteredItems}
-                        pagination
-                        paginationPerPage="10"
-                        subHeader
-                        subHeaderComponent={subHeaderComponentMemo}
-                        persistTableHead
-                        striped
-                        highlightOnHover
-                        selectableRowsHighlight
-                    />
+            {!carregando &&
+                <div className="card mt-4">
+                    <div className="card-body">
+                        <h6>Histórico de Envio de Leads</h6>
+                        <DataTable
+                            columns={columns}
+                            data={filteredItems}
+                            pagination
+                            paginationPerPage="10"
+                            subHeader
+                            subHeaderComponent={subHeaderComponentMemo}
+                            persistTableHead
+                            striped
+                            highlightOnHover
+                            selectableRowsHighlight
+                        />
+                    </div>
+
                 </div>
-            </div>
+            }
         </Layout>
     )
 }
