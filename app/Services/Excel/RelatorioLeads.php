@@ -47,6 +47,7 @@ class RelatorioLeads
         $this->sheet->setCellValue('G1', 'ÚLTIMO PEDIDO');
         $this->sheet->setCellValue('H1', 'QTD VENDAS');
         $this->sheet->setCellValue('I1', 'TOTAL VENDAS');
+        $this->sheet->setCellValue('J1', 'TELEFONE');
         $this->linhaTabelaProdutos++;
     }
 
@@ -62,6 +63,7 @@ class RelatorioLeads
             $this->sheet->setCellValue('G' . $this->linhaTabelaProdutos, $item['pedido_data']);
             $this->sheet->setCellValue('H' . $this->linhaTabelaProdutos, $item['pedidos_qtd']);
             $this->sheet->setCellValue('I' . $this->linhaTabelaProdutos, $item['pedidos_vendas']);
+            $this->sheet->setCellValue('J' . $this->linhaTabelaProdutos, $item['telefone']);
 
             $this->convertMoney('I' . $this->linhaTabelaProdutos);
 
@@ -76,11 +78,11 @@ class RelatorioLeads
 
     private function configStyle(): void
     {
-        $this->sheet->getStyle('A1:I1')->getAlignment()->setHorizontal('center');
-        $this->sheet->getStyle('A1:I1')->getFont()->setBold(true);
+        $this->sheet->getStyle('A1:J1')->getAlignment()->setHorizontal('center');
+        $this->sheet->getStyle('A1:J1')->getFont()->setBold(true);
 
         $col = 'A';
-        while ($col != 'J') {
+        while ($col != 'K') {
             $this->sheet->getColumnDimension($col)->setAutoSize(true);
             $col++;
         }

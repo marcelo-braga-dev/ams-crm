@@ -533,13 +533,17 @@ class Leads extends Model
 
     public function relatorio($setor)
     {
+//        $telefones = (new LeadsDados())->telefones(true);
+
         $dados = $this->newQuery()
             ->where('leads.status', (new AtivoStatusLeads())->getStatus())
             ->where('leads.setor_id', $setor)
             ->leftJoin('users', 'leads.user_id', '=', 'users.id')
             ->leftJoin('pedidos', 'leads.id', '=', 'pedidos.lead_id')
+//            ->leftJoin('leads_dados', 'leads.id', '=', 'leads_dados.lead_id')
             ->select(DB::raw('
-                leads.id as lead_id, nome, razao_social, cnpj, cpf, name as consultor, pedidos.created_at as pedido_data,
+                leads.id as lead_id, leads.nome, razao_social, cnpj, cpf, name as consultor,
+                telefone, pedidos.created_at as pedido_data,
                 SUM(preco_venda) as vendas, COUNT(pedidos.id) as pedidos_qtd
                 '))
             ->groupBy('leads.id')
@@ -552,6 +556,7 @@ class Leads extends Model
                     'razao_social' => $item->razao_social,
                     'cnpj' => converterCNPJ($item->cnpj),
                     'cpf' => $item->cpf,
+                    'telefone' => converterTelefone($item->telefone),
                     'consultor_nome' => $item->consultor,
                     'pedido_data' => date('d/m/Y', strtotime($item->pedido_data)),
                     'pedidos_qtd' => $item->pedidos_qtd,

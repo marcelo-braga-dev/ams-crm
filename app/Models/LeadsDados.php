@@ -38,4 +38,24 @@ class LeadsDados extends Model
                 return converterTelefone($item->valor);
             });
     }
+
+    public function telefones($convertido = false)
+    {
+        $items  = $this->newQuery()
+            ->where('chave', 'telefone')
+            ->get();
+
+        if ($convertido) $items->transform(function ($item) {
+            return [
+                'lead_id' => $item->lead_id,
+                'valor' => converterTelefone($item->valor),
+            ];
+        });
+
+        $res = [];
+        foreach ($items as $item) {
+            $res[$item['lead_id']][] = $item['valor'];
+        }
+        return $res;
+    }
 }
