@@ -22,13 +22,13 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        (new Franquias)->create([
+        (new Franquias)->create((object)[
             'nome' => 'Franquia 1',
             'cor' => '#000',
             'cor_texto' => '#fff',
         ]);
 
-        (new Setores())->create([
+        (new Setores())->create((object)[
             'nome' => 'Setor 1',
             'franquia' => 1,
             'modelo' => 1,
@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->create([
             'name' => 'Admin User',
-            'email' => 'admin@example.com',
+            'email' => 'admin@teste.com',
             'franquia_id' => 1,
             'setor_id' => 1,
             'password' => Hash::make('1234'),
@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->create([
             'name' => 'Consultor User',
-            'email' => 'consultor@example.com',
+            'email' => 'consultor@teste.com',
             'franquia_id' => 1,
             'setor_id' => 1,
             'password' => Hash::make('1234'),
@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory()->create([
             'name' => 'Supervisor User',
-            'email' => 'supervisor@example.com',
+            'email' => 'supervisor@teste.com',
             'franquia_id' => 1,
             'setor_id' => 1,
             'password' => Hash::make('1234'),
