@@ -30,6 +30,7 @@ return new class extends Migration {
             $table->float('repasse', 10)->nullable();
             $table->float('imposto', 10)->nullable();
             $table->timestamp('data_faturamento')->nullable();
+            $table->unsignedBigInteger('user_faturamento')->nullable();
             $table->string('info_pedido', 1024)->nullable();
             $table->string('forma_pagamento');
             $table->integer('modelo');

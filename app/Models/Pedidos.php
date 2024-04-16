@@ -34,6 +34,7 @@ class Pedidos extends Model
         'preco_custo',
         'forma_pagamento',
         'data_faturamento',
+        'user_faturamento',
         'info_pedido',
         'situacao',
         'obs',
@@ -479,11 +480,8 @@ class Pedidos extends Model
     public function getVendasMesUsuario($id, $mes, $ano)
     {
         return (new Pedidos())->newQuery()
-            ->join('pedidos_historicos', 'pedidos.id', '=', 'pedidos_historicos.pedido_id')
-            ->where('pedidos_historicos.user_id', $id)
-            ->where('pedidos_historicos.status', 'conferencia')
-
-            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->where('user_faturamento', $id)
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
             ->whereMonth('data_faturamento', $mes)
             ->whereYear('data_faturamento', $ano)
             ->select(DB::raw('
@@ -518,9 +516,11 @@ class Pedidos extends Model
 
     public function dataPagamento($id): void
     {
-        $this->newQuery()
-            ->find($id)
-            ->update(['data_faturamento' => now()]);
+
+        $pedido = $this->newQuery()
+            ->find($id);
+
+        $pedido->update(['data_faturamento' => now(), 'user_faturamento' => $pedido->user_id]);
     }
 
     public function atualizar($id, $dados)

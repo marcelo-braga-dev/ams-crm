@@ -10,15 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-//            $table->foreign('franquia_id')->references('id')->on('franquias');
-//            $table->foreign('setor_id')->references('id')->on('setores');
-//            $table->foreign('superior_id')->references('id')->on('users');
-        });
 
         Schema::table('pedidos', function (Blueprint $table) {
 //            $table->foreign('user_id')->references('id')->on('users');
 //            $table->foreign('superior_id')->references('id')->on('users');
+            $table->foreign('user_faturamento')->references('id')->on('users');
             $table->foreign('franquia_id')->references('id')->on('franquias');
             $table->foreign('lead_id')->references('id')->on('leads');
 //            $table->foreign('cliente_id')->references('id')->on('pedidos_clientes');
