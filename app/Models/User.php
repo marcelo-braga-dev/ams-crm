@@ -174,7 +174,7 @@ class User extends Authenticatable
             });
     }
 
-    public function getUsuarios($setor = null, $status = true)
+    public function getUsuarios($setor = null, $statusAtivo = true)
     {
         $setores = (new Setores())->getNomes();
         $franquias = (new Franquias())->getNomes();
@@ -184,7 +184,7 @@ class User extends Authenticatable
 
         if ($franquiaSelecionada) $query->where('franquia_id', $franquiaSelecionada);
         if ($setor) $query->where('setor_id', $setor);
-        if ($status) $query->where('status', 'ativo');
+        if ($statusAtivo) $query->where('status', 'ativo');
         if (is_admin()) $query->where('tipo', '!=', (new Admins())->getFuncao());
         if (is_supervisor()) $query->whereIn('superior_id', [id_usuario_atual()])
             ->orWhere('id', id_usuario_atual());

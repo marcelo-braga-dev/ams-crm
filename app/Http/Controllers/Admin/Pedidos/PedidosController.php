@@ -11,8 +11,10 @@ use App\Models\PedidosAcompanhamentos;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosProdutos;
 use App\Models\Setores;
+use App\Models\User;
 use App\Services\Pedidos\CardDadosService;
 use App\Services\Pedidos\PlanilhaProdutos;
+use App\src\Usuarios\Usuarios;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -45,8 +47,9 @@ class PedidosController extends Controller
     public function edit($id)
     {
         $pedido = (new Pedidos())->getDadosPedido($id);
+        $usuarios = (new User())->getUsuarios($pedido['pedido']['setor_id'], false);
 
-        return Inertia::render('Admin/Pedidos/Edit', compact('pedido'));
+        return Inertia::render('Admin/Pedidos/Edit', compact('pedido', 'usuarios'));
     }
 
     public function update($id, Request $request)

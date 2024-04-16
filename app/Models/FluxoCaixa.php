@@ -46,7 +46,7 @@ class FluxoCaixa extends Model
                     'fornecedor_id' => $dados->fornecedores,
                     'franquia_id' => $dados->franquia ?? franquia_usuario_atual(),
                     'valor' => convert_money_float($item['valor']),
-                    'data_pagamento' => $item['previsao_recebimento'] ?? $item['data_vencimento'] ?? null,
+                    'data_pagamento' => $item['data_pagamento'] ?? null,
                     'banco_id' => $dados->banco,
                     'status' => $dados->status,
                     'nota_fiscal' => $dados->nota_fiscal,
@@ -112,7 +112,7 @@ class FluxoCaixa extends Model
                 return [
                     'id' => $item->id,
                     'valor' => convert_float_money($item->valor),
-                    'data_vencimento' => $item->data_vencimento,
+                    'data_vencimento' => $item->data_pagamento,
                     'valor_baixa' => $item->valor_baixa ? convert_float_money($item->valor_baixa) : '',
                     'data_baixa' => $item->data_baixa ?? '',
                     'previsao_recebimento' => $item->data_pagamento ?? ''
@@ -123,13 +123,14 @@ class FluxoCaixa extends Model
             'id' => $item->id,
             'data' => date('d/m/Y', strtotime($item->data_pagamento)),
             'dia' => date('d', strtotime($item->data_pagamento)),
-            '_data' => $item->data_pagamento,
+            '_data' => $item->data,
             'tipo' => $item->tipo,
             'fornecedor' => $nomes[$item->fornecedor_id] ?? '',
             'fornecedor_id' => $item->fornecedor_id,
             'empresa' => $nomes[$item->empresa_id] ?? '',
             '_empresa' => $item->empresa_id,
             'franquia' => $franquias[$item['franquia_id']] ?? '',
+            'franquia_id' => $item['franquia_id'] ?? '',
             'nota_fiscal' => $item->nota_fiscal,
             'valor' => convert_float_money($item->valor),
             'valor_float' => $item->valor,
@@ -178,7 +179,7 @@ class FluxoCaixa extends Model
     {
         $atual = $this->newQuery()->find($id);
 
-        foreach ($dados['campos_pagamentos'] as $n => $item) {
+        foreach ($dados['campos_pagamentos'] as $n => $item) {//print_pre($dados->all());
             $this->newQuery()
                 ->updateOrCreate(
                     ['id' => $item['id'] ?? null],
@@ -190,11 +191,11 @@ class FluxoCaixa extends Model
                         'fornecedor_id' => $dados->fornecedores,
                         'franquia_id' => $dados->franquia ?? franquia_usuario_atual(),
                         'valor' => convert_money_float($item['valor'] ?? 0),
-                        'previsao_recebimento' => $item['data_pagamento'] ?? null,
+                        'data_pagamento' => $item['data_pagamento'] ?? null,
                         'banco_id' => $dados->banco,
                         'status' => $dados->status,
                         'nota_fiscal' => $dados->nota_fiscal,
-                        'data_vencimento' => $item['data_vencimento'] ?? null,
+                        'data_vencimento' =>$item['data_vencimento'] ??  $item['data_vencimento'] ?? null,
                         'valor_baixa' => convert_money_float($item['valor_baixa'] ?? 0),
                         'data_baixa' => $item['data_baixa'] ?? null,
                         'descricao' => $dados->descricao,

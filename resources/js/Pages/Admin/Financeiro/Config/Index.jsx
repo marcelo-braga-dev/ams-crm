@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import maskJquery from "@/Helpers/maskJquery";
 
 function CustomTabPanel(props) {
@@ -40,10 +40,14 @@ function a11yProps(index) {
     };
 }
 
-export default function ({bancos, empresas, fornecedores}) {
+export default function () {
+    const [bancos, setBancos] = useState([])
+    const [empresas, setEmpresas] = useState([])
+    const [fornecedores, setFornecedores] = useState([])
+
     const [banco, setBanco] = useState('')
-    const [empresa, setEmpresas] = useState('')
-    const [fornecedor, setFornecedores] = useState('')
+    const [empresa, setEmpresa] = useState('')
+    const [fornecedor, setFornecedor] = useState('')
     const [editarValor, setEditarValor] = useState({
         id: undefined,
         valor: undefined,
@@ -63,7 +67,8 @@ export default function ({bancos, empresas, fornecedores}) {
 
     const submit = (e, chave) => {
         e.preventDefault()
-        router.post(route('admin.financeiro.config.store'), {...data, chave: chave})
+        router.post(route('admin.financeiro.config.store'), {...data?.[chave], chave: chave})
+
     }
 
     const deletar = (id) => {
@@ -78,11 +83,18 @@ export default function ({bancos, empresas, fornecedores}) {
     }
 
     router.on('success', () => {
-        setBanco('')
-        setEmpresas('')
-        setFornecedores('')
-        setData({cnpj: '', valor: ''})
+        window.location.reload()
     })
+
+
+    useEffect(() => {
+        axios.get(route('admin.financeiro.config-registros'))
+            .then(res => {
+                setBancos(res.data.bancos)
+                setEmpresas(res.data.empresas)
+                setFornecedores(res.data.fornecedores)
+            })
+    }, []);
 
     maskJquery()
 
@@ -97,8 +109,37 @@ export default function ({bancos, empresas, fornecedores}) {
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>
+                    <h6>Bancos</h6>
                     <div className="card card-body mb-3">
-                        <h6>Bancos</h6>
+                        <form onSubmit={e => submit(e, 'bancos')}>
+                            <span>Cadastrar novo Banco</span>
+                            <div className="row">
+                                <div className="col">
+                                    <TextField label="Nome do Banco" required fullWidth value={data?.bancos?.nome}
+                                               onChange={e => {
+                                                   setData({bancos: {...data.bancos, 'nome': e.target.value}})
+                                               }}/>
+                                </div>
+                                <div className="col">
+                                    <TextField label="Agência" required fullWidth value={data?.bancos?.agencia}
+                                               onChange={e => {
+                                                   setData({bancos: {...data.bancos, 'agencia': e.target.value}})
+                                               }}/>
+                                </div>
+                                <div className="col">
+                                    <TextField label="Conta" required fullWidth value={data?.bancos?.conta}
+                                               onChange={e => {
+                                                   setData({bancos: {...data.bancos, 'conta': e.target.value}})
+                                               }}/>
+                                </div>
+                                <div className="col-auto">
+                                    <button className="btn btn-primary mx-3">Salvar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="card card-body mb-3">
+                        <span>Bancos Cadastrados</span>
                         <List>
                             {bancos.map(item =>
                                 <div className="row mb-1 p-3 border-bottom">
@@ -109,42 +150,15 @@ export default function ({bancos, empresas, fornecedores}) {
                                                        valor: e.target.value
                                                    })}/>
                                     </div>
-                                    <div className="col-auto">
-                                        <IconButton edge="end" aria-label="delete" onClick={() => deletar(item.id)}>
-                                            <DeleteOutlineOutlinedIcon color="error"/>
-                                        </IconButton>
-                                        <IconButton edge="end" aria-label="edit" className="mx-2"
-                                                    onClick={() => editar(item.id)}>
-                                            <EditOutlinedIcon color="success"/>
-                                        </IconButton>
-                                    </div>
-                                </div>
-                            )}
-                        </List>
-                        <form onSubmit={e => submit(e, 'bancos')}>
-                            <span>Cadastrar novo Banco</span>
-                            <div className="row">
-                                <div className="col">
-                                    <TextField label="Nome" value={banco} required fullWidth onChange={e => {
-                                        setData('valor', e.target.value)
-                                        setBanco(e.target.value)
-                                    }}/>
-                                </div>
-                                <div className="col-auto">
-                                    <button className="btn btn-primary mx-3">Salvar</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
-                    <div className="card card-body mb-3">
-                        <h6>Empresas</h6>
-                        <List>
-                            {empresas.map(item =>
-                                <div className="row mb-1 p-3 border-bottom">
                                     <div className="col">
-                                        <TextField label="Nome" defaultValue={item.valor} fullWidth
+                                        <TextField label="Agência" defaultValue={item.agencia} fullWidth
+                                                   onChange={e => setEditarValor({
+                                                       id: item.id,
+                                                       valor: e.target.value
+                                                   })}/>
+                                    </div>
+                                    <div className="col">
+                                        <TextField label="Conta" defaultValue={item.conta} fullWidth
                                                    onChange={e => setEditarValor({
                                                        id: item.id,
                                                        valor: e.target.value
@@ -162,15 +176,24 @@ export default function ({bancos, empresas, fornecedores}) {
                                 </div>
                             )}
                         </List>
-
+                    </div>
+                </CustomTabPanel>
+                <CustomTabPanel value={value} index={1}>
+                    <h6>Empresas</h6>
+                    <div className="card card-body mb-3">
                         <form onSubmit={e => submit(e, 'empresas')}>
                             <span>Cadastrar nova Empresa</span>
                             <div className="row">
                                 <div className="col">
-                                    <TextField required value={empresa} fullWidth label="Nome"
+                                    <TextField required value={data?.empresas?.nome} fullWidth label="Nome da Empresa"
                                                onChange={e => {
-                                                   setData('valor', e.target.value)
-                                                   setEmpresas(e.target.value)
+                                                   setData({empresas: {...data.empresas, 'nome': e.target.value}})
+                                               }}/>
+                                </div>
+                                <div className="col">
+                                    <TextField required value={data?.empresas?.cnpj} fullWidth label="CNPJ da Empresa" className="cnpj"
+                                               onChange={e => {
+                                                   setData({empresas: {...data.empresas, cnpj: e.target.value}})
                                                }}/>
                                 </div>
                                 <div className="col-auto">
@@ -179,10 +202,61 @@ export default function ({bancos, empresas, fornecedores}) {
                             </div>
                         </form>
                     </div>
+                    <div className="card card-body mb-3">
+                        <span>Empresas Cadastradas</span>
+                        <List>
+                            {empresas.map(item =>
+                                <div className="row mb-1 p-3 border-bottom">
+                                    <div className="col">
+                                        <TextField label="Nome da Empresa" defaultValue={item.valor} fullWidth
+                                                   onChange={e => setEditarValor({
+                                                       id: item.id,
+                                                       valor: e.target.value
+                                                   })}/>
+                                    </div>
+                                    <div className="col">
+                                        <TextField label="CNPJ da Empresa" defaultValue={item.cnpj} fullWidth
+                                                   onChange={e => setEditarValor({
+                                                       id: item.id,
+                                                       valor: e.target.value
+                                                   })}/>
+                                    </div>
+                                    <div className="col-auto">
+                                        <IconButton edge="end" aria-label="delete" onClick={() => deletar(item.id)}>
+                                            <DeleteOutlineOutlinedIcon color="error"/>
+                                        </IconButton>
+                                        <IconButton edge="end" aria-label="edit" className="mx-2"
+                                                    onClick={() => editar(item.id)}>
+                                            <EditOutlinedIcon color="success"/>
+                                        </IconButton>
+                                    </div>
+                                </div>
+                            )}
+                        </List>
+                    </div>
                 </CustomTabPanel>
                 <CustomTabPanel value={value} index={2}>
+                    <h6>Fornecedores</h6>
                     <div className="card card-body mb-3">
-                        <h6>Fornecedores</h6>
+                        <form onSubmit={e => submit(e, 'fornecedores')}>
+                            <span>Cadastrar novo Foenecedor</span>
+                            <div className="row">
+                                <div className="col">
+                                    <TextField label="Nome do Fornecedor" required value={data.valor} fullWidth
+                                               onChange={e => setData('valor', e.target.value)}/>
+                                </div>
+                                <div className="col-3">
+                                    <TextField label="CNPJ" required fullWidth className="cnpj"
+                                               value={data.cnpj}
+                                               onChange={e => setData('cnpj', e.target.value)}/>
+                                </div>
+                                <div className="col-auto">
+                                    <button className="btn btn-primary mx-3">Salvar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="card card-body mb-3">
                         <List>
                             {fornecedores.map(item =>
                                 <div className="row mb-1 p-3 border-bottom">
@@ -214,23 +288,6 @@ export default function ({bancos, empresas, fornecedores}) {
                                 </div>
                             )}
                         </List>
-                        <form onSubmit={e => submit(e, 'fornecedores')}>
-                            <span>Cadastrar novo Foenecedor</span>
-                            <div className="row">
-                                <div className="col">
-                                    <TextField label="Nome" required value={data.valor} fullWidth
-                                               onChange={e => setData('valor', e.target.value)}/>
-                                </div>
-                                <div className="col-3">
-                                    <TextField label="CNPJ" required fullWidth className="cnpj"
-                                               value={data.cnpj}
-                                               onChange={e => setData('cnpj', e.target.value)}/>
-                                </div>
-                                <div className="col-auto">
-                                    <button className="btn btn-primary mx-3">Salvar</button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </CustomTabPanel>
             </Box>

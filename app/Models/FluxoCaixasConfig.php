@@ -11,17 +11,22 @@ class FluxoCaixasConfig extends Model
         'chave',
         'nome',
         'cnpj',
+        'agencia',
+        'conta',
     ];
 
     public function getBancos()
     {
         return $this->newQuery()
             ->where('chave', 'bancos')
+            ->orderBy('nome')
             ->get()
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
                     'valor' => $item->nome,
+                    'agencia' => $item->agencia,
+                    'conta' => $item->conta,
                 ];
             });
     }
@@ -30,11 +35,13 @@ class FluxoCaixasConfig extends Model
     {
         return $this->newQuery()
             ->where('chave', 'empresas')
+            ->orderBy('nome')
             ->get()
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
                     'valor' => $item->nome,
+                    'cnpj' => $item->cnpj
                 ];
             });
     }
@@ -43,6 +50,7 @@ class FluxoCaixasConfig extends Model
     {
         return $this->newQuery()
             ->where('chave', 'fornecedores')
+            ->orderBy('nome')
             ->get()
             ->transform(function ($item) {
                 return [
@@ -68,7 +76,13 @@ class FluxoCaixasConfig extends Model
 
         $this->newQuery()
             ->create(
-                ['chave' => $dados->chave, 'nome' => $dados->valor, 'cnpj' => $dados->cnpj],
+                [
+                    'chave' => $dados->chave,
+                    'nome' => $dados->nome,
+                    'cnpj' => $dados->cnpj,
+                    'agencia' => $dados->agencia,
+                    'conta' => $dados->conta,
+                ],
             );
     }
 

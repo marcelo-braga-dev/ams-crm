@@ -3,15 +3,20 @@ import TextFieldMoney from "@/Components/Inputs/TextFieldMoney3";
 import {useState} from "react";
 import {router, usePage} from "@inertiajs/react";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
+import {TextField} from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
 
-export default function ({pedido}) {
+export default function ({pedido, usuarios}) {
     const [precoCusto, setPrecoCusto] = useState(pedido.financeiro.preco_custo)
+    const [userFaturado, setUserFaturado] = useState(pedido.pedido.user_faturamento)
+
     const isAdmin = usePage().props.auth.user.tipo === 'admin'
     const submit = (e) => {
         e.preventDefault()
         router.post(route('admin.pedidos.update', pedido.id), {
             _method: 'PUT',
-            preco_custo: precoCusto
+            preco_custo: precoCusto,
+            usuario_faturado: userFaturado
         })
     }
 
@@ -30,8 +35,14 @@ export default function ({pedido}) {
                 <span className="pb-4">Editar Informações</span>
                 <form onSubmit={submit}>
                     <div className="row mb-4">
-                        {isAdmin && <div className="col-md-3">
+                        {isAdmin && <div className="col-md-2">
                             <TextFieldMoney label="Preço de Custo" set={setPrecoCusto} defaultValue={precoCusto}/>
+                        </div>}
+                        {isAdmin && <div className="col-md-3">
+                            <TextField label="Vendedor(a) Faturado" select fullWidth value={userFaturado}
+                                       onChange={e => setUserFaturado(e.target.value)}>
+                                {usuarios.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
                         </div>}
                     </div>
                     <div className="row">

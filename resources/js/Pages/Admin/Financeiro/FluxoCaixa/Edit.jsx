@@ -16,7 +16,7 @@ export default function ({flucoCaixa, dados}) {
         empresa: flucoCaixa._empresa,
         fornecedores: flucoCaixa.fornecedor_id,
         nota_fiscal: flucoCaixa.nota_fiscal,
-        previsao_recebimento: flucoCaixa.previsao_recebimento,
+        franquia: flucoCaixa.franquia_id,
         valor_baixa: flucoCaixa.valor_baixa,
         data_baixa: flucoCaixa.data_baixa,
         banco: flucoCaixa.banco_id,
@@ -39,10 +39,10 @@ export default function ({flucoCaixa, dados}) {
             valores[i] = {
                 id: flucoCaixa?.parcelas?.[i]?.id,
                 valor: flucoCaixa?.parcelas?.[i]?.valor,
-                data_vencimento: flucoCaixa?.parcelas?.[i]?.data_vencimento,
+                // data_vencimento: flucoCaixa?.parcelas?.[i]?.data_vencimento,
                 valor_baixa: flucoCaixa?.parcelas?.[i]?.valor_baixa,
                 data_baixa: flucoCaixa?.parcelas?.[i]?.data_baixa,
-                previsao_recebimento: flucoCaixa?.parcelas?.[i]?.previsao_recebimento,
+                data_pagamento: flucoCaixa?.parcelas?.[i]?.previsao_recebimento,
             }
         }
         setData('campos_pagamentos', valores)
@@ -69,12 +69,12 @@ export default function ({flucoCaixa, dados}) {
                         <div className="col-3 mb-4">
                             <TextField type="date" label="Data Vencimento" fullWidth
                                        InputLabelProps={{shrink: true}} required
-                                       value={data?.campos_pagamentos?.[i]?.data_vencimento}
+                                       value={data?.campos_pagamentos?.[i]?.data_pagamento}
                                        onChange={e => setData('campos_pagamentos', {
                                            ...data.campos_pagamentos,
                                            [i]: {
                                                ...data?.campos_pagamentos?.[i],
-                                               data_vencimento: e.target.value
+                                               data_pagamento: e.target.value
                                            }
                                        })}/>
 
@@ -100,13 +100,13 @@ export default function ({flucoCaixa, dados}) {
 
                     {tipo === 'entrada' && <div className="col-md-3 mb-4">
                         <TextField type="date" label="Previsão do Recebimento" required fullWidth
-                                   value={data?.campos_pagamentos?.[i]?.previsao_recebimento}
+                                   value={data?.campos_pagamentos?.[i]?.data_pagamento}
                                    InputLabelProps={{shrink: true}}
                                    onChange={e => setData('campos_pagamentos', {
                                        ...data.campos_pagamentos,
                                        [i]: {
                                            ...data?.campos_pagamentos?.[i],
-                                           previsao_recebimento: e.target.value
+                                           data_pagamento: e.target.value
                                        }
                                    })}/>
                     </div>}
@@ -136,6 +136,15 @@ export default function ({flucoCaixa, dados}) {
                                        onChange={e => setData('empresa', e.target.value)}>
                                 {dados.empresas.map(item =>
                                     <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>
+                                )}
+                            </TextField>
+                        </div>
+                        <div className="col mb-4">
+                            <TextField select label="Franquia" fullWidth required
+                                       value={data.franquia}
+                                       onChange={e => setData('franquia', e.target.value)}>
+                                {dados.franquias.map(item =>
+                                    <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
                                 )}
                             </TextField>
                         </div>

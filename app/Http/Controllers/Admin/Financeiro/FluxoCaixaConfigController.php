@@ -11,12 +11,7 @@ class FluxoCaixaConfigController extends Controller
 {
     public function index()
     {
-        $bancos = (new FluxoCaixasConfig())->getBancos();
-        $empresas = (new FluxoCaixasConfig())->getEmpresas();
-        $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
-
-        return Inertia::render('Admin/Financeiro/Config/Index',
-            compact('bancos', 'empresas', 'fornecedores'));
+        return Inertia::render('Admin/Financeiro/Config/Index');
     }
 
     public function store(Request $request)
@@ -53,5 +48,14 @@ class FluxoCaixaConfigController extends Controller
 
         modalSucesso('Dado removido com sucesso!');
         return redirect()->back();
+    }
+
+    public function registros()
+    {
+        $bancos = (new FluxoCaixasConfig())->getBancos();
+        $empresas = (new FluxoCaixasConfig())->getEmpresas();
+        $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
+
+        return response()->json(compact('bancos', 'empresas', 'fornecedores'));
     }
 }

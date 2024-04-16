@@ -12,6 +12,8 @@ return new class extends Migration {
             $table->string('chave');
             $table->string('nome');
             $table->string('cnpj')->nullable();
+            $table->string('agencia')->nullable();
+            $table->string('conta')->nullable();
             $table->timestamps();
         });
     }

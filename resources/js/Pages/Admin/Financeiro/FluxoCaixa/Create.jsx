@@ -35,12 +35,12 @@ export default function ({dados}) {
                         <div className="col-3 mb-4">
                             <TextField type="date" label="Data Vencimento" fullWidth
                                        InputLabelProps={{shrink: true}} required
-                                       value={data?.campos_pagamentos?.[i]?.data_vencimento}
+                                       value={data?.campos_pagamentos?.[i]?.data_pagamento}
                                        onChange={e => setData('campos_pagamentos', {
                                            ...data.campos_pagamentos,
                                            [i]: {
                                                ...data?.campos_pagamentos?.[i],
-                                               data_vencimento: e.target.value
+                                               data_pagamento: e.target.value
                                            }
                                        })}/>
 
@@ -65,13 +65,13 @@ export default function ({dados}) {
                     </div>}
                     {tipo === 'entrada' && <div className="col-md-3 mb-4">
                         <TextField type="date" label="Previsão do Recebimento" required fullWidth
-                                   value={data?.campos_pagamentos?.[i]?.previsao_recebimento}
+                                   value={data?.campos_pagamentos?.[i]?.data_pagamento}
                                    InputLabelProps={{shrink: true}}
                                    onChange={e => setData('campos_pagamentos', {
                                        ...data.campos_pagamentos,
                                        [i]: {
                                            ...data?.campos_pagamentos?.[i],
-                                           previsao_recebimento: e.target.value
+                                           data_pagamento: e.target.value
                                        }
                                    })}/>
                     </div>}

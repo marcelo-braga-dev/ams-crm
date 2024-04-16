@@ -21,7 +21,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     const [filterText, setFilterText] = React.useState('');
     const [filtro, setFiltro] = useState('nome');
     const [open, setOpen] = useState(false);
-    const [rowsPerPage, setRowsPerPage] = useState(25);
+    const [rowsPerPage, setRowsPerPage] = useState(100);
     const [pageAtual, setPageAtual] = useState(1);
     const [checkedPage, setCheckedPage] = useState(false);
     const [leadsChecked, setLeadsChecked] = useState([]);

@@ -18,8 +18,6 @@ class FluxoCaixaController extends Controller
         $empresas = (new FluxoCaixasConfig())->getEmpresas();
         $franquias = (new Franquias())->get();
 
-//        print_pre($salarios = (new FinanceirosSalarios())->financeiro(now(), now()));
-
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Index',
             compact('fornecedores', 'franquias', 'empresas'));
     }
@@ -56,10 +54,12 @@ class FluxoCaixaController extends Controller
     public function edit($id)
     {
         $flucoCaixa = (new FluxoCaixa())->find($id);
+
         $dados = [
             'empresas' => (new FluxoCaixasConfig())->getEmpresas(),
             'fornecedores' => (new FluxoCaixasConfig())->getFornecedores(),
             'bancos' => (new FluxoCaixasConfig())->getBancos(),
+            'franquias' => (new Franquias())->get()
         ];
 
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Edit',

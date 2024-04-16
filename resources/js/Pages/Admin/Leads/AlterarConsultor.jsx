@@ -14,6 +14,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     const [leadsChecked, setLeadsChecked] = useState([]);
     const [consultorSelecionado, setConsultorSelecionado] = useState();
     const [open, setOpen] = useState(false);
+    const [rowsPerPage, setRowsPerPage] = useState(100);
 
     const columns = [
         {
@@ -164,6 +165,25 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         setOpen(false)
     })
 
+    function adicionarLeadsCheck(check) {
+        setCheckedPage(check)
+
+        let indice = (pageAtual - 1) * rowsPerPage
+        const newChecked = [...leadsChecked];
+
+        for (let i = 0; i < rowsPerPage; i++) {
+            const valueID = filteredItems?.[indice + i]?.id
+            if (check) newChecked.push(valueID);
+            else {
+                const currentIndex = leadsChecked.indexOf(valueID);
+                newChecked.splice(currentIndex)
+            }
+        }
+
+        const arraySemDuplicados = Array.from(new Set(newChecked));
+        setLeadsChecked(arraySemDuplicados);
+    }
+
     return (
         <Layout container titlePage="Alterar Consultor" menu="leads" submenu="leads-alterar">
             {/*Setores*/}
@@ -293,7 +313,8 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                 columns={columns}
                 data={filteredItems}
                 pagination
-                paginationPerPage={25}
+                paginationPerPage={rowsPerPage}
+                onChangeRowsPerPage={value => setRowsPerPage(value)}
                 striped
                 highlightOnHover
                 paginationComponentOptions={

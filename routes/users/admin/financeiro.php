@@ -16,6 +16,7 @@ Route::name('admin.financeiro.')
         Route::get('registros', [FluxoCaixaController::class, 'registros'])->name('registros');
 
         Route::resource('config', FluxoCaixaConfigController::class);
+        Route::get('config-registros', [FluxoCaixaConfigController::class, 'registros'])->name('config-registros');
 
         Route::resource('salarios', SalariosController::class);
         Route::get('salarios-registros', [SalariosController::class, 'registros'])->name('salarios.registros');

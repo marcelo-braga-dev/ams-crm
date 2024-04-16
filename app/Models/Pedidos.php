@@ -326,12 +326,14 @@ class Pedidos extends Model
                 'status_data' => date('d/m/y H:i:s', strtotime($pedido->status_data)),
                 'alerta' => $pedido->obs,
                 'setor' => $setores[$pedido->setor_id]['nome'] ?? '',
+                'setor_id' => $pedido->setor_id,
                 'situacao' => $pedido->situacao,
                 'info' => $pedido->info_pedido,
                 'forma_pagamento' => $pedido->forma_pagamento, //remover
                 'sac' => $pedido->sac,
                 'data_criacao' => date('d/m/y H:i:s', strtotime($pedido->created_at)),
-                'modelo' => $pedido->modelo
+                'modelo' => $pedido->modelo,
+                'user_faturamento' => $pedido->user_faturamento
             ],
             'consultor' => [
                 'id' => $consultor['id'],
@@ -529,5 +531,6 @@ class Pedidos extends Model
             ->find($id);
 
         if ($dados['preco_custo']) $query->update(['preco_custo' => convert_money_float($dados['preco_custo'])]);
+        if ($dados['usuario_faturado']) $query->update(['user_faturamento' => $dados['usuario_faturado']]);
     }
 }
