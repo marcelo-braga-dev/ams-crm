@@ -85,13 +85,13 @@ class User extends Authenticatable
         return $dados;
     }
 
-    public function usuarios($ativos = false)
+    public function usuarios($ativos = false, $franquia = true)
     {
         $setores = (new Setores())->getNomes();
         $franquias = Franquias::getNomes();
 
         $query = $this->newQuery();
-        if (franquia_selecionada()) $query->where('franquia_id', franquia_selecionada());
+        if ($franquia && franquia_selecionada()) $query->where('franquia_id', franquia_selecionada());
         if ($ativos) $query->where('status', (new AtivoStatusUsuario())->getStatus());
 
         return $query->orderByDesc('id')

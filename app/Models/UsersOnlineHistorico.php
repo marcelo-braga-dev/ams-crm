@@ -29,7 +29,7 @@ class UsersOnlineHistorico extends Model
     {
         $intervalo = date('Y-m-d H:i:s', (strtotime(now()) - 60));
 
-        $items = (new User())->usuarios();
+        $items = (new User())->usuarios(false, false);
 
         $usuarios = [];
         foreach ($items as $item) {

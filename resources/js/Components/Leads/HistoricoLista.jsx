@@ -19,7 +19,7 @@ export default function HistoricoLista({historicos, enviarComentario, setData, u
                         {dado.meio_contato &&
                             <span className="d-block">
                                                 <b>Meio de Contato:</b> {dado.meio_contato}</span>}
-                        {dado.id_pedido ? '' :
+                        {dado.msg &&
                             <span className="d-block"><b>Anotações:</b> {dado.msg}</span>}
                         {dado.id_pedido && <a href={route(urlPedidos, dado.id_pedido)}
                                               className="btn btn-success btn-sm">Ver Pedido</a>}

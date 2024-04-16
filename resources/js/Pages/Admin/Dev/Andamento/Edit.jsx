@@ -19,13 +19,13 @@ export default function ({dados, tarefas}) {
     }
 
     function atualizarStatus(id, status) {
-        axios.put(route('admin.dev-andamento.update', id), {_method: 'put', status: status})
+        axios.post(route('admin.dev-andamento.update', id), {_method: 'put', status: status})
             .then(results => {
             })
     }
 
     return (
-        <Layout titlePage="Suporte em Andamento" container menu="dev" submenu="registros">
+        <Layout titlePage="DEV" container menu="dev" submenu="registros">
             <div className="row">
                 <div className="col">
                     <span className="d-block">Título: {dados.titulo}</span>
@@ -52,6 +52,13 @@ export default function ({dados, tarefas}) {
                     />
                 </div>
             </div>
+            
+            <div className="row mt-4">
+                <div className="col">
+                    <button onClick={() => avancarStatus()} className="btn btn-primary">Avançar Status Aguardando Aprovação</button>
+                </div>
+            </div>
+
             <div className="row mt-4">
                 <h5>Tarefas:</h5>
                 <div className="col-12">
@@ -60,7 +67,7 @@ export default function ({dados, tarefas}) {
                         {tarefas.map((dados, index) => {
                             return (
                                 <div key={index} className="row shadow mt-3 p-2">
-                                    <div className="col-md-3">
+                                    <div className="col-md-2">
                                         <TextField label="Status" select fullWidth required defaultValue={dados.status}
                                                    onChange={e => atualizarStatus(dados.id, e.target.value)}>
                                             <MenuItem value="novo">Novo</MenuItem>
@@ -74,11 +81,6 @@ export default function ({dados, tarefas}) {
                             )
                         })}
                     </ul>
-                </div>
-            </div>
-            <div className="row mt-4">
-                <div className="col">
-                    <button onClick={() => avancarStatus()} className="btn btn-primary">Avançar Status</button>
                 </div>
             </div>
         </Layout>

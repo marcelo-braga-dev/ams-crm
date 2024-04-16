@@ -18,13 +18,13 @@ export default function ({dados, tarefas}) {
     }
 
     function atualizarStatus(id, status) {
-        axios.put(route('admin.dev-andamento.update', id), {_method: 'put', status: status})
+        axios.post(route('admin.dev-andamento.update', id), {_method: 'put', status: status})
             .then(results => {
             })
     }
 
     return (
-        <Layout titlePage="Suporte em Aberto" container menu="dev" submenu="registros">
+        <Layout titlePage="DEV" container menu="dev" submenu="registros">
             <div className="row">
                 <div className="col">
                     <span className="d-block">Título: {dados.titulo}</span>
@@ -35,34 +35,35 @@ export default function ({dados, tarefas}) {
                     <span className="d-block">ID: #{dados.id}</span>
                 </div>
             </div>
+            
+            <div className="row mt-4">
+                <div className="col">
+                    <button onClick={() => avancarStatus()} className="btn btn-primary">Avançar Status para Em Andamento</button>
+                </div>
+            </div>
+
             <div className="row mt-4">
                 <h5>Tarefas:</h5>
-                <div className="col-12">
-
-                    <ul className="list-group">
-                        {tarefas.map((dados, index) => {
+                <table className="table">
+                    <tbody>
+                    {tarefas.map((dados, index) => {
                             return (
-                                <div key={index} className="row shadow mt-3 p-2">
-                                    <div className="col-md-3">
+                                <tr key={index}>
+                                    <td className="col-1">
                                         <TextField label="Status" select fullWidth required defaultValue={dados.status}
                                                    onChange={e => atualizarStatus(dados.id, e.target.value)}>
                                             <MenuItem value="novo">Novo</MenuItem>
                                             <MenuItem value="aprovando">Aprovar</MenuItem>
                                         </TextField>
-                                    </div>
-                                    <div className="col">
+                                    </td>
+                                    <td>
                                         <span className="ps-3">{dados.texto}</span>
-                                    </div>
-                                </div>
+                                    </td>
+                                </tr>
                             )
-                        })}
-                    </ul>
-                </div>
-            </div>
-            <div className="row mt-4">
-                <div className="col">
-                    <button onClick={() => avancarStatus()} className="btn btn-primary">Avançar Status</button>
-                </div>
+                        })}                        
+                    </tbody>
+                </table>
             </div>
         </Layout>
     )

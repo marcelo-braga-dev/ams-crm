@@ -5,7 +5,7 @@ import DadosDev from "@/Components/Dados/Dev";
 
 export default function ({dados, tarefas}) {
     return (
-        <Layout container titlePage="Suporte em Andamento" voltar={route('admin.dev.index')} menu="dev" submenu="registros">
+        <Layout container titlePage="DEV em Andamento" voltar={route('admin.dev.index')} menu="dev" submenu="registros">
 
             <DadosDev dados={dados}/>
 

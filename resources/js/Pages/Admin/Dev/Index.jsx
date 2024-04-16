@@ -14,47 +14,41 @@ import DoubleScrollbar from 'react-double-scrollbar/dist/DoubleScrollbar';
 export default function Pedidos({dados}) {
 
     return (
-        <Layout titlePage="Desenvolvimento"
-                menu="dev" submenu="registros">
-            <div className="container">
-                <DoubleScrollbar>
-                    <table className="my-2">
-                        <thead>
-                        <tr className="text-center text-white">
-                            <Th color="bg-success">Em Aberto</Th>
-                            <Th color="bg-warning">Em Andamento</Th>
-                            <Th color="bg-info">Aguard. Aprovação</Th>
-                            <Th color="bg-dark">Finalizados</Th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr className="align-top">
-                            <Td color="bg-green-400">
-                                {dados.novo.map((dados) => {
-                                    return <NovoCard key={dados.id} dados={dados} />
-                                })}
-                            </Td>
-                            <Td color="bg-orange-400">
-                                {dados.andamento.map((dados) => {
-                                    return <AndamentoCard key={dados.id} dados={dados} />
-                                })}
-                            </Td>
-                            <Td color="bg-black">
-                                {dados.aprovando.map((dados) => {
-                                    return <AprovandoCard key={dados.id} dados={dados} />
-                                })}
-                            </Td>
-                            <Td color="bg-black">
-                                {dados.finalizado.map((dados) => {
-                                    return <FinalizadosCard key={dados.id} dados={dados} />
-                                })}
-                            </Td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </DoubleScrollbar>
-            </div>
-
+        <Layout titlePage="Desenvolvimento" menu="dev" submenu="registros">           
+            <table>
+                <thead>
+                <tr className="text-center text-white">
+                    <th className="bg-success mx-2 p-2 rounded"  style={{minWidth: 300}}>Em Aberto</th>
+                    <th className="bg-warning mx-2 p-2 rounded" style={{minWidth: 300}}>Em Andamento</th>
+                    <th className="bg-info mx-2 py-2 rounded" style={{minWidth: 300}}>Aguard. Aprovação</th>
+                    <th className="bg-dark mx-2 py-2 rounded" style={{minWidth: 300}}>Finalizados</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr className="align-top">
+                    <Td color="bg-green-400">
+                        {dados.novo.map((dados) => {
+                            return <NovoCard key={dados.id} dados={dados} />
+                        })}
+                    </Td>
+                    <Td color="bg-orange-400">
+                        {dados.andamento.map((dados) => {
+                            return <AndamentoCard key={dados.id} dados={dados} />
+                        })}
+                    </Td>
+                    <Td color="bg-black">
+                        {dados.aprovando.map((dados) => {
+                            return <AprovandoCard key={dados.id} dados={dados} />
+                        })}
+                    </Td>
+                    <Td color="bg-black">
+                        {dados.finalizado.map((dados) => {
+                            return <FinalizadosCard key={dados.id} dados={dados} />
+                        })}
+                    </Td>
+                </tr>
+                </tbody>
+            </table>
         </Layout>
     );
 }

@@ -40,20 +40,9 @@ export default function Edit({dados, historicos, status, contatos}) {
                 <div className="col">
                     <div className="card card-body">
                         <form onSubmit={onSubmit}>
-                            <h6>Atualizar Atendimento</h6>
+                            <h6>Iniciar Atendimento</h6>
                             <div className="row">
-                                <div className="col">
-                                    <TextField label="Status" select fullWidth required defaultValue=""
-                                               size="small"
-                                               onChange={e => setData('status', e.target.value)}>
-                                        {status.map((option, index) => (
-                                            <MenuItem key={index} value={option.status}>
-                                                {option.nome}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                </div>
-                                <div className="col mb-3">
+                                <div className="col-md-3 mb-3">
                                     <TextField label="Meio Contato" select fullWidth required
                                                defaultValue=""
                                                size="small"
@@ -77,7 +66,7 @@ export default function Edit({dados, historicos, status, contatos}) {
                                     <div className="text-center">
                                         <button className="btn btn-primary" type="submit"
                                                 onClick={() => setData('salvar_msg', true)}>
-                                            Atualizar Anotações
+                                            Iniciar Atendimento
                                         </button>
                                     </div>
                                 </div>

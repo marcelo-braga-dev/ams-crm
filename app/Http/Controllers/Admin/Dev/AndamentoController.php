@@ -32,7 +32,8 @@ class AndamentoController extends Controller
             (new Dev())->updateStatus($id, 'aprovando');
             (new Dev())->updateAndamento($id, $request);
 
+            modalSucesso('Atualizaçao realizada com sucesso!');
             return redirect()->route('admin.dev.index');
-        } else (new DevHistoricos())->atualizarStatus($id, $request->status);
+        } else (new DevHistoricos())->atualizarStatus($id, $request->status);       
     }
 }

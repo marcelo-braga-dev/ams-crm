@@ -107,18 +107,8 @@ export default function Show({dados, status, contatos, historicos}) {
                         <div className="card-body">
                             <form onSubmit={onSubmit}>
                                 <h6>Atualizar Status</h6>
-                                <div className="row">
-                                    <div className="col">
-                                        <TextField label="Status" select fullWidth required defaultValue="" size="small"
-                                                   onChange={e => setData('status', e.target.value)}>
-                                            {status.map((option, index) => (
-                                                <MenuItem key={index} value={option.status}>
-                                                    {option.nome}
-                                                </MenuItem>
-                                            ))}
-                                        </TextField>
-                                    </div>
-                                    <div className="col mb-3">
+                                <div className="row">                                    
+                                    <div className="col-md-3 mb-3">
                                         <TextField label="Meio Contato" select fullWidth required defaultValue=""
                                                    size="small"
                                                    onChange={e => setData('meio_contato', e.target.value)}>
@@ -177,37 +167,47 @@ export default function Show({dados, status, contatos, historicos}) {
                             <button type="button" className="btn-close bg-dark" data-bs-dismiss="modal"
                                     aria-label="Close"/>
                         </div>
-                        <div className="modal-body">
-                            {historicos.length < 4 ?
-                                <div className="alert alert-danger text-white">
-                                    Realize no mínimo 4 contatos com o cliente.</div> : ''}
+                        <form onSubmit={finalizarAtendimento}>
+                            <div className="modal-body">
+                                {historicos.length < 4 ?
+                                    <div className="alert alert-danger text-white">
+                                        Realize no mínimo 4 contatos com o cliente.</div> : ''}
 
-                            Confirmar finalização do atendimento?
-                            <TextField className="mt-3" label="Motivo/Anotações (min. 150 caracteres)" multiline
-                                       rows="6" fullWidth required
-                                       onChange={e => setData('msg', e.target.value)}/>
-                            <div className="text-end">
-                                <small
-                                    className={data.msg.length >= 150 ? "text-success" : ''}>({data.msg.length}/150)</small>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <div className="row">
-                                <div className="col">
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
-                                        Voltar
-                                    </button>
+                                Confirmar finalização do atendimento?
+                            
+                                <TextField label="Status" className="mt-3" select fullWidth required defaultValue="" size="small"
+                                            onChange={e => setData('status', e.target.value)}>
+                                    {status.map((option, index) => (
+                                        <MenuItem key={index} value={option.status}>
+                                            {option.nome}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                                    
+                                <TextField className="mt-3" label="Motivo/Anotações (min. 150 caracteres)" multiline
+                                        rows="6" fullWidth required
+                                        onChange={e => setData('msg', e.target.value)}/>
+                                <div className="text-end">
+                                    <small
+                                        className={data.msg.length >= 150 ? "text-success" : ''}>({data.msg.length}/150)</small>
                                 </div>
-                                <div className="col">
-                                    <form onSubmit={finalizarAtendimento}>
-                                        <button disabled={data.msg.length < 150 || historicos.length < 4} type="submit"
-                                                className="btn btn-primary" data-bs-dismiss="modal">
-                                            Finalizar
+                            </div>
+                            <div className="modal-footer">
+                                <div className="row">
+                                    <div className="col">
+                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                                            Voltar
                                         </button>
-                                    </form>
+                                    </div>
+                                    <div className="col">                                    
+                                        <button disabled={data.msg.length < 150 || historicos.length < 4} type="submit"
+                                                className="btn btn-primary" data-bs-dismiss={(data.msg.length < 150 || historicos.length < 4) ? '' : "modal"}>
+                                            Finalizar
+                                        </button>                                        
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

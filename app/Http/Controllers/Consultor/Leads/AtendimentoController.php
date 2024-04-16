@@ -40,6 +40,8 @@ class AtendimentoController extends Controller
     {
         // Finaliza Atendimento
         (new UpdateStatusLeads())->setFinalizado($request->id);
+        (new LeadsHistoricos())->create($request->idLead, $request, $request->status);
+        $request['msg'] = '';
         (new LeadsHistoricos())->create($request->id, $request, 'finalizado');
 
         modalSucesso('Status atualizado!');
