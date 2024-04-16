@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 
-/**
- * @deprecated
- */
 class PedidosImagens extends Model
 {
     use HasFactory;

@@ -31,6 +31,12 @@ const dashboard = {
                     title: 'Setores',
                     type: 'item',
                     url: route('admin.config.categorias.index'),
+                }, {
+                    id: 'config-leads',
+                    title: 'Leads',
+                    type: 'item',
+                    admin: true,
+                    url: route('admin.clientes.leads.status.index'),
                 },
             ]
         }

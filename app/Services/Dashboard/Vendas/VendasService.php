@@ -18,6 +18,7 @@ class VendasService
     public function metaVendas($mes, $ano, $setor): array
     {
         $usuarios = (new User())->getUsuarios($setor, false);
+        $isAdmin = is_admin();
 
         $vendasUsuarios = [];
         $totalVendas = 0;
@@ -40,7 +41,8 @@ class VendasService
 
                 $vendasUsuarios[] = [
                     'vendas' => $vendas->vendas,
-                    'custos' => $vendas->custos,
+                    'custos' => $isAdmin ? $vendas->custos : null,
+                    'lucro' => $isAdmin ? ($vendas->vendas - $vendas->custos) : null,
                     'qtd' => $vendas->qtd,
                     'id' => $usuario['id'],
                     'nome' => $usuario['nome'],
@@ -50,7 +52,7 @@ class VendasService
         }
         rsort($vendasUsuarios);
 
-        return ['vendas' => $vendasUsuarios, 'totalVendas' => $totalVendas, 'totalMetas' => $totalMetas, 'totalCustos' => $totalCustos,
+        return ['vendas' => $vendasUsuarios, 'totalVendas' => $totalVendas, 'totalMetas' => $totalMetas, 'totalCustos' => $isAdmin ? $totalCustos : null,
             'totalQtd' => $totalQtd];
     }
 
@@ -59,12 +61,19 @@ class VendasService
         $meses = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         $nomeMes = [1 => 'jan', 2 => 'fev', 3 => 'mar', 4 => 'abr', 5 => 'mai', 6 => 'jun', 7 => 'jul', 8 => 'ago', 9 => 'set', 10 => 'out', 11 => 'nov', 12 => 'dez'];
 
+        $somaVendas = 0;
+        $somaMetas = 0;
+
         $dados = [];
         foreach ($meses as $mes) {
             $item = $this->metaVendas($mes, $ano, $setor);
+            $somaVendas += $item['totalVendas'];
+            $somaMetas += $item['totalMetas'];
             $dados[] = ['mes' => $nomeMes[$mes], 'total_vendas' => $item['totalVendas'], 'total_metas' => $item['totalMetas']];
         }
 
+        $dados[] = ['mes' => "total", 'total_vendas' => $somaVendas, 'total_metas' => $somaMetas];
+           
         return $dados;
     }
 }

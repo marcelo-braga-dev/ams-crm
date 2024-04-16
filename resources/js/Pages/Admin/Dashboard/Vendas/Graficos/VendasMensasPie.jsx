@@ -3,11 +3,12 @@ import {Pie, Bar} from "react-chartjs-2";
 
 export default function VendasMensasPie({dados}) {
 
-    const vendas = dados.map(item => item.total_vendas)
-    const metas = dados.map(item => item.total_metas)
+    const vendas = dados.map(item => item.mes != 'total' ? item.total_vendas : null)
+    const metas = dados.map(item => item.mes != 'total' ? item.total_metas : null)
+    const meses = dados.map(item => item.mes != 'total' ? item.mes : null)
 
     const data = {
-        labels: ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'],
+        labels: meses,
         datasets: [
             {
                 label: "Metas",
@@ -36,6 +37,6 @@ export default function VendasMensasPie({dados}) {
 
     return (
         <Bar options={options} data={data}
-             height={500} width={500}/>
+             height={200}/>
     )
 }

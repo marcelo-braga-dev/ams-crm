@@ -343,6 +343,7 @@ class Pedidos extends Model
                 'preco_float' => $pedido->preco_venda,
                 'preco' => convert_float_money($pedido->preco_venda),
                 'preco_custo' => $precoCusto,
+                'lucro' => convert_float_money($pedido->preco_venda - $pedido->preco_custo - $pedido->repasse),
                 'repasse_float' => $pedido->repasse,
                 'repasse' => convert_float_money($pedido->repasse),
                 'forma_pagamento' => $pedido->forma_pagamento,

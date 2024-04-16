@@ -15,6 +15,8 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     const [consultorSelecionado, setConsultorSelecionado] = useState();
     const [open, setOpen] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(100);
+    const [checkedPage, setCheckedPage] = useState(false);
+    const [pageAtual, setPageAtual] = useState(1);
 
     const columns = [
         {
@@ -163,6 +165,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         setLeadsChecked([])
         setConsultorSelecionado()
         setOpen(false)
+        setCheckedPage(false)
     })
 
     function adicionarLeadsCheck(check) {
@@ -295,6 +298,10 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                 </div>
             </div>
             <div className="row">
+                <div className="col ps-3">
+                    <Checkbox checked={checkedPage || false} onChange={e => adicionarLeadsCheck(e.target.checked)}/>
+                    {leadsChecked.length} selecionados
+                </div>
                 <div className="col-auto">
                     <button type="button" className="btn btn-link text-dark btn-sm m-0 p-0"
                             data-bs-toggle="modal" data-bs-target="#modalLimpar">
@@ -317,6 +324,10 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                 onChangeRowsPerPage={value => setRowsPerPage(value)}
                 striped
                 highlightOnHover
+                onChangePage={value => {
+                    setPageAtual(value)
+                    setCheckedPage(false)
+                }}
                 paginationComponentOptions={
                     {
                         rowsPerPageText: 'Itens por página',

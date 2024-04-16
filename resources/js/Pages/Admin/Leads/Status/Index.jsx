@@ -3,7 +3,7 @@ import {TextField} from "@mui/material";
 
 export default function ({categorias}) {
     return (
-        <Layout titlePage="Status dos Leads" container menu="leads" submenu="leads-status">
+        <Layout titlePage="Status dos Leads" container menu="config" submenu="config-leads">
             <div className="row row-cols-3">
                 {categorias.map((categoria, index) => {
                     return (

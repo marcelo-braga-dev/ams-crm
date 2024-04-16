@@ -13,6 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {useEffect, useState} from "react";
 import {router} from "@inertiajs/react";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import { isAdmin } from "@/Helpers/helper";
 
 export default function ({
                              metaVendas,
@@ -25,6 +26,8 @@ export default function ({
     function filtrar(mes, ano, setor) {
         router.get(route('admin.dashboard.vendas.index'), {mes: mes, ano: ano, setor: setor})
     }
+
+    const admin = isAdmin()
 
     // const totalVendas = vendasMensais.map(item => item.valor)
 
@@ -131,7 +134,7 @@ export default function ({
                                 <th>Meta</th>
                                 <th>Total Vendas</th>
                                 <th className="text-center">Qtd. Vendas</th>
-                                <th>Lucro Bruto</th>
+                                {admin && <th>Lucro Bruto</th>}
                                 <th>Meta x Vendas</th>
                                 <th></th>
                             </tr>
@@ -146,10 +149,10 @@ export default function ({
                                         <td className="text-dark">R$ {convertFloatToMoney(item.meta)}</td>
                                         <td className="text-dark">R$ {convertFloatToMoney(item.vendas)}</td>
                                         <td className="text-dark text-center">{item.qtd}</td>
-                                        <td className="text-dark">
-                                            R$ {convertFloatToMoney(item.vendas - item.custos)} (
-                                            {convertFloatToMoney((item.vendas - item.custos) / item.custos * 100)}%)
-                                        </td>
+                                        {admin && <td className="text-dark">
+                                            {item.lucro && <span>R$ {convertFloatToMoney(item.lucro)} (
+                                            {convertFloatToMoney((item.vendas - item.custos) / item.custos * 100)}%)</span>}
+                                        </td>}
                                         <td>
                                             R$ {convertFloatToMoney(item.vendas - item.meta)} (
                                             {convertFloatToMoney(((item.vendas - item.meta) / item.meta * 100) + 100)}%)
@@ -173,10 +176,10 @@ export default function ({
                                 <td className="text-dark">R$ {convertFloatToMoney(metaVendas.totalMetas)}</td>
                                 <td className="text-dark">R$ {convertFloatToMoney(metaVendas.totalVendas)}</td>
                                 <td className="text-center text-dark">{metaVendas.totalQtd}</td>
-                                <td>
+                                {admin && <td>
                                     R$ {convertFloatToMoney(metaVendas.totalVendas - metaVendas.totalCustos)}(
                                     {convertFloatToMoney((metaVendas.totalVendas - metaVendas.totalCustos) / metaVendas.totalCustos * 100)}%)
-                                </td>
+                                </td>}
                                 <td>
                                     R$ {convertFloatToMoney(metaVendas.totalVendas - metaVendas.totalMetas)} (
                                     {convertFloatToMoney(((metaVendas.totalVendas - metaVendas.totalMetas) / metaVendas.totalMetas * 100) + 100)}%)
@@ -212,8 +215,7 @@ export default function ({
                                         <th className="text-center">Mẽs</th>
                                         <th>Meta</th>
                                         <th>Vendas</th>
-                                        <th>Diferença</th>
-                                        <th>Margem</th>
+                                        <th>Meta x Vendas</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -225,8 +227,11 @@ export default function ({
                                                 </td>
                                                 <td className="text-dark">R$ {convertFloatToMoney(item.total_metas)}</td>
                                                 <td className="text-dark">R$ {convertFloatToMoney(item.total_vendas)}</td>
-                                                <td>R$ {item.total_vendas > 0 ? convertFloatToMoney(dif) : '0,00'}</td>
-                                                <td>{convertFloatToMoney(((item.total_vendas - item.total_metas) / item.total_metas * 100) + 100)}%</td>
+                                                <td>
+                                                    R$ {item.total_vendas > 0 ? convertFloatToMoney(dif) : '0,00'} (
+                                                        {convertFloatToMoney(((item.total_vendas - item.total_metas) / item.total_metas * 100) + 100)}%
+                                                    )
+                                                </td>
                                             </tr>
                                         )
                                     })}

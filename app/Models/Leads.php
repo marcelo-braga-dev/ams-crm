@@ -61,7 +61,10 @@ class Leads extends Model
             ->orWhere([['setor_id', '=', $setor], ['status', '=', 'finalizado']])
             ->orderByDesc('status')
             ->orderByDesc('id')
-            ->get();
+            ->get()
+            ->transform(function ($item) {
+                return $this->dadosMinimo($item);
+            });
     }
 
     public function setConsultor($idLead, $idConsultor)
@@ -237,8 +240,13 @@ class Leads extends Model
             ->where('user_id', '>', 0)
             ->where('setor_id', $setor)
             ->orderByDesc('id');
+
         if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
-        return $query->get();
+        $nomes = (new User())->getNomes();
+        return $query->get()
+            ->transform(function ($item) use ($nomes) {
+                return $this->dadosMinimo($item, $nomes);
+            });
     }
 
     public function atualizar($id, $dados)
@@ -346,14 +354,14 @@ class Leads extends Model
         return $this->dados($item);
     }
 
-    private function dados($item, $msg = [])
+    private function dados($item, $nomes = [])
     {
-        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
+        //$telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
 
         return [
             'id' => $item->id,
             'consultor' => [
-                'nome' => $this->consultores[$item->user_id] ?? '',
+                'nome' => $nomes[$item->user_id] ?? '',
                 'id' => $item->user_id
             ],
             'cliente' => [
@@ -381,7 +389,7 @@ class Leads extends Model
             'contato' => [
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
-                'telefones' => $telefones,
+                'telefones' => [],//$telefones,
                 'atendente' => $item->atendente,
             ],
             'infos' => [
@@ -391,6 +399,40 @@ class Leads extends Model
                 'anotacoes' => $item->infos,
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                 'contato' => $item->meio_contato,
+                'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
+            ],
+        ];
+    }
+
+    private function dadosMinimo($item, $nomes = [])
+    {
+        //$telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
+
+        return [
+            'id' => $item->id,
+            'consultor' => [
+                'nome' => $nomes[$item->user_id] ?? '',
+                'id' => $item->user_id
+            ],
+            'cliente' => [
+                'nome' => $item->nome,
+                'razao_social' => $item->razao_social,
+                'cnpj' => converterCNPJ($item->cnpj),
+                'rg' => $item->rg,
+                'cpf' => $item->cpf,
+                'cidade' => $item->cidade,
+                'estado' => $item->estado,
+                'classificacao' => $item->classificacao
+            ],
+            'contato' => [
+                'email' => $item->email,
+                'telefone' => converterTelefone($item->telefone),
+                'telefones' => [],//$telefones,
+            ],
+            'infos' => [
+                'setor' => $item->setor,
+                'status' => $item->status,
+                'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                 'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
             ],
         ];

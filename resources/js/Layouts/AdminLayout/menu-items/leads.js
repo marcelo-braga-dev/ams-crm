@@ -49,13 +49,7 @@ const dashboard = {
                     type: 'item',
                     admin: true,
                     url: route('admin.clientes.leads.importar.index'),
-                }, {
-                    id: 'leads-status',
-                    title: 'Status dos Leads',
-                    type: 'item',
-                    admin: true,
-                    url: route('admin.clientes.leads.status.index'),
-                },
+                }
             ]
         }
     ]

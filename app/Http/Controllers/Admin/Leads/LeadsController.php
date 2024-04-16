@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
-use App\Models\LeadsHistoricos;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
@@ -22,7 +21,7 @@ class LeadsController extends Controller
     {
         $categoriaAtual = $request->categoria ?? 1;
         $categorias = (new SetoresService())->setores();
-        $dados = (new LeadsDadosService())->getDisponiveis($categoriaAtual);
+        $dados = (new Leads())->getDisponiveis($categoriaAtual);
         $consultores = (new User())->getUsuarios($categoriaAtual);
 
         return Inertia::render('Admin/Leads/Encaminhar',
@@ -100,7 +99,7 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public function ocultos()
+    public function ocultos(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
 
@@ -126,7 +125,7 @@ class LeadsController extends Controller
     public function alterarConsultor(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
-        $dados = (new LeadsDadosService())->getLeadsComConsultor($categoriaAtual);
+        $dados = (new Leads())->getLeadsComConsultor($categoriaAtual);
         $consultores = (new User())->getUsuarios($categoriaAtual);
         $categorias = (new SetoresService())->setores();
 

@@ -2,7 +2,8 @@ import Typography from "@mui/material/Typography";
 import {usePage} from "@inertiajs/react";
 
 export default function DadosPedido({dados}) {
-    const funcaoUsuario = usePage().props.auth.user.tipo
+    
+    const isAdmin = usePage().props.auth.user.tipo === 'admin'
 
     return (<>
         <Typography variant="subtitle1" className="mb-2">Informações do Pedido</Typography>
@@ -14,9 +15,10 @@ export default function DadosPedido({dados}) {
         {dados.fornecedor.nome && <Typography><b>Fornecedor:</b> {dados.fornecedor.nome}</Typography>}
         {dados.pedido.setor && <Typography><b>Setor:</b> {dados.pedido.setor}</Typography>}
         <div className="row mt-3">
-            {dados.financeiro.preco && <span><b>Valor Total:</b> R$ {dados.financeiro.preco}</span>}
+            {dados.financeiro.preco && <span><b>Valor do Pedido:</b> R$ {dados.financeiro.preco}</span>}
             {dados.financeiro.repasse_float > 0 && <span className="d-block"><b>Repasse:</b> R$ {dados.financeiro.repasse}</span>}
-            {funcaoUsuario === 'admin' && dados.financeiro.preco_custo && <span className="d-block"><b>Preço Custo:</b> R$ {dados.financeiro.preco_custo}</span>}
+            {isAdmin  && dados.financeiro.preco_custo && <span className="d-block"><b>Preço Custo:</b> R$ {dados.financeiro.preco_custo}</span>}
+            {isAdmin  && dados.financeiro.preco_custo && <span className="d-block"><b>Lucro:</b> R$ {dados.financeiro.lucro}</span>}
             {dados.financeiro.forma_pagamento &&
                 <span className="d-block"><b>Forma de Pagamento:</b> {dados.financeiro.forma_pagamento}</span>}
         </div>

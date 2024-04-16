@@ -11,12 +11,13 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: InsertChartOutlinedRoundedIcon,
-            admin: true,
+            
             submenu: [
                 {
                     id: 'dashboard-relatorios',
                     title: 'Relatórios Integrados',
                     type: 'item',
+                    admin: true,
                     url: route('admin.dashboard.relatorios.index'),
                 }, {
                     id: 'dashboard-vendas',
@@ -27,11 +28,13 @@ const dashboard = {
                     id: 'dashboard-financeiro',
                     title: 'Indicadores Financeiros',
                     type: 'item',
+                    admin: true,
                     url: route('admin.dashboard.financeiros.index'),
                 }, {
                     id: 'dashboard-economico',
                     title: 'Indicadores Econômicos',
                     type: 'item',
+                    admin: true,
                     url: route('admin.dashboard.economicos.index'),
                 }
             ]

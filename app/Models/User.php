@@ -192,7 +192,7 @@ class User extends Authenticatable
         return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id', 'franquia_id', 'foto'])
             ->except(['id' => 1])
             ->except(['id' => 2])
-            ->except(['id' => 3])
+            // ->except(['id' => 3])
             ->transform(function ($item) use ($setores, $franquias) {
                 return [
                     'id' => $item->id,

@@ -6,16 +6,6 @@ use App\src\Pedidos\Status\EncomendaStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- *  prazos
- *      novo
- *      conferencia
- *      lancamento
- *      boleto
- *      pagamento
- *      faturando
- *      faturado
- */
 class PedidosPrazos extends Model
 {
     use HasFactory;
