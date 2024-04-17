@@ -1,7 +1,7 @@
-import {Bar} from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import React from "react";
 
-export default function MetaVendas({dados}) {
+export default function MetaVendas({ dados, dadosComp }) {
 
     const nomes = dados.vendas.map((item) => {
         return item.nome
@@ -13,19 +13,43 @@ export default function MetaVendas({dados}) {
         return item.vendas
     })
 
+
+    const metaComp = dadosComp?.vendas.map((item) => {
+        return item.meta
+    })
+    const vendaComp = dadosComp?.vendas.map((item) => {
+        return item.vendas
+    })
+
+    let colunas = [
+        {
+            label: "Meta",
+            backgroundColor: "#11258d",
+            data: meta,
+        }, {
+            label: "Vendas",
+            backgroundColor: "rgba(211,84,16,0.89)",
+            data: venda,
+        }
+    ]
+
+    if (dadosComp) colunas.push(
+        {
+            label: "Meta Compa.",
+            backgroundColor: "#245745",
+            data: metaComp,
+        }, {
+            label: "Vendas Compa.",
+            backgroundColor: "#841595",
+            data: vendaComp,
+        }
+    )
+
+    // colunas.push()
+
     const data = {
         labels: nomes,
-        datasets: [
-            {
-                label: "Meta",
-                backgroundColor: "#11258d",
-                data: meta,
-            }, {
-                label: "Venda",
-                backgroundColor: "rgba(211,84,16,0.89)",
-                data: venda,
-            },
-        ],
+        datasets: colunas
     };
 
     const options = {
@@ -43,6 +67,6 @@ export default function MetaVendas({dados}) {
 
     return (
         <Bar options={options} data={data}
-             height={80}/>
+            height={80} />
     )
 }

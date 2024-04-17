@@ -15,22 +15,45 @@ class VendasController extends Controller
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
         $setor = $request->setor ?? 1;
-        
+
         $setores = (new Setores())->get();
 
-        return Inertia::render('Admin/Dashboard/Vendas/Index',
+        return Inertia::render(
+            'Admin/Dashboard/Vendas/Index',
             compact(
-                 'mes', 'ano', 'setores', 'setor'));
+                'mes',
+                'ano',
+                'setores',
+                'setor'
+            )
+        );
     }
 
-    public function registros(Request $request) {
+    public function registros(Request $request)
+    {
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
         $setor = $request->setor ?? 1;
 
+        $metaVendasComp = null;
+        $metasVendasAnualComp = null;
+
         $metaVendas = (new VendasService())->metaVendas($mes, $ano, $setor);
         $metasVendasAnual = (new VendasService())->metaVendasAnual($ano, $setor);
 
-        return response()->json(['vedas_metas' => $metaVendas, 'vedas_metas_anual' => $metasVendasAnual]);
+        if ($request->mesComp || $request->anoComp) {
+            $mesComp = $request->mesComp ?? date('n');
+            $anoComp = $request->anoComp ?? date('Y');
+
+            $metaVendasComp = (new VendasService())->metaVendas($mesComp, $anoComp, $setor);
+            $metasVendasAnualComp = (new VendasService())->metaVendasAnual($mesComp, $setor);
+        }
+
+        return response()->json([
+            'vedas_metas' => $metaVendas, 
+            'vedas_metas_anual' => $metasVendasAnual,
+            'vedas_metas_comp' => $metaVendasComp, 
+            'vedas_metas_anual_comp' => $metasVendasAnualComp
+        ]);
     }
 }

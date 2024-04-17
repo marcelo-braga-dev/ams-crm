@@ -23,16 +23,24 @@ const selectMeses = [
     { id: '12', nome: 'Dezembro' },
 ]
 
-export default function SelectMesesMultiples({value, onChange}) {
+export default function SelectMesesMultiples({value, useState, label}) {
+
+    const handleChange = (event) => {
+        const { target: { value } } = event;
+        useState(
+            typeof value === 'string' ? value.split(',') : value,
+        );
+    };
+
     return (
         <FormControl fullWidth>
             <InputLabel id="select" label="Lang">
-                Meses
+                {label ? label : 'Meses'}
             </InputLabel>
             <Select
                 multiple
                 value={value}
-                onChange={onChange}
+                onChange={handleChange}
                 renderValue={(item) => {
                     item.sort();
                     return item.map((value) => (
