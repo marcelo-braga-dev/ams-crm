@@ -32,12 +32,13 @@ class Notificacoes extends Model
             ]);
     }
 
-    public function getUsuario(string $categoria)
+    public function getUsuario(string $categoria, $qtd = null)
     {
         return $this->newQuery()
             ->where('user_id', id_usuario_atual())
             ->where('categoria', $categoria)
             ->orderByDesc('id')
+            ->limit($qtd)
             ->get()
             ->transform(function ($dado) {
                 return [
