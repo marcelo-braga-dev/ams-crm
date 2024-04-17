@@ -4,13 +4,7 @@ namespace App\Services\Dashboard\Vendas;
 
 use App\Models\MetasVendas;
 use App\Models\Pedidos;
-use App\Models\PedidosFaturamentos;
-use App\Models\PedidosHistoricos;
-use App\Models\Setores;
 use App\Models\User;
-use App\Services\Pedidos\StatusPedidosServices;
-use App\src\Pedidos\Status\CanceladoStatus;
-use App\src\Pedidos\Status\RevisarStatusPedido;
 use Illuminate\Support\Facades\DB;
 
 class VendasService
@@ -27,23 +21,39 @@ class VendasService
         $totalQtd = 0;
 
         foreach ($usuarios as $usuario) {
+            $vendas = 0;
+            $metas = 0;
+            $custos = 0;
+            $qtd = 0;
 
-            $vendas = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano);
-            $metas = (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano);
+            if (is_array($mes))
+                foreach ($mes as $item) {
+                    $vendas += (new Pedidos())->getVendasMesUsuario($usuario['id'], $item, $ano)->vendas;
+                    $custos += (new Pedidos())->getVendasMesUsuario($usuario['id'], $item, $ano)->custos;
+                    $qtd += (new Pedidos())->getVendasMesUsuario($usuario['id'], $item, $ano)->qtd;
+                    $metas += (new MetasVendas())->getMetaMes($usuario['id'], $item, $ano);
+                }
+            else {
+                $vendas = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano)->vendas;
+                $custos = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano)->custos;
+                $qtd = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano)->qtd;
+                $metas = (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano);
+            }
+
 
             if ($usuario['status'] == 'ativo') $totalMetas += $metas;
 
-            if ($usuario['status'] == 'ativo' || $vendas->qtd > 0) {
+            if ($usuario['status'] == 'ativo' || $qtd > 0) {
 
-                $totalVendas += $vendas->vendas;
-                $totalCustos += $vendas->custos;
-                $totalQtd += $vendas->qtd;
+                $totalVendas += $vendas;
+                $totalCustos += $custos;
+                $totalQtd += $qtd;
 
                 $vendasUsuarios[] = [
-                    'vendas' => $vendas->vendas,
-                    'custos' => $isAdmin ? $vendas->custos : null,
-                    'lucro' => $isAdmin ? ($vendas->vendas - $vendas->custos) : null,
-                    'qtd' => $vendas->qtd,
+                    'vendas' => $vendas,
+                    'custos' => $isAdmin ? $custos : null,
+                    'lucro' => $isAdmin ? ($vendas - $custos) : null,
+                    'qtd' => $qtd,
                     'id' => $usuario['id'],
                     'nome' => $usuario['nome'],
                     'meta' => $metas
@@ -52,8 +62,10 @@ class VendasService
         }
         rsort($vendasUsuarios);
 
-        return ['vendas' => $vendasUsuarios, 'totalVendas' => $totalVendas, 'totalMetas' => $totalMetas, 'totalCustos' => $isAdmin ? $totalCustos : null,
-            'totalQtd' => $totalQtd];
+        return [
+            'vendas' => $vendasUsuarios, 'totalVendas' => $totalVendas, 'totalMetas' => $totalMetas, 'totalCustos' => $isAdmin ? $totalCustos : null,
+            'totalQtd' => $totalQtd
+        ];
     }
 
     public function metaVendasAnual($ano, $setor): array
@@ -73,7 +85,7 @@ class VendasService
         }
 
         $dados[] = ['mes' => "total", 'total_vendas' => $somaVendas, 'total_metas' => $somaMetas];
-           
+
         return $dados;
     }
 }

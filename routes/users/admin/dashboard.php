@@ -14,4 +14,6 @@ Route::middleware(['auth', 'auth.admins'])
         Route::resource('financeiros', FinanceirosController::class);
         Route::resource('vendas', VendasController::class);
         Route::resource('relatorios', RelatoriosController::class);
+
+        Route::get('vendas-registros', [VendasController::class, 'registros'])->name('vendas.registros');
     });
