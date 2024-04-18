@@ -1,15 +1,15 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
-import {sum} from "lodash";
-import {router} from "@inertiajs/react";
+import { sum } from "lodash";
+import { router } from "@inertiajs/react";
 
-export default function ({vendas, usuario, periodo}) {
+export default function ({ vendas, usuario, periodo }) {
 
     const total = sum(vendas.map(item => item.valor))
 
     return (
         <Layout titlePage="Vendas Realizadas" menu="menu-meta-vendas" submenu="meta-vendas"
-                voltar={route('admin.metas-vendas.consultores.edit', usuario.id)}>
+            voltar={route('admin.dashboard.vendas.index')}>
             <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col mb-2">
@@ -33,34 +33,34 @@ export default function ({vendas, usuario, periodo}) {
                 <div className="table-responsive">
                     <table className="table table-hover">
                         <thead>
-                        <tr>
-                            <th>ID do Pedido</th>
-                            <th>Data</th>
-                            <th></th>
-                            <th>Status Atual</th>
-                            <th>Valor</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th>ID do Pedido</th>
+                                <th>Data</th>
+                                <th></th>
+                                <th>Status Atual</th>
+                                <th>Valor</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {vendas.map(item => {
-                            return (
-                                <tr key={item.id} className="cursor-pointer" onClick={() => router.get(route('admin.pedidos.show', item.id))}>
-                                    <td className="text-center col-1">#{item.id}</td>
-                                    <td>{item.data}</td>
-                                    <td>
-                                        <b>Integrador:</b> {item.lead}<br/>
-                                        <b>Cliente:</b> {item.cliente}<br/>
-                                    </td>
-                                    <td>{item.status}</td>
-                                    <td>R$ {convertFloatToMoney(item.valor)}</td>
-                                    <td>
-                                        <a className="btn btn-primary"
-                                           href={route('admin.pedidos.show', item.id)}>Ver</a>
-                                    </td>
-                                </tr>
-                            )
-                        })}
+                            {vendas.map(item => {
+                                return (
+                                    <tr key={item.id} className="cursor-pointer" onClick={() => router.get(route('admin.pedidos.show', item.id))}>
+                                        <td className="text-center col-1">#{item.id}</td>
+                                        <td>{item.data}</td>
+                                        <td>
+                                            <b>Integrador:</b> {item.lead}<br />
+                                            <b>Cliente:</b> {item.cliente}<br />
+                                        </td>
+                                        <td>{item.status}</td>
+                                        <td>R$ {convertFloatToMoney(item.valor)}</td>
+                                        <td>
+                                            <a className="btn btn-primary"
+                                                href={route('admin.pedidos.show', item.id)}>Ver</a>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>
