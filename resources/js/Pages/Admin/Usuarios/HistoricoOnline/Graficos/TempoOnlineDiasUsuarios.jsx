@@ -2,7 +2,11 @@ import {Bar, Line, Doughnut} from "react-chartjs-2";
 import React from "react";
 
 export default function TempoOnlineDiasUsuarios({dados}) {
-    const dias = [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 1]
+    const dias = []
+
+    for(let i = 1; i <= 31; i ++) {
+        dias.push(i)
+    }
 
     const horas = dados.map(item => {
         return {

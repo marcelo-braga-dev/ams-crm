@@ -343,14 +343,16 @@ class Pedidos extends Model
                 'preco_float' => $pedido->preco_venda,
                 'preco' => convert_float_money($pedido->preco_venda),
                 'preco_custo' => $precoCusto,
-                'lucro' => convert_float_money($pedido->preco_venda - $pedido->preco_custo - $pedido->repasse),
+                'lucro' => convert_float_money($pedido->preco_venda - $pedido->preco_custo),
                 'repasse_float' => $pedido->repasse,
                 'repasse' => convert_float_money($pedido->repasse),
+                'valor_nota' => convert_float_money($pedido->preco_venda + $pedido->repasse),
                 'forma_pagamento' => $pedido->forma_pagamento,
                 'boletos' => (new PedidosArquivos())->getBoletos($pedido->id),
                 'cheques' => (new PedidosArquivos())->getCheques($pedido->id),
                 'pix' => (new PedidosArquivos())->getPix($pedido->id),
                 'link_pagamento' => $files->url_pagamento ?? null,
+                'data_faturamento' => $pedido->data_faturamento
             ],
             'prazos' => [
                 'prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),

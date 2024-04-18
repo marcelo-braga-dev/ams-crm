@@ -16,6 +16,7 @@ export default function DadosPedido({dados}) {
         {dados.pedido.setor && <Typography><b>Setor:</b> {dados.pedido.setor}</Typography>}
         <div className="row mt-3">
             {dados.financeiro.preco && <span><b>Valor do Pedido:</b> R$ {dados.financeiro.preco}</span>}
+            {dados.financeiro.valor_nota && <span><b>Valor da Nota:</b> R$ {dados.financeiro.valor_nota}</span>}
             {dados.financeiro.repasse_float > 0 && <span className="d-block"><b>Repasse:</b> R$ {dados.financeiro.repasse}</span>}
             {isAdmin  && dados.financeiro.preco_custo && <span className="d-block"><b>Preço Custo:</b> R$ {dados.financeiro.preco_custo}</span>}
             {isAdmin  && dados.financeiro.preco_custo && <span className="d-block"><b>Lucro:</b> R$ {dados.financeiro.lucro}</span>}

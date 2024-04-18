@@ -61,53 +61,24 @@ class PedidosFaturamentos extends Model
 
     public function faturadosPeriodo($id = null, $mes = null, $ano = null)
     {
-        $pedidos = (new Pedidos())->newQuery()
-            ->where('user_id', $id)
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
-            ->get('id')
-            ->transform(function ($item) {
-                return $item->id;
-            });
-
-        $queryPedidosHistoricos = (new PedidosHistoricos())->newQuery()
-            ->whereIn('pedido_id', $pedidos)
-            ->where('status', 'aguardando_faturamento');
-
-        $queryPedidosHistoricos->whereMonth('created_at', $mes);
-        $queryPedidosHistoricos->whereYear('created_at', $ano);
-
-        $historicoFaturados = $queryPedidosHistoricos
-            ->groupBy('pedido_id')
-            ->get()
-            ->transform(function ($item) {
-                return [
-                    'pedido_id' => $item->pedido_id,
-                    'data' => date('d/m/Y H:i', strtotime($item->created_at)),
-                ];
-            });
-        
-        $idPedidosFaturados = [];
-        $dadosPedido = [];
-        foreach ($historicoFaturados as $item) {
-            $idPedidosFaturados[] = $item['pedido_id'];
-            $dadosPedido[$item['pedido_id']] = $item;
-        }
-
         $nomeLeads = (new Leads())->getNomes();
         $nomeClientes = (new PedidosClientes())->getNomes();
         $statusNome = (new StatusPedidos())->getStatus();
 
-        return (new Pedidos())->newQuery()
-            ->whereIn('id', $idPedidosFaturados)
+        return $pedidos = (new Pedidos())->newQuery()
+            ->where('user_id', $id)
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereMonth('data_faturamento', $mes)
+            ->whereYear('data_faturamento', $ano)
             ->get()
-            ->transform(function ($item) use ($dadosPedido, $nomeLeads, $nomeClientes, $statusNome) {
+            ->transform(function ($item) use ($nomeLeads, $nomeClientes, $statusNome) {
                 return [
                     'id' => $item->id,
                     'lead' => $nomeLeads[$item->lead_id] ?? '',
                     'cliente' => $nomeClientes[$item->id] ?? '',
                     'valor' => $item->preco_venda,
                     'status' => $statusNome[$item->status] ?? '',
-                    'data' => $dadosPedido[$item->id]['data'],
+                    'data' => $item->data_faturamento,
                 ];
             });
     }
@@ -126,7 +97,8 @@ class PedidosFaturamentos extends Model
                 DAY(status_data) as dia,
                 MONTH(status_data) as mes,
                 YEAR(status_data) as ano
-                '))
+                ')
+            )
             ->orderBy('semana')
             ->orderBy('id')
             ->groupBy('produtos_id', 'valor', DB::raw('
@@ -164,7 +136,6 @@ class PedidosFaturamentos extends Model
                 ];
                 $separacao[$item['id_produto']]['vendas'] = $this->getNumerosSemanas($mes);
             }
-
         }
 
         $totalSemanas = $this->getNumerosSemanas($mes);
@@ -180,7 +151,6 @@ class PedidosFaturamentos extends Model
                     'qtd' => $item['qtd'],
                     'total' => convert_float_money($item['total'])
                 ];
-
             }
         }
 
@@ -199,7 +169,7 @@ class PedidosFaturamentos extends Model
         $res['total_geral'] = $totalGerlSemanas;
         $res['semanas_datas'] = $this->getDatasSemanas($mes);
 
-//        print_pre($res);
+        //        print_pre($res);
         return $res;
     }
 

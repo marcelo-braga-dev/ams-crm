@@ -44,6 +44,13 @@ export default function ({pedido, usuarios}) {
                                 {usuarios.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>}
+                        <div className="col-md-3">
+                            <TextField label="Data Aguardando Faturamento" type="datetime-local" fullWidth 
+                                 value={pedido.financeiro.data_faturamento}
+                            InputLabelProps={{shrink: true}}
+                                       onChange={e => setUserFaturado(e.target.value)}>
+                            </TextField>
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col">

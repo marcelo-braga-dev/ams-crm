@@ -51,9 +51,10 @@ class UsersOnlineHistorico extends Model
         $nomes = (new User())->getNomes();
 
         $items = $this->newQuery()
-            ->whereMonth('created_at', $mes)
+            ->whereMonth('data', $mes)
+            ->select(DB::raw('COUNT(id) as qtd, user_id, DAY(data) as dia, MONTH(data) as mes'))
             ->groupBy(DB::raw('user_id, DAY(created_at)'))
-            ->select(DB::raw('COUNT(id) as qtd, user_id, DAY(created_at) as dia, MONTH(created_at) as mes'))
+            ->orderBy('data')
             ->get()
             ->transform(function ($item) use ($nomes) {
                 return [
@@ -67,10 +68,13 @@ class UsersOnlineHistorico extends Model
                 ];
             });
 
+
+        // print_pre($items);
         $res = [];
         foreach ($items as $item) {
             $res[$item['id']][] = $item;
         }
+        // print_pre($res);
         return [...$res];
     }
 }
