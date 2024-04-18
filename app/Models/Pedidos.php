@@ -492,7 +492,7 @@ class Pedidos extends Model
             ->select(DB::raw('
                 count(*) as qtd,
                 SUM(preco_venda) as vendas,
-                SUM(preco_custo) + SUM(repasse) as custos
+                SUM(preco_custo) as custos
                 '))
             ->first();
     }
