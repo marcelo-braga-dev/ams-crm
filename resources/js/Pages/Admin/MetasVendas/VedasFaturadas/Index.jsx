@@ -10,9 +10,9 @@ export default function ({ vendas, usuario, periodo }) {
     return (
         <Layout titlePage="Vendas Realizadas" menu="menu-meta-vendas" submenu="meta-vendas"
             voltar={route('admin.dashboard.vendas.index')}>
-            <div className="card card-body mb-4">
+            <div className="mb-4 card card-body">
                 <div className="row">
-                    <div className="col mb-2">
+                    <div className="mb-2 col">
                         <h6>{usuario.nome}</h6>
                     </div>
                 </div>
@@ -29,7 +29,7 @@ export default function ({ vendas, usuario, periodo }) {
                 </div>
             </div>
 
-            <div className="card card-body mb-4">
+            <div className="mb-4 card card-body">
                 <div className="table-responsive">
                     <table className="table table-hover">
                         <thead>
@@ -49,8 +49,8 @@ export default function ({ vendas, usuario, periodo }) {
                                         <td className="text-center col-1">#{item.id}</td>
                                         <td>{item.data}</td>
                                         <td>
-                                            <b>Integrador:</b> {item.lead}<br />
                                             <b>Cliente:</b> {item.cliente}<br />
+                                            <b>Integrador:</b> {item.lead}
                                         </td>
                                         <td>{item.status}</td>
                                         <td>R$ {convertFloatToMoney(item.valor)}</td>
