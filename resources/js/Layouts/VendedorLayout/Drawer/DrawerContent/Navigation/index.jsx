@@ -7,8 +7,9 @@ import menuItem from '@/Layouts/VendedorLayout/menu-items/index';
 import { useState } from 'react';
 
 const Navigation = ({ menu, permissoes }) => {
-    let per = false
+
     const navGroups = menuItem.items.map((item) => {
+        let per = false
         item.children.map(key => {
             if (permissoes?.[key.id]) per = true
         })
