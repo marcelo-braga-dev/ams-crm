@@ -24,6 +24,11 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.clientes.leads.leads-main.create'),
                 }, {
+                    id: 'leads-cards',
+                    title: 'Cards do Usuário',
+                    type: 'item',
+                    url: route('admin.leads.cards-leads.index'),
+                }, {
                     id: 'leads-historico',
                     title: 'Histórico',
                     type: 'item',
@@ -43,7 +48,7 @@ const dashboard = {
                     title: 'Relatórios',
                     type: 'item',
                     url: route('admin.leads.relatorios.index'),
-                },{
+                }, {
                     id: 'leads-importar',
                     title: 'Importar Planilhas',
                     type: 'item',

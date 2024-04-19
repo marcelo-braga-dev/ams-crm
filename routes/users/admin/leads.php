@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Leads\CardsController as LeadsCardsController;
 use App\Http\Controllers\Admin\Leads\Consultores\AtendimentoController;
 use App\Http\Controllers\Admin\Leads\Consultores\AtivoController;
 use App\Http\Controllers\Admin\Leads\Consultores\CardsController;
@@ -34,7 +35,6 @@ Route::name('admin.clientes.leads.')
 
         Route::get('leads-relatorio', [RelatoriosController::class, 'relatorio'])->name('leads-relatorio');
         Route::get('leads-dados-relatorio', [RelatoriosController::class, 'dados'])->name('leads-dados-relatorio');
-
     });
 
 Route::name('admin.leads.')
@@ -47,6 +47,8 @@ Route::name('admin.leads.')
         Route::resource('cards-atendimento', AtendimentoController::class);
         Route::resource('cards-ativo', AtivoController::class);
         Route::resource('cards-finalizado', FinalizadoController::class);
+        Route::resource('cards-leads', LeadsCardsController::class);
+        Route::post('cards-leads-limpar', [LeadsCardsController::class, 'limparFinalizados'])->name('cards-leads.limpar-finalizados');
 
         Route::post('limpar-consultor', [CardsController::class, 'limparConsultor'])
             ->name('limpar-consultor');

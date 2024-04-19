@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Services\Excel\RelatorioLeads;
 use App\src\Leads\Dados\DadosLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
+use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
@@ -86,14 +87,16 @@ class Leads extends Model
             $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
             if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
-//            if ($telefone) $verificacaoTel = $this->newQuery()->orWhere('telefone', $telefone)->exists();
+            //            if ($telefone) $verificacaoTel = $this->newQuery()->orWhere('telefone', $telefone)->exists();
 
             $idEndereco = (new Enderecos())->create($dados['endereco'] ?? null);
 
             $pessoa = ($dados['pessoa'] ?? null) ? !(($dados['pessoa'] ?? null) == 'Pessoa Física') : substr($cnpj, -6, 4) == '0001';
 
-            if (!$verificacaoCnpj && !$verificacaoTel &&
-                (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))) {
+            if (
+                !$verificacaoCnpj && !$verificacaoTel &&
+                (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))
+            ) {
                 $lead = $this->newQuery()
                     ->create([
                         'user_id' => $usuario,
@@ -135,10 +138,10 @@ class Leads extends Model
                     $dados = $this->newQuery()->where('cnpj', $cnpj)->first();
                     $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO CNPJ: ' . converterCNPJ($dados['cnpj']));
                 }
-//                if ($verificacaoTel) {
-//                    $dados = $this->newQuery()->where('telefone', $telefone)->first();
-//                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
-//                }
+                //                if ($verificacaoTel) {
+                //                    $dados = $this->newQuery()->where('telefone', $telefone)->first();
+                //                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
+                //                }
                 modalErro($msgErro);
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
@@ -269,8 +272,10 @@ class Leads extends Model
                 ->where('telefone', $telefone)
                 ->exists();
 
-            if (!$verificacaoCnpj && !$verificacaoTel &&
-                (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))) {
+            if (
+                !$verificacaoCnpj && !$verificacaoTel &&
+                (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))
+            ) {
                 $lead = $this->newQuery()->find($id);
                 $idEndereco = $lead->endereco ? (new Enderecos())->updateDados($lead->endereco, $dados->get('endereco')) : (new Enderecos())->create($dados->get('endereco'));
 
@@ -389,7 +394,7 @@ class Leads extends Model
             'contato' => [
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
-                'telefones' => [],//$telefones,
+                'telefones' => [], //$telefones,
                 'atendente' => $item->atendente,
             ],
             'infos' => [
@@ -427,7 +432,7 @@ class Leads extends Model
             'contato' => [
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
-                'telefones' => [],//$telefones,
+                'telefones' => [], //$telefones,
             ],
             'infos' => [
                 'setor' => $item->setor,
@@ -442,7 +447,7 @@ class Leads extends Model
     {
         if (!$item) return [];
 
-//        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
+        //        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
 
         return [
             'id' => $item->id,
@@ -465,7 +470,7 @@ class Leads extends Model
             'contato' => [
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
-//                'telefones' => $telefones,
+                //                'telefones' => $telefones,
                 'atendente' => $item->atendente,
             ],
             'infos' => [
@@ -575,14 +580,14 @@ class Leads extends Model
 
     public function relatorio($setor)
     {
-//        $telefones = (new LeadsDados())->telefones(true);
+        //        $telefones = (new LeadsDados())->telefones(true);
 
         $dados = $this->newQuery()
             ->where('leads.status', (new AtivoStatusLeads())->getStatus())
             ->where('leads.setor_id', $setor)
             ->leftJoin('users', 'leads.user_id', '=', 'users.id')
             ->leftJoin('pedidos', 'leads.id', '=', 'pedidos.lead_id')
-//            ->leftJoin('leads_dados', 'leads.id', '=', 'leads_dados.lead_id')
+            //            ->leftJoin('leads_dados', 'leads.id', '=', 'leads_dados.lead_id')
             ->select(DB::raw('
                 leads.id as lead_id, leads.nome, razao_social, cnpj, cpf, name as consultor,
                 telefone, pedidos.created_at as pedido_data,
@@ -607,5 +612,16 @@ class Leads extends Model
             });
 
         return (new RelatorioLeads())->gerar($dados);
+    }
+
+    public function limparFinalizados($id)
+    {
+        $this->newQuery()
+            ->where('user_id', $id)
+            ->where('status', (new FinalizadoStatusLeads)->getStatus())
+            ->update([
+                'user_id' => null,
+                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
     }
 }
