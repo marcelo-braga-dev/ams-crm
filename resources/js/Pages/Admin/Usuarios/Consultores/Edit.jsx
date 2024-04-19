@@ -1,14 +1,24 @@
-import {useForm} from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
-import {TextField} from "@mui/material";
+import { TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import {router} from '@inertiajs/react'
+import { router } from '@inertiajs/react'
 import Card from "@mui/material/Card";
-import {CardBody} from "reactstrap";
+import { CardBody } from "reactstrap";
 import Paper from "@mui/material/Paper";
 
-export default function Edit({usuario, franquias, setores, superiores, errors}) {
-    const {data, setData,} = useForm({
+import menuItems from '@/Layouts/VendedorLayout/menu-items';
+
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { useState } from 'react';
+
+export default function Edit({ usuario, franquias, setores, superiores, menus, errors }) {
+
+    const [menuSelecionado, setMenuSelecionado] = useState([])
+
+
+    const { data, setData, } = useForm({
         nome: usuario.nome,
         email: usuario.email,
         status: usuario.status,
@@ -21,7 +31,7 @@ export default function Edit({usuario, franquias, setores, superiores, errors}) 
     const submit = (e) => {
         e.preventDefault();
         router.post(route('admin.usuarios.consultores.update', usuario.id), {
-            _method: 'put', ...data
+            _method: 'put', ...data, menus: menuSelecionado
         })
     };
 
@@ -33,28 +43,36 @@ export default function Edit({usuario, franquias, setores, superiores, errors}) 
     };
 
     return (
-        <Layout container errors={errors} titlePage="Atualizar Dados"
-                voltar={route('admin.usuarios.consultores.show', usuario.id)}
-                menu="usuarios" submenu="contas">
-            <Card className="p-3 mb-4">
+        <Layout errors={errors} titlePage="Atualizar Dados"
+            voltar={route('admin.usuarios.consultores.show', usuario.id)}
+            menu="usuarios" submenu="contas">
 
-                <form onSubmit={submit}>
-                    <h6>Atualizar dados do usuário</h6>
-                    <div className="row mb-3 mt-4">
+            <form onSubmit={submit}>
+                <Card className='p-4 mb-4'>
+                    <div className='row justify-content-between'>
+                        <div className='col-auto'>
+                            <h6>Atualizar dados do usuário</h6>
+                        </div>
+                        <div className='col-auto'>
+                            <button className="btn btn-primary" type="submit">Salvar</button>
+                        </div>
+                    </div>
+
+                    <div className="mt-4 mb-3 row">
                         <div className="col">
                             <TextField label="Nome" id="nome" value={data.nome} required
-                                       onChange={e => setData('nome', e.target.value)} fullWidth/>
+                                onChange={e => setData('nome', e.target.value)} fullWidth />
                         </div>
                         <div className="col">
                             <TextField label="Email" id="email" value={data.email} type={'email'} required
-                                       onChange={e => setData('email', e.target.value)} fullWidth/>
+                                onChange={e => setData('email', e.target.value)} fullWidth />
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-3 mb-3">
+                        <div className="mb-3 col-md-3">
                             <TextField label="Franquia" select required fullWidth
-                                       defaultValue={data.franquia}
-                                       onChange={e => setData('franquia', e.target.value)}>
+                                defaultValue={data.franquia}
+                                onChange={e => setData('franquia', e.target.value)}>
                                 {franquias.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
@@ -73,11 +91,11 @@ export default function Edit({usuario, franquias, setores, superiores, errors}) 
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-3 mb-3">
+                        <div className="mb-3 col-md-3">
                             {/*Setores*/}
                             <TextField label="Setor" select required fullWidth
-                                       defaultValue={data.setor}
-                                       onChange={e => setData('setor', e.target.value)}>
+                                defaultValue={data.setor}
+                                onChange={e => setData('setor', e.target.value)}>
                                 {setores.map((setor, index) => {
                                     return (
                                         <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
@@ -85,20 +103,20 @@ export default function Edit({usuario, franquias, setores, superiores, errors}) 
                                 })}
                             </TextField>
                         </div>
-                        <div className="col-md-3 mb-3">
+                        <div className="mb-3 col-md-3">
                             <TextField label="Função" select required fullWidth
-                                       defaultValue={data.funcao}
-                                       onChange={e => setData('funcao', e.target.value)}>
+                                defaultValue={data.funcao}
+                                onChange={e => setData('funcao', e.target.value)}>
                                 <MenuItem value="consultor">Consultor</MenuItem>
                                 <MenuItem value="supervisor">Supervisor</MenuItem>
                                 <MenuItem value="admin">Admin</MenuItem>
                             </TextField>
                         </div>
                         {data.funcao === 'consultor' &&
-                            <div className="col-md-3 mb-3">
+                            <div className="mb-3 col-md-3">
                                 <TextField label="Supervisor" select required fullWidth
-                                           defaultValue={data.superior}
-                                           onChange={e => setData('superior', e.target.value)}>
+                                    defaultValue={data.superior}
+                                    onChange={e => setData('superior', e.target.value)}>
                                     {superiores.map((item, index) => {
                                         return (item.id !== usuario.id &&
                                             <MenuItem key={index} value={item.id}>{item.name}</MenuItem>
@@ -107,33 +125,79 @@ export default function Edit({usuario, franquias, setores, superiores, errors}) 
                                 </TextField>
                             </div>
                         }
-                        <div className="col-md-3 mb-3">
+                        <div className="mb-3 col-md-3">
                             <TextField type="file" label="Foto"
-                                       inputProps={{accept: 'image/*'}} InputLabelProps={{shrink: true}}
-                                       onChange={e => setData('foto', e.target.files[0])}/>
+                                inputProps={{ accept: 'image/*' }} InputLabelProps={{ shrink: true }}
+                                onChange={e => setData('foto', e.target.files[0])} />
                         </div>
                     </div>
-                    <div className="row mb-3 text-right">
-                        <div className={'text-center mt-4'}>
-                            <button className="btn btn-primary" type="submit">Salvar</button>
-                        </div>
+                </Card>
+
+
+                <Card className='p-4 mb-4'>
+                    <h6>Permissões de Acesso</h6>
+                    <div className='row row-cols-5'>
+                        {menuItems.items.map(menu => {
+                            return <div className='col'>
+                                <Card className='p-3 mb-2'>
+                                    <span className='ps-0'>{menu.title}<br /></span>
+                                    {menu.children.map(submenu => {
+                                        // <span className='ps-5'>{submenu.id}{console.log(item)}<br /></span>
+                                        return <FormControlLabel
+                                            label={submenu.title} className='ps-3 d-block'
+                                            control={<Checkbox
+                                                value={submenu.id}
+                                                defaultChecked={menus?.[submenu.id] == 1}
+                                                onChange={e => setMenuSelecionado({ ...menuSelecionado, [e.target.value]: e.target.checked })}
+                                            />
+                                            }
+                                        />
+                                    })}
+                                </Card>
+                            </div>
+                        })}
+
+
+                        {/* {menuItems.items.map(menu => {
+                            return menu.children.map(item => {
+                                return <div className='col'>
+                                    <Card className='p-3 mb-2'>
+                                        <span className='ps-0'>{item.title}<br /></span>
+                                        {item.submenu.map(submenu => {
+                                            // <span className='ps-5'>{submenu.id}{console.log(item)}<br /></span>
+                                            return <FormControlLabel
+                                                label={submenu.title} className='ps-3 d-block'
+                                                control={<Checkbox
+                                                    value={submenu.id}
+                                                    defaultChecked={menus?.[submenu.id] == 1}
+                                                    onChange={e => setMenuSelecionado({ ...menuSelecionado, [e.target.value]: e.target.checked })}
+                                                />
+                                                }
+                                            />
+                                        })}
+                                    </Card>
+                                </div>
+                            })
+                        })} */}
+
                     </div>
-                </form>
-            </Card>
+                </Card>
+            </form>
+
             <Card className="p-3 mb-4">
                 <form onSubmit={submitSenha}>
                     <h6>Alterar Senha</h6>
                     <div className="row">
                         <div className="col">
                             <TextField label="Nova Senha" type="password" fullWidth required
-                                       onChange={e => setData('nova_senha', e.target.value)}/>
+                                onChange={e => setData('nova_senha', e.target.value)} />
                         </div>
                         <div className="col">
                             <TextField label="Confirmar Nova Senha" type="password" fullWidth required
-                                       onChange={e => setData('confirmar_senha', e.target.value)}/>
+                                onChange={e => setData('confirmar_senha', e.target.value)} />
                         </div>
                         <div className="col">
-                            <button className="btn btn-primary mt-2" type="submit">Atualizar</button>
+                            <button className="mt-2 btn btn-primary" type="submit">Atualizar Senha</button>
                         </div>
                     </div>
                 </form>

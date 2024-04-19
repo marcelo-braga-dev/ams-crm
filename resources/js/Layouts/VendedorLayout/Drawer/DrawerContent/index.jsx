@@ -1,7 +1,7 @@
 import Navigation from './Navigation';
 import SimpleBar from '@/Components/Template/SimpleBar.jsx';
 
-const DrawerContent = ({menu}) => (
+const DrawerContent = ({ menu, permissoes }) => (
   <SimpleBar
     sx={{
       '& .simplebar-content': {
@@ -10,7 +10,7 @@ const DrawerContent = ({menu}) => (
       }
     }}
   >
-    <Navigation menu={menu} />
+    <Navigation menu={menu} permissoes={permissoes} />
   </SimpleBar>
 );
 

@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {useTheme} from '@mui/material/styles';
-import {Box, Container, useMediaQuery} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useTheme } from '@mui/material/styles';
+import { Box, Container, useMediaQuery } from '@mui/material';
 
-import {Head} from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import Card from "@mui/material/Card";
 
 import Drawer from './Drawer';
@@ -11,7 +11,9 @@ import ModalsAlerts from "@/Components/Modals/AlertsModals";
 
 import BoxStyled from "./Content/Box";
 
-const Layout = ({titlePage, menu, children, voltar, empty}) => {
+const Layout = ({ titlePage, menu, children, voltar, empty }) => {
+    const permissoes = usePage().props.permissoes
+
     const theme = useTheme();
     const matchDownLG = useMediaQuery(theme.breakpoints.down('lg'));
     const stateMenu = sessionStorage.getItem('menuOpen');
@@ -24,11 +26,11 @@ const Layout = ({titlePage, menu, children, voltar, empty}) => {
     };
 
     return (
-        <Box sx={{display: 'flex', width: '100%'}}>
-            <Head title={titlePage}/>
-            <ModalsAlerts/>
-            <Header open={!open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle}/>
-            <Drawer open={!open} menu={menu} handleDrawerToggle={handleDrawerToggle}/>
+        <Box sx={{ display: 'flex', width: '100%' }}>
+            <Head title={titlePage} />
+            <ModalsAlerts />
+            <Header open={!open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle} />
+            <Drawer open={!open} menu={menu} handleDrawerToggle={handleDrawerToggle} permissoes={permissoes} />
             <BoxStyled open={!open}>
                 <Container maxWidth={false}>
                     {empty ? children :

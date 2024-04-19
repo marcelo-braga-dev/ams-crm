@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Franquias;
 use App\Models\Setores;
+use App\Models\UsersPermissoes;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -38,13 +39,18 @@ class HandleInertiaRequests extends Middleware
     {
         $setorNome = '';
         $setorCor = '';
-        if ($request->user()) {
-            $setorUsuario = (new Setores())->find($request->user()['setor_id']);
+        $permissoes = [];
+        $auth = $request->user();
+
+        if ($auth) {
+            $setorUsuario = (new Setores())->find($auth['setor_id']);
             $setorNome = $setorUsuario->nome ?? '';
             $setorCor = $setorUsuario->cor ?? '';
+
+            $permissoes = (new UsersPermissoes())->get($auth['id']);
         }
 
-        $auth = $request->user();
+
 
         return array_merge(parent::share($request), [
             'auth' => [
@@ -66,7 +72,8 @@ class HandleInertiaRequests extends Middleware
             'franquias' => (new Franquias())->get(),
             'franquia_selecionada' => session('franquiaSelecionada') ?? '',
             'foto_usuario' => $auth?->foto ? asset('storage/' . $auth->foto) : null,
-            '_setor' => session('sessaoSetor') ?? null
+            '_setor' => session('sessaoSetor') ?? null,
+            'permissoes' => $permissoes
         ]);
     }
 }

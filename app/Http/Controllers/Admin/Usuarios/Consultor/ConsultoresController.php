@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Franquias;
 use App\Models\Setores;
 use App\Models\User;
+use App\Models\UsersPermissoes;
 use App\src\Usuarios\Funcoes\Vendedores;
 use App\src\Usuarios\Usuarios;
 use Illuminate\Http\Request;
@@ -27,8 +28,10 @@ class ConsultoresController extends Controller
         $superiores = (new User())->getSupervisores();
         $franquias = (new Franquias())->get();
 
-        return Inertia::render('Admin/Usuarios/Consultores/Create',
-            compact('setores', 'superiores', 'franquias'));
+        return Inertia::render(
+            'Admin/Usuarios/Consultores/Create',
+            compact('setores', 'superiores', 'franquias')
+        );
     }
 
     public function store(Request $request)
@@ -52,9 +55,12 @@ class ConsultoresController extends Controller
         $setores = (new Setores())->setores();
         $superiores = (new User())->getSupervisores();
         $franquias = (new Franquias())->get();
+        $menus = (new UsersPermissoes())->get($id);
 
-        return Inertia::render('Admin/Usuarios/Consultores/Edit',
-            compact('usuario', 'franquias', 'setores', 'superiores'));
+        return Inertia::render(
+            'Admin/Usuarios/Consultores/Edit',
+            compact('usuario', 'franquias', 'setores', 'superiores', 'menus')
+        );
     }
 
     public function update($id, Request $request)
@@ -62,6 +68,9 @@ class ConsultoresController extends Controller
         try {
             (new User())->updateDados($id, $request);
             (new User())->setFoto($id, $request);
+            foreach ($request->menus as $chave => $valor) {
+                (new UsersPermissoes())->create($id, $chave, $valor);
+            }
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->route('admin.usuarios.consultores.show', $id);

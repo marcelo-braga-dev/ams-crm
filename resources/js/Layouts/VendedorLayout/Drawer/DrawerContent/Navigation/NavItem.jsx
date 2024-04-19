@@ -1,19 +1,19 @@
-import {forwardRef, useEffect, useState} from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 
-import {useTheme} from '@mui/material/styles';
-import {Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 
-const NavItem = ({item, level, menuSelected}) => {
+const NavItem = ({ item, level, menuSelected }) => {
     const theme = useTheme();
-    const {drawerOpen, openItem} = useState(false);
+    const { drawerOpen, openItem } = useState(false);
     const isSelected = menuSelected;
 
     let listItemProps = {
-        component: forwardRef((props, ref) => <a ref={ref} {...props} href={item.url}/>)
+        component: forwardRef((props, ref) => <a ref={ref} {...props} href={item.url} />)
     };
 
     const Icon = item.icon;
-    const itemIcon = item.icon ? <Icon style={{fontSize: '1rem'}}/> : false;
+    const itemIcon = item.icon ? <Icon style={{ fontSize: '1rem' }} /> : false;
 
     const textColor = 'var(--menu-main-color)'
     const iconSelectedColor = 'var(--menu-secundary-color)';
@@ -91,7 +91,7 @@ const NavItem = ({item, level, menuSelected}) => {
 
             <ListItemText
                 primary={
-                    <Typography variant="h6" sx={{color: isSelected ? iconSelectedColor : textColor}}>
+                    <Typography variant="h6" sx={{ color: isSelected ? iconSelectedColor : textColor }}>
                         {item.title}
                     </Typography>
                 }
