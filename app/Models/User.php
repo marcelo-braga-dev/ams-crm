@@ -149,7 +149,7 @@ class User extends Authenticatable
 
         if ($exceto) return
             $query->get(['id', 'name', 'setor_id', 'email', 'tipo', 'status', 'foto', 'ultimo_login'])
-                ->except(['id' => $exceto]);
+            ->except(['id' => $exceto]);
 
         return $query->get(['id', 'name', 'setor_id', 'email', 'tipo', 'status', 'foto', 'ultimo_login']);
     }
@@ -161,7 +161,7 @@ class User extends Authenticatable
 
         if (!is_admin()) {
             $query->where('franquia_id', franquia_usuario_atual());
-//            $query->where('setor_id', setor_usuario_atual());
+            //            $query->where('setor_id', setor_usuario_atual());
         }
 
         return $query->get(['id', 'name', 'foto'])
@@ -293,19 +293,6 @@ class User extends Authenticatable
             (new Leads())->newQuery()
                 ->where('user_id', $antigo)
                 ->update(['user_id' => $novo]);
-
-            (new LeadsHistoricos())->newQuery()
-                ->where('user_id', $antigo)
-                ->update(['user_id' => $novo]);
-
-            (new PedidosHistoricos())->newQuery()
-                ->where('user_id', $antigo)
-                ->update(['user_id' => $novo]);
-
-            (new PedidosChamadosHistoricos())->newQuery()
-                ->where('user_id', $antigo)
-                ->update(['user_id' => $novo]);
-
         } catch (QueryException) {
             DB::rollBack();
             throw new \DomainException('Falha na migração!');

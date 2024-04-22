@@ -21,8 +21,10 @@ class RelatoriosController extends Controller
 
         $setores = (new Setores())->get();
 
-        return Inertia::render('Admin/Leads/Relatorios/Index',
-            compact('setores', 'setor'));
+        return Inertia::render(
+            'Admin/Leads/Relatorios/Index',
+            compact('setores', 'setor')
+        );
     }
 
     public function show($id)
@@ -33,9 +35,17 @@ class RelatoriosController extends Controller
         $historicoLeads = (new Notificacoes())->getHistorico($id);
         $usuario = (new User())->get($id);
 
-        return Inertia::render('Admin/Leads/Relatorios/Show',
-            compact('id', 'qtdLeadsStatus', 'qtdAtendimentoTipo',
-                'meioContato', 'historicoLeads', 'usuario'));
+        return Inertia::render(
+            'Admin/Leads/Relatorios/Show',
+            compact(
+                'id',
+                'qtdLeadsStatus',
+                'qtdAtendimentoTipo',
+                'meioContato',
+                'historicoLeads',
+                'usuario'
+            )
+        );
     }
 
     public function relatorio(Request $request)
@@ -49,7 +59,7 @@ class RelatoriosController extends Controller
     public function dados(Request $request)
     {
         $statusLeads = (new LeadsUsuariosService())->get($request->setor);
-        $historicoLeads = (new Notificacoes())->getHistorico(null, $request->setor);
+        $historicoLeads = (new Notificacoes())->getHistorico(null, $request->setor, 100);
 
         return response()->json(['status_leads' => $statusLeads, 'historico_leads' => $historicoLeads]);
     }

@@ -104,7 +104,7 @@ export default function ({ fornecedores, franquias, empresas }) {
                             }}
                             showSelectionPreview={true}
                             moveRangeOnFirstSelection={false}
-                            months={1}
+                            months={2}
                             ranges={state}
                             direction="horizontal"
                             showDateDisplay={false}
@@ -112,7 +112,7 @@ export default function ({ fornecedores, franquias, empresas }) {
                             dateDisplayFormat="d/MM/yyyy"
                         />
                     </div>
-                    <div className="mt-3 col-md-5 align-items-center">
+                    <div className="mt-3 col-md-4 align-items-center">
                         <div className="row row-cols-2">
                             <div className="col">
                                 <TextField className="mb-3" label="Tipo" select fullWidth
@@ -167,18 +167,49 @@ export default function ({ fornecedores, franquias, empresas }) {
                             </div>
                         </div>
                     </div>
-                    <div className="col">
-                        <div className="m-2 card card-body">
+                </div>
+            </div>
 
-                            <Stack direction="column" spacing={1} className="d-inline">
-                                <ArrowUpwardOutlinedIcon color="success" /> ENTRADA:
-                                R$ {convertFloatToMoney(totalEntrada)}<br />
-                                <ArrowDownwardOutlinedIcon color="error" /> TOTAL SAÍDA:
-                                R$ {convertFloatToMoney(totalSaida)}<br />
-                            </Stack>
+            <div className="mb-4 card card-body">
+                <div className="mb-2 row justify-content-ce nter">
+                    <div className="col-auto">
+                        <Stack direction="column" spacing={1} className="d-inline">
+                            <ArrowUpwardOutlinedIcon color="success" /> ENTRADAS:
+                            R$ {convertFloatToMoney(totalEntrada)}<br />
+                        </Stack>
+                    </div>
+                    <div className="col-auto">
+                        <Stack direction="column" spacing={1} className="d-inline">
+                            <ArrowDownwardOutlinedIcon color="error" /> TOTAL SAÍDAS:
+                            R$ {convertFloatToMoney(totalSaida)}<br />
+                        </Stack>
+                    </div>
+                </div>
 
-                        </div>
-
+                <div className="row justify-content-end">
+                    <div className="col-auto text-end">
+                        <Stack className="" direction="row" spacing={2}>
+                            <small>
+                                {'Período: ' + (filtroData?.[0] ? (
+                                    (new Date(filtroData?.[0]?.startDate)).toLocaleDateString() + (
+                                        (filtroData?.[0]?.endDate !== filtroData?.[0]?.startDate) ?
+                                            (' até ' + (new Date(filtroData?.[0]?.endDate)).toLocaleDateString()) : ''
+                                    )) : new Date().toLocaleDateString()
+                                )}
+                            </small>
+                            <small>|</small>
+                            <small>{'Tipo: ' + (filtroTipo ?? 'Todos')}</small>
+                            <small>|</small>
+                            <small>{'Status: ' + (filtroStatus ?? 'Todos')}</small>
+                            <small>|</small>
+                            <small>{'Fornec.: ' + (filtroFornecedor ? (fornecedores.filter(function (item) {
+                                return (item.id === filtroFornecedor);
+                            }))?.[0]?.valor : 'Todos')}</small>
+                            <small>|</small>
+                            <small>{'Franquia: ' + (filtroFranquia ? (franquias.filter(function (item) {
+                                return (item.id === filtroFranquia);
+                            }))?.[0]?.nome : 'Todos')}</small>
+                        </Stack>
                     </div>
                 </div>
             </div>
@@ -191,26 +222,7 @@ export default function ({ fornecedores, franquias, empresas }) {
                 </div>
             </div>
 
-            <Stack className="mb-3" direction="row" spacing={1}>
-                <Chip variant="outlined"
-                    label={'Período: ' + (filtroData?.[0] ? (
-                        (new Date(filtroData?.[0]?.startDate)).toLocaleDateString() + (
-                            (filtroData?.[0]?.endDate !== filtroData?.[0]?.startDate) ?
-                                (' até ' + (new Date(filtroData?.[0]?.endDate)).toLocaleDateString()) : ''
-                        )) : new Date().toLocaleDateString()
-                    )}
-                />
-                <Chip label={'Tipo: ' + (filtroTipo ?? 'Todos')} variant="outlined" />
-                <Chip label={'Status: ' + (filtroStatus ?? 'Todos')} variant="outlined" />
-                <Chip variant="outlined"
-                    label={'Fornec.: ' + (filtroFornecedor ? (fornecedores.filter(function (item) {
-                        return (item.id === filtroFornecedor);
-                    }))?.[0]?.valor : 'Todos')} />
-                <Chip variant="outlined"
-                    label={'Franquia: ' + (filtroFranquia ? (franquias.filter(function (item) {
-                        return (item.id === filtroFranquia);
-                    }))?.[0]?.nome : 'Todos')} />
-            </Stack>
+
 
             {dias.map((dia, index) => {
                 fluxo = 1

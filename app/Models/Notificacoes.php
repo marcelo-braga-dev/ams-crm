@@ -53,12 +53,13 @@ class Notificacoes extends Model
             });
     }
 
-    public function getHistorico($id = null, $setor = 1)
+    public function getHistorico($id = null, $setor = 1, $limit = null)
     {
         $nomes = (new User())->getNomes();
 
         $query = $this->newQuery()
             ->where('categoria', 'leads')
+            ->limit(500)
             ->orderByDesc('id');
 
         if ($id == null) {
