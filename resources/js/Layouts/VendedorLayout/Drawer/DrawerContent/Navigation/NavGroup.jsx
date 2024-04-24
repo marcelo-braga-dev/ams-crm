@@ -9,7 +9,6 @@ const NavGroup = ({ item, menu, permissoes }) => {
     const navCollapse = item.children?.map((menuItem) => {
         const menuSelected = menuItem.id === menu
 
-
         switch (menuItem.type) {
             case 'collapse':
                 return (
@@ -18,7 +17,8 @@ const NavGroup = ({ item, menu, permissoes }) => {
                     </Typography>
                 );
             case 'item':
-                return permissoes?.[menuItem.id] ? <NavItem key={menuItem.id} item={menuItem} level={1} menuSelected={menuSelected} /> : '';
+                // return permissoes?.[menuItem.id] ? <NavItem key={menuItem.id} item={menuItem} level={1} menuSelected={menuSelected} /> : '';
+                return <NavItem key={menuItem.id} item={menuItem} level={1} menuSelected={menuSelected} />;
             default:
                 return (
                     <Typography key={menuItem.id} variant="h6" color="error" align="center">

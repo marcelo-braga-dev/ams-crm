@@ -9,10 +9,10 @@ import { useState } from 'react';
 const Navigation = ({ menu, permissoes }) => {
 
     const navGroups = menuItem.items.map((item) => {
-        let per = false
-        item.children.map(key => {
-            if (permissoes?.[key.id]) per = true
-        })
+        let per = true
+        // item.children.map(key => {
+        //     if (permissoes?.[key.id]) per = true
+        // })
 
         if (per) switch (item.type) {
             case 'group':
