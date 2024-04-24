@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {useTheme} from '@mui/material/styles';
-import {Box, Container, useMediaQuery} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useTheme } from '@mui/material/styles';
+import { Box, Container, useMediaQuery } from '@mui/material';
 
-import {Head} from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import Card from "@mui/material/Card";
 
 import Drawer from './Drawer';
@@ -11,7 +11,7 @@ import ModalsAlerts from "@/Components/Modals/AlertsModals";
 
 import BoxStyled from "./Content/Box";
 
-const Layout = ({titlePage, menu, submenu, children, voltar, empty}) => {
+const Layout = ({ titlePage, menu, submenu, children, voltar, empty }) => {
     const theme = useTheme();
     const matchDownLG = useMediaQuery(theme.breakpoints.down('lg'));
     const stateMenu = sessionStorage.getItem('menuOpen');
@@ -24,15 +24,15 @@ const Layout = ({titlePage, menu, submenu, children, voltar, empty}) => {
     };
 
     return (
-        <Box sx={{display: 'flex', width: '100%'}}>
-            <Head title={titlePage}/>
-            <ModalsAlerts/>
-            <Header open={!open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle}/>
-            <Drawer open={!open} menu={menu} submenu={submenu} handleDrawerToggle={handleDrawerToggle}/>
+        <Box sx={{ display: 'flex', width: '100%' }}>
+            <Head title={titlePage} />
+            <ModalsAlerts />
+            <Header open={!open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle} />
+            <Drawer open={!open} menu={menu} submenu={submenu} handleDrawerToggle={handleDrawerToggle} />
             <BoxStyled open={!open}>
                 <Container maxWidth={false}>
                     {empty ? children :
-                        <Card className="p-3 mb-4">
+                        <Card className="p-3 mb-4" sx={{ minHeight: '85vh' }}>
                             {children}
                         </Card>
                     }

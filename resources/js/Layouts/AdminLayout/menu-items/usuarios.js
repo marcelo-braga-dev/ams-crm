@@ -22,6 +22,11 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.usuarios.usuario.index'),
                 }, {
+                    id: 'usuarios-funcoes',
+                    title: 'Funções',
+                    type: 'item',
+                    url: route('admin.usuarios.funcoes.index'),
+                }, {
                     id: 'usuarios-online',
                     title: 'Histórico Online',
                     type: 'item',

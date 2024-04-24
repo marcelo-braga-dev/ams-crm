@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('franquia_id');
             $table->unsignedBigInteger('setor_id');
             $table->unsignedBigInteger('superior_id')->nullable();
+            $table->boolean('is_admin')->default(false);
             $table->string('tipo', 32);
             $table->string('foto')->nullable();
             $table->timestamp('ultimo_login')->nullable();

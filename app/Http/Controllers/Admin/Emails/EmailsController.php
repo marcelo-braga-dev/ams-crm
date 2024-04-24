@@ -27,8 +27,10 @@ class EmailsController extends Controller
             modalErro($exception->getMessage());
         }
 
-        return Inertia::render('Admin/Mails/Index',
-            compact('emails', 'folders', 'folderAtual'));
+        return Inertia::render(
+            'Admin/Mails/Index',
+            compact('emails', 'folders', 'folderAtual')
+        );
     }
 
     public function show($id, Request $request)
@@ -47,8 +49,10 @@ class EmailsController extends Controller
 
         $emailUsuario = (new Email())->emailUsuario(id_usuario_atual());
 
-        return Inertia::render('Admin/Mails/Create',
-            compact('email', 'emailUsuario'));
+        return Inertia::render(
+            'Admin/Mails/Create',
+            compact('email', 'emailUsuario')
+        );
     }
 
     public function store(Request $request)
@@ -56,6 +60,13 @@ class EmailsController extends Controller
         (new SendEmailsService())->enviar($request->destinatario, $request->titulo, $request->mensagem);
 
         return redirect()->back();
+    }
+
+    public function getEmail(Request $request)
+    {
+        $email = (new EmailsService())->getMensagem($request->id, $request->folder);
+
+        return response()->json($email);
     }
 
     public function config()

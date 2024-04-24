@@ -31,6 +31,7 @@ class User extends Authenticatable
         'franquia_id',
         'setor_id',
         'superior_id',
+        'is_admin',
         'tipo',
         'categoria',
         'status',
@@ -57,6 +58,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function allUsers($ativo = true)
+    {
+        return $this->newQuery()
+            ->join('setores', 'users.setor_id', '=', 'setores.id')
+            ->where('status', (new AtivoStatusUsuario())->getStatus())
+            ->get(['users.id', 'name', 'status', 'tipo', 'foto', 'nome'])
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'setor_nome' => $item->nome,
+                    'status' => $item->status,
+                    'funcao' => $item->tipo,
+                    'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
+                ];
+            });
+    }
 
     public function getNomes($ativos = false)
     {

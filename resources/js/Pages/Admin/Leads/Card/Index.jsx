@@ -14,7 +14,7 @@ export default function ({ usuarios, setores, setor }) {
     function alterarSetor(e) {
         router.get(route('admin.leads.cards-leads.index', { setor: e }))
     }
-
+    console.log(usuarios);
     return (
         <Layout titlePage="Cards do Usuário" menu="leads" submenu="leads-cards">
             <div className="row">

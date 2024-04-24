@@ -69,6 +69,7 @@ class FluxoCaixasConfig extends Model
 
     public function create($dados)
     {
+        // print_pre($dados->all());
         if ($dados->cnpj) {
             $exist = $this->newQuery()->where('cnpj', $dados->cnpj)->exists();
             if ($exist) throw new \DomainException('CNPJ já cadastrado');
@@ -99,10 +100,22 @@ class FluxoCaixasConfig extends Model
 
     public function atualizar($id, $dados)
     {
-        if ($dados->valor) $this->newQuery()
+        if ($dados->nome) $this->newQuery()
             ->updateOrCreate(
                 ['id' => $id],
-                ['nome' => $dados->valor]
+                ['nome' => $dados->nome]
+            );
+
+        if ($dados->agencia) $this->newQuery()
+            ->updateOrCreate(
+                ['id' => $id],
+                ['agencia' => $dados->agencia]
+            );
+
+        if ($dados->conta) $this->newQuery()
+            ->updateOrCreate(
+                ['id' => $id],
+                ['conta' => $dados->conta]
             );
 
         if ($dados->cnpj) {

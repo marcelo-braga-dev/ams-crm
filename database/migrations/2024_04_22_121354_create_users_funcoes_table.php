@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users_permissoes', function (Blueprint $table) {
+        Schema::create('users_funcoes', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
             $table->boolean('is_admin')->default(false);
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users_permissoes');
+        Schema::dropIfExists('users_funcoes');
     }
 };

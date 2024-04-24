@@ -1,22 +1,14 @@
+import { useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
-import { TextField } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
+import { TextField, MenuItem, Card, Checkbox, FormControlLabel } from "@mui/material";
 import { router } from '@inertiajs/react'
-import Card from "@mui/material/Card";
-import { CardBody } from "reactstrap";
-import Paper from "@mui/material/Paper";
 
 import menuItems from '@/Layouts/VendedorLayout/menu-items';
-
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { useState } from 'react';
 
 export default function Edit({ usuario, franquias, setores, superiores, menus, errors }) {
 
     const [menuSelecionado, setMenuSelecionado] = useState([])
-
 
     const { data, setData, } = useForm({
         nome: usuario.nome,

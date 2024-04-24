@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Franquias;
 use App\Models\Setores;
 use App\Models\User;
+use App\Models\UsersHierarquias;
 use App\src\Usuarios\Funcoes\Supervisores;
 use App\src\Usuarios\Usuarios;
 use Illuminate\Http\Request;
@@ -18,8 +19,10 @@ class SupervisoresController extends Controller
         $setores = (new Setores())->setores();
         $franquias = (new Franquias())->get();
 
-        return Inertia::render('Admin/Usuarios/Supervisores/Create',
-            compact('setores', 'franquias'));
+        return Inertia::render(
+            'Admin/Usuarios/Supervisores/Create',
+            compact('setores', 'franquias')
+        );
     }
 
     public function show($id)
@@ -41,14 +44,21 @@ class SupervisoresController extends Controller
     {
         $usuario = (new User())->get($id);
         $setores = (new Setores())->setores();
+        $usuarios = (new User())->allUsers();
+        // print_pre($usuarios);
+        $supervionados = (new UsersHierarquias())->getSuperior();
 
-        return Inertia::render('Admin/Usuarios/Supervisores/Edit',
-            compact('usuario', 'setores'));
+        return Inertia::render(
+            'Admin/Usuarios/Supervisores/Edit',
+            compact('usuario', 'setores', 'usuarios', 'supervionados')
+        );
     }
 
     public function update($id, Request $request)
     {
+        // print_pre($request->all());
         try {
+            (new UsersHierarquias())->atualizar($id, $request->supervisionados);
             (new User())->updateDados($id, $request);
             (new User())->setFoto($id, $request);
         } catch (\DomainException $exception) {
