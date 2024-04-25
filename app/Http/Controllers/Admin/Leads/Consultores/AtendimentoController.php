@@ -27,22 +27,11 @@ class AtendimentoController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getUsuarios($dados['infos']['setor']);
 
-        return Inertia::render('Admin/Leads/Relatorios/Cards/Atendimento/Show',
-            compact('dados', 'status', 'historicos', 'contatos', 'consultores'));
+        return Inertia::render(
+            'Admin/Leads/Relatorios/Cards/Atendimento/Show',
+            compact('dados', 'status', 'historicos', 'contatos', 'consultores')
+        );
     }
-
-//    public function update($id, Request $request)
-//    {
-//        if ($request->salvar_msg) {
-//            (new LeadsHistoricos())->create($id, $request, $request->status);
-//        } else {
-//            (new UpdateStatusLeads())->atendimento($id); // Finaliza Atendimento
-//            (new LeadsHistoricos())->create($id, $request, 'finalizado');
-//        }
-//
-//        modalSucesso('Status atualizado!');
-//        return redirect()->route('consultor.leads.main.index');
-//    }
 
     public function voltarStatus($id)
     {
@@ -55,7 +44,7 @@ class AtendimentoController extends Controller
 
     public function avancarStatus($id)
     {
-        (new UpdateStatusLeads())->setFinalizado($id);
+        (new UpdateStatusLeads())->setAtivo($id);
         (new LeadsHistoricos())->createHistorico($id, (new AtivoStatusLeads())->getStatus());
 
         modalSucesso('Status atualizado com sucesso!');

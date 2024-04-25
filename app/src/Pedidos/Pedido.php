@@ -20,16 +20,16 @@ class Pedido
 {
     public function salvar($request)
     {
+
         $idPedido = null;
         switch (modelo_usuario()) {
-            case (new CompletoModelo())->modelo():
-                {
+            case (new CompletoModelo())->modelo(): {
                     DB::beginTransaction();
                     try {
                         $idPedido = (new Pedidos())->create($request);
                         (new PedidosClientes())->create($idPedido, $request);
                         (new PedidosImagens())->create($idPedido, $request);
-                    } catch (\DomainException|QueryException $exception) {
+                    } catch (\DomainException | QueryException $exception) {
                         DB::rollBack();
                         modalErro($exception->getMessage());
                         throw new \DomainException($exception->getMessage());
@@ -37,8 +37,7 @@ class Pedido
                     DB::commit();
                 };
                 break;
-            case (new ProdutoModelo())->modelo():
-                {
+            case (new ProdutoModelo())->modelo(): {
                     DB::beginTransaction();
                     try {
                         (new Leads())->atualizar($request->id_lead, $request);
@@ -55,7 +54,7 @@ class Pedido
 
                         (new PedidosProdutos())->create($idPedido, $request);
                         (new ProdutosTransito())->subtrairVendaPedido($request);
-                    } catch (\DomainException|QueryException $exception) {
+                    } catch (\DomainException | QueryException $exception) {
                         DB::rollBack();
                         throw new \DomainException($exception->getMessage());
                     }
@@ -63,6 +62,7 @@ class Pedido
                 };
                 break;
         }
+
         return $idPedido;
     }
 

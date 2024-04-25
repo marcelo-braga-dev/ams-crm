@@ -22,8 +22,10 @@ class EmitirPedidosController extends Controller
         $consultores = (new LeadsUsuariosService())->get();
         $idUsuarioAtual = id_usuario_atual();
 
-        return Inertia::render('Admin/Pedidos/Emitir/Index',
-            compact('consultores', 'idUsuarioAtual'));
+        return Inertia::render(
+            'Admin/Pedidos/Emitir/Index',
+            compact('consultores', 'idUsuarioAtual')
+        );
     }
 
     public function create(Request $request)
@@ -39,16 +41,19 @@ class EmitirPedidosController extends Controller
 
         switch ((new Setores())->getModelo($setor)) {
             case 1:
-                return Inertia::render('Admin/Pedidos/Emitir/Modelo1/Create',
-                    compact('fornecedores', 'lead'));
+                return Inertia::render(
+                    'Admin/Pedidos/Emitir/Modelo1/Create',
+                    compact('fornecedores', 'lead')
+                );
             case 2:
-                return Inertia::render('Admin/Pedidos/Emitir/Modelo2/Create',
-                    compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades'));
-            default:
-            {
-                modalErro('Falha no formulário de cadastro.');
-                return redirect()->back();
-            }
+                return Inertia::render(
+                    'Admin/Pedidos/Emitir/Modelo2/Create',
+                    compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades')
+                );
+            default: {
+                    modalErro('Falha no formulário de cadastro.');
+                    return redirect()->back();
+                }
         }
     }
 
@@ -60,7 +65,7 @@ class EmitirPedidosController extends Controller
             modalErro($exception->getMessage());
             return redirect()->back();
         }
-
+        // print_pre('FIM_1');
         modalSucesso('Pedido cadastrado com sucesso!');
         return redirect()->route('admin.pedidos.index', ['id_card' => $id]);
     }

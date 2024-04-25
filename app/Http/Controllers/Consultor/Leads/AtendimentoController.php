@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Services\Leads\HistoricoDadosService;
-use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\Historicos\AtivadoHistorico;
-use App\src\Leads\Historicos\IniciarAtendimentoHistorico;
 use App\src\Leads\StatusAtendimentoLeads;
 use App\src\Leads\UpdateStatusLeads;
 use Illuminate\Http\Request;
@@ -23,8 +21,10 @@ class AtendimentoController extends Controller
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
 
-        return Inertia::render('Consultor/Leads/Atendimento/Show',
-            compact('dados', 'status', 'historicos', 'contatos'));
+        return Inertia::render(
+            'Consultor/Leads/Atendimento/Show',
+            compact('dados', 'status', 'historicos', 'contatos')
+        );
     }
 
     public function update($id)
