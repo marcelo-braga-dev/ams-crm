@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\UsersFuncoes;
 use App\Models\UsersFuncoesPermissoes;
 use App\Models\UsersPermissoes;
+use App\src\Usuarios\Permissoes\PermissoesUsuarios;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -20,7 +21,7 @@ class FuncoesController extends Controller
 
     public function create()
     {
-        $permissoes = (new UsersPermissoes())->getAll();
+        $permissoes = (new PermissoesUsuarios())->permissoes();
 
         return Inertia::render('Admin/Usuarios/Funcoes/Create', compact('permissoes'));
     }

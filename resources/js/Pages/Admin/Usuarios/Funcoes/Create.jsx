@@ -2,7 +2,7 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import { useForm } from "@inertiajs/inertia-react";
 import { router } from "@inertiajs/react";
 
-import { Switch, TextField } from "@mui/material";
+import { FormControlLabel, Switch, TextField } from "@mui/material";
 
 export default function ({ permissoes }) {
 
@@ -39,19 +39,26 @@ export default function ({ permissoes }) {
                 </div>
 
                 <div className="mb-4 card card-body">
-                    <h6>Funções do Usuário</h6>
-                    <table className="table mb-0">
-                        <tbody>
-                            {permissoes?.[data.is_admin]?.map(item => (
-                                <tr>
-                                    <td className="p-0 text-center col-1">
-                                        <Switch key={item.id} onChange={e => setData('permissoes', { ...data.permissoes, [item.id]: e.target.checked })} />
-                                    </td>
-                                    <td>{item.nome}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <h6>Funções do Usuário</h6>{console.log(data)}
+                    {permissoes?.[data.is_admin]?.map(categorias => {
+                        return (
+                            <div key={categorias.categoria} className="mb-2 border-bottom">
+                                <div className="">
+                                    <small className="d-block">{categorias.categoria}</small>
+                                </div>
+                                <div className="row row-cols-5">
+                                    {categorias?.permissoes?.map(item => {
+                                        return (
+                                            <div key={item.id} className="col">
+                                                <FormControlLabel label={item.nome} control={
+                                                    <Switch size="small" key={item.id} onChange={e => setData('permissoes', { ...data.permissoes, [item.id]: e.target.checked })} />} />
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </div>
+                        )
+                    })}
                 </div>
 
                 <div className="row">
