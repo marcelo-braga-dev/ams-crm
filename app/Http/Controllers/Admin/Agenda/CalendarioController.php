@@ -20,8 +20,10 @@ class CalendarioController extends Controller
     {
         $coresPedidos = (new ConfigCores())->getPedidos();
 
-        return Inertia::render('Admin/Calendario/Index',
-            compact('coresPedidos'));
+        return Inertia::render(
+            'Admin/Calendario/Index',
+            compact('coresPedidos')
+        );
     }
 
     public function create()
@@ -29,9 +31,12 @@ class CalendarioController extends Controller
         $usuarios = (new UsuariosService())->ativos();
         $franquias = (new Franquias())->get();
         $setores = (new Setores())->getSetoresFranquias();
+        $usuarios = (new User())->usuarios(true);
 
-        return Inertia::render('Admin/Calendario/Create',
-            compact('usuarios', 'franquias', 'setores'));
+        return Inertia::render(
+            'Admin/Calendario/Create',
+            compact('usuarios', 'franquias', 'setores', 'usuarios')
+        );
     }
 
     public function store(Request $request)
@@ -48,8 +53,10 @@ class CalendarioController extends Controller
         $destinatarios = (new Calendario())->getDestinatarios($id);
         $status = (new StatusAgenda())->statusConvidado();
 
-        return Inertia::render('Admin/Calendario/Show',
-            compact('dados', 'destinatarios', 'status'));
+        return Inertia::render(
+            'Admin/Calendario/Show',
+            compact('dados', 'destinatarios', 'status')
+        );
     }
 
     public function registros(Request $request)

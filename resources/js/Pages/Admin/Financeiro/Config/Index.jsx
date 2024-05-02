@@ -45,9 +45,6 @@ export default function () {
     const [empresas, setEmpresas] = useState([])
     const [fornecedores, setFornecedores] = useState([])
 
-    const [banco, setBanco] = useState('')
-    const [empresa, setEmpresa] = useState('')
-    const [fornecedor, setFornecedor] = useState('')
     const [editarValor, setEditarValor] = useState({
         id: undefined,
         valor: undefined,
@@ -58,7 +55,7 @@ export default function () {
         valor: '',
         cnpj: ''
     })
-    console.log(data)
+
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
