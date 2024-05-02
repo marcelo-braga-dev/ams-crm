@@ -90,21 +90,18 @@ class VendasService
 
     public function vendasPorEstados($mes, $ano, $setor)
     {
-
         return (new Pedidos())->newQuery()
-            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
-            ->leftJoin('enderecos', 'leads.endereco', '=', 'enderecos.id')
-            // ->where('pedidos.user_faturamento', $id)
+            ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
+            ->leftJoin('enderecos', 'pedidos_clientes.endereco', '=', 'enderecos.id')
             ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
             ->whereMonth('pedidos.data_faturamento', $mes)
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)
             ->select(DB::raw('
                 count(pedidos.id) as qtd,
-                leads.estado as estado_lead,
-                enderecos.estado as estado_endereco
+                enderecos.estado as estado
                 '))
-            ->groupBy('leads.estado')
+            ->groupBy('enderecos.estado')
             ->orderByDesc('qtd')
             ->get();
     }

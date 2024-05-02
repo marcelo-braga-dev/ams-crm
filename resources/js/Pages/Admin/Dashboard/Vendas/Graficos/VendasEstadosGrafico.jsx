@@ -4,8 +4,8 @@ import { Pie, Bar } from "react-chartjs-2";
 export default function VendasEstadosGrafico({ dados }) {
 
     const qtdVendas = dados.map(item => item.qtd)
-    const estados = dados.map(item => item.estado_lead ?? '?')
-    console.log(dados)
+    const estados = dados.map(item => item.estado ?? '?')
+
     const data = {
         labels: estados,
         datasets: [

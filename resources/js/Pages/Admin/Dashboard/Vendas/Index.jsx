@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { router } from "@inertiajs/react";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
-import { isAdmin } from "@/Helpers/helper";
+import { converterMes, isAdmin } from "@/Helpers/helper";
 
 import * as React from 'react';
 import axios from "axios";
@@ -319,7 +319,7 @@ export default function ({ mes, ano, setores, setor }) {
                     <div className="col-md-12">
                         <div className="card">
                             <div className="card-body">
-                                <h6>Vendas Por Estados</h6>
+                                <h6>Vendas Por Estados mês: {converterMes(mesesSelecionado?.[0])}/{anoSelecionado}</h6>
                                 <VendasEstadosGrafico dados={vendasEstados} />
                             </div>
                         </div>
