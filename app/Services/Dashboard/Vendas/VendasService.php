@@ -5,6 +5,7 @@ namespace App\Services\Dashboard\Vendas;
 use App\Models\MetasVendas;
 use App\Models\Pedidos;
 use App\Models\User;
+use App\Services\Pedidos\StatusPedidosServices;
 use Illuminate\Support\Facades\DB;
 
 class VendasService
@@ -40,10 +41,8 @@ class VendasService
                 $metas = (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano);
             }
 
-
-            if ($usuario['status'] == 'ativo') $totalMetas += $metas;
-
             if ($usuario['status'] == 'ativo' || $qtd > 0) {
+                $totalMetas += $metas;
 
                 $totalVendas += $vendas;
                 $totalCustos += $custos;
@@ -87,5 +86,26 @@ class VendasService
         $dados[] = ['mes' => "total", 'total_vendas' => $somaVendas, 'total_metas' => $somaMetas];
 
         return $dados;
+    }
+
+    public function vendasPorEstados($mes, $ano, $setor)
+    {
+
+        return (new Pedidos())->newQuery()
+            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
+            ->leftJoin('enderecos', 'leads.endereco', '=', 'enderecos.id')
+            // ->where('pedidos.user_faturamento', $id)
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereMonth('pedidos.data_faturamento', $mes)
+            ->whereYear('pedidos.data_faturamento', $ano)
+            ->where('pedidos.setor_id', $setor)
+            ->select(DB::raw('
+                count(pedidos.id) as qtd,
+                leads.estado as estado_lead,
+                enderecos.estado as estado_endereco
+                '))
+            ->groupBy('leads.estado')
+            ->orderByDesc('qtd')
+            ->get();
     }
 }

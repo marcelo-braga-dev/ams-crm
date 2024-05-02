@@ -19,6 +19,7 @@ import * as React from 'react';
 import axios from "axios";
 import LinearProgress from '@mui/material/LinearProgress';
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
+import VendasEstadosGrafico from "./Graficos/VendasEstadosGrafico";
 
 export default function ({ mes, ano, setores, setor }) {
     const [mesesSelecionado, setMesesSelecionado] = useState([mes]);
@@ -31,6 +32,7 @@ export default function ({ mes, ano, setores, setor }) {
     const [vendasMetasAnual, setVendasMetasAnual] = useState([]);
     const [vendasMetasComp, setVendasMetasComp] = useState([]);
     const [vendasMetasAnualComp, setVendasMetasAnualComp] = useState([]);
+    const [vendasEstados, setVendasEstados] = useState([]);
     const [carregando, setCarregando] = useState(true);
     const [filtrar, setFiltrar] = useState(false);
 
@@ -45,13 +47,14 @@ export default function ({ mes, ano, setores, setor }) {
                 setVendasMetasAnual(res.data.vedas_metas_anual)
                 setVendasMetasComp(res.data.vedas_metas_comp)
                 setVendasMetasAnualComp(res.data.vedas_metas_anual_comp)
+                setVendasEstados(res.data.vendas_estados)
                 setCarregando(false)
             })
     }, [filtrar])
 
     return (
         <Layout container titlePage="Indicadores de Vendas" menu="dashboard" submenu="dashboard-vendas">
-            <div className="card card-body mb-4">
+            <div className="mb-4 card card-body">
                 <div className="row">
                     <div className="col-2">
                         <TextField label="Setor" select fullWidth defaultValue={setor}
@@ -74,7 +77,7 @@ export default function ({ mes, ano, setores, setor }) {
                             onClick={() => setFiltrar(e => !e)}>Filtrar</button>
                     </div>
                 </div>
-                <div className="row mt-2">
+                <div className="mt-2 row">
                     <div className="col-2">
                     </div>
                     <div className="col-2">
@@ -91,7 +94,7 @@ export default function ({ mes, ano, setores, setor }) {
             </div>
             {carregando ? <LinearProgress /> : <>
                 {/*Cards*/}
-                <div className="row row-cols-3 mb-4">
+                <div className="mb-4 row row-cols-3">
                     <div className="col">
                         <div className="card">
                             <div className="card-body">
@@ -148,11 +151,11 @@ export default function ({ mes, ano, setores, setor }) {
                     </div>
                 </div>
 
-                <div className="card mb-4">
+                <div className="mb-4 card">
                     <div className="card-body">
                         <h6>Meta x Vendas</h6>
                         <div className="table-responsive">
-                            <table className="table table-sm text-sm">
+                            <table className="table text-sm table-sm">
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
@@ -189,7 +192,7 @@ export default function ({ mes, ano, setores, setor }) {
                                                         <span className="d-block">R$ {convertFloatToMoney(vendasComp)}</span>
                                                     }
                                                 </td>
-                                                <td className="text-dark text-center">{item.qtd}
+                                                <td className="text-center text-dark">{item.qtd}
                                                     {vendasMetasComp &&
                                                         <span className="d-block">{qtdComp}</span>
                                                     }
@@ -201,17 +204,17 @@ export default function ({ mes, ano, setores, setor }) {
                                                         {convertFloatToMoney((vendasComp - custosComp) / custosComp * 100)}%)</span>}
                                                 </td>}
                                                 <td>
-                                                   <span className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}> R$ {convertFloatToMoney(item.vendas - item.meta)} (
-                                                    {convertFloatToMoney(((item.vendas - item.meta) / item.meta * 100) + 100)}%)</span>
+                                                    <span className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}> R$ {convertFloatToMoney(item.vendas - item.meta)} (
+                                                        {convertFloatToMoney(((item.vendas - item.meta) / item.meta * 100) + 100)}%)</span>
 
                                                     {vendasMetasComp && <span className={"d-block " + ((difComp) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : ''))}>R$ {convertFloatToMoney(vendasComp - metasComp)} (
                                                         {convertFloatToMoney(((vendasComp - metasComp) / metasComp * 100) + 100)}%)</span>}
                                                 </td>
                                                 <td>
-                                                    <a className="btn btn-link text-dark btn-sm mb-0"
+                                                    <a className="mb-0 btn btn-link text-dark btn-sm"
                                                         href={route('admin.metas-vendas.vendas-faturadas.index', {
                                                             id: item.id,
-                                                            mes: mes,
+                                                            mes: mesesSelecionado?.[0],
                                                             ano: ano
                                                         })}>
                                                         Ver Vendas
@@ -264,7 +267,7 @@ export default function ({ mes, ano, setores, setor }) {
                     </div>
                 </div>
 
-                <div className="row mb-4">
+                <div className="mb-4 row">
                     <div className="col-md-5">
                         <div className="card">
                             <div className="card-body">
@@ -278,7 +281,7 @@ export default function ({ mes, ano, setores, setor }) {
                             <div className="card-body">
                                 <h6>Vendas Anuais</h6>
                                 <div className="table-responsive">
-                                    <table className="table table-sm text-sm">
+                                    <table className="table text-sm table-sm">
                                         <thead>
                                             <tr>
                                                 <th className="text-center">Mẽs</th>
@@ -307,6 +310,17 @@ export default function ({ mes, ano, setores, setor }) {
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="mb-4 row">
+                    <div className="col-md-12">
+                        <div className="card">
+                            <div className="card-body">
+                                <h6>Vendas Por Estados</h6>
+                                <VendasEstadosGrafico dados={vendasEstados} />
                             </div>
                         </div>
                     </div>

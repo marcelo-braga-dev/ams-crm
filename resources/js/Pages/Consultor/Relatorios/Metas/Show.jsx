@@ -1,15 +1,14 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import { sum } from "lodash";
 import { router } from "@inertiajs/react";
 
 export default function ({ vendas, usuario, periodo }) {
-
     const total = sum(vendas.map(item => item.valor))
 
     return (
-        <Layout titlePage="Vendas Realizadas" menu="dashboard" submenu="dashboard-vendas"
-            voltar={route('admin.dashboard.vendas.index')}>
+        <Layout titlePage="Vendas do Período"
+            voltar={route('consultor.relatorios.metas.index')}>
             <div className="mb-4 card card-body">
                 <div className="row">
                     <div className="mb-2 col">
@@ -45,7 +44,7 @@ export default function ({ vendas, usuario, periodo }) {
                         <tbody>
                             {vendas.map(item => {
                                 return (
-                                    <tr key={item.id} className="cursor-pointer" onClick={() => router.get(route('admin.pedidos.show', item.id))}>
+                                    <tr key={item.id} className="cursor-pointer" onClick={() => router.get(route('consultor.pedidos.show', item.id))}>
                                         <td className="text-center col-1">#{item.id}</td>
                                         <td>{item.data}</td>
                                         <td>
@@ -56,7 +55,7 @@ export default function ({ vendas, usuario, periodo }) {
                                         <td>R$ {convertFloatToMoney(item.valor)}</td>
                                         <td>
                                             <a className="btn btn-primary"
-                                                href={route('admin.pedidos.show', item.id)}>Ver</a>
+                                                href={route('consultor.pedidos.show', item.id)}>Ver</a>
                                         </td>
                                     </tr>
                                 )

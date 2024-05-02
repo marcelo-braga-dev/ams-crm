@@ -126,7 +126,7 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
                 </Card>
 
 
-                <Card className='p-4 mb-4'>
+                {/* <Card className='p-4 mb-4'>
                     <h6>Permissões de Acesso</h6>
                     <div className='row row-cols-5'>
                         {menuItems.items.map(menu => {
@@ -147,10 +147,10 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
                                     })}
                                 </Card>
                             </div>
-                        })}
+                        })} */}
 
 
-                        {/* {menuItems.items.map(menu => {
+                {/* {menuItems.items.map(menu => {
                             return menu.children.map(item => {
                                 return <div className='col'>
                                     <Card className='p-3 mb-2'>
@@ -172,8 +172,8 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
                             })
                         })} */}
 
-                    </div>
-                </Card>
+                {/* </div> */}
+                {/* </Card> */}
             </form>
 
             <Card className="p-3 mb-4">

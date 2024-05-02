@@ -40,6 +40,7 @@ class VendasController extends Controller
 
         $metaVendas = (new VendasService())->metaVendas($mes, $ano, $setor);
         $metasVendasAnual = (new VendasService())->metaVendasAnual($ano, $setor);
+        $vendasEstados = (new VendasService())->vendasPorEstados($mes, $ano, $setor);
 
         if ($request->mesComp || $request->anoComp) {
             $mesComp = $request->mesComp ?? date('n');
@@ -50,10 +51,11 @@ class VendasController extends Controller
         }
 
         return response()->json([
-            'vedas_metas' => $metaVendas, 
+            'vedas_metas' => $metaVendas,
             'vedas_metas_anual' => $metasVendasAnual,
-            'vedas_metas_comp' => $metaVendasComp, 
-            'vedas_metas_anual_comp' => $metasVendasAnualComp
+            'vedas_metas_comp' => $metaVendasComp,
+            'vedas_metas_anual_comp' => $metasVendasAnualComp,
+            'vendas_estados' => $vendasEstados
         ]);
     }
 }
