@@ -1,7 +1,7 @@
-import {useRef, useState} from 'react';
+import { useRef, useState } from 'react';
 
 // material-ui
-import {useTheme} from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import {
     Avatar,
     Box,
@@ -26,13 +26,13 @@ import SettingTab from './SettingTab.jsx';
 
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import {router, usePage} from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
 // tab panel wrapper
-function TabPanel({children, value, index, ...other}) {
+function TabPanel({ children, value, index, ...other }) {
     return (
         <div role="tabpanel" hidden={value !== index} id={`profile-tabpanel-${index}`}
-             aria-labelledby={`profile-tab-${index}`} {...other}>
+            aria-labelledby={`profile-tab-${index}`} {...other}>
             {value === index && children}
         </div>
     );
@@ -76,13 +76,13 @@ const Profile = () => {
     const iconBackColorOpen = 'grey.300';
 
     return (
-        <Box sx={{flexShrink: 0, ml: 0.75}}>
+        <Box sx={{ flexShrink: 0, ml: 0.75 }}>
             <ButtonBase
                 sx={{
                     p: 0.25,
                     bgcolor: open ? iconBackColorOpen : 'transparent',
                     borderRadius: 1,
-                    '&:hover': {bgcolor: 'secondary.lighter'}
+                    '&:hover': { bgcolor: 'secondary.lighter' }
                 }}
                 aria-label="open profile"
                 ref={anchorRef}
@@ -90,8 +90,8 @@ const Profile = () => {
                 aria-haspopup="true"
                 onClick={handleToggle}
             >
-                <Stack direction="row" spacing={2} alignItems="center" sx={{p: 0.5}}>
-                    <Avatar alt="profile user" src={'/storage/' + user.foto} sx={{width: 32, height: 32}}/>
+                <Stack direction="row" spacing={2} alignItems="center" sx={{ p: 0.5 }}>
+                    <Avatar alt={user.name} src={'/storage/' + user.foto} sx={{ width: 32, height: 32 }} />
                 </Stack>
             </ButtonBase>
             <Popper
@@ -112,7 +112,7 @@ const Profile = () => {
                     ]
                 }}
             >
-                {({TransitionProps}) => (
+                {({ TransitionProps }) => (
                     <Transitions type="fade" in={open} {...TransitionProps}>
                         {open && (
                             <Paper
@@ -128,12 +128,12 @@ const Profile = () => {
                             >
                                 <ClickAwayListener onClickAway={handleClose}>
                                     <MainCard elevation={0} border={false} content={false}>
-                                        <CardContent sx={{px: 2.5, pt: 3}}>
+                                        <CardContent sx={{ px: 2.5, pt: 3 }}>
                                             <Grid container justifyContent="space-between" alignItems="center">
                                                 <Grid item>
                                                     <Stack direction="row" spacing={1.25} alignItems="center">
-                                                        <Avatar alt="profile user" src={'/storage/' + user.foto}
-                                                                sx={{width: 32, height: 32}}/>
+                                                        <Avatar alt={user.name} src={'/storage/' + user.foto}
+                                                            sx={{ width: 32, height: 32 }} />
                                                         <Stack>
                                                             <Typography variant="h6">{user.name}</Typography>
                                                         </Stack>
@@ -141,16 +141,16 @@ const Profile = () => {
                                                 </Grid>
                                                 <Grid item>
                                                     <IconButton size="large" color="secondary" onClick={handleLogout}>
-                                                        <LogoutOutlinedIcon/>
+                                                        <LogoutOutlinedIcon />
                                                     </IconButton>
                                                 </Grid>
                                             </Grid>
                                         </CardContent>
                                         {!open && (
                                             <>
-                                                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                                     <Tabs variant="fullWidth" value={value} onChange={handleChange}
-                                                          aria-label="profile tabs">
+                                                        aria-label="profile tabs">
                                                         <Tab
                                                             sx={{
                                                                 display: 'flex',
@@ -160,7 +160,7 @@ const Profile = () => {
                                                                 textTransform: 'capitalize'
                                                             }}
                                                             icon={<PersonOutlineOutlinedIcon
-                                                                style={{marginBottom: 0, marginRight: '10px'}}/>}
+                                                                style={{ marginBottom: 0, marginRight: '10px' }} />}
                                                             label="Profile"
                                                             {...a11yProps(0)}
                                                         />
@@ -173,17 +173,17 @@ const Profile = () => {
                                                                 textTransform: 'capitalize'
                                                             }}
                                                             icon={<SettingsOutlinedIcon
-                                                                style={{marginBottom: 0, marginRight: '10px'}}/>}
+                                                                style={{ marginBottom: 0, marginRight: '10px' }} />}
                                                             label="Setting"
                                                             {...a11yProps(1)}
                                                         />
                                                     </Tabs>
                                                 </Box>
                                                 <TabPanel value={value} index={0} dir={theme.direction}>
-                                                    <ProfileTab handleLogout={handleLogout}/>
+                                                    <ProfileTab handleLogout={handleLogout} />
                                                 </TabPanel>
                                                 <TabPanel value={value} index={1} dir={theme.direction}>
-                                                    <SettingTab/>
+                                                    <SettingTab />
                                                 </TabPanel>
                                             </>
                                         )}

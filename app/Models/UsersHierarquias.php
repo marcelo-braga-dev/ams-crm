@@ -16,19 +16,36 @@ class UsersHierarquias extends Model
 
     public function getSuperior()
     {
+        // return $this->newQuery()
+        //     ->pluck('superior_id', 'user_id');
+    }
+
+    public function idSupervisonados($id)
+    {
         return $this->newQuery()
+            ->where('superior_id', $id)
             ->pluck('superior_id', 'user_id');
     }
 
     public function atualizar($id, $dados)
     {
         $query = $this->newQuery();
+
         $query->where('superior_id', $id)
             ->delete();
 
-        // $query->update([]);
         foreach ($dados as $idSup => $item) {
             if ($item) $query->create(['user_id' => $idSup, 'superior_id' => $id]);
         }
+    }
+
+    public function supervisionados($id)
+    {
+        return $this->newQuery()
+            ->where('superior_id', $id)
+            ->get('user_id')
+            ->transform(function ($item) {
+                return $item->user_id;
+            })->toArray();
     }
 }

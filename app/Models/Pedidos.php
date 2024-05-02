@@ -260,8 +260,8 @@ class Pedidos extends Model
     {
         $this->initQuery();
         $this->franquia();
-        $this->pedidosSubordinados();
         $this->usuario($idUsuario);
+        $this->pedidosSubordinados();
         $this->setor($setorAtual);
         $this->fornecedor($fornecedorAtual);
         return $this->query->get();
@@ -360,9 +360,9 @@ class Pedidos extends Model
                 'prazoDias' => $pedido->prazo,
             ],
             'preco' => [
-                'preco_float' => $pedido->preco_venda,// remover
-                'convertido' => convert_float_money($pedido->preco_venda),// remover
-                'preco_custo_convertido' => $precoCusto,// remover
+                'preco_float' => $pedido->preco_venda, // remover
+                'convertido' => convert_float_money($pedido->preco_venda), // remover
+                'preco_custo_convertido' => $precoCusto, // remover
             ],
             'fornecedor' => [
                 'nome' => $fornecedor['nome'] ?? ''
@@ -533,10 +533,10 @@ class Pedidos extends Model
         $query = $this->newQuery()
             ->find($id);
 
-            if ($dados['preco']) $query->update(['preco_venda' => convert_money_float($dados['preco'])]);
-            if ($dados['preco_custo']) $query->update(['preco_custo' => convert_money_float($dados['preco_custo'])]);
-            if ($dados['repasse']) $query->update(['repasse' => convert_money_float($dados['repasse'])]);
-            if ($dados['usuario_faturado']) $query->update(['user_faturamento' => $dados['usuario_faturado']]);
-            if ($dados['data_faturamento']) $query->update(['data_faturamento' => $dados['data_faturamento']]);
+        if ($dados['preco']) $query->update(['preco_venda' => convert_money_float($dados['preco'])]);
+        if ($dados['preco_custo']) $query->update(['preco_custo' => convert_money_float($dados['preco_custo'])]);
+        if ($dados['repasse']) $query->update(['repasse' => convert_money_float($dados['repasse'])]);
+        if ($dados['usuario_faturado']) $query->update(['user_faturamento' => $dados['usuario_faturado']]);
+        if ($dados['data_faturamento']) $query->update(['data_faturamento' => $dados['data_faturamento']]);
     }
 }

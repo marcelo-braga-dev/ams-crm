@@ -104,19 +104,6 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
                                 <MenuItem value="admin">Admin</MenuItem>
                             </TextField>
                         </div>
-                        {data.funcao === 'consultor' &&
-                            <div className="mb-3 col-md-3">
-                                <TextField label="Supervisor" select required fullWidth
-                                    defaultValue={data.superior}
-                                    onChange={e => setData('superior', e.target.value)}>
-                                    {superiores.map((item, index) => {
-                                        return (item.id !== usuario.id &&
-                                            <MenuItem key={index} value={item.id}>{item.name}</MenuItem>
-                                        )
-                                    })}
-                                </TextField>
-                            </div>
-                        }
                         <div className="mb-3 col-md-3">
                             <TextField type="file" label="Foto"
                                 inputProps={{ accept: 'image/*' }} InputLabelProps={{ shrink: true }}

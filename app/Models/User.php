@@ -30,7 +30,7 @@ class User extends Authenticatable
         'email',
         'franquia_id',
         'setor_id',
-        'superior_id',
+        // 'superior_id',
         'is_admin',
         'tipo',
         'categoria',
@@ -145,8 +145,8 @@ class User extends Authenticatable
             'email' => $dados->email,
             'franquia' => $franquias[$dados->franquia_id] ?? '',
             'franquia_id' => $dados->franquia_id,
-            'supervisor' => $nomes[$dados->superior_id] ?? '',
-            'supervisor_id' => $dados->superior_id,
+            // 'idSupervisor' => $nomes[$dados->superior_id] ?? '',
+            // 'supervisor_id' => $dados->superior_id,
             'status' => $dados->status,
             'tipo' => $dados->tipo,
             'setor' => $setores[$dados->setor_id]['nome'] ?? '',
@@ -164,7 +164,7 @@ class User extends Authenticatable
 
         if ($setor) $query->where('setor_id', $setor);
         if ($superiores) $query->orWhere('tipo', 'admin');
-        if ($superiores) $query->orWhere('tipo', 'supervisor');
+        if ($superiores) $query->orWhere('tipo', 'idSupervisor');
 
         if ($exceto) return
             $query->get(['id', 'name', 'setor_id', 'email', 'tipo', 'status', 'foto', 'ultimo_login'])
@@ -205,12 +205,13 @@ class User extends Authenticatable
         if ($setor) $query->where('setor_id', $setor);
         if ($statusAtivo) $query->where('status', 'ativo');
         if (is_admin()) $query->where('tipo', '!=', (new Admins())->getFuncao());
-        if (is_supervisor()) $query->whereIn('superior_id', [id_usuario_atual()])
+        if (is_supervisor()) $query->whereIn('id', (new UsersHierarquias())->supervisionados(id_usuario_atual()))
             ->orWhere('id', id_usuario_atual());
 
+
         return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id', 'franquia_id', 'foto'])
-            ->except(['id' => 1])
-            ->except(['id' => 2])
+            // ->except(['id' => 1])
+            // ->except(['id' => 2])
             // ->except(['id' => 3])
             ->transform(function ($item) use ($setores, $franquias) {
                 return [
@@ -266,7 +267,7 @@ class User extends Authenticatable
                     'status' => $dados->status,
                     'setor_id' => $dados->setor,
                     'tipo' => $dados->funcao,
-                    'superior_id' => $dados->funcao == (new Vendedores())->getFuncao() ? $dados->superior : null
+                    // 'superior_idx' => $dados->funcao == (new Vendedores())->getFuncao() ? $dados->superior : null
                 ]);
         } catch (QueryException) {
             throw new \DomainException("Este email está em uso.");
@@ -383,23 +384,13 @@ class User extends Authenticatable
         return (new Setores())->getModelo($dados->setor_id);
     }
 
-    public function getIdsSubordinados($usuarioIncluso = false, $supervisor = null, $supervisorIncluso = false)
+    public function getIdsSubordinados($usuarioIncluso = false, $idSupervisor = null, $supervisorIncluso = false)
     {
-        $supervisor = $supervisor ?? id_usuario_atual();
+        $idSupervisor = $idSupervisor ?? id_usuario_atual();
 
-        $consultores = $this->newQuery()
-            ->where('superior_id', $supervisor)
-            ->where('status', (new AtivoStatusUsuario())->getStatus())
-            ->get('id');
-        $consultor = [];
+        if ($supervisorIncluso || $usuarioIncluso) return array_merge((new UsersHierarquias())->supervisionados($idSupervisor), [$idSupervisor]);
 
-        if ($usuarioIncluso) $consultor[] = id_usuario_atual();
-        if ($supervisorIncluso) $consultor[] = $supervisor;
-
-        foreach ($consultores as $item) {
-            $consultor[] = $item->id;
-        }
-        return $consultor;
+        return (new UsersHierarquias())->supervisionados($idSupervisor);
     }
 
     public function franquias($id, $status = false)

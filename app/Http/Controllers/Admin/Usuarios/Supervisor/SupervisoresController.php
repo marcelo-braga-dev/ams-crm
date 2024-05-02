@@ -45,8 +45,8 @@ class SupervisoresController extends Controller
         $usuario = (new User())->get($id);
         $setores = (new Setores())->setores();
         $usuarios = (new User())->allUsers();
-        // print_pre($usuarios);
-        $supervionados = (new UsersHierarquias())->getSuperior();
+
+        $supervionados = (new UsersHierarquias())->idSupervisonados($id);
 
         return Inertia::render(
             'Admin/Usuarios/Supervisores/Edit',

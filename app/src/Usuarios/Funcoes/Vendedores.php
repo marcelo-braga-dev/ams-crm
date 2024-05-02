@@ -19,7 +19,7 @@ class Vendedores implements FuncoesUsuarios
     {
         $request->validate([
             'nome' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'email' => 'required|string|email|max:255|unique:' . User::class,
             'senha' => 'required|string|max:255',
         ]);
 
@@ -30,7 +30,7 @@ class Vendedores implements FuncoesUsuarios
                 'email' => $request->email,
                 'franquia_id' => $request->franquia,
                 'setor_id' => $request->setor,
-                'superior_id' => $request->superior ?? null,
+                // 'superior_id' => $request->superior ?? null,
                 'password' => Hash::make($request->senha),
             ]);
 
