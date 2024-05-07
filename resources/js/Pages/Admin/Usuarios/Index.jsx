@@ -71,7 +71,7 @@ export default function Index({ contas, usuarios, status }) {
         <Layout container titlePage="Usuários" menu="usuarios" submenu="usuarios-contas">
             <div className='row'>
                 <div className='col-auto'>
-                    <a className='btn btn-primary' href={route('admin.usuarios.usuario.create')}>Cadastrar</a>
+                    <a className='btn btn-primary' href={route('admin.usuarios.usuario.create')}>Cadastrar Usuário</a>
                 </div>
             </div>
             {contas.map((item) => (

@@ -477,6 +477,7 @@ class User extends Authenticatable
             ->leftJoin('users_funcoes', 'users.funcao_id', '=', 'users_funcoes.id')
             ->leftJoin('franquias', 'users.franquia_id', '=', 'franquias.id')
             ->leftJoin('setores', 'users.setor_id', '=', 'setores.id')
+            ->where('status', (new AtivoStatusUsuario)->getStatus())
             ->select(DB::raw('
                 users.id as id,
                 users.name as nome,
