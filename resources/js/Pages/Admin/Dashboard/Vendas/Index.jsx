@@ -144,6 +144,7 @@ export default function ({ mes, ano, setores, setor }) {
                                         <small className="">Diferença Vendas e Meta</small>
                                         <h5 className="text-end">R$ {convertFloatToMoney(vendasMetas?.totalVendas - vendasMetas?.totalMetas)}</h5>
                                         {vendasMetasComp?.totalMetas && <h5 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas)}</h5>}
+                                        (PORCENTAGEM)
                                     </div>
                                 </div>
                             </div>

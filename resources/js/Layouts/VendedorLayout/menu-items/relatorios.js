@@ -1,4 +1,5 @@
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import chaves from "./chaves";
 
 const relatorios = {
     id: 'relatorios',
@@ -6,6 +7,7 @@ const relatorios = {
     type: 'group',
     children: [{
         id: 'relatorios-metas',
+        chave: chaves.relatorio,
         title: 'Metas de Vendas',
         type: 'item',
         url: route('consultor.relatorios.metas.index'),

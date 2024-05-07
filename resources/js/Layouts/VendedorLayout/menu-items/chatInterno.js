@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
+import chaves from "./chaves";
 
 const dashboard = {
     id: 'chat',
@@ -8,6 +9,7 @@ const dashboard = {
     type: 'group',
     children: [{
         id: 'chat-interno',
+        chave: chaves.chats.interno,
         title: 'Chat Interno',
         type: 'item',
         url: route('consultor.chat-interno.index'),

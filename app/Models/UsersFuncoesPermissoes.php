@@ -14,12 +14,23 @@ class UsersFuncoesPermissoes extends Model
 
     public function atualizar($id, $dados)
     {
+        $this->newQuery()
+            ->where('funcoes_id', $id)
+            ->delete();
+
         foreach ($dados as $idPermissao => $dado) {
             if ($dado) $this->newQuery()
                 ->create(
                     ['funcoes_id' => $id, 'permissoes_id' => $idPermissao]
                 );
         }
+    }
+
+    public function get($id)
+    {
+        return $this->newQuery()
+            ->where('funcoes_id', $id)
+            ->pluck('funcoes_id', 'permissoes_id');
     }
 
     public function funcao($id)
@@ -30,11 +41,22 @@ class UsersFuncoesPermissoes extends Model
             ->where('funcoes_id', $id)
             ->select(DB::raw('
                 users_funcoes_permissoes.id as id,
-                users_funcoes.nome as funcao_nome,
-                users_funcoes.id as funcao_id,
-                users_permissoes.id as permissao_id,
-                users_permissoes.nome as permissao_nome
+                users_funcoes_permissoes
             '))
             ->get()->toArray();
+    }
+
+    public function permissoes($id)
+    {
+        $dados = $this->newQuery()
+            ->where('funcoes_id', $id)
+            ->get('permissoes_id');
+
+        $res = [];
+        foreach ($dados as $item) {
+            $res[] = $item->permissoes_id;
+        }
+
+        return $res;
     }
 }

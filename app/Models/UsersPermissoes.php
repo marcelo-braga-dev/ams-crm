@@ -12,35 +12,27 @@ class UsersPermissoes extends Model
     protected $fillable = [
         'user_id',
         'chave',
-        'valor',
     ];
 
-    public function getAll()
+    public function atualizar($id, $permissoes)
     {
-        $items =  $this->newQuery()
-            ->orderBy('nome')
-            ->get()
-            ->transform(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'nome' => $item->nome,
-                    'admin' => $item->is_admin,
-                ];
-            });
+        $this->newQuery()
+            ->where('user_id', $id)
+            ->delete();
 
-        $res = [];
-        foreach ($items as $item) {
-            $res[$item['admin'] ? 'admin' : 'geral'][] = $item;
+        foreach ($permissoes as $idPermissao => $item) {
+            if ($item) $this->newQuery()
+                ->create([
+                    'user_id' => $id,
+                    'chave' => $idPermissao,
+                ]);
         }
-
-        return $res;
     }
 
-    public function get($id)
+    public function permissoes($id)
     {
-        //     return [];
-        //     // $this->newQuery()
-        //     //     ->where('user_id', $id)
-        //     //     ->pluck('valor', 'chave');
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->pluck('user_id', 'chave');
     }
 }

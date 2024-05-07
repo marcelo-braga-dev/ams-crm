@@ -2,6 +2,7 @@ import * as React from "react";
 
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
+import chaves from "./chaves";
 
 const dashboard = {
     id: 'clientes',
@@ -16,6 +17,7 @@ const dashboard = {
         breadcrumbs: false
     }, {
         id: 'clientes-cadastrar',
+        chave: chaves.leads.cadastrar,
         title: 'Cadastrar Cliente',
         type: 'item',
         url: route('consultor.leads.main.create'),

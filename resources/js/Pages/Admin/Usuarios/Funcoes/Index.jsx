@@ -22,7 +22,7 @@ export default function ({ funcoes }) {
                             <td className="text-center">0</td>
                             <td>
                                 <a className="mb-0 btn btn-primary btn-sm"
-                                    href={route('admin.usuarios.funcoes.show', item.id)}>Ver</a>
+                                    href={route('admin.usuarios.funcoes.edit', item.id)}>Ver</a>
                             </td>
                         </tr>
                     )))}

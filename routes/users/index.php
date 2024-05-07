@@ -7,7 +7,7 @@ Route::get('/', function () {
     $funcao = auth()->user()->is_admin;
 
     if ($funcao) return redirect()->route('admin.home.index');
-    return redirect()->route('consultor.pedidos.index');
+    return redirect()->route('consultor.home.index');
 
     // switch ($funcao) {
     //     case (new \App\src\Usuarios\Funcoes\Admins())->getFuncao() :

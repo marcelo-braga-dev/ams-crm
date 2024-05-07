@@ -63,7 +63,7 @@ class Pedidos extends Model
 
     private function pedidosSubordinados(): void
     {
-        if (is_supervisor()) $this->query->whereIn('user_id', [3, 18, 215]);
+        if (is_supervisor()) $this->query->whereIn('user_id', (new UsersHierarquias())->idSupervisonados(id_usuario_atual()));
     }
 
     public function usuario($idUsuario = null): void
@@ -259,7 +259,7 @@ class Pedidos extends Model
     public function getPedidos($idUsuario, $setorAtual, $fornecedorAtual)
     {
         $this->initQuery();
-        $this->franquia();
+        // $this->franquia();
         $this->usuario($idUsuario);
         $this->pedidosSubordinados();
         $this->setor($setorAtual);

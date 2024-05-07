@@ -1,46 +1,34 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import { useForm } from "@inertiajs/inertia-react";
+import { FormControlLabel, Switch, TextField } from "@mui/material";
 import { router } from "@inertiajs/react";
 
-import { FormControlLabel, Switch, TextField } from "@mui/material";
-
-export default function ({ permissoes }) {
-
+export default function ({ funcao, permissoes, permissoesAtivas }) {
     const { setData, data } = useForm({
-        nome: "",
-        is_admin: 'geral',
-        permissoes: []
+        nome: funcao.nome,
+        permissoes: permissoesAtivas
     })
 
     const submit = (e) => {
         e.preventDefault()
-        router.post(route('admin.usuarios.funcoes.store'), { ...data })
+        router.post(route('admin.usuarios.funcoes.update', funcao.id), { ...data, _method: 'PUT' })
     }
 
     return (
-        <Layout titlePage="Cadastrar Função de Usuários" menu="usuarios" submenu="usuarios-funcoes"
+        <Layout titlePage="Editar Função" menu="usuarios" submenu="usuarios-funcoes"
             voltar={route('admin.usuarios.funcoes.index')}>
-
             <form onSubmit={submit}>
                 <div className="mb-4 card card-body">
-                    <div className="mb-4 row">
-                        <div className="col-md-5">
-                            <TextField label="Nome da Função" fullWidth required
+                    <div className="row">
+                        <div className="col">
+                            <TextField label="Nome da Função" fullWidth required defaultValue={data.nome}
                                 onChange={e => setData('nome', e.target.value)} />
                         </div>
                     </div>
-                    <div className="mb-4 row">
-                        <div className="col-md-8">
-                            Usuário Administrador/Gerente :<Switch onChange={e => {
-                                setData({ ...data, 'is_admin': (e.target.checked ? "admin" : "geral"), permissoes: [] })
-                            }} />
-                        </div>
-                    </div>
                 </div>
-
                 {/* <div className="mb-4 card card-body">
                     <h6>Funções do Usuário</h6>{console.log(data)}
-                    {permissoes?.[data.is_admin]?.map(categorias => {
+                    {permissoes?.map(categorias => {
                         return (
                             <div key={categorias.categoria} className="mb-2 border-bottom">
                                 <div className="">
@@ -51,7 +39,8 @@ export default function ({ permissoes }) {
                                         return (
                                             <div key={item.id} className="col">
                                                 <FormControlLabel label={item.nome} control={
-                                                    <Switch size="small" key={item.id} onChange={e => setData('permissoes', { ...data.permissoes, [item.id]: e.target.checked })} />} />
+                                                    <Switch size="small" key={item.id} defaultChecked={data.permissoes?.[item.id] > 0 ?? ''}
+                                                        onChange={e => setData('permissoes', { ...data.permissoes, [item.id]: e.target.checked })} />} />
                                             </div>
                                         )
                                     })}
@@ -60,14 +49,12 @@ export default function ({ permissoes }) {
                         )
                     })}
                 </div> */}
-
                 <div className="row">
                     <div className="col">
-                        <button type="submit" className="btn btn-success">Salvar</button>
+                        <button className="btn btn-primary">Atualizar</button>
                     </div>
                 </div>
             </form>
-
-        </Layout >
+        </Layout>
     )
 }

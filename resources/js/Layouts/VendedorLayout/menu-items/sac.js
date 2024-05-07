@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import SpeakerNotesOutlinedIcon from "@mui/icons-material/SpeakerNotesOutlined";
+import chaves from "./chaves";
 
 const dashboard = {
     id: 'sac',
@@ -8,6 +9,7 @@ const dashboard = {
     type: 'group',
     children: [{
         id: 'sac-chamados',
+        chave: chaves.sac,
         title: 'Chamados',
         type: 'item',
         url: route('consultor.chamados.index'),

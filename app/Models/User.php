@@ -9,8 +9,10 @@ use App\src\Usuarios\Funcoes\Admins;
 use App\src\Usuarios\Funcoes\Vendedores;
 use App\src\Usuarios\Funcoes\Supervisores;
 use App\src\Usuarios\Status\AtivoStatusUsuario;
+use DomainException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\QueryException;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +34,7 @@ class User extends Authenticatable
         'setor_id',
         // 'superior_id',
         'is_admin',
+        'funcao_id',
         'tipo',
         'categoria',
         'status',
@@ -58,6 +61,38 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function create($dados)
+    {
+        try {
+            $dados = $this->newQuery()
+                ->create([
+                    'name' => $dados->nome,
+                    'email' => $dados->email,
+                    'franquia_id' => $dados->franquia,
+                    'setor_id' => $dados->setor,
+                    'funcao_id' => $dados->funcao,
+                    'is_admin' => $dados->admin
+                ]);
+            return $dados->id;
+        } catch (UniqueConstraintViolationException $exception) {
+            throw new DomainException('E-mail em uso por outro usuário.');
+        }
+    }
+
+    public function atualizar($id, $dados)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'name' => $dados->nome,
+                'email' => $dados->email,
+                'franquia_id' => $dados->franquia,
+                'setor_id' => $dados->setor,
+                'funcao_id' => $dados->funcao,
+                'is_admin' => $dados->admin
+            ]);
+    }
 
     public function allUsers($ativo = true)
     {
@@ -118,6 +153,7 @@ class User extends Authenticatable
             ->transform(function ($item) use ($setores, $franquias) {
                 return [
                     'id' => $item->id,
+                    'is_admin' => $item->is_admin,
                     'nome' => $item->name,
                     'franquia' => $franquias[$item->franquia_id] ?? '',
                     'setor' => $setores[$item->setor_id] ?? '',
@@ -138,13 +174,17 @@ class User extends Authenticatable
         $setores = (new Setores())->getNomes();
         $nomes = $this->getNomes();
         $franquias = (new Franquias())->getNomes();
+        $funcoes = (new UsersFuncoes())->getNomes();
 
         return [
             'id' => $dados->id,
+            'is_admin' => $dados->is_admin,
             'nome' => $dados->name,
             'email' => $dados->email,
             'franquia' => $franquias[$dados->franquia_id] ?? '',
             'franquia_id' => $dados->franquia_id,
+            'funcao' => $funcoes[$dados->funcao_id] ?? '',
+            'funcao_id' => $dados->funcao_id,
             // 'idSupervisor' => $nomes[$dados->superior_id] ?? '',
             // 'supervisor_id' => $dados->superior_id,
             'status' => $dados->status,
@@ -429,5 +469,26 @@ class User extends Authenticatable
         return $this->newQuery()
             ->where('setor_id', $setor)
             ->get('id');
+    }
+
+    public function contas()
+    {
+        return $this->newQuery()
+            ->leftJoin('users_funcoes', 'users.funcao_id', '=', 'users_funcoes.id')
+            ->leftJoin('franquias', 'users.franquia_id', '=', 'franquias.id')
+            ->leftJoin('setores', 'users.setor_id', '=', 'setores.id')
+            ->select(DB::raw('
+                users.id as id,
+                users.name as nome,
+                users.status as status,
+                users.is_admin as is_admin,
+                users_funcoes.id as funcao_id,
+                users_funcoes.nome as funcao_nome,
+                franquias.nome as franquia_nome,
+                setores.nome as setor_nome,
+                users.foto as foto
+            '))
+            ->orderBy('nome')
+            ->get();
     }
 }

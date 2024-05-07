@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Franquias;
 use App\Models\Setores;
+use App\Models\UsersFuncoesPermissoes;
 use App\Models\UsersPermissoes;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -47,10 +48,8 @@ class HandleInertiaRequests extends Middleware
             $setorNome = $setorUsuario->nome ?? '';
             $setorCor = $setorUsuario->cor ?? '';
 
-            $permissoes = (new UsersPermissoes())->get($auth['id']);
+            $permissoes = (new UsersPermissoes())->permissoes($auth['id']);
         }
-
-
 
         return array_merge(parent::share($request), [
             'auth' => [

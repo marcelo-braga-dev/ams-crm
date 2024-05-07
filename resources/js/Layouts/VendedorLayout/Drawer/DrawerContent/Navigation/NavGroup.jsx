@@ -17,8 +17,7 @@ const NavGroup = ({ item, menu, permissoes }) => {
                     </Typography>
                 );
             case 'item':
-                // return permissoes?.[menuItem.id] ? <NavItem key={menuItem.id} item={menuItem} level={1} menuSelected={menuSelected} /> : '';
-                return <NavItem key={menuItem.id} item={menuItem} level={1} menuSelected={menuSelected} />;
+                return (permissoes?.[menuItem.chave] || !menuItem.chave) ? <NavItem key={menuItem.id} item={menuItem} level={1} menuSelected={menuSelected} /> : '';
             default:
                 return (
                     <Typography key={menuItem.id} variant="h6" color="error" align="center">

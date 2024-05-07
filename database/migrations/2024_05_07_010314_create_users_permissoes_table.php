@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('users_permissoes', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->boolean('is_admin')->default(false);
+            $table->unsignedBigInteger('user_id');
+            $table->integer('chave');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

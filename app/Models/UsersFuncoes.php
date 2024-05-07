@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use DomainException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class UsersFuncoes extends Model
 {
@@ -12,6 +14,12 @@ class UsersFuncoes extends Model
     protected $fillable = [
         'nome', 'is_admin'
     ];
+
+    public function getNomes()
+    {
+        return $this->newQuery()
+            ->pluck('nome', 'id');
+    }
 
     public function getAll()
     {
@@ -29,13 +37,20 @@ class UsersFuncoes extends Model
 
     public function create($dados)
     {
-        $funcao = $this->newQuery()
-            ->create([
-                'nome' => $dados->nome,
-                'is_admin' => $dados->is_admin === 'admin'
-            ]);
+        DB::beginTransaction();
+        try {
+            $funcao = $this->newQuery()
+                ->create([
+                    'nome' => $dados->nome,
+                    'is_admin' => $dados->is_admin === 'admin'
+                ]);
 
-        (new UsersFuncoesPermissoes())->atualizar($funcao->id, $dados->permissoes);
+            (new UsersFuncoesPermissoes())->atualizar($funcao->id, $dados->permissoes);
+
+            DB::commit();
+        } catch (DomainException) {
+            DB::rollBack();
+        }
     }
 
     private function dados($item)
@@ -45,5 +60,18 @@ class UsersFuncoes extends Model
             'nome' => $item->nome,
             'is_admin' => $item->is_admin,
         ];
+    }
+
+    public function atualizar($id, $dados)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['nome' => $dados->nome]);
+    }
+
+    public function isAdmin($id)
+    {
+        return $this->newQuery()
+            ->find($id)->is_admin;
     }
 }

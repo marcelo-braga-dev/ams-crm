@@ -1,5 +1,5 @@
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
-import {Button, Card, Col, Container, Row, Table} from "reactstrap";
+import { Button, Card, Col, Container, Row, Table } from "reactstrap";
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -7,14 +7,14 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import BlockIcon from '@mui/icons-material/Block';
-import {Avatar} from "@mui/material";
+import { Avatar } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import {router} from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 
 // Tab
 function TabPanel(props) {
-    const {children, value, index, ...other} = props;
+    const { children, value, index, ...other } = props;
 
     return (
         <div
@@ -25,7 +25,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{p: 3}}>
+                <Box sx={{ p: 3 }}>
                     {children}
                 </Box>
             )}
@@ -48,7 +48,7 @@ function a11yProps(index) {
 
 // Tab - fim
 
-export default function Index({usuarios, status}) {
+export default function Index({ contas, usuarios, status }) {
     // Tab
     const [value, setValue] = React.useState(0);
 
@@ -59,18 +59,52 @@ export default function Index({usuarios, status}) {
     // Tab - fim
 
     function iconeStatus(status) {
-        return status === 'ativo' ? <CheckCircleOutlineIcon color="success"/> :
-            <BlockIcon color="error"/>
+        return status === 'ativo' ? <CheckCircleOutlineIcon color="success" /> :
+            <BlockIcon color="error" />
     }
 
     function escolherStatus(status) {
-        router.get(route('admin.usuarios.usuario.index', {status: !status}))
+        router.get(route('admin.usuarios.usuario.index', { status: !status }))
     }
 
     return (
         <Layout container titlePage="Usuários" menu="usuarios" submenu="usuarios-contas">
-            <Box sx={{width: '100%'}}>
-                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+            <div className='row'>
+                <div className='col-auto'>
+                    <a className='btn btn-primary' href={route('admin.usuarios.usuario.create')}>Cadastrar</a>
+                </div>
+            </div>
+            {contas.map((item) => (
+                <div className="mb-4 card card-body">
+                    <div className='row'>
+                        <div className='col-auto'><Avatar src={'/storage/' + item.foto} sx={{ width: 50, height: 50 }} /></div>
+                        <div className='col'>
+                            <div className='row'>
+                                <div className='col'>
+                                    <span className='d-block'><b>Nome: {item.nome}</b></span>
+                                    <span className='d-block'>Função: {item.funcao_nome}</span>
+                                    <span className='d-block'>Conta Admin: {item.is_admin ? 'Sim' : 'Não'}</span>
+                                </div>
+                                <div className='col'>
+                                    <span className='d-block'>Franquia: {item.franquia_nome}</span>
+                                    <span className='d-block'>Setor: {item.setor_nome}</span>
+                                </div>
+                                <div className='col'>
+                                    <span className='d-block'>Status: {item.status}</span>
+                                </div>
+                                <div className='col'>
+                                    <a className='btn btn-primary btn-sm'
+                                        href={route('admin.usuarios.usuario.show', item.id)}
+                                    >Ver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+
+            {/* <Box sx={{ width: '100%' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <div className="row">
                         <div className="col">
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -80,13 +114,13 @@ export default function Index({usuarios, status}) {
                             </Tabs>
                         </div>
                         <div className="col-auto">
-                            <FormControlLabel control={<Switch defaultChecked={status}/>}
-                                              label={status ? "Ativos" : "Todos"}
-                                              onChange={event => escolherStatus(event.target.checked)}/>
+                            <FormControlLabel control={<Switch defaultChecked={status} />}
+                                label={status ? "Ativos" : "Todos"}
+                                onChange={event => escolherStatus(event.target.checked)} />
                         </div>
                     </div>
                 </Box>
-                {/*Vendedores*/}
+               
                 <TabPanel value={value} index={0}>
                     <Row className={"mb-3 text-right"}>
                         <Col>
@@ -98,48 +132,48 @@ export default function Index({usuarios, status}) {
                     <div className="table-responsive">
                         <table className="table table-hover">
                             <thead>
-                            <tr className="text-sm">
-                                <th>Nome</th>
-                                <th>Setor</th>
-                                <th className="text-center">Franquia</th>
-                                <th>Ação</th>
-                            </tr>
+                                <tr className="text-sm">
+                                    <th>Nome</th>
+                                    <th>Setor</th>
+                                    <th className="text-center">Franquia</th>
+                                    <th>Ação</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {usuarios.consultores.map((dados, index) => {
-                                return (
-                                    <tr className="cursor-pointer"
-                                        key={index}
-                                        onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
+                                {usuarios.consultores.map((dados, index) => {
+                                    return (
+                                        <tr className="cursor-pointer"
+                                            key={index}
+                                            onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
 
-                                        <td className="text-wrap">
-                                            <div className="row">
-                                                <div className="col-auto">
-                                                    <Avatar src={dados.foto} sx={{width: 60, height: 60}}/>
+                                            <td className="text-wrap">
+                                                <div className="row">
+                                                    <div className="col-auto">
+                                                        <Avatar src={dados.foto} sx={{ width: 60, height: 60 }} />
+                                                    </div>
+                                                    <div className="col-auto">
+                                                        {iconeStatus(dados.status)} {dados.nome}<br />
+                                                        <small className="d-block">{dados.email}</small>
+                                                        <small>ID: #{dados.id}</small>
+                                                        <small className="d-block">Último
+                                                            Acesso {dados.ultimo_login}</small>
+                                                    </div>
                                                 </div>
-                                                <div className="col-auto">
-                                                    {iconeStatus(dados.status)} {dados.nome}<br/>
-                                                    <small className="d-block">{dados.email}</small>
-                                                    <small>ID: #{dados.id}</small>
-                                                    <small className="d-block">Último
-                                                        Acesso {dados.ultimo_login}</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="pt-4">
-                                            <small className="badge rounded-pill"
-                                                   style={{backgroundColor: dados.setor.cor ?? 'black'}}>{dados.setor.nome}</small>
-                                        </td>
-                                        <td className="text-center pt-3">
-                                            {dados.franquia}
-                                        </td>
-                                        <td>
-                                            <Button color="primary"
+                                            </td>
+                                            <td className="pt-4">
+                                                <small className="badge rounded-pill"
+                                                    style={{ backgroundColor: dados.setor.cor ?? 'black' }}>{dados.setor.nome}</small>
+                                            </td>
+                                            <td className="pt-3 text-center">
+                                                {dados.franquia}
+                                            </td>
+                                            <td>
+                                                <Button color="primary"
                                                     href={route('admin.usuarios.consultores.show', dados.id)}
                                                     size="sm">Ver</Button>
-                                        </td>
-                                    </tr>)
-                            })}
+                                            </td>
+                                        </tr>)
+                                })}
                             </tbody>
                         </table>
                     </div>
@@ -155,46 +189,46 @@ export default function Index({usuarios, status}) {
                     </Row>
                     <Table hover responsive>
                         <thead>
-                        <tr className="text-sm">
-                            <th></th>
-                            <th>Nome</th>
-                            <th className="text-center">Status</th>
-                            <th>Setor</th>
-                            <th className="text-center">Último Acesso</th>
-                            <th>Ação</th>
-                        </tr>
+                            <tr className="text-sm">
+                                <th></th>
+                                <th>Nome</th>
+                                <th className="text-center">Status</th>
+                                <th>Setor</th>
+                                <th className="text-center">Último Acesso</th>
+                                <th>Ação</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {usuarios.supervisores.map((dados, index) => {
-                            return (
-                                <tr className="cursor-pointer"
-                                    key={index}
-                                    onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
-                                    <td>
-                                        <Avatar src={dados.foto}/>
-                                    </td>
-                                    <td className="text-wrap">
-                                        {dados.nome}<br/>
-                                        <small className="d-block">{dados.email}</small>
-                                        <small>ID: #{dados.id}</small>
-                                    </td>
-                                    <td className="text-center">
-                                        {iconeStatus(dados.status)}
-                                    </td>
-                                    <td>
-                                        <small className="badge rounded-pill"
-                                               style={{backgroundColor: dados.setor.cor ?? 'black'}}>{dados.setor.nome}</small>
-                                    </td>
-                                    <td className="text-center">
-                                        <small>{dados.ultimo_login}</small>
-                                    </td>
-                                    <td>
-                                        <Button color={"primary"}
+                            {usuarios.supervisores.map((dados, index) => {
+                                return (
+                                    <tr className="cursor-pointer"
+                                        key={index}
+                                        onClick={() => window.location.href = route('admin.usuarios.supervisores.show', dados.id)}>
+                                        <td>
+                                            <Avatar src={dados.foto} />
+                                        </td>
+                                        <td className="text-wrap">
+                                            {dados.nome}<br />
+                                            <small className="d-block">{dados.email}</small>
+                                            <small>ID: #{dados.id}</small>
+                                        </td>
+                                        <td className="text-center">
+                                            {iconeStatus(dados.status)}
+                                        </td>
+                                        <td>
+                                            <small className="badge rounded-pill"
+                                                style={{ backgroundColor: dados.setor.cor ?? 'black' }}>{dados.setor.nome}</small>
+                                        </td>
+                                        <td className="text-center">
+                                            <small>{dados.ultimo_login}</small>
+                                        </td>
+                                        <td>
+                                            <Button color={"primary"}
                                                 href={route('admin.usuarios.supervisores.show', dados.id)}
                                                 size="sm">Ver</Button>
-                                    </td>
-                                </tr>)
-                        })}
+                                        </td>
+                                    </tr>)
+                            })}
                         </tbody>
                     </Table>
                 </TabPanel>
@@ -209,51 +243,51 @@ export default function Index({usuarios, status}) {
                     </Row>
                     <Table hover responsive>
                         <thead>
-                        <tr className="text-sm">
-                            <th></th>
-                            <th>Nome</th>
-                            <th className="text-center">Status</th>
-                            <th>Setor</th>
-                            <th className="text-center">Último Acesso</th>
-                            <th>Ação</th>
-                        </tr>
+                            <tr className="text-sm">
+                                <th></th>
+                                <th>Nome</th>
+                                <th className="text-center">Status</th>
+                                <th>Setor</th>
+                                <th className="text-center">Último Acesso</th>
+                                <th>Ação</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {usuarios.admins.map((dados, index) => {
-                            return (
-                                <tr className="cursor-pointer"
-                                    key={index}
-                                    onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
-                                    <td>
-                                        <Avatar src={dados.foto}/>
-                                    </td>
-                                    <td className="text-wrap">
-                                        {dados.nome}<br/>
-                                        <small className="d-block">{dados.email}</small>
-                                        <small>ID: #{dados.id}</small>
-                                    </td>
-                                    <td className="text-center">
-                                        {iconeStatus(dados.status)}
-                                    </td>
-                                    <td>
-                                        <small className="badge rounded-pill"
-                                               style={{backgroundColor: dados.setor.cor ?? 'black'}}>{dados.setor.nome}</small>
-                                    </td>
-                                    <td className="text-center">
-                                        <small>{dados.ultimo_login}</small>
-                                    </td>
-                                    <td>
-                                        <a className="btn btn-primary btn-sm"
-                                           href={route('admin.usuarios.consultores.show', dados.id)}>
-                                            Ver
-                                        </a>
-                                    </td>
-                                </tr>
-                            )
-                        })}
+                            {usuarios.admins.map((dados, index) => {
+                                return (
+                                    <tr className="cursor-pointer"
+                                        key={index}
+                                        onClick={() => window.location.href = route('admin.usuarios.consultores.show', dados.id)}>
+                                        <td>
+                                            <Avatar src={dados.foto} />
+                                        </td>
+                                        <td className="text-wrap">
+                                            {dados.nome}<br />
+                                            <small className="d-block">{dados.email}</small>
+                                            <small>ID: #{dados.id}</small>
+                                        </td>
+                                        <td className="text-center">
+                                            {iconeStatus(dados.status)}
+                                        </td>
+                                        <td>
+                                            <small className="badge rounded-pill"
+                                                style={{ backgroundColor: dados.setor.cor ?? 'black' }}>{dados.setor.nome}</small>
+                                        </td>
+                                        <td className="text-center">
+                                            <small>{dados.ultimo_login}</small>
+                                        </td>
+                                        <td>
+                                            <a className="btn btn-primary btn-sm"
+                                                href={route('admin.usuarios.consultores.show', dados.id)}>
+                                                Ver
+                                            </a>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </Table>
                 </TabPanel>
-            </Box>
+            </Box> */}
         </Layout>);
 }

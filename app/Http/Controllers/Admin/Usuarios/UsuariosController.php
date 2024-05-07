@@ -3,11 +3,17 @@
 namespace App\Http\Controllers\Admin\Usuarios;
 
 use App\Http\Controllers\Controller;
+use App\Models\Franquias;
+use App\Models\Setores;
 use App\Models\User;
+use App\Models\UsersFuncoes;
+use App\Models\UsersPermissoes;
 use App\src\Usuarios\Funcoes\Admins;
 use App\src\Usuarios\Funcoes\Vendedores;
 use App\src\Usuarios\Funcoes\Supervisores;
+use App\src\Usuarios\Permissoes\PermissoesUsuarios;
 use App\src\Usuarios\Usuarios;
+use DomainException;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,8 +28,72 @@ class UsuariosController extends Controller
         $usuarios['supervisores'] = [...$dados->where('tipo', (new Supervisores())->getFuncao())];
         $usuarios['consultores'] = [...$dados->where('tipo', (new Vendedores())->getFuncao())];
 
-        return Inertia::render('Admin/Usuarios/Index',
-            compact('usuarios', 'status'));
+        $contas = (new User)->contas();
+        // print_pre($contas);
+
+        return Inertia::render(
+            'Admin/Usuarios/Index',
+            compact('contas', 'usuarios', 'status')
+        );
+    }
+
+    public function show($id)
+    {
+        $usuario = (new User())->get($id);
+
+        return Inertia::render('Admin/Usuarios/Show', compact('usuario'));
+    }
+
+    public function create()
+    {
+        $franquias = (new Franquias())->get();;
+        $setores = (new Setores())->setores();
+        $funcoes = (new UsersFuncoes())->getAll();
+        $permissoes = (new PermissoesUsuarios())->permissoes();
+
+        return Inertia::render(
+            'Admin/Usuarios/Create',
+            compact('funcoes', 'franquias', 'setores', 'permissoes')
+        );
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $id = (new User())->create($request);
+            (new UsersPermissoes())->atualizar($id, $request->permissoes);
+
+            modalSucesso('Usuário cadastrado com sucesso!');
+            return redirect()->route('admin.usuarios.usuario.index');
+        } catch (DomainException $e) {
+            modalErro($e->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function edit($id)
+    {
+        $usuario = (new User())->get($id);
+        $franquias = (new Franquias())->get();
+        $setores = (new Setores())->setores();
+        $funcoes = (new UsersFuncoes())->getAll();
+        $permissoes = (new PermissoesUsuarios())->permissoes();
+        $permissoesUsuario = (new UsersPermissoes())->permissoes($id);
+        // print_pre($usuario);
+        return Inertia::render(
+            'Admin/Usuarios/Edit',
+            compact('usuario', 'funcoes', 'franquias', 'setores', 'permissoes', 'permissoesUsuario')
+        );
+    }
+
+    public function update($id, Request $request)
+    {
+        // print_pre($request->admin);
+        (new User())->atualizar($id, $request);
+        (new UsersPermissoes())->atualizar($id, $request->permissoes);
+
+        modalSucesso('Dados atualizado com sucesso!');
+        return redirect()->back();
     }
 
     public function updateSenha($id, Request $request)

@@ -1,6 +1,7 @@
 import * as React from "react";
 
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import chaves from "./chaves";
 
 const dashboard = {
     id: 'calendario',
@@ -8,6 +9,7 @@ const dashboard = {
     type: 'group',
     children: [{
         id: 'calendario-agenda',
+        chave: chaves.ferramentas.agenda,
         title: 'Agenda',
         type: 'item',
         url: route('consultor.calendario.agenda.index'),

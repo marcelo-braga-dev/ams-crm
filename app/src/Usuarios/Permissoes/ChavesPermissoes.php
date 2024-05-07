@@ -117,4 +117,12 @@ class ChavesPermissoes
     {
         return '28';
     }
+    public function chaveRelatorio()
+    {
+        return '29';
+    }
+    public function chaveSdr()
+    {
+        return '30';
+    }
 }
