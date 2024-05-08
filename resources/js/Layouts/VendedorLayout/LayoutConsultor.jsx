@@ -12,7 +12,7 @@ import ModalsAlerts from "@/Components/Modals/AlertsModals";
 import BoxStyled from "./Content/Box";
 
 const Layout = ({ titlePage, menu, children, voltar, empty }) => {
-    const permissoes = usePage().props.permissoes
+    const permissoes = usePage().props._permissoesUsuario
 
     const theme = useTheme();
     const matchDownLG = useMediaQuery(theme.breakpoints.down('lg'));
