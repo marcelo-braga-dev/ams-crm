@@ -3,7 +3,7 @@ import { usePage } from "@inertiajs/react";
 
 export default function DadosPedido({ dados }) {
 
-    const isAdmin = usePage().props.auth.user.tipo === 'admin'
+    const isAdmin = usePage().props.auth.user.is_financeiro == 1
 
     return (<>
         <Typography variant="subtitle1" className="mb-2">Informações do Pedido</Typography>

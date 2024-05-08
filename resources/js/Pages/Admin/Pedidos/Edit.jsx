@@ -13,7 +13,7 @@ export default function ({ pedido, usuarios }) {
     const [userFaturado, setUserFaturado] = useState(pedido.pedido.user_faturamento)
     const [dataFaturamento, setDataFaturamento] = useState(pedido.financeiro.data_faturamento)
 
-    const isAdmin = usePage().props.auth.user.tipo === 'admin'
+    const isAdmin = usePage().props.auth.user.is_financeiro == 1
 
     const submit = (e) => {
         e.preventDefault()

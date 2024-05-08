@@ -14,11 +14,11 @@ import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
-import {router, usePage} from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import GridOnIcon from '@mui/icons-material/GridOn';
 
 function TabPanel(props) {
-    const {children, value, index, ...other} = props;
+    const { children, value, index, ...other } = props;
     return (
         <div
             role="tabpanel"
@@ -28,7 +28,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{p: 3}}>
+                <Box sx={{ p: 3 }}>
                     {children}
                 </Box>
             )}
@@ -43,9 +43,9 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({pedido, produtos, historico, historicoAcompanhamento, urlPrevious}) {
+export default function Pedidos({ pedido, produtos, historico, historicoAcompanhamento, urlPrevious }) {
     const [value, setValue] = React.useState(0);
-    const funcaoUsuario = usePage().props.auth.user.tipo
+    const funcaoUsuario = usePage().props.auth.user.is_financeiro == 1
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -53,9 +53,9 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
 
     return (
         <Layout container titlePage="Informações do Pedido" menu="pedidos" submenu="pedidos-lista"
-                voltar={urlPrevious}>
-            <Box sx={{width: '100%'}}>
-                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+            voltar={urlPrevious}>
+            <Box sx={{ width: '100%' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <div className="row justify-content-between">
                         <div className="col">
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -67,7 +67,7 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                                 <Tab label="SAC" {...a11yProps(5)} />
                             </Tabs>
                         </div>
-                        <div className="col-auto  m-0">
+                        <div className="col-auto m-0">
                             <a className="btn btn-primary btn-sm"
                                 href={route('admin.pedidos.edit', pedido.id)}>Editar</a>
                         </div>
@@ -75,41 +75,41 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
 
                 </Box>
                 <TabPanel value={value} index={0}>
-                    <div className="row mb-4">
+                    <div className="mb-4 row">
                         <div className="col">
                             <DadosPedido dados={pedido}></DadosPedido>
                         </div>
                     </div>
                     <div className="row">
                         <div className="col">
-                            {funcaoUsuario === 'admin' ?
-                                <DadosProdutosCompleta dados={produtos}/> :
-                                <DadosProdutos dados={produtos}/>}
+                            {funcaoUsuario ?
+                                <DadosProdutosCompleta dados={produtos} /> :
+                                <DadosProdutos dados={produtos} />}
                         </div>
                     </div>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <DadosPedidoCliente dados={pedido}></DadosPedidoCliente>
-                    <hr/>
+                    <hr />
                     <Typography variant={"h6"}>Arquivos do Cliente</Typography>
                     <DadosPedidoClienteFiles dados={pedido}></DadosPedidoClienteFiles>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <div className="row">
-                        <div className="col mb-4">
+                        <div className="mb-4 col">
                             <h6>Financeiro</h6>
-                            <DadosPedidoFinanceiro dados={pedido}/>
+                            <DadosPedidoFinanceiro dados={pedido} />
                         </div>
                         {pedido.pedido_files.planilha_pedido &&
                             <div className="col-md-4">
                                 <label>Imagem da Planilha de Pedidos</label>
-                                <ImagePdf url={pedido.pedido_files.planilha_pedido}/>
+                                <ImagePdf url={pedido.pedido_files.planilha_pedido} />
                             </div>
                         }
                     </div>
                     <div className="row">
                         <div className="col">
-                            <DadosPedidoFinanceiroFiles dados={pedido}/>
+                            <DadosPedidoFinanceiroFiles dados={pedido} />
                         </div>
                     </div>
                 </TabPanel>
@@ -124,35 +124,35 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                         <span><b>Histórico do Pedido</b></span>
                         <table className="table">
                             <thead>
-                            <tr>
-                                <th>Data</th>
-                                <th>Prazo</th>
-                                <th>Responsável</th>
-                                <th>Status</th>
-                                <th>Anotações</th>
-                            </tr>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Prazo</th>
+                                    <th>Responsável</th>
+                                    <th>Status</th>
+                                    <th>Anotações</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {historico.map((dado, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <th scope="row">
-                                            {dado.data}
-                                        </th>
-                                        <td className="col-1">
-                                            {dado.prazo} dias
-                                        </td>
-                                        <td>
-                                            {dado.usuario}
-                                        </td>
-                                        <td>
-                                            {dado.status}
-                                        </td>
-                                        <td>
-                                            {dado.obs}
-                                        </td>
-                                    </tr>)
-                            })}
+                                {historico.map((dado, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <th scope="row">
+                                                {dado.data}
+                                            </th>
+                                            <td className="col-1">
+                                                {dado.prazo} dias
+                                            </td>
+                                            <td>
+                                                {dado.usuario}
+                                            </td>
+                                            <td>
+                                                {dado.status}
+                                            </td>
+                                            <td>
+                                                {dado.obs}
+                                            </td>
+                                        </tr>)
+                                })}
                             </tbody>
                         </table>
                     </div>
@@ -163,27 +163,27 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                             <span><b>Histórico de Acompanhamento do Pedido</b></span>
                             <table className="table">
                                 <thead>
-                                <tr>
-                                    <th>Data</th>
-                                    <th>Autor</th>
-                                    <th>Mensagem</th>
-                                </tr>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Autor</th>
+                                        <th>Mensagem</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                {historicoAcompanhamento.map((dado, index) => {
-                                    return (
-                                        <tr key={index}>
-                                            <th scope="row" className="col-2">
-                                                {dado.data}
-                                            </th>
-                                            <td>
-                                                {dado.nome}
-                                            </td>
-                                            <td>
-                                                {dado.msg}
-                                            </td>
-                                        </tr>)
-                                })}
+                                    {historicoAcompanhamento.map((dado, index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <th scope="row" className="col-2">
+                                                    {dado.data}
+                                                </th>
+                                                <td>
+                                                    {dado.nome}
+                                                </td>
+                                                <td>
+                                                    {dado.msg}
+                                                </td>
+                                            </tr>)
+                                    })}
                                 </tbody>
                             </table>
                         </div>
@@ -191,8 +191,8 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                 </TabPanel>
                 <TabPanel value={value} index={5}>
                     <h6>SAC</h6>
-                    <a href={route('admin.chamado.create', {id: pedido.pedido.id})}
-                       className="btn btn-primary">
+                    <a href={route('admin.chamado.create', { id: pedido.pedido.id })}
+                        className="btn btn-primary">
                         ABRIR SAC
                     </a>
                 </TabPanel>

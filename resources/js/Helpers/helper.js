@@ -1,7 +1,7 @@
 import { usePage } from "@inertiajs/react";
 
 export const isAdmin = () => {
-    return usePage().props.auth.user.tipo === 'admin'
+    return usePage().props.auth.user.is_financeiro == 1
 }
 
 export const isSupervisor = () => {
@@ -9,7 +9,7 @@ export const isSupervisor = () => {
 }
 
 export const funcaoUsuario = () => {
-    return usePage().props.auth.user.tipo
+    return usePage().props.auth.user.is_financeiro
 }
 
 export const converterMes = (mes) => {
