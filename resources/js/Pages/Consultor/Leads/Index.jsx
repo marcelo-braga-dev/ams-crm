@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -15,7 +15,7 @@ import AtendimentoCards from './Cards/AtendimentoCard';
 import FinalizadoCard from "./Cards/FinalizadoCard";
 import AtivoCard from "./Cards/AtivoCard";
 
-export default function Dashboard({}) {
+export default function Dashboard({ }) {
     const [leads, setLeads] = useState()
 
     useEffect(function () {
@@ -31,101 +31,124 @@ export default function Dashboard({}) {
             {/*Pesquisa*/}
             <div className="row justify-content-end">
                 <div className="col-auto">
-                    <ScrollControlHorizontal/>
+                    <ScrollControlHorizontal />
                 </div>
                 <div className="col-auto text-right">
                     <FormControl variant="outlined" className="bg-white" size="small">
                         <InputLabel htmlFor="search">Pesquisar...</InputLabel>
                         <OutlinedInput id="search" label="Pesquisar..."
-                                       endAdornment={
-                                           <InputAdornment position="end">
-                                               <SearchOutlinedIcon></SearchOutlinedIcon>
-                                           </InputAdornment>
-                                       }
-                                       onChange={e => pesquisaCards(e.target.value)}/>
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <SearchOutlinedIcon></SearchOutlinedIcon>
+                                </InputAdornment>
+                            }
+                            onChange={e => pesquisaCards(e.target.value)} />
                     </FormControl>
                 </div>
             </div>
 
-            {!leads && <LinearProgress className="my-4"/>}
+            {!leads && <LinearProgress className="my-4" />}
 
             {/*Tabela*/}
             {leads && <>
-                <div className="row justify-content-center my-4">
+                <div className="my-4 row justify-content-center">
                     <div className="col-auto d-none d-md-block">
-                        <ScrollControlHorizontal lateral="e"/>
+                        <ScrollControlHorizontal lateral="e" />
                     </div>
                     <div className="col-12 col-md-11">
                         <div id="scrollControlHorizontal" className="overflow-scroll">
                             <table>
                                 <thead>
-                                <tr>
-                                    <th id="th-1">
-                                        <div
-                                            className='row bg-primary justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Em Aberto</div>
-                                            <div className='col-auto'>Qdt: {leads.novo.length}</div>
-                                        </div>
-                                    </th>
-                                    <th id="th-2">
-                                        <div
-                                            className='row bg-warning justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Em Atendimento</div>
-                                            <div className='col-auto'>Qdt: {leads.atendimento.length}</div>
-                                        </div>
-                                    </th>
-
-                                    <th id="th-3">
-                                        <div
-                                            className='row bg-success justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Ativo</div>
-                                            <div className='col-auto'>Qdt: {leads.ativo.length}</div>
-                                        </div>
-                                    </th>
-                                    <th id="th-4">
-                                        <div
-                                            className='row bg-dark justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Finalizados</div>
-                                            <div className='col-auto'>Qdt: {leads.finalizado.length}</div>
-                                        </div>
-                                    </th>
-                                </tr>
+                                    <tr>
+                                        <th id="th-1">
+                                            <div
+                                                className='p-2 mx-1 text-white row bg-primary justify-content-between rounded-top'>
+                                                <div className='col-auto'>Iniciar Atendimento</div>
+                                                <div className='col-auto'>Qdt: {leads.novo.length}</div>
+                                            </div>
+                                        </th>
+                                        <th id="th-2">
+                                            <div
+                                                className='p-2 mx-1 text-white row bg-warning justify-content-between rounded-top'>
+                                                <div className='col-auto'>Pré Atendimento</div>
+                                                <div className='col-auto'>Qdt: {leads.pre_atendimento.length}</div>
+                                            </div>
+                                        </th>
+                                        <th id="th-1">
+                                            <div
+                                                className='p-2 mx-1 text-white row bg-primary justify-content-between rounded-top'>
+                                                <div className='col-auto'>Em Aberto</div>
+                                                <div className='col-auto'>Qdt: {leads.aberto.length}</div>
+                                            </div>
+                                        </th>
+                                        <th id="th-2">
+                                            <div
+                                                className='p-2 mx-1 text-white row bg-warning justify-content-between rounded-top'>
+                                                <div className='col-auto'>Em Atendimento</div>
+                                                <div className='col-auto'>Qdt: {leads.atendimento.length}</div>
+                                            </div>
+                                        </th>
+                                        <th id="th-3">
+                                            <div
+                                                className='p-2 mx-1 text-white row bg-success justify-content-between rounded-top'>
+                                                <div className='col-auto'>Ativo</div>
+                                                <div className='col-auto'>Qdt: {leads.ativo.length}</div>
+                                            </div>
+                                        </th>
+                                        <th id="th-4">
+                                            <div
+                                                className='p-2 mx-1 text-white row bg-dark justify-content-between rounded-top'>
+                                                <div className='col-auto'>Finalizados</div>
+                                                <div className='col-auto'>Qdt: {leads.finalizado.length}</div>
+                                            </div>
+                                        </th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr className="align-top">
-                                    <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
-                                        {leads.novo.map((dado, i) => {
-                                            return (<NovoCards key={i} dados={dado}/>)
-                                        })}
-                                    </td>
-                                    <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
-                                        {leads.atendimento.map((dado) => {
-                                            return (<AtendimentoCards key={dado.id} dados={dado}/>)
-                                        })}
-                                    </td>
-                                    <td id="td-3" className="shadow-sm" style={{minWidth: 300}}>
-                                        {leads.ativo.map((dado) => {
-                                            return (<AtivoCard key={dado.id} dados={dado}/>)
-                                        })}
-                                    </td>
-                                    <td id="td-4" className="shadow-sm" style={{minWidth: 300}}>
-                                        {leads.finalizado.map((dado) => {
-                                            return (<FinalizadoCard key={dado.id} dados={dado}/>)
-                                        })}
-                                    </td>
-                                </tr>
+                                    <tr className="align-top">
+                                        <td id="td-1" className="shadow-sm" style={{ minWidth: 300 }}>
+                                            {leads.novo.map((dado, i) => {
+                                                return (<NovoCards key={i} dados={dado} />)
+                                            })}
+                                        </td>
+                                        <td id="td-2" className="shadow-sm" style={{ minWidth: 300 }}>
+                                            {leads.pre_atendimento.map((dado) => {
+                                                return (<AtendimentoCards key={dado.id} dados={dado} />)
+                                            })}
+                                        </td>
+                                        <td id="td-1" className="shadow-sm" style={{ minWidth: 300 }}>
+                                            {leads.aberto.map((dado, i) => {
+                                                return (<NovoCards key={i} dados={dado} />)
+                                            })}
+                                        </td>
+                                        <td id="td-2" className="shadow-sm" style={{ minWidth: 300 }}>
+                                            {leads.atendimento.map((dado) => {
+                                                return (<AtendimentoCards key={dado.id} dados={dado} />)
+                                            })}
+                                        </td>
+                                        <td id="td-3" className="shadow-sm" style={{ minWidth: 300 }}>
+                                            {leads.ativo.map((dado) => {
+                                                return (<AtivoCard key={dado.id} dados={dado} />)
+                                            })}
+                                        </td>
+                                        <td id="td-4" className="shadow-sm" style={{ minWidth: 300 }}>
+                                            {leads.finalizado.map((dado) => {
+                                                return (<FinalizadoCard key={dado.id} dados={dado} />)
+                                            })}
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div className="col-auto d-none d-md-block">
-                        <ScrollControlHorizontal lateral="d"/>
+                        <ScrollControlHorizontal lateral="d" />
                     </div>
                 </div>
 
-                <div className="row mb-3">
-                    <div className="col text-center">
-                        <ScrollControlHorizontal/>
+                <div className="mb-3 row">
+                    <div className="text-center col">
+                        <ScrollControlHorizontal />
                     </div>
                 </div>
             </>}

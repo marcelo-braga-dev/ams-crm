@@ -3,12 +3,12 @@
 namespace App\Services\Leads;
 
 use App\Models\Leads;
-use App\Models\LeadsHistoricos;
+use App\src\Leads\Status\AbertoStatusLeads;
 use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
-use App\src\Leads\Status\CanceladoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
+use App\src\Leads\Status\PreAtendimentoStatusLeads;
 
 class CardsLeadsService
 {
@@ -24,28 +24,28 @@ class CardsLeadsService
     private function cards($id): void
     {
         $novo = (new NovoStatusLeads())->getStatus();
+        $preAtendimento = (new PreAtendimentoStatusLeads)->getStatus();
+        $aberto = (new AbertoStatusLeads)->getStatus();
         $atendimento = (new AtendimentoStatusLeads())->getStatus();
         $ativo = (new AtivoStatusLeads())->getStatus();
         $finalizado = (new FinalizadoStatusLeads())->getStatus();
-        $cancelado = (new CanceladoStatusLeads())->getStatus();
 
-        $msg = [];
-//        (new LeadsHistoricos())->ultimaMsg();
         $leads = (new Leads())->getCards($id);
 
-        $novo = ($this->dados($leads, $novo, $msg, 'asc'))->toArray();
+        $novo = ($this->dados($leads, $novo))->toArray();
         sort($novo);
         $this->cardsLeads['novo'] = $novo;
-        $this->cardsLeads['atendimento'] = [...$this->dados($leads, $atendimento, $msg, 'desc')];
-        $this->cardsLeads['ativo'] = [...$this->dados($leads, $ativo, $msg, 'desc')];
-        $this->cardsLeads['finalizado'] = [...$this->dados($leads, $finalizado, $msg, 'desc')];
-        $this->cardsLeads['cancelado'] = [...$this->dados($leads, $cancelado, $msg, 'desc')];
+        $this->cardsLeads['pre_atendimento'] = [...$this->dados($leads, $preAtendimento)];
+        $this->cardsLeads['aberto'] = [...$this->dados($leads, $aberto)];
+        $this->cardsLeads['atendimento'] = [...$this->dados($leads, $atendimento)];
+        $this->cardsLeads['ativo'] = [...$this->dados($leads, $ativo)];
+        $this->cardsLeads['finalizado'] = [...$this->dados($leads, $finalizado)];
     }
 
-    private function dados($leads, $status, $msg, $order)
+    private function dados($leads, $status)
     {
         return $leads->where('status', $status)
-            ->transform(function ($item) use ($msg) {
+            ->transform(function ($item) {
                 return [
                     'id' => $item->id,
                     'cliente' => [
@@ -58,8 +58,6 @@ class CardsLeadsService
                         'telefone' => converterTelefone($item->telefone),
                     ],
                     'infos' => [
-                        'ultima_msg' => $msg[$item->id]['msg'] ?? null,
-                        'data_ultima_msg' => $msg[$item->id]['data'] ?? null,
                         'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                     ],
                 ];

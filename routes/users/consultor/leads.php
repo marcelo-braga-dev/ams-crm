@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Consultor\Leads\AtendimentoController;
 use App\Http\Controllers\Consultor\Leads\AtivoController;
-use App\Http\Controllers\Consultor\Leads\CanceladosController;
 use App\Http\Controllers\Consultor\Leads\FinalizadosController;
 use App\Http\Controllers\Consultor\Leads\LeadsController;
 use App\Http\Controllers\Consultor\Leads\NovoController;
@@ -19,7 +18,6 @@ Route::middleware(['auth', 'auth.consultores'])
             'ativo' => AtivoController::class,
             'novo' => NovoController::class,
             'finalizado' => FinalizadosController::class,
-            'cancelado' => CanceladosController::class
         ]);
 
         Route::post('update-classificacao', [LeadsController::class, 'updateClassificacao'])

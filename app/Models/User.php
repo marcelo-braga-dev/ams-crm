@@ -211,14 +211,12 @@ class User extends Authenticatable
             ->where('status', (new AtivoStatusUsuario)->getStatus());
 
         if ($setor) $query->where('setor_id', $setor);
-        if ($superiores) $query->orWhere('tipo', 'admin');
-        if ($superiores) $query->orWhere('tipo', 'idSupervisor');
 
         if ($exceto) return
-            $query->get(['id', 'name', 'setor_id', 'email', 'tipo', 'status', 'foto', 'ultimo_login'])
+            $query->get(['id', 'name', 'setor_id', 'email',  'status', 'foto', 'ultimo_login'])
             ->except(['id' => $exceto]);
 
-        return $query->get(['id', 'name', 'setor_id', 'email', 'tipo', 'status', 'foto', 'ultimo_login']);
+        return $query->get(['id', 'name', 'setor_id', 'email',  'status', 'foto', 'ultimo_login']);
     }
 
     public function chatInterno()

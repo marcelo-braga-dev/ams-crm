@@ -38,10 +38,10 @@ class Produtos extends Model
                 return [
                     'id' => $dados->id,
                     'nome' => $dados->nome,
-                    'preco_fornecedor' => 0, //convert_float_money($dados->preco_fornecedor),
+                    'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
-                    'preco_fornecedor_float' => 0, //$dados->preco_fornecedor,
+                    'preco_fornecedor_float' => $dados->preco_fornecedor,
                     'unidade' => $unidades[$dados->unidade] ?? '',
                     'estoque' => $dados->estoque_local,
                     'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
@@ -82,7 +82,7 @@ class Produtos extends Model
             'nome' => $dados->nome,
             'fornecedores_id' => $dados->fornecedores_id,
             'fornecedor_nome' => $fornecedores[$dados->fornecedores_id] ?? '',
-            'preco_fornecedor' => 0, //convert_float_money($dados->preco_fornecedor),
+            'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
             'preco_venda' => convert_float_money($dados->preco_venda),
             'unidade' => $dados->unidade,
             'unidade_nome' => $unidades[$dados->unidade] ?? '',
@@ -139,7 +139,7 @@ class Produtos extends Model
         $dados = $this->newQuery()
             ->find($id);
 
-        $atual = $dados->estoque_local - ($valorNovo - $valorAtual); //153
+        $atual = $dados->estoque_local - ($valorNovo - $valorAtual);
 
         $this->atualizarEstoqueLocal($id, $atual);
     }
@@ -164,9 +164,9 @@ class Produtos extends Model
                     'id' => $dados->id,
                     'nome' => $dados->nome,
                     'descricao' => $dados->descricao,
-                    'preco_fornecedor' => 0, //convert_float_money($dados->preco_fornecedor),
+                    'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
                     'preco_venda' => convert_float_money($dados->preco_venda),
-                    'preco_venda_float' => 0, //$dados->preco_venda,
+                    'preco_venda_float' => $dados->preco_venda,
                     'preco_fornecedor_float' => $dados->preco_fornecedor,
                     'unidade' => $unidades[$dados->unidade] ?? '',
                     'estoque' => $dados->estoque_local,
