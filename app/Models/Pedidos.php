@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use App\Services\Leads\LeadsDadosService;
 use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\StatusPedidos;
-use App\src\Usuarios\Funcoes\Admins;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -308,11 +306,9 @@ class Pedidos extends Model
             $cliente = (new Leads())->find($pedido->lead_id);
         }
 
-        $isAdmin = is_admin();
-        // $precoCusto = $isAdmin
-        //     ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
-        //     : null;
-        $precoCusto = 'em manutencao';
+        $precoCusto = is_financeiro()
+            ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
+            : null;
 
         return [
             'id' => $pedido->id,

@@ -11,7 +11,7 @@ export default function ({ usuario, usuarios, supervisionados, funcoes, franquia
         funcao: usuario.funcao_id,
         franquia: usuario.franquia_id,
         setor: usuario.setor_id,
-        //financeiro: usuario.,
+        financeiro: usuario.financeiro,
         permissoes: permissoesUsuario,
         admin: usuario.is_admin,
         supervisionados: supervisionados
@@ -69,13 +69,14 @@ export default function ({ usuario, usuarios, supervisionados, funcoes, franquia
                                 <MenuItem value="1" >Sim</MenuItem>
                             </TextField>
                         </div>
-                        {/* <div className="mb-4 col-md-2">
+                        <div className="mb-4 col-md-2">
                             <TextField label="Função Financeiro" select required fullWidth
+                                defaultValue={data.financeiro}
                                 onChange={e => setData('financeiro', e.target.value)}>
                                 <MenuItem value="0">Não</MenuItem>
                                 <MenuItem value="1">Sim</MenuItem>
                             </TextField>
-                        </div> */}
+                        </div>
                     </div>
                 </div>
 

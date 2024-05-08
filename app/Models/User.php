@@ -6,7 +6,6 @@ namespace App\Models;
 use App\Services\Images;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Usuarios\Funcoes\Admins;
-use App\src\Usuarios\Funcoes\Vendedores;
 use App\src\Usuarios\Funcoes\Supervisores;
 use App\src\Usuarios\Permissoes\ChavesPermissoes;
 use App\src\Usuarios\Status\AtivoStatusUsuario;
@@ -35,6 +34,7 @@ class User extends Authenticatable
         'setor_id',
         // 'superior_id',
         'is_admin',
+        'is_financeiro',
         'funcao_id',
         // 'tipo',
         'categoria',
@@ -71,6 +71,7 @@ class User extends Authenticatable
                     'name' => $dados->nome,
                     'email' => $dados->email,
                     'franquia_id' => $dados->franquia,
+                    'is_financeiro' => $dados->financeiro,
                     'setor_id' => $dados->setor,
                     'funcao_id' => $dados->funcao,
                     'is_admin' => $dados->admin
@@ -89,6 +90,7 @@ class User extends Authenticatable
                 'name' => $dados->nome,
                 'email' => $dados->email,
                 'franquia_id' => $dados->franquia,
+                'is_financeiro' => $dados->financeiro,
                 'setor_id' => $dados->setor,
                 'funcao_id' => $dados->funcao,
                 'is_admin' => $dados->admin
@@ -190,6 +192,7 @@ class User extends Authenticatable
             'franquia_id' => $dados->franquia_id,
             'funcao' => $funcoes[$dados->funcao_id] ?? '',
             'funcao_id' => $dados->funcao_id,
+            'financeiro' => $dados->is_financeiro,
             // 'idSupervisor' => $nomes[$dados->superior_id] ?? '',
             // 'supervisor_id' => $dados->superior_id,
             'status' => $dados->status,

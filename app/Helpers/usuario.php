@@ -37,6 +37,13 @@ if (!function_exists('funcao_usuario_atual')) {
     }
 }
 
+if (!function_exists('is_financeiro')) {
+    function is_financeiro(): bool
+    {
+        return auth()->user()->is_financeiro;
+    }
+}
+
 if (!function_exists('is_admin')) {
     function is_admin(): bool
     {
