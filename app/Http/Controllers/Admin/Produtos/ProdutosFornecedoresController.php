@@ -23,8 +23,10 @@ class ProdutosFornecedoresController extends Controller
 
         $fornecedores = (new FornecedoresService())->fornecedores($setorAtual);
 
-        return Inertia::render('Admin/Produtos/Fornecedores/Index',
-            compact('fornecedores', 'setores', 'setorAtual'));
+        return Inertia::render(
+            'Admin/Produtos/Fornecedores/Index',
+            compact('fornecedores', 'setores', 'setorAtual')
+        );
     }
 
     public function show($id)
@@ -32,8 +34,10 @@ class ProdutosFornecedoresController extends Controller
         $produtos = (new Produtos())->getProdutos($id);
         $fornecedor = (new Fornecedores())->find($id);
 
-        return Inertia::render('Admin/Produtos/Fornecedores/Show',
-            compact('produtos', 'fornecedor'));
+        return Inertia::render(
+            'Admin/Produtos/Fornecedores/Show',
+            compact('produtos', 'fornecedor')
+        );
     }
 
     public function create(Request $request)
@@ -42,8 +46,10 @@ class ProdutosFornecedoresController extends Controller
         $categorias = (new ProdutosCategorias())->categorias($fornecedor['setor_id']);
         $unidades = (new ProdutosUnidades())->get();
 
-        return Inertia::render('Admin/Produtos/Create',
-            compact('fornecedor', 'categorias', 'unidades'));
+        return Inertia::render(
+            'Admin/Produtos/Create',
+            compact('fornecedor', 'categorias', 'unidades')
+        );
     }
 
     public function edit($id)
@@ -54,8 +60,10 @@ class ProdutosFornecedoresController extends Controller
         $unidades = (new ProdutosUnidades())->get();
         $infos = (new ProdutosInformacoes())->get($id);
 
-        return Inertia::render('Admin/Produtos/Edit',
-            compact('produto', 'fornecedor', 'categorias', 'unidades', 'infos'));
+        return Inertia::render(
+            'Admin/Produtos/Edit',
+            compact('produto', 'fornecedor', 'categorias', 'unidades', 'infos')
+        );
     }
 
     public function update($id, Request $request)

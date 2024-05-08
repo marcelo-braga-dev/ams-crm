@@ -38,7 +38,7 @@ class Produtos extends Model
                 return [
                     'id' => $dados->id,
                     'nome' => $dados->nome,
-                    'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
+                    'preco_fornecedor' => 0, //convert_float_money($dados->preco_fornecedor),
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
                     'preco_fornecedor_float' => $dados->preco_fornecedor,
@@ -139,7 +139,7 @@ class Produtos extends Model
         $dados = $this->newQuery()
             ->find($id);
 
-        $atual = $dados->estoque_local - ($valorNovo - $valorAtual);//153
+        $atual = $dados->estoque_local - ($valorNovo - $valorAtual); //153
 
         $this->atualizarEstoqueLocal($id, $atual);
     }
