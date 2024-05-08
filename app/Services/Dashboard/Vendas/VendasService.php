@@ -6,13 +6,14 @@ use App\Models\MetasVendas;
 use App\Models\Pedidos;
 use App\Models\User;
 use App\Services\Pedidos\StatusPedidosServices;
+use App\src\Usuarios\Status\AtivoStatusUsuario;
 use Illuminate\Support\Facades\DB;
 
 class VendasService
 {
     public function metaVendas($mes, $ano, $setor): array
     {
-        $usuarios = (new User())->getUsuarios($setor, false);
+        // $usuarios = (new User())->getUsuarios($setor, false);
         $isAdmin = is_admin();
 
         $vendasUsuarios = [];
@@ -20,6 +21,8 @@ class VendasService
         $totalMetas = 0;
         $totalCustos = 0;
         $totalQtd = 0;
+
+        $usuarios = (new User())->usuarioComMetasVendas($setor);
 
         foreach ($usuarios as $usuario) {
             $vendas = 0;
@@ -32,16 +35,16 @@ class VendasService
                     $vendas += (new Pedidos())->getVendasMesUsuario($usuario['id'], $item, $ano)->vendas;
                     $custos += (new Pedidos())->getVendasMesUsuario($usuario['id'], $item, $ano)->custos;
                     $qtd += (new Pedidos())->getVendasMesUsuario($usuario['id'], $item, $ano)->qtd;
-                    $metas += (new MetasVendas())->getMetaMes($usuario['id'], $item, $ano);
+                    if ($usuario['status']) $metas += (new MetasVendas())->getMetaMes($usuario['id'], $item, $ano);
                 }
             else {
                 $vendas = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano)->vendas;
                 $custos = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano)->custos;
                 $qtd = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano)->qtd;
-                $metas = (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano);
+                if ($usuario['status']) $metas = (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano);
             }
 
-            if ($usuario['status'] == 'ativo' || $qtd > 0) {
+            if ($usuario['status'] == (new AtivoStatusUsuario)->getStatus() || $qtd > 0) {
                 $totalMetas += $metas;
 
                 $totalVendas += $vendas;
@@ -55,6 +58,7 @@ class VendasService
                     'qtd' => $qtd,
                     'id' => $usuario['id'],
                     'nome' => $usuario['nome'],
+                    'foto' => $usuario['foto'],
                     'meta' => $metas
                 ];
             }

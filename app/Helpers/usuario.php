@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\UsersHierarquias;
+
 if (!function_exists('id_usuario_atual')) {
     function id_usuario_atual()
     {
@@ -30,20 +33,28 @@ if (!function_exists('franquia_selecionada')) {
 if (!function_exists('funcao_usuario_atual')) {
     function funcao_usuario_atual()
     {
-        return auth()->user()->tipo;
+        return auth()->user()->funcao_id;
     }
 }
 
 if (!function_exists('is_admin')) {
     function is_admin(): bool
     {
-        return auth()->user()->tipo === (new \App\src\Usuarios\Funcoes\Admins())->getFuncao();
+        return auth()->user()->is_admin;
+    }
+}
+
+if (!function_exists('supervisionados')) {
+    function supervisionados($id)
+    {
+        return (new UsersHierarquias())->supervisionados($id);
     }
 }
 
 if (!function_exists('is_supervisor')) {
-    function is_supervisor(): bool
+    function is_supervisor()
     {
-        return auth()->user()->tipo === (new \App\src\Usuarios\Funcoes\Supervisores())->getFuncao();
+        throw new DomainException();
+        // return auth()->user()->tipo === (new \App\src\Usuarios\Funcoes\Supervisores())->getFuncao();
     }
 }

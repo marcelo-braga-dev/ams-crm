@@ -243,8 +243,9 @@ class Leads extends Model
             ->where('setor_id', $setor)
             ->orderByDesc('id');
 
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
+        $query->whereIn('user_id', supervisionados(id_usuario_atual()));
         $nomes = (new User())->getNomes();
+
         return $query->get()
             ->transform(function ($item) use ($nomes) {
                 return $this->dadosMinimo($item, $nomes);
@@ -326,11 +327,12 @@ class Leads extends Model
         $query = $this->newQuery()
             ->where('setor_id', $setor);
 
-        if (is_supervisor()) {
-            $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
-        } else {
-            $query->where('user_id', '>', 0);
-        }
+        // if (is_supervisor()) {
+        //     $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
+        // } else {
+        //     $query->where('user_id', '>', 0);
+        // }
+        $query->whereIn('user_id', supervisionados(id_usuario_atual()));
 
         return $query->get();
     }

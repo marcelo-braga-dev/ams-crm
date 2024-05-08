@@ -19,14 +19,14 @@ class Admins implements FuncoesUsuarios
     {
         $request->validate([
             'nome' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
+            'email' => 'required|string|email|max:255|unique:' . User::class,
             'senha' => 'required|string|max:255',
         ]);
 
         $user = (new User())
             ->create([
                 'name' => $request->nome,
-                'tipo' => $this->funcao,
+                'funcao_id' => $this->funcao,
                 'email' => $request->email,
                 'setor_id' => $request->setor,
                 'franquia_id' => $request->franquia,

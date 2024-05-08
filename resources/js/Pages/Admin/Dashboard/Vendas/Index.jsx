@@ -8,7 +8,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import TopVendas from "@/Pages/Admin/Dashboard/Vendas/Graficos/TopVendas";
 import VendasMensasPie from "@/Pages/Admin/Dashboard/Vendas/Graficos/VendasMensasPie";
-import { TextField } from "@mui/material";
+import { Stack, TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { router } from "@inertiajs/react";
@@ -142,9 +142,13 @@ export default function ({ mes, ano, setores, setor }) {
                                     </div>
                                     <div className="col-auto">
                                         <small className="">Diferença Vendas e Meta</small>
-                                        <h5 className="text-end">R$ {convertFloatToMoney(vendasMetas?.totalVendas - vendasMetas?.totalMetas)}</h5>
-                                        {vendasMetasComp?.totalMetas && <h5 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas)}</h5>}
-                                        (PORCENTAGEM)
+                                        <h5 className="text-end">
+                                            R$ {convertFloatToMoney(vendasMetas?.totalVendas - vendasMetas?.totalMetas)} (
+                                            {convertFloatToMoney(((vendasMetas?.totalVendas - vendasMetas?.totalMetas) / vendasMetas?.totalMetas * 100) + 100)}%)
+                                        </h5>
+                                        {vendasMetasComp?.totalMetas && <h5 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas)}
+                                        </h5>}
+
                                     </div>
                                 </div>
                             </div>
@@ -181,7 +185,12 @@ export default function ({ mes, ano, setores, setor }) {
 
                                         return (
                                             <tr key={index}>
-                                                <td className="text-dark"><b>{item.nome}</b></td>
+                                                <td className="text-dark">
+                                                    <Stack direction="row" spacing={1}>
+                                                        <Avatar src={item.foto} sx={{ width: 24, height: 24 }} />
+                                                        <b>{item.nome}</b>
+                                                    </Stack>
+                                                </td>
                                                 <td className="text-dark">
                                                     R$ {convertFloatToMoney(item.meta)}
                                                     {vendasMetasComp &&

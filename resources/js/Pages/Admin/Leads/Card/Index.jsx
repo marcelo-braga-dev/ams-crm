@@ -38,7 +38,7 @@ export default function ({ usuarios, setores, setor }) {
                                     <>
                                         {item.franquia}<br />
                                         {item.setor}<br />
-                                        {item.tipo}<br />
+                                        {item.funcao}<br />
                                     </>
                                 } />
                                 <button className="btn btn-primary">Ver</button>

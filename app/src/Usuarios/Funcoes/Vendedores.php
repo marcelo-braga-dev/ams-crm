@@ -26,7 +26,7 @@ class Vendedores implements FuncoesUsuarios
         $user = (new User())
             ->create([
                 'name' => $request->nome,
-                'tipo' => $this->funcao,
+                'funcao_id' => $this->funcao,
                 'email' => $request->email,
                 'franquia_id' => $request->franquia,
                 'setor_id' => $request->setor,

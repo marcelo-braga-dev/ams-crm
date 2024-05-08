@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Usuarios\Status\AtivoStatusUsuario;
 use DomainException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -24,7 +25,13 @@ class UsersFuncoes extends Model
     public function getAll()
     {
         return $this->newQuery()
-            ->get(['id', 'nome', 'is_admin as admin']);
+            ->leftJoin('users', 'users_funcoes.id', '=', 'users.funcao_id')
+            ->where('users.status', (new AtivoStatusUsuario)->getStatus())
+            ->select(DB::raw('
+                users_funcoes.id, nome, COUNT(users.id) as qtd
+            '))
+            ->groupBy('users_funcoes.id')
+            ->get();
     }
 
     public function find($id)

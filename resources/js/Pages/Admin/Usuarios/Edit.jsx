@@ -2,18 +2,19 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import MenuItem from "@mui/material/MenuItem";
 import { router, useForm } from '@inertiajs/react';
 import { useState } from "react";
-import { FormControlLabel, Switch, TextField } from "@mui/material";
+import { Avatar, Checkbox, FormControlLabel, Stack, Switch, TextField } from "@mui/material";
 
-export default function ({ usuario, funcoes, franquias, setores, permissoes, permissoesUsuario }) {
+export default function ({ usuario, usuarios, supervisionados, funcoes, franquias, setores, permissoes, permissoesUsuario }) {
     const { data, setData } = useForm({
         nome: usuario.nome,
         email: usuario.email,
-        funcao: usuario.funcao_id,//
+        funcao: usuario.funcao_id,
         franquia: usuario.franquia_id,
         setor: usuario.setor_id,
         //financeiro: usuario.,
         permissoes: permissoesUsuario,
-        admin: usuario.is_admin
+        admin: usuario.is_admin,
+        supervisionados: supervisionados
     });
 
     const submit = (e) => {
@@ -68,13 +69,13 @@ export default function ({ usuario, funcoes, franquias, setores, permissoes, per
                                 <MenuItem value="1" >Sim</MenuItem>
                             </TextField>
                         </div>
-                        <div className="mb-4 col-md-2">
+                        {/* <div className="mb-4 col-md-2">
                             <TextField label="Função Financeiro" select required fullWidth
                                 onChange={e => setData('financeiro', e.target.value)}>
                                 <MenuItem value="0">Não</MenuItem>
                                 <MenuItem value="1">Sim</MenuItem>
                             </TextField>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
@@ -102,6 +103,31 @@ export default function ({ usuario, funcoes, franquias, setores, permissoes, per
                                 )
                             })}
                         </div>
+                    </div>
+                </div>
+
+                <div className="mb-4 card card-body">
+                    <h6>Supervisonados</h6>
+                    <div className="row row-cols-4">
+                        {usuarios.map(item => (
+                            <div key={item.id} className="mb-2 col">
+                                <div className="p-1 card card-body">
+                                    <Stack direction="row" spacing="3" className="pt-2">
+                                        <div>
+                                            <Checkbox
+                                                defaultChecked={supervisionados?.[item.id] > 0}
+                                                onChange={e => setData('supervisionados', { ...data.supervisionados, [item.id]: e.target.checked })} />
+                                        </div>
+                                        <div className="me-2"><Avatar src={item.foto} /></div>
+                                        <div>
+                                            <span><b>{item.nome}</b></span><br />
+                                            <small>{item.setor_nome}</small><br />
+                                            <small>{item.funcao}</small><br />
+                                        </div>
+                                    </Stack>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 

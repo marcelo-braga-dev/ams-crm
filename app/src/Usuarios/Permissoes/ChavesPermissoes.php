@@ -125,4 +125,8 @@ class ChavesPermissoes
     {
         return '30';
     }
+    public function chavePossuiMetasVendas()
+    {
+        return '31';
+    }
 }

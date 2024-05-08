@@ -8,6 +8,7 @@ use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Usuarios\Funcoes\Admins;
 use App\src\Usuarios\Funcoes\Vendedores;
 use App\src\Usuarios\Funcoes\Supervisores;
+use App\src\Usuarios\Permissoes\ChavesPermissoes;
 use App\src\Usuarios\Status\AtivoStatusUsuario;
 use DomainException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,7 +36,7 @@ class User extends Authenticatable
         // 'superior_id',
         'is_admin',
         'funcao_id',
-        'tipo',
+        // 'tipo',
         'categoria',
         'status',
         'password',
@@ -97,16 +98,19 @@ class User extends Authenticatable
     public function allUsers($ativo = true)
     {
         return $this->newQuery()
-            ->join('setores', 'users.setor_id', '=', 'setores.id')
+            ->leftJoin('setores', 'users.setor_id', '=', 'setores.id')
+            ->leftJoin('users_funcoes', 'users.funcao_id', '=', 'users_funcoes.id')
             ->where('status', (new AtivoStatusUsuario())->getStatus())
-            ->get(['users.id', 'name', 'status', 'tipo', 'foto', 'nome'])
+            ->get(['users.id', 'name', 'status', 'funcao_id', 'foto', 'setores.nome as setor_nome', 'users_funcoes.nome as funcao_nome'])
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
                     'nome' => $item->name,
-                    'setor_nome' => $item->nome,
+                    'setor_nome' => $item->setor_nome,
                     'status' => $item->status,
-                    'funcao' => $item->tipo,
+                    'funcao' => $item->funcao_nome,
+                    'funcao_id' => $item->funcao_id,
+                    'funcao_id' => $item->funcao_id,
                     'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
                 ];
             });
@@ -159,7 +163,8 @@ class User extends Authenticatable
                     'setor' => $setores[$item->setor_id] ?? '',
                     'setor_nome' => $setores[$item->setor_id]['nome'] ?? null,
                     'email' => $item->email,
-                    'tipo' => $item->tipo,
+                    'funcao_id' => $item->funcao_id,
+                    'funcao_id' => $item->funcao_id,
                     'status' => $item->status,
                     'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
                     'ultimo_login' => $item->ultimo_login ? date('d/m/y H:i', strtotime($item->ultimo_login)) : '',
@@ -188,7 +193,7 @@ class User extends Authenticatable
             // 'idSupervisor' => $nomes[$dados->superior_id] ?? '',
             // 'supervisor_id' => $dados->superior_id,
             'status' => $dados->status,
-            'tipo' => $dados->tipo,
+            'funcao_id' => $dados->funcao_id,
             'setor' => $setores[$dados->setor_id]['nome'] ?? '',
             'setor_id' => $dados->setor_id,
             'ultimo_login' => date('d/m/Y H:i:s', strtotime($dados->ultimo_login)),
@@ -200,7 +205,7 @@ class User extends Authenticatable
     public function getAll($exceto = null, $setor = null, $superiores)
     {
         $query = $this->newQuery()
-            ->where('status', 'ativo');
+            ->where('status', (new AtivoStatusUsuario)->getStatus());
 
         if ($setor) $query->where('setor_id', $setor);
         if ($superiores) $query->orWhere('tipo', 'admin');
@@ -216,7 +221,7 @@ class User extends Authenticatable
     public function chatInterno()
     {
         $query = $this->newQuery()
-            ->where('status', 'ativo');
+            ->where('status', (new AtivoStatusUsuario)->getStatus());
 
         if (!is_admin()) {
             $query->where('franquia_id', franquia_usuario_atual());
@@ -243,13 +248,13 @@ class User extends Authenticatable
 
         if ($franquiaSelecionada) $query->where('franquia_id', $franquiaSelecionada);
         if ($setor) $query->where('setor_id', $setor);
-        if ($statusAtivo) $query->where('status', 'ativo');
-        if (is_admin()) $query->where('tipo', '!=', (new Admins())->getFuncao());
-        if (is_supervisor()) $query->whereIn('id', (new UsersHierarquias())->supervisionados(id_usuario_atual()))
+        if ($statusAtivo) $query->where('status', (new AtivoStatusUsuario)->getStatus());
+
+        $query->whereIn('id', supervisionados(id_usuario_atual()))
             ->orWhere('id', id_usuario_atual());
 
 
-        return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id', 'franquia_id', 'foto'])
+        return $query->get(['id', 'name', 'email',  'status', 'setor_id', 'franquia_id', 'foto'])
             // ->except(['id' => 1])
             // ->except(['id' => 2])
             // ->except(['id' => 3])
@@ -259,7 +264,7 @@ class User extends Authenticatable
                     'name' => $item->name,
                     'nome' => $item->name,
                     'email' => $item->email,
-                    'tipo' => $item->tipo,
+                    // 'tipo' => $item->tipo,
                     'status' => $item->status,
                     'setor' => $setores[$item->setor_id]['nome'] ?? '',
                     'franquia' => $franquias[$item->franquia_id] ?? '',
@@ -277,7 +282,7 @@ class User extends Authenticatable
             ->orderBy('name');
 
         if ($setor) $query->where('setor_id', $setor);
-        if ($status) $query->where('status', 'ativo');
+        if ($status) $query->where('status', (new AtivoStatusUsuario)->getStatus());
 
         return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id'])
             ->except(['id' => 1])
@@ -491,5 +496,33 @@ class User extends Authenticatable
             '))
             ->orderBy('nome')
             ->get();
+    }
+
+    public function usuarioComMetasVendas($setor)
+    {
+        $query = $this->newQuery()
+            ->leftJoin('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
+            ->orderBy('name')
+            ->whereIn('users.id', supervisionados(id_usuario_atual()))
+            ->groupBy('users.id')
+            ->where('users_permissoes.chave', (new ChavesPermissoes)->chavePossuiMetasVendas())
+            ->select(DB::raw(
+                'users.id as id, name, status, setor_id, foto
+                '
+            ));
+
+        if ($setor) $query->where('setor_id', $setor);
+
+        return $query->get()
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'status' => $item->status,
+                    'setor' => $setores[$item->setor_id]['nome'] ?? '',
+                    'foto' => asset('storage/' . $item->foto),
+                    'has_meta' => $item->has_meta
+                ];
+            });
     }
 }

@@ -6,9 +6,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import {ListItemButton} from "@mui/material";
+import { ListItemButton } from "@mui/material";
 
-export default function ({usuarios}) {
+export default function ({ usuarios }) {
     return (
         <Layout container titlePage="Metas de Vendas" menu="menu-meta-vendas" submenu="meta-vendas">
             <List>
@@ -17,15 +17,15 @@ export default function ({usuarios}) {
                         <ListItem key={item.id} className="border-bottom">
                             <ListItemButton href={route('admin.metas-vendas.consultores.edit', item.id)}>
                                 <ListItemAvatar>
-                                    <Avatar alt={item.nome} src={item.foto}/>
+                                    <Avatar alt={item.nome} src={item.foto} />
                                 </ListItemAvatar>
                                 <ListItemText primary={item.nome} secondary={
                                     <>
-                                        {item.franquia}<br/>
-                                        {item.setor}<br/>
-                                        {item.tipo}<br/>
+                                        {item.franquia}<br />
+                                        {item.setor}<br />
+                                        {item.funcao}<br />
                                     </>
-                                }/>
+                                } />
                                 <button className="btn btn-primary">Ver</button>
                             </ListItemButton>
                         </ListItem>

@@ -20,38 +20,15 @@ export default function ({ funcao, permissoes, permissoesAtivas }) {
             <form onSubmit={submit}>
                 <div className="mb-4 card card-body">
                     <div className="row">
-                        <div className="col">
+                        <div className="mb-4 col">
                             <TextField label="Nome da Função" fullWidth required defaultValue={data.nome}
                                 onChange={e => setData('nome', e.target.value)} />
                         </div>
                     </div>
-                </div>
-                {/* <div className="mb-4 card card-body">
-                    <h6>Funções do Usuário</h6>{console.log(data)}
-                    {permissoes?.map(categorias => {
-                        return (
-                            <div key={categorias.categoria} className="mb-2 border-bottom">
-                                <div className="">
-                                    <small className="d-block">{categorias.categoria}</small>
-                                </div>
-                                <div className="row row-cols-5">
-                                    {categorias?.permissoes?.map(item => {
-                                        return (
-                                            <div key={item.id} className="col">
-                                                <FormControlLabel label={item.nome} control={
-                                                    <Switch size="small" key={item.id} defaultChecked={data.permissoes?.[item.id] > 0 ?? ''}
-                                                        onChange={e => setData('permissoes', { ...data.permissoes, [item.id]: e.target.checked })} />} />
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        )
-                    })}
-                </div> */}
-                <div className="row">
-                    <div className="col">
-                        <button className="btn btn-primary">Atualizar</button>
+                    <div className="row">
+                        <div className="col">
+                            <button className="btn btn-primary">Atualizar</button>
+                        </div>
                     </div>
                 </div>
             </form>

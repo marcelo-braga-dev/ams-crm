@@ -24,7 +24,7 @@ class DadosUsuariosService
         return $this->dados($dados);
     }
 
-    public function transformar($usuarios):array
+    public function transformar($usuarios): array
     {
         $items = [];
         foreach ($usuarios as $usuario) {
@@ -33,14 +33,14 @@ class DadosUsuariosService
         return $items;
     }
 
-    private function dados($dados) :array
+    private function dados($dados): array
     {
         return [
             'id' => $dados->id,
             'nome' => $dados->name,
             'email' => $dados->email,
             'status' => $dados->status,
-            'tipo' => $dados->tipo,
+            'funcao_id' => $dados->funcao_id,
             'setor_id' => $dados->setor_id,
             'setor_nome' => $this->setores[$dados->setor_id]['nome'] ?? null,
             'franquia' => $this->franquias[$dados->franquia_id],

@@ -27,8 +27,10 @@ class PedidosController extends Controller
         $coresAbas = (new ConfigCores())->getPedidos();
         $goCard = $request->id_card;
 
-        return Inertia::render('Admin/Pedidos/Index',
-            compact('fornecedores', 'setores', 'coresAbas', 'goCard'));
+        return Inertia::render(
+            'Admin/Pedidos/Index',
+            compact('fornecedores', 'setores', 'coresAbas', 'goCard')
+        );
     }
 
     public function show($id)
@@ -40,8 +42,10 @@ class PedidosController extends Controller
 
         $urlPrevious = go_card($id);
 
-        return Inertia::render('Admin/Pedidos/Show',
-            compact('pedido', 'historico', 'produtos', 'historicoAcompanhamento', 'urlPrevious'));
+        return Inertia::render(
+            'Admin/Pedidos/Show',
+            compact('pedido', 'historico', 'produtos', 'historicoAcompanhamento', 'urlPrevious')
+        );
     }
 
     public function edit($id)
@@ -72,8 +76,7 @@ class PedidosController extends Controller
         $setorAtual = null;
         if ($request->setor == 'todos') {
             session(['sessaoSetor' => null]);
-        }
-        elseif  ($request->setor) {
+        } elseif ($request->setor) {
             $setorAtual = $request->setor;
             $dadosSetor = (new Setores())->find($setorAtual);
             session(['sessaoSetor' => $dadosSetor]);

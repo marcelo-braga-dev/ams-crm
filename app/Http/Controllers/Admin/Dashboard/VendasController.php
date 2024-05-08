@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Setores;
+use App\Models\User;
 use App\Services\Dashboard\Vendas\VendasService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,7 @@ class VendasController extends Controller
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
         $setor = $request->setor ?? 1;
-
+        // print_pre((new User())->usuarioComMetasVendas($setor));
         $setores = (new Setores())->get();
 
         return Inertia::render(

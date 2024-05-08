@@ -28,7 +28,8 @@ class UsuariosService
         $items = [];
         foreach ($dados as $dado) {
             $items[] = $this->dados($dado);
-        }print_pre($items);
+        }
+        print_pre($items);
         return $items;
     }
 
@@ -51,7 +52,7 @@ class UsuariosService
             'franquia' => $dado->franquia,
             'setor' => $this->nomeSetores[$dado->setor] ?? '',
             'email' => $dado->email,
-            'tipo' => $dado->tipo,
+            'funcao_id' => $dado->funcao_id,
             'status' => $dado->status,
             'foto' => $dado->foto ? asset('storage/' . $dado->foto) : null,
             'ultimo_login' => $dado->ultimo_login ? date('d/m/y H:i', strtotime($dado->ultimo_login)) : '',

@@ -7,6 +7,7 @@ use App\Models\Franquias;
 use App\Models\Setores;
 use App\Models\User;
 use App\Models\UsersFuncoes;
+use App\Models\UsersHierarquias;
 use App\Models\UsersPermissoes;
 use App\src\Usuarios\Funcoes\Admins;
 use App\src\Usuarios\Funcoes\Vendedores;
@@ -22,18 +23,17 @@ class UsuariosController extends Controller
     public function index(Request $request)
     {
         $status = !$request->status;
-        $dados = (new User())->usuarios($status);
+        // $dados = (new User())->usuarios($status);
 
-        $usuarios['admins'] = [...$dados->where('tipo', (new Admins)->getFuncao())];
-        $usuarios['supervisores'] = [...$dados->where('tipo', (new Supervisores())->getFuncao())];
-        $usuarios['consultores'] = [...$dados->where('tipo', (new Vendedores())->getFuncao())];
+        // $usuarios['admins'] = [...$dados->where('tipo', (new Admins)->getFuncao())];
+        // $usuarios['supervisores'] = [...$dados->where('tipo', (new Supervisores())->getFuncao())];
+        // $usuarios['consultores'] = [...$dados->where('tipo', (new Vendedores())->getFuncao())];
 
         $contas = (new User)->contas();
-        // print_pre($contas);
 
         return Inertia::render(
             'Admin/Usuarios/Index',
-            compact('contas', 'usuarios', 'status')
+            compact('contas',  'status')
         );
     }
 
@@ -79,18 +79,22 @@ class UsuariosController extends Controller
         $funcoes = (new UsersFuncoes())->getAll();
         $permissoes = (new PermissoesUsuarios())->permissoes();
         $permissoesUsuario = (new UsersPermissoes())->permissoes($id);
-        // print_pre($usuario);
+
+        $usuarios = (new User())->allUsers();
+        $supervisionados = (new UsersHierarquias())->idSupervisonados($id);
+
         return Inertia::render(
             'Admin/Usuarios/Edit',
-            compact('usuario', 'funcoes', 'franquias', 'setores', 'permissoes', 'permissoesUsuario')
+            compact('usuario', 'supervisionados', 'usuarios', 'funcoes', 'franquias', 'setores', 'permissoes', 'permissoesUsuario')
         );
     }
 
     public function update($id, Request $request)
     {
-        // print_pre($request->admin);
+        // print_pre($request->all());
         (new User())->atualizar($id, $request);
         (new UsersPermissoes())->atualizar($id, $request->permissoes);
+        (new UsersHierarquias())->atualizar($id, $request->supervisionados);
 
         modalSucesso('Dados atualizado com sucesso!');
         return redirect()->back();

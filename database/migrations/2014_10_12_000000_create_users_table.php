@@ -24,7 +24,6 @@ return new class extends Migration
             $table->unsignedBigInteger('superior_id')->nullable();
             $table->boolean('is_admin')->default(false);
             $table->unsignedBigInteger('funcao_id');
-            $table->string('tipo', 32);
             $table->string('foto')->nullable();
             $table->timestamp('ultimo_login')->nullable();
             $table->timestamp('email_verified_at')->nullable();

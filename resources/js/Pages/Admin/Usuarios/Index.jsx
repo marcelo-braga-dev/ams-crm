@@ -59,7 +59,7 @@ export default function Index({ contas, usuarios, status }) {
     // Tab - fim
 
     function iconeStatus(status) {
-        return status === 'ativo' ? <CheckCircleOutlineIcon color="success" /> :
+        return status === '1' ? <CheckCircleOutlineIcon color="success" fontSize='small' /> :
             <BlockIcon color="error" />
     }
 
@@ -81,17 +81,16 @@ export default function Index({ contas, usuarios, status }) {
                         <div className='col'>
                             <div className='row'>
                                 <div className='col'>
-                                    <span className='d-block'><b>Nome: {item.nome}</b></span>
-                                    <span className='d-block'>Função: {item.funcao_nome}</span>
-                                    <span className='d-block'>Conta Admin: {item.is_admin ? 'Sim' : 'Não'}</span>
+                                    <span className='d-block'>{iconeStatus(item.status)} <b>Nome: {item.nome}</b></span>
+                                    <span className='d-block'>Função: {item.funcao_nome} {item.is_admin ? '[ADMIN]' : ''}</span>
                                 </div>
                                 <div className='col'>
                                     <span className='d-block'>Franquia: {item.franquia_nome}</span>
                                     <span className='d-block'>Setor: {item.setor_nome}</span>
                                 </div>
-                                <div className='col'>
-                                    <span className='d-block'>Status: {item.status}</span>
-                                </div>
+                                {/* <div className='col'>
+                                    <span className='d-block'>Status: </span>
+                                </div> */}
                                 <div className='col'>
                                     <a className='btn btn-primary btn-sm'
                                         href={route('admin.usuarios.usuario.show', item.id)}

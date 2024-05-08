@@ -63,7 +63,7 @@ class Pedidos extends Model
 
     private function pedidosSubordinados(): void
     {
-        if (is_supervisor()) $this->query->whereIn('user_id', (new UsersHierarquias())->idSupervisonados(id_usuario_atual()));
+        $this->query->whereIn('user_id', supervisionados(id_usuario_atual()));
     }
 
     public function usuario($idUsuario = null): void
@@ -127,7 +127,7 @@ class Pedidos extends Model
         $query = $this->newQuery();
 
         if ($setor) $query->where('setor_id', $setor);
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados());
+        $query->whereIn('user_id', supervisionados(id_usuario_atual()));
 
         return $query->orderByDesc('id')->get();
     }
@@ -273,7 +273,7 @@ class Pedidos extends Model
         $query = $this->newQuery();
 
         if ($setor) $query->where('setor_id', $setor);
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
+        $query->whereIn('user_id', supervisionados(id_usuario_atual()));
 
         $nomes = (new User())->getNomes();
         $clientes = (new PedidosClientes())->getCardDados();

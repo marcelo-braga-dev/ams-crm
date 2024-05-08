@@ -16,7 +16,7 @@ class Supervisores
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->tipo === (new \App\src\Usuarios\Funcoes\Supervisores())->getFuncao()) {
+        if (auth()->user()->is_admin) {
             return $next($request);
         }
 

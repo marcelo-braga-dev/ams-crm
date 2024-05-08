@@ -67,7 +67,7 @@ class Notificacoes extends Model
             $query->whereIn('user_id', $idsUser);
         }
 
-        if (is_supervisor()) $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
+        $query->whereIn('user_id', supervisionados(id_usuario_atual()));
         if ($id) $query->where('user_id', $id);
 
         return $query->get()
