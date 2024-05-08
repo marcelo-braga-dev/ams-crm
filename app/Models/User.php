@@ -338,8 +338,7 @@ class User extends Authenticatable
     public function getIdAdmins()
     {
         return $this->newQuery()
-            ->where('tipo', (new Admins())->getFuncao())
-            ->orWhere('tipo', (new Supervisores())->getFuncao())
+            ->where('is_admin', '1')
             ->get('id');
     }
 
