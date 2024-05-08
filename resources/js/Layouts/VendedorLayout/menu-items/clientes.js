@@ -10,7 +10,8 @@ const dashboard = {
     type: 'group',
     children: [{
         id: 'clientes-lista',
-        title: 'Lista de Clientes',
+        chave: chaves.leads.quadros,
+        title: 'Quadro de Clientes',
         type: 'item',
         url: route('consultor.leads.main.index'),
         icon: PeopleAltOutlinedIcon,

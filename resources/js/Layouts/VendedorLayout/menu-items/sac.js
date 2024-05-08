@@ -9,7 +9,7 @@ const dashboard = {
     type: 'group',
     children: [{
         id: 'sac-chamados',
-        chave: chaves.sac,
+        chave: chaves.sac.chamados,
         title: 'Chamados',
         type: 'item',
         url: route('consultor.chamados.index'),

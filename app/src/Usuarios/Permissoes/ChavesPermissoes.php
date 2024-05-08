@@ -129,4 +129,49 @@ class ChavesPermissoes
     {
         return '31';
     }
+
+    public function chavePedidosQuadro()
+    {
+        return '32';
+    }
+    public function chavePedidosHistorico()
+    {
+        return '33';
+    }
+    public function chavePedidosRelatorio()
+    {
+        return '34';
+    }
+    public function chaveLeadsCadastrados()
+    {
+        return '35';
+    }
+    public function chaveLeadsQuadro()
+    {
+        return '36';
+    }
+    public function chaveLeadsHistorico()
+    {
+        return '37';
+    }
+    public function chaveLeadsAlterar()
+    {
+        return '38';
+    }
+    public function chaveLeadsRelatorio()
+    {
+        return '39';
+    }
+    public function chaveProdutosCategorias()
+    {
+        return '40';
+    }
+    public function chaveProdutosUnidades()
+    {
+        return '41';
+    }
+    public function chaveProdutosEstoque()
+    {
+        return '42';
+    }
 }

@@ -1,7 +1,5 @@
-import * as React from "react";
-
-import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
 
 const dashboard = {
     id: '',
@@ -18,6 +16,7 @@ const dashboard = {
             submenu: [
                 {
                     id: 'meta-vendas',
+                    chave: chaves.metas_vendas.editar,
                     title: 'Meta de Vendas',
                     type: 'item',
                     url: route('admin.metas-vendas.consultores.index'),

@@ -3,12 +3,12 @@ import chaves from "./chaves";
 
 const relatorios = {
     id: 'relatorios',
-    title: 'Relatórios',
+    title: 'Dashboards',
     type: 'group',
     children: [{
         id: 'relatorios-metas',
-        chave: chaves.relatorio,
-        title: 'Metas de Vendas',
+        chave: chaves.dashboards.vendas,
+        title: 'Indicadores de Vendas',
         type: 'item',
         url: route('consultor.relatorios.metas.index'),
         icon: TrendingUpOutlinedIcon,

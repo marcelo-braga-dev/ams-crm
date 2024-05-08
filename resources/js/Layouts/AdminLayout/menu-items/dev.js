@@ -1,5 +1,4 @@
-import * as React from "react";
-
+import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
 import LaptopMacOutlinedIcon from "@mui/icons-material/LaptopMacOutlined";
 
 const dashboard = {
@@ -17,12 +16,14 @@ const dashboard = {
             submenu: [
                 {
                     id: 'dev-registros',
+                    chave: chaves.dev.chamados,
                     title: 'Registros',
                     type: 'item',
                     url: route('admin.dev.index'),
                 },
                 {
                     id: 'dev-cadastrar',
+                    chave: chaves.dev.chamados,
                     title: 'Cadastrar',
                     type: 'item',
                     url: route('admin.dev.create'),

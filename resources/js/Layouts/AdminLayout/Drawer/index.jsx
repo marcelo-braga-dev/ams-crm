@@ -1,12 +1,12 @@
-import {useMemo} from 'react';
+import { useMemo } from 'react';
 
-import {useTheme} from '@mui/material/styles';
-import {Box, Drawer, useMediaQuery} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Box, Drawer, useMediaQuery } from '@mui/material';
 import DrawerHeader from './DrawerHeader';
 import DrawerContent from './DrawerContent';
 import MiniDrawerStyled from './MiniDrawerStyled.js';
 
-const MainDrawer = ({menu, submenu, open, handleDrawerToggle, window}) => {
+const MainDrawer = ({ menu, submenu, permissoes, open, handleDrawerToggle, window }) => {
     const theme = useTheme();
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
     const drawerWidth = 260
@@ -14,8 +14,8 @@ const MainDrawer = ({menu, submenu, open, handleDrawerToggle, window}) => {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     // header content
-    const drawerContent = useMemo(() => <DrawerContent menu={menu} submenu={submenu}/>, []);
-    const drawerHeader = useMemo(() => <DrawerHeader open={open}/>, [open]);
+    const drawerContent = useMemo(() => <DrawerContent menu={menu} submenu={submenu} permissoes={permissoes} />, []);
+    const drawerHeader = useMemo(() => <DrawerHeader open={open} />, [open]);
 
     return (
         <Box component="nav" sx={{ flexShrink: { md: 0 }, zIndex: 1300 }}>

@@ -1,6 +1,4 @@
-import * as React from "react";
-
-import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
+import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
 import SpeakerNotesOutlinedIcon from "@mui/icons-material/SpeakerNotesOutlined";
 
 const dashboard = {
@@ -17,6 +15,7 @@ const dashboard = {
             submenu: [
                 {
                     id: 'sac-chamdos',
+                    chave: chaves.sac.chamados,
                     title: 'Chamados',
                     type: 'item',
                     url: route('admin.chamado.index'),

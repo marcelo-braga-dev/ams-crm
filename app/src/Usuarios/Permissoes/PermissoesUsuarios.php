@@ -10,16 +10,25 @@ class PermissoesUsuarios extends ChavesPermissoes
             [
                 'categoria' => 'Pedidos',
                 'permissoes' => [
+                    ['id' => $this->chavePedidosQuadro(), 'nome' => 'Quadro de Pedidos'],
                     ['id' => $this->chavePedidosEmitir(), 'nome' => 'Emitir Pedidos'],
                     ['id' => $this->chavePedidosConfig(), 'nome' => 'Configuracoes'],
+                    ['id' => $this->chavePedidosHistorico(), 'nome' => 'Histórico'],
+                    ['id' => $this->chavePedidosRelatorio(), 'nome' => 'Relatório'],
                 ]
             ],
             [
                 'categoria' => 'Leads',
                 'permissoes' => [
+                    ['id' => $this->chaveLeadsCadastrados(), 'nome' => 'Ver Cadastrados'],
                     ['id' => $this->chaveLeadsCadastrar(), 'nome' => 'Cadastrar Leads'],
-                    ['id' => $this->chaveSdr(), 'nome' => 'SDR'],
+                    // ['id' => $this->chave(), 'nome' => ''],
+                    ['id' => $this->chaveLeadsQuadro(), 'nome' => 'Quadro de Leads'],
+                    ['id' => $this->chaveLeadsHistorico(), 'nome' => 'Histórico'],
+                    ['id' => $this->chaveSdr(), 'nome' => 'Função SDR'],
                     ['id' => $this->chaveLeadsEncaminhar(), 'nome' => 'Encaminhar Leads'],
+                    ['id' => $this->chaveLeadsAlterar(), 'nome' => 'Alterar Consultor'],
+                    ['id' => $this->chaveLeadsRelatorio(), 'nome' => 'Relatório'],
                     ['id' => $this->chaveLeadsImportar(), 'nome' => 'Importar Planilhas'],
                 ]
             ],
@@ -28,6 +37,9 @@ class PermissoesUsuarios extends ChavesPermissoes
                 'permissoes' => [
                     ['id' => $this->chaveProdutos(), 'nome' => 'Ver Produtos'],
                     ['id' => $this->chaveProdutosCadastrar(), 'nome' => 'Cadastrar Produtos'],
+                    ['id' => $this->chaveProdutosCategorias(), 'nome' => 'Categorias'],
+                    ['id' => $this->chaveProdutosUnidades(), 'nome' => 'Unidades'],
+                    ['id' => $this->chaveProdutosEstoque(), 'nome' => 'Estoque'],
                 ]
             ],
             [
@@ -37,12 +49,6 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveDashboardsVendas(), 'nome' => 'Indicadores de Vendas'],
                     ['id' => $this->chaveDashboardsFinanceiros(), 'nome' => 'Indicadores Financeiros'],
                     ['id' => $this->chaveDashboardsEconomicos(), 'nome' => 'Indicadores Econômicos'],
-                ]
-            ],
-            [
-                'categoria' => 'Relatórios',
-                'permissoes' => [
-                    ['id' => $this->chaveRelatorio(), 'nome' => 'Metas de Vendas'],
                 ]
             ],
             [

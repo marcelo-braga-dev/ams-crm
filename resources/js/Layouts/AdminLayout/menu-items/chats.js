@@ -1,5 +1,6 @@
 import * as React from "react";
 import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
+import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
 
 const dashboard = {
     id: 'chat',
@@ -15,6 +16,7 @@ const dashboard = {
             submenu: [
                 {
                     id: 'chat-interno',
+                    chave: chaves.chats.interno,
                     title: 'Chat Interno',
                     type: 'item',
                     url: route('admin.chat-interno.index'),

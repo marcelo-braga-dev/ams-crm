@@ -1,24 +1,24 @@
 import * as React from "react";
-import {Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography} from "@mui/material";
-import {useTheme} from "@mui/material/styles";
-import {forwardRef, useState} from "react";
-import {usePage} from "@inertiajs/react";
+import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { forwardRef, useState } from "react";
+import { usePage } from "@inertiajs/react";
 
-export default function CollapseMenu({item, menu, submenu}) {
+export default function CollapseMenu({ item, menu, submenu, permissoes }) {
     const funcao = usePage().props.auth.user.tipo
 
     const level = 1
     const isSelected = item.id === menu;
 
     const theme = useTheme();
-    const {drawerOpen, openItem} = useState(false);
+    const { drawerOpen, openItem } = useState(false);
 
     let listItemProps = {
-        component: forwardRef((props, ref) => <a ref={ref} {...props} href={item.url}/>)
+        component: forwardRef((props, ref) => <a ref={ref} {...props} href={item.url} />)
     };
 
     const Icon = item.icon;
-    const itemIcon = item.icon ? <Icon style={{fontSize: '1.3rem'}}/> : false;
+    const itemIcon = item.icon ? <Icon style={{ fontSize: '1.3rem' }} /> : false;
 
     const textColor = 'var(--menu-main-color)'
     const iconSelectedColor = 'var(--menu-secundary-color)';
@@ -91,7 +91,7 @@ export default function CollapseMenu({item, menu, submenu}) {
 
                     <ListItemText
                         primary={
-                            <Typography variant="h6" sx={{color: isSelected ? iconSelectedColor : textColor}}>
+                            <Typography variant="h6" sx={{ color: isSelected ? iconSelectedColor : textColor }}>
                                 {item.title}
                             </Typography>
                         }
@@ -109,36 +109,37 @@ export default function CollapseMenu({item, menu, submenu}) {
                 </ListItemButton>
 
                 <div id={"flush-collapse-" + item.id}
-                     className={(item.id === menu ? 'show ' : '') +  "accordion-collapse nav-item collapse"}
-                     aria-labelledby={"flush-heading-" + item.id}
-                     data-bs-parent="#accordionFlushSidebar">
+                    className={(item.id === menu ? 'show ' : '') + "accordion-collapse nav-item collapse"}
+                    aria-labelledby={"flush-heading-" + item.id}
+                    data-bs-parent="#accordionFlushSidebar">
 
                     {item?.submenu?.map((submenuItem) => (
                         !(funcao === 'supervisor' && submenuItem.admin) &&
-                        <div key={submenuItem.id} style={{backgroundColor: ''}}>
+                        (permissoes?.[submenuItem.chave]) &&
+                        <div key={submenuItem.id} style={{ backgroundColor: '' }}>
                             <a href={submenuItem.url ?? undefined} className="text-sm text-muted">
-                                <div className="accordion-body p-0 ms-5 mb-2 mt-1"
-                                     style={{
-                                         color: submenuItem.id === submenu ? 'black' : '',
-                                         borderRight: submenuItem.id === submenu ? `2px solid ${iconSelectedColor}` : '',
-                                         '&:hover, &:focus': {
-                                             background: '#707070',
-                                             borderColor: '#707070'
-                                         }
-                                     }}>
-                                        <span className="nav-link-text"
-                                              style={'tag' === 'submenuItemSidebar' ? '' : {}}>
-                                            {submenuItem.title}
-                                        </span>
+                                <div className="p-0 mt-1 mb-2 accordion-body ms-5"
+                                    style={{
+                                        color: submenuItem.id === submenu ? 'black' : '',
+                                        borderRight: submenuItem.id === submenu ? `2px solid ${iconSelectedColor}` : '',
+                                        '&:hover, &:focus': {
+                                            background: '#707070',
+                                            borderColor: '#707070'
+                                        }
+                                    }}>
+                                    <span className="nav-link-text"
+                                        style={'tag' === 'submenuItemSidebar' ? '' : {}}>
+                                        {submenuItem.title}
+                                    </span>
                                 </div>
                             </a>
                             {submenuItem?.submenu?.map((item2) => {
                                 return (
                                     !(funcao === 'supervisor' && item.admin) &&
                                     <a href={item2.url} key={item2.id} className="text-sm text-muted">
-                                        <div className="accordion-body p-0 ms-5 mb-2">
+                                        <div className="p-0 mb-2 accordion-body ms-5">
                                             <span className="nav-link-text ps-3"
-                                                  style={'tag' === 'submenuSidebar' ? '' : {}}>
+                                                style={'tag' === 'submenuSidebar' ? '' : {}}>
                                                 {item2.title}
                                             </span>
                                         </div>

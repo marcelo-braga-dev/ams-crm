@@ -8,7 +8,7 @@ const dashboard = {
     type: 'group',
     children: [{
         id: 'pedidos-lista',
-        chave: chaves.pedidos.emitir,
+        chave: chaves.pedidos.quadros,
         title: 'Lista de Pedidos',
         type: 'item',
         url: route('consultor.pedidos.index'),
@@ -16,7 +16,7 @@ const dashboard = {
         breadcrumbs: false
     }, {
         id: 'pedidos-historico',
-        chave: chaves.pedidos.emitir,
+        chave: chaves.pedidos.historico,
         title: 'Histórico de Pedidos',
         type: 'item',
         url: route('consultor.historicos.index'),
