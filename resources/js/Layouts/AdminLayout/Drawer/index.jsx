@@ -12,7 +12,7 @@ const MainDrawer = ({ menu, submenu, permissoes, open, handleDrawerToggle, windo
     const drawerWidth = 260
     // responsive drawer container
     const container = window !== undefined ? () => window().document.body : undefined;
-    console.log(permissoes)
+
     // header content
     const drawerContent = useMemo(() => <DrawerContent menu={menu} submenu={submenu} permissoes={permissoes} />, []);
     const drawerHeader = useMemo(() => <DrawerHeader open={open} />, [open]);

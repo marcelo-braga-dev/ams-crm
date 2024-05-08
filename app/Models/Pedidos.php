@@ -309,9 +309,10 @@ class Pedidos extends Model
         }
 
         $isAdmin = is_admin();
-        $precoCusto = $isAdmin
-            ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
-            : null;
+        // $precoCusto = $isAdmin
+        //     ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
+        //     : null;
+        $precoCusto = 'em manutencao';
 
         return [
             'id' => $pedido->id,
