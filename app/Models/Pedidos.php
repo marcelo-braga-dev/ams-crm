@@ -87,11 +87,6 @@ class Pedidos extends Model
         $status = (new ConferenciaStatusPedido())->getStatus();
         $prazo = (new ConferenciaStatusPedido())->getPrazo();
 
-        if (is_supervisor()) {
-            $lead = (new Leads())->find($dados->id_lead);
-            $idUser = $lead->user_id;
-        };
-
         try {
             $pedido = $this->newQuery()
                 ->create([
@@ -111,7 +106,6 @@ class Pedidos extends Model
                     'repasse' => convert_money_float($dados->repasse)
                 ]);
         } catch (QueryException $exception) {
-            modalErro($exception->getMessage());
             throw new \DomainException('Falha no cadastro do pedido.');
         }
 
@@ -260,8 +254,8 @@ class Pedidos extends Model
     {
         $this->initQuery();
         // $this->franquia();
-        $this->usuario($idUsuario);
         $this->pedidosSubordinados();
+        $this->usuario($idUsuario);
         $this->setor($setorAtual);
         $this->fornecedor($fornecedorAtual);
 

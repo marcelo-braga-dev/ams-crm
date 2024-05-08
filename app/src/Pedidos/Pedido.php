@@ -26,7 +26,9 @@ class Pedido
             case (new CompletoModelo())->modelo(): {
                     DB::beginTransaction();
                     try {
+
                         $idPedido = (new Pedidos())->create($request);
+
                         (new PedidosClientes())->create($idPedido, $request);
                         (new PedidosImagens())->create($idPedido, $request);
                     } catch (\DomainException | QueryException $exception) {

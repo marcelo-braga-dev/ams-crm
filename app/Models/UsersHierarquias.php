@@ -41,11 +41,13 @@ class UsersHierarquias extends Model
 
     public function supervisionados($id)
     {
-        return $this->newQuery()
+        $dados =  $this->newQuery()
             ->where('superior_id', $id)
             ->get('user_id')
             ->transform(function ($item) {
                 return $item->user_id;
             })->toArray();
+
+        return array_merge($dados, [$id]);
     }
 }

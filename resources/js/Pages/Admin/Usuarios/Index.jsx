@@ -81,7 +81,7 @@ export default function Index({ contas, usuarios, status }) {
                         <div className='col'>
                             <div className='row'>
                                 <div className='col'>
-                                    <span className='d-block'>{iconeStatus(item.status)} <b>Nome: {item.nome}</b></span>
+                                    <span className='d-block'>{iconeStatus(item.status)} <b>{item.nome}</b></span>
                                     <span className='d-block'>Função: {item.funcao_nome} {item.is_admin ? '[ADMIN]' : ''}</span>
                                 </div>
                                 <div className='col'>

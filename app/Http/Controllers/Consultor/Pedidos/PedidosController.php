@@ -31,12 +31,15 @@ class PedidosController extends Controller
 
         switch (modelo_usuario()) {
             case (new CompletoModelo())->modelo():
-                return Inertia::render('Consultor/Pedidos/Index',
-                    compact('pedidos', 'coresAbas', 'goCard'));
+                return Inertia::render(
+                    'Consultor/Pedidos/Index',
+                    compact('pedidos', 'coresAbas', 'goCard')
+                );
             case (new ProdutoModelo())->modelo():
-                return Inertia::render('Consultor/Pedidos/Modelo2/Index',
-                    compact('pedidos', 'coresAbas', 'goCard'));
-
+                return Inertia::render(
+                    'Consultor/Pedidos/Modelo2/Index',
+                    compact('pedidos', 'coresAbas', 'goCard')
+                );
         }
         print_pre('FALHA AO ENCONTRAR O MODELO');
     }
@@ -54,16 +57,19 @@ class PedidosController extends Controller
 
         switch ((new Setores())->getModelo($setor)) {
             case 1:
-                return Inertia::render('Consultor/Pedidos/Create/Modelo1/Create',
-                    compact('fornecedores', 'lead', 'endereco'));
+                return Inertia::render(
+                    'Consultor/Pedidos/Create/Modelo1/Create',
+                    compact('fornecedores', 'lead', 'endereco')
+                );
             case 2:
-                return Inertia::render('Consultor/Pedidos/Create/Modelo2/Create',
-                    compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades'));
-            default:
-            {
-                modalErro('Falha no formulário de cadastro.');
-                return redirect()->back();
-            }
+                return Inertia::render(
+                    'Consultor/Pedidos/Create/Modelo2/Create',
+                    compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades')
+                );
+            default: {
+                    modalErro('Falha no formulário de cadastro.');
+                    return redirect()->back();
+                }
         }
     }
 
@@ -74,12 +80,15 @@ class PedidosController extends Controller
         $historico = (new PedidosHistoricos())->historico($id);
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
 
-        return Inertia::render('Consultor/Pedidos/Show',
-            compact('dados', 'historico', 'produtos'));
+        return Inertia::render(
+            'Consultor/Pedidos/Show',
+            compact('dados', 'historico', 'produtos')
+        );
     }
 
     public function store(Request $request)
     {
+
         try {
             $idPedido = (new Pedido())->salvar($request);
         } catch (\DomainException $exception) {
