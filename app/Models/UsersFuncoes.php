@@ -26,7 +26,7 @@ class UsersFuncoes extends Model
     {
         return $this->newQuery()
             ->leftJoin('users', 'users_funcoes.id', '=', 'users.funcao_id')
-            ->where('users.status', (new AtivoStatusUsuario)->getStatus())
+            // ->where('users.status', (new AtivoStatusUsuario)->getStatus())
             ->select(DB::raw('
                 users_funcoes.id, nome, COUNT(users.id) as qtd
             '))

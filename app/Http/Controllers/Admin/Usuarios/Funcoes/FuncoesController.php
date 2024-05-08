@@ -13,7 +13,6 @@ class FuncoesController extends Controller
     public function index()
     {
         $funcoes = (new UsersFuncoes())->getAll();
-        // print_pre($funcoes);
 
         return Inertia::render('Admin/Usuarios/Funcoes/Index', compact('funcoes'));
     }
