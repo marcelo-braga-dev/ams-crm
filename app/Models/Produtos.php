@@ -29,19 +29,20 @@ class Produtos extends Model
         $categorias = (new ProdutosCategorias())->getNomes();
         $unidades = (new ProdutosUnidades())->getNomes();
         $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
+        $financeiro = is_financeiro();
 
         return $this->newQuery()
             ->where('fornecedores_id', $idFornecedor)
             ->orderByDesc('id')
             ->get()
-            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $unidades) {
+            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $unidades, $financeiro) {
                 return [
                     'id' => $dados->id,
                     'nome' => $dados->nome,
-                    'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
+                    'preco_fornecedor' => $financeiro ? convert_float_money($dados->preco_fornecedor) : 0,
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
-                    'preco_fornecedor_float' => $dados->preco_fornecedor,
+                    'preco_fornecedor_float' => $financeiro ? $dados->preco_fornecedor : 0,
                     'unidade' => $unidades[$dados->unidade] ?? '',
                     'estoque' => $dados->estoque_local,
                     'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
@@ -76,13 +77,14 @@ class Produtos extends Model
         $categorias = (new ProdutosCategorias())->getNomes();
         $fornecedores = (new Fornecedores())->getNomes();
         $unidades = (new ProdutosUnidades())->getNomes();
+        $financeiro = is_financeiro();
 
         return [
             'id' => $dados->id,
             'nome' => $dados->nome,
             'fornecedores_id' => $dados->fornecedores_id,
             'fornecedor_nome' => $fornecedores[$dados->fornecedores_id] ?? '',
-            'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
+            'preco_fornecedor' => $financeiro ? convert_float_money($dados->preco_fornecedor) : 0,
             'preco_venda' => convert_float_money($dados->preco_venda),
             'unidade' => $dados->unidade,
             'unidade_nome' => $unidades[$dados->unidade] ?? '',
@@ -157,17 +159,19 @@ class Produtos extends Model
         if ($request->categoria) $query->where('categoria', $request->categoria);
         if ($request->unidade) $query->where('unidade', $request->unidade);
 
+        $financeiro = is_financeiro();
+
         return $query->orderBy('nome')
             ->get()
-            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $fornecedores, $unidades) {
+            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $fornecedores, $unidades, $financeiro) {
                 return [
                     'id' => $dados->id,
                     'nome' => $dados->nome,
                     'descricao' => $dados->descricao,
-                    'preco_fornecedor' => convert_float_money($dados->preco_fornecedor),
+                    'preco_fornecedor' => $financeiro ? convert_float_money($dados->preco_fornecedor) : 0,
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
-                    'preco_fornecedor_float' => $dados->preco_fornecedor,
+                    'preco_fornecedor_float' => $financeiro ? $dados->preco_fornecedor : 0,
                     'unidade' => $unidades[$dados->unidade] ?? '',
                     'estoque' => $dados->estoque_local,
                     'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,

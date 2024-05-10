@@ -41,7 +41,6 @@ export default function ({produtos, fornecedor}) {
                         <th></th>
                         <th>Nome</th>
                         <th>Preços</th>
-                        <th>Unidade</th>
                         <th>Categoria</th>
                         <th></th>
                     </tr>
@@ -55,13 +54,13 @@ export default function ({produtos, fornecedor}) {
                                 </td>
                                 <td className="text-wrap">
                                     <b>{dado.nome}</b><br/>
+                                    Unidade: {dado.unidade}<br/>
                                     <small>ID: #{dado.id}</small>
                                 </td>
                                 <td>
                                     Venda: <b>R$ {dado.preco_venda}</b><br/>
-                                    Forn.: R$ {dado.preco_fornecedor}
+                                    {dado.preco_fornecedor_float > 0 && <span>Forn.: R$ {dado.preco_fornecedor}</span>}
                                 </td>
-                                <td className="text-center">{dado.unidade}</td>
                                 <td className="text-wrap">{dado.categoria}</td>
                                 <td>
                                     <a href={route('admin.produtos.show', dado.id)}
