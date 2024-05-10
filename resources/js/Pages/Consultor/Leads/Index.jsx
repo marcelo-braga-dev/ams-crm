@@ -19,7 +19,7 @@ import AtivoCard from "./Cards/AtivoCard";
 
 const styleCard = 'p-2 mx-1 text-white row justify-content-between rounded-top'
 
-export default function Dashboard({}) {
+export default function Dashboard({isSdr}) {
     const [leads, setLeads] = useState()
 
     useEffect(function () {
@@ -63,18 +63,18 @@ export default function Dashboard({}) {
                             <table>
                                 <thead>
                                 <tr>
-                                    <th id="th-1">
+                                    {isSdr && <th id="th-1">
                                         <div className={styleCard} style={{backgroundColor: 'blue'}}>
                                             <div className='col-auto'>Iniciar Atendimento</div>
                                             <div className='col-auto'>Qdt: {leads.novo.length}</div>
                                         </div>
-                                    </th>
-                                    <th id="th-2">
+                                    </th>}
+                                    {isSdr && <th id="th-2">
                                         <div className={styleCard} style={{backgroundColor: 'orange'}}>
                                             <div className='col-auto'>Pré Atendimento</div>
                                             <div className='col-auto'>Qdt: {leads.pre_atendimento.length}</div>
                                         </div>
-                                    </th>
+                                    </th>}
                                     <th id="th-1">
                                         <div className={styleCard} style={{backgroundColor: 'green'}}>
                                             <div className='col-auto'>Em Aberto</div>
@@ -103,16 +103,16 @@ export default function Dashboard({}) {
                                 </thead>
                                 <tbody>
                                 <tr className="align-top">
-                                    <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
+                                    {isSdr && <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
                                         {leads.novo.map((dado, i) => {
                                             return (<NovoCards key={i} dados={dado}/>)
                                         })}
-                                    </td>
-                                    <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
+                                    </td>}
+                                    {isSdr && <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
                                         {leads.pre_atendimento.map((dado) => {
                                             return (<PreAtendimentoCard key={dado.id} dados={dado}/>)
                                         })}
-                                    </td>
+                                    </td>}
                                     <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
                                         {leads.aberto.map((dado, i) => {
                                             return (<AbertoCards key={i} dados={dado}/>)

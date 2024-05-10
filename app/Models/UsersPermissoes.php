@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Usuarios\Permissoes\ChavesPermissoes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,5 +35,21 @@ class UsersPermissoes extends Model
         return $this->newQuery()
             ->where('user_id', $id)
             ->pluck('user_id', 'chave');
+    }
+
+    public function isSrd($id)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->where('chave', (new ChavesPermissoes())->chaveSdr())
+            ->exists();
+    }
+
+    public function isEmitePedido($id)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->where('chave', (new ChavesPermissoes())->chavePedidosEmitir())
+            ->exists();
     }
 }

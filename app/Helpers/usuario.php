@@ -44,6 +44,20 @@ if (!function_exists('is_financeiro')) {
     }
 }
 
+if (!function_exists('is_sdr')) {
+    function is_sdr()
+    {
+        return (new \App\Models\UsersPermissoes())->isSrd(id_usuario_atual());
+    }
+}
+
+if (!function_exists('is_emite_pedido')) {
+    function is_emite_pedido()
+    {
+        return (new \App\Models\UsersPermissoes())->isEmitePedido(id_usuario_atual());
+    }
+}
+
 if (!function_exists('is_admin')) {
     function is_admin(): bool
     {
@@ -57,6 +71,7 @@ if (!function_exists('supervisionados')) {
         return (new UsersHierarquias())->supervisionados($id);
     }
 }
+
 
 if (!function_exists('is_supervisor')) {
     function is_supervisor()

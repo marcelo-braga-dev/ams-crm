@@ -17,7 +17,9 @@ class LeadsController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Consultor/Leads/Index');
+        $isSdr = is_sdr();
+
+        return Inertia::render('Consultor/Leads/Index', compact('isSdr'));
     }
 
     public function create()

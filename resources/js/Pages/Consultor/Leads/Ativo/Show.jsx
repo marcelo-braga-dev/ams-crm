@@ -9,7 +9,7 @@ import * as React from "react";
 import {useState} from "react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 
-export default function Show({dados, status, contatos, historicos}) {
+export default function Show({dados, status, contatos, historicos, permissaoPedido}) {
     const {data, setData, post} = useForm({
         msg: '',
         classificacao: dados.cliente.classificacao,
@@ -72,7 +72,7 @@ export default function Show({dados, status, contatos, historicos}) {
                 </div>
             </div>
 
-            <div className="card mb-3">
+            {permissaoPedido && <div className="card mb-3">
                 <div className="card-body">
                     <div className="row">
                         <div className="col-auto">
@@ -82,7 +82,7 @@ export default function Show({dados, status, contatos, historicos}) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
             <div className="row mb-3">
                 <div className="col">

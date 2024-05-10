@@ -18,8 +18,9 @@ class AtivoController extends Controller
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
+        $permissaoPedido = is_emite_pedido();
 
         return Inertia::render('Consultor/Leads/Ativo/Show',
-            compact('dados', 'status', 'historicos', 'contatos'));
+            compact('dados', 'status', 'historicos', 'contatos', 'permissaoPedido'));
     }
 }
