@@ -72,17 +72,19 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
                 </div>
             </div>
 
-            {permissaoPedido && <div className="card mb-3">
+            <div className="card mb-3">
                 <div className="card-body">
                     <div className="row">
                         <div className="col-auto">
-                            <a href={route('consultor.pedidos.create', {lead: dados.id})} className="btn btn-warning">
-                                <RequestPageOutlinedIcon/> Lançar Pedido
-                            </a>
+                            {permissaoPedido ?
+                                <a href={route('consultor.pedidos.create', {lead: dados.id})}
+                                   className="btn btn-warning">
+                                    <RequestPageOutlinedIcon/> Lançar Pedido
+                                </a> : 'Você não tem permissão para emitir pedidos.'}
                         </div>
                     </div>
                 </div>
-            </div>}
+            </div>
 
             <div className="row mb-3">
                 <div className="col">
