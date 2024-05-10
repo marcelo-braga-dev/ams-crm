@@ -32,7 +32,6 @@ class User extends Authenticatable
         'email',
         'franquia_id',
         'setor_id',
-        // 'superior_id',
         'is_admin',
         'is_financeiro',
         'funcao_id',
@@ -265,7 +264,6 @@ class User extends Authenticatable
                     'name' => $item->name,
                     'nome' => $item->name,
                     'email' => $item->email,
-                    // 'tipo' => $item->tipo,
                     'status' => $item->status,
                     'setor' => $setores[$item->setor_id]['nome'] ?? '',
                     'franquia' => $franquias[$item->franquia_id] ?? '',
@@ -279,13 +277,13 @@ class User extends Authenticatable
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
-            ->whereIn('tipo', [(new Supervisores())->getFuncao(), (new Admins())->getFuncao()])
+            ->whereIn('is_admin', [1])
             ->orderBy('name');
 
         if ($setor) $query->where('setor_id', $setor);
         if ($status) $query->where('status', (new AtivoStatusUsuario)->getStatus());
 
-        return $query->get(['id', 'name', 'email', 'tipo', 'status', 'setor_id'])
+        return $query->get(['id', 'name', 'email', 'funcao_id', 'status', 'setor_id'])
             ->except(['id' => 1])
             ->except(['id' => 2])
             ->except(['id' => 3])
@@ -294,7 +292,7 @@ class User extends Authenticatable
                     'id' => $item->id,
                     'name' => $item->name,
                     'email' => $item->email,
-                    'tipo' => $item->tipo,
+                    'tipo' => $item->funcao_id,
                     'status' => $item->status,
                     'setor' => $setores[$item->setor_id]['nome'] ?? '',
                 ];
@@ -312,7 +310,7 @@ class User extends Authenticatable
                     'franquia_id' => $dados->franquia,
                     'status' => $dados->status,
                     'setor_id' => $dados->setor,
-                    'tipo' => $dados->funcao,
+                    'funcao_id' => $dados->funcao,
                     // 'superior_idx' => $dados->funcao == (new Vendedores())->getFuncao() ? $dados->superior : null
                 ]);
         } catch (QueryException) {
@@ -409,7 +407,6 @@ class User extends Authenticatable
                     'id' => $item->id,
                     'nome' => $item->name,
                     'status' => $item->status,
-                    'tipo' => $item->tipo,
                     'setor_id' => $item->setor_id,
                     'setor_nome' => $setores[$item->setor_id]['nome'] ?? null,
                     'foto' => $item->foto ? asset('storage/' . $item->foto) : null
@@ -450,7 +447,7 @@ class User extends Authenticatable
                 return [
                     'id' => $item->id,
                     'nome' => $item->name,
-                    'funcao' => $item->tipo,
+                    'funcao' => $item->funcao_id,
                     'setor' => $setores[$item->setor_id]['nome'] ?? '',
                     'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
                     'status' => $item->status
@@ -524,5 +521,36 @@ class User extends Authenticatable
                     'has_meta' => $item->has_meta
                 ];
             });
+    }
+
+    public function usuariosSdr()
+    {
+        return $this->newQuery()
+            ->join('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
+            ->where('users_permissoes.chave', (new ChavesPermissoes())->chaveSdr())
+            ->get(['users.id as id', 'name as nome', 'foto'])
+            ->toArray();
+    }
+
+    public function usuariosVendedor()
+    {
+        return $this->newQuery()
+            ->join('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
+            ->where('users_permissoes.chave', (new ChavesPermissoes())->chavePedidosEmitir())
+            ->orderBy('name')
+            ->get(['users.id as id', 'name as nome', 'foto'])
+            ->toArray();
+    }
+    public function usuariosVendedorId()
+    {
+        return $this->newQuery()
+            ->join('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
+            ->where('users_permissoes.chave', (new ChavesPermissoes())->chavePedidosEmitir())
+            ->orderBy('id')
+            ->get(['users.id'])
+            ->transform(function ($item) {
+                return $item->id;
+            })
+            ->toArray();
     }
 }

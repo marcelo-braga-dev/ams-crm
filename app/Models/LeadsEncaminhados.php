@@ -15,13 +15,20 @@ class LeadsEncaminhados extends Model
         'lead_id',
     ];
 
-    public function create($dados)
+    public function create($id, $idLead)
     {
         $this->newQuery()
             ->create([
-                'user_id' => $dados,
-                'user_encaminhado' => $dados,
-                'lead_id' => $dados,
+                'user_id' => id_usuario_atual(),
+                'user_encaminhado' => $id,
+                'lead_id' => $idLead,
             ]);
+    }
+
+    public function ultimoVendedorEnviado()
+    {
+        return $this->newQuery()
+            ->orderByDesc('id')
+            ->first('user_encaminhado')['user_encaminhado'] ?? null;
     }
 }

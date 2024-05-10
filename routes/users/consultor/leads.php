@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Consultor\Leads\AbertoController;
 use App\Http\Controllers\Consultor\Leads\AtendimentoController;
 use App\Http\Controllers\Consultor\Leads\AtivoController;
 use App\Http\Controllers\Consultor\Leads\FinalizadosController;
 use App\Http\Controllers\Consultor\Leads\LeadsController;
 use App\Http\Controllers\Consultor\Leads\NovoController;
+use App\Http\Controllers\Consultor\Leads\PreAtendimentoController;
 use Illuminate\Support\Facades\Route;
 
 // Leads
@@ -14,9 +16,11 @@ Route::middleware(['auth', 'auth.consultores'])
     ->group(function () {
         Route::resources([
             'main' => LeadsController::class,
+            'novo' => NovoController::class,
+            'pre_atendimento' => PreAtendimentoController::class,
+            'aberto' => AbertoController::class,
             'atendimento' => AtendimentoController::class,
             'ativo' => AtivoController::class,
-            'novo' => NovoController::class,
             'finalizado' => FinalizadosController::class,
         ]);
 

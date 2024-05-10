@@ -8,14 +8,13 @@ use App\Models\LeadsHistoricos;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\Historicos\IniciarAtendimentoHistorico;
-use App\src\Leads\Historicos\PreAtendimentoHistorico;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\StatusAtendimentoLeads;
 use App\src\Leads\UpdateStatusLeads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class NovoController extends Controller
+class AbertoController extends Controller
 {
     public function show($id)
     {
@@ -25,21 +24,21 @@ class NovoController extends Controller
         $contatos = (new MeioContatoLeads())->status();
 
         return Inertia::render(
-            'Consultor/Leads/Novo/Edit',
+            'Consultor/Leads/Aberto/Show',
             compact('dados', 'historicos', 'status', 'contatos')
         );
     }
 
     public function update($id, Request $request)
     {
-        (new UpdateStatusLeads())->setPreAtendimento($id);
-        (new LeadsHistoricos())->createHistorico($id, (new PreAtendimentoHistorico())->status());
+        (new UpdateStatusLeads())->setAtendimento($id);
+        (new LeadsHistoricos())->createHistorico($id, (new IniciarAtendimentoHistorico())->status());
 
         if ($request->salvar_msg) {
             (new LeadsHistoricos())->create($id, $request, $request->status);
         }
 
         modalSucesso('Atendimento Iniciado com Sucesso!');
-        return redirect()->route('consultor.leads.pre_atendimento.show', $id);
+        return redirect()->route('consultor.leads.atendimento.show', $id);
     }
 }

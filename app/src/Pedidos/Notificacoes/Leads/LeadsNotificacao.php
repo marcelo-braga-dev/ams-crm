@@ -25,7 +25,6 @@ class LeadsNotificacao implements Notificacao
         $msg = 'Você recebeu ' . $qtd . ' Leads para realizar atendimento. IDs: #' .
             implode(', #', $idLeads) . '.';
 
-
         (new Notificacoes())->create($idUser, $this->getCategoria(), $titulo, $msg);
     }
 

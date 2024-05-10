@@ -21,6 +21,7 @@ class Leads extends Model
 
     protected $fillable = [
         'user_id',
+        'sdr_id',
         'status',
         'id_importacao',
         'nome',
@@ -67,12 +68,31 @@ class Leads extends Model
             });
     }
 
+    public function updateUser($id, $idConsultor)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'user_id' => $idConsultor,
+            ]);
+    }
+
     public function setConsultor($idLead, $idConsultor)
     {
         $this->newQuery()
-            ->where('id', $idLead)
+            ->whereIn('id', $idLead)
             ->update([
                 'user_id' => $idConsultor,
+                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
+    }
+
+    public function setSdr($idLead, $idConsultor)
+    {
+        $this->newQuery()
+            ->whereIn('id', $idLead)
+            ->update([
+                'sdr_id' => $idConsultor,
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
     }
@@ -558,6 +578,7 @@ class Leads extends Model
     {
         return $this->newQuery()
             ->where('user_id', $id)
+            ->orWhere('sdr_id', $id)
             ->orderBy('status_data', 'desc')
             ->get();
     }

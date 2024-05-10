@@ -23,9 +23,17 @@ class LeadsController extends Controller
         $categorias = (new SetoresService())->setores();
         $dados = (new Leads())->getDisponiveis($categoriaAtual);
         $consultores = (new User())->getUsuarios($categoriaAtual);
+        $usuariosSdr = (new User())->usuariosSdr();
+        $usuariosVendedor = (new User())->usuariosVendedor();
+//        print_pre($usuariosSdr);
 
         return Inertia::render('Admin/Leads/Encaminhar',
-            compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
+            compact('dados', 'usuariosSdr', 'usuariosVendedor', 'consultores', 'categorias', 'categoriaAtual'));
+    }
+
+    public function registrosEncaminhar()
+    {
+
     }
 
     public function create()
@@ -45,15 +53,12 @@ class LeadsController extends Controller
     public function updateConsultor(Request $request)
     {
         try {
-            $idLeads = [];
-            if (!empty($request->leadsSelecionados)) {
-                foreach ($request->leadsSelecionados as $item) {
-                    $idLeads[] = $item;
-                    (new Leads())->setConsultor($item, $request->consultor);
-                }
-            }
+            $request->is_sdr ?
+                (new Leads())->setSdr($request->leadsSelecionados, $request->consultor) :
+                (new Leads())->setConsultor($request->leadsSelecionados, $request->consultor);
+
             // Notificar Leads
-            if (count($request->leadsSelecionados)) (new LeadsNotificacao())->notificar($request->consultor, count($request->leadsSelecionados), $idLeads);
+            if (count($request->leadsSelecionados)) (new LeadsNotificacao())->notificar($request->consultor, count($request->leadsSelecionados), $request->leadsSelecionados);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
         }

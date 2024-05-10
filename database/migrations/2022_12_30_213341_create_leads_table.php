@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('nome');
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('sdr_id')->nullable();
             $table->unsignedBigInteger('setor_id');
             $table->string('status', 32)->default('novo');
             $table->integer('id_importacao')->nullable();

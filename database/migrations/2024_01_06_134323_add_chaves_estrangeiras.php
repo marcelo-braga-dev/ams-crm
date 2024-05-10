@@ -26,6 +26,7 @@ return new class extends Migration
 
         Schema::table('leads', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('sdr_id')->references('id')->on('users');
             $table->foreign('setor_id')->references('id')->on('setores');
         });
 

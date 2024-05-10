@@ -15,8 +15,10 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Checkbox from "@mui/material/Checkbox";
 import ListItem from "@mui/material/ListItem";
 import InfoLead from "@/Pages/Admin/Leads/Componentes/InfoLead";
+import Switch from "@mui/material/Switch";
+import Avatar from "@mui/material/Avatar";
 
-export default function Filtering({dados, consultores, categorias, categoriaAtual}) {
+export default function Filtering({dados, usuariosSdr, usuariosVendedor, categorias, categoriaAtual}) {
     // loading
     const [filterText, setFilterText] = React.useState('');
     const [filtro, setFiltro] = useState('nome');
@@ -26,6 +28,9 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     const [checkedPage, setCheckedPage] = useState(false);
     const [leadsChecked, setLeadsChecked] = useState([]);
     const [consultorSelecionado, setConsultorSelecionado] = useState();
+    const [sdr, setSdr] = useState(true);
+    const [usuarios, setUsuarios] = useState(usuariosSdr);
+    console.log(sdr)
 
     function handleToggle(value) {
         const currentIndex = leadsChecked.indexOf(value);
@@ -151,7 +156,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         if (consultorSelecionado && leadsChecked) {
             setOpen(!open);
             router.post(route('admin.clientes.leads.update-consultor',
-                {leadsSelecionados: leadsChecked, consultor: consultorSelecionado}))
+                {leadsSelecionados: leadsChecked, consultor: consultorSelecionado, is_sdr: sdr}))
         }
     }
 
@@ -185,7 +190,8 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     // Form Ocultar - fim
 
     function nomeConsultorSelecionado() {
-        const nome = consultores[consultores.findIndex(i => i.id === consultorSelecionado)]?.name;
+        const nome = usuarios[usuarios.findIndex(i => i.id === consultorSelecionado)]?.nome;
+        console.log(nome)
         return nome ? <>
             Enviar <b>{leadsChecked.length}</b> Leads Selecionados para:<br/>
             <h5>{nome}</h5>
@@ -196,7 +202,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         <Layout container titlePage="Enviar Leads para Consultores" menu="leads" submenu="leads-encaminhar">
             {/*Setores*/}
             <div className="row border-bottom mb-4 pb-2">
-                <div className="col-md-5 mb-2">
+                <div className="col-md-3 mb-2">
                     <TextField label="Setor" select fullWidth
                                value={categoriaAtual ?? ''}
                                onChange={e => router.get(route('admin.clientes.leads.leads-main.index', {categoria: e.target.value}))}>
@@ -209,132 +215,139 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                 </div>
             </div>
 
-            <form onSubmit={encaminharLead}>
-                <span>Selecione o consultor(a) para enviar os leads.</span>
-                <div className="row justify-content-between mb-4">
-                    <div className="col-md-6">
-                        <div className="row">
-                            <div className="col-8 ml-4">
-                                <TextField label="Selecione o Consultor..." select
-                                           value={consultorSelecionado ?? ''}
-                                           fullWidth required
-                                           onChange={e => setConsultorSelecionado(e.target.value)}>
-                                    {consultores.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            #{option.id} - {option.name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+            <div className="card card-body mb-4">
+                <form onSubmit={encaminharLead}>
+                    <div className="row justify-content-between mt-3">
+                        <div className="col-md-8">
+                            <div className="row">
+                                <div className="col-auto text-center">
+                                    <Switch defaultChecked={sdr} onChange={e => {
+                                        setUsuarios(e.target.checked ? usuariosSdr : usuariosVendedor)
+                                        setSdr(e.target.checked)
+                                    }}/>
+                                    <br/><small>SDR</small>
+                                </div>
+                                <div className="col-6 ml-4">
+                                    <TextField label="Selecione o Usuário para enviar os leads..." select
+                                               value={consultorSelecionado ?? ''}
+                                               fullWidth required
+                                               onChange={e => setConsultorSelecionado(e.target.value)}>
+                                        {usuarios.map(item => <MenuItem key={item.id}
+                                                                        value={item.id}> {item.nome} </MenuItem>)}
+                                    </TextField>
+
+                                </div>
+                                <div className="col-auto p-0">
+                                    <button type="button" className="btn btn-dark" data-bs-toggle="modal"
+                                            data-bs-target="#modalEnviar">
+                                        ENVIAR
+                                    </button>
+                                </div>
                             </div>
-                            <div className="col-4 p-0">
-                                <button type="button" className="btn btn-dark" data-bs-toggle="modal"
-                                        data-bs-target="#modalEnviar">
-                                    ENVIAR
+                        </div>
+                        <div className="col-md-auto ">
+                            <button type="button" className="btn btn-link" data-bs-toggle="modal"
+                                    data-bs-target="#modalEsconder">
+                                <VisibilityOffIcon/>
+                                OCULTAR
+                            </button>
+                            <button type="button" className="btn btn-link text-danger" data-bs-toggle="modal"
+                                    data-bs-target="#modalExcluir">
+                                <DeleteIcon/>
+                                EXCLUIR
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div className="card card-body mb-4">
+                {/*FILTRO*/}
+                <div className="row">
+                    <div className="col ps-3">
+                        <Checkbox checked={checkedPage || false} onChange={e => adicionarLeadsCheck(e.target.checked)}/>
+                        {leadsChecked.length} selecionados
+                    </div>
+                    <div className="col-auto text-right">
+                        <TextField
+                            id="outlined-select-currency"
+                            select
+                            placeholder="asas"
+                            label="Filtro"
+                            defaultValue="nome"
+                            size="small"
+                            onChange={event => setFiltro(event.target.value)}
+                        >
+                            <MenuItem value="id">
+                                ID
+                            </MenuItem>
+                            <MenuItem value="nome">
+                                Nome/Razão Social
+                            </MenuItem>
+                            <MenuItem value="cnpj">
+                                CNPJ
+                            </MenuItem>
+                            <MenuItem value="cidade">
+                                Cidade
+                            </MenuItem>
+                            <MenuItem value="ddd">
+                                DDD
+                            </MenuItem>
+                            <MenuItem value="telefone">
+                                Telefone
+                            </MenuItem>
+                        </TextField>
+                        <TextField
+                            id="search"
+                            type="text"
+                            placeholder="Pesquisar..."
+                            value={filterText}
+                            onChange={e => setFilterText(e.target.value)}
+                            size="small"
+                        />
+                    </div>
+                </div>
+
+                <DataTable
+                    columns={columns}
+                    data={filteredItems}
+                    pagination
+                    paginationPerPage={rowsPerPage}
+                    onChangeRowsPerPage={value => setRowsPerPage(value)}
+                    onChangePage={value => {
+                        setPageAtual(value)
+                        setCheckedPage(false)
+                    }}
+                    paginationComponentOptions={{
+                        rowsPerPageText: 'Itens por página',
+                        rangeSeparatorText: 'de',
+                    }}
+                />
+
+                {/*MODAL ENVIAR*/}
+                <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">Enviar Leads</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                {nomeConsultorSelecionado()}
+                                {!leadsChecked.length &&
+                                    <div className="alert alert-danger text-white">Selecione os Leads</div>}
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-outline-secondary me-4"
+                                        data-bs-dismiss="modal">Fechar
+                                </button>
+                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
+                                        onClick={() => encaminharLead()}
+                                        disabled={!leadsChecked.length || !consultorSelecionado}>
+                                    Enviar
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                    <div className="col-md-auto ">
-                        <button type="button" className="btn btn-link" data-bs-toggle="modal"
-                                data-bs-target="#modalEsconder">
-                            <VisibilityOffIcon/>
-                            OCULTAR
-                        </button>
-                        <button type="button" className="btn btn-link text-danger" data-bs-toggle="modal"
-                                data-bs-target="#modalExcluir">
-                            <DeleteIcon/>
-                            EXCLUIR
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            {/*FILTRO*/}
-            <div className="row">
-                <div className="col ps-3">
-                    <Checkbox checked={checkedPage || false} onChange={e => adicionarLeadsCheck(e.target.checked)}/>
-                    {leadsChecked.length} selecionados
-                </div>
-                <div className="col-auto text-right">
-                    <TextField
-                        id="outlined-select-currency"
-                        select
-                        placeholder="asas"
-                        label="Filtro"
-                        defaultValue="nome"
-                        size="small"
-                        onChange={event => setFiltro(event.target.value)}
-                    >
-                        <MenuItem value="id">
-                            ID
-                        </MenuItem>
-                        <MenuItem value="nome">
-                            Nome/Razão Social
-                        </MenuItem>
-                        <MenuItem value="cnpj">
-                            CNPJ
-                        </MenuItem>
-                        <MenuItem value="cidade">
-                            Cidade
-                        </MenuItem>
-                        <MenuItem value="ddd">
-                            DDD
-                        </MenuItem>
-                        <MenuItem value="telefone">
-                            Telefone
-                        </MenuItem>
-                    </TextField>
-                    <TextField
-                        id="search"
-                        type="text"
-                        placeholder="Pesquisar..."
-                        value={filterText}
-                        onChange={e => setFilterText(e.target.value)}
-                        size="small"
-                    />
-                </div>
-            </div>
-
-            <DataTable
-                columns={columns}
-                data={filteredItems}
-                pagination
-                paginationPerPage={rowsPerPage}
-                onChangeRowsPerPage={value => setRowsPerPage(value)}
-                onChangePage={value => {
-                    setPageAtual(value)
-                    setCheckedPage(false)
-                }}
-                paginationComponentOptions={{
-                    rowsPerPageText: 'Itens por página',
-                    rangeSeparatorText: 'de',
-                }}
-            />
-
-            {/*MODAL ENVIAR*/}
-            <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Enviar Leads</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            {nomeConsultorSelecionado()}
-                            {!leadsChecked.length &&
-                                <div className="alert alert-danger text-white">Selecione os Leads</div>}
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-outline-secondary me-4"
-                                    data-bs-dismiss="modal">Fechar
-                            </button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => encaminharLead()}
-                                    disabled={!leadsChecked.length || !consultorSelecionado}>
-                                Enviar
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -353,11 +366,13 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                         <div className="modal-body">
                             {leadsChecked.length ?
                                 <>EXCLUIR LEADS SELECIONADOS?</> :
-                                <div className="alert alert-danger text-white">Selecione os leads para excluir.</div>
+                                <div className="alert alert-danger text-white">Selecione os leads para
+                                    excluir.</div>
                             }
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar
+                            </button>
                             <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
                                     onClick={() => excluir()}>Excluir
                             </button>
@@ -379,12 +394,14 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
                         <div className="modal-body">
                             {leadsChecked.length ?
                                 <>Ocultar Leads Selecionados?</> :
-                                <div className="alert alert-danger text-white">Selecione os leads para ocultar.</div>
+                                <div className="alert alert-danger text-white">Selecione os leads para
+                                    ocultar.</div>
                             }
 
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar
+                            </button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
                                     onClick={() => ocultar()}>
                                 Ocultar

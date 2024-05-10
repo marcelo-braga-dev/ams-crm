@@ -7,7 +7,7 @@ import * as React from "react";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Edit({dados, historicos, status, contatos}) {
+export default function Show({dados, historicos, status, contatos}) {
     const {data, setData, post} = useForm({
         msg: '',
         classificacao: dados.cliente.classificacao
@@ -16,7 +16,7 @@ export default function Edit({dados, historicos, status, contatos}) {
     function onSubmit(e) {
         e.preventDefault();
 
-        router.post(route('consultor.leads.novo.update', dados.id), {
+        router.post(route('consultor.leads.aberto.update', dados.id), {
             _method: 'put',
             ...data
         })
@@ -29,7 +29,7 @@ export default function Edit({dados, historicos, status, contatos}) {
     }
 
     return (
-        <Layout container titlePage="Iniciar Atendimento" voltar={route('consultor.leads.main.index')}
+        <Layout container titlePage="Em Aberto" voltar={route('consultor.leads.main.index')}
                 menu="clientes-lista">
 
             <div className="card card-body mb-4">

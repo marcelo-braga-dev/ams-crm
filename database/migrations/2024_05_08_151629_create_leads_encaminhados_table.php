@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_encaminhado')->references('id')->on('users');
             $table->foreign('lead_id')->references('id')->on('leads');
         });
     }
