@@ -15,7 +15,7 @@ class FinalizadoStatusLeads
 
     public function getNome()
     {
-        return 'Enviado para Atendimento';
+        return 'Finalizado';
     }
 
     public function updateStatus($id)

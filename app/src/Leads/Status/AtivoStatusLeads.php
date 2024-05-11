@@ -12,6 +12,11 @@ class AtivoStatusLeads
     {
         return $this->status;
     }
+
+    public function getNome(): string
+    {
+        return 'Ativo';
+    }
     public function updateStatus($id)
     {
         (new Leads())->updateStatus($id, $this->getStatus());

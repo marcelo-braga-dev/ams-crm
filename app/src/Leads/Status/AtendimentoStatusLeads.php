@@ -11,10 +11,9 @@ class AtendimentoStatusLeads
     {
         return $this->status;
     }
-
     public function getNome()
     {
-        return 'Enviado para Atendimento';
+        return 'Atendimento';
     }
 
     public function updateStatus($id)

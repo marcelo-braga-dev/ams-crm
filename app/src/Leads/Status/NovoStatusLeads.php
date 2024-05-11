@@ -12,6 +12,11 @@ class NovoStatusLeads
     {
         return $this->status;
     }
+
+    public function getNome(): string
+    {
+        return 'Em Aberto';
+    }
     public function updateStatus($id)
     {
         (new Leads())->updateStatus($id, $this->getStatus());

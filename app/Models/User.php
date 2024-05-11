@@ -532,7 +532,7 @@ class User extends Authenticatable
             ->toArray();
     }
 
-    public function usuariosVendedor()
+    public function usuariosRecebeLeads()
     {
         return $this->newQuery()
             ->join('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
@@ -541,11 +541,11 @@ class User extends Authenticatable
             ->get(['users.id as id', 'name as nome', 'foto'])
             ->toArray();
     }
-    public function usuariosVendedorId()
+    public function usuariosRecebeLeadsId()
     {
         return $this->newQuery()
             ->join('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
-            ->where('users_permissoes.chave', (new ChavesPermissoes())->chavePedidosEmitir())
+            ->where('users_permissoes.chave', (new ChavesPermissoes())->chaveLeadsReceber())
             ->orderBy('id')
             ->get(['users.id'])
             ->transform(function ($item) {

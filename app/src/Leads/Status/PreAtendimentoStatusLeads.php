@@ -12,6 +12,11 @@ class PreAtendimentoStatusLeads
     {
         return $this->status;
     }
+
+    public function getNome(): string
+    {
+        return 'Pré-Atendimento';
+    }
     public function updateStatus($id)
     {
         (new Leads())->updateStatus($id, $this->getStatus());

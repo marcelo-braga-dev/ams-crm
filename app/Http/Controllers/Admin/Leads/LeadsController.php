@@ -24,8 +24,7 @@ class LeadsController extends Controller
         $dados = (new Leads())->getDisponiveis($categoriaAtual);
         $consultores = (new User())->getUsuarios($categoriaAtual);
         $usuariosSdr = (new User())->usuariosSdr();
-        $usuariosVendedor = (new User())->usuariosVendedor();
-//        print_pre($usuariosSdr);
+        $usuariosVendedor = (new User())->usuariosRecebeLeads();
 
         return Inertia::render('Admin/Leads/Encaminhar',
             compact('dados', 'usuariosSdr', 'usuariosVendedor', 'consultores', 'categorias', 'categoriaAtual'));

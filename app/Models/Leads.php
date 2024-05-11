@@ -8,6 +8,7 @@ use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
+use App\src\Leads\Status\StatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -645,5 +646,42 @@ class Leads extends Model
                 'user_id' => null,
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
+    }
+
+    public function relatorioLeads()
+    {
+        $nomes = (new StatusLeads())->nomesStatus();
+
+        return $this->newQuery()
+            ->groupBy('status')
+            ->select(DB::raw('
+                status, COUNT(id) as qtd
+            '))
+            ->get()
+            ->transform(function ($item) use ($nomes) {
+                return [
+                    'status' => $nomes[$item->status] ?? '?',
+                    'qtd' => $item->qtd,
+                ];
+            });
+    }
+
+    public function relatorioUsuarios($id)
+    {
+        $nomes = (new StatusLeads())->nomesStatus();
+
+        return $this->newQuery()
+            ->groupBy('status')
+            ->where('sdr_id', $id)
+            ->select(DB::raw('
+                status, COUNT(id) as qtd
+            '))
+            ->get()
+            ->transform(function ($item) use ($nomes) {
+                return [
+                    'status' => $nomes[$item->status] ?? '?',
+                    'qtd' => $item->qtd,
+                ];
+            });
     }
 }

@@ -174,4 +174,12 @@ class ChavesPermissoes
     {
         return '42';
     }
+    public function chaveDashboardsLeads()
+    {
+        return '43';
+    }
+    public function chaveLeadsReceber()
+    {
+        return '44';
+    }
 }

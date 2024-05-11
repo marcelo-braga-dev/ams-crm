@@ -32,7 +32,7 @@ class PreAtendimentoController extends Controller
     public function update($id, Request $request)
     {
         $ultimo = (new LeadsEncaminhados())->ultimoVendedorEnviado();
-        $vendedores = (new User())->usuariosVendedorId();
+        $vendedores = (new User())->usuariosRecebeLeadsId();
 
         $idEnviar = $vendedores[0];
 

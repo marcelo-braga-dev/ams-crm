@@ -10,7 +10,7 @@ const chavesPermissoes = {
         cadastrados: 6, cadastrar: 7, categorias: 40, unidades: 41, estoque: 42
     },
     dashboards: {
-        integrados: 8, vendas: 9, financeiros: 10, economicos: 11
+        integrados: 8, vendas: 9, financeiros: 10, economicos: 11, leads: 43
     },
     chats: {
         interno: 12

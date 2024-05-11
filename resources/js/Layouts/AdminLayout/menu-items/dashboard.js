@@ -28,6 +28,12 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.dashboard.vendas.index'),
                 }, {
+                    id: 'dashboard-leads',
+                    chave: chaves.dashboards.leads,
+                    title: 'Indicadores de Leads',
+                    type: 'item',
+                    url: route('admin.dashboard.leads.index'),
+                }, {
                     id: 'dashboard-financeiro',
                     chave: chaves.dashboards.financeiros,
                     title: 'Indicadores Financeiros',

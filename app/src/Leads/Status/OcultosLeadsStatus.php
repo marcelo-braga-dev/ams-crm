@@ -12,6 +12,11 @@ class OcultosLeadsStatus
     {
         return $this->status;
     }
+
+    public function getNome(): string
+    {
+        return '';
+    }
     public function updateStatus($id): void
     {
         (new Leads())->updateStatus($id, $this->getStatus());

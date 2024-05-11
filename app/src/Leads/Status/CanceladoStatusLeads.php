@@ -11,6 +11,11 @@ class CanceladoStatusLeads
     {
         return $this->status;
     }
+
+    public function getNome(): string
+    {
+        return '';
+    }
     public function updateStatus($id)
     {
         (new Leads())->updateStatus($id, $this->getStatus());

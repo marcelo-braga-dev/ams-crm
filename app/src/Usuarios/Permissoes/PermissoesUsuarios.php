@@ -20,9 +20,9 @@ class PermissoesUsuarios extends ChavesPermissoes
             [
                 'categoria' => 'Leads',
                 'permissoes' => [
+                    ['id' => $this->chaveLeadsReceber(), 'nome' => 'Recebe Lead'],
                     ['id' => $this->chaveLeadsCadastrados(), 'nome' => 'Ver Cadastrados'],
                     ['id' => $this->chaveLeadsCadastrar(), 'nome' => 'Cadastrar Leads'],
-                    // ['id' => $this->chave(), 'nome' => ''],
                     ['id' => $this->chaveLeadsQuadro(), 'nome' => 'Quadro de Leads'],
                     ['id' => $this->chaveLeadsHistorico(), 'nome' => 'Histórico'],
                     ['id' => $this->chaveSdr(), 'nome' => 'Função SDR'],
@@ -47,6 +47,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                 'permissoes' => [
                     ['id' => $this->chaveDashboardsIntegrados(), 'nome' => 'Dashboards Integrados'],
                     ['id' => $this->chaveDashboardsVendas(), 'nome' => 'Indicadores de Vendas'],
+                    ['id' => $this->chaveDashboardsLeads(), 'nome' => 'Indicadores de Leads'],
                     ['id' => $this->chaveDashboardsFinanceiros(), 'nome' => 'Indicadores Financeiros'],
                     ['id' => $this->chaveDashboardsEconomicos(), 'nome' => 'Indicadores Econômicos'],
                 ]
