@@ -84,7 +84,7 @@ export default function ({dados}) {
     return (
         <Layout titlePage="Inserir Informações" menu="financeiro" submenu="fluxo-caixa"
                 voltar={route('admin.financeiro.fluxo-caixa.index')}>
-            <div className="row">
+            <div className="row justify-content-between">
                 <div className="col">
                     Tipo de Entrada<br/>
                     <FormControl>
@@ -96,7 +96,12 @@ export default function ({dados}) {
                         </RadioGroup>
                     </FormControl>
                 </div>
+                <div className="col">
+                    {!dados.permissaoEntradas && <small className="d-block">Você não tem permissão para cadastros de entradas.</small>}
+                    {!dados.permissaoSaidas && <small>Você não tem permissão para cadastros de saídas.</small>}
+                </div>
             </div>
+
             {tipo &&
                 <form onSubmit={submit}>
                     <div className="card card-body mb-4">
