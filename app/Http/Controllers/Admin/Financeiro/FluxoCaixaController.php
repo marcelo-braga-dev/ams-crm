@@ -28,7 +28,9 @@ class FluxoCaixaController extends Controller
             'empresas' => (new FluxoCaixasConfig())->getEmpresas(),
             'fornecedores' => (new FluxoCaixasConfig())->getFornecedores(),
             'bancos' => (new FluxoCaixasConfig())->getBancos(),
-            'franquias' => (new Franquias())->get()
+            'franquias' => (new Franquias())->get(),
+            'permissaoEntradas' => is_fluxocaixa_entradas(),
+            'permissaoSaidas' => is_fluxocaixa_saidas()
         ];
 
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Create', compact('dados'));

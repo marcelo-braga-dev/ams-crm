@@ -16,8 +16,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chavePedidosHistorico(), 'nome' => 'Histórico'],
                     ['id' => $this->chavePedidosRelatorio(), 'nome' => 'Relatório'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Leads',
                 'permissoes' => [
                     ['id' => $this->chaveLeadsReceber(), 'nome' => 'Recebe Lead'],
@@ -31,8 +30,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveLeadsRelatorio(), 'nome' => 'Relatório'],
                     ['id' => $this->chaveLeadsImportar(), 'nome' => 'Importar Planilhas'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Produtos',
                 'permissoes' => [
                     ['id' => $this->chaveProdutos(), 'nome' => 'Ver Produtos'],
@@ -41,8 +39,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveProdutosUnidades(), 'nome' => 'Unidades'],
                     ['id' => $this->chaveProdutosEstoque(), 'nome' => 'Estoque'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Dashboards',
                 'permissoes' => [
                     ['id' => $this->chaveDashboardsIntegrados(), 'nome' => 'Dashboards Integrados'],
@@ -51,36 +48,35 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveDashboardsFinanceiros(), 'nome' => 'Indicadores Financeiros'],
                     ['id' => $this->chaveDashboardsEconomicos(), 'nome' => 'Indicadores Econômicos'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Chats',
                 'permissoes' => [
                     ['id' => $this->chaveChatsInterno(), 'nome' => 'Chat Interno'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Financeiro',
                 'permissoes' => [
                     ['id' => $this->chaveFinanceiroFluxoCaixa(), 'nome' => 'Fluxo Caixa'],
-                    ['id' => $this->chaveFinanceiroSalario(), 'nome' => 'Salário'],
-                    ['id' => $this->chaveFinanceiroCadastros(), 'nome' => 'Cadastros'],
+                    ['id' => $this->chaveFinanceiroFluxoCaixaEntrada(), 'nome' => 'Fluxo Caixa: Entradas'],
+                    ['id' => $this->chaveFinanceiroFluxoCaixaSaida(), 'nome' => 'Fluxo Caixa: Saídas'],
+                    ['id' => $this->chaveFinanceiroSalario(), 'nome' => 'Salários'],
+                    ['id' => $this->chaveFinanceiroCadastrosBancos(), 'nome' => 'Cadastros: Bancos'],
+                    ['id' => $this->chaveFinanceiroCadastrosEmpresas(), 'nome' => 'Cadastros: Empresas'],
+                    ['id' => $this->chaveFinanceiroCadastrosFornecedores(), 'nome' => 'Cadastros: Fornecedores'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Metas de Vendas',
                 'permissoes' => [
                     ['id' => $this->chaveMetasVendas(), 'nome' => 'Metas de Vendas'],
                     ['id' => $this->chavePossuiMetasVendas(), 'nome' => 'Possui Metas de Vendas'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Ferramentas',
                 'permissoes' => [
                     ['id' => $this->chaveFerramentasAgenda(), 'nome' => 'Agenda'],
                     ['id' => $this->chaveFerramentasEmail(), 'nome' => 'E-mail'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Usuários',
                 'permissoes' => [
                     ['id' => $this->chaveUsuariosContas(), 'nome' => 'Contas de Usuários'],
@@ -88,14 +84,12 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveUsuariosOnline(), 'nome' => 'Histórico Online'],
                     ['id' => $this->chaveUsuariosMigrar(), 'nome' => 'Migrar Conteúdo'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'SAC',
                 'permissoes' => [
                     ['id' => $this->chaveSAC(), 'nome' => 'SAC'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Configurações',
                 'permissoes' => [
                     ['id' => $this->chaveConfiguracoesFranquias(), 'nome' => 'Franquias'],
@@ -103,8 +97,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveConfiguracoesSetores(), 'nome' => 'Setores'],
                     ['id' => $this->chaveConfiguracoesLeads(), 'nome' => 'Leads'],
                 ]
-            ],
-            [
+            ], [
                 'categoria' => 'Desenvolvimento',
                 'permissoes' => [
                     ['id' => $this->chaveDesenvolviemnto(), 'nome' => 'Desenvolvimento'],

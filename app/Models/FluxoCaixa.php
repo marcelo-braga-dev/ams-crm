@@ -79,7 +79,11 @@ class FluxoCaixa extends Model
         if ($franquia) $query->where('franquia_id', $franquia);
         if ($empresa) $query->where('empresa_id', $empresa);
 
+        $in = [is_fluxocaixa_entradas() ? 'entrada' : '', is_fluxocaixa_saidas() ? 'saida' : ''];
+
         $items = ($query->orderByDesc('data_pagamento')
+//            ->whereIn('tipo',['entrada'])
+            ->whereIn('tipo', $in)
             ->orderByDesc('id')
             ->get()
             ->transform(function ($item) use ($nomes, $franquias) {
@@ -195,7 +199,7 @@ class FluxoCaixa extends Model
                         'banco_id' => $dados->banco,
                         'status' => $dados->status,
                         'nota_fiscal' => $dados->nota_fiscal,
-                        'data_vencimento' =>$item['data_vencimento'] ??  $item['data_vencimento'] ?? null,
+                        'data_vencimento' => $item['data_vencimento'] ?? $item['data_vencimento'] ?? null,
                         'valor_baixa' => convert_money_float($item['valor_baixa'] ?? 0),
                         'data_baixa' => $item['data_baixa'] ?? null,
                         'descricao' => $dados->descricao,

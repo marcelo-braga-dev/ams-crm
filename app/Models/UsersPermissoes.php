@@ -52,4 +52,20 @@ class UsersPermissoes extends Model
             ->where('chave', (new ChavesPermissoes())->chavePedidosEmitir())
             ->exists();
     }
+
+    public function isFluxoCaixaEntradas($id)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->where('chave', (new ChavesPermissoes())->chaveFinanceiroFluxoCaixaEntrada())
+            ->exists();
+    }
+
+    public function isFluxoCaixaSaidas($id)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->where('chave', (new ChavesPermissoes())->chaveFinanceiroFluxoCaixaSaida())
+            ->exists();
+    }
 }

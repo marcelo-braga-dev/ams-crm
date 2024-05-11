@@ -53,7 +53,7 @@ export default function ({ mes, ano, setores, setor }) {
     }, [filtrar])
 
     return (
-        <Layout container titlePage="Indicadores de Vendas" menu="dashboard" submenu="dashboard-vendas">
+        <Layout titlePage="Indicadores de Vendas" menu="dashboard" submenu="dashboard-vendas">
             <div className="mb-4 card card-body">
                 <div className="row">
                     <div className="col-2">

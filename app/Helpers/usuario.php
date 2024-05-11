@@ -58,6 +58,19 @@ if (!function_exists('is_emite_pedido')) {
     }
 }
 
+if (!function_exists('is_fluxocaixa_entradas')) {
+    function is_fluxocaixa_entradas()
+    {
+        return (new \App\Models\UsersPermissoes())->isFluxoCaixaEntradas(id_usuario_atual());
+    }
+}
+if (!function_exists('is_fluxocaixa_saidas')) {
+    function is_fluxocaixa_saidas()
+    {
+        return (new \App\Models\UsersPermissoes())->isFluxoCaixaSaidas(id_usuario_atual());
+    }
+}
+
 if (!function_exists('is_admin')) {
     function is_admin(): bool
     {

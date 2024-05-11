@@ -91,8 +91,8 @@ export default function ({dados}) {
                         <RadioGroup
                             row aria-labelledby="pessoa"
                             name="row-radio-buttons-group" onChange={e => setTipo(e.target.value)}>
-                            <FormControlLabel value="entrada" control={<Radio/>} label="Entrada"/>
-                            <FormControlLabel value="saida" control={<Radio/>} label="Saída"/>
+                            {dados.permissaoEntradas && <FormControlLabel value="entrada" control={<Radio/>} label="Entrada"/>}
+                            {dados.permissaoSaidas && <FormControlLabel value="saida" control={<Radio/>} label="Saída"/>}
                         </RadioGroup>
                     </FormControl>
                 </div>
