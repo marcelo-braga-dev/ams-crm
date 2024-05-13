@@ -87,7 +87,7 @@ class Leads extends Model
             ->whereIn('id', $idLead)
             ->update([
                 'user_id' => $idConsultor,
-                'status' => (new NovoStatusLeads())->getStatus()
+                'status' => (new AtendimentoStatusLeads())->getStatus()
             ]);
     }
 
