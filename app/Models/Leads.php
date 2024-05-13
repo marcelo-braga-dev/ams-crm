@@ -4,11 +4,14 @@ namespace App\Models;
 
 use App\Services\Excel\RelatorioLeads;
 use App\src\Leads\Dados\DadosLeads;
+use App\src\Leads\Status\AbertoStatusLeads;
+use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\StatusLeads;
+use App\src\Leads\StatusAtendimentoLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -120,6 +123,7 @@ class Leads extends Model
                 $lead = $this->newQuery()
                     ->create([
                         'user_id' => $usuario,
+                        'status' => $usuario ? (new AbertoStatusLeads())->getStatus() : null,
                         'nome' => $dados['nome'] ?? null,
                         'razao_social' => $dados['razao_social'] ?? null,
                         'cnpj' => $cnpj ?? null,
