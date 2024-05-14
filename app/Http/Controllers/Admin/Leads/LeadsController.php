@@ -21,15 +21,17 @@ class LeadsController extends Controller
     public function index(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
+        $idImportacao = $request->id_importacao;
+
         $categorias = (new SetoresService())->setores();
-        $dados = (new Leads())->getDisponiveis($categoriaAtual);
+        $dados = (new Leads())->getDisponiveis($categoriaAtual, $idImportacao);
         $consultores = (new User())->getUsuarios($categoriaAtual);
         $usuariosSdr = (new User())->usuariosSdr();
         $usuariosVendedor = (new User())->usuariosRecebeLeads();
         $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
 
         return Inertia::render('Admin/Leads/Encaminhar',
-            compact('dados', 'datasImportacao', 'usuariosSdr', 'usuariosVendedor', 'consultores', 'categorias', 'categoriaAtual'));
+            compact('dados', 'datasImportacao', 'usuariosSdr', 'usuariosVendedor', 'consultores', 'categorias', 'categoriaAtual', 'idImportacao'));
     }
 
     public function registrosEncaminhar()

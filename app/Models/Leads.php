@@ -59,12 +59,15 @@ class Leads extends Model
         'data_abertura',
     ];
 
-    public function getDisponiveis($setor)
+    public function getDisponiveis($setor, $idImportacao = null)
     {
-        return $this->newQuery()
-            ->where('setor_id', $setor)
+        $query = $this->newQuery();
+        if ($idImportacao) $query->where('id_importacao', $idImportacao);
+
+        return $query->where('setor_id', $setor)
             ->where('user_id', '=', null)
-            ->orWhere([['setor_id', '=', $setor], ['status', '=', 'finalizado']])
+            ->where('setor_id', '=', $setor)
+//            ->where('status', '=', 'finalizado')
             ->orderBy('updated_at')
             ->get()
             ->transform(function ($item) {

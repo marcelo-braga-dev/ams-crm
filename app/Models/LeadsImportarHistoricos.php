@@ -54,6 +54,7 @@ class LeadsImportarHistoricos extends Model
     {
         return $this->newQuery()
             ->where('qtd', '>', 0)
+            ->orderByDesc('id')
             ->get()
             ->transform(function ($item) {
                 return [

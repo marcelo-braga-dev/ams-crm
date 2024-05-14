@@ -18,7 +18,15 @@ import InfoLead from "@/Pages/Admin/Leads/Componentes/InfoLead";
 import Switch from "@mui/material/Switch";
 import Avatar from "@mui/material/Avatar";
 
-export default function Filtering({dados, usuariosSdr, usuariosVendedor, categorias, categoriaAtual, datasImportacao}) {
+export default function Filtering({
+                                      dados,
+                                      usuariosSdr,
+                                      usuariosVendedor,
+                                      categorias,
+                                      categoriaAtual,
+                                      datasImportacao,
+                                      idImportacao
+                                  }) {
     // loading
     const [filterText, setFilterText] = React.useState('');
     const [filtro, setFiltro] = useState('nome');
@@ -94,7 +102,9 @@ export default function Filtering({dados, usuariosSdr, usuariosVendedor, categor
                                     </div>
                                     {(row.consultor || row.status) &&
                                         <div className="col">
-                                            {row.status === 'finalizado' && <span>Status: {row.status}<br/><br/></span>}
+                                            {row.status === 'finalizado' && <span>Status: {row.status}<br/></span>}
+                                            {row.status === 'finalizado' &&
+                                                <small>Data: {row.status_data}<br/><br/></small>}
                                             {row.consultor &&
                                                 <span>Último Vendedor(a):<br/>
                                                     {row.consultor}</span>
@@ -124,6 +134,7 @@ export default function Filtering({dados, usuariosSdr, usuariosVendedor, categor
             cidade: items.cliente.cidade,
             estado: items.cliente.estado,
             status: items.infos.status,
+            status_data: items.infos.status_data,
         }
     });
     // Dados - fim
@@ -178,6 +189,13 @@ export default function Filtering({dados, usuariosSdr, usuariosVendedor, categor
             router.post(route('admin.clientes.leads.ocultar',
                 {leadsSelecionados: leadsChecked}))
         }
+    }
+
+    function selecionarImportacao(idImportacao) {
+        setOpen(!open);
+        router.get(route('admin.clientes.leads.leads-main.index',
+            {id_importacao: idImportacao}))
+
     }
 
     router.on('success', (event) => {
@@ -268,7 +286,9 @@ export default function Filtering({dados, usuariosSdr, usuariosVendedor, categor
                         {leadsChecked.length} selecionados
                     </div>
                     <div className="col-2 text-right">
-                        <TextField select label="Data Importação" fullWidth size="small">
+                        <TextField select label="Data Importação" defaultValue={idImportacao} fullWidth size="small"
+                                   onChange={e => selecionarImportacao(e.target.value)}>
+                            <MenuItem>Todas as datas</MenuItem>
                             {datasImportacao.map(item => <MenuItem value={item.id}>{item.data}</MenuItem>)}
                         </TextField>
                     </div>
