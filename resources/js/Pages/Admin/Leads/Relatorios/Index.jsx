@@ -87,6 +87,8 @@ export default function ({ setores, setor }) {
 
     let totalLeads = 0
     let totalNovo = 0
+    let totalPreAtendimento = 0
+    let totalAberto = 0
     let totalAtendimento = 0
     let totalAtivo = 0
     let totalFinalizado = 0
@@ -125,9 +127,10 @@ export default function ({ setores, setor }) {
                             <table className="table text-sm text-center cursor-pointer table-hover">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Nome</th>
-                                        <th>Novo</th>
+                                        <th>Iniciar Atendimento</th>
+                                        <th>Pré Atendimento</th>
+                                        <th>Em Aberto</th>
                                         <th>Atendimento</th>
                                         <th>Ativo</th>
                                         <th>Finalizado</th>
@@ -137,9 +140,11 @@ export default function ({ setores, setor }) {
                                 </thead>
                                 <tbody>
                                     {statusLeads.map((dado, index) => {
-                                        const total = (dado.novo ?? 0) + (dado.atendimento ?? 0) + (dado.ativo ?? 0) + (dado.finalizado ?? 0)
+                                        const total = (dado.novo ?? 0) + (dado.pre_atendimento ?? 0) + (dado.aberto ?? 0) + (dado.atendimento ?? 0) + (dado.ativo ?? 0) + (dado.finalizado ?? 0)
                                         totalLeads += total
                                         totalNovo += dado.novo ?? 0
+                                        totalPreAtendimento += dado.pre_atendimento ?? 0
+                                        totalAberto += dado.aberto ?? 0
                                         totalAtendimento += dado.atendimento ?? 0
                                         totalAtivo += dado.ativo ?? 0
                                         totalFinalizado += dado.finalizado ?? 0
@@ -149,9 +154,10 @@ export default function ({ setores, setor }) {
                                         return (
                                             <tr key={index} className=""
                                                 onClick={() => window.location.href = route('admin.leads.relatorios.show', dado.id)}>
-                                                <td>#{dado.id}</td>
                                                 <td className="text-wrap text-start"><b>{dado.nome}</b></td>
                                                 <td>{dado.novo ?? 0}</td>
+                                                <td>{dado.pre_atendimento ?? 0}</td>
+                                                <td>{dado.aberto ?? 0}</td>
                                                 <td>{dado.atendimento ?? 0}</td>
                                                 <td>{dado.ativo ?? 0}</td>
                                                 <td>{dado.finalizado ?? 0}</td>
@@ -167,8 +173,9 @@ export default function ({ setores, setor }) {
                                     })}
                                     <tr className="bg-light">
                                         <td><b>TOTAL</b></td>
-                                        <td></td>
                                         <td>{totalNovo}</td>
+                                        <td>{totalPreAtendimento}</td>
+                                        <td>{totalAberto}</td>
                                         <td>{totalAtendimento}</td>
                                         <td>{totalAtivo}</td>
                                         <td>{totalFinalizado}</td>
