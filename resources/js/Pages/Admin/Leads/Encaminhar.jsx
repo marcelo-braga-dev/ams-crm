@@ -18,7 +18,7 @@ import InfoLead from "@/Pages/Admin/Leads/Componentes/InfoLead";
 import Switch from "@mui/material/Switch";
 import Avatar from "@mui/material/Avatar";
 
-export default function Filtering({dados, usuariosSdr, usuariosVendedor, categorias, categoriaAtual}) {
+export default function Filtering({dados, usuariosSdr, usuariosVendedor, categorias, categoriaAtual, datasImportacao}) {
     // loading
     const [filterText, setFilterText] = React.useState('');
     const [filtro, setFiltro] = useState('nome');
@@ -266,6 +266,11 @@ export default function Filtering({dados, usuariosSdr, usuariosVendedor, categor
                     <div className="col ps-3">
                         <Checkbox checked={checkedPage || false} onChange={e => adicionarLeadsCheck(e.target.checked)}/>
                         {leadsChecked.length} selecionados
+                    </div>
+                    <div className="col-2 text-right">
+                        <TextField select label="Data Importação" fullWidth size="small">
+                            {datasImportacao.map(item => <MenuItem value={item.id}>{item.data}</MenuItem>)}
+                        </TextField>
                     </div>
                     <div className="col-auto text-right">
                         <TextField

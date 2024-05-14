@@ -50,6 +50,19 @@ class LeadsImportarHistoricos extends Model
             });
     }
 
+    public function datasImportacao()
+    {
+        return $this->newQuery()
+            ->where('qtd', '>', 0)
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'data' => date('d/m/y H:i', strtotime($item->created_at))
+                ];
+            });
+    }
+
     public function getDados($id)
     {
         $nomes = (new User())->getNomes();

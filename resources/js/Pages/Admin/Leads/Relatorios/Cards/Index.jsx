@@ -114,8 +114,9 @@ export default function Dashboard({leads, usuario, consultores}) {
 
             {/*Tabela*/}
             <div className='row justify-content-center'>
-                <div className='col-auto'>
-                    <table>
+                <div className='col-12'>
+                    <div className="overflow-scroll" style={{height: '60vh'}}>
+                    <table >
                         <thead>
                         <tr>
                             <th id="th-1">
@@ -192,6 +193,8 @@ export default function Dashboard({leads, usuario, consultores}) {
                         </tbody>
                     </table>
                 </div>
+                </div>
+
             </div>
 
             {/*Alterar consultor*/}

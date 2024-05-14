@@ -32,6 +32,6 @@ export default function Status({ dados }) {
 
     return (
         <Bar options={options} data={data}
-             height={200} />
+             height={100} />
     )
 }

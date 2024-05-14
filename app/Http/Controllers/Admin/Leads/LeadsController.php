@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
+use App\Models\LeadsImportarHistoricos;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
@@ -25,9 +26,10 @@ class LeadsController extends Controller
         $consultores = (new User())->getUsuarios($categoriaAtual);
         $usuariosSdr = (new User())->usuariosSdr();
         $usuariosVendedor = (new User())->usuariosRecebeLeads();
+        $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
 
         return Inertia::render('Admin/Leads/Encaminhar',
-            compact('dados', 'usuariosSdr', 'usuariosVendedor', 'consultores', 'categorias', 'categoriaAtual'));
+            compact('dados', 'datasImportacao', 'usuariosSdr', 'usuariosVendedor', 'consultores', 'categorias', 'categoriaAtual'));
     }
 
     public function registrosEncaminhar()

@@ -123,7 +123,7 @@ class Leads extends Model
                 $lead = $this->newQuery()
                     ->create([
                         'user_id' => $usuario,
-                        'status' => $usuario ? (new AbertoStatusLeads())->getStatus() : null,
+                        'status' => $usuario ? (new AbertoStatusLeads())->getStatus() : (new NovoStatusLeads())->getStatus(),
                         'nome' => $dados['nome'] ?? null,
                         'razao_social' => $dados['razao_social'] ?? null,
                         'cnpj' => $cnpj ?? null,
@@ -162,10 +162,6 @@ class Leads extends Model
                     $dados = $this->newQuery()->where('cnpj', $cnpj)->first();
                     $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO CNPJ: ' . converterCNPJ($dados['cnpj']));
                 }
-                //                if ($verificacaoTel) {
-                //                    $dados = $this->newQuery()->where('telefone', $telefone)->first();
-                //                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
-                //                }
                 modalErro($msgErro);
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }

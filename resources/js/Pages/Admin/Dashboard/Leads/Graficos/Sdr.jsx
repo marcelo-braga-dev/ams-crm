@@ -1,16 +1,24 @@
 import React from "react";
-import { Pie, Bar } from "react-chartjs-2";
+import {Pie, Bar} from "react-chartjs-2";
 
-export default function Sdr({ dados }) {
+export default function Sdr({dados}) {
 
-    const nome = dados.map(item => item.status )
+    const status = [
+        'Iniciar Atendimento',
+        'Pré Atendimento',
+        'Em Aberto',
+        'Em Atendimento',
+        'Ativo',
+        'Finalizado',
+    ]
+    const nome = dados.map(item => item.status)
     const qtd = dados.map(item => item.qtd)
 
     const data = {
-        labels: nome,
+        labels: status,
         datasets: [
             {
-                label: "Metas",
+                label: "Qtd. Leads",
                 data: qtd,
                 backgroundColor: "#0c7a08",
             },
@@ -32,6 +40,6 @@ export default function Sdr({ dados }) {
 
     return (
         <Bar options={options} data={data}
-             height={200} />
+             height={80}/>
     )
 }
