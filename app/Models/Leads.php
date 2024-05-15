@@ -90,7 +90,7 @@ class Leads extends Model
             ->whereIn('id', $idLead)
             ->update([
                 'user_id' => $idConsultor,
-                'status' => (new AtendimentoStatusLeads())->getStatus()
+                'status' => (new AbertoStatusLeads())->getStatus()
             ]);
     }
 
@@ -375,8 +375,9 @@ class Leads extends Model
     public function getDados($id)
     {
         $item = $this->newQuery()->find($id);
+        $nomes = (new User())->getNomes();
 
-        return $this->dados($item);
+        return $this->dados($item, $nomes);
     }
 
     private function dados($item, $nomes = [])

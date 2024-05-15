@@ -13,9 +13,9 @@ use App\src\Leads\UpdateStatusLeads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class NovoController extends Controller
+class AbertoController extends Controller
 {
-    public function edit($id)
+    public function show($id)
     {
         $dados = (new Leads())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);

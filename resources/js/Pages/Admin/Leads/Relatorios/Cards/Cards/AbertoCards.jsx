@@ -3,7 +3,7 @@ import Card from './Card'
 function btn(id) {
 
     return (
-        <a href={route('admin.leads.cards-aberto.edit', id)}
+        <a href={route('admin.leads.cards-aberto.show', id)}
            className="btn btn-primary btn-sm">
             ABRIR
         </a>

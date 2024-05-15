@@ -13,11 +13,13 @@ class LeadsRelatoriosController extends Controller
 {
     public function updateConsultor(Request $request)
     {
+
         (new Leads())->setConsultor([$request->lead], $request->novo_consultor);
-        (new LeadsNotificacao())->notificar($request->novo_consultor, 1, [$request->lead]);
+//        (new LeadsNotificacao())->notificar($request->novo_consultor, 1, [$request->lead]);
 
         modalSucesso('Consultor(a) Atualizado com sucesso!');
-        return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
+        return redirect()->back();
+//        return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
     }
 
     public function adicionarComentarios(Request $request)

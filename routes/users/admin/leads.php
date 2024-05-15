@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\Leads\CardsController as LeadsCardsController;
+use App\Http\Controllers\Admin\Leads\Consultores\AbertoController;
 use App\Http\Controllers\Admin\Leads\Consultores\AtendimentoController;
 use App\Http\Controllers\Admin\Leads\Consultores\AtivoController;
 use App\Http\Controllers\Admin\Leads\Consultores\CardsController;
 use App\Http\Controllers\Admin\Leads\Consultores\FinalizadoController;
 use App\Http\Controllers\Admin\Leads\Consultores\LeadsRelatoriosController;
 use App\Http\Controllers\Admin\Leads\Consultores\NovoController;
+use App\Http\Controllers\Admin\Leads\Consultores\PreAtendimentoController;
 use App\Http\Controllers\Admin\Leads\ImportarController;
 use App\Http\Controllers\Admin\Leads\ImportarHistoricoController;
 use App\Http\Controllers\Admin\Leads\LeadsController;
@@ -43,11 +45,15 @@ Route::name('admin.leads.')
         Route::resource('relatorios', RelatoriosController::class);
         Route::resource('consultores-cards', CardsController::class);
 
-        Route::resource('cards-aberto', NovoController::class);
+        Route::resource('cards-novo', NovoController::class);
+        Route::resource('cards-pre_atendimento', PreAtendimentoController::class);
+        Route::resource('cards-aberto', AbertoController::class);
         Route::resource('cards-atendimento', AtendimentoController::class);
         Route::resource('cards-ativo', AtivoController::class);
         Route::resource('cards-finalizado', FinalizadoController::class);
+
         Route::resource('cards-leads', LeadsCardsController::class);
+
         Route::post('cards-leads-limpar', [LeadsCardsController::class, 'limparFinalizados'])->name('cards-leads.limpar-finalizados');
 
         Route::post('limpar-consultor', [CardsController::class, 'limparConsultor'])

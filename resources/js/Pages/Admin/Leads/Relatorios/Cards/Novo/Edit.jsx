@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import LeadsDados from "@/Components/Leads/LeadsDados";
-import {useForm} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
 import TextField from "@mui/material/TextField";
@@ -18,7 +18,7 @@ export default function Edit({dados, historicos, consultores}) {
     }
 
     function avancarStatus() {
-        post(route('admin.leads.novo-avancar', dados.id))
+        router.post(route('admin.leads.cards-novo.update', dados.id), {_method: 'PUT'})
     }
 
     function enviarComentario(tag, id) {
@@ -39,7 +39,7 @@ export default function Edit({dados, historicos, consultores}) {
     }
 
     return (
-        <Layout container titlePage="Lead - Em aberto"
+        <Layout container titlePage="Lead - Em aberto" menu="leads" submenu="leads-cards"
                 voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}>
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
@@ -59,7 +59,7 @@ export default function Edit({dados, historicos, consultores}) {
                     </div>
                     <div className="col-auto">
                         <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
-                                data-bs-target="#statusAvancar">Avançar Status "Em Atendimento"
+                                data-bs-target="#statusAvancar">Avançar Status
                         </button>
                     </div>
                 </div>
@@ -126,7 +126,7 @@ export default function Edit({dados, historicos, consultores}) {
                                     aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            Avançar Status deste leads para "Em Atendimento"?
+                            Avançar Status deste leads para "Pré Atendimento"?
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
