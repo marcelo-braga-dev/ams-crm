@@ -15,6 +15,7 @@ class MetasVendas extends Model
         'user_id',
         'chave',
         'ano',
+        'mes',
         'jan',
         'fev',
         'mar',

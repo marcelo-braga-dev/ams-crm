@@ -10,12 +10,13 @@ function btn(id) {
     )
 }
 
-export default function PreAtendimentoCard({dados}) {
+export default function PreAtendimentoCard({dados, leadsSelecionados}) {
 
     return (
         <Card
             dados={dados}
             btn={btn(dados.id)}
+            leadsSelecionados={leadsSelecionados}
         />
     )
 }

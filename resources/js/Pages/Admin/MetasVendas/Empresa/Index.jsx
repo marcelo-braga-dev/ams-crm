@@ -10,7 +10,7 @@ import {useState} from "react";
 export default function ({dados, mes, ano, vendasMensalUsuario}) {
     const [mesSelecionado, setMesSelecionado] = useState(mes)
     const [valorMeta, setValorMeta] = useState()
-
+console.log(vendasMensalUsuario)
     const {data, setData} = useForm({
         ano: ano,
         metas: {

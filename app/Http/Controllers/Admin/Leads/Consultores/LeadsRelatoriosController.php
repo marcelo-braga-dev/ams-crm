@@ -13,7 +13,7 @@ class LeadsRelatoriosController extends Controller
 {
     public function updateConsultor(Request $request)
     {
-        (new Leads())->setConsultor($request->lead, $request->novo_consultor);
+        (new Leads())->setConsultor([$request->lead], $request->novo_consultor);
         (new LeadsNotificacao())->notificar($request->novo_consultor, 1, [$request->lead]);
 
         modalSucesso('Consultor(a) Atualizado com sucesso!');

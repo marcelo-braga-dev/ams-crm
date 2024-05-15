@@ -39,8 +39,9 @@ export default function Dashboard({leads, usuario, consultores}) {
             _method: 'put',
             ...data, idLeads: idLeads
         })
-        window.location.reload()
+
     }
+    // router.on('success', () => window.location.reload())
 
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.novo_consultor)]?.name;
@@ -161,32 +162,32 @@ export default function Dashboard({leads, usuario, consultores}) {
                         <tr className="align-top">
                             <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
                                 {leads.novo.map((dado, i) => {
-                                    return (<NovoCards key={i} dados={dado}/>)
+                                    return (<NovoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados}/>)
                                 })}
                             </td>
                             <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
                                 {leads.pre_atendimento.map((dado) => {
-                                    return (<PreAtendimentoCard key={dado.id} dados={dado}/>)
+                                    return (<PreAtendimentoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>)
                                 })}
                             </td>
                             <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
                                 {leads.aberto.map((dado, i) => {
-                                    return (<AbertoCards key={i} dados={dado}/>)
+                                    return (<AbertoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados}/>)
                                 })}
                             </td>
                             <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
                                 {leads.atendimento.map((dado) => {
-                                    return (<AtendimentoCards key={dado.id} dados={dado}/>)
+                                    return (<AtendimentoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>)
                                 })}
                             </td>
                             <td id="td-3" className="shadow-sm" style={{minWidth: 300}}>
                                 {leads.ativo.map((dado) => {
-                                    return (<AtivoCard key={dado.id} dados={dado}/>)
+                                    return (<AtivoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>)
                                 })}
                             </td>
                             <td id="td-4" className="shadow-sm" style={{minWidth: 300}}>
                                 {leads.finalizado.map((dado) => {
-                                    return (<FinalizadoCard key={dado.id} dados={dado}/>)
+                                    return (<FinalizadoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>)
                                 })}
                             </td>
                         </tr>
