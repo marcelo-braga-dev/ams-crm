@@ -47,12 +47,14 @@ class PedidoUpdateStatus
     public function setFaturadoVista($id): void
     {
         (new FaturadoVistaStatus())->updateStatus($id, null, 0);
+        (new Pedidos())->dataPagamento($id);
         (new PedidosFaturamentos())->create($id);
     }
 
     public function setFaturadoPrazo($id): void
     {
         (new FaturadoPrazoStatus())->updateStatus($id, null, 0);
+        (new Pedidos())->dataPagamento($id);
         (new PedidosFaturamentos())->create($id);
     }
 
