@@ -350,13 +350,8 @@ class Leads extends Model
     {
         $query = $this->newQuery()
             ->where('setor_id', $setor);
-
-        // if (is_supervisor()) {
-        //     $query->whereIn('user_id', (new User())->getIdsSubordinados(true));
-        // } else {
-        //     $query->where('user_id', '>', 0);
-        // }
-        $query->whereIn('user_id', supervisionados(id_usuario_atual()));
+        $query->whereIn('sdr_id', supervisionados(id_usuario_atual()));
+        $query->orWhereIn('user_id', supervisionados(id_usuario_atual()));
 
         return $query->get();
     }

@@ -18,7 +18,7 @@ const chavesPermissoes = {
     financeiro: {
         fluxocaixa: 13, salario: 14, cadastros: 15
     },
-    metas_vendas: { editar: 16 },
+    metas_vendas: { editar: 16, empresa: 50 },
     ferramentas: {
         agenda: 17, email: 28
     },

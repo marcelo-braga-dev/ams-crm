@@ -21,9 +21,10 @@ class LeadsUsuariosService
         }
 
         foreach ($leads as $lead) {
-            $dados[$lead->user_id]['status'][$lead->status][] = [];
-            $dados[$lead->user_id]['nome'] = $nomes[$lead->user_id] ?? 'Não Encontrado';
-            $dados[$lead->user_id]['id'] = $lead->user_id;
+            $userId = $lead->user_id ?? $lead->sdr_id;
+            $dados[$userId]['status'][$lead->status][] = [];
+            $dados[$userId]['nome'] = $nomes[$userId] ?? 'Não Encontrado';
+            $dados[$userId]['id'] = $lead->user_id;
         }
 
         $items = [];

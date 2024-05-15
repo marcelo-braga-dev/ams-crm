@@ -286,10 +286,10 @@ export default function Filtering({
                         {leadsChecked.length} selecionados
                     </div>
                     <div className="col-2 text-right">
-                        <TextField select label="Data Importação" defaultValue={idImportacao} fullWidth size="small"
+                        <TextField select label="Importação" defaultValue={idImportacao} fullWidth size="small"
                                    onChange={e => selecionarImportacao(e.target.value)}>
                             <MenuItem>Todas as datas</MenuItem>
-                            {datasImportacao.map(item => <MenuItem value={item.id}>{item.data}</MenuItem>)}
+                            {datasImportacao.map(item => <MenuItem value={item.id}>#{item.id} {item.data}</MenuItem>)}
                         </TextField>
                     </div>
                     <div className="col-auto text-right">

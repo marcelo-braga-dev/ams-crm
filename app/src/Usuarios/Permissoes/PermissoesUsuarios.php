@@ -68,7 +68,8 @@ class PermissoesUsuarios extends ChavesPermissoes
                 'categoria' => 'Metas de Vendas',
                 'permissoes' => [
                     ['id' => $this->chaveMetasVendas(), 'nome' => 'Metas de Vendas'],
-                    ['id' => $this->chavePossuiMetasVendas(), 'nome' => 'Possui Metas de Vendas'],
+                    ['id' => $this->chavePossuiMetasVendas(), 'nome' => 'Usuário possui Metas de Vendas'],
+                    ['id' => $this->chaveMetasVendasEmpresa(), 'nome' => 'Metas de Vendas da Empresa'],
                 ]
             ], [
                 'categoria' => 'Ferramentas',

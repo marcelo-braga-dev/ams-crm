@@ -20,7 +20,7 @@ class RelatoriosController extends Controller
         $setor = 1;
 
         $setores = (new Setores())->get();
-
+//    print_pre($statusLeads = (new LeadsUsuariosService())->get(1));
         return Inertia::render(
             'Admin/Leads/Relatorios/Index',
             compact('setores', 'setor')

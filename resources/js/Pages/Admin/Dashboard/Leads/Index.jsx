@@ -75,7 +75,7 @@ export default function ({registrosStatus, sdr, mes, ano, setores, setor}) {
                         </TextField>
                     </div>
                 </div>
-                {!registrosSdr.length > 0 ? <>
+                {registrosSdr.length > 0 ? <>
                     <div className="row">
                         <div className="col-auto mb-4">
                             <small className="d-block">Total de Leads recebidos no período: 0.</small>
@@ -170,7 +170,7 @@ export default function ({registrosStatus, sdr, mes, ano, setores, setor}) {
                         <Status dados={registrosStatus}/>
                     </div>
                     <div className="col-md-6">
-                        <table className="table">
+                        <table className="table table-sm">
                             <thead>
                             <tr>
                                 <th>Status</th>
@@ -187,6 +187,11 @@ export default function ({registrosStatus, sdr, mes, ano, setores, setor}) {
                                     <td className="text-center">0 dias</td>
                                 </tr>
                             ))}
+                            <tr className="bg-light">
+                                <td>Total</td>
+                                <td className="text-center">0</td>
+                                <td className="text-center">0 dias</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

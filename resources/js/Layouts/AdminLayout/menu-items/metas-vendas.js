@@ -20,6 +20,12 @@ const dashboard = {
                     title: 'Meta de Vendas',
                     type: 'item',
                     url: route('admin.metas-vendas.consultores.index'),
+                },{
+                    id: 'meta-vendas-empresa',
+                    chave: chaves.metas_vendas.empresa,
+                    title: 'Meta de Vendas da Empresa',
+                    type: 'item',
+                    url: route('admin.metas-vendas.empresa.index'),
                 }
             ]
         }

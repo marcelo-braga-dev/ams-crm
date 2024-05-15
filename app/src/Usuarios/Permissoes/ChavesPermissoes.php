@@ -248,4 +248,9 @@ class ChavesPermissoes
     {
         return '49';
     }
+
+    public function chaveMetasVendasEmpresa()
+    {
+        return '50';
+    }
 }
