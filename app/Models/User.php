@@ -541,12 +541,13 @@ class User extends Authenticatable
             ->get(['users.id as id', 'name as nome', 'foto'])
             ->toArray();
     }
-    public function usuariosRecebeLeadsId()
+    public function usuariosRecebeLeadsId($setor)
     {
         return $this->newQuery()
             ->join('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
             ->where('users_permissoes.chave', (new ChavesPermissoes())->chaveLeadsReceber())
             ->orderBy('id')
+            ->where('setor_id', $setor)
             ->get(['users.id'])
             ->transform(function ($item) {
                 return $item->id;

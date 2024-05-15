@@ -3,6 +3,7 @@
 namespace App\Services\Leads;
 
 use App\Models\Leads;
+use App\Models\User;
 use App\src\Leads\Status\AbertoStatusLeads;
 use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
@@ -23,6 +24,8 @@ class CardsLeadsService
 
     private function cards($id): void
     {
+        $nomes = (new User())->getNomes();
+
         $novo = (new NovoStatusLeads())->getStatus();
         $preAtendimento = (new PreAtendimentoStatusLeads)->getStatus();
         $aberto = (new AbertoStatusLeads)->getStatus();
@@ -32,22 +35,23 @@ class CardsLeadsService
 
         $leads = (new Leads())->getCards($id);
 
-        $novo = ($this->dados($leads, $novo))->toArray();
+        $novo = ($this->dados($leads, $novo, $nomes))->toArray();
         sort($novo);
         $this->cardsLeads['novo'] = $novo;
-        $this->cardsLeads['pre_atendimento'] = [...$this->dados($leads, $preAtendimento)];
-        $this->cardsLeads['aberto'] = [...$this->dados($leads, $aberto)];
-        $this->cardsLeads['atendimento'] = [...$this->dados($leads, $atendimento)];
-        $this->cardsLeads['ativo'] = [...$this->dados($leads, $ativo)];
-        $this->cardsLeads['finalizado'] = [...$this->dados($leads, $finalizado)];
+        $this->cardsLeads['pre_atendimento'] = [...$this->dados($leads, $preAtendimento, $nomes)];
+        $this->cardsLeads['aberto'] = [...$this->dados($leads, $aberto, $nomes)];
+        $this->cardsLeads['atendimento'] = [...$this->dados($leads, $atendimento, $nomes)];
+        $this->cardsLeads['ativo'] = [...$this->dados($leads, $ativo, $nomes)];
+        $this->cardsLeads['finalizado'] = [...$this->dados($leads, $finalizado, $nomes)];
     }
 
-    private function dados($leads, $status)
+    private function dados($leads, $status, $nomes)
     {
         return $leads->where('status', $status)
-            ->transform(function ($item) {
+            ->transform(function ($item) use ($nomes) {
                 return [
                     'id' => $item->id,
+                    'consultor' => $nomes[$item->user_id] ?? '',
                     'cliente' => [
                         'nome' => $item->nome ?: $item->razao_social,
                         'cidade' => $item->cidade,

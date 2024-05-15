@@ -31,8 +31,11 @@ class PreAtendimentoController extends Controller
 
     public function update($id, Request $request)
     {
+
+        $lead = (new Leads())->find($id);
+
         $ultimo = (new LeadsEncaminhados())->ultimoVendedorEnviado();
-        $vendedores = (new User())->usuariosRecebeLeadsId();
+        $vendedores = (new User())->usuariosRecebeLeadsId($lead->setor_id);
 
         $idEnviar = $vendedores[0];
 

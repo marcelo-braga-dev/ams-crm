@@ -163,10 +163,10 @@ export default function ({ setores, setor }) {
                                                 <td>{dado.finalizado ?? 0}</td>
                                                 <td>{total}</td>
                                                 <td>
-                                                    {/*<a className="px-3 py-1 mb-0 btn btn-primary btn-sm"*/}
-                                                    {/*    href={route('admin.leads.relatorios.show', dado.id)}>*/}
-                                                    {/*    Ver*/}
-                                                    {/*</a>*/}
+                                                    <a className="px-3 py-1 mb-0 btn btn-primary btn-sm"
+                                                        href={route('admin.leads.relatorios.show', dado.id)}>
+                                                        Ver
+                                                    </a>
                                                 </td>
                                             </tr>
                                         )

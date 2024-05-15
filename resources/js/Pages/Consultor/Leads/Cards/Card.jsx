@@ -4,6 +4,7 @@ import PinDropIcon from '@mui/icons-material/PinDrop';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
+import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
 
 export default function CardLeads({dados, btn}) {
     return (
@@ -18,6 +19,18 @@ export default function CardLeads({dados, btn}) {
                     </div>
                 </div>
                 {dados.cliente.classificacao && <><small>Classificação: </small>{dados.cliente.classificacao}</>}
+
+                {/*VENDEDOR*/}
+                {dados.consultor &&
+                    <div className="row">
+                        <div className="col-1 mb-2">
+                            <NoteAltOutlinedIcon sx={{fontSize: 22}}/>
+                        </div>
+                        <div className="col-10 text-dark text-truncate">
+                            {dados.consultor}
+                        </div>
+                    </div>
+                }
 
                 {/*TELEFONE*/}
                 {dados.contato.telefone &&
