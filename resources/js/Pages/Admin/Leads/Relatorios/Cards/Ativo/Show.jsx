@@ -6,7 +6,7 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Show({dados, consultores, historicos, status, contatos}) {
+export default function Show({dados, consultores, historicos, isSdr, emitePedido, status, contatos}) {
     const {data, setData, post} = useForm({
         lead: dados.id,
         consultor: dados.consultor.id
@@ -99,62 +99,62 @@ export default function Show({dados, consultores, historicos, status, contatos})
             {/*    </div>*/}
             {/*</div>*/}
 
-            {/*<div className="card card-body mb-4">*/}
-            {/*    <div className="row pt-3">*/}
-            {/*        <div className="col mb-4">*/}
-            {/*            <a className="btn btn-warning"*/}
-            {/*               href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            {emitePedido && <div className="card card-body mb-4">
+                <div className="row pt-3">
+                    <div className="col mb-4">
+                        <a className="btn btn-warning"
+                           href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
+                    </div>
+                </div>
+            </div>}
 
-            {/*<div className="card card-body mb-4">*/}
-            {/*    <form onSubmit={onSubmit}>*/}
-            {/*        <h6>Atualizar Status do Lead</h6>*/}
-            {/*        <div className="row">*/}
-            {/*            <div className="col">*/}
-            {/*                <TextField label="Status" select fullWidth required defaultValue="" size="small"*/}
-            {/*                           onChange={e => setData('status', e.target.value)}>*/}
-            {/*                    {status.map((option, index) => (*/}
-            {/*                        <MenuItem key={index} value={option.status}>*/}
-            {/*                            {option.nome}*/}
-            {/*                        </MenuItem>*/}
-            {/*                    ))}*/}
-            {/*                </TextField>*/}
-            {/*            </div>*/}
-            {/*            <div className="col mb-4">*/}
-            {/*                <TextField label="Meio Contato" select fullWidth required defaultValue=""*/}
-            {/*                           size="small"*/}
-            {/*                           onChange={e => setData('meio_contato', e.target.value)}>*/}
-            {/*                    {contatos.map((option, index) => (*/}
-            {/*                        <MenuItem key={index} value={option.key}>*/}
-            {/*                            {option.nome}*/}
-            {/*                        </MenuItem>*/}
-            {/*                    ))}*/}
-            {/*                </TextField>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="row mb-4">*/}
-            {/*            <div className="col">*/}
-            {/*                <TextField label="Anotações" multiline rows="2" fullWidth*/}
-            {/*                           onChange={e => setData('msg', e.target.value)}/>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*        <div className="row">*/}
-            {/*            <div className="col">*/}
-            {/*                <div className="text-center">*/}
-            {/*                    <button className="btn btn-primary"*/}
-            {/*                            onClick={() => setData('salvar_msg', true)}*/}
-            {/*                            type="submit">*/}
-            {/*                        Enviar Anotações*/}
-            {/*                    </button>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </form>*/}
-            {/*</div>*/}
+            {!isSdr && <div className="card card-body mb-4">
+                <form onSubmit={onSubmit}>
+                    <h6>Atualizar Status do Lead</h6>
+                    <div className="row">
+                        <div className="col">
+                            <TextField label="Status" select fullWidth required defaultValue="" size="small"
+                                       onChange={e => setData('status', e.target.value)}>
+                                {status.map((option, index) => (
+                                    <MenuItem key={index} value={option.status}>
+                                        {option.nome}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </div>
+                        <div className="col mb-4">
+                            <TextField label="Meio Contato" select fullWidth required defaultValue=""
+                                       size="small"
+                                       onChange={e => setData('meio_contato', e.target.value)}>
+                                {contatos.map((option, index) => (
+                                    <MenuItem key={index} value={option.key}>
+                                        {option.nome}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </div>
+                    </div>
+                    <div className="row mb-4">
+                        <div className="col">
+                            <TextField label="Anotações" multiline rows="2" fullWidth
+                                       onChange={e => setData('msg', e.target.value)}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <div className="text-center">
+                                <button className="btn btn-primary"
+                                        onClick={() => setData('salvar_msg', true)}
+                                        type="submit">
+                                    Enviar Anotações
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>}
 
-            <div>
+            <div className="card card-body">
                 <h6 className="mb-3">Histórico de Atendimento</h6>
                 <HistoricoLista
                     historicos={historicos} enviarComentario={enviarComentario}
