@@ -10,7 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { router } from "@inertiajs/react";
 
 
-export default function ({ usuarios, setores, setor, statusLeads, historicoLeads }) {
+export default function ({ usuarios, setores, setor, statusLeads }) {
     function alterarSetor(e) {
         router.get(route('admin.leads.cards-leads.index', { setor: e }))
     }

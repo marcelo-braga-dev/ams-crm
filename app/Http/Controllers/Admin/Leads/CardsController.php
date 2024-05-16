@@ -22,10 +22,10 @@ class CardsController extends Controller
         $usuarios = (new User())->getUsuarios($setor);
 
         $statusLeads = (new LeadsUsuariosService())->get($request->setor);
-        $historicoLeads = (new Notificacoes())->getHistorico(null, $request->setor, 100);
+        //print_pre($statusLeads);
 
         return Inertia::render('Admin/Leads/Card/Index',
-            compact('usuarios', 'setor', 'setores', 'statusLeads', 'historicoLeads'));
+            compact('usuarios', 'setor', 'setores', 'statusLeads'));
     }
 
     public function limparFinalizados(Request $request)

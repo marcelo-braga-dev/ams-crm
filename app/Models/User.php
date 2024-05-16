@@ -430,7 +430,7 @@ class User extends Authenticatable
     {
         $idSupervisor = $idSupervisor ?? id_usuario_atual();
 
-        if ($supervisorIncluso || $usuarioIncluso) return array_merge((new UsersHierarquias())->supervisionados($idSupervisor), [$idSupervisor]);
+//        if ($supervisorIncluso || $usuarioIncluso) return array_merge((new UsersHierarquias())->supervisionados($idSupervisor), [$idSupervisor]);
 
         return (new UsersHierarquias())->supervisionados($idSupervisor);
     }

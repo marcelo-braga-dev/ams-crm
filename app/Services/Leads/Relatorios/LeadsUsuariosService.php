@@ -13,6 +13,7 @@ class LeadsUsuariosService
         $leads = (new Leads())->qtdLeadsUsuarios($setor);
 
         $dados = [];
+        //print_pre((new User())->getIdsSubordinados(true));
         foreach ((new User())->getIdsSubordinados(true) as $id) {
             $dados[$id] = [];
             $dados[$id]['status'][] = [];
@@ -24,7 +25,7 @@ class LeadsUsuariosService
             $userId = $lead->user_id ?? $lead->sdr_id;
             $dados[$userId]['status'][$lead->status][] = [];
             $dados[$userId]['nome'] = $nomes[$userId] ?? 'Não Encontrado';
-            $dados[$userId]['id'] = $lead->user_id;
+//            $dados[$userId]['id'] = $lead->user_id;
         }
 
         $items = [];

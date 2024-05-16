@@ -47,7 +47,7 @@ class PreAtendimentoController extends Controller
         (new LeadsHistoricos())->createHistorico($id, (new NovoStatusLeads())->getStatus());
 
         modalSucesso('Status atualizado com sucesso!');
-        return redirect()->route('admin.leads.cards-aberto.edit', $id);
+        return redirect()->route('admin.leads.cards-aberto.show', $id);
     }
 
     public function avancarStatus($id)
