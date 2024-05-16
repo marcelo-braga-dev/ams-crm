@@ -22,7 +22,6 @@ class CardsController extends Controller
         $usuarios = (new User())->getUsuarios($setor);
 
         $statusLeads = (new LeadsUsuariosService())->get($request->setor);
-        //print_pre($statusLeads);
 
         return Inertia::render('Admin/Leads/Card/Index',
             compact('usuarios', 'setor', 'setores', 'statusLeads'));
