@@ -346,12 +346,12 @@ class Leads extends Model
             ->update(['status_data' => now()]);
     }
 
-    public function qtdLeadsUsuarios($setor = 1)
+    public function qtdLeadsUsuarios($setor = null)
     {
-        $query = $this->newQuery()
-            ->where('setor_id', $setor);
+        $query = $this->newQuery();
         $query->whereIn('sdr_id', supervisionados(id_usuario_atual()));
         $query->orWhereIn('user_id', supervisionados(id_usuario_atual()));
+        if ($setor) $query->where('setor_id', $setor);
 
         return $query->get();
     }

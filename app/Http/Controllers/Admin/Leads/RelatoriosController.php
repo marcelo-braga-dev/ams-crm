@@ -20,7 +20,7 @@ class RelatoriosController extends Controller
         $setor = 1;
 
         $setores = (new Setores())->get();
-//    print_pre($statusLeads = (new LeadsUsuariosService())->get(1));
+
         return Inertia::render(
             'Admin/Leads/Relatorios/Index',
             compact('setores', 'setor')
@@ -58,9 +58,8 @@ class RelatoriosController extends Controller
 
     public function dados(Request $request)
     {
-        $statusLeads = (new LeadsUsuariosService())->get($request->setor);
         $historicoLeads = (new Notificacoes())->getHistorico(null, $request->setor, 100);
 
-        return response()->json(['status_leads' => $statusLeads, 'historico_leads' => $historicoLeads]);
+        return response()->json(['historico_leads' => $historicoLeads]);
     }
 }

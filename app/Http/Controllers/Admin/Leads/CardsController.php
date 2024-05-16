@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
+use App\Models\Notificacoes;
 use App\Models\Setores;
 use App\Models\User;
+use App\Services\Leads\Relatorios\LeadsUsuariosService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,7 +21,11 @@ class CardsController extends Controller
 
         $usuarios = (new User())->getUsuarios($setor);
 
-        return Inertia::render('Admin/Leads/Card/Index', compact('usuarios', 'setor', 'setores'));
+        $statusLeads = (new LeadsUsuariosService())->get($request->setor);
+        $historicoLeads = (new Notificacoes())->getHistorico(null, $request->setor, 100);
+
+        return Inertia::render('Admin/Leads/Card/Index',
+            compact('usuarios', 'setor', 'setores', 'statusLeads', 'historicoLeads'));
     }
 
     public function limparFinalizados(Request $request)

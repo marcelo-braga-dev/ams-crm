@@ -7,7 +7,7 @@ use App\Models\User;
 
 class LeadsUsuariosService
 {
-    public function get($setor = 1)
+    public function get($setor = null)
     {
         $nomes = (new User())->getNomes();
         $leads = (new Leads())->qtdLeadsUsuarios($setor);
