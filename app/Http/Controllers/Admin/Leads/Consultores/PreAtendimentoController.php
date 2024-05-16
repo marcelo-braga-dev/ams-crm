@@ -33,12 +33,12 @@ class PreAtendimentoController extends Controller
         );
     }
 
-    public function update($id)
+    public function update($id, Request $request)
     {
-        (new UpdateStatusLeads())->setAberto($id);
+        (new Leads)->setConsultor([$request->lead_id], $id);
 
         modalSucesso('Status atualizado!');
-        return redirect()->route('admin.leads.cards-aberto.show', $id);
+        return redirect()->route('admin.leads.cards-aberto.show', $request->lead_id);
     }
 
     public function voltarStatus($id)
@@ -47,7 +47,7 @@ class PreAtendimentoController extends Controller
         (new LeadsHistoricos())->createHistorico($id, (new NovoStatusLeads())->getStatus());
 
         modalSucesso('Status atualizado com sucesso!');
-        return redirect()->route('admin.leads.cards-aberto.show', $id);
+        return redirect()->route('admin.leads.cards-novo.show', $id);
     }
 
     public function avancarStatus($id)

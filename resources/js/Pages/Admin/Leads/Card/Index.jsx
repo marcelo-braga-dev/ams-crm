@@ -1,16 +1,11 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
-import ListItem from "@mui/material/ListItem";
 import { ListItemButton, TextField } from "@mui/material";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import ListItemText from "@mui/material/ListItemText";
-import List from "@mui/material/List";
 import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
 import { router } from "@inertiajs/react";
 
 
-export default function ({ usuarios, setores, setor, statusLeads }) {
+export default function ({ setores, setor, statusLeads }) {
     function alterarSetor(e) {
         router.get(route('admin.leads.cards-leads.index', { setor: e }))
     }
@@ -76,7 +71,7 @@ export default function ({ usuarios, setores, setor, statusLeads }) {
                                         <td>{total}</td>
                                         <td>
                                             <a className="px-3 py-1 mb-0 btn btn-primary btn-sm"
-                                                href={route('admin.leads.consultores-cards.index', {id: dado.id})}>
+                                                href='#'>
                                                 Ver Kanban
                                             </a>
                                         </td>
@@ -99,28 +94,6 @@ export default function ({ usuarios, setores, setor, statusLeads }) {
                     </div>
                 </div>
             </div>
-
-            <List>
-                {usuarios.map((item) => {
-                    return (
-                        <ListItem key={item.id} className="border-bottom">
-                            <ListItemButton href={route('admin.leads.consultores-cards.index', {id: item.id})}>
-                                <ListItemAvatar>
-                                    <Avatar alt={item.nome} src={item.foto}/>
-                                </ListItemAvatar>
-                                <ListItemText primary={item.nome} secondary={
-                                    <>
-                                        {item.franquia}<br/>
-                                        {item.setor}<br/>
-                                        {item.funcao}<br/>
-                                    </>
-                                }/>
-                                <button className="btn btn-primary">Ver</button>
-                            </ListItemButton>
-                        </ListItem>
-                    )
-                })}
-            </List>
         </Layout>
     )
 }

@@ -19,12 +19,10 @@ class CardsController extends Controller
         $setor = $request->setor ?? 1;
         $setores = (new Setores())->get();
 
-        $usuarios = (new User())->getUsuarios($setor);
-
         $statusLeads = (new LeadsUsuariosService())->get($request->setor);
 
         return Inertia::render('Admin/Leads/Card/Index',
-            compact('usuarios', 'setor', 'setores', 'statusLeads'));
+            compact('setor', 'setores', 'statusLeads'));
     }
 
     public function limparFinalizados(Request $request)

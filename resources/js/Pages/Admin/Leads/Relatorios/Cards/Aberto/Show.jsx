@@ -6,7 +6,7 @@ import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Show({dados, historicos, consultores, status, contatos}) {
+export default function Show({dados, historicos, consultores, isSdr, status, contatos}) {
 
     const {data, setData, post} = useForm({
         lead: dados.id,
@@ -53,9 +53,9 @@ export default function Show({dados, historicos, consultores, status, contatos})
     }
 
     return (
-        <Layout  menu="leads" submenu="leads-cards"
-                 voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}
-                titlePage="Lead - Em Atendimento">
+        <Layout menu="leads" submenu="leads-cards"
+                voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}
+                titlePage="Lead - Em Aberto">
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
                 <h5>{dados.consultor.nome}</h5>
@@ -79,17 +79,17 @@ export default function Show({dados, historicos, consultores, status, contatos})
                     {/*    </button>*/}
                     {/*</div>*/}
 
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#statusAvancar">Avançar Status "ATIVO"*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
+                    {!isSdr && <div className="col-auto">
+                        <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
+                                data-bs-target="#statusAvancar">Avançar Status "ATIVO"
+                        </button>
+                    </div>}
 
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#statusFinalizar">Avançar Status "FINALIZADO"*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
+                    {!isSdr && <div className="col-auto">
+                        <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
+                                data-bs-target="#statusFinalizar">Avançar Status "FINALIZADO"
+                        </button>
+                    </div>}
                 </div>
                 <div className="row">
                     {/*<span>Alterar consultor</span>*/}
@@ -113,43 +113,42 @@ export default function Show({dados, historicos, consultores, status, contatos})
                 </div>
             </div>
 
-            {/*<div className="card card-body mb-4">*/}
-            {/*    <div className="card card-body mb-4">*/}
-            {/*        <form onSubmit={onSubmit}>*/}
-            {/*            <h6>Atualizar Status do Lead</h6>*/}
-            {/*            <div className="row">*/}
-            {/*                <div className="col mb-4">*/}
-            {/*                    /!*<TextField label="Meio Contato" select fullWidth required defaultValue=""*!/*/}
-            {/*                    /!*           size="small"*!/*/}
-            {/*                    /!*           onChange={e => setData('meio_contato', e.target.value)}>*!/*/}
-            {/*                    /!*    {contatos.map((option, index) => (*!/*/}
-            {/*                    /!*        <MenuItem key={index} value={option.key}>*!/*/}
-            {/*                    /!*            {option.nome}*!/*/}
-            {/*                    /!*        </MenuItem>*!/*/}
-            {/*                    /!*    ))}*!/*/}
-            {/*                    /!*</TextField>*!/*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*            <div className="row mb-4">*/}
-            {/*                <div className="col">*/}
-            {/*                    <TextField label="Anotações" multiline rows="2" fullWidth*/}
-            {/*                               onChange={e => setData('msg', e.target.value)}/>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*            <div className="row">*/}
-            {/*                <div className="col">*/}
-            {/*                    <div className="text-center">*/}
-            {/*                        <button className="btn btn-primary"*/}
-            {/*                                onClick={() => setData('salvar_msg', true)}*/}
-            {/*                                type="submit">*/}
-            {/*                            Enviar Anotações*/}
-            {/*                        </button>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </form>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            {!isSdr &&
+                <div className="card card-body mb-4">
+                    <form onSubmit={onSubmit}>
+                        <h6>Atualizar Status do Lead</h6>
+                        <div className="row">
+                            <div className="col mb-4">
+                                {/*<TextField label="Meio Contato" select fullWidth required defaultValue=""*/}
+                                {/*           size="small"*/}
+                                {/*           onChange={e => setData('meio_contato', e.target.value)}>*/}
+                                {/*    {contatos.map((option, index) => (*/}
+                                {/*        <MenuItem key={index} value={option.key}>*/}
+                                {/*            {option.nome}*/}
+                                {/*        </MenuItem>*/}
+                                {/*    ))}*/}
+                                {/*</TextField>*/}
+                            </div>
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col">
+                                <TextField label="Anotações" multiline rows="2" fullWidth
+                                           onChange={e => setData('msg', e.target.value)}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <div className="text-center">
+                                    <button className="btn btn-primary"
+                                            onClick={() => setData('salvar_msg', true)}
+                                            type="submit">
+                                        Enviar Anotações
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>}
 
             <div className="card card-body mb-4">
                 <div className="mb-4 border-bottom">

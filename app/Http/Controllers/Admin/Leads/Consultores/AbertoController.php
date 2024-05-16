@@ -20,10 +20,12 @@ class AbertoController extends Controller
         $dados = (new Leads())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getUsuarios($dados['infos']['setor']);
+        $isSdr = is_sdr();
 
-        return Inertia::render('Admin/Leads/Relatorios/Cards/Novo/Edit',
-            compact('dados', 'historicos', 'consultores'));
+        return Inertia::render('Admin/Leads/Relatorios/Cards/Aberto/Show',
+            compact('dados', 'historicos', 'consultores', 'isSdr'));
     }
+
     public function update($id)
     {
         (new UpdateStatusLeads())->setPreAtendimento($id);

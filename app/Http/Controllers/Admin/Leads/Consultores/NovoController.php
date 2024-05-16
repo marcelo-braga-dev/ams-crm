@@ -15,6 +15,19 @@ use Inertia\Inertia;
 
 class NovoController extends Controller
 {
+    public function show($id)
+    {
+        $dados = (new Leads())->getDados($id);
+        $historicos = (new HistoricoDadosService())->dados($id);
+        $consultores = (new User())->getUsuarios($dados['infos']['setor']);
+
+        return Inertia::render('Admin/Leads/Relatorios/Cards/Novo/Edit',
+            compact('dados', 'historicos', 'consultores'));
+    }
+
+    /**
+     * @deprecated
+     */
     public function edit($id)
     {
         $dados = (new Leads())->getDados($id);

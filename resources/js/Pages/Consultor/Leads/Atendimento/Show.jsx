@@ -107,7 +107,7 @@ export default function Show({dados, status, contatos, historicos}) {
                         <div className="card-body">
                             <form onSubmit={onSubmit}>
                                 <h6>Atualizar Status</h6>
-                                <div className="row">                                    
+                                <div className="row">
                                     <div className="col-md-3 mb-3">
                                         <TextField label="Meio Contato" select fullWidth required defaultValue=""
                                                    size="small"
@@ -169,12 +169,9 @@ export default function Show({dados, status, contatos, historicos}) {
                         </div>
                         <form onSubmit={finalizarAtendimento}>
                             <div className="modal-body">
-                                {historicos.length < 4 ?
-                                    <div className="alert alert-danger text-white">
-                                        Realize no mínimo 4 contatos com o cliente.</div> : ''}
 
                                 Confirmar finalização do atendimento?
-                            
+
                                 <TextField label="Status" className="mt-3" select fullWidth required defaultValue="" size="small"
                                             onChange={e => setData('status', e.target.value)}>
                                     {status.map((option, index) => (
@@ -183,13 +180,13 @@ export default function Show({dados, status, contatos, historicos}) {
                                         </MenuItem>
                                     ))}
                                 </TextField>
-                                    
-                                <TextField className="mt-3" label="Motivo/Anotações (min. 150 caracteres)" multiline
+
+                                <TextField className="mt-3" label="Motivo/Anotações (min. 10 caracteres)" multiline
                                         rows="6" fullWidth required
                                         onChange={e => setData('msg', e.target.value)}/>
                                 <div className="text-end">
                                     <small
-                                        className={data.msg.length >= 150 ? "text-success" : ''}>({data.msg.length}/150)</small>
+                                        className={data.msg.length >= 10 ? "text-success" : ''}>({data.msg.length}/10)</small>
                                 </div>
                             </div>
                             <div className="modal-footer">
@@ -199,11 +196,11 @@ export default function Show({dados, status, contatos, historicos}) {
                                             Voltar
                                         </button>
                                     </div>
-                                    <div className="col">                                    
-                                        <button disabled={data.msg.length < 150 || historicos.length < 4} type="submit"
-                                                className="btn btn-primary" data-bs-dismiss={(data.msg.length < 150 || historicos.length < 4) ? '' : "modal"}>
+                                    <div className="col">
+                                        <button disabled={data.msg.length < 10} type="submit"
+                                                className="btn btn-primary" data-bs-dismiss={(data.msg.length < 10) ? '' : "modal"}>
                                             Finalizar
-                                        </button>                                        
+                                        </button>
                                     </div>
                                 </div>
                             </div>

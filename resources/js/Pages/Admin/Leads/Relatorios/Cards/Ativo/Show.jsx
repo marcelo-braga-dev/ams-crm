@@ -48,9 +48,8 @@ export default function Show({dados, consultores, historicos, status, contatos})
     }
 
     return (
-        <Layout container voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}
-                titlePage="Lead - Ativo">
-
+        <Layout titlePage="Ativo - Lead" menu="leads" submenu="leads-cards"
+                voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}>
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
                 <h5>{dados.consultor.nome}</h5>
@@ -60,100 +59,100 @@ export default function Show({dados, consultores, historicos, status, contatos})
                 <LeadsDados dados={dados}/>
             </div>
 
-            <div className="card card-body mb-4">
-                <div className="row border-bottom mb-3">
-                    <div className="col-auto">
-                        <button type="button" className="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#limparLead">Limpar LEAD
-                        </button>
-                    </div>
-                    <div className="col-auto">
-                        <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
-                                data-bs-target="#statusVoltar">Voltar Status "Em Atendimento"
-                        </button>
-                    </div>
-                    <div className="col-auto">
-                        <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
-                                data-bs-target="#statusAvancar">Avançar Status "Finalizado"
-                        </button>
-                    </div>
-                </div>
-                <div className="row">
-                    <span>Alterar consultor deste lead para:</span>
-                    <div className="col-md-4">
-                        <TextField label="Selecione o Consultor..." select
-                                   fullWidth required size="small" defaultValue=""
-                                   onChange={e => setData('novo_consultor', e.target.value)}>
-                            {consultores.map((option) => (
-                                <MenuItem key={option.id} value={option.id}>
-                                    {option.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </div>
-                    <div className="col-4 p-0">
-                        <button type="button" className="btn btn-dark" data-bs-toggle="modal"
-                                data-bs-target="#alterarConsultor">
-                            ENVIAR
-                        </button>
-                    </div>
-                </div>
-            </div>
+            {/*<div className="card card-body mb-4">*/}
+            {/*    <div className="row border-bottom mb-3">*/}
+            {/*        <div className="col-auto">*/}
+            {/*            <button type="button" className="btn btn-danger" data-bs-toggle="modal"*/}
+            {/*                    data-bs-target="#limparLead">Limpar LEAD*/}
+            {/*            </button>*/}
+            {/*        </div>*/}
+            {/*        <div className="col-auto">*/}
+            {/*            <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
+            {/*                    data-bs-target="#statusVoltar">Voltar Status "Em Atendimento"*/}
+            {/*            </button>*/}
+            {/*        </div>*/}
+            {/*        <div className="col-auto">*/}
+            {/*            <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
+            {/*                    data-bs-target="#statusAvancar">Avançar Status "Finalizado"*/}
+            {/*            </button>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*    <div className="row">*/}
+            {/*        <span>Alterar consultor deste lead para:</span>*/}
+            {/*        <div className="col-md-4">*/}
+            {/*            <TextField label="Selecione o Consultor..." select*/}
+            {/*                       fullWidth required size="small" defaultValue=""*/}
+            {/*                       onChange={e => setData('novo_consultor', e.target.value)}>*/}
+            {/*                {consultores.map((option) => (*/}
+            {/*                    <MenuItem key={option.id} value={option.id}>*/}
+            {/*                        {option.name}*/}
+            {/*                    </MenuItem>*/}
+            {/*                ))}*/}
+            {/*            </TextField>*/}
+            {/*        </div>*/}
+            {/*        <div className="col-4 p-0">*/}
+            {/*            <button type="button" className="btn btn-dark" data-bs-toggle="modal"*/}
+            {/*                    data-bs-target="#alterarConsultor">*/}
+            {/*                ENVIAR*/}
+            {/*            </button>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
-            <div className="card card-body mb-4">
-                <div className="row pt-3">
-                    <div className="col mb-4">
-                        <a className="btn btn-warning"
-                           href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
-                    </div>
-                </div>
-            </div>
+            {/*<div className="card card-body mb-4">*/}
+            {/*    <div className="row pt-3">*/}
+            {/*        <div className="col mb-4">*/}
+            {/*            <a className="btn btn-warning"*/}
+            {/*               href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
-            <div className="card card-body mb-4">
-                <form onSubmit={onSubmit}>
-                    <h6>Atualizar Status do Lead</h6>
-                    <div className="row">
-                        <div className="col">
-                            <TextField label="Status" select fullWidth required defaultValue="" size="small"
-                                       onChange={e => setData('status', e.target.value)}>
-                                {status.map((option, index) => (
-                                    <MenuItem key={index} value={option.status}>
-                                        {option.nome}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <div className="col mb-4">
-                            <TextField label="Meio Contato" select fullWidth required defaultValue=""
-                                       size="small"
-                                       onChange={e => setData('meio_contato', e.target.value)}>
-                                {contatos.map((option, index) => (
-                                    <MenuItem key={index} value={option.key}>
-                                        {option.nome}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                    </div>
-                    <div className="row mb-4">
-                        <div className="col">
-                            <TextField label="Anotações" multiline rows="2" fullWidth
-                                       onChange={e => setData('msg', e.target.value)}/>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col">
-                            <div className="text-center">
-                                <button className="btn btn-primary"
-                                        onClick={() => setData('salvar_msg', true)}
-                                        type="submit">
-                                    Enviar Anotações
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            {/*<div className="card card-body mb-4">*/}
+            {/*    <form onSubmit={onSubmit}>*/}
+            {/*        <h6>Atualizar Status do Lead</h6>*/}
+            {/*        <div className="row">*/}
+            {/*            <div className="col">*/}
+            {/*                <TextField label="Status" select fullWidth required defaultValue="" size="small"*/}
+            {/*                           onChange={e => setData('status', e.target.value)}>*/}
+            {/*                    {status.map((option, index) => (*/}
+            {/*                        <MenuItem key={index} value={option.status}>*/}
+            {/*                            {option.nome}*/}
+            {/*                        </MenuItem>*/}
+            {/*                    ))}*/}
+            {/*                </TextField>*/}
+            {/*            </div>*/}
+            {/*            <div className="col mb-4">*/}
+            {/*                <TextField label="Meio Contato" select fullWidth required defaultValue=""*/}
+            {/*                           size="small"*/}
+            {/*                           onChange={e => setData('meio_contato', e.target.value)}>*/}
+            {/*                    {contatos.map((option, index) => (*/}
+            {/*                        <MenuItem key={index} value={option.key}>*/}
+            {/*                            {option.nome}*/}
+            {/*                        </MenuItem>*/}
+            {/*                    ))}*/}
+            {/*                </TextField>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*        <div className="row mb-4">*/}
+            {/*            <div className="col">*/}
+            {/*                <TextField label="Anotações" multiline rows="2" fullWidth*/}
+            {/*                           onChange={e => setData('msg', e.target.value)}/>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*        <div className="row">*/}
+            {/*            <div className="col">*/}
+            {/*                <div className="text-center">*/}
+            {/*                    <button className="btn btn-primary"*/}
+            {/*                            onClick={() => setData('salvar_msg', true)}*/}
+            {/*                            type="submit">*/}
+            {/*                        Enviar Anotações*/}
+            {/*                    </button>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </form>*/}
+            {/*</div>*/}
 
             <div>
                 <h6 className="mb-3">Histórico de Atendimento</h6>

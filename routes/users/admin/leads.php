@@ -47,6 +47,7 @@ Route::name('admin.leads.')
 
         Route::resource('cards-novo', NovoController::class);
         Route::resource('cards-pre_atendimento', PreAtendimentoController::class);
+        Route::put('cards-pre_atendimento/voltar_status/{id}', [PreAtendimentoController::class, 'voltarStatus'])->name('cards-pre_atendimento.voltar_status');
         Route::resource('cards-aberto', AbertoController::class);
         Route::resource('cards-atendimento', AtendimentoController::class);
         Route::resource('cards-ativo', AtivoController::class);

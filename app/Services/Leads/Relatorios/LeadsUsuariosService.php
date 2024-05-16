@@ -14,6 +14,7 @@ class LeadsUsuariosService
 
         $dados = [];
 
+        // Popula
         foreach ((new User())->getIdsSubordinados(true) as $id) {
             $dados[$id] = [];
             $dados[$id]['status'][] = [];
@@ -21,6 +22,7 @@ class LeadsUsuariosService
             $dados[$id]['id'] = $id;
         }
 
+        // Preenche
         foreach ($leads as $lead) {
             $userId = $lead->user_id ?? $lead->sdr_id;
             $dados[$userId]['status'][$lead->status][] = [];
@@ -30,6 +32,7 @@ class LeadsUsuariosService
 
         $items = [];
         $i = 0;
+        // Finaliza
         foreach ($dados as $dado) {
             foreach ($dado['status'] as $index => $item) {
                 $items[$i]['nome'] = $dado['nome'];

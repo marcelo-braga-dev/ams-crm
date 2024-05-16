@@ -3,7 +3,7 @@ import Card from './Card'
 function btn(id) {
 
     return (
-        <a href={route('admin.leads.cards-atendimento.show', id)}
+        <a href={route('admin.leads.cards-pre_atendimento.show', id)}
            className="btn btn-warning btn-sm">
             ABRIR
         </a>
