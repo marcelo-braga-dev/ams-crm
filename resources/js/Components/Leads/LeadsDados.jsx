@@ -17,7 +17,7 @@ export default function LeadsDados({dados}) {
                 {!dados.cliente.endereco && (dados.cliente.cidade || dados.cliente.estado) && <span
                     className="d-block"><b>Cidade/Estado:</b> {dados.cliente.cidade} / {dados.cliente.estado}</span>}
                 {dados.cliente.endereco && <span className="d-block"><b>Endereço:</b> {dados.cliente.endereco}</span>}
-                <span className="d-block"><b>Status:</b> {dados.infos.status}</span>
+                <span className="d-block"><b>Status:</b> {dados.infos.status_nome}</span>
                 {dados.infos.anotacoes && <span className="d-block"><b>Anotações:</b> {dados.infos.anotacoes}</span>}
             </div>
             <div className="col mb-2">

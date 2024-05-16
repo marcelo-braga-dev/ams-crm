@@ -25,7 +25,7 @@ class HistoricoDadosService
                 'id' => $item['id'],
                 'id_pedido' => $item['pedido_id'],
                 'nome' => $usuarios[$item['user_id']],
-                'status' => $status[$item['status']] ?? 'Inderteminado',
+                'status' => $status[$item['status']] ?? '',
                 'meio_contato' => $statusNomes[$item['meio_contato']] ?? '',
                 'msg' => $item->msg,
                 'comentarios' => $comentarios[$item['id']] ?? [],

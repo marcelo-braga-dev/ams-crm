@@ -22,4 +22,10 @@ class StatusLeads
             $finalizado->getStatus() => $finalizado->getNome(),
         ];
     }
+
+    public function nome($status)
+    {
+        $nomes = $this->nomesStatus();
+        return $nomes[$status] ?? '';
+    }
 }

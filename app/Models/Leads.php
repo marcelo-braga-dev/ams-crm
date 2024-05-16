@@ -421,6 +421,7 @@ class Leads extends Model
             'infos' => [
                 'setor' => $item->setor,
                 'status' => $item->status,
+                'status_nome' => (new StatusLeads())->nome($item->status),
                 'status_anotacoes' => $item->status_anotacoes,
                 'anotacoes' => $item->infos,
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),

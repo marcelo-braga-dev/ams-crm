@@ -24,7 +24,7 @@ class CardsController extends Controller
 
     public function limparConsultor(Request $request)
     {
-        (new Leads())->setConsultor($request->id, null);
+        (new Leads())->setConsultor([$request->id], null);
 
         return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
     }
