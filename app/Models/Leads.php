@@ -646,6 +646,14 @@ class Leads extends Model
                 'user_id' => null,
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
+
+        $this->newQuery()
+            ->where('sdr_id', $id)
+            ->where('status', (new FinalizadoStatusLeads)->getStatus())
+            ->update([
+                'sdr_id' => null,
+                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
     }
 
     public function relatorioLeads()
