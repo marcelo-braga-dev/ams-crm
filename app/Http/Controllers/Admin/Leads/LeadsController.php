@@ -61,7 +61,7 @@ class LeadsController extends Controller
     public function updateConsultor(Request $request)
     {
         try {
-            $request->is_sdr ?
+            is_sdr($request->consultor) ?
                 (new Leads())->setSdr($request->leadsSelecionados, $request->consultor) :
                 (new Leads())->setConsultor($request->leadsSelecionados, $request->consultor);
 

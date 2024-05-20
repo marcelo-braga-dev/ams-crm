@@ -38,7 +38,10 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
             grow: 3,
         }, {
             name: 'Consultor',
-            selector: row => <span className="text-wrap"><b>{row.consultor}</b></span>,
+            selector: row => <div>
+                <span className="text-wrap d-block mb-3"><b>Consultor: </b>{row.consultor}</span>
+                <span className="text-wrap d-block"><b>SDR: </b>{row.sdr}</span>
+            </div>,
             sortable: true,
             grow: 2,
         }, {
@@ -77,6 +80,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
         return {
             id: items.id,
             name: items.cliente.nome,
+            sdr: items.sdr.nome,
             cnpj: items.cliente.cnpj,
             status: items.infos.status,
             consultor: items.consultor.nome,
@@ -138,7 +142,7 @@ export default function Filtering({dados, consultores, categorias, categoriaAtua
     }
 
     function submit() {
-        if (consultorSelecionado && leadsChecked) {
+        if (consultorSelecionado && leadsChecked.length > 0) {
             setOpen(!open);
             router.post(route('admin.clientes.leads.update-consultor',
                 {leadsSelecionados: leadsChecked, consultor: consultorSelecionado}))

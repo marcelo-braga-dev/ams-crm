@@ -267,6 +267,7 @@ class Leads extends Model
     {
         $query = $this->newQuery()
             ->where('user_id', '>', 0)
+            ->where('sdr_id', '>', 0)
             ->where('setor_id', $setor)
             ->orderByDesc('id');
 
@@ -443,6 +444,10 @@ class Leads extends Model
             'consultor' => [
                 'nome' => $nomes[$item->user_id] ?? '',
                 'id' => $item->user_id
+            ],
+            'sdr' => [
+                'nome' => $nomes[$item->sdr_id] ?? '',
+                'id' => $item->sdr_id
             ],
             'cliente' => [
                 'nome' => $item->nome,
