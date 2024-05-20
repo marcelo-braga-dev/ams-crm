@@ -18,12 +18,14 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import PreAtendimentoCard from "./Cards/PreAtendimentoCard";
 import AbertoCards from "./Cards/AbertoCards";
+import {CircularProgress} from "@mui/material";
 
 let idLeads = []
 const styleCard = 'p-2 mx-1 text-white row justify-content-between rounded-top'
 
 export default function Dashboard({leads, usuario, consultores}) {
     const {data, setData, post} = useForm();
+    const [carregando, setCarregando] = useState(false)
 
     function leadsSelecionados(idLead) {
         const index = idLeads.indexOf(idLead)
@@ -35,13 +37,13 @@ export default function Dashboard({leads, usuario, consultores}) {
     }
 
     function alterarConsultor() {
+        setCarregando(true)
         router.post(route('admin.leads.consultores-cards.update', 1000), {
             _method: 'put',
             ...data, idLeads: idLeads
         })
-
     }
-    // router.on('success', () => window.location.reload())
+    router.on('success',  () => setCarregando(false))
 
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.novo_consultor)]?.name;
@@ -88,7 +90,11 @@ export default function Dashboard({leads, usuario, consultores}) {
                                         data-bs-target="#alterarConsultor">
                                     ENVIAR
                                 </button>
+
                             </div>
+                            {carregando && <div className="col">
+                                <CircularProgress/>
+                            </div>}
                         </div>
                     </div>
                     <div className="col">

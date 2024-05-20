@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->integer('id_importacao')->nullable();
             $table->string('atendente')->nullable();
             $table->boolean('pessoa_juridica')->default(1);
-            $table->string('cnpj')->nullable();
+            $table->unsignedBigInteger('cnpj')->nullable()->unique();
             $table->string('rg')->nullable();
             $table->string('cpf')->nullable();
             $table->string('inscricao_estadual')->nullable();

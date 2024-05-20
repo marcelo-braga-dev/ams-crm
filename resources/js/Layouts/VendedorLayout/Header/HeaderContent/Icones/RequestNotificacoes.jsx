@@ -22,7 +22,7 @@ export default function RequestNotificacoes({url, urlPageChat, setQtdPedidos, se
         })
         setTimeout(function () {
             buscaQtnNotificacoes();
-        }, 5000)
+        }, 30000)
     }
 
     useEffect(() => {

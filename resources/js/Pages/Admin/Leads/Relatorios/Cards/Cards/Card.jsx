@@ -12,7 +12,7 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
         <div className="pesquisar-card card m-2 mb-3" style={{width: 300}}>
             <div className="row justify-content-end">
                 <div className="col-auto">
-                    <Checkbox onChange={() => leadsSelecionados(dados.id)}/>
+                    <Checkbox key={dados.id}  onChange={() => leadsSelecionados(dados.id)}/>
                 </div>
             </div>
             <div className="card-body pb-0 pt-0">

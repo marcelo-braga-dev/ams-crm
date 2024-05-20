@@ -31,7 +31,10 @@ class CardsController extends Controller
 
     public function update(Request $request)
     {
-        (new Leads())->setConsultor($request->idLeads, $request->novo_consultor);
+        $isSdr = is_sdr($request->novo_consultor);
+        $isSdr ?
+            (new Leads())->setSdr($request->idLeads, $request->novo_consultor) :
+            (new Leads())->setConsultor($request->idLeads, $request->novo_consultor);
 
         modalSucesso('Leads enviado com sucesso!');
         return redirect()->back();

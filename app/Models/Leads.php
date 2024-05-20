@@ -64,14 +64,17 @@ class Leads extends Model
         $query = $this->newQuery();
         if ($idImportacao) $query->where('id_importacao', $idImportacao);
 
+        $nomes = (new User())->getNomes();
+        $setores = (new Setores())->getNomes();
+
         return $query->where('setor_id', $setor)
             ->where('user_id', '=', null)
             ->where('setor_id', '=', $setor)
 //            ->where('status', '=', 'finalizado')
             ->orderBy('updated_at')
             ->get()
-            ->transform(function ($item) {
-                return $this->dadosMinimo($item);
+            ->transform(function ($item) use ($nomes, $setores) {
+                return $this->dadosMinimo($item, $nomes, $setores);
             });
     }
 
@@ -431,7 +434,7 @@ class Leads extends Model
         ];
     }
 
-    private function dadosMinimo($item, $nomes = [])
+    private function dadosMinimo($item, $nomes = [], $setores = [])
     {
         //$telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
 
@@ -457,7 +460,7 @@ class Leads extends Model
                 'telefones' => [], //$telefones,
             ],
             'infos' => [
-                'setor' => $item->setor,
+                'setor' => $setores[$item->setor_id]['nome'] ?? '',
                 'status' => $item->status,
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                 'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),

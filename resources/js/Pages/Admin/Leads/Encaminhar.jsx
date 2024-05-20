@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import DataTable from 'react-data-table-component';
 import {
     Backdrop,
@@ -16,18 +16,17 @@ import Checkbox from "@mui/material/Checkbox";
 import ListItem from "@mui/material/ListItem";
 import InfoLead from "@/Pages/Admin/Leads/Componentes/InfoLead";
 import Switch from "@mui/material/Switch";
-import Avatar from "@mui/material/Avatar";
+import LinearProgress from "@mui/material/LinearProgress";
 
 export default function Filtering({
-                                      dados,
-                                      usuariosSdr,
-                                      usuariosVendedor,
                                       categorias,
-                                      categoriaAtual,
                                       datasImportacao,
                                       idImportacao
                                   }) {
-    // loading
+    const [dados, setDados] = useState([]);
+    const [usuariosSdr, setUsuariosSdr] = useState([]);
+    const [usuariosVendedor, setUsuariosVendedor] = useState([]);
+
     const [filterText, setFilterText] = React.useState('');
     const [filtro, setFiltro] = useState('nome');
     const [open, setOpen] = useState(false);
@@ -38,7 +37,20 @@ export default function Filtering({
     const [consultorSelecionado, setConsultorSelecionado] = useState();
     const [sdr, setSdr] = useState(true);
     const [usuarios, setUsuarios] = useState(usuariosSdr);
-    console.log(sdr)
+    const [setorSelecionado, setSetorSelecionado] = useState();
+    const [carregando, setCarregando] = useState(true);
+
+    useEffect(() => {
+        setCarregando(true)
+        axios.get(route('admin.clientes.leads.registros-encaminhar', {setor: setorSelecionado}))
+            .then(res => {
+                setDados(res.data.registros)
+                setUsuarios(res.data.usuarios_sdr)
+                setUsuariosSdr(res.data.usuarios_sdr)
+                setUsuariosVendedor(res.data.usuarios_vendedor)
+                setCarregando(false)
+            })
+    }, [setorSelecionado]);
 
     function handleToggle(value) {
         const currentIndex = leadsChecked.indexOf(value);
@@ -100,8 +112,9 @@ export default function Filtering({
                                     <div className="col-6">
                                         <InfoLead dado={row}/>
                                     </div>
-                                    {(row.consultor || row.status) &&
-                                        <div className="col">
+                                    <div className="col">
+                                        <span className="d-block mb-2">Setor: {row.setor}</span>
+                                        {(row.consultor || row.status) && <>
                                             {row.status === 'finalizado' && <span>Status: {row.status}<br/></span>}
                                             {row.status === 'finalizado' &&
                                                 <small>Data: {row.status_data}<br/><br/></small>}
@@ -109,8 +122,9 @@ export default function Filtering({
                                                 <span>Último Vendedor(a):<br/>
                                                     {row.consultor}</span>
                                             }
-                                        </div>
-                                    }
+                                        </>
+                                        }
+                                    </div>
                                 </div>
                             </ListItemButton>
                         </ListItem>
@@ -126,6 +140,7 @@ export default function Filtering({
         return {
             id: items.id,
             name: items.cliente.nome?.toUpperCase(),
+            setor: items.infos.setor,
             consultor: items.consultor.nome?.toUpperCase(),
             razao_social: items.cliente.razao_social?.toUpperCase(),
             cnpj: items.cliente.cnpj,
@@ -209,7 +224,7 @@ export default function Filtering({
 
     function nomeConsultorSelecionado() {
         const nome = usuarios[usuarios.findIndex(i => i.id === consultorSelecionado)]?.nome;
-        console.log(nome)
+
         return nome ? <>
             Enviar <b>{leadsChecked.length}</b> Leads Selecionados para:<br/>
             <h5>{nome}</h5>
@@ -222,8 +237,7 @@ export default function Filtering({
             <div className="row border-bottom mb-4 pb-2">
                 <div className="col-md-3 mb-2">
                     <TextField label="Setor" select fullWidth
-                               value={categoriaAtual ?? ''}
-                               onChange={e => router.get(route('admin.clientes.leads.leads-main.index', {categoria: e.target.value}))}>
+                               onChange={e => setSetorSelecionado(e.target.value)}>
                         {categorias.map((option) => (
                             <MenuItem key={option.id} value={option.id}>
                                 {option.nome}
@@ -251,7 +265,7 @@ export default function Filtering({
                                                fullWidth required
                                                onChange={e => setConsultorSelecionado(e.target.value)}>
                                         {usuarios.map(item => <MenuItem key={item.id}
-                                                                        value={item.id}> {item.nome} </MenuItem>)}
+                                                                        value={item.id}>{item.nome}</MenuItem>)}
                                     </TextField>
 
                                 </div>
@@ -278,7 +292,10 @@ export default function Filtering({
                     </div>
                 </form>
             </div>
-            <div className="card card-body mb-4">
+
+            {carregando && <LinearProgress/>}
+
+            {!carregando && <div className="card card-body mb-4">
                 {/*FILTRO*/}
                 <div className="row">
                     <div className="col ps-3">
@@ -376,7 +393,7 @@ export default function Filtering({
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
             {/*MODAL EXCLUIR*/}
             <div className="modal fade mt-5" id="modalExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"

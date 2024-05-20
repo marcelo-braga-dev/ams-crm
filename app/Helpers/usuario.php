@@ -45,9 +45,11 @@ if (!function_exists('is_financeiro')) {
 }
 
 if (!function_exists('is_sdr')) {
-    function is_sdr()
+    function is_sdr($id = null)
     {
-        return (new \App\Models\UsersPermissoes())->isSrd(id_usuario_atual());
+        $user = $id ?: id_usuario_atual();
+
+        return (new \App\Models\UsersPermissoes())->isSrd($user);
     }
 }
 
