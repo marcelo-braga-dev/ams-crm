@@ -7,7 +7,6 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import pesquisaCards from "@/Helpers/pesquisaCards";
-import ScrollControlHorizontal from "@/Helpers/scrollControlHorizontal";
 
 import NovoCards from './Cards/NovoCard';
 import AtendimentoCards from './Cards/AtendimentoCard';
@@ -79,9 +78,7 @@ export default function Dashboard({leads, usuario, consultores}) {
                                            fullWidth required size="small" defaultValue=""
                                            onChange={e => setData('novo_consultor', e.target.value)}>
                                     {consultores.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            {option.name}
-                                        </MenuItem>
+                                        <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
                                     ))}
                                 </TextField>
                             </div>
@@ -90,7 +87,6 @@ export default function Dashboard({leads, usuario, consultores}) {
                                         data-bs-target="#alterarConsultor">
                                     ENVIAR
                                 </button>
-
                             </div>
                             {carregando && <div className="col">
                                 <CircularProgress/>
@@ -117,7 +113,6 @@ export default function Dashboard({leads, usuario, consultores}) {
                     </div>
                 </div>
             </div>
-
 
             {/*Tabela*/}
             <div className='row justify-content-center'>

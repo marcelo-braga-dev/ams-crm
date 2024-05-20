@@ -185,6 +185,7 @@ class User extends Authenticatable
         return [
             'id' => $dados->id,
             'is_admin' => $dados->is_admin,
+            'is_admin_geral' => $dados->is_admin_geral,
             'nome' => $dados->name,
             'email' => $dados->email,
             'franquia' => $franquias[$dados->franquia_id] ?? '',
@@ -195,7 +196,6 @@ class User extends Authenticatable
             // 'idSupervisor' => $nomes[$dados->superior_id] ?? '',
             // 'supervisor_id' => $dados->superior_id,
             'status' => $dados->status,
-            'funcao_id' => $dados->funcao_id,
             'setor' => $setores[$dados->setor_id]['nome'] ?? '',
             'setor_id' => $dados->setor_id,
             'ultimo_login' => date('d/m/Y H:i:s', strtotime($dados->ultimo_login)),

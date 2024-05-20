@@ -14,6 +14,7 @@ export default function ({ usuario, usuarios, supervisionados, funcoes, franquia
         financeiro: usuario.financeiro,
         permissoes: permissoesUsuario,
         admin: usuario.is_admin,
+        admin_completo: usuario.admin_completo,
         supervisionados: supervisionados
     });
 
@@ -62,6 +63,14 @@ export default function ({ usuario, usuarios, supervisionados, funcoes, franquia
                     </div>
                     <div className="row">
                         <div className="mb-4 col-md-2">
+                            <TextField label="Acesso Completo ao Sistema" select required fullWidth
+                                defaultValue={data.admin_completo}
+                                onChange={e => setData('admin', e.target.value)}>
+                                <MenuItem value="0" >Não</MenuItem>
+                                <MenuItem value="1" >Sim</MenuItem>
+                            </TextField>
+                        </div>
+                        <div className="mb-4 col-md-2">
                             <TextField label="Função Admin/Gerente" select required fullWidth
                                 defaultValue={data.admin}
                                 onChange={e => setData('admin', e.target.value)}>
@@ -70,7 +79,7 @@ export default function ({ usuario, usuarios, supervisionados, funcoes, franquia
                             </TextField>
                         </div>
                         <div className="mb-4 col-md-2">
-                            <TextField label="Função Financeiro" select required fullWidth
+                            <TextField label="Acesso a Dados Financeiros" select required fullWidth
                                 defaultValue={data.financeiro}
                                 onChange={e => setData('financeiro', e.target.value)}>
                                 <MenuItem value="0">Não</MenuItem>

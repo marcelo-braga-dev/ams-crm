@@ -33,7 +33,7 @@ class UsuariosController extends Controller
 
         return Inertia::render(
             'Admin/Usuarios/Index',
-            compact('contas',  'status')
+            compact('contas', 'status')
         );
     }
 

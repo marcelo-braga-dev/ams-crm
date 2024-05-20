@@ -52,6 +52,7 @@ class CardsLeadsService
                 return [
                     'id' => $item->id,
                     'consultor' => $nomes[$item->user_id] ?? '',
+                    'sdr_nome' => $nomes[$item->sdr_id] ?? '',
                     'cliente' => [
                         'nome' => $item->nome ?: $item->razao_social,
                         'cidade' => $item->cidade,

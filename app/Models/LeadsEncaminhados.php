@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Usuarios\Status\AtivoStatusUsuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,10 +26,15 @@ class LeadsEncaminhados extends Model
             ]);
     }
 
-    public function ultimoVendedorEnviado()
+    public function ultimoVendedorEnviado($setor)
     {
-        return $this->newQuery()
-            ->orderByDesc('id')
-            ->first('user_encaminhado')['user_encaminhado'] ?? null;
+        $dados = $this->newQuery()
+            ->join('users', 'leads_encaminhados.user_encaminhado', '=', 'users.id')
+            ->where('users.setor_id', $setor)
+            ->where('users.status', (new AtivoStatusUsuario())->getStatus())
+            ->orderByDesc('leads_encaminhados.id')
+            ->first('user_encaminhado');
+
+        return $dados['user_encaminhado'] ?? null;
     }
 }

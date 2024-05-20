@@ -34,7 +34,8 @@ class PreAtendimentoController extends Controller
 
         $lead = (new Leads())->find($id);
 
-        $ultimo = (new LeadsEncaminhados())->ultimoVendedorEnviado();
+        $ultimo = (new LeadsEncaminhados())->ultimoVendedorEnviado($lead->setor_id);
+
         $vendedores = (new User())->usuariosRecebeLeadsId($lead->setor_id);
 
         $idEnviar = $vendedores[0];

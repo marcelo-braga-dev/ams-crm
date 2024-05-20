@@ -6,6 +6,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import Checkbox from '@mui/material/Checkbox';
 import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
+import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 
 export default function CardLeads({dados, btn, leadsSelecionados}) {
     return (
@@ -34,6 +35,18 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                         </div>
                         <div className="col-10 text-dark text-truncate">
                             {dados.consultor}
+                        </div>
+                    </div>
+                }
+
+                {/*SDR*/}
+                {dados.sdr_nome &&
+                    <div className="row">
+                        <div className="col-1 mb-2">
+                            <HeadsetMicIcon sx={{fontSize: 20}}/>
+                        </div>
+                        <div className="col-10 text-dark text-truncate">
+                            {dados.sdr_nome}
                         </div>
                     </div>
                 }
