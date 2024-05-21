@@ -87,6 +87,7 @@ class User extends Authenticatable
             ->find($id)
             ->update([
                 'name' => $dados->nome,
+                'status' => $dados->status,
                 'email' => $dados->email,
                 'franquia_id' => $dados->franquia,
                 'is_financeiro' => $dados->financeiro,

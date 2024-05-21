@@ -1,11 +1,20 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import MenuItem from "@mui/material/MenuItem";
-import { router, useForm } from '@inertiajs/react';
-import { useState } from "react";
-import { Avatar, Checkbox, FormControlLabel, Stack, Switch, TextField } from "@mui/material";
+import {router, useForm} from '@inertiajs/react';
+import {useState} from "react";
+import {Avatar, Checkbox, FormControlLabel, Stack, Switch, TextField} from "@mui/material";
 
-export default function ({ usuario, usuarios, supervisionados, funcoes, franquias, setores, permissoes, permissoesUsuario }) {
-    const { data, setData } = useForm({
+export default function ({
+                             usuario,
+                             usuarios,
+                             supervisionados,
+                             funcoes,
+                             franquias,
+                             setores,
+                             permissoes,
+                             permissoesUsuario
+                         }) {
+    const {data, setData} = useForm({
         nome: usuario.nome,
         email: usuario.email,
         funcao: usuario.funcao_id,
@@ -15,73 +24,84 @@ export default function ({ usuario, usuarios, supervisionados, funcoes, franquia
         permissoes: permissoesUsuario,
         admin: usuario.is_admin,
         admin_completo: usuario.admin_completo,
-        supervisionados: supervisionados
+        supervisionados: supervisionados,
+        status: usuario.status,
     });
 
     const submit = (e) => {
         e.preventDefault();
-        router.post(route('admin.usuarios.usuario.update', usuario.id), { ...data, _method: 'PUT' });
+        router.post(route('admin.usuarios.usuario.update', usuario.id), {...data, _method: 'PUT'});
     };
 
     return (
         <Layout titlePage="Editar Usuário" menu="usuarios" submenu="usuarios-contas"
-            voltar={route('admin.usuarios.usuario.index')}>
+                voltar={route('admin.usuarios.usuario.index')}>
             <form onSubmit={submit}>
                 <div className="mb-4 card card-body">
                     <div className="row">
                         <div className="mb-4 col-md-4">
                             <TextField label="Nome" fullWidth required defaultValue={data.nome}
-                                onChange={e => setData('nome', e.target.value)} />
+                                       onChange={e => setData('nome', e.target.value)}/>
                         </div>
                         <div className="mb-4 col-md-4">
                             <TextField label="Email" type="email" fullWidth required defaultValue={data.email}
-                                onChange={e => setData('email', e.target.value)} />
+                                       onChange={e => setData('email', e.target.value)}/>
+                        </div>
+                        <div className="col-md-2">
+                            <TextField label="Status" select required fullWidth
+                                       defaultValue={data.status}
+                                       onChange={e => setData('status', e.target.value)}>
+                                <MenuItem value="1">Ativo</MenuItem>
+                                <MenuItem value="0">Bloqueado</MenuItem>
+                            </TextField>
                         </div>
                     </div>
                     <div className="row">
                         <div className="mb-4 col-md-3">
                             <TextField label="Função" select required fullWidth
-                                defaultValue={data.funcao}
-                                onChange={e => setData('funcao', e.target.value)}>
-                                {funcoes.map((item) => <MenuItem key={item.id} value={item.id}>{item.nome} {item.admin ? '[ADMIN]' : ''}</MenuItem>)}
+                                       defaultValue={data.funcao}
+                                       onChange={e => setData('funcao', e.target.value)}>
+                                {funcoes.map((item) => <MenuItem key={item.id}
+                                                                 value={item.id}>{item.nome} {item.admin ? '[ADMIN]' : ''}</MenuItem>)}
                             </TextField>
                         </div>
                         <div className="mb-4 col-md-3">
                             <TextField label="Franquia" select required fullWidth
-                                defaultValue={data.franquia}
-                                onChange={e => setData('franquia', e.target.value)}>
+                                       defaultValue={data.franquia}
+                                       onChange={e => setData('franquia', e.target.value)}>
                                 {franquias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
                         <div className="mb-4 col-md-3">
                             <TextField label="Setor" select required fullWidth
-                                defaultValue={data.setor}
-                                onChange={e => setData('setor', e.target.value)}>
-                                {setores.map(setor => <MenuItem key={setor.id} value={setor.id}>{setor.nome}</MenuItem>)}
+                                       defaultValue={data.setor}
+                                       onChange={e => setData('setor', e.target.value)}>
+                                {setores.map(setor => <MenuItem key={setor.id}
+                                                                value={setor.id}>{setor.nome}</MenuItem>)}
                             </TextField>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="mb-4 col-md-2">
-                            <TextField label="Acesso Completo ao Sistema" select required fullWidth
-                                defaultValue={data.admin_completo}
-                                onChange={e => setData('admin', e.target.value)}>
-                                <MenuItem value="0" >Não</MenuItem>
-                                <MenuItem value="1" >Sim</MenuItem>
-                            </TextField>
-                        </div>
+                        {/*<div className="mb-4 col-md-2">*/}
+                        {/*    <TextField label="Acesso Completo ao Sistema" select required fullWidth*/}
+                        {/*        defaultValue={data.admin_completo}*/}
+                        {/*        onChange={e => setData('admin', e.target.value)}>*/}
+                        {/*        <MenuItem value="0" >Não</MenuItem>*/}
+                        {/*        <MenuItem value="1" >Sim</MenuItem>*/}
+                        {/*    </TextField>*/}
+                        {/*</div>*/}
                         <div className="mb-4 col-md-2">
                             <TextField label="Função Admin/Gerente" select required fullWidth
-                                defaultValue={data.admin}
-                                onChange={e => setData('admin', e.target.value)}>
-                                <MenuItem value="0" >Não</MenuItem>
-                                <MenuItem value="1" >Sim</MenuItem>
+                                       defaultValue={data.admin}
+                                       onChange={e => setData('admin', e.target.value)}>
+                                <MenuItem value="0">Não</MenuItem>
+                                <MenuItem value="1">Sim</MenuItem>
                             </TextField>
                         </div>
                         <div className="mb-4 col-md-2">
                             <TextField label="Acesso a Dados Financeiros" select required fullWidth
-                                defaultValue={data.financeiro}
-                                onChange={e => setData('financeiro', e.target.value)}>
+                                       defaultValue={data.financeiro}
+                                       onChange={e => setData('financeiro', e.target.value)}>
                                 <MenuItem value="0">Não</MenuItem>
                                 <MenuItem value="1">Sim</MenuItem>
                             </TextField>
@@ -104,7 +124,12 @@ export default function ({ usuario, usuarios, supervisionados, funcoes, franquia
                                                 return (
                                                     <div key={item.id} className="col">
                                                         <FormControlLabel label={item.nome} control={
-                                                            <Switch defaultChecked={permissoesUsuario[item.id] > 0} size="small" key={item.id} onChange={e => setData('permissoes', { ...data.permissoes, [item.id]: e.target.checked })} />} />
+                                                            <Switch defaultChecked={permissoesUsuario[item.id] > 0}
+                                                                    size="small" key={item.id}
+                                                                    onChange={e => setData('permissoes', {
+                                                                        ...data.permissoes,
+                                                                        [item.id]: e.target.checked
+                                                                    })}/>}/>
                                                     </div>
                                                 )
                                             })}
@@ -126,13 +151,16 @@ export default function ({ usuario, usuarios, supervisionados, funcoes, franquia
                                         <div>
                                             <Checkbox
                                                 defaultChecked={supervisionados?.[item.id] > 0}
-                                                onChange={e => setData('supervisionados', { ...data.supervisionados, [item.id]: e.target.checked })} />
+                                                onChange={e => setData('supervisionados', {
+                                                    ...data.supervisionados,
+                                                    [item.id]: e.target.checked
+                                                })}/>
                                         </div>
-                                        <div className="me-2"><Avatar src={item.foto} /></div>
+                                        <div className="me-2"><Avatar src={item.foto}/></div>
                                         <div>
-                                            <span><b>{item.nome}</b></span><br />
-                                            <small>{item.setor_nome}</small><br />
-                                            <small>{item.funcao}</small><br />
+                                            <span><b>{item.nome}</b></span><br/>
+                                            <small>{item.setor_nome}</small><br/>
+                                            <small>{item.funcao}</small><br/>
                                         </div>
                                     </Stack>
                                 </div>
@@ -147,6 +175,6 @@ export default function ({ usuario, usuarios, supervisionados, funcoes, franquia
                     </div>
                 </div>
             </form>
-        </Layout >
+        </Layout>
     )
 }
