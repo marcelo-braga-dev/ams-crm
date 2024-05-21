@@ -31,6 +31,8 @@ Route::name('admin.clientes.leads.')
         Route::post('ocultar', [LeadsController::class, 'ocultar'])->name('ocultar');
         Route::get('ocultos', [LeadsController::class, 'ocultos'])->name('ocultos');
         Route::post('restaurar', [LeadsController::class, 'restaurar'])->name('restaurar');
+        Route::post('remover-consultor', [LeadsController::class, 'removerConsultor'])->name('remover-consultor');
+        Route::post('remover-sdr', [LeadsController::class, 'removerSdr'])->name('remover-sdr');
         Route::get('alterar-consultor', [LeadsController::class, 'alterarConsultor'])->name('alterar-consultor');
         Route::post('limpar-consultor', [LeadsController::class, 'limparConsultor'])->name('limpar-consultor');
         Route::get('get-leads-cadastrados', [LeadsController::class, 'leads'])->name('get-leads-cadastrados');

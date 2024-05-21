@@ -15,7 +15,7 @@ class NovoStatusLeads
 
     public function getNome(): string
     {
-        return 'Em Aberto';
+        return 'Iniciar Atendimento';
     }
     public function updateStatus($id)
     {

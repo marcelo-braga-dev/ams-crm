@@ -12,10 +12,12 @@ const columns = [
         cell: row => <InfoLead dado={row}/>
         , sortable: true, grow: 3,
     }, {
-        name: 'Consultor(a)',
-        selector: row => <b>{row.consultor}</b>, sortable: true, grow: 2,
-    }, {
-        name: 'Status', selector: row => row.status, sortable: true, grow: 1,
+        name: '',
+        selector: row => <>
+            <span className="d-block mb-3"><b>Status do Lead:</b> {row.status_nome}</span>
+            <span className="d-block mb-3"><b>Consultor(a):</b> {row.consultor}</span>
+            <span className="d-block mb-3"><b>SDR:</b> {row.sdr}</span>
+        </>, sortable: true, grow: 2,
     }, {
         cell: row => <a className="btn btn-primary btn-sm m-0"
                         href={route('admin.clientes.leads.leads-main.show', row.id)}>
@@ -59,9 +61,11 @@ export default function Filtering({dados, categorias, categoriaAtual}) {
         return {
             id: items.id,
             name: items.cliente.nome,
+            sdr: items.sdr.nome,
             cnpj: items.cliente.cnpj,
             razao_social: items.cliente.razao_social,
             status: items.infos.status,
+            status_nome: items.infos.status_nome,
             consultor: items.consultor.nome,
             data_criacao: items.infos.data_criacao,
             telefone: items.contato.telefone,

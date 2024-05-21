@@ -20,16 +20,12 @@ class LeadsController extends Controller
 {
     public function index(Request $request)
     {
-
-
         $categorias = (new SetoresService())->setores();
 
-//        $usuariosSdr = (new User())->usuariosSdr();
-//        $usuariosVendedor = (new User())->usuariosRecebeLeads();
         $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
 
         return Inertia::render('Admin/Leads/Encaminhar',
-            compact( 'datasImportacao',  'categorias'));
+            compact('datasImportacao', 'categorias'));
     }
 
     public function registrosEncaminhar(Request $request)
@@ -86,17 +82,15 @@ class LeadsController extends Controller
     public function delete(Request $request)
     {
         try {
-            if (!empty($request->leadsSelecionados)) {
-                foreach ($request->leadsSelecionados as $item) {
-                    (new Leads())->remover($item);
-                }
-            }
+            (new Leads())->remover($request->lead);
+
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
         }
     }
 
-    public function ocultar(Request $request)
+    public
+    function ocultar(Request $request)
     {
         try {
             if (!empty($request->leadsSelecionados)) {
@@ -112,7 +106,8 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public function ocultos(Request $request)
+    public
+    function ocultos(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
 
@@ -123,7 +118,8 @@ class LeadsController extends Controller
             compact('dados', 'categorias', 'categoriaAtual'));
     }
 
-    public function restaurar(Request $request)
+    public
+    function restaurar(Request $request)
     {
         if (!empty($request->leads)) {
             foreach ($request->leads as $item) {
@@ -135,7 +131,8 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public function alterarConsultor(Request $request)
+    public
+    function alterarConsultor(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
         $dados = (new Leads())->getLeadsComConsultor($categoriaAtual);
@@ -146,16 +143,19 @@ class LeadsController extends Controller
             compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
     }
 
-    public function show($id)
+    public
+    function show($id)
     {
         $dados = (new Leads())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
+        $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
 
         return Inertia::render('Admin/Leads/Lead/Show',
-            compact('dados', 'historicos'));
+            compact('dados', 'historicos', 'usuarios'));
     }
 
-    public function edit($id)
+    public
+    function edit($id)
     {
         $dados = (new Leads())->find($id);
         $urlAnterior = url()->previous();
@@ -164,7 +164,8 @@ class LeadsController extends Controller
             compact('dados', 'urlAnterior'));
     }
 
-    public function update($id, Request $request)
+    public
+    function update($id, Request $request)
     {
         try {
             (new Leads())->atualizar($id, $request);
@@ -177,7 +178,8 @@ class LeadsController extends Controller
         return redirect($request->url);
     }
 
-    public function limparConsultor(Request $request)
+    public
+    function limparConsultor(Request $request)
     {
         try {
             if (!empty($request->leadsSelecionados)) {
@@ -208,5 +210,18 @@ class LeadsController extends Controller
         $dados = (new Leads())->getResumido($categoriaAtual);
 
         return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual]);
+    }
+
+    public function removerConsultor(Request $request)
+    {
+        (new Leads())->removerConsultor($request->lead);
+
+        return redirect()->back();
+    }
+    public function removerSdr(Request $request)
+    {
+        (new Leads())->removerSdr($request->lead);
+
+        return redirect()->back();
     }
 }

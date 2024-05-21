@@ -230,9 +230,9 @@ class Leads extends Model
     {
         $verificar = (new Pedidos())->newQuery()
             ->where('lead_id', $id)
-            ->get('id');
+            ->exists();
 
-        if ($verificar) {
+        if (!$verificar) {
             try {
                 (new LeadsHistoricos())->remover($id);
 
@@ -244,13 +244,8 @@ class Leads extends Model
             return;
         }
 
-        $msg = '';
-        foreach ($verificar as $item) {
-            $msg .= '#' . $item->id . '; ';
-        }
-
         throw new \DomainException(
-            'Não é possível excluir esse leads pois pessui pedidos emitidos. PEDIDOS IDs ' . $msg
+            'Não é possível excluir esse leads pois pessui pedidos emitidos.'
         );
     }
 
@@ -394,6 +389,10 @@ class Leads extends Model
                 'nome' => $nomes[$item->user_id] ?? '',
                 'id' => $item->user_id
             ],
+            'sdr' => [
+                'nome' => $nomes[$item->sdr_id] ?? '',
+                'id' => $item->sdr_id
+            ],
             'cliente' => [
                 'nome' => $item->nome,
                 'razao_social' => $item->razao_social,
@@ -485,6 +484,10 @@ class Leads extends Model
                 'nome' => $nomeConsultores[$item->user_id] ?? '',
                 'id' => $item->user_id
             ],
+            'sdr' => [
+                'nome' => $nomeConsultores[$item->sdr_id] ?? '',
+                'id' => $item->sdr_id
+            ],
             'cliente' => [
                 'nome' => $item->nome,
                 'razao_social' => $item->razao_social,
@@ -506,6 +509,7 @@ class Leads extends Model
             'infos' => [
                 'setor' => $item->setor,
                 'status' => $item->status,
+                'status_nome' => (new StatusLeads())->nome($item->status),
                 'status_anotacoes' => $item->status_anotacoes,
                 'anotacoes' => $item->infos,
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
@@ -699,5 +703,29 @@ class Leads extends Model
                     'qtd' => $item->qtd,
                 ];
             });
+    }
+
+    public function removerConsultor($id)
+    {
+        $query = $this->newQuery()
+            ->find($id);
+
+        $query->update([
+            'user_id' => null,
+        ]);
+
+        if ($query->status != (new AtivoStatusLeads)->getStatus()) $query->update([
+            'status' => (new NovoStatusLeads())->getStatus()
+        ]);
+    }
+
+    public function removerSdr($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'sdr_id' => null,
+                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
     }
 }
