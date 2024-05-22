@@ -43,7 +43,8 @@ export default function Show({dados, historicos, usuarios, historicoPedidos}) {
     }
 
     return (
-        <Layout titlePage="Informações do Lead" menu="leads" submenu="cadastrados">
+        <Layout titlePage="Informações do Lead" menu="leads" submenu="cadastrados"
+            voltar={route('admin.clientes.leads.leads-cadastrados')}>
             <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col">
