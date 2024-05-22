@@ -22,6 +22,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveLeadsReceber(), 'nome' => 'Recebe Lead'],
                     ['id' => $this->chaveLeadsCadastrados(), 'nome' => 'Ver Cadastrados'],
                     ['id' => $this->chaveLeadsCadastrar(), 'nome' => 'Cadastrar Leads'],
+                    ['id' => $this->chaveLeadsEncaminhados(), 'nome' => 'Leads Encaminhados'],
                     ['id' => $this->chaveLeadsQuadro(), 'nome' => 'Quadro de Leads'],
                     ['id' => $this->chaveLeadsHistorico(), 'nome' => 'Histórico'],
                     ['id' => $this->chaveSdr(), 'nome' => 'Função SDR'],

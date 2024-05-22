@@ -4,7 +4,7 @@ const chavesPermissoes = {
     },
     leads: {
         cadastrar: 3, encaminhar: 4, importar: 5, cadastrados: 35, quadros: 36, historico: 37,
-        alterar_consultor: 38, relatorio: 39
+        alterar_consultor: 38, relatorio: 39, encaminhados: 51
     },
     produtos: {
         cadastrados: 6, cadastrar: 7, categorias: 40, unidades: 41, estoque: 42

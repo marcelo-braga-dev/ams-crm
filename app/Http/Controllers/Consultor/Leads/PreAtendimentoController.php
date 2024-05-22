@@ -8,6 +8,7 @@ use App\Models\LeadsEncaminhados;
 use App\Models\LeadsHistoricos;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
+use App\Services\Leads\SequenciaEnvioLeadsService;
 use App\src\Leads\Historicos\AtivadoHistorico;
 use App\src\Leads\StatusAtendimentoLeads;
 use App\src\Leads\UpdateStatusLeads;
@@ -31,21 +32,8 @@ class PreAtendimentoController extends Controller
 
     public function update($id, Request $request)
     {
-
         $lead = (new Leads())->find($id);
-
-        $ultimo = (new LeadsEncaminhados())->ultimoVendedorEnviado($lead->setor_id);
-
-        $vendedores = (new User())->usuariosRecebeLeadsId($lead->setor_id);
-
-        $idEnviar = $vendedores[0];
-
-        for ($i = 0; $i < count($vendedores); $i++) {
-            if (($ultimo) < ($vendedores[$i])) {
-                $idEnviar = $vendedores[$i];
-                break;
-            }
-        }
+        $idEnviar = (new SequenciaEnvioLeadsService())->proximo($lead->setor_id);
 
         (new LeadsEncaminhados())->create($idEnviar, $id);
         (new Leads())->updateUser($id, $idEnviar);

@@ -24,6 +24,14 @@ const dashboard = {
         url: route('consultor.leads.main.create'),
         icon: PersonAddAlt1OutlinedIcon,
         breadcrumbs: false
+    }, {
+        id: 'clientes-encaminhados',
+        chave: chaves.leads.encaminhados,
+        title: 'Clientes Encaminhados',
+        type: 'item',
+        url: route('consultor.leads.encaminhados.index'),
+        icon: PeopleAltOutlinedIcon,
+        breadcrumbs: false
     }
     ]
 };

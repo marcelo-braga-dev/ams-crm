@@ -38,6 +38,12 @@ const dashboard = {
                     title: 'Histórico',
                     type: 'item',
                     url: route('admin.clientes.leads.leads-acompanhar'),
+                },{
+                    id: 'leads-encaminhados',
+                    chave: chaves.leads.encaminhados,
+                    title: 'Encaminhados',
+                    type: 'item',
+                    url: route('admin.leads.encaminhados.index'),
                 }, {
                     id: 'leads-relatorios',
                     chave: chaves.leads.relatorio,
