@@ -23,15 +23,15 @@ export default function Show({dados, historicos, consultores, isSdr, idUsuarioCa
     }
 
     function voltarStatus() {
-        post(route('admin.leads.atendimento-voltar', dados.id))
+        post(route('admin.leads.aberto-voltar', dados.id))
     }
 
     function avancarStatus() {
-        post(route('admin.leads.atendimento-avancar', dados.id))
+        post(route('admin.leads.aberto-avancar', dados.id))
     }
 
     function finalizarStatus() {
-        post(route('admin.leads.ativo-avancar', dados.id))
+        post(route('admin.clientes.leads.finalizar-status-lead', dados.id))
     }
 
     function nomeConsultorSelecionado() {
@@ -64,58 +64,58 @@ export default function Show({dados, historicos, consultores, isSdr, idUsuarioCa
                 <LeadsDados dados={dados}/>
             </div>
 
-            {!isSdr && <div className="card card-body mb-6">
+            <div className="card card-body mb-6">
                 <div className="row border-bottom mb-3">
-                    {!isSdr && <div className="col-auto">
+                    <div className="col-auto">
                         <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
-                                data-bs-target="#statusAvancar">Avançar Status "ATIVO"
+                                data-bs-target="#statusAvancar">Avançar Status "ATENDIMENTO"
                         </button>
-                    </div>}
+                    </div>
 
-                    {!isSdr && <div className="col-auto">
+                    <div className="col-auto">
                         <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
-                                data-bs-target="#statusFinalizar">Avançar Status "FINALIZADO"
+                                data-bs-target="#statusFinalizar">Marcar como "FINALIZADO"
                         </button>
-                    </div>}
+                    </div>
                 </div>
-            </div>}
+            </div>
 
 
-                <div className="card card-body mb-4">
-                    <form onSubmit={onSubmit}>
-                        <h6>Atualizar Status do Lead</h6>
-                        <div className="row">
-                            <div className="col mb-4">
-                                {/*<TextField label="Meio Contato" select fullWidth required defaultValue=""*/}
-                                {/*           size="small"*/}
-                                {/*           onChange={e => setData('meio_contato', e.target.value)}>*/}
-                                {/*    {contatos.map((option, index) => (*/}
-                                {/*        <MenuItem key={index} value={option.key}>*/}
-                                {/*            {option.nome}*/}
-                                {/*        </MenuItem>*/}
-                                {/*    ))}*/}
-                                {/*</TextField>*/}
+            <div className="card card-body mb-4">
+                <form onSubmit={onSubmit}>
+                    <h6>Atualizar Status do Lead</h6>
+                    <div className="row">
+                        <div className="col mb-4">
+                            {/*<TextField label="Meio Contato" select fullWidth required defaultValue=""*/}
+                            {/*           size="small"*/}
+                            {/*           onChange={e => setData('meio_contato', e.target.value)}>*/}
+                            {/*    {contatos.map((option, index) => (*/}
+                            {/*        <MenuItem key={index} value={option.key}>*/}
+                            {/*            {option.nome}*/}
+                            {/*        </MenuItem>*/}
+                            {/*    ))}*/}
+                            {/*</TextField>*/}
+                        </div>
+                    </div>
+                    <div className="row mb-4">
+                        <div className="col">
+                            <TextField label="Anotações" multiline rows="2" fullWidth
+                                       onChange={e => setData('msg', e.target.value)}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <div className="text-center">
+                                <button className="btn btn-primary"
+                                        onClick={() => setData('salvar_msg', true)}
+                                        type="submit">
+                                    Enviar Anotações
+                                </button>
                             </div>
                         </div>
-                        <div className="row mb-4">
-                            <div className="col">
-                                <TextField label="Anotações" multiline rows="2" fullWidth
-                                           onChange={e => setData('msg', e.target.value)}/>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col">
-                                <div className="text-center">
-                                    <button className="btn btn-primary"
-                                            onClick={() => setData('salvar_msg', true)}
-                                            type="submit">
-                                        Enviar Anotações
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
 
             <div className="card card-body mb-4">
                 <div className="mb-4 border-bottom">
@@ -185,7 +185,7 @@ export default function Show({dados, historicos, consultores, isSdr, idUsuarioCa
                                     aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            Avançar Status deste leads para "ATIVO"?
+                            Avançar Status deste leads para "EM ATENDIMENTO"?
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

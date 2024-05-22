@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
+use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
 use App\Models\Pedidos;
 use App\Models\Setores;
@@ -12,6 +13,7 @@ use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\Relatorios\LeadsUsuariosService;
 use App\Services\Setores\SetoresService;
 use App\Services\Leads\LeadsDadosService;
+use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\UpdateStatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Illuminate\Http\Request;
@@ -227,5 +229,14 @@ class LeadsController extends Controller
         (new Leads())->removerSdr($request->lead);
 
         return redirect()->back();
+    }
+
+    public function finaliarStatus($id, Request $request)
+    {
+        (new UpdateStatusLeads())->setFinalizado($id);
+        (new LeadsHistoricos())->createHistorico($id, (new AtivoStatusLeads())->getStatus());
+
+        modalSucesso('Status Atualizado com sucesso!');
+        return redirect()->route('admin.leads.cards-finalizado.show', $id);
     }
 }

@@ -37,6 +37,7 @@ Route::name('admin.clientes.leads.')
         Route::post('limpar-consultor', [LeadsController::class, 'limparConsultor'])->name('limpar-consultor');
         Route::get('get-leads-cadastrados', [LeadsController::class, 'leads'])->name('get-leads-cadastrados');
         Route::get('registros-encaminhar', [LeadsController::class, 'registrosEncaminhar'])->name('registros-encaminhar');
+        Route::post('finalizar-status-lead/{id}', [LeadsController::class, 'finaliarStatus'])->name('finalizar-status-lead');
 
         Route::get('leads-relatorio', [RelatoriosController::class, 'relatorio'])->name('leads-relatorio');
         Route::get('leads-dados-relatorio', [RelatoriosController::class, 'dados'])->name('leads-dados-relatorio');
@@ -73,6 +74,11 @@ Route::name('admin.leads.')
             ->name('ativo-voltar');
         Route::post('ativo-avancar/{id}', [AtivoController::class, 'avancarStatus'])
             ->name('ativo-avancar');
+
+        Route::post('aberto-voltar/{id}', [AbertoController::class, 'voltarStatus'])
+            ->name('aberto-voltar');
+        Route::post('aberto-avancar/{id}', [AbertoController::class, 'avancarStatus'])
+            ->name('aberto-avancar');
 
         Route::post('atendimento-voltar/{id}', [AtendimentoController::class, 'voltarStatus'])
             ->name('atendimento-voltar');

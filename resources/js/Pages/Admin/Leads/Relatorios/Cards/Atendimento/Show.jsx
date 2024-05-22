@@ -65,6 +65,15 @@ export default function Show({dados, historicos, consultores, status, contatos})
             </div>
 
             <div className="card card-body mb-4">
+                <div className="row">
+                    <div className="col">
+                        <button className="btn btn-success" data-bs-toggle="modal"
+                                data-bs-target="#statusAtivar">Ativar Lead</button>
+                    </div>
+                </div>
+            </div>
+
+            <div className="card card-body mb-4">
                 <form onSubmit={onSubmit}>
                     <h6>Atualizar Status do Lead</h6>
                     <div className="row mb-4">
@@ -99,58 +108,13 @@ export default function Show({dados, historicos, consultores, status, contatos})
                 </div>
             </div>
 
-            <div className="modal fade mt-5" id="limparLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
+            {/*Ativar Status*/}
+            <div className="modal fade mt-5" id="statusAtivar" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="limparLeadLabel">Limpar LEAD</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            Remover esse Lead deste consultor(a)?
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => remover()}>Remover
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/*Voltar Status*/}
-            <div className="modal fade mt-5" id="statusVoltar" tabIndex="-1" aria-labelledby="limparLeadLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="limparLeadLabel">Limpar LEAD</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            Voltar Status deste leads para "EM ABERTO"?
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-success" data-bs-dismiss="modal"
-                                    onClick={() => voltarStatus()}>Confirmar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/*Avancar Status*/}
-            <div className="modal fade mt-5" id="statusAvancar" tabIndex="-1" aria-labelledby="limparLeadLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="limparLeadLabel">Limpar LEAD</h5>
+                            <h5 className="modal-title" id="limparLeadLabel">Ativar Lead</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>
@@ -158,7 +122,8 @@ export default function Show({dados, historicos, consultores, status, contatos})
                             Avançar Status deste leads para "ATIVO"?
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar
+                            </button>
                             <button type="button" className="btn btn-success" data-bs-dismiss="modal"
                                     onClick={() => avancarStatus()}>Confirmar
                             </button>
@@ -181,32 +146,10 @@ export default function Show({dados, historicos, consultores, status, contatos})
                             Avançar Status deste leads para "FINALIZADO"?
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar
+                            </button>
                             <button type="button" className="btn btn-success" data-bs-dismiss="modal"
                                     onClick={() => finalizarStatus()}>Confirmar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/*Alterar consultor*/}
-            <div className="modal fade mt-5" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="limparLeadLabel">Alterar consultor</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            {nomeConsultorSelecionado()}
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => alterarConsultor()}>Alterar
                             </button>
                         </div>
                     </div>
