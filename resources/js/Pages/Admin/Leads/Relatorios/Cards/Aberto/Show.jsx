@@ -54,7 +54,7 @@ export default function Show({dados, historicos, consultores, isSdr, idUsuarioCa
 
     return (
         <Layout menu="leads" submenu="leads-cards" titlePage="Lead - Em Aberto"
-                voltar={route('admin.leads.consultores-cards.index', {id: dados.sdr.id})}>
+                voltar={route('admin.leads.cards-leads.index', {id: dados.sdr.id})}>
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
                 <h5>{dados.consultor.nome}</h5>

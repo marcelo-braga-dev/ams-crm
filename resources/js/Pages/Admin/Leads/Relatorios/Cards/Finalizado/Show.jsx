@@ -19,7 +19,7 @@ export default function Show({dados, historicos, consultores}) {
     }
 
     function voltarStatus() {
-        post(route('admin.leads.ativo-voltar', dados.id))
+        post(route('admin.leads.finalizado-voltar', dados.id))
     }
 
     function alterarConsultor() {
@@ -48,8 +48,9 @@ export default function Show({dados, historicos, consultores}) {
     }
 
     return (
-        <Layout container voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}
-                titlePage="Lead - Finalizado">
+        <Layout titlePage="Lead - Finalizado" menu="leads" submenu="leads-cards"
+                voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
+
 
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
@@ -69,7 +70,7 @@ export default function Show({dados, historicos, consultores}) {
                     </div>
                     <div className="col-auto">
                         <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
-                                data-bs-target="#statusVoltar">Voltar Status "Em Atendimento"
+                                data-bs-target="#statusVoltar">Voltar Status "Iniciar Atendimento"
                         </button>
                     </div>
                     <div className="col-auto">

@@ -14,12 +14,11 @@ class CardsController extends Controller
 {
     public function index(Request $request)
     {
-        $leads = [];//(new CardsLeadsService())->getConsultor($request->id);
         $usuario = (new User())->get($request->id);
         $consultores = (new User())->getUsuarios();
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Index',
-            compact('leads', 'usuario', 'consultores'));
+            compact('usuario', 'consultores'));
     }
 
     public function limparConsultor(Request $request)

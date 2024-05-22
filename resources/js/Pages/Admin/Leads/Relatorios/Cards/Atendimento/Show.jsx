@@ -53,9 +53,8 @@ export default function Show({dados, historicos, consultores, status, contatos})
     }
 
     return (
-        <Layout  menu="leads" submenu="leads-cards"
-                 voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}
-                titlePage="Lead - Em Atendimento">
+        <Layout titlePage="Lead - Em Atendimento" menu="leads" submenu="leads-cards"
+                 voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
                 <h5>{dados.consultor.nome}</h5>
@@ -64,92 +63,6 @@ export default function Show({dados, historicos, consultores, status, contatos})
             <div className="card card-body mb-3">
                 <LeadsDados dados={dados}/>
             </div>
-
-            <div className="card card-body mb-6">
-                <div className="row border-bottom mb-3">
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-primary" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#limparLead">Limpar LEAD*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#statusVoltar">Voltar Status "EM ABERTO"*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#statusAvancar">Avançar Status "ATIVO"*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#statusFinalizar">Avançar Status "FINALIZADO"*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-                </div>
-                <div className="row">
-                    {/*<span>Alterar consultor</span>*/}
-                    {/*<div className="col-md-4">*/}
-                    {/*    <TextField label="Selecione o Consultor..." select*/}
-                    {/*               fullWidth required size="small" defaultValue=""*/}
-                    {/*               onChange={e => setData('novo_consultor', e.target.value)}>*/}
-                    {/*        {consultores.map((option) => (*/}
-                    {/*            <MenuItem key={option.id} value={option.id}>*/}
-                    {/*                {option.name}*/}
-                    {/*            </MenuItem>*/}
-                    {/*        ))}*/}
-                    {/*    </TextField>*/}
-                    {/*</div>*/}
-                    {/*<div className="col-4 p-0">*/}
-                    {/*    <button type="button" className="btn btn-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#alterarConsultor">*/}
-                    {/*        ENVIAR*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-                </div>
-            </div>
-
-            {/*<div className="card card-body mb-4">*/}
-            {/*    <div className="card card-body mb-4">*/}
-            {/*        <form onSubmit={onSubmit}>*/}
-            {/*            <h6>Atualizar Status do Lead</h6>*/}
-            {/*            <div className="row">*/}
-            {/*                <div className="col mb-4">*/}
-            {/*                    /!*<TextField label="Meio Contato" select fullWidth required defaultValue=""*!/*/}
-            {/*                    /!*           size="small"*!/*/}
-            {/*                    /!*           onChange={e => setData('meio_contato', e.target.value)}>*!/*/}
-            {/*                    /!*    {contatos.map((option, index) => (*!/*/}
-            {/*                    /!*        <MenuItem key={index} value={option.key}>*!/*/}
-            {/*                    /!*            {option.nome}*!/*/}
-            {/*                    /!*        </MenuItem>*!/*/}
-            {/*                    /!*    ))}*!/*/}
-            {/*                    /!*</TextField>*!/*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*            <div className="row mb-4">*/}
-            {/*                <div className="col">*/}
-            {/*                    <TextField label="Anotações" multiline rows="2" fullWidth*/}
-            {/*                               onChange={e => setData('msg', e.target.value)}/>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*            <div className="row">*/}
-            {/*                <div className="col">*/}
-            {/*                    <div className="text-center">*/}
-            {/*                        <button className="btn btn-primary"*/}
-            {/*                                onClick={() => setData('salvar_msg', true)}*/}
-            {/*                                type="submit">*/}
-            {/*                            Enviar Anotações*/}
-            {/*                        </button>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </form>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
 
             <div className="card card-body mb-4">
                 <div className="mb-4 border-bottom">

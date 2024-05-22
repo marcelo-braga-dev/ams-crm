@@ -43,7 +43,10 @@ export default function Show({dados, historicos, consultores, status, contatos})
     }
 
     function alterarConsultor() {
-        router.post(route('admin.leads.cards-pre_atendimento.update', data.novo_consultor), {lead_id: dados.id, _method: 'PUT'})
+        router.post(route('admin.leads.cards-pre_atendimento.update', data.novo_consultor), {
+            lead_id: dados.id,
+            _method: 'PUT'
+        })
     }
 
     function onSubmit(e) {
@@ -53,9 +56,8 @@ export default function Show({dados, historicos, consultores, status, contatos})
     }
 
     return (
-        <Layout container voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}
-                menu="leads" submenu="leads-cards"
-                titlePage="Pré Atendimento - Lead">
+        <Layout titlePage="Pré Atendimento - Lead" menu="leads" submenu="leads-cards"
+                voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
             {dados.consultor.nome && <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
                 <h5>{dados.consultor.nome}</h5>

@@ -30,11 +30,11 @@ class FinalizadoController extends Controller
 
     public function voltarStatus($id)
     {
-        (new UpdateStatusLeads())->setAtendimento($id);
+        (new UpdateStatusLeads())->setNovo($id);
         (new LeadsHistoricos())->createHistorico($id, (new AtendimentoStatusLeads())->getStatus());
 
         modalSucesso('Status atualizado com sucesso!');
-        return redirect()->route('admin.leads.cards-atendimento.show', $id);
+        return redirect()->route('admin.leads.cards-novo.show', $id);
     }
 
     public function destroy($id, Request $request)

@@ -6,7 +6,7 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Edit({dados, historicos, consultores}) {
+export default function Edit({dados, historicos, consultores, usuarioCard}) {
 
     const {data, setData, post} = useForm({
         lead: dados.id,
@@ -40,7 +40,7 @@ export default function Edit({dados, historicos, consultores}) {
 
     return (
         <Layout container titlePage="Iniciar Atendimento - Lead" menu="leads" submenu="leads-cards"
-                voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}>
+                voltar={route('admin.leads.cards-leads.index', {id: usuarioCard})}>
             {dados.consultor.nome && <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
                 <h5>{dados.consultor.nome}</h5>

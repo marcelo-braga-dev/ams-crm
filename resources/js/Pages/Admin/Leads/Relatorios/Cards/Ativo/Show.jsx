@@ -49,7 +49,7 @@ export default function Show({dados, consultores, historicos, isSdr, emitePedido
 
     return (
         <Layout titlePage="Ativo - Lead" menu="leads" submenu="leads-cards"
-                voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}>
+                voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
                 <h5>{dados.consultor.nome}</h5>

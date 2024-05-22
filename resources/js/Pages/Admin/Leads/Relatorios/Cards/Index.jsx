@@ -28,24 +28,21 @@ export default function Dashboard({usuario, consultores}) {
     const [carregando, setCarregando] = useState(false)
     const [carregandoRegistros, setCarregandoRegistros] = useState(true)
     const [leads, setRegistros] = useState([])
+    const [enviadoLead, setEnviadoLead] = useState(false)
 
     useEffect(() => {
         setCarregandoRegistros(true)
-        axios.get(route('admin.leads.registros', {id: 222}))
+        axios.get(route('admin.leads.registros', {id: usuario.id}))
             .then(res => {
                 setRegistros(res.data.registros)
                 setCarregandoRegistros(false)
             })
-    }, []);
-    console.log(leads)
+    }, [enviadoLead]);
 
     function leadsSelecionados(idLead) {
         const index = idLeads.indexOf(idLead)
-        if (index >= 0) {
-            idLeads.splice(index)
-        } else {
-            idLeads.push(idLead);
-        }
+        if (index >= 0) idLeads.splice(index)
+        else idLeads.push(idLead)
     }
 
     function alterarConsultor() {
@@ -54,9 +51,10 @@ export default function Dashboard({usuario, consultores}) {
             _method: 'put',
             ...data, idLeads: idLeads
         })
+        setEnviadoLead(e => !e)
     }
 
-    router.on('success', () => setCarregando(false))
+    router.on('success', () => setCarregandoRegistros(false))
 
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.novo_consultor)]?.name;
@@ -69,6 +67,7 @@ export default function Dashboard({usuario, consultores}) {
     function limpar() {
         router.post(route('admin.leads.cards-leads.limpar-finalizados',
             {id: usuario.id}))
+        setEnviadoLead(e => !e)
     }
 
     return (
@@ -130,6 +129,7 @@ export default function Dashboard({usuario, consultores}) {
 
             {/*Tabela*/}
             {carregandoRegistros && <LinearProgress/>}
+
             {!carregandoRegistros && <div className='row justify-content-center'>
                 <div className='col-12'>
                     <div className="overflow-scroll" style={{height: '60vh'}}>
@@ -178,7 +178,7 @@ export default function Dashboard({usuario, consultores}) {
                             <tr className="align-top">
                                 <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
                                     {leads.novo.map((dado, i) => {
-                                        return (<NovoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados}/>)
+                                        return (<NovoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados} usuarioCard={usuario.id}/>)
                                     })}
                                 </td>
                                 <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
