@@ -87,8 +87,12 @@ class LeadsController extends Controller
             (new Leads())->remover($request->lead);
 
         } catch (\DomainException $exception) {
+
             modalErro($exception->getMessage());
+            return redirect()->back();
         }
+
+        return redirect()->route('admin.clientes.leads.leads-cadastrados');
     }
 
     public
