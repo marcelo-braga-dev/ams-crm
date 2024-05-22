@@ -21,9 +21,10 @@ class AbertoController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getUsuarios($dados['infos']['setor']);
         $isSdr = is_sdr();
+        $idUsuarioCard = $id;
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Aberto/Show',
-            compact('dados', 'historicos', 'consultores', 'isSdr'));
+            compact('dados', 'historicos', 'consultores', 'isSdr', 'idUsuarioCard'));
     }
 
     public function update($id)

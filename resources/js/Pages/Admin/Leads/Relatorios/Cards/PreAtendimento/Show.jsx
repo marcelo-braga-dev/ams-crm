@@ -73,18 +73,6 @@ export default function Show({dados, historicos, consultores, status, contatos})
                         </button>
                     </div>
 
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#statusVoltar">"EM ABERTO"*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#statusAvancar">Avançar Status "ATIVO"*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-
                     <div className="col-auto">
                         <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
                                 data-bs-target="#statusFinalizar">Avançar Status "FINALIZADO"
@@ -93,7 +81,7 @@ export default function Show({dados, historicos, consultores, status, contatos})
                 </div>
                 <div className="row">
                     <span>Alterar consultor</span>
-                    <div className="col-md-4">
+                    <div className="col-md-3">
                         <TextField label="Selecione o Consultor..." select
                                    fullWidth required size="small" defaultValue=""
                                    onChange={e => setData('novo_consultor', e.target.value)}>

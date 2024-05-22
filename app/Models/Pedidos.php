@@ -48,6 +48,20 @@ class Pedidos extends Model
         $this->query = $this->newQuery();
     }
 
+    public function historicoPedidosLead($id)
+    {
+        return $this->newQuery()
+            ->where('lead_id', $id)
+            ->get(['id', 'preco_venda', 'pedidos.created_at as data_criacao'])
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'valor' => convert_float_money($item->preco_venda),
+                    'data_criacao' => date('d/m/y H:i', strtotime($item->data_criacao)),
+                ];
+            });
+    }
+
     private function franquia(): void
     {
         if (is_admin() && !franquia_usuario_atual()) {

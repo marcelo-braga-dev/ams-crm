@@ -14,7 +14,7 @@ class CardsController extends Controller
 {
     public function index(Request $request)
     {
-        $leads = (new CardsLeadsService())->getConsultor($request->id);
+        $leads = [];//(new CardsLeadsService())->getConsultor($request->id);
         $usuario = (new User())->get($request->id);
         $consultores = (new User())->getUsuarios();
 
@@ -38,5 +38,12 @@ class CardsController extends Controller
 
         modalSucesso('Leads enviado com sucesso!');
         return redirect()->back();
+    }
+
+    public function registros(Request $request)
+    {
+        $leads = (new CardsLeadsService())->getConsultor($request->id);
+
+        return response()->json(['registros' => $leads]);
     }
 }

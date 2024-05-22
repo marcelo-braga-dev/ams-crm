@@ -95,6 +95,10 @@ class Leads extends Model
                 'user_id' => $idConsultor,
                 'status' => (new AbertoStatusLeads())->getStatus()
             ]);
+
+        foreach ($idLead as $id ) {
+            (new LeadsHistoricos())->createHistorico($id, (new NovoStatusLeads())->getStatus());
+        }
     }
 
     public function setSdr($idLead, $idConsultor)
@@ -105,6 +109,10 @@ class Leads extends Model
                 'sdr_id' => $idConsultor,
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
+
+        foreach ($idLead as $id ) {
+            (new LeadsHistoricos())->createHistorico($id, (new NovoStatusLeads())->getStatus());
+        }
     }
 
     public function create($dados, $setor, $usuario = null, $importacao = null)
@@ -191,15 +199,20 @@ class Leads extends Model
         }
     }
 
-    public function getResumido($setor)
+    public function getResumido($setor, $comSdr = null, $comConsultor = null, $importacao = null)
     {
         $nomeConsultores = (new User())->getNomes();
 
-        return $this->newQuery()
+        $query = $this->newQuery()
             ->where('status', '!=', (new OcultosLeadsStatus())->getStatus())
             ->where('setor_id', $setor)
-            ->orderByDesc('id')
-            ->get()
+            ->orderByDesc('id');
+
+        if ($comSdr) $query->where('sdr_id', '>', 1);
+        if ($comConsultor) $query->where('user_id', '>', 1);
+        if ($importacao) $query->where('id_importacao', $importacao);
+
+        return $query->get()
             ->transform(function ($item) use ($nomeConsultores) {
                 return $this->dadosResumido($item, $nomeConsultores);
             });
@@ -567,24 +580,6 @@ class Leads extends Model
         }
 
         return $dados;
-    }
-
-    public function alterarConsultor($leads, $consultor): void
-    {
-        try {
-            $idLeads = [];
-            if (!empty($leads)) {
-                foreach ($leads as $item) {
-                    $idLeads[] = $item;
-                    (new Leads())->setConsultor($item, $consultor);
-                }
-            }
-
-            // Notificar Leads
-            if (count($leads)) (new LeadsNotificacao())->notificar($consultor, count($leads), $idLeads);
-        } catch (\DomainException $exception) {
-            modalErro($exception->getMessage());
-        }
     }
 
     public function getCards($id)

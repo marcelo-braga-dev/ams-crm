@@ -63,6 +63,9 @@ Route::name('admin.leads.')
         Route::post('limpar-consultor', [CardsController::class, 'limparConsultor'])
             ->name('limpar-consultor');
 
+        Route::get('registros', [CardsController::class, 'registros'])
+            ->name('registros');
+
         Route::post('novo-avancar/{id}', [NovoController::class, 'avancarStatus'])
             ->name('novo-avancar');
 

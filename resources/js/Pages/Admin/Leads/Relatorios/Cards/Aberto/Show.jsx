@@ -6,7 +6,7 @@ import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Show({dados, historicos, consultores, isSdr, status, contatos}) {
+export default function Show({dados, historicos, consultores, isSdr, idUsuarioCard, status, contatos}) {
 
     const {data, setData, post} = useForm({
         lead: dados.id,
@@ -53,9 +53,8 @@ export default function Show({dados, historicos, consultores, isSdr, status, con
     }
 
     return (
-        <Layout menu="leads" submenu="leads-cards"
-                voltar={route('admin.leads.consultores-cards.index', {id: dados.consultor.id})}
-                titlePage="Lead - Em Aberto">
+        <Layout menu="leads" submenu="leads-cards" titlePage="Lead - Em Aberto"
+                voltar={route('admin.leads.consultores-cards.index', {id: dados.sdr.id})}>
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
                 <h5>{dados.consultor.nome}</h5>
@@ -65,20 +64,8 @@ export default function Show({dados, historicos, consultores, isSdr, status, con
                 <LeadsDados dados={dados}/>
             </div>
 
-            <div className="card card-body mb-6">
+            {!isSdr && <div className="card card-body mb-6">
                 <div className="row border-bottom mb-3">
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-primary" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#limparLead">Limpar LEAD*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-
-                    {/*<div className="col-auto">*/}
-                    {/*    <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#statusVoltar">Voltar Status "EM ABERTO"*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-
                     {!isSdr && <div className="col-auto">
                         <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
                                 data-bs-target="#statusAvancar">Avançar Status "ATIVO"
@@ -91,27 +78,7 @@ export default function Show({dados, historicos, consultores, isSdr, status, con
                         </button>
                     </div>}
                 </div>
-                <div className="row">
-                    {/*<span>Alterar consultor</span>*/}
-                    {/*<div className="col-md-4">*/}
-                    {/*    <TextField label="Selecione o Consultor..." select*/}
-                    {/*               fullWidth required size="small" defaultValue=""*/}
-                    {/*               onChange={e => setData('novo_consultor', e.target.value)}>*/}
-                    {/*        {consultores.map((option) => (*/}
-                    {/*            <MenuItem key={option.id} value={option.id}>*/}
-                    {/*                {option.name}*/}
-                    {/*            </MenuItem>*/}
-                    {/*        ))}*/}
-                    {/*    </TextField>*/}
-                    {/*</div>*/}
-                    {/*<div className="col-4 p-0">*/}
-                    {/*    <button type="button" className="btn btn-dark" data-bs-toggle="modal"*/}
-                    {/*            data-bs-target="#alterarConsultor">*/}
-                    {/*        ENVIAR*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
-                </div>
-            </div>
+            </div>}
 
             {!isSdr &&
                 <div className="card card-body mb-4">

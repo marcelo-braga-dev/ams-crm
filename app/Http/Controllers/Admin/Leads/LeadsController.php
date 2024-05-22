@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Leads;
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsImportarHistoricos;
+use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
@@ -74,9 +75,10 @@ class LeadsController extends Controller
     public function cadastrados(Request $request)
     {
         $categorias = (new SetoresService())->setores();
+        $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
 
         return Inertia::render('Admin/Leads/Cadastrados',
-            compact('categorias'));
+            compact('categorias', 'datasImportacao'));
     }
 
     public function delete(Request $request)
@@ -118,8 +120,7 @@ class LeadsController extends Controller
             compact('dados', 'categorias', 'categoriaAtual'));
     }
 
-    public
-    function restaurar(Request $request)
+    public function restaurar(Request $request)
     {
         if (!empty($request->leads)) {
             foreach ($request->leads as $item) {
@@ -131,8 +132,7 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public
-    function alterarConsultor(Request $request)
+    public function alterarConsultor(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
         $dados = (new Leads())->getLeadsComConsultor($categoriaAtual);
@@ -143,19 +143,19 @@ class LeadsController extends Controller
             compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
     }
 
-    public
-    function show($id)
+    public function show($id)
     {
         $dados = (new Leads())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
         $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
+        $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
+//        print_pre($historicoPedidos);
 
         return Inertia::render('Admin/Leads/Lead/Show',
-            compact('dados', 'historicos', 'usuarios'));
+            compact('dados', 'historicos', 'usuarios', 'historicoPedidos'));
     }
 
-    public
-    function edit($id)
+    public function edit($id)
     {
         $dados = (new Leads())->find($id);
         $urlAnterior = url()->previous();
@@ -178,8 +178,7 @@ class LeadsController extends Controller
         return redirect($request->url);
     }
 
-    public
-    function limparConsultor(Request $request)
+    public function limparConsultor(Request $request)
     {
         try {
             if (!empty($request->leadsSelecionados)) {
@@ -207,9 +206,10 @@ class LeadsController extends Controller
     public function leads(Request $request)
     {
         $categoriaAtual = $request->setor ?? 1;
-        $dados = (new Leads())->getResumido($categoriaAtual);
+        $usuarios = (new User())->getUsuarios($categoriaAtual);
+        $dados = (new Leads())->getResumido($categoriaAtual, $request->com_sdr, $request->com_consultor, $request->importacao);
 
-        return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual]);
+        return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
     }
 
     public function removerConsultor(Request $request)

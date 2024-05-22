@@ -1,6 +1,6 @@
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -18,13 +18,26 @@ import MenuItem from "@mui/material/MenuItem";
 import PreAtendimentoCard from "./Cards/PreAtendimentoCard";
 import AbertoCards from "./Cards/AbertoCards";
 import {CircularProgress} from "@mui/material";
+import LinearProgress from '@mui/material/LinearProgress';
 
 let idLeads = []
 const styleCard = 'p-2 mx-1 text-white row justify-content-between rounded-top'
 
-export default function Dashboard({leads, usuario, consultores}) {
+export default function Dashboard({usuario, consultores}) {
     const {data, setData, post} = useForm();
     const [carregando, setCarregando] = useState(false)
+    const [carregandoRegistros, setCarregandoRegistros] = useState(true)
+    const [leads, setRegistros] = useState([])
+
+    useEffect(() => {
+        setCarregandoRegistros(true)
+        axios.get(route('admin.leads.registros', {id: 222}))
+            .then(res => {
+                setRegistros(res.data.registros)
+                setCarregandoRegistros(false)
+            })
+    }, []);
+    console.log(leads)
 
     function leadsSelecionados(idLead) {
         const index = idLeads.indexOf(idLead)
@@ -42,7 +55,8 @@ export default function Dashboard({leads, usuario, consultores}) {
             ...data, idLeads: idLeads
         })
     }
-    router.on('success',  () => setCarregando(false))
+
+    router.on('success', () => setCarregando(false))
 
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.novo_consultor)]?.name;
@@ -115,89 +129,96 @@ export default function Dashboard({leads, usuario, consultores}) {
             </div>
 
             {/*Tabela*/}
-            <div className='row justify-content-center'>
+            {carregandoRegistros && <LinearProgress/>}
+            {!carregandoRegistros && <div className='row justify-content-center'>
                 <div className='col-12'>
                     <div className="overflow-scroll" style={{height: '60vh'}}>
-                    <table >
-                        <thead>
-                        <tr>
-                            <th id="th-1">
-                                <div className={styleCard} style={{backgroundColor: 'blue'}}>
-                                    <div className='col-auto'>Iniciar Atendimento</div>
-                                    <div className='col-auto'>Qdt: {leads.novo.length}</div>
-                                </div>
-                            </th>
-                            <th id="th-2">
-                                <div className={styleCard} style={{backgroundColor: 'orange'}}>
-                                    <div className='col-auto'>Pré Atendimento</div>
-                                    <div className='col-auto'>Qdt: {leads.pre_atendimento.length}</div>
-                                </div>
-                            </th>
-                            <th id="th-1">
-                                <div className={styleCard} style={{backgroundColor: 'green'}}>
-                                    <div className='col-auto'>Em Aberto</div>
-                                    <div className='col-auto'>Qdt: {leads.aberto.length}</div>
-                                </div>
-                            </th>
-                            <th id="th-2">
-                                <div className={styleCard} style={{backgroundColor: 'yellowgreen'}}>
-                                    <div className='col-auto'>Em Atendimento</div>
-                                    <div className='col-auto'>Qdt: {leads.atendimento.length}</div>
-                                </div>
-                            </th>
-                            <th id="th-3">
-                                <div className={styleCard} style={{backgroundColor: 'brown'}}>
-                                    <div className='col-auto'>Ativo</div>
-                                    <div className='col-auto'>Qdt: {leads.ativo.length}</div>
-                                </div>
-                            </th>
-                            <th id="th-4">
-                                <div className={styleCard} style={{backgroundColor: 'black'}}>
-                                    <div className='col-auto'>Finalizados</div>
-                                    <div className='col-auto'>Qdt: {leads.finalizado.length}</div>
-                                </div>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr className="align-top">
-                            <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
-                                {leads.novo.map((dado, i) => {
-                                    return (<NovoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados}/>)
-                                })}
-                            </td>
-                            <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
-                                {leads.pre_atendimento.map((dado) => {
-                                    return (<PreAtendimentoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>)
-                                })}
-                            </td>
-                            <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
-                                {leads.aberto.map((dado, i) => {
-                                    return (<AbertoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados}/>)
-                                })}
-                            </td>
-                            <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
-                                {leads.atendimento.map((dado) => {
-                                    return (<AtendimentoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>)
-                                })}
-                            </td>
-                            <td id="td-3" className="shadow-sm" style={{minWidth: 300}}>
-                                {leads.ativo.map((dado) => {
-                                    return (<AtivoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>)
-                                })}
-                            </td>
-                            <td id="td-4" className="shadow-sm" style={{minWidth: 300}}>
-                                {leads.finalizado.map((dado) => {
-                                    return (<FinalizadoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>)
-                                })}
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th id="th-1">
+                                    <div className={styleCard} style={{backgroundColor: 'blue'}}>
+                                        <div className='col-auto'>Iniciar Atendimento</div>
+                                        <div className='col-auto'>Qdt: {leads.novo.length}</div>
+                                    </div>
+                                </th>
+                                <th id="th-2">
+                                    <div className={styleCard} style={{backgroundColor: 'orange'}}>
+                                        <div className='col-auto'>Pré Atendimento</div>
+                                        <div className='col-auto'>Qdt: {leads.pre_atendimento.length}</div>
+                                    </div>
+                                </th>
+                                <th id="th-1">
+                                    <div className={styleCard} style={{backgroundColor: 'green'}}>
+                                        <div className='col-auto'>Em Aberto</div>
+                                        <div className='col-auto'>Qdt: {leads.aberto.length}</div>
+                                    </div>
+                                </th>
+                                <th id="th-2">
+                                    <div className={styleCard} style={{backgroundColor: 'yellowgreen'}}>
+                                        <div className='col-auto'>Em Atendimento</div>
+                                        <div className='col-auto'>Qdt: {leads.atendimento.length}</div>
+                                    </div>
+                                </th>
+                                <th id="th-3">
+                                    <div className={styleCard} style={{backgroundColor: 'brown'}}>
+                                        <div className='col-auto'>Ativo</div>
+                                        <div className='col-auto'>Qdt: {leads.ativo.length}</div>
+                                    </div>
+                                </th>
+                                <th id="th-4">
+                                    <div className={styleCard} style={{backgroundColor: 'black'}}>
+                                        <div className='col-auto'>Finalizados</div>
+                                        <div className='col-auto'>Qdt: {leads.finalizado.length}</div>
+                                    </div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr className="align-top">
+                                <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
+                                    {leads.novo.map((dado, i) => {
+                                        return (<NovoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados}/>)
+                                    })}
+                                </td>
+                                <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
+                                    {leads.pre_atendimento.map((dado) => {
+                                        return (<PreAtendimentoCard key={dado.id} dados={dado}
+                                                                    leadsSelecionados={leadsSelecionados}/>)
+                                    })}
+                                </td>
+                                <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
+                                    {leads.aberto.map((dado, i) => {
+                                        return (
+                                            <AbertoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados}/>)
+                                    })}
+                                </td>
+                                <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>
+                                    {leads.atendimento.map((dado) => {
+                                        return (<AtendimentoCards key={dado.id} dados={dado}
+                                                                  leadsSelecionados={leadsSelecionados}/>)
+                                    })}
+                                </td>
+                                <td id="td-3" className="shadow-sm" style={{minWidth: 300}}>
+                                    {leads.ativo.map((dado) => {
+                                        return (<AtivoCard key={dado.id} dados={dado}
+                                                           leadsSelecionados={leadsSelecionados}/>)
+                                    })}
+                                </td>
+                                <td id="td-4" className="shadow-sm" style={{minWidth: 300}}>
+                                    {leads.finalizado.map((dado) => {
+                                        return (<FinalizadoCard key={dado.id} dados={dado}
+                                                                leadsSelecionados={leadsSelecionados}/>)
+                                    })}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>
+            }
 
             {/*Alterar consultor*/}
             <div className="mt-5 modal fade" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"

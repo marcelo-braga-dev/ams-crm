@@ -27,6 +27,7 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                 </div>
                 {dados.cliente.classificacao && <><small>Classificação: </small>{dados.cliente.classificacao}</>}
 
+                <div className="row border-bottom mb-2">
                 {/*VENDEDOR*/}
                 {dados.consultor &&
                     <div className="row">
@@ -50,6 +51,7 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                         </div>
                     </div>
                 }
+                </div>
 
                 {/*TELEFONE*/}
                 {dados.cliente.cidade &&

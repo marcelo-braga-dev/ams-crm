@@ -63,22 +63,6 @@ class LeadsHistoricos extends Model
             ->get();
     }
 
-    public function ultimaMsg()
-    {
-        $dados = $this->newQuery()
-            ->orderBy('id')
-            ->get(['lead_id', 'msg', 'created_at']);
-
-        $items = [];
-        foreach ($dados as $dado) {
-            $items[$dado->lead_id] = [
-                'msg' => $dado->msg,
-                'data' => date('d/m/y H:i', strtotime($dado->created_at))
-            ];
-        }
-        return $items;
-    }
-
     public function qtdAtendimentoTipo($idConsultor)
     {
         $dados = $this->newQuery()

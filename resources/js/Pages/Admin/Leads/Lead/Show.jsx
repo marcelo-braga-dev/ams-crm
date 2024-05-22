@@ -9,7 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import {IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function Show({dados, historicos, usuarios}) {
+export default function Show({dados, historicos, usuarios, historicoPedidos}) {
     const [consultorSelecionado, setConsultorSelecionado] = useState();
 
     function nomeConsultorSelecionado() {
@@ -67,19 +67,19 @@ export default function Show({dados, historicos, usuarios}) {
 
             <div className="card card-body mb-4">
                 <div className="row">
-                <div className="col">
-                    Consultor(a): {dados.consultor.nome}
-                </div>
-                <div className="col">
-                    SDR:  {dados.sdr.nome}
-                </div>
-                <div className="col">
-                    Status do Lead: {dados.infos.status_nome}
-                </div>
+                    <div className="col">
+                        Consultor(a): {dados.consultor.nome}
+                    </div>
+                    <div className="col">
+                        SDR: {dados.sdr.nome}
+                    </div>
+                    <div className="col">
+                        Status do Lead: {dados.infos.status_nome}
+                    </div>
                 </div>
             </div>
 
-            <div className="card card-body">
+            <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col">
                         <div className="row">
@@ -109,30 +109,61 @@ export default function Show({dados, historicos, usuarios}) {
                         </button>
                     </div>
                     <div className="col-auto">
-                        <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRemoverSDR">Remover SDR</button>
+                        <button className="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalRemoverSDR">Remover SDR
+                        </button>
                     </div>
                 </div>
-
             </div>
-            <div className="mb-4">
-                <div className="mt-4 p-4">
-                    <h6 className="mb-3">Histórico de Atendimento</h6>
-                    {historicos.map((dado, index) => (
-                        <div key={index} className="row shadow p-2 mb-3 rounded">
-                            <div className="col">
-                                <h6 className="mb-2">{index + 1}. {dado.status}</h6>
-                                <span className="d-block"><b>Autor:</b> {dado.nome}</span>
-                                <span className="d-block"><b>Meio de Contato:</b> {dado.meio_contato}</span>
-                                <span className="d-block"><b>Anotações:</b> {dado.msg}</span>
-                                <span className="small">Data: {dado.data_criacao}</span>
+
+            <div className="row">
+                <div className="col">
+                    <div className="card card-body">
+                        <h6 className="mb-3">Histórico de Atendimento</h6>
+                        {historicos.map((dado, index) => (
+                            <div className="card card-body mb-4">
+                                <div key={index} className="row">
+                                    <div className="col">
+                                        <h6 className="mb-2">{index + 1}. {dado.status}</h6>
+                                        <span className="d-block"><b>Autor:</b> {dado.nome}</span>
+                                        <span className="d-block"><b>Meio de Contato:</b> {dado.meio_contato}</span>
+                                        <span className="d-block"><b>Anotações:</b> {dado.msg}</span>
+                                        <span className="small">Data: {dado.data_criacao}</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                    {historicos.length === 0 && <div className="row text-center">
-                        <span>Não há histórico de atendimentos.</span>
-                    </div>}
+                        ))}
+                        {historicos.length === 0 && <div className="row text-center">
+                            <span>Não há histórico de atendimentos.</span>
+                        </div>}
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="card card-body">
+                        <h6 className="mb-3">Histórico de Pedidos</h6>
+                        {historicoPedidos.map(item => (
+                            <div className="card card-body mb-4">
+                                <div className="row justify-content-between">
+                                    <div className="col">
+                                        <span className="d-block"><b>ID:</b> #{item.id}</span>
+                                        <span className="d-block"><b>Valor:</b> R$ {item.valor}</span>
+                                        <span className="d-block"><b>Data do Pedido:</b> R$ {item.data_criacao}</span>
+                                    </div>
+                                    <div className="col-auto">
+                                        <a className="btn btn-primary btn-sm"
+                                           href={route('admin.pedidos.show', item.id)}>Ver
+                                            Pedido</a>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                        {historicoPedidos.length === 0 && <div className="row text-center">
+                            <span>Não há histórico de pedidos.</span>
+                        </div>}
+                    </div>
                 </div>
             </div>
+
 
             {/*MODAL ENVIAR*/}
             <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
