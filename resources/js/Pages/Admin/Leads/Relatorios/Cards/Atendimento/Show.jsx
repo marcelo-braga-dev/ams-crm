@@ -66,9 +66,15 @@ export default function Show({dados, historicos, consultores, status, contatos})
 
             <div className="card card-body mb-4">
                 <div className="row">
-                    <div className="col">
+                    <div className="col-auto">
                         <button className="btn btn-success" data-bs-toggle="modal"
-                                data-bs-target="#statusAtivar">Ativar Lead</button>
+                                data-bs-target="#statusAtivar">Ativar Lead
+                        </button>
+                    </div>
+                    <div className="col-auto">
+                        <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
+                                data-bs-target="#statusFinalizar">Marcar como "FINALIZADO"
+                        </button>
                     </div>
                 </div>
             </div>
@@ -78,7 +84,7 @@ export default function Show({dados, historicos, consultores, status, contatos})
                     <h6>Atualizar Status do Lead</h6>
                     <div className="row mb-4">
                         <div className="col">
-                            <TextField label="Anotações" multiline rows="2" fullWidth
+                        <TextField label="Anotações" multiline rows="2" fullWidth
                                        onChange={e => setData('msg', e.target.value)}/>
                         </div>
                     </div>
@@ -146,8 +152,7 @@ export default function Show({dados, historicos, consultores, status, contatos})
                             Avançar Status deste leads para "FINALIZADO"?
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar
-                            </button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-success" data-bs-dismiss="modal"
                                     onClick={() => finalizarStatus()}>Confirmar
                             </button>
