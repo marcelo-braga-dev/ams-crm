@@ -93,8 +93,15 @@ class Leads extends Model
             ->whereIn('id', $idLead)
             ->update([
                 'user_id' => $idConsultor,
+            ]);
+
+        $this->newQuery()
+            ->whereIn('id', $idLead)
+            ->where('status', '!=', (new AtivoStatusLeads())->getStatus())
+            ->update([
                 'status' => (new AbertoStatusLeads())->getStatus()
             ]);
+
 
         foreach ($idLead as $id ) {
             (new LeadsHistoricos())->createHistorico($id, (new NovoStatusLeads())->getStatus());
@@ -107,7 +114,13 @@ class Leads extends Model
             ->whereIn('id', $idLead)
             ->update([
                 'sdr_id' => $idConsultor,
-                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
+
+        $this->newQuery()
+            ->whereIn('id', $idLead)
+            ->where('status', '!=', (new AtivoStatusLeads())->getStatus())
+            ->update([
+                'status' => (new AbertoStatusLeads())->getStatus()
             ]);
 
         foreach ($idLead as $id ) {
