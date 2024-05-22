@@ -39,18 +39,6 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.clientes.leads.leads-acompanhar'),
                 }, {
-                    id: 'leads-encaminhar',
-                    chave: chaves.leads.encaminhar,
-                    title: 'Encaminhar',
-                    type: 'item',
-                    url: route('admin.clientes.leads.leads-main.index'),
-                }, {
-                    id: 'leads-alterar',
-                    chave: chaves.leads.alterar_consultor,
-                    title: 'Alterar Consultor',
-                    type: 'item',
-                    url: route('admin.clientes.leads.alterar-consultor'),
-                }, {
                     id: 'leads-relatorios',
                     chave: chaves.leads.relatorio,
                     title: 'Relatórios',
