@@ -528,6 +528,7 @@ class Leads extends Model
                 'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                 'contato' => $item->meio_contato,
                 'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
+                'pedido_emitido' => $item->pedido_emitido
             ],
         ];
     }

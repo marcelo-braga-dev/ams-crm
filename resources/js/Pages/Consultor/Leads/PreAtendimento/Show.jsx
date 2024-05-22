@@ -207,12 +207,12 @@ export default function Show({dados, status, contatos, historicos}) {
                                     ))}
                                 </TextField>
 
-                                <TextField className="mt-3" label="Motivo/Anotações (min. 150 caracteres)" multiline
+                                <TextField className="mt-3" label="Motivo/Anotações (min. 10 caracteres)" multiline
                                            rows="6" fullWidth required
                                            onChange={e => setData('msg', e.target.value)}/>
                                 <div className="text-end">
                                     <small
-                                        className={data.msg.length >= 150 ? "text-success" : ''}>({data.msg.length}/150)</small>
+                                        className={data.msg.length >= 10 ? "text-success" : ''}>({data.msg.length}/10)</small>
                                 </div>
                             </div>
                             <div className="modal-footer">
@@ -223,9 +223,9 @@ export default function Show({dados, status, contatos, historicos}) {
                                         </button>
                                     </div>
                                     <div className="col">
-                                        <button disabled={data.msg.length < 150 || historicos.length < 4} type="submit"
+                                        <button disabled={data.msg.length < 10 || historicos.length < 4} type="submit"
                                                 className="btn btn-primary"
-                                                data-bs-dismiss={(data.msg.length < 150 || historicos.length < 4) ? '' : "modal"}>
+                                                data-bs-dismiss={(data.msg.length < 10 || historicos.length < 4) ? '' : "modal"}>
                                             Finalizar
                                         </button>
                                     </div>

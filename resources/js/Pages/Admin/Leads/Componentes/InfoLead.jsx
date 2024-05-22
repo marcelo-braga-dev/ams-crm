@@ -11,9 +11,9 @@ export default function InfoLead({dado}) {
             <tr>
                 <td><PersonIcon sx={{fontSize: 25}}/></td>
                 <td>
-                    <span className="d-block"
-                          style={{fontSize: 14}}><b>{dado.name}</b></span>
-                    <span style={{fontSize: 15}}>{dado.razao_social}</span>
+                    <span className={dado.pedido_emitido ? 'text-success' : ''}
+                          style={{fontSize: 14}}><b>{dado.name}</b></span><br/>
+                    <span style={{fontSize: 14}}>{dado.razao_social}</span>
                 </td>
             </tr>
             <tr>

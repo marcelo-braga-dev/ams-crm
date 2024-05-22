@@ -72,6 +72,7 @@ export default function ({categorias, datasImportacao}) {
             telefone: items.contato.telefone,
             cidade: items.cliente.cidade,
             estado: items.cliente.estado,
+            pedido_emitido: items.infos.pedido_emitido,
         }
     });
 
