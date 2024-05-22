@@ -54,7 +54,7 @@ export default function Show({dados, historicos, consultores, status, contatos})
 
     return (
         <Layout titlePage="Lead - Em Atendimento" menu="leads" submenu="leads-cards"
-                 voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
+                voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
                 <h5>{dados.consultor.nome}</h5>
@@ -62,6 +62,29 @@ export default function Show({dados, historicos, consultores, status, contatos})
 
             <div className="card card-body mb-3">
                 <LeadsDados dados={dados}/>
+            </div>
+
+            <div className="card card-body mb-4">
+                <form onSubmit={onSubmit}>
+                    <h6>Atualizar Status do Lead</h6>
+                    <div className="row mb-4">
+                        <div className="col">
+                            <TextField label="Anotações" multiline rows="2" fullWidth
+                                       onChange={e => setData('msg', e.target.value)}/>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            <div className="text-center">
+                                <button className="btn btn-primary"
+                                        onClick={() => setData('salvar_msg', true)}
+                                        type="submit">
+                                    Enviar Anotações
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <div className="card card-body mb-4">

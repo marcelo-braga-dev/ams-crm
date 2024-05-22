@@ -108,21 +108,11 @@ export default function Show({dados, consultores, historicos, isSdr, emitePedido
                 </div>
             </div>}
 
-            {!isSdr && <div className="card card-body mb-4">
+            <div className="card card-body mb-4">
                 <form onSubmit={onSubmit}>
                     <h6>Atualizar Status do Lead</h6>
                     <div className="row">
-                        <div className="col">
-                            <TextField label="Status" select fullWidth required defaultValue="" size="small"
-                                       onChange={e => setData('status', e.target.value)}>
-                                {status.map((option, index) => (
-                                    <MenuItem key={index} value={option.status}>
-                                        {option.nome}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <div className="col mb-4">
+                        <div className="col-md-3 mb-4">
                             <TextField label="Meio Contato" select fullWidth required defaultValue=""
                                        size="small"
                                        onChange={e => setData('meio_contato', e.target.value)}>
@@ -152,7 +142,7 @@ export default function Show({dados, consultores, historicos, isSdr, emitePedido
                         </div>
                     </div>
                 </form>
-            </div>}
+            </div>
 
             <div className="card card-body">
                 <h6 className="mb-3">Histórico de Atendimento</h6>

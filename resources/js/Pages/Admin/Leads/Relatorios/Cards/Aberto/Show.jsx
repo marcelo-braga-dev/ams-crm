@@ -80,7 +80,7 @@ export default function Show({dados, historicos, consultores, isSdr, idUsuarioCa
                 </div>
             </div>}
 
-            {!isSdr &&
+
                 <div className="card card-body mb-4">
                     <form onSubmit={onSubmit}>
                         <h6>Atualizar Status do Lead</h6>
@@ -115,7 +115,7 @@ export default function Show({dados, historicos, consultores, isSdr, idUsuarioCa
                             </div>
                         </div>
                     </form>
-                </div>}
+                </div>
 
             <div className="card card-body mb-4">
                 <div className="mb-4 border-bottom">
