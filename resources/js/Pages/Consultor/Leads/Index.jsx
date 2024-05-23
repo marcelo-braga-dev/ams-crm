@@ -58,8 +58,8 @@ export default function Dashboard({isSdr}) {
                     <div className="col-auto d-none d-md-block">
                         <ScrollControlHorizontal lateral="e"/>
                     </div>
-                    <div className="col-12 col-md-12">
-                        <div id="scrollControlHorizontal" className="overflow-scroll">
+                    <div className="col-12">
+                        <div id="scrollControlHorizontal" className="overflow-scroll" style={{height: '75vh'}}>
                             <table>
                                 <thead>
                                 <tr>
@@ -140,12 +140,6 @@ export default function Dashboard({isSdr}) {
                     </div>
                     <div className="col-auto d-none d-md-block">
                         <ScrollControlHorizontal lateral="d"/>
-                    </div>
-                </div>
-
-                <div className="mb-3 row">
-                    <div className="text-center col">
-                        <ScrollControlHorizontal/>
                     </div>
                 </div>
             </>}

@@ -146,7 +146,8 @@ export default function Show({dados, historicos, usuarios, historicoPedidos}) {
                             <div className="card card-body mb-4">
                                 <div className="row justify-content-between">
                                     <div className="col">
-                                        <span className="d-block"><b>ID:</b> #{item.id}</span>
+                                        <span className="d-block"><b>ID do Pedido:</b> #{item.id}</span>
+                                        <span className="d-block"><b>Status:</b> {item.status}</span>
                                         <span className="d-block"><b>Valor:</b> R$ {item.valor}</span>
                                         <span className="d-block"><b>Data do Pedido:</b> R$ {item.data_criacao}</span>
                                     </div>

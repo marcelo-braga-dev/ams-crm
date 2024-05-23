@@ -413,11 +413,12 @@ class Leads extends Model
     {
         $item = $this->newQuery()->find($id);
         $nomes = (new User())->getNomes();
+        $setores = (new Setores())->getNomes();
 
-        return $this->dados($item, $nomes);
+        return $this->dados($item, $nomes, $setores);
     }
 
-    private function dados($item, $nomes = [])
+    private function dados($item, $nomes = [], $setores = [])
     {
         //$telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
 
@@ -460,7 +461,7 @@ class Leads extends Model
                 'atendente' => $item->atendente,
             ],
             'infos' => [
-                'setor' => $item->setor,
+                'setor' => $setores[$item->setor_id] ?? '',
                 'status' => $item->status,
                 'status_nome' => (new StatusLeads())->nome($item->status),
                 'status_anotacoes' => $item->status_anotacoes,

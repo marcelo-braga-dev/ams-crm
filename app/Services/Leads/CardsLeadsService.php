@@ -55,6 +55,7 @@ class CardsLeadsService
                     'sdr_nome' => $nomes[$item->sdr_id] ?? '',
                     'cliente' => [
                         'nome' => $item->nome ?: $item->razao_social,
+                        'cnpj' => converterCNPJ($item->cnpj),
                         'cidade' => $item->cidade,
                         'estado' => $item->estado,
                     ],

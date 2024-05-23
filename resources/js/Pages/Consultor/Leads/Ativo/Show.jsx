@@ -9,7 +9,7 @@ import * as React from "react";
 import {useState} from "react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 
-export default function Show({dados, status, contatos, historicos, permissaoPedido}) {
+export default function Show({dados, status, contatos, historicos, permissaoPedido, historicoPedidos}) {
     const {data, setData, post} = useForm({
         msg: '',
         classificacao: dados.cliente.classificacao,
@@ -128,7 +128,7 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
                 </div>
             </div>
             <div className="row">
-                <div className="col">
+                <div className="col-md-8">
                     <div className="card">
                         <div className="card-body">
                             <h6 className="mb-3">Histórico de Atendimento</h6>
@@ -138,6 +138,31 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
                                 setData={setData} urlPedidos="consultor.pedidos.show"
                             />
                         </div>
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="card card-body">
+                        <h6 className="mb-3">Histórico de Pedidos</h6>
+                        {historicoPedidos.map(item => (
+                            <div className="card card-body mb-4">
+                                <div className="row justify-content-between">
+                                    <div className="col">
+                                        <span className="d-block"><b>ID do Pedido:</b> #{item.id}</span>
+                                        <span className="d-block"><b>Status:</b> {item.status}</span>
+                                        <span className="d-block"><b>Valor:</b> R$ {item.valor}</span>
+                                        <span className="d-block"><b>Data do Pedido:</b> R$ {item.data_criacao}</span>
+                                    </div>
+                                    <div className="col-auto">
+                                        <a className="btn btn-primary btn-sm"
+                                           href={route('consultor.pedidos.show', item.id)}>Ver
+                                            Pedido</a>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                        {historicoPedidos.length === 0 && <div className="row text-center">
+                            <span>Não há histórico de pedidos.</span>
+                        </div>}
                     </div>
                 </div>
             </div>

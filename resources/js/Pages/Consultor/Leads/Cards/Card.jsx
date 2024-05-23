@@ -5,6 +5,9 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 
 export default function CardLeads({dados, btn}) {
     return (
@@ -32,11 +35,23 @@ export default function CardLeads({dados, btn}) {
                     </div>
                 }
 
+                {/*CNPJ*/}
+                {dados.cliente.cnpj &&
+                    <div className="row">
+                        <div className="col-1 mb-2">
+                            <ArticleOutlinedIcon sx={{fontSize: 18}}/>
+                        </div>
+                        <div className="col-10 text-dark text-truncate">
+                            {dados.cliente.cnpj}
+                        </div>
+                    </div>
+                }
+
                 {/*TELEFONE*/}
                 {dados.contato.telefone &&
                     <div className="row">
                         <div className="col-1 mb-2">
-                            <PhoneIcon sx={{fontSize: 18}}/>
+                            <LocalPhoneOutlinedIcon sx={{fontSize: 18}}/>
                         </div>
                         <div className="col-10 text-dark text-truncate">
                             {dados.contato.telefone}
@@ -60,17 +75,11 @@ export default function CardLeads({dados, btn}) {
                 {dados.cliente.cidade &&
                     <div className="row">
                         <div className="col-1 mb-2">
-                            <PinDropIcon sx={{fontSize: 18}}/>
+                            <FmdGoodOutlinedIcon sx={{fontSize: 18}}/>
                         </div>
                         <div className="col-10 text-dark text-truncate">
                             {dados.cliente.cidade} / {dados.cliente.estado}
                         </div>
-                    </div>
-                }
-
-                {dados.infos.ultima_msg &&
-                    <div className="div border p-1 px-2 mt-2 border-gray-300 rounded">
-                        <small><b>Última Mensagem:</b><br/>{dados.infos.ultima_msg}</small>
                     </div>
                 }
 
