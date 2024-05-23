@@ -54,9 +54,11 @@ if (!function_exists('is_sdr')) {
 }
 
 if (!function_exists('is_emite_pedido')) {
-    function is_emite_pedido()
+    function is_emite_pedido($id = null)
     {
-        return (new \App\Models\UsersPermissoes())->isEmitePedido(id_usuario_atual());
+        $user = $id ?: id_usuario_atual();
+
+        return (new \App\Models\UsersPermissoes())->isEmitePedido($user);
     }
 }
 

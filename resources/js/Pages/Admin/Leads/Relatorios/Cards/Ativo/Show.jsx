@@ -6,7 +6,7 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Show({dados, consultores, historicos, isSdr, emitePedido, status, contatos}) {
+export default function Show({dados, consultores, historicos, isSdr, emitePedido, cardEmitePedido, status, contatos}) {
     const {data, setData, post} = useForm({
         lead: dados.id,
         consultor: dados.consultor.id
@@ -59,47 +59,7 @@ export default function Show({dados, consultores, historicos, isSdr, emitePedido
                 <LeadsDados dados={dados}/>
             </div>
 
-            {/*<div className="card card-body mb-4">*/}
-            {/*    <div className="row border-bottom mb-3">*/}
-            {/*        <div className="col-auto">*/}
-            {/*            <button type="button" className="btn btn-danger" data-bs-toggle="modal"*/}
-            {/*                    data-bs-target="#limparLead">Limpar LEAD*/}
-            {/*            </button>*/}
-            {/*        </div>*/}
-            {/*        <div className="col-auto">*/}
-            {/*            <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-            {/*                    data-bs-target="#statusVoltar">Voltar Status "Em Atendimento"*/}
-            {/*            </button>*/}
-            {/*        </div>*/}
-            {/*        <div className="col-auto">*/}
-            {/*            <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"*/}
-            {/*                    data-bs-target="#statusAvancar">Avançar Status "Finalizado"*/}
-            {/*            </button>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*    <div className="row">*/}
-            {/*        <span>Alterar consultor deste lead para:</span>*/}
-            {/*        <div className="col-md-4">*/}
-            {/*            <TextField label="Selecione o Consultor..." select*/}
-            {/*                       fullWidth required size="small" defaultValue=""*/}
-            {/*                       onChange={e => setData('novo_consultor', e.target.value)}>*/}
-            {/*                {consultores.map((option) => (*/}
-            {/*                    <MenuItem key={option.id} value={option.id}>*/}
-            {/*                        {option.name}*/}
-            {/*                    </MenuItem>*/}
-            {/*                ))}*/}
-            {/*            </TextField>*/}
-            {/*        </div>*/}
-            {/*        <div className="col-4 p-0">*/}
-            {/*            <button type="button" className="btn btn-dark" data-bs-toggle="modal"*/}
-            {/*                    data-bs-target="#alterarConsultor">*/}
-            {/*                ENVIAR*/}
-            {/*            </button>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-
-            {emitePedido && <div className="card card-body mb-4">
+            {emitePedido && cardEmitePedido && <div className="card card-body mb-4">
                 <div className="row pt-3">
                     <div className="col mb-4">
                         <a className="btn btn-warning"
