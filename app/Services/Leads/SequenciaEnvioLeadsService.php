@@ -14,6 +14,8 @@ class SequenciaEnvioLeadsService
 
         $vendedores = (new User())->usuariosRecebeLeadsId($setor);
 
+        if (count($vendedores) < 1) throw new \DomainException('Não há consultores(as) para enviar o cliente.');
+
         $idEnviar = $vendedores[0];
 
         for ($i = 0; $i < count($vendedores); $i++) {
@@ -24,11 +26,6 @@ class SequenciaEnvioLeadsService
         }
 
         return $idEnviar;
-    }
-
-    private function sequencia()
-    {
-
     }
 
     public function lista($setor)

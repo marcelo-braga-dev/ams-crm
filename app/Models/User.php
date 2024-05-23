@@ -549,10 +549,6 @@ class User extends Authenticatable
             ->where('users_permissoes.chave', (new ChavesPermissoes())->chaveLeadsReceber())
             ->orderBy('id')
             ->where('setor_id', $setor)
-            ->get(['users.id'])
-            ->transform(function ($item) {
-                return $item->id;
-            })
-            ->toArray();
+            ->pluck('users.id');
     }
 }

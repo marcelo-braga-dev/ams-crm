@@ -32,13 +32,18 @@ class PreAtendimentoController extends Controller
 
     public function update($id, Request $request)
     {
-        $lead = (new Leads())->find($id);
-        $idEnviar = (new SequenciaEnvioLeadsService())->proximo($lead->setor_id);
+        try {
+            $lead = (new Leads())->find($id);
+            $idEnviar = (new SequenciaEnvioLeadsService())->proximo($lead->setor_id);
 
-        (new LeadsEncaminhados())->create($idEnviar, $id);
-        (new Leads())->updateUser($id, $idEnviar);
-        (new UpdateStatusLeads())->setAberto($id);
-        (new LeadsHistoricos())->createHistorico($id, (new AtivadoHistorico())->status());
+            (new LeadsEncaminhados())->create($idEnviar, $id);
+            (new Leads())->updateUser($id, $idEnviar);
+            (new UpdateStatusLeads())->setAberto($id);
+            (new LeadsHistoricos())->createHistorico($id, (new AtivadoHistorico())->status());
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+            return redirect()->back();
+        }
 
         modalSucesso('Cliente Encaminhado com Sucesso!');
         return redirect()->route('consultor.leads.main.index', $id);
