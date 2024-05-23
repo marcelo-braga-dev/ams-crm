@@ -135,7 +135,7 @@ class Leads extends Model
             $vendedor  = null;
             $status = (new AbertoStatusLeads())->getStatus();
             if ($usuario) {
-                $isSdr = !is_sdr($usuario);
+                $isSdr = is_sdr($usuario);
                 $status = $isSdr ? (new NovoStatusLeads())->getStatus() : (new AbertoStatusLeads())->getStatus();
                 $isSdr ? $sdr = $usuario : $vendedor = $usuario;
             }
