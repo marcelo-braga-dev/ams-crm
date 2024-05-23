@@ -130,6 +130,8 @@ class Leads extends Model
 
     public function create($dados, $setor, $usuario = null, $importacao = null)
     {
+        $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
+
         try {
             $sdr = null;
             $vendedor = null;
@@ -143,16 +145,14 @@ class Leads extends Model
             $verificacaoCnpj = null;
             $verificacaoTel = null;
 
-            $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
-
-            if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
+//            if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
 
             $idEndereco = (new Enderecos())->create($dados['endereco'] ?? null);
 
             $pessoa = ($dados['pessoa'] ?? null) ? !(($dados['pessoa'] ?? null) == 'Pessoa Física') : substr($cnpj, -6, 4) == '0001';
 
             if (
-                !$verificacaoCnpj && !$verificacaoTel &&
+                !$verificacaoTel &&
                 (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))
             ) {
                 $lead = $this->newQuery()
@@ -202,7 +202,10 @@ class Leads extends Model
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
         } catch (QueryException $exception) {
-            throw new \DomainException($exception->getMessage());
+            $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
+            $msg = $existCnpj ? 'CNPJ já cadastrado!' : '';
+
+            throw new \DomainException($msg);
         }
     }
 
@@ -312,18 +315,13 @@ class Leads extends Model
 
     public function atualizar($id, $dados)
     {
+        $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
         try {
             $verificacaoCnpj = null;
             $verificacaoTel = null;
 
             $telefone = preg_replace('/[^0-9]/', '', $dados['telefone'] ?? null);
             $telefone = preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null);
-            $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
-
-            if ($cnpj) $verificacaoCnpj = $this->newQuery()
-                ->where('id', '!=', $id)
-                ->where('cnpj', $cnpj)
-                ->exists();
 
             if ($telefone) $verificacaoTel = $this->newQuery()
                 ->where('id', '!=', $id)
@@ -331,7 +329,7 @@ class Leads extends Model
                 ->exists();
 
             if (
-                !$verificacaoCnpj && !$verificacaoTel &&
+                !$verificacaoTel &&
                 (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))
             ) {
                 $lead = $this->newQuery()->find($id);
@@ -369,8 +367,10 @@ class Leads extends Model
             }
             throw new \DomainException($msgErro);
         } catch (QueryException $exception) {
-            print_pre($exception->getMessage());
-//            throw new \DomainException('Falha na importação');
+            $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
+            $msg = $existCnpj ? 'CNPJ já cadastrado!' : 'Error';
+
+            throw new \DomainException($msg);
         }
     }
 
