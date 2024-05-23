@@ -16,18 +16,7 @@ class MetasVendas extends Model
         'chave',
         'ano',
         'mes',
-        'jan',
-        'fev',
-        'mar',
-        'abr',
-        'mai',
-        'jun',
-        'jul',
-        'ago',
-        'set',
-        'out',
-        'nov',
-        'dez',
+        'valor',
     ];
 
     public function createOrUpdate($id, $dados, $ano)

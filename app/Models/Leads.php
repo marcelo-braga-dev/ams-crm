@@ -120,7 +120,7 @@ class Leads extends Model
             ->whereIn('id', $idLead)
             ->where('status', '!=', (new AtivoStatusLeads())->getStatus())
             ->update([
-                'status' => (new AbertoStatusLeads())->getStatus()
+                'status' => (new NovoStatusLeads())->getStatus()
             ]);
 
         foreach ($idLead as $id ) {

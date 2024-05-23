@@ -17,7 +17,7 @@ class MetasVendasController extends Controller
         $vendasMensalUsuario = (new Pedidos())->vendasMensaisUsuario(id_usuario_atual(), $ano);
         $dados = (new MetasVendas())->getMeta(id_usuario_atual(), $ano);
         $vendasMensalSubordinados = (new Pedidos())->vendasMensaisSubordinados(id_usuario_atual(), $ano);
-//print_pre($vendasMensalSubordinados);
+
         return Inertia::render('Admin/Relatorios/MetasVendas/Index',
             compact('vendasMensalUsuario', 'ano', 'dados', 'vendasMensalSubordinados'));
     }

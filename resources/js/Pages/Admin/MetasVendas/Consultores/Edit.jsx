@@ -281,9 +281,11 @@ export default function ({usuario, dados, mes, ano, vendasMensalUsuario, vendasM
         <Layout container titlePage="Editar Meta de Vendas" menu="menu-meta-vendas" submenu="meta-vendas"
                 voltar={route('admin.metas-vendas.consultores.index')}>
             <div className="row mb-3 card card-body">
-                <h6>Nome: {usuario.nome}</h6>
-                <h6>Função: {usuario.tipo}</h6>
-                <h6>Setor: {usuario.setor}</h6>
+                <div className="row">
+                    <div className="col"><span>Nome: {usuario.nome}</span></div>
+                    <div className="col"><span>Função: {usuario.tipo}</span></div>
+                    <div className="col"><span>Setor: {usuario.setor}</span></div>
+                </div>
             </div>
             <div className="card card-body mb-4">
                 <div className="row">

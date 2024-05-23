@@ -153,7 +153,6 @@ export default function ({categorias, datasImportacao}) {
 
     function enviarLeads() {
         if (consultorSelecionado && leadsChecked.length > 0) {
-            // setOpen(!open);
             setEnviarLead(e => !e)
             router.post(route('admin.clientes.leads.update-consultor',
                 {leadsSelecionados: leadsChecked, consultor: consultorSelecionado}))
