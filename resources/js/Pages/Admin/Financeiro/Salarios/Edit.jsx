@@ -59,7 +59,7 @@ export default function ({ usuario, ano, mes }) {
             setRegistros(res.data.registros)
             setVendasMes(res.data.vendas_mes.vendas)
             setMetaMes(res.data.meta_mes)
-            setMetasAnual(res.data.metas_anual)
+            // setMetasAnual(res.data.metas_anual)
             setMetasEquipe(res.data.metas_equipe)
             setVendasEquipe(res.data.vendas_equipe)
 
