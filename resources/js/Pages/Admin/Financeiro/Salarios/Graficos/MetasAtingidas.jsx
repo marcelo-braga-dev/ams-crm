@@ -2,46 +2,44 @@ import {Bar} from "react-chartjs-2";
 import React from "react";
 import {convertMoneyFloat} from "@/Helpers/converterDataHorario";
 
-export default function MetasAtingidas({metasAnual, vendasAnual}) {
+const meses = [
+    {mes: '1', nome: 'Janeiro'},
+    {mes: '2', nome: 'Fevereiro'},
+    {mes: '3', nome: 'Março'},
+    {mes: '4', nome: 'Abril'},
+    {mes: '5', nome: 'Maio'},
+    {mes: '6', nome: 'Junho'},
+    {mes: '7', nome: 'Julho'},
+    {mes: '8', nome: 'Agosto'},
+    {mes: '9', nome: 'Setembro'},
+    {mes: '10', nome: 'Outubro'},
+    {mes: '11', nome: 'Novembro'},
+    {mes: '12', nome: 'Dezembro'},
+]
 
-    const mesesRegistros = [
-        {mes: 1, nome: 'jan'},
-        {mes: 2, nome: 'fev'},
-        {mes: 3, nome: 'mar'},
-        {mes: 4, nome: 'abr'},
-        {mes: 5, nome: 'mai'},
-        {mes: 6, nome: 'jun'},
-        {mes: 7, nome: 'jul'},
-        {mes: 8, nome: 'ago'},
-        {mes: 9, nome: 'set'},
-        {mes: 10, nome: 'out'},
-        {mes: 11, nome: 'nov'},
-        {mes: 12, nome: 'dez'},
-    ]
-
-    const meses = mesesRegistros.map((item) => {
+export default function MetasAtingidas({metasMensais, vendasMensais}) {
+console.log(metasMensais)
+    const mesesNome = meses.map((item) => {
         return item.nome ?? ''
     })
-
-    const metas = mesesRegistros.map((item) => {
-        return metasAnual?.[item.nome] ?? 0
+    const metas = meses.map((item) => {
+        return metasMensais[item.mes] ?? 0
     })
-
-    const atingida = mesesRegistros.map((item) => {
-        return vendasAnual?.[item.nome]?.vendas ?? 0
+    const atingida = meses.map((item) => {
+        return vendasMensais[item.mes]?.vendas ?? 0
     })
 
 
     const data = {
-        labels: meses,
+        labels: mesesNome,
         datasets: [
             {
                 label: "Meta",
                 backgroundColor: "#0000FFaa",
                 data: metas,
             }, {
-                label: "Alcançado",
-                backgroundColor: "rgba(229,210,4)",
+                label: "Vendas",
+                backgroundColor: "green",
                 data: atingida,
             },
         ],

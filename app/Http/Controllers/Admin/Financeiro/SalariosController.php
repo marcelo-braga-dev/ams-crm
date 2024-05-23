@@ -27,14 +27,14 @@ class SalariosController extends Controller
 
     public function edit($id, Request $request)
     {
-
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
-
+//        $metasMensais = (new MetasVendas())->metasMensais(1, 2024);
+//        print_pre($metasMensais);
         $usuario = (new User())->get($id);
 
         return Inertia::render('Admin/Financeiro/Salarios/Edit',
-            compact( 'usuario', 'mes', 'ano'));
+            compact('usuario', 'mes', 'ano'));
     }
 
     public function store(Request $request)
@@ -56,11 +56,12 @@ class SalariosController extends Controller
 
         [$vendasEquipe, $metasEquipe] = (new SalariosService())->equipe($request->id, $mes, $ano);
 
-
-        $metasAnual = (new MetasVendas())->getMetasUsuario($request->id, $ano);
+        $metasAnual = (new MetasVendas())->metasMensais($request->id, $ano);
         $vendasAnualUsuario = (new Pedidos())->vendasMensaisUsuario($request->id, $ano);
+        $vendasMensais = (new Pedidos())->vendasMensaisUsuario($request->id, $ano);
 
-        return ['registros' => $registros, 'vendas_mes' => $vendasMensalUsuario, 'meta_mes' => $metaMes, 'metas_anual' => $metasAnual,
+        return ['registros' => $registros, 'vendas_mensais' => $vendasMensais, 'metas_mensais' => $metasAnual,
+            'vendas_mes' => $vendasMensalUsuario, 'meta_mes' => $metaMes, 'metas_anual' => $metasAnual,
             'vendas_anual' => $vendasAnualUsuario, 'vendas_equipe' => $vendasEquipe, 'metas_equipe' => $metasEquipe];
     }
 }

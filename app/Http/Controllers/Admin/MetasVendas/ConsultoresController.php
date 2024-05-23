@@ -25,19 +25,18 @@ class ConsultoresController extends Controller
         $ano = $request->ano ?? date('Y');
 
         $usuario = (new User())->get($id);
+        $meta = (new MetasVendas())->getMetaMes($id, $mes, $ano);
 
-        $dados = (new MetasVendas())->getMeta($id, $ano);
-        $vendasMensalUsuario = (new Pedidos())->vendasMensaisUsuario($id, $ano);
-        $vendasMensalSubordinados = (new Pedidos())->vendasMensaisSubordinados($id, $ano);
+        $vendasMensais = (new Pedidos())->vendasMensaisUsuario($id, $ano);
+        $metasMensais = (new MetasVendas())->metasMensais($id, $ano);
 
         return Inertia::render('Admin/MetasVendas/Consultores/Edit',
-            compact('usuario', 'dados', 'mes', 'ano', 'vendasMensalUsuario', 'vendasMensalSubordinados'));
+            compact('usuario', 'mes', 'ano', 'meta', 'vendasMensais', 'metasMensais'));
     }
 
     public function update($id, Request $request)
     {
-        $ano = $request->ano ?? date('Y');
-        (new MetasVendas())->createOrUpdate($id, $request->except('_method'), $ano);
+        (new MetasVendas())->createOrUpdate($id, $request);
 
         modalSucesso('Dados atualizados com sucesso!');
         return redirect()->back();

@@ -17,7 +17,7 @@ class MetaEmpresaController extends Controller
         $ano = $request->ano ?? date('Y');
 
         $dados = (new MetasVendas())->getMetaEmpresa($mes, $ano);
-        $vendasMensalUsuario = (new Pedidos())->vendasMensaisUsuario(1, $ano);
+        $vendasMensalUsuario = (new Pedidos())->_vendasMensaisUsuario(1, $ano);
 
         return Inertia::render('Admin/MetasVendas/Empresa/Index',
             compact( 'dados', 'mes', 'ano', 'vendasMensalUsuario'));

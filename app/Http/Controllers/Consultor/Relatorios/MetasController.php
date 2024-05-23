@@ -17,7 +17,7 @@ class MetasController extends Controller
         $ano = $request->ano ?? date('Y');
         $idUsuario = id_usuario_atual();
 
-        $vendasMensalUsuario = (new Pedidos())->vendasMensaisUsuario($idUsuario, $ano);
+        $vendasMensalUsuario = (new Pedidos())->_vendasMensaisUsuario($idUsuario, $ano);
         $dados = (new MetasVendas())->getMeta($idUsuario, $ano);
 
         return Inertia::render(

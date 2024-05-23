@@ -20,16 +20,6 @@ export default function ({ setores, setor, statusLeads }) {
 
     return (
         <Layout titlePage="Cards do Usuário" menu="leads" submenu="leads-cards">
-            <div className="row">
-                <div className="mb-4 col-md-4">
-                    <TextField label="Setor" select fullWidth defaultValue={setor ?? ''}
-                               onChange={e => alterarSetor(e.target.value)}>
-                        <MenuItem>Todos</MenuItem>
-                        {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
-                    </TextField>
-                </div>
-            </div>
-
             <div className="mt-4 card">
                 <div className="card-body">
                     <div className="table table-responsive">
@@ -49,25 +39,25 @@ export default function ({ setores, setor, statusLeads }) {
                             </thead>
                             <tbody>
                             {statusLeads.map((dado, index) => {
-                                const total = (dado.novo ?? 0) + (dado.pre_atendimento ?? 0) + (dado.aberto ?? 0) + (dado.atendimento ?? 0) + (dado.ativo ?? 0) + (dado.finalizado ?? 0)
+                                const total = (dado.status.novo ?? 0) + (dado.status.pre_atendimento ?? 0) + (dado.status.aberto ?? 0) + (dado.status.atendimento ?? 0) + (dado.status.ativo ?? 0) + (dado.status.finalizado ?? 0)
                                 totalLeads += total
-                                totalNovo += dado.novo ?? 0
-                                totalPreAtendimento += dado.pre_atendimento ?? 0
-                                totalAberto += dado.aberto ?? 0
-                                totalAtendimento += dado.atendimento ?? 0
-                                totalAtivo += dado.ativo ?? 0
-                                totalFinalizado += dado.finalizado ?? 0
+                                totalNovo += dado.status.novo ?? 0
+                                totalPreAtendimento += dado.status.pre_atendimento ?? 0
+                                totalAberto += dado.status.aberto ?? 0
+                                totalAtendimento += dado.status.atendimento ?? 0
+                                totalAtivo += dado.status.ativo ?? 0
+                                totalFinalizado += dado.status.finalizado ?? 0
 
                                 return (
                                     <tr key={index} className=""
                                         onClick={() => router.get(route('admin.leads.consultores-cards.index', {id: dado.id})) }>
                                         <td className="text-wrap text-start"><b>{dado.nome}</b></td>
-                                        <td>{dado.novo ?? 0}</td>
-                                        <td>{dado.pre_atendimento ?? 0}</td>
-                                        <td>{dado.aberto ?? 0}</td>
-                                        <td>{dado.atendimento ?? 0}</td>
-                                        <td>{dado.ativo ?? 0}</td>
-                                        <td>{dado.finalizado ?? 0}</td>
+                                        <td>{dado.status.novo ?? 0}</td>
+                                        <td>{dado.status.pre_atendimento ?? 0}</td>
+                                        <td>{dado.status.aberto ?? 0}</td>
+                                        <td>{dado.status.atendimento ?? 0}</td>
+                                        <td>{dado.status.ativo ?? 0}</td>
+                                        <td>{dado.status.finalizado ?? 0}</td>
                                         <td>{total}</td>
                                         <td>
                                             <a className="px-3 py-1 mb-0 btn btn-primary btn-sm"

@@ -191,10 +191,6 @@ export default function Show({dados, status, contatos, historicos}) {
                         </div>
                         <form onSubmit={finalizarAtendimento}>
                             <div className="modal-body">
-                                {historicos.length < 4 ?
-                                    <div className="alert alert-danger text-white">
-                                        Realize no mínimo 4 contatos com o cliente.</div> : ''}
-
                                 Confirmar finalização do atendimento?
 
                                 <TextField label="Status" className="mt-3" select fullWidth required defaultValue=""
@@ -223,9 +219,9 @@ export default function Show({dados, status, contatos, historicos}) {
                                         </button>
                                     </div>
                                     <div className="col">
-                                        <button disabled={data.msg.length < 10 || historicos.length < 4} type="submit"
+                                        <button disabled={data.msg.length < 10} type="submit"
                                                 className="btn btn-primary"
-                                                data-bs-dismiss={(data.msg.length < 10 || historicos.length < 4) ? '' : "modal"}>
+                                                data-bs-dismiss={(data.msg.length < 10) ? '' : "modal"}>
                                             Finalizar
                                         </button>
                                     </div>

@@ -14,7 +14,7 @@ class MetasVendasController extends Controller
     {
         $ano = $request->ano ?? date('Y');
 
-        $vendasMensalUsuario = (new Pedidos())->vendasMensaisUsuario(id_usuario_atual(), $ano);
+        $vendasMensalUsuario = (new Pedidos())->_vendasMensaisUsuario(id_usuario_atual(), $ano);
         $dados = (new MetasVendas())->getMeta(id_usuario_atual(), $ano);
         $vendasMensalSubordinados = (new Pedidos())->vendasMensaisSubordinados(id_usuario_atual(), $ano);
 

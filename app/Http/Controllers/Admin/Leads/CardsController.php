@@ -15,7 +15,6 @@ class CardsController extends Controller
 {
     public function index(Request $request)
     {
-
         $setor = $request->setor ?? 1;
         $setores = (new Setores())->get();
 

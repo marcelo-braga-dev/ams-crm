@@ -19,29 +19,13 @@ class MetasVendas extends Model
         'valor',
     ];
 
-    public function createOrUpdate($id, $dados, $ano)
+    public function createOrUpdate($id, $dados)
     {
-        foreach ($dados as $key => $item) {
-            if ($key != 'ano')
-                $this->newQuery()
-                    ->updateOrCreate(
-                        ['user_id' => $id, 'chave' => $key, 'ano' => $ano],
-                        [
-                            'jan' => convert_money_float($item['jan'] ?? null, 3),
-                            'fev' => convert_money_float($item['fev'] ?? null, 3),
-                            'mar' => convert_money_float($item['mar'] ?? null, 3),
-                            'abr' => convert_money_float($item['abr'] ?? null, 3),
-                            'mai' => convert_money_float($item['mai'] ?? null, 3),
-                            'jun' => convert_money_float($item['jun'] ?? null, 3),
-                            'jul' => convert_money_float($item['jul'] ?? null, 3),
-                            'ago' => convert_money_float($item['ago'] ?? null, 3),
-                            'set' => convert_money_float($item['set'] ?? null, 3),
-                            'out' => convert_money_float($item['out'] ?? null, 3),
-                            'nov' => convert_money_float($item['nov'] ?? null, 3),
-                            'dez' => convert_money_float($item['dez'] ?? null, 3),
-                        ]
-                    );
-        }
+        $this->newQuery()
+            ->updateOrCreate(
+                ['user_id' => $id, 'chave' => 'metas', 'ano' => $dados->ano, 'mes' => $dados->mes],
+                ['valor' => convert_money_float($dados->valor)]
+            );
     }
 
     public function getMetaEmpresa($mes, $ano)
@@ -51,6 +35,9 @@ class MetasVendas extends Model
             ->get();
     }
 
+    /**
+     * @deprecated
+     */
     public function metas()
     {
         $dados = $this->newQuery()->get();
@@ -64,6 +51,9 @@ class MetasVendas extends Model
         return $metas;
     }
 
+    /**
+     * @deprecated
+     */
     public function getMeta($id, $ano)
     {
         $dados = $this->newQuery()
@@ -102,19 +92,12 @@ class MetasVendas extends Model
 
     public function getMetaMes($id, $mes, $ano)
     {
-        $campoMes = [1 => 'jan', 2 => 'fev', 3 => 'mar', 4 => 'abr', 5 => 'mai', 6 => 'jun', 7 => 'jul', 8 => 'ago', 9 => 'set', 10 => 'out', 11 => 'nov', 12 => 'dez'];
-        $mesSelecionado = $campoMes[$mes];
-
         return $this->newQuery()
             ->where('user_id', $id)
             ->where('chave', 'metas')
+            ->where('mes', $mes)
             ->where('ano', $ano)
-            ->get()
-            ->transform(function ($item) use ($mesSelecionado) {
-                return [
-                    'meta' => ($item[$mesSelecionado]),
-                ];
-            })[0]['meta'] ?? 0;
+            ->first('valor')->valor ?? 0;
     }
 
     public function getMetasUsuario($id, $ano)
@@ -136,6 +119,20 @@ class MetasVendas extends Model
         $res = [];
         foreach ($dados as $dado) {
             $res[$dado->user_id] = $dado;
+        }
+        return $res;
+    }
+
+    public function metasMensais($id, $ano)
+    {
+        $query = $this->newQuery()
+            ->where('user_id', $id)
+            ->where('ano', $ano)
+            ->get();
+
+        $res = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $res[$i] = $query->where('mes', $i)->first()->valor ?? 0;
         }
         return $res;
     }

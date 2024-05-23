@@ -381,14 +381,16 @@ class Leads extends Model
             ->update(['status_data' => now()]);
     }
 
-    public function qtdLeadsUsuarios($setor = null)
+    public function qtdLeadsUsuarios($id, $setor = null)
     {
-        $query = $this->newQuery();
-        $query->whereIn('sdr_id', supervisionados(id_usuario_atual()));
-        $query->orWhereIn('user_id', supervisionados(id_usuario_atual()));
-        if ($setor) $query->where('setor_id', $setor);
-
-        return $query->get();
+        return $this->newQuery()
+            ->where('sdr_id', $id)
+            ->orWhere('user_id', $id)
+            ->select(DB::raw('COUNT(status) as qtd, status'))
+            ->groupBy('status')
+            ->pluck('qtd', 'status');
+//            ->get()
+//        ->toArray();
     }
 
     /**

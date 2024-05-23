@@ -44,3 +44,15 @@ export function TextFieldMoney2({label, value, chave, indice, setData, required,
             })}/>
     );
 }
+
+export function convertInputMoney(valor, dig = 2) {
+    let valorAlterado = valor.target.value;
+    valorAlterado = valorAlterado.replace(/\D/g, "");
+
+    valorAlterado = new Intl.NumberFormat('pt-BR', {minimumFractionDigits: dig}).format(
+        parseFloat(valorAlterado) / (10 ** dig)
+    )
+
+    valor.target.value = valorAlterado;
+    return valorAlterado;
+}

@@ -456,6 +456,27 @@ class Pedidos extends Model
     public function vendasMensaisUsuario($id, $ano)
     {
         return [
+            '1' => $this->getVendasMesUsuario($id, 1, $ano),
+            '2' => $this->getVendasMesUsuario($id, 2, $ano),
+            '3' => $this->getVendasMesUsuario($id, 3, $ano),
+            '4' => $this->getVendasMesUsuario($id, 4, $ano),
+            '5' => $this->getVendasMesUsuario($id, 5, $ano),
+            '6' => $this->getVendasMesUsuario($id, 6, $ano),
+            '7' => $this->getVendasMesUsuario($id, 7, $ano),
+            '8' => $this->getVendasMesUsuario($id, 8, $ano),
+            '9' => $this->getVendasMesUsuario($id, 9, $ano),
+            '10' => $this->getVendasMesUsuario($id, 10, $ano),
+            '11' => $this->getVendasMesUsuario($id, 11, $ano),
+            '12' => $this->getVendasMesUsuario($id, 12, $ano),
+        ];
+    }
+
+    /**
+     * @deprecated
+     */
+    public function _vendasMensaisUsuario($id, $ano)
+    {
+        return [
             'jan' => $this->getVendasMesUsuario($id, 1, $ano),
             'fev' => $this->getVendasMesUsuario($id, 2, $ano),
             'mar' => $this->getVendasMesUsuario($id, 3, $ano),
@@ -483,7 +504,7 @@ class Pedidos extends Model
             $dados[$item]['id'] = $item;
             $dados[$item]['nome'] = $nomes[$item] ?? '';
             $dados[$item]['metas'] = $metas[$item] ?? '';
-            $dados[$item]['vendas'] = $this->vendasMensaisUsuario($item, $ano);
+            $dados[$item]['vendas'] = $this->_vendasMensaisUsuario($item, $ano);
         }
         return [...$dados];
     }

@@ -27,10 +27,12 @@ export default function ({ usuario, ano, mes }) {
     const [metasAnual, setMetasAnual] = useState([])
     const [vendasAnual, setVendasAnual] = useState([])
 
+    const [vendasMensais, setVendasMensais] = useState([])
+    const [metasMensais, setMetasMensais] = useState([])
+
     const [campoEditar, setCampoEditar] = useState()
 
     const { data, setData, reset } = useForm()
-
 
     const submit = (campo) => {
         setCampoEditar(undefined)
@@ -58,9 +60,11 @@ export default function ({ usuario, ano, mes }) {
             setVendasMes(res.data.vendas_mes.vendas)
             setMetaMes(res.data.meta_mes)
             setMetasAnual(res.data.metas_anual)
-            setVendasAnual(res.data.vendas_anual)
             setMetasEquipe(res.data.metas_equipe)
             setVendasEquipe(res.data.vendas_equipe)
+
+            setVendasMensais(res.data.vendas_mensais)
+            setMetasMensais(res.data.metas_mensais)
 
             const valorMargemAtingida = res.data.meta_mes > 0 ? (res.data.vendas_mes.vendas / res.data.meta_mes * 100) : null
             setMargemAtingida(valorMargemAtingida)
@@ -108,6 +112,11 @@ export default function ({ usuario, ano, mes }) {
                 <div className="row">
                     <div className="col">
                         <span className="d-block"><b>Nome: </b>{usuario.nome}</span>
+                    </div>
+                    <div className="col">
+                        <span className="d-block"><b>Função: </b>{usuario.funcao}</span>
+                    </div>
+                    <div className="col">
                         <span className="d-block"><b>Setor: </b>{usuario.setor}</span>
                     </div>
                 </div>
@@ -414,7 +423,7 @@ export default function ({ usuario, ano, mes }) {
                 <div className="row">
                     <div className="col">
                         <h6>Meta x Vendas de {ano} de {usuario.nome}</h6>
-                        <MetasAtingidas metasAnual={metasAnual} vendasAnual={vendasAnual} />
+                        <MetasAtingidas  metasMensais={metasMensais} vendasMensais={vendasMensais} />
                     </div>
                 </div>
             </div>
