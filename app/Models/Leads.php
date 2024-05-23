@@ -103,7 +103,7 @@ class Leads extends Model
             ]);
 
 
-        foreach ($idLead as $id ) {
+        foreach ($idLead as $id) {
             (new LeadsHistoricos())->createHistorico($id, (new NovoStatusLeads())->getStatus());
         }
     }
@@ -123,7 +123,7 @@ class Leads extends Model
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
 
-        foreach ($idLead as $id ) {
+        foreach ($idLead as $id) {
             (new LeadsHistoricos())->createHistorico($id, (new NovoStatusLeads())->getStatus());
         }
     }
@@ -131,13 +131,21 @@ class Leads extends Model
     public function create($dados, $setor, $usuario = null, $importacao = null)
     {
         try {
+            $sdr = null;
+            $vendedor  = null;
+            $status = (new AbertoStatusLeads())->getStatus();
+            if ($usuario) {
+                $isSdr = !is_sdr($usuario);
+                $status = $isSdr ? (new NovoStatusLeads())->getStatus() : (new AbertoStatusLeads())->getStatus();
+                $isSdr ? $sdr = $usuario : $vendedor = $usuario;
+            }
+
             $verificacaoCnpj = null;
             $verificacaoTel = null;
 
             $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
             if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
-            //            if ($telefone) $verificacaoTel = $this->newQuery()->orWhere('telefone', $telefone)->exists();
 
             $idEndereco = (new Enderecos())->create($dados['endereco'] ?? null);
 
@@ -149,11 +157,12 @@ class Leads extends Model
             ) {
                 $lead = $this->newQuery()
                     ->create([
-                        'user_id' => $usuario,
-                        'status' => $usuario ? (new AbertoStatusLeads())->getStatus() : (new NovoStatusLeads())->getStatus(),
+                        'user_id' => $vendedor,
+                        'sdr_id' => $sdr,
+                        'status' => $status,
                         'nome' => $dados['nome'] ?? null,
                         'razao_social' => $dados['razao_social'] ?? null,
-                        'cnpj' => $cnpj ?? null,
+                        'cnpj' => $cnpj ?: null,
                         'inscricao_estadual' => $dados['inscricao_estadual'] ?? null,
                         'email' => $dados['email'] ?? null,
                         'id_importacao' => $importacao,
