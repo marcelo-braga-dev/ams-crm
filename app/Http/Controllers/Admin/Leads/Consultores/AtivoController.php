@@ -27,8 +27,8 @@ class AtivoController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getUsuarios($dados['infos']['setor']);
         $isSdr = is_sdr();
-        $emitePedido =  is_emite_pedido();
-        $cardEmitePedido =  is_emite_pedido($dados['consultor']['id']);
+        $emitePedido = is_emite_pedido();
+        $cardEmitePedido = $dados['consultor']['id'] ? is_emite_pedido($dados['consultor']['id']) : null;
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Ativo/Show',
             compact('dados', 'status', 'isSdr', 'emitePedido', 'cardEmitePedido', 'historicos', 'contatos', 'consultores'));
