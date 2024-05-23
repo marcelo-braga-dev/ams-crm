@@ -33,7 +33,8 @@ class LeadsController extends Controller
             $id = (new Leads())->create($request, setor_usuario_atual(), id_usuario_atual());
 
             modalSucesso('Cliente cadastrado com sucesso!');
-            return redirect()->route('consultor.leads.novo.show', $id);
+            if (is_sdr(id_usuario_atual())) return redirect()->route('consultor.leads.novo.show', $id);
+            return redirect()->route('consultor.leads.aberto.show', $id);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

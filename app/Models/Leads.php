@@ -132,7 +132,7 @@ class Leads extends Model
     {
         try {
             $sdr = null;
-            $vendedor  = null;
+            $vendedor = null;
             $status = (new AbertoStatusLeads())->getStatus();
             if ($usuario) {
                 $isSdr = is_sdr($usuario);
@@ -345,7 +345,7 @@ class Leads extends Model
                         'telefone' => $telefone,
                         'razao_social' => $dados->razao_social,
                         'inscricao_estadual' => $dados->inscricao_estadual,
-                        'cnpj' => $cnpj,
+                        'cnpj' => $cnpj ?: null,
                         'rg' => $dados->rg,
                         'cpf' => $dados->cpf,
                         'email' => $dados->email,
@@ -368,8 +368,9 @@ class Leads extends Model
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
             throw new \DomainException($msgErro);
-        } catch (QueryException) {
-            throw new \DomainException('Falha na importação');
+        } catch (QueryException $exception) {
+            print_pre($exception->getMessage());
+//            throw new \DomainException('Falha na importação');
         }
     }
 

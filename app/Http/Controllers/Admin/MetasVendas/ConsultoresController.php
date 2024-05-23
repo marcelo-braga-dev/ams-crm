@@ -29,7 +29,7 @@ class ConsultoresController extends Controller
         $dados = (new MetasVendas())->getMeta($id, $ano);
         $vendasMensalUsuario = (new Pedidos())->vendasMensaisUsuario($id, $ano);
         $vendasMensalSubordinados = (new Pedidos())->vendasMensaisSubordinados($id, $ano);
-//print_pre($vendasMensalUsuario);
+
         return Inertia::render('Admin/MetasVendas/Consultores/Edit',
             compact('usuario', 'dados', 'mes', 'ano', 'vendasMensalUsuario', 'vendasMensalSubordinados'));
     }
