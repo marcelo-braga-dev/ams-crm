@@ -7,7 +7,7 @@ import * as React from "react";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 
-export default function Show({dados, historicos, status, contatos}) {
+export default function Show({dados, historicos, status, contatos, isSdr}) {
     const {data, setData, post} = useForm({
         msg: '',
         classificacao: dados.cliente.classificacao
@@ -36,7 +36,7 @@ export default function Show({dados, historicos, status, contatos}) {
                 <LeadsDados dados={dados}/>
             </div>
 
-            <div className="row mb-4">
+            {!isSdr && <div className="row mb-4">
                 <div className="col">
                     <div className="card card-body">
                         <form onSubmit={onSubmit}>
@@ -74,7 +74,7 @@ export default function Show({dados, historicos, status, contatos}) {
                         </form>
                     </div>
                 </div>
-            </div>
+            </div>}
 
             <div className="row mt-4">
                 <div className="col">

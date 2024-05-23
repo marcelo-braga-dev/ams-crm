@@ -22,10 +22,11 @@ class AbertoController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
+        $isSdr = is_sdr();
 
         return Inertia::render(
             'Consultor/Leads/Aberto/Show',
-            compact('dados', 'historicos', 'status', 'contatos')
+            compact('dados', 'historicos', 'status', 'contatos', 'isSdr')
         );
     }
 

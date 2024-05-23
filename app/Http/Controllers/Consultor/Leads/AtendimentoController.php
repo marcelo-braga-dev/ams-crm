@@ -20,10 +20,11 @@ class AtendimentoController extends Controller
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
+        $isSdr = is_sdr();
 
         return Inertia::render(
             'Consultor/Leads/Atendimento/Show',
-            compact('dados', 'status', 'historicos', 'contatos')
+            compact('dados', 'status', 'historicos', 'contatos', 'isSdr')
         );
     }
 

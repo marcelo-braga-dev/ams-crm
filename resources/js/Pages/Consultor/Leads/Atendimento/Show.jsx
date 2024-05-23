@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 
-export default function Show({dados, status, contatos, historicos}) {
+export default function Show({dados, status, contatos, historicos, isSdr}) {
     const {data, setData, post} = useForm({
         msg: '',
         classificacao: dados.cliente.classificacao,
@@ -80,26 +80,21 @@ export default function Show({dados, status, contatos, historicos}) {
                 </div>
             </div>
 
-            <div className="row justify-content-between">
-                <div className="col mb-3">
-                    <div className="card">
-                        <div className="card-body">
-                            <div className="row">
-                                <div className="col-auto">
-                                    <button onClick={() => avancaStatus(dados.id)}
-                                       className="btn btn-success">Ativar Lead</button>
-                                </div>
-                                <div className="col-auto">
-                                    <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
-                                            data-bs-target="#modalFinalizary">
-                                        Finalizar Atendimento
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+            {!isSdr && <div className="card card-body mb-4">
+                <div className="row">
+                    <div className="col-auto">
+                        <button onClick={() => avancaStatus(dados.id)}
+                                className="btn btn-success">Ativar Lead
+                        </button>
+                    </div>
+                    <div className="col-auto">
+                        <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
+                                data-bs-target="#modalFinalizary">
+                            Finalizar Atendimento
+                        </button>
                     </div>
                 </div>
-            </div>
+            </div>}
 
             <div className="row mb-4">
                 <div className="col">
@@ -172,8 +167,9 @@ export default function Show({dados, status, contatos, historicos}) {
 
                                 Confirmar finalização do atendimento?
 
-                                <TextField label="Status" className="mt-3" select fullWidth required defaultValue="" size="small"
-                                            onChange={e => setData('status', e.target.value)}>
+                                <TextField label="Status" className="mt-3" select fullWidth required defaultValue=""
+                                           size="small"
+                                           onChange={e => setData('status', e.target.value)}>
                                     {status.map((option, index) => (
                                         <MenuItem key={index} value={option.status}>
                                             {option.nome}
@@ -182,8 +178,8 @@ export default function Show({dados, status, contatos, historicos}) {
                                 </TextField>
 
                                 <TextField className="mt-3" label="Motivo/Anotações (min. 10 caracteres)" multiline
-                                        rows="6" fullWidth required
-                                        onChange={e => setData('msg', e.target.value)}/>
+                                           rows="6" fullWidth required
+                                           onChange={e => setData('msg', e.target.value)}/>
                                 <div className="text-end">
                                     <small
                                         className={data.msg.length >= 10 ? "text-success" : ''}>({data.msg.length}/10)</small>
@@ -198,7 +194,8 @@ export default function Show({dados, status, contatos, historicos}) {
                                     </div>
                                     <div className="col">
                                         <button disabled={data.msg.length < 10} type="submit"
-                                                className="btn btn-primary" data-bs-dismiss={(data.msg.length < 10) ? '' : "modal"}>
+                                                className="btn btn-primary"
+                                                data-bs-dismiss={(data.msg.length < 10) ? '' : "modal"}>
                                             Finalizar
                                         </button>
                                     </div>
