@@ -4,14 +4,16 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import BlockIcon from "@mui/icons-material/Block";
 import * as React from "react";
 
-export default function ({ usuario }) {
+export default function ({usuario}) {
     return (
-        <Layout titlePage="Dados do Usuário" menu="usuarios" submenu="usuarios-contas">
+        <Layout titlePage="Dados do Usuário" menu="usuarios" submenu="usuarios-contas"
+                voltar={route('admin.usuarios.usuario.index')}>
             <div className="row justify-content-between">
                 <div className="col">
                     <div className="row">
-                        <div className="col-auto"><Avatar alt={usuario.nome} src={usuario.foto}
-                            sx={{ width: 80, height: 80 }} /></div>
+                        <div className="col-auto">
+                            <Avatar alt={usuario.nome} src={usuario.foto} sx={{width: 80, height: 80}}/>
+                        </div>
                         <div className="col-8">
                             <h6>Nome: {usuario.nome}</h6>
                             <span className="d-block">ID: #{usuario.id}</span>
@@ -29,7 +31,7 @@ export default function ({ usuario }) {
                 </div>
                 <div className="col-auto text-right">
                     <a className="btn btn-primary"
-                        href={route('admin.usuarios.usuario.edit', usuario.id)}>Editar</a>
+                       href={route('admin.usuarios.usuario.edit', usuario.id)}>Editar</a>
                 </div>
             </div>
         </Layout>

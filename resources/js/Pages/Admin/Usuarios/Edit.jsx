@@ -3,6 +3,7 @@ import MenuItem from "@mui/material/MenuItem";
 import {router, useForm} from '@inertiajs/react';
 import {useState} from "react";
 import {Avatar, Checkbox, FormControlLabel, Stack, Switch, TextField} from "@mui/material";
+import * as React from "react";
 
 export default function ({
                              usuario,
@@ -14,6 +15,8 @@ export default function ({
                              permissoes,
                              permissoesUsuario
                          }) {
+    const [usuarioAtivos, setUsuarioAtivos] = useState(false)
+
     const {data, setData} = useForm({
         nome: usuario.nome,
         email: usuario.email,
@@ -142,9 +145,20 @@ export default function ({
                 </div>
 
                 <div className="mb-4 card card-body">
-                    <h6>Supervisonados</h6>
+                    <div className="row justify-content-between">
+                        <div className="col"><h6>Supervisonados</h6></div>
+                        <div className="col-auto">
+                            <FormControlLabel control={
+                                <Switch
+                                    // defaultChecked
+                                    onChange={e => setUsuarioAtivos(e.target.checked)}/>}
+                                              label="Ver Bloqueados"/>
+                        </div>
+                    </div>
+
                     <div className="row row-cols-4">
-                        {usuarios.map(item => (
+                        {usuarios.map(item =>
+                            (item.status === '1' || usuarioAtivos) &&
                             <div key={item.id} className="mb-2 col">
                                 <div className="p-1 card card-body">
                                     <Stack direction="row" spacing="3" className="pt-2">
@@ -159,13 +173,13 @@ export default function ({
                                         <div className="me-2"><Avatar src={item.foto}/></div>
                                         <div>
                                             <span><b>{item.nome}</b></span><br/>
-                                            <small>{item.setor_nome}</small><br/>
                                             <small>{item.funcao}</small><br/>
+                                            <small>{item.setor_nome}</small><br/>
                                         </div>
                                     </Stack>
                                 </div>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </div>
 

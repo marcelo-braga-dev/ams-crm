@@ -22,14 +22,9 @@ class UsuariosController extends Controller
 {
     public function index(Request $request)
     {
-        $status = !$request->status;
-        // $dados = (new User())->usuarios($status);
+        $status = $request->status;
 
-        // $usuarios['admins'] = [...$dados->where('tipo', (new Admins)->getFuncao())];
-        // $usuarios['supervisores'] = [...$dados->where('tipo', (new Supervisores())->getFuncao())];
-        // $usuarios['consultores'] = [...$dados->where('tipo', (new Vendedores())->getFuncao())];
-
-        $contas = (new User)->contas();
+        $contas = (new User)->contas($status);
 
         return Inertia::render(
             'Admin/Usuarios/Index',
@@ -80,7 +75,7 @@ class UsuariosController extends Controller
         $permissoes = (new PermissoesUsuarios())->permissoes();
         $permissoesUsuario = (new UsersPermissoes())->permissoes($id);
 
-        $usuarios = (new User())->allUsers();
+        $usuarios = (new User())->allUsers(false);
         $supervisionados = (new UsersHierarquias())->idSupervisonados($id);
 
         return Inertia::render(

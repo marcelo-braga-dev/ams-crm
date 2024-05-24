@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\MetasVendas;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Dashboard\Vendas\VendasService;
@@ -18,6 +19,8 @@ class VendasController extends Controller
         $setor = $request->setor ?? 1;
 
         $setores = (new Setores())->get();
+        $metaVendas = (new VendasService())->metaVendas($mes, $ano, $setor);
+//        print_pre($metaVendas);
 
         return Inertia::render(
             'Admin/Dashboard/Vendas/Index',
@@ -42,6 +45,7 @@ class VendasController extends Controller
         $metaVendas = (new VendasService())->metaVendas($mes, $ano, $setor);
         $metasVendasAnual = (new VendasService())->metaVendasAnual($ano, $setor);
         $vendasEstados = (new VendasService())->vendasPorEstados($mes, $ano, $setor);
+        $metaAnualEmpresa = (new MetasVendas())->metasMensaisEmpresa($ano);
 
         if ($request->mesComp || $request->anoComp) {
             $mesComp = $request->mesComp ?? date('n');
@@ -56,7 +60,8 @@ class VendasController extends Controller
             'vedas_metas_anual' => $metasVendasAnual,
             'vedas_metas_comp' => $metaVendasComp,
             'vedas_metas_anual_comp' => $metasVendasAnualComp,
-            'vendas_estados' => $vendasEstados
+            'vendas_estados' => $vendasEstados,
+            'meta_anual_empresa' => $metaAnualEmpresa
         ]);
     }
 }

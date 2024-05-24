@@ -99,11 +99,14 @@ class User extends Authenticatable
 
     public function allUsers($ativo = true)
     {
-        return $this->newQuery()
+        $query = $this->newQuery()
             ->leftJoin('setores', 'users.setor_id', '=', 'setores.id')
             ->leftJoin('users_funcoes', 'users.funcao_id', '=', 'users_funcoes.id')
-            ->where('status', (new AtivoStatusUsuario())->getStatus())
-            ->get(['users.id', 'name', 'status', 'funcao_id', 'foto', 'setores.nome as setor_nome', 'users_funcoes.nome as funcao_nome'])
+            ->orderBy('name');
+
+        if ($ativo) $query->where('status', (new AtivoStatusUsuario())->getStatus());
+
+        return $query->get(['users.id', 'name', 'status', 'funcao_id', 'foto', 'setores.nome as setor_nome', 'users_funcoes.nome as funcao_nome'])
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
@@ -111,7 +114,6 @@ class User extends Authenticatable
                     'setor_nome' => $item->setor_nome,
                     'status' => $item->status,
                     'funcao' => $item->funcao_nome,
-                    'funcao_id' => $item->funcao_id,
                     'funcao_id' => $item->funcao_id,
                     'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
                 ];
@@ -213,10 +215,10 @@ class User extends Authenticatable
         if ($setor) $query->where('setor_id', $setor);
 
         if ($exceto) return
-            $query->get(['id', 'name', 'setor_id', 'email',  'status', 'foto', 'ultimo_login'])
-            ->except(['id' => $exceto]);
+            $query->get(['id', 'name', 'setor_id', 'email', 'status', 'foto', 'ultimo_login'])
+                ->except(['id' => $exceto]);
 
-        return $query->get(['id', 'name', 'setor_id', 'email',  'status', 'foto', 'ultimo_login']);
+        return $query->get(['id', 'name', 'setor_id', 'email', 'status', 'foto', 'ultimo_login']);
     }
 
     public function chatInterno()
@@ -255,7 +257,7 @@ class User extends Authenticatable
             ->orWhere('id', id_usuario_atual());
 
 
-        return $query->get(['id', 'name', 'email',  'status', 'setor_id', 'franquia_id', 'foto'])
+        return $query->get(['id', 'name', 'email', 'status', 'setor_id', 'franquia_id', 'foto'])
             // ->except(['id' => 1])
             // ->except(['id' => 2])
             // ->except(['id' => 3])
@@ -474,14 +476,17 @@ class User extends Authenticatable
             ->get('id');
     }
 
-    public function contas()
+    public function contas($status)
     {
-        return $this->newQuery()
+        $query = $this->newQuery()
             ->leftJoin('users_funcoes', 'users.funcao_id', '=', 'users_funcoes.id')
             ->leftJoin('franquias', 'users.franquia_id', '=', 'franquias.id')
-            ->leftJoin('setores', 'users.setor_id', '=', 'setores.id')
-            ->where('status', (new AtivoStatusUsuario)->getStatus())
-            ->select(DB::raw('
+            ->leftJoin('setores', 'users.setor_id', '=', 'setores.id');
+
+        if (!$status) $query->where('status', (new AtivoStatusUsuario())->getStatus());
+
+        return //->where('status', (new AtivoStatusUsuario)->getStatus())
+            $query->select(DB::raw('
                 users.id as id,
                 users.name as nome,
                 users.status as status,
@@ -492,8 +497,8 @@ class User extends Authenticatable
                 setores.nome as setor_nome,
                 users.foto as foto
             '))
-            ->orderBy('nome')
-            ->get();
+                ->orderBy('nome')
+                ->get();
     }
 
     public function usuarioComMetasVendas($setor)
@@ -503,7 +508,7 @@ class User extends Authenticatable
             ->orderBy('name')
             ->whereIn('users.id', supervisionados(id_usuario_atual()))
             ->groupBy('users.id')
-            ->where('users_permissoes.chave', (new ChavesPermissoes)->chavePossuiMetasVendas())
+//            ->where('users_permissoes.chave', (new ChavesPermissoes)->chavePossuiMetasVendas())
             ->select(DB::raw(
                 'users.id as id, name, status, setor_id, foto
                 '
@@ -542,6 +547,7 @@ class User extends Authenticatable
             ->get(['users.id as id', 'name as nome', 'foto'])
             ->toArray();
     }
+
     public function usuariosRecebeLeadsId($setor)
     {
         return $this->newQuery()

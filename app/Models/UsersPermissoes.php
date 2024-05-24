@@ -21,7 +21,7 @@ class UsersPermissoes extends Model
             ->where('user_id', $id)
             ->delete();
 
-        foreach ($permissoes as $idPermissao => $item) {
+        if ($permissoes) foreach ($permissoes as $idPermissao => $item) {
             if ($item) $this->newQuery()
                 ->create([
                     'user_id' => $id,
