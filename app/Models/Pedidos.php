@@ -474,6 +474,24 @@ class Pedidos extends Model
         ];
     }
 
+    public function vendasMensaisEmpresa($ano)
+    {
+        return [
+            '1' => $this->getVendasMesEmpresa(1, $ano),
+            '2' => $this->getVendasMesEmpresa(2, $ano),
+            '3' => $this->getVendasMesEmpresa(3, $ano),
+            '4' => $this->getVendasMesEmpresa(4, $ano),
+            '5' => $this->getVendasMesEmpresa(5, $ano),
+            '6' => $this->getVendasMesEmpresa(6, $ano),
+            '7' => $this->getVendasMesEmpresa(7, $ano),
+            '8' => $this->getVendasMesEmpresa(8, $ano),
+            '9' => $this->getVendasMesEmpresa(9, $ano),
+            '10' => $this->getVendasMesEmpresa(10, $ano),
+            '11' => $this->getVendasMesEmpresa(11, $ano),
+            '12' => $this->getVendasMesEmpresa(12, $ano),
+        ];
+    }
+
     /**
      * @deprecated
      */
@@ -516,6 +534,21 @@ class Pedidos extends Model
     {
         return (new Pedidos())->newQuery()
             ->where('user_faturamento', $id)
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereMonth('data_faturamento', $mes)
+            ->whereYear('data_faturamento', $ano)
+            ->select(DB::raw('
+                count(*) as qtd,
+                SUM(preco_venda) as vendas,
+                SUM(preco_custo) as custos
+                '))
+            ->first();
+    }
+
+    public function getVendasMesEmpresa($mes, $ano)
+    {
+        return (new Pedidos())->newQuery()
+            ->where('user_faturamento', '>=', 1)
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
             ->whereMonth('data_faturamento', $mes)
             ->whereYear('data_faturamento', $ano)

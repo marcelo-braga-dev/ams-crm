@@ -87,23 +87,21 @@ export default function ({
                                 <div className="col"><h6>MÊS: </h6></div>
                             </div>
                             <div className="row">
-                                <div className="row">
-                                    <div className='col-md-2 mb-3'>
-                                        <TextField
-                                            label="Meta" fullWidth required defaultValue={valorMeta}
-                                            InputProps={{
-                                                startAdornment: <InputAdornment
-                                                    position="start">R$</InputAdornment>
-                                            }}
-                                            onChange={e => {
-                                                setValorMeta(convertInputMoney(e))
-                                                setMostarBtn(true)
-                                            }}/>
-                                    </div>
-                                    {mostarBtn && <div className="col-auto">
-                                        <button type="submit" className="btn btn-success">Salvar</button>
-                                    </div>}
+                                <div className='col-md-2 mb-3'>
+                                    <TextField
+                                        label="Meta" fullWidth required defaultValue={valorMeta}
+                                        InputProps={{
+                                            startAdornment: <InputAdornment
+                                                position="start">R$</InputAdornment>
+                                        }}
+                                        onChange={e => {
+                                            setValorMeta(convertInputMoney(e))
+                                            setMostarBtn(true)
+                                        }}/>
                                 </div>
+                                {mostarBtn && <div className="col-auto">
+                                    <button type="submit" className="btn btn-success">Salvar</button>
+                                </div>}
                             </div>
                         </div>
                     </div>

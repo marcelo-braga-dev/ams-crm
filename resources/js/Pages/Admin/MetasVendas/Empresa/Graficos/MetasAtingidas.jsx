@@ -2,21 +2,36 @@ import {Bar} from "react-chartjs-2";
 import React from "react";
 import {convertMoneyFloat} from "@/Helpers/converterDataHorario";
 
-export default function MetasAtingidas({items, dados, vendasMensalUsuario}) {
+const meses = [
+    {mes: '1', nome: 'Janeiro'},
+    {mes: '2', nome: 'Fevereiro'},
+    {mes: '3', nome: 'Março'},
+    {mes: '4', nome: 'Abril'},
+    {mes: '5', nome: 'Maio'},
+    {mes: '6', nome: 'Junho'},
+    {mes: '7', nome: 'Julho'},
+    {mes: '8', nome: 'Agosto'},
+    {mes: '9', nome: 'Setembro'},
+    {mes: '10', nome: 'Outubro'},
+    {mes: '11', nome: 'Novembro'},
+    {mes: '12', nome: 'Dezembro'},
+]
 
-    const meses = items.map((item) => {
-        return item.abv ?? ''
+export default function MetasAtingidas({metasMensais, vendasMensais}) {
+
+    const mesesNome = meses.map((item) => {
+        return item.nome ?? ''
     })
-    const metas = items.map((item) => {
-        return convertMoneyFloat(dados.metas?.[item.abv] ?? 0)
+    const metas = meses.map((item) => {
+        return metasMensais[item.mes] ?? 0
     })
-    const atingida = items.map((item) => {
-        return vendasMensalUsuario[item.abv]?.vendas ?? 0
+    const atingida = meses.map((item) => {
+        return vendasMensais[item.mes]?.vendas ?? 0
     })
 
 
     const data = {
-        labels: meses,
+        labels: mesesNome,
         datasets: [
             {
                 label: "Meta",
@@ -24,7 +39,7 @@ export default function MetasAtingidas({items, dados, vendasMensalUsuario}) {
                 data: metas,
             }, {
                 label: "Alcançado",
-                backgroundColor: "rgba(229,210,4)",
+                backgroundColor: "green",
                 data: atingida,
             },
         ],

@@ -16,15 +16,21 @@ class MetaEmpresaController extends Controller
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
 
-        $dados = (new MetasVendas())->getMetaEmpresa($mes, $ano);
-        $vendasMensalUsuario = (new Pedidos())->_vendasMensaisUsuario(1, $ano);
+        $meta = (new MetasVendas())->getMetaEmpresa($mes, $ano);
+        $vendasMensais = (new Pedidos())->vendasMensaisEmpresa($ano);
+
+        $metasMensais = (new MetasVendas())->metasMensaisEmpresa($ano);
+//        print_pre($vendasMensais);
 
         return Inertia::render('Admin/MetasVendas/Empresa/Index',
-            compact( 'dados', 'mes', 'ano', 'vendasMensalUsuario'));
+            compact('meta', 'mes', 'ano', 'metasMensais', 'vendasMensais'));
     }
 
     public function update($id, Request $request)
     {
-        print_pre($request->all());
+        (new MetasVendas())->updateMetaEmpresa($request);
+
+        modalSucesso('Dados atualizado com sucesso!');
+        return redirect()->back();
     }
 }

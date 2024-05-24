@@ -31,8 +31,19 @@ class MetasVendas extends Model
     public function getMetaEmpresa($mes, $ano)
     {
         return $this->newQuery()
-            ->where('chave', 'meta_empresa')
-            ->get();
+            ->where('chave', 'metas_empresa')
+            ->where('mes', $mes)
+            ->where('ano', $ano)
+            ->first('valor')->valor ?? 0;
+    }
+
+    public function updateMetaEmpresa($dados)
+    {
+        $this->newQuery()
+            ->updateOrCreate(
+                ['user_id' => id_usuario_atual(), 'chave' => 'metas_empresa', 'ano' => $dados->ano, 'mes' => $dados->mes],
+                ['valor' => convert_money_float($dados->valor)]
+            );
     }
 
     /**
@@ -126,7 +137,22 @@ class MetasVendas extends Model
     public function metasMensais($id, $ano)
     {
         $query = $this->newQuery()
+            ->where('chave', 'metas')
             ->where('user_id', $id)
+            ->where('ano', $ano)
+            ->get();
+
+        $res = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $res[$i] = $query->where('mes', $i)->first()->valor ?? 0;
+        }
+        return $res;
+    }
+
+    public function metasMensaisEmpresa($ano)
+    {
+        $query = $this->newQuery()
+            ->where('chave', 'metas_empresa')
             ->where('ano', $ano)
             ->get();
 
