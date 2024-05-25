@@ -535,7 +535,7 @@ class Leads extends Model
                 'cpf' => $item->cpf,
                 'cidade' => $item->cidade,
                 'estado' => $item->estado,
-                'endereco' => $item->endereco ? getEnderecoCompleto($item->endereco) : '',
+                'endereco' => '',//$item->endereco ? getEnderecoCompleto($item->endereco) : '',
                 'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
                 'classificacao' => $item->classificacao
             ],
@@ -543,7 +543,6 @@ class Leads extends Model
                 'email' => $item->email,
                 'telefone' => converterTelefone($item->telefone),
                 //                'telefones' => $telefones,
-                'atendente' => $item->atendente,
             ],
             'infos' => [
                 'setor' => $item->setor,
@@ -749,5 +748,56 @@ class Leads extends Model
                 'sdr_id' => null,
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
+    }
+
+    public function getDadosMinimo($setor, $comSdr = null, $comConsultor = null, $importacao = null)
+    {
+        $nomeConsultores = (new User())->getNomes();
+
+        $query = $this->newQuery()
+            ->where('setor_id', $setor)
+            ->orderBy('status')
+            ->orderBy('updated_at');
+
+        if ($comSdr) $query->whereNull('sdr_id',);
+        if ($comConsultor) $query->whereNull('user_id');
+        if ($importacao) $query->where('id_importacao', $importacao);
+
+        return $query->get()
+            ->transform(function ($item) use ($nomeConsultores) {
+                return [
+                    'id' => $item->id,
+                    'consultor' => [
+                        'nome' => $nomeConsultores[$item->user_id] ?? '',
+                        'id' => $item->user_id
+                    ],
+                    'sdr' => [
+                        'nome' => $nomeConsultores[$item->sdr_id] ?? '',
+                        'id' => $item->sdr_id
+                    ],
+                    'cliente' => [
+                        'nome' => $item->nome,
+                        'razao_social' => $item->razao_social,
+                        'cnpj' => converterCNPJ($item->cnpj),
+                        'rg' => $item->rg,
+                        'cpf' => $item->cpf,
+                        'cidade' => $item->cidade,
+                        'estado' => $item->estado,
+                        'classificacao' => $item->classificacao
+                    ],
+                    'contato' => [
+                        'email' => $item->email,
+                        'telefone' => converterTelefone($item->telefone),
+                    ],
+                    'infos' => [
+                        'setor' => $item->setor,
+                        'status' => $item->status,
+                        'status_nome' => (new StatusLeads())->nome($item->status),
+                        'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
+                        'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
+                        'pedido_emitido' => $item->pedido_emitido
+                    ]
+                ];
+            });
     }
 }

@@ -31,6 +31,24 @@ class LeadsController extends Controller
             compact('datasImportacao', 'categorias'));
     }
 
+    public function cadastrados(Request $request)
+    {
+        $categorias = (new SetoresService())->setores();
+        $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
+
+        return Inertia::render('Admin/Leads/Cadastrados',
+            compact('categorias', 'datasImportacao'));
+    }
+
+    public function leadsCadastrados(Request $request)
+    {
+        $categoriaAtual = $request->setor ?? 1;
+        $usuarios = (new User())->getUsuarios($categoriaAtual);
+        $dados = (new Leads())->getDadosMinimo($categoriaAtual, $request->com_sdr, $request->com_consultor, $request->importacao);
+
+        return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
+    }
+
     public function registrosEncaminhar(Request $request)
     {
         $categoriaAtual = $request->setor ?? 1;
@@ -72,15 +90,6 @@ class LeadsController extends Controller
 
         modalSucesso('Informações armazenadas com sucesso!');
         return redirect()->back();
-    }
-
-    public function cadastrados(Request $request)
-    {
-        $categorias = (new SetoresService())->setores();
-        $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
-
-        return Inertia::render('Admin/Leads/Cadastrados',
-            compact('categorias', 'datasImportacao'));
     }
 
     public function delete(Request $request)
@@ -209,21 +218,13 @@ class LeadsController extends Controller
             compact('qtdLeads'));
     }
 
-    public function leads(Request $request)
-    {
-        $categoriaAtual = $request->setor ?? 1;
-        $usuarios = (new User())->getUsuarios($categoriaAtual);
-        $dados = (new Leads())->getResumido($categoriaAtual, $request->com_sdr, $request->com_consultor, $request->importacao);
-
-        return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
-    }
-
     public function removerConsultor(Request $request)
     {
         (new Leads())->removerConsultor($request->lead);
 
         return redirect()->back();
     }
+
     public function removerSdr(Request $request)
     {
         (new Leads())->removerSdr($request->lead);

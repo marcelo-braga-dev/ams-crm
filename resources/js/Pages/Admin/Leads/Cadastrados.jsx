@@ -160,137 +160,146 @@ export default function ({categorias, datasImportacao}) {
     }
 
     return (
-        <Layout container titlePage="Leads Cadastrados" menu="leads" submenu="leads-cadastrados">
+        <Layout empty titlePage="Leads Cadastrados" menu="leads" submenu="leads-cadastrados">
             {/*Setores*/}
-            <div className="row justify-content-between border-bottom mb-4 pb-2">
-                <div className="col-md-3">
-                    <TextField label="Setor" select fullWidth
-                               value={setorSelecionado ?? ''}
-                               onChange={e => setSetorSelecionado(e.target.value)}>
-                        {categorias.map((option) =>
-                            <MenuItem key={option.id} value={option.id}>
-                                {option.nome}
-                            </MenuItem>)
-                        }
-                    </TextField>
-                </div>
-                <div className="col-auto">
-                    <TextField select label="Importação" fullWidth size="small" sx={{minWidth: 120}}
-                               onChange={e => setImportacao(e.target.value)}>
-                        <MenuItem>Todas as datas</MenuItem>
-                        {datasImportacao.map(item => <MenuItem value={item.id}>#{item.id} {item.data}</MenuItem>)}
-                    </TextField>
-                </div>
-                <div className="col-auto">
-                    <TextField
-                        sx={{minWidth: 100}}
-                        select label="Status"
-                        defaultValue="" size="small"
-                        onChange={event => setStatus(event.target.value)}
-                        className="me-4"
-                    >
-                        <MenuItem value="">
-                            Todos
-                        </MenuItem>
-                        <MenuItem value="novo">
-                            Iniciar Atendimento
-                        </MenuItem>
-                        <MenuItem value="pre_atendimento">
-                            Pré-Atendimento
-                        </MenuItem>
-                        <MenuItem value="atendimento">
-                            Atendimento
-                        </MenuItem>
-                        <MenuItem value="ativo">
-                            Ativo
-                        </MenuItem>
-                        <MenuItem value="finalizado">
-                            Finalizados
-                        </MenuItem>
-                    </TextField>
-                </div>
-                <div className="col-auto">
-                    <TextField
-                        label="Filtro" select defaultValue="nome" size="small"
-                        onChange={event => setFiltro(event.target.value)}>
-                        <MenuItem value="id">ID</MenuItem>
-                        <MenuItem value="nome">Nome/Razão Social</MenuItem>
-                        <MenuItem value="cnpj">CNPJ</MenuItem>
-                        <MenuItem value="cidade">Cidade</MenuItem>
-                        <MenuItem value="ddd">DDD</MenuItem>
-                        <MenuItem value="telefone">Telefone</MenuItem>
-                    </TextField>
-                    <TextField
-                        placeholder="Pesquisar..."
-                        value={filterText}
-                        onChange={e => setFilterText(e.target.value)}
-                        size="small"
-                    />
+            <div className="card card-body mb-4">
+                <div className="row justify-content-between">
+                    <div className="col-md-3">
+                        <TextField label="Setor" select fullWidth size="small"
+                                   value={setorSelecionado ?? ''}
+                                   onChange={e => setSetorSelecionado(e.target.value)}>
+                            {categorias.map((option) =>
+                                <MenuItem key={option.id} value={option.id}>
+                                    {option.nome}
+                                </MenuItem>)
+                            }
+                        </TextField>
+                    </div>
+                    <div className="col-auto">
+                        <TextField select label="Importação" fullWidth size="small" sx={{minWidth: 120}}
+                                   onChange={e => setImportacao(e.target.value)}>
+                            <MenuItem>Todas as datas</MenuItem>
+                            {datasImportacao.map(item => <MenuItem value={item.id}>#{item.id} {item.data}</MenuItem>)}
+                        </TextField>
+                    </div>
+                    <div className="col-auto">
+                        <TextField
+                            sx={{minWidth: 100}}
+                            select label="Status"
+                            defaultValue="" size="small"
+                            onChange={event => setStatus(event.target.value)}
+                            className="me-4"
+                        >
+                            <MenuItem value="">
+                                Todos
+                            </MenuItem>
+                            <MenuItem value="novo">
+                                Iniciar Atendimento
+                            </MenuItem>
+                            <MenuItem value="pre_atendimento">
+                                Pré-Atendimento
+                            </MenuItem>
+                            <MenuItem value="atendimento">
+                                Atendimento
+                            </MenuItem>
+                            <MenuItem value="ativo">
+                                Ativo
+                            </MenuItem>
+                            <MenuItem value="finalizado">
+                                Finalizados
+                            </MenuItem>
+                        </TextField>
+                    </div>
+                    <div className="col-auto">
+                        <TextField
+                            label="Filtro" select defaultValue="nome" size="small"
+                            onChange={event => setFiltro(event.target.value)}>
+                            <MenuItem value="id">ID</MenuItem>
+                            <MenuItem value="nome">Nome/Razão Social</MenuItem>
+                            <MenuItem value="cnpj">CNPJ</MenuItem>
+                            <MenuItem value="cidade">Cidade</MenuItem>
+                            <MenuItem value="ddd">DDD</MenuItem>
+                            <MenuItem value="telefone">Telefone</MenuItem>
+                        </TextField>
+                        <TextField
+                            placeholder="Pesquisar..."
+                            value={filterText}
+                            onChange={e => setFilterText(e.target.value)}
+                            size="small"
+                        />
+                    </div>
                 </div>
             </div>
 
-            <div className="row justify-content-between">
-                <div className="col-4">
-                    <div className="row">
-                        <div className="col-9">
-                            <TextField label="Selecione o Consultor para enviar..." select
-                                       value={consultorSelecionado ?? ''}
-                                       fullWidth required
-                                       onChange={e => setConsultorSelecionado(e.target.value)}>
-                                {usuarios.map((option) => (
-                                    <MenuItem key={option.id} value={option.id}>
-                                        #{option.id} - {option.name}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </div>
-                        <div className="col-2">
-                            <button type="button" className="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#modalEnviar">
-                                ENVIAR
-                            </button>
+            <div className="card card-body mb-4">
+                <div className="row justify-content-between">
+                    <div className="col-auto">
+                        <Stack direction="column" spacing="0">
+                            <FormControlLabel label={<small>Apenas SEM SDR</small>}
+                                              control={<Switch size="small"
+                                                               onChange={e => setComSdr(e.target.checked)}/>}/>
+                            <FormControlLabel label={<small>Apenas SEM Consultor(a)</small>}
+                                              control={<Switch size="small"
+                                                               onChange={e => setComConsultor(e.target.checked)}/>}/>
+                        </Stack>
+                    </div>
+                    <div className="col-4">
+                        <div className="row">
+                            <div className="col-9">
+                                <TextField label="Enviar Lead para..." select fullWidth required
+                                           value={consultorSelecionado ?? ''}
+                                           onChange={e => setConsultorSelecionado(e.target.value)}>
+                                    {usuarios.map((option) => (
+                                        <MenuItem key={option.id} value={option.id}>
+                                            #{option.id} - {option.name}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <div className="col-2">
+                                <button type="button" className="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#modalEnviar">
+                                    ENVIAR
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="col-auto">
-                    <Stack direction="column" spacing="0">
-                        <FormControlLabel label={<small>Apenas com SDR</small>}
-                                          control={<Switch size="small"
-                                                           onChange={e => setComSdr(e.target.checked)}/>}/>
-                        <FormControlLabel label={<small>Apenas com Consultor(a)</small>}
-                                          control={<Switch size="small"
-                                                           onChange={e => setComConsultor(e.target.checked)}/>}/>
-                    </Stack>
-                </div>
-                <div className="col-auto">
-                    <Stack direction="column" spacing="0">
-                        <button className="btn btn-link btn-sm p-0 text-end text-dark">Remover SDR</button>
-                        <button className="btn btn-link btn-sm p-0 text-end text-dark">Remover Consultor(a)</button>
-                    </Stack>
+
+                    <div className="col-auto">
+                        <Stack direction="column" spacing="0">
+                            <button className="btn btn-link btn-sm p-0 text-end text-dark">Remover SDR</button>
+                            <button className="btn btn-link btn-sm p-0 text-end text-dark">Remover Consultor(a)</button>
+                        </Stack>
+                    </div>
                 </div>
             </div>
 
             {carregando && <LinearProgress/>}
 
-            {!carregando && <DataTable
-                columns={columns}
-                data={filteredItems}
-                pagination striped highlightOnHover
-                paginationPerPage={rowsPerPage}
-                onChangeRowsPerPage={value => setRowsPerPage(value)}
-                onChangePage={value => {
-                    setPageAtual(value)
-                    setCheckedPage(false)
-                }}
-                paginationComponentOptions={
-                    {
-                        rowsPerPageText: 'Itens por página',
-                        rangeSeparatorText: 'de',
-                        selectAllRowsItem: false,
-                        selectAllRowsItemText: 'Todos',
-                    }
-                }
-            />}
+
+            {!carregando &&
+                <div className="card card-body mb-4">
+                    <DataTable
+                        columns={columns}
+                        data={filteredItems}
+                        pagination striped highlightOnHover
+                        paginationPerPage={rowsPerPage}
+                        onChangeRowsPerPage={value => setRowsPerPage(value)}
+                        onChangePage={value => {
+                            setPageAtual(value)
+                            setCheckedPage(false)
+                        }}
+                        paginationComponentOptions={
+                            {
+                                rowsPerPageText: 'Itens por página',
+                                rangeSeparatorText: 'de',
+                                selectAllRowsItem: false,
+                                selectAllRowsItemText: 'Todos',
+                            }
+                        }
+                    />
+                </div>
+            }
 
             {/*MODAL ENVIAR*/}
             <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
@@ -307,7 +316,8 @@ export default function ({categorias, datasImportacao}) {
                             {nomeConsultorSelecionado()}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar
+                            </button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
                                     onClick={() => enviarLeads()}>
                                 Alterar Consultor(a).
