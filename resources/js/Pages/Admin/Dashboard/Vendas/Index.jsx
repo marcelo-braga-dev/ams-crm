@@ -184,7 +184,7 @@ export default function ({mes, ano, setores, setor}) {
                                         </Avatar>
                                     </div>
                                     <div className="col-auto">
-                                        <small className="">Diferença Vendas e Meta</small>
+                                        <small className="">Vendas x Meta</small>
                                         <h6 className="text-end">
                                             R$ {convertFloatToMoney(vendasTotal.vendas - vendasMetas?.totalMetas)} (
                                             {convertFloatToMoney(((vendasTotal.vendas - vendasMetas?.totalMetas) / vendasMetas?.totalMetas * 100) + 100)}%)
