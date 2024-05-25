@@ -46,13 +46,15 @@ export default function ({categorias, datasImportacao}) {
     }, [status]);
 
     function getFilteredItems(linhas, filtro, filterText, status) {
-        return linhas.filter(item => filtro === 'id' && item.id && item.id.toString() === filterText || filtro === 'id' && filterText === ''
+        return linhas.filter(
+            item => filtro === 'id' && item.id && item.id.toString() === filterText
+            || filtro === 'id' && filterText === ''
             || filtro === 'nome' && item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) || filtro === 'nome' && item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
             || filtro === 'telefone' && item.telefone && item.telefone.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
             || filtro === 'cidade' && item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
             || filtro === 'cnpj' && item.cnpj && item.cnpj.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
             || filtro === 'consultor' && item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
-            || filtro === 'status' && item.status && item.status === status
+            || filtro === 'status' && (item.status.length > 0 ? item.status === status : false)
             || filtro === 'comSdr' && item.sdr && item.sdr.length > 0
             || filtro === 'ddd' && item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
             || filtro === 'ddd' && filterText === '');
@@ -78,6 +80,7 @@ export default function ({categorias, datasImportacao}) {
 
     const [filterText, setFilterText] = useState('');
     const [filtro, setFiltro] = useState('nome');
+
     const filteredItems = getFilteredItems(linhas, filtro, filterText, status);
 
     const columns = [
@@ -188,7 +191,6 @@ export default function ({categorias, datasImportacao}) {
                             select label="Status"
                             defaultValue="" size="small"
                             onChange={event => setStatus(event.target.value)}
-                            className="me-4"
                         >
                             <MenuItem value="">
                                 Todos
@@ -246,13 +248,12 @@ export default function ({categorias, datasImportacao}) {
                     <div className="col-4">
                         <div className="row">
                             <div className="col-9">
-                                <TextField label="Enviar Lead para..." select fullWidth required
-                                           value={consultorSelecionado ?? ''}
-                                           onChange={e => setConsultorSelecionado(e.target.value)}>
+                                <TextField
+                                    label="Enviar Lead para..." select fullWidth required
+                                    value={consultorSelecionado ?? ''}
+                                    onChange={e => setConsultorSelecionado(e.target.value)}>
                                     {usuarios.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            #{option.id} - {option.name}
-                                        </MenuItem>
+                                        <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
                                     ))}
                                 </TextField>
                             </div>
