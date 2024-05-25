@@ -1,18 +1,19 @@
 import { Bar } from "react-chartjs-2";
 import React from "react";
 
-export default function MetaVendas({ dados, dadosComp }) {
+export default function MetaVendas({ dados, dadosComp, metasUsuarios , vendasUsuarios }) {
 
-    const nomes = dados.vendas.map((item) => {
+    const nomes = vendasUsuarios.map((item) => {
         return item.nome
     })
-    const meta = dados.vendas.map((item) => {
-        return item.meta
-    })
-    const venda = dados.vendas.map((item) => {
+
+    const venda = vendasUsuarios.map((item) => {
         return item.vendas
     })
 
+    const meta = vendasUsuarios.map((item) => {
+        return metasUsuarios?.[item.id]
+    })
 
     const metaComp = dadosComp?.vendas.map((item) => {
         return item.meta
@@ -23,13 +24,13 @@ export default function MetaVendas({ dados, dadosComp }) {
 
     let colunas = [
         {
+            label: "Vendas",
+            backgroundColor: "rgba(65,211,16,0.89)",
+            data: venda,
+        } ,{
             label: "Meta",
             backgroundColor: "#11258d",
             data: meta,
-        }, {
-            label: "Vendas",
-            backgroundColor: "rgba(211,84,16,0.89)",
-            data: venda,
         }
     ]
 

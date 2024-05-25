@@ -65,6 +65,97 @@ class Pedidos extends Model
             });
     }
 
+    public function getVendasMesUsuario($id, $mes, $ano)
+    {
+        return (new Pedidos())->newQuery()
+            ->where('user_faturamento', $id)
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereMonth('data_faturamento', $mes)
+            ->whereYear('data_faturamento', $ano)
+            ->select(DB::raw('
+                count(*) as qtd,
+                SUM(preco_venda) as vendas,
+                SUM(preco_custo) as custos
+                '))
+            ->first();
+    }
+
+    public function vendasPeriodo($mes, $ano, $setor)
+    {
+
+        $nomes = (new User())->getNomesAvatar();
+
+        return $this->newQuery()
+            ->whereIn(DB::raw('MONTH(data_faturamento)'), $mes)
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereYear('data_faturamento', $ano)
+            ->where('setor_id', $setor)
+            ->select(DB::raw('
+                user_faturamento as id,
+                SUM(preco_venda) as vendas,
+                SUM(preco_custo) as custos,
+                (SUM(preco_venda) - SUM(preco_custo)) as lucro,
+                COUNT(user_faturamento) as qtd
+            '))
+            ->groupBy('user_faturamento')
+            ->orderByDesc('vendas')
+            ->get()
+            ->transform(function ($item) use ($nomes) {
+                return [
+                    'id' => $item->id,
+                    'vendas' => $item->vendas,
+                    'custos' => $item->custos,
+                    'lucro' => $item->lucro,
+                    'qtd' => $item->qtd,
+                    'nome' => $nomes[$item->id]['nome'] ?? '',
+                    'foto' => $nomes[$item->id]['foto'] ?? '',
+                ];
+            });
+    }
+
+    public function vendasMensalEmpresa($mes, $ano, $setor)
+    {
+       return $this->newQuery()
+            ->whereIn(DB::raw('MONTH(data_faturamento)'), $mes)
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereYear('data_faturamento', $ano)
+            ->where('setor_id', $setor)
+            ->select(DB::raw('
+                SUM(preco_venda) as vendas,
+                SUM(preco_custo) as custos,
+                (SUM(preco_venda) - SUM(preco_custo)) as lucro,
+                COUNT(user_faturamento) as qtd
+            '))
+            ->orderByDesc('vendas')
+            ->first();
+    }
+
+    public function vendasAnualEmpresa($ano, $setor)
+    {
+        $dados = $this->newQuery()
+            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereYear('data_faturamento', $ano)
+            ->where('setor_id', $setor)
+            ->select(DB::raw('
+                SUM(preco_venda) as vendas,
+                SUM(preco_custo) as custos,
+                (SUM(preco_venda) - SUM(preco_custo)) as lucro,
+                COUNT(user_faturamento) as qtd,
+                MONTH(data_faturamento) as mes
+            '))
+            ->groupBy(DB::raw('MONTH(data_faturamento)'))
+            ->orderBy(DB::raw('MONTH(data_faturamento)'))
+            ->get();
+
+        $res = [];
+        foreach ($dados as $dado) {
+            $res[$dado->mes] = $dado;
+        }
+
+        return $res;
+
+    }
+
     private function franquia(): void
     {
         if (is_admin() && !franquia_usuario_atual()) {
@@ -530,20 +621,7 @@ class Pedidos extends Model
         return [...$dados];
     }
 
-    public function getVendasMesUsuario($id, $mes, $ano)
-    {
-        return (new Pedidos())->newQuery()
-            ->where('user_faturamento', $id)
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
-            ->whereMonth('data_faturamento', $mes)
-            ->whereYear('data_faturamento', $ano)
-            ->select(DB::raw('
-                count(*) as qtd,
-                SUM(preco_venda) as vendas,
-                SUM(preco_custo) as custos
-                '))
-            ->first();
-    }
+
 
     public function getVendasMesEmpresa($mes, $ano)
     {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\MetasVendas;
+use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Dashboard\Vendas\VendasService;
@@ -17,10 +18,8 @@ class VendasController extends Controller
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
         $setor = $request->setor ?? 1;
-
+//print_pre($vendasAnulTotal = (new Pedidos())->vendasAnualEmpresa($ano, $setor));
         $setores = (new Setores())->get();
-        $metaVendas = (new VendasService())->metaVendas($mes, $ano, $setor);
-//        print_pre($metaVendas);
 
         return Inertia::render(
             'Admin/Dashboard/Vendas/Index',
@@ -39,6 +38,13 @@ class VendasController extends Controller
         $ano = $request->ano ?? date('Y');
         $setor = $request->setor ?? 1;
 
+        $vendas = (new Pedidos())->vendasPeriodo($mes, $ano, $setor);
+        $vendasTotal = (new Pedidos())->vendasMensalEmpresa($mes, $ano, $setor);
+        $vendasAnual = (new Pedidos())->vendasAnualEmpresa($ano, $setor);
+
+        $metasUsuarios = (new MetasVendas())->metasMensalUsuarios($mes, $ano);
+
+        //
         $metaVendasComp = null;
         $metasVendasAnualComp = null;
 
@@ -56,6 +62,10 @@ class VendasController extends Controller
         }
 
         return response()->json([
+            'vendas' => ['usuarios' => $vendas, 'total' => $vendasTotal],
+            'vendas_anual' => $vendasAnual,
+            'metas_usuarios' => $metasUsuarios,
+
             'vedas_metas' => $metaVendas,
             'vedas_metas_anual' => $metasVendasAnual,
             'vedas_metas_comp' => $metaVendasComp,

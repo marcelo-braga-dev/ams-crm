@@ -506,11 +506,11 @@ class User extends Authenticatable
         $query = $this->newQuery()
             ->leftJoin('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
             ->orderBy('name')
+//            ->where('users_permissoes.chave', '=', (new ChavesPermissoes)->chavePedidosEmitir())
             ->whereIn('users.id', supervisionados(id_usuario_atual()))
             ->groupBy('users.id')
-//            ->where('users_permissoes.chave', (new ChavesPermissoes)->chavePossuiMetasVendas())
             ->select(DB::raw(
-                'users.id as id, name, status, setor_id, foto
+                'users.id as id, name, status, setor_id, foto, users_permissoes.chave as sdr
                 '
             ));
 
@@ -524,7 +524,8 @@ class User extends Authenticatable
                     'status' => $item->status,
                     'setor' => $setores[$item->setor_id]['nome'] ?? '',
                     'foto' => asset('storage/' . $item->foto),
-                    'has_meta' => $item->has_meta
+                    'has_meta' => $item->has_meta,
+                    'sdr' => $item->sdr
                 ];
             });
     }

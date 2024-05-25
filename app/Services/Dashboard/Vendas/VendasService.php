@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class VendasService
 {
+    /**
+     * @deprecated
+     */
     public function metaVendas($mes, $ano, $setor): array
     {
-        // $usuarios = (new User())->getUsuarios($setor, false);
         $isAdmin = is_admin();
 
         $vendasUsuarios = [];
@@ -32,15 +34,9 @@ class VendasService
 
             if (is_array($mes))
                 foreach ($mes as $item) {
-                    $vendas += (new Pedidos())->getVendasMesUsuario($usuario['id'], $item, $ano)->vendas;
-                    $custos += (new Pedidos())->getVendasMesUsuario($usuario['id'], $item, $ano)->custos;
-                    $qtd += (new Pedidos())->getVendasMesUsuario($usuario['id'], $item, $ano)->qtd;
                     if ($usuario['status']) $metas += (new MetasVendas())->getMetaMes($usuario['id'], $item, $ano);
                 }
             else {
-                $vendas = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano)->vendas;
-                $custos = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano)->custos;
-                $qtd = (new Pedidos())->getVendasMesUsuario($usuario['id'], $mes, $ano)->qtd;
                 if ($usuario['status']) $metas = (new MetasVendas())->getMetaMes($usuario['id'], $mes, $ano);
             }
 

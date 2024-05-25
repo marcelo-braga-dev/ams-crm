@@ -162,4 +162,12 @@ class MetasVendas extends Model
         }
         return $res;
     }
+
+    public function metasMensalUsuarios($mes, $ano)
+    {
+        return $this->newQuery()
+            ->where('mes', $mes)
+            ->where('ano', $ano)
+            ->pluck('valor', 'user_id');
+    }
 }

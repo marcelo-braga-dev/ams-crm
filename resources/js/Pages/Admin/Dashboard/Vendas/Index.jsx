@@ -6,8 +6,9 @@ import Avatar from "@mui/material/Avatar";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TimelineIcon from '@mui/icons-material/Timeline';
+import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import TopVendas from "@/Pages/Admin/Dashboard/Vendas/Graficos/TopVendas";
-import VendasMensasPie from "@/Pages/Admin/Dashboard/Vendas/Graficos/VendasMensasPie";
+import VendasAnuais from "@/Pages/Admin/Dashboard/Vendas/Graficos/VendasMensasPie";
 import {Stack, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {useEffect, useState} from "react";
@@ -22,6 +23,11 @@ import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
 import VendasEstadosGrafico from "./Graficos/VendasEstadosGrafico";
 
 export default function ({mes, ano, setores, setor}) {
+    const [vendasUsuarios, setVendasUsuarios] = useState([]);
+    const [vendasTotal, setVendasTotal] = useState([]);
+    const [vendasAnual, setVendasAnual] = useState([]);
+    const [metasUsuarios, setMetasUsuarios] = useState([]);
+
     const [mesesSelecionado, setMesesSelecionado] = useState([mes]);
     const [anoSelecionado, setAnoSelecionado] = useState(ano);
     const [setorSelecionado, setSetorSelecionado] = useState([setor]);
@@ -50,6 +56,12 @@ export default function ({mes, ano, setores, setor}) {
                 anoComp: anoSelecionadoComp
             }))
             .then(res => {
+                setVendasUsuarios(res.data.vendas.usuarios)
+                setVendasTotal(res.data.vendas.total)
+                setVendasAnual(res.data.vendas_anual)
+
+                setMetasUsuarios(res.data.metas_usuarios)
+                //
                 setVendasMetas(res.data.vedas_metas)
                 setVendasMetasAnual(res.data.vedas_metas_anual)
                 setVendasMetasComp(res.data.vedas_metas_comp)
@@ -116,9 +128,9 @@ export default function ({mes, ano, setores, setor}) {
                                     </div>
                                     <div className="col-auto">
                                         <small className="">Vendas</small>
-                                        <h5 className="text-end">R$ {convertFloatToMoney(vendasMetas?.totalVendas)}</h5>
+                                        <h6 className="text-end">R$ {convertFloatToMoney(vendasTotal.vendas)}</h6>
                                         {vendasMetasComp?.totalVendas &&
-                                            <h5 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas)}</h5>}
+                                            <h6 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas)}</h6>}
                                     </div>
                                 </div>
                             </div>
@@ -135,9 +147,9 @@ export default function ({mes, ano, setores, setor}) {
                                     </div>
                                     <div className="col-auto">
                                         <small className="">Meta de Vendas</small>
-                                        <h5 className="text-end">R$ {convertFloatToMoney(vendasMetas?.totalMetas)}</h5>
+                                        <h6 className="text-end">R$ {convertFloatToMoney(vendasMetas?.totalMetas)}</h6>
                                         {vendasMetasComp?.totalMetas &&
-                                            <h5 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</h5>}
+                                            <h6 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</h6>}
                                     </div>
                                 </div>
                             </div>
@@ -148,15 +160,15 @@ export default function ({mes, ano, setores, setor}) {
                             <div className="card-body">
                                 <div className="row align-items-center">
                                     <div className="col-auto">
-                                        <Avatar sx={{bgcolor: 'orange'}}>
-                                            <TrendingUpIcon/>
+                                        <Avatar sx={{bgcolor: 'blue'}}>
+                                            <AccountBalanceOutlinedIcon/>
                                         </Avatar>
                                     </div>
                                     <div className="col-auto">
                                         <small className="">Meta de Vendas da Empresa</small>
-                                        <h5 className="text-end">R$ {convertFloatToMoney(metasEmpresas?.[mes])}</h5>
+                                        <h6 >R$ {convertFloatToMoney(metasEmpresas?.[mes])}</h6>
                                         {vendasMetasComp?.totalMetas &&
-                                            <h5 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</h5>}
+                                            <h6 >R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</h6>}
                                     </div>
                                 </div>
                             </div>
@@ -173,13 +185,13 @@ export default function ({mes, ano, setores, setor}) {
                                     </div>
                                     <div className="col-auto">
                                         <small className="">Diferença Vendas e Meta</small>
-                                        <h5 className="text-end">
-                                            R$ {convertFloatToMoney(vendasMetas?.totalVendas - vendasMetas?.totalMetas)} (
-                                            {convertFloatToMoney(((vendasMetas?.totalVendas - vendasMetas?.totalMetas) / vendasMetas?.totalMetas * 100) + 100)}%)
-                                        </h5>
+                                        <h6 className="text-end">
+                                            R$ {convertFloatToMoney(vendasTotal.vendas - vendasMetas?.totalMetas)} (
+                                            {convertFloatToMoney(((vendasTotal.vendas - vendasMetas?.totalMetas) / vendasMetas?.totalMetas * 100) + 100)}%)
+                                        </h6>
                                         {vendasMetasComp?.totalMetas &&
-                                            <h5 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas)}
-                                            </h5>}
+                                            <h6 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas)}
+                                            </h6>}
 
                                     </div>
                                 </div>
@@ -205,8 +217,10 @@ export default function ({mes, ano, setores, setor}) {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {vendasMetas?.vendas?.map((item, index) => {
-                                    const dif = item.vendas - item.meta
+                                {vendasUsuarios?.map((item, index) => {
+                                    const meta = metasUsuarios?.[item.id]
+
+                                    const dif = item.vendas - meta
 
                                     const vendasComp = vendasMetasComp?.vendas?.[index]?.vendas
                                     const metasComp = vendasMetasComp?.vendas?.[index]?.meta
@@ -224,7 +238,7 @@ export default function ({mes, ano, setores, setor}) {
                                                 </Stack>
                                             </td>
                                             <td className="text-dark">
-                                                R$ {convertFloatToMoney(item.meta)}
+                                                R$ {convertFloatToMoney(meta)}
                                                 {vendasMetasComp &&
                                                     <span className="d-block">R$ {convertFloatToMoney(metasComp)}</span>
                                                 }
@@ -248,9 +262,11 @@ export default function ({mes, ano, setores, setor}) {
                                                         {convertFloatToMoney((vendasComp - custosComp) / custosComp * 100)}%)</span>}
                                             </td>}
                                             <td>
-                                                    <span
-                                                        className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}> R$ {convertFloatToMoney(item.vendas - item.meta)} (
-                                                        {convertFloatToMoney(((item.vendas - item.meta) / item.meta * 100) + 100)}%)</span>
+                                                <span
+                                                    className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}>
+                                                    R$ {convertFloatToMoney(item.vendas - meta)} (
+                                                    {convertFloatToMoney(((item.vendas - meta) / meta * 100) + 100)}%)
+                                                </span>
 
                                                 {vendasMetasComp && <span
                                                     className={"d-block " + ((difComp) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : ''))}>R$ {convertFloatToMoney(vendasComp - metasComp)} (
@@ -270,7 +286,7 @@ export default function ({mes, ano, setores, setor}) {
                                     )
                                 })}
                                 <tr
-                                    className={'bg-light ' + ((vendasMetas?.totalVendas - vendasMetas?.totalMetas) > 0 ? 'text-success' : (vendasMetas?.totalVendas - vendasMetas?.totalMetas < 0 ? 'text-danger' : ''))}>
+                                    className={'bg-light ' + ((vendasTotal.vendas - vendasMetas?.totalMetas) > 0 ? 'text-success' : (vendasTotal.vendas - vendasMetas?.totalMetas < 0 ? 'text-danger' : ''))}>
                                     <td className="text-dark"><b>TOTAL</b></td>
                                     <td className="text-dark">
                                         R$ {convertFloatToMoney(vendasMetas?.totalMetas)}
@@ -278,18 +294,18 @@ export default function ({mes, ano, setores, setor}) {
                                             className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</span>}
                                     </td>
                                     <td className="text-dark">
-                                        R$ {convertFloatToMoney(vendasMetas?.totalVendas)}
+                                        R$ {convertFloatToMoney(vendasTotal.vendas)}
                                         {vendasMetasComp && <span
                                             className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas)}</span>}
                                     </td>
                                     <td className="text-center text-dark">
-                                        {vendasMetas?.totalQtd}
+                                        {vendasTotal.qtd}
                                         {vendasMetasComp &&
                                             <span className="d-block">{vendasMetasComp?.totalQtd}</span>}
                                     </td>
-                                    {admin && <td>
-                                        R$ {convertFloatToMoney(vendasMetas?.totalVendas - vendasMetas?.totalCustos)}(
-                                        {convertFloatToMoney((vendasMetas?.totalVendas - vendasMetas?.totalCustos) / vendasMetas?.totalCustos * 100)}%)
+                                    {admin && <td className="text-center text-dark">
+                                        R$ {convertFloatToMoney(vendasTotal.lucro)}(
+                                        {convertFloatToMoney(vendasTotal.lucro / vendasTotal.custos * 100)}%)
                                         {vendasMetasComp &&
                                             <span
                                                 className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalCustos)}(
@@ -298,8 +314,8 @@ export default function ({mes, ano, setores, setor}) {
                                         }
                                     </td>}
                                     <td>
-                                        R$ {convertFloatToMoney(vendasMetas?.totalVendas - vendasMetas?.totalMetas)} (
-                                        {convertFloatToMoney(((vendasMetas?.totalVendas - vendasMetas?.totalMetas) / vendasMetas?.totalMetas * 100) + 100)}%)
+                                        R$ {convertFloatToMoney(vendasTotal.vendas - vendasMetas?.totalMetas)} (
+                                        {convertFloatToMoney(((vendasTotal.vendas - vendasMetas?.totalMetas) / vendasMetas?.totalMetas * 100) + 100)}%)
                                         {vendasMetasComp &&
                                             <span
                                                 className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas)} (
@@ -309,15 +325,13 @@ export default function ({mes, ano, setores, setor}) {
                                     </td>
                                     <td></td>
                                 </tr>
-                                <tr className="border-bottom">
-                                    <td>METAS DA EMPRESA</td>
-                                    <td>R$ {convertFloatToMoney(metasEmpresas?.[mes])}</td>
-                                </tr>
+
                                 </tbody>
                             </table>
                         </div>
+
                         <div className="row">
-                            <MetaVendas dados={vendasMetas} dadosComp={vendasMetasComp}/>
+                            <MetaVendas vendasUsuarios={vendasUsuarios} metasUsuarios={metasUsuarios} dados={vendasMetas} dadosComp={vendasMetasComp}/>
                         </div>
                     </div>
                 </div>
@@ -327,7 +341,7 @@ export default function ({mes, ano, setores, setor}) {
                         <div className="card">
                             <div className="card-body">
                                 <h6>Vendas Anuais</h6>
-                                <VendasMensasPie dados={vendasMetasAnual} metasEmpresas={metasEmpresas}/>
+                                <VendasAnuais dados={vendasMetasAnual} vendasAnual={vendasAnual} metasEmpresas={metasEmpresas}/>
                             </div>
                         </div>
                     </div>
@@ -348,19 +362,21 @@ export default function ({mes, ano, setores, setor}) {
                                         </thead>
                                         <tbody>
                                         {vendasMetasAnual.map((item, index) => {
-                                            const dif = item.total_vendas - item.total_metas
+                                            const alcancado = vendasAnual?.[index + 1]?.vendas
+                                            const dif = alcancado - item.total_metas
+
                                             return (
                                                 <tr key={index}
-                                                    className={dif >= 0 ? 'text-success' : (item.total_vendas > 0 ? 'text-danger' : '')}>
+                                                    className={dif >= 0 ? 'text-success' : (alcancado > 0 ? 'text-danger' : '')}>
                                                     <td className="text-center text-dark">
                                                         <b>{(item.mes).toUpperCase()}</b>
                                                     </td>
                                                     <td className="text-dark">R$ {convertFloatToMoney(item.total_metas)}</td>
                                                     <td className="text-dark">R$ {convertFloatToMoney(metasEmpresas?.[index + 1])}</td>
-                                                    <td className="text-dark">R$ {convertFloatToMoney(item.total_vendas)}</td>
+                                                    <td className="text-dark">R$ {convertFloatToMoney(alcancado)}</td>
                                                     <td>
-                                                        R$ {item.total_vendas > 0 ? convertFloatToMoney(dif) : '0,00'} (
-                                                        {convertFloatToMoney(((item.total_vendas - item.total_metas) / item.total_metas * 100) + 100)}%
+                                                        R$ {alcancado > 0 ? convertFloatToMoney(dif) : '0,00'} (
+                                                        {convertFloatToMoney(((alcancado - item.total_metas) / item.total_metas * 100) + 100)}%
                                                         )
                                                     </td>
                                                 </tr>
