@@ -16,6 +16,7 @@ use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -69,6 +70,7 @@ class User extends Authenticatable
                 ->create([
                     'name' => $dados->nome,
                     'email' => $dados->email,
+                    'password' => Hash::make($dados->senha),
                     'franquia_id' => $dados->franquia,
                     'is_financeiro' => $dados->financeiro,
                     'setor_id' => $dados->setor,

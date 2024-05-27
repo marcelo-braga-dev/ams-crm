@@ -37,9 +37,10 @@ class LeadsController extends Controller
         $categorias = (new SetoresService())->setores();
         $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
+        $isLeadsExcluir = (new UsersPermissoes())->isLeadsExcluir(id_usuario_atual());
 
         return Inertia::render('Admin/Leads/Cadastrados',
-            compact('categorias', 'datasImportacao', 'isLeadsEncaminhar'));
+            compact('categorias', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
     }
 
     public function leadsCadastrados(Request $request)
@@ -98,9 +99,7 @@ class LeadsController extends Controller
     {
         try {
             (new Leads())->remover($request->lead);
-
         } catch (\DomainException $exception) {
-
             modalErro($exception->getMessage());
             return redirect()->back();
         }

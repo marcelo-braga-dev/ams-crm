@@ -18,7 +18,7 @@ class VendasController extends Controller
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
         $setor = $request->setor ?? 1;
-//print_pre($vendasAnulTotal = (new Pedidos())->vendasAnualEmpresa($ano, $setor));
+
         $setores = (new Setores())->get();
 
         return Inertia::render(

@@ -267,27 +267,27 @@ class Leads extends Model
             ]);
     }
 
-    public function remover(int $id)
+    public function remover($id)
     {
+        $ids = is_array($id) ? $id : [$id];
+
         $verificar = (new Pedidos())->newQuery()
-            ->where('lead_id', $id)
+            ->whereIn('lead_id', $ids)
             ->exists();
 
-        if (!$verificar) {
-            try {
-                (new LeadsHistoricos())->remover($id);
+        if ($verificar) throw new \DomainException('Não é possível excluir esse leads pois pessuem pedidos emitidos.');
 
-                $this->newQuery()
-                    ->find($id)
-                    ->delete();
-            } catch (Error) {
-            }
-            return;
+        try {
+            (new LeadsHistoricos())->remover($id);
+
+            $this->newQuery()
+                ->whereIn('id', $ids)
+                ->delete();
+        } catch (Error) {
+            throw new \DomainException(
+                'Erro ao excluir leads!'
+            );
         }
-
-        throw new \DomainException(
-            'Não é possível excluir esse leads pois pessui pedidos emitidos.'
-        );
     }
 
     public function getOcultos($setor)
@@ -731,22 +731,29 @@ class Leads extends Model
 
     public function removerConsultor($id)
     {
+        $ids = is_array($id) ? $id : [$id];
+
         $query = $this->newQuery()
-            ->find($id);
+            ->whereIn('id', $ids);
 
         $query->update([
             'user_id' => null,
         ]);
 
-        if ($query->status != (new AtivoStatusLeads)->getStatus()) $query->update([
-            'status' => (new NovoStatusLeads())->getStatus()
-        ]);
+        foreach ($query->get() as $item) {
+            $leads = $item->where('status', '!=', (new AtivoStatusLeads)->getStatus());
+            $leads->update([
+                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
+        }
     }
 
     public function removerSdr($id)
     {
+        $ids = is_array($id) ? $id : [$id];
+
         $this->newQuery()
-            ->find($id)
+            ->whereIn('id', $ids)
             ->update([
                 'sdr_id' => null,
                 'status' => (new NovoStatusLeads())->getStatus()

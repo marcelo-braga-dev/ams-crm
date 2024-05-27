@@ -21,18 +21,22 @@ export default function ({ funcoes, franquias, setores, permissoes }) {
                     <div className="row">
                         <div className="mb-4 col-md-4">
                             <TextField label="Nome" fullWidth required
-                                onChange={e => setData('nome', e.target.value)} />
+                                       onChange={e => setData('nome', e.target.value)}/>
                         </div>
                         <div className="mb-4 col-md-4">
                             <TextField label="Email" type="email" fullWidth required
-                                onChange={e => setData('email', e.target.value)} />
+                                       onChange={e => setData('email', e.target.value)}/>
+                        </div>
+                        <div className="mb-4 col-md-4">
+                            <TextField label="Senha" type="password" fullWidth required
+                                       onChange={e => setData('senha', e.target.value)}/>
                         </div>
                     </div>
                     <div className="row">
                         <div className="mb-4 col-md-3">
                             <TextField label="Função" select required fullWidth
-                                defaultValue={data.setor}
-                                onChange={e => setData('funcao', e.target.value)}>
+                                       defaultValue={data.setor}
+                                       onChange={e => setData('funcao', e.target.value)}>
                                 {funcoes.map((item) => <MenuItem key={item.id} value={item.id}>{item.nome} {item.admin ? '[ADMIN]' : ''}</MenuItem>)}
                             </TextField>
                         </div>

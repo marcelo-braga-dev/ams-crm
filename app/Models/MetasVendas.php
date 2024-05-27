@@ -166,8 +166,10 @@ class MetasVendas extends Model
     public function metasMensalUsuarios($mes, $ano)
     {
         return $this->newQuery()
-            ->where('mes', $mes)
+            ->whereIn('mes', $mes)
             ->where('ano', $ano)
+            ->select(DB::raw('SUM(valor) as valor, user_id'))
+            ->groupBy('user_id')
             ->pluck('valor', 'user_id');
     }
 }

@@ -16,6 +16,7 @@ use App\Models\ProdutosUnidades;
 use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
 use App\src\Modelos\CompletoModelo;
+use App\src\Modelos\DimenSolar;
 use App\src\Modelos\ProdutoModelo;
 use App\src\Pedidos\Pedido;
 use Illuminate\Http\Request;
@@ -38,6 +39,11 @@ class PedidosController extends Controller
             case (new ProdutoModelo())->modelo():
                 return Inertia::render(
                     'Consultor/Pedidos/Modelo2/Index',
+                    compact('pedidos', 'coresAbas', 'goCard')
+                );
+            case (new DimenSolar())->modelo():
+                return Inertia::render(
+                    'Consultor/Pedidos/Modelo3/Index',
                     compact('pedidos', 'coresAbas', 'goCard')
                 );
         }
@@ -66,10 +72,16 @@ class PedidosController extends Controller
                     'Consultor/Pedidos/Create/Modelo2/Create',
                     compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades')
                 );
-            default: {
-                    modalErro('Falha no formulário de cadastro.');
-                    return redirect()->back();
-                }
+            case 3:
+                return Inertia::render(
+                    'Consultor/Pedidos/Create/Modelo3/Create',
+                    compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades')
+                );
+            default:
+            {
+                modalErro('Falha no formulário de cadastro.');
+                return redirect()->back();
+            }
         }
     }
 

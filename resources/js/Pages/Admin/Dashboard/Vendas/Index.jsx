@@ -166,9 +166,9 @@ export default function ({mes, ano, setores, setor}) {
                                     </div>
                                     <div className="col-auto">
                                         <small className="">Meta de Vendas da Empresa</small>
-                                        <h6 >R$ {convertFloatToMoney(metasEmpresas?.[mes])}</h6>
+                                        <h6>R$ {convertFloatToMoney(metasEmpresas?.[mes])}</h6>
                                         {vendasMetasComp?.totalMetas &&
-                                            <h6 >R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</h6>}
+                                            <h6>R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</h6>}
                                     </div>
                                 </div>
                             </div>
@@ -303,7 +303,7 @@ export default function ({mes, ano, setores, setor}) {
                                         {vendasMetasComp &&
                                             <span className="d-block">{vendasMetasComp?.totalQtd}</span>}
                                     </td>
-                                    {admin && <td className="text-center text-dark">
+                                    {admin && <td className="text-dark">
                                         R$ {convertFloatToMoney(vendasTotal.lucro)}(
                                         {convertFloatToMoney(vendasTotal.lucro / vendasTotal.custos * 100)}%)
                                         {vendasMetasComp &&
