@@ -9,10 +9,13 @@ import Checkbox from "@mui/material/Checkbox";
 import {router} from "@inertiajs/react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import {Stack} from "@mui/material";
+import {Autocomplete, ListItemButton, ListItemIcon, MenuList, Stack} from "@mui/material";
+import ListItemText from "@mui/material/ListItemText";
+import ListItem from "@mui/material/ListItem";
+import Avatar from "@mui/material/Avatar";
 
 
-export default function ({categorias, datasImportacao}) {
+export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
 
     const [leads, setLeads] = useState([])
     const [carregando, setCarregando] = useState(true)
@@ -48,16 +51,16 @@ export default function ({categorias, datasImportacao}) {
     function getFilteredItems(linhas, filtro, filterText, status) {
         return linhas.filter(
             item => filtro === 'id' && item.id && item.id.toString() === filterText
-            || filtro === 'id' && filterText === ''
-            || filtro === 'nome' && item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) || filtro === 'nome' && item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
-            || filtro === 'telefone' && item.telefone && item.telefone.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
-            || filtro === 'cidade' && item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
-            || filtro === 'cnpj' && item.cnpj && item.cnpj.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
-            || filtro === 'consultor' && item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
-            || filtro === 'status' && (item.status.length > 0 ? item.status === status : false)
-            || filtro === 'comSdr' && item.sdr && item.sdr.length > 0
-            || filtro === 'ddd' && item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
-            || filtro === 'ddd' && filterText === '');
+                || filtro === 'id' && filterText === ''
+                || filtro === 'nome' && item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) || filtro === 'nome' && item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
+                || filtro === 'telefone' && item.telefone && item.telefone.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
+                || filtro === 'cidade' && item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
+                || filtro === 'cnpj' && item.cnpj && item.cnpj.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
+                || filtro === 'consultor' && item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
+                || filtro === 'status' && (item.status.length > 0 ? item.status === status : false)
+                || filtro === 'comSdr' && item.sdr && item.sdr.length > 0
+                || filtro === 'ddd' && item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
+                || filtro === 'ddd' && filterText === '');
     }
 
     const linhas = leads.map(function (items) {
@@ -147,7 +150,7 @@ export default function ({categorias, datasImportacao}) {
     }
 
     function nomeConsultorSelecionado() {
-        const nome = usuarios[usuarios.findIndex(i => i.id === consultorSelecionado)]?.name;
+        const nome = usuarios[usuarios.findIndex(i => i.id === consultorSelecionado)]?.nome;
         return nome ? <>
             <b>TROCAR</b> o consultor(a) dos Leads Selecionados para:<br/>
             <h5>{nome}</h5>
@@ -182,7 +185,8 @@ export default function ({categorias, datasImportacao}) {
                         <TextField select label="Importação" fullWidth size="small" sx={{minWidth: 120}}
                                    onChange={e => setImportacao(e.target.value)}>
                             <MenuItem>Todas as datas</MenuItem>
-                            {datasImportacao.map(item => <MenuItem value={item.id}>#{item.id} {item.data}</MenuItem>)}
+                            {datasImportacao.map(item => <MenuItem key={item.id}
+                                                                   value={item.id}>#{item.id} {item.data}</MenuItem>)}
                         </TextField>
                     </div>
                     <div className="col-auto">
@@ -245,17 +249,24 @@ export default function ({categorias, datasImportacao}) {
                                                                onChange={e => setComConsultor(e.target.checked)}/>}/>
                         </Stack>
                     </div>
-                    <div className="col-4">
+                    {isLeadsEncaminhar && <div className="col-4">
                         <div className="row">
                             <div className="col-9">
-                                <TextField
-                                    label="Enviar Lead para..." select fullWidth required
-                                    value={consultorSelecionado ?? ''}
-                                    onChange={e => setConsultorSelecionado(e.target.value)}>
-                                    {usuarios.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
-                                    ))}
-                                </TextField>
+                                <Autocomplete
+                                    renderInput={(params) => <TextField {...params} label="Enviar Lead para..."/>}
+                                    onChange={(event, newValue) => setConsultorSelecionado(newValue.id)}
+                                    options={usuarios}
+                                    getOptionLabel={(option) => option.nome}
+                                    value={consultorSelecionado ?? undefined}
+                                    renderOption={(props, option) => (
+                                        <div key={option.id} className="d-flex w-100"  {...props}>
+                                            <Avatar className="me-3 "
+                                                    src={option.foto}
+                                                    sx={{width: 25, height: 25}}/>
+                                            <small className="text-muted">{option.nome}</small>
+                                        </div>
+                                    )}
+                                />
                             </div>
                             <div className="col-2">
                                 <button type="button" className="btn btn-primary" data-bs-toggle="modal"
@@ -264,7 +275,7 @@ export default function ({categorias, datasImportacao}) {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div>}
 
                     <div className="col-auto">
                         <Stack direction="column" spacing="0">

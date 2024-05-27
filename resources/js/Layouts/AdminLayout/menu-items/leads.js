@@ -37,7 +37,7 @@ const dashboard = {
                     chave: chaves.leads.historico,
                     title: 'Histórico',
                     type: 'item',
-                    url: route('admin.clientes.leads.leads-acompanhar'),
+                    url: route('admin.leads.historicos.index'),
                 },{
                     id: 'leads-encaminhados',
                     chave: chaves.leads.encaminhados,

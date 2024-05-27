@@ -24,7 +24,7 @@ class VendasService
         $totalCustos = 0;
         $totalQtd = 0;
 
-        $usuarios = (new User())->usuarioComMetasVendas($setor);
+        $usuarios = (new User())->usuarioSubordinados($setor);
 
         foreach ($usuarios as $usuario) {
             $vendas = 0;

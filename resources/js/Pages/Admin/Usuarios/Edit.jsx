@@ -85,14 +85,6 @@ export default function ({
                         </div>
                     </div>
                     <div className="row">
-                        {/*<div className="mb-4 col-md-2">*/}
-                        {/*    <TextField label="Acesso Completo ao Sistema" select required fullWidth*/}
-                        {/*        defaultValue={data.admin_completo}*/}
-                        {/*        onChange={e => setData('admin', e.target.value)}>*/}
-                        {/*        <MenuItem value="0" >Não</MenuItem>*/}
-                        {/*        <MenuItem value="1" >Sim</MenuItem>*/}
-                        {/*    </TextField>*/}
-                        {/*</div>*/}
                         <div className="mb-4 col-md-2">
                             <TextField label="Função Admin/Gerente" select required fullWidth
                                        defaultValue={data.admin}
@@ -126,7 +118,7 @@ export default function ({
                                             {categorias?.permissoes?.map(item => {
                                                 return (
                                                     <div key={item.id} className="col">
-                                                        <FormControlLabel label={item.nome} control={
+                                                        <FormControlLabel label={<small>{item.nome}</small>} control={
                                                             <Switch defaultChecked={permissoesUsuario[item.id] > 0}
                                                                     size="small" key={item.id}
                                                                     onChange={e => setData('permissoes', {

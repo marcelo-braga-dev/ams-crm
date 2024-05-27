@@ -258,4 +258,9 @@ class ChavesPermissoes
     {
         return '51';
     }
+
+    public function chaveLeadsLimpar()
+    {
+        return '52';
+    }
 }

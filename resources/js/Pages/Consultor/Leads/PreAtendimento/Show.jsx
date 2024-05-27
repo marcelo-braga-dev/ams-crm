@@ -5,8 +5,11 @@ import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
+import {useState} from "react";
 
 export default function Show({dados, status, contatos, historicos}) {
+    const [encaminharMsg, setEncaminharMsg] = useState()
+
     const {data, setData, post} = useForm({
         msg: '',
         classificacao: dados.cliente.classificacao,
@@ -15,7 +18,7 @@ export default function Show({dados, status, contatos, historicos}) {
 
     function avancaStatus() {
         router.post(route('consultor.leads.pre_atendimento.update', dados.id), {
-            _method: 'PUT', lead_id: dados.id
+            _method: 'PUT', lead_id: dados.id, msg: encaminharMsg
         })
     }
 
@@ -169,6 +172,12 @@ export default function Show({dados, status, contatos, historicos}) {
                         </div>
                         <div className="modal-body">
                             Encaminhar Lead?
+                            <div className="row mt-3">
+                                <div className="col">
+                                    <TextField label="Anotações..." multiline rows="3" fullWidth
+                                        onChange={e => setEncaminharMsg(e.target.value)}/>
+                                </div>
+                            </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

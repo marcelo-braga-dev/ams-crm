@@ -9,6 +9,7 @@ use App\Models\LeadsImportarHistoricos;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
+use App\Models\UsersPermissoes;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\Relatorios\LeadsUsuariosService;
 use App\Services\Setores\SetoresService;
@@ -35,15 +36,16 @@ class LeadsController extends Controller
     {
         $categorias = (new SetoresService())->setores();
         $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
+        $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
 
         return Inertia::render('Admin/Leads/Cadastrados',
-            compact('categorias', 'datasImportacao'));
+            compact('categorias', 'datasImportacao', 'isLeadsEncaminhar'));
     }
 
     public function leadsCadastrados(Request $request)
     {
         $categoriaAtual = $request->setor ?? 1;
-        $usuarios = (new User())->getUsuarios($categoriaAtual);
+        $usuarios = (new User())->getUsuariosNomes($categoriaAtual);
         $dados = (new Leads())->getDadosMinimo($categoriaAtual, $request->com_sdr, $request->com_consultor, $request->importacao);
 
         return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
@@ -164,10 +166,11 @@ class LeadsController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
         $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
-//        print_pre($historicoPedidos);
+        $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
+        $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar(id_usuario_atual());
 
         return Inertia::render('Admin/Leads/Lead/Show',
-            compact('dados', 'historicos', 'usuarios', 'historicoPedidos'));
+            compact('dados', 'historicos', 'usuarios', 'historicoPedidos', 'isLeadsEncaminhar', 'isLeadsLimpar'));
     }
 
     public function edit($id)

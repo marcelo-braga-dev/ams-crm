@@ -68,4 +68,20 @@ class UsersPermissoes extends Model
             ->where('chave', (new ChavesPermissoes())->chaveFinanceiroFluxoCaixaSaida())
             ->exists();
     }
+
+    public function isLeadsLimpar($id)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->where('chave', (new ChavesPermissoes())->chaveLeadsLimpar())
+            ->exists();
+    }
+
+    public function isLeadsEncaminhar($id)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->where('chave', (new ChavesPermissoes())->chaveLeadsEncaminhar())
+            ->exists();
+    }
 }

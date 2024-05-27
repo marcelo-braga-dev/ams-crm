@@ -58,7 +58,7 @@ class RelatoriosController extends Controller
 
     public function dados(Request $request)
     {
-        $historicoLeads = (new Notificacoes())->getHistorico(null, $request->setor, 100);
+        $historicoLeads = (new Notificacoes())->getHistorico(null, 100);
 
         return response()->json(['historico_leads' => $historicoLeads]);
     }

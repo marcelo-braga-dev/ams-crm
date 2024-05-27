@@ -9,7 +9,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import {IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function Show({dados, historicos, usuarios, historicoPedidos}) {
+export default function Show({dados, historicos, usuarios, historicoPedidos, isLeadsEncaminhar, isLeadsLimpar}) {
     const [consultorSelecionado, setConsultorSelecionado] = useState();
 
     function nomeConsultorSelecionado() {
@@ -44,7 +44,7 @@ export default function Show({dados, historicos, usuarios, historicoPedidos}) {
 
     return (
         <Layout titlePage="Informações do Lead" menu="leads" submenu="cadastrados"
-            voltar={route('admin.clientes.leads.leads-cadastrados')}>
+                voltar={route('admin.clientes.leads.leads-cadastrados')}>
             <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col">
@@ -69,53 +69,57 @@ export default function Show({dados, historicos, usuarios, historicoPedidos}) {
             <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col">
-                        Consultor(a): {dados.consultor.nome}
+                        <b>Consultor(a):</b> {dados.consultor.nome}
                     </div>
                     <div className="col">
-                        SDR: {dados.sdr.nome}
+                        <b>SDR:</b> {dados.sdr.nome}
                     </div>
                     <div className="col">
-                        Status do Lead: {dados.infos.status_nome}
+                        <b> Status do Lead:</b> {dados.infos.status_nome}
                     </div>
                 </div>
             </div>
 
-            <div className="card card-body mb-4">
-                <div className="row">
-                    <div className="col">
-                        <div className="row">
-                            <div className="col-6 ml-4 mb-0">
-                                <TextField label="Selecione o Consultor..." select
-                                           value={consultorSelecionado ?? ''}
-                                           fullWidth required
-                                           onChange={e => setConsultorSelecionado(e.target.value)}>
-                                    {usuarios.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>
-                                            #{option.id} - {option.name}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
+            {(isLeadsEncaminhar || isLeadsLimpar) &&
+                <div className="card card-body mb-4">
+                    <div className="row">
+                        {isLeadsEncaminhar && <div className="col-md-5">
+                            <div className="row">
+                                <div className="col-8 ml-4 mb-0">
+                                    <TextField label="Selecione o Consultor..." select
+                                               value={consultorSelecionado ?? ''}
+                                               fullWidth required
+                                               onChange={e => setConsultorSelecionado(e.target.value)}>
+                                        {usuarios.map((option) => (
+                                            <MenuItem key={option.id} value={option.id}>
+                                                #{option.id} - {option.name}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                </div>
+                                <div className="col-2">
+                                    <button type="button" className="btn btn-dark" data-bs-toggle="modal"
+                                            data-bs-target="#modalEnviar">
+                                        ENVIAR
+                                    </button>
+                                </div>
                             </div>
-                            <div className="col-2">
-                                <button type="button" className="btn btn-dark" data-bs-toggle="modal"
-                                        data-bs-target="#modalEnviar">
-                                    ENVIAR
+                        </div>}
+                        {isLeadsLimpar && <>
+                            <div className="col-auto">
+                                <button className="btn btn-info"
+                                        data-bs-toggle="modal" data-bs-target="#modalRemoverConsultor">Remover Vendedor
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                    <div className="col-auto">
-                        <button className="btn btn-primary"
-                                data-bs-toggle="modal" data-bs-target="#modalRemoverConsultor">Remover Vendedor
-                        </button>
-                    </div>
-                    <div className="col-auto">
-                        <button className="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#modalRemoverSDR">Remover SDR
-                        </button>
+                            <div className="col-auto">
+                                <button className="btn btn-warning" data-bs-toggle="modal"
+                                        data-bs-target="#modalRemoverSDR">Remover SDR
+                                </button>
+                            </div>
+                        </>}
                     </div>
                 </div>
-            </div>
+            }
 
             <div className="row">
                 <div className="col">
@@ -125,7 +129,7 @@ export default function Show({dados, historicos, usuarios, historicoPedidos}) {
                             <div className="card card-body mb-4">
                                 <div key={index} className="row">
                                     <div className="col">
-                                        <h6 className="mb-2">{index + 1}. {dado.status}</h6>
+                                        <h6 className="mb-2">{historicos.length - index}. {dado.status}</h6>
                                         <span className="d-block"><b>Autor:</b> {dado.nome}</span>
                                         <span className="d-block"><b>Meio de Contato:</b> {dado.meio_contato}</span>
                                         <span className="d-block"><b>Anotações:</b> {dado.msg}</span>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\Leads\Consultores\LeadsRelatoriosController;
 use App\Http\Controllers\Admin\Leads\Consultores\NovoController;
 use App\Http\Controllers\Admin\Leads\Consultores\PreAtendimentoController;
 use App\Http\Controllers\Admin\Leads\Encaminhados\EncaminhadosController;
+use App\Http\Controllers\Admin\Leads\Historicos\HistoricosController;
 use App\Http\Controllers\Admin\Leads\ImportarController;
 use App\Http\Controllers\Admin\Leads\ImportarHistoricoController;
 use App\Http\Controllers\Admin\Leads\LeadsController;
@@ -50,6 +51,7 @@ Route::name('admin.leads.')
         Route::resource('relatorios', RelatoriosController::class);
         Route::resource('consultores-cards', CardsController::class);
         Route::resource('encaminhados', EncaminhadosController::class);
+        Route::resource('historicos', HistoricosController::class);
 
         Route::resource('cards-novo', NovoController::class);
         Route::resource('cards-pre_atendimento', PreAtendimentoController::class);

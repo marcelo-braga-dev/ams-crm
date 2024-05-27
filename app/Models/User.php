@@ -275,6 +275,25 @@ class User extends Authenticatable
             });
     }
 
+    public function getUsuariosNomes($setor = null, $statusAtivo = true)
+    {
+        $query = $this->newQuery()->orderBy('name')
+            ->whereIn('id', supervisionados(id_usuario_atual()));
+
+        if ($setor) $query->where('setor_id', $setor);
+        if ($statusAtivo) $query->where('status', (new AtivoStatusUsuario)->getStatus());
+
+        return $query->get(['id', 'name', 'status', 'foto'])
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'status' => $item->status,
+                    'foto' => asset('storage/' . $item->foto),
+                ];
+            });
+    }
+
     public function getSupervisores($setor = null, $status = true)
     {
         $setores = (new Setores())->getNomes();
@@ -429,15 +448,6 @@ class User extends Authenticatable
         return (new Setores())->getModelo($dados->setor_id);
     }
 
-    public function getIdsSubordinados($usuarioIncluso = false, $idSupervisor = null, $supervisorIncluso = false)
-    {
-        $idSupervisor = $idSupervisor ?? id_usuario_atual();
-
-//        if ($supervisorIncluso || $usuarioIncluso) return array_merge((new UsersHierarquias())->supervisionados($idSupervisor), [$idSupervisor]);
-
-        return (new UsersHierarquias())->supervisionados($idSupervisor);
-    }
-
     public function franquias($id, $status = false)
     {
         $setores = (new Setores())->getNomes();
@@ -501,16 +511,14 @@ class User extends Authenticatable
                 ->get();
     }
 
-    public function usuarioComMetasVendas($setor)
+    public function usuarioSubordinados($setor = null)
     {
         $query = $this->newQuery()
-            ->leftJoin('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
             ->orderBy('name')
-//            ->where('users_permissoes.chave', '=', (new ChavesPermissoes)->chavePedidosEmitir())
             ->whereIn('users.id', supervisionados(id_usuario_atual()))
             ->groupBy('users.id')
             ->select(DB::raw(
-                'users.id as id, name, status, setor_id, foto, users_permissoes.chave as sdr
+                'users.id as id, name, status, setor_id, foto
                 '
             ));
 
@@ -524,8 +532,46 @@ class User extends Authenticatable
                     'status' => $item->status,
                     'setor' => $setores[$item->setor_id]['nome'] ?? '',
                     'foto' => asset('storage/' . $item->foto),
-                    'has_meta' => $item->has_meta,
-                    'sdr' => $item->sdr
+                ];
+            });
+    }
+
+    public function getIdsSubordinados($usuarioIncluso = false, $idSupervisor = null, $supervisorIncluso = false)
+    {
+        $idSupervisor = $idSupervisor ?? id_usuario_atual();
+
+        return (new UsersHierarquias())->supervisionados($idSupervisor);
+    }
+
+    public function usuariosComMetasVendas($setor = null)
+    {
+        $setores = (new Setores())->getNomes();
+        $funcoes = (new UsersFuncoes())->getNomes();
+        $franquias = (new Franquias())->getNomes();
+
+        $query = $this->newQuery()
+            ->leftJoin('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
+            ->orderBy('name')
+            ->where('users_permissoes.chave', '=', (new ChavesPermissoes)->chavePossuiMetasVendas())
+            ->whereIn('users.id', supervisionados(id_usuario_atual()))
+            ->groupBy('users.id')
+            ->select(DB::raw(
+                'users.id as id, name, status, setor_id, foto, funcao_id, franquia_id
+                '
+            ));
+
+        if ($setor) $query->where('setor_id', $setor);
+
+        return $query->get()
+            ->transform(function ($item) use ($setores, $funcoes, $franquias) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'status' => $item->status,
+                    'setor' => $setores[$item->setor_id]['nome'] ?? '',
+                    'foto' => asset('storage/' . $item->foto),
+                    'funcao' => $funcoes[$item->funcao_id] ?? '',
+                    'franquia' => $franquias[$item->franquia_id] ?? '',
                 ];
             });
     }

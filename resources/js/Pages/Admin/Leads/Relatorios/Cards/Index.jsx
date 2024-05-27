@@ -23,7 +23,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 let idLeads = []
 const styleCard = 'p-2 mx-1 text-white row justify-content-between rounded-top'
 
-export default function Dashboard({usuario, consultores}) {
+export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsEncaminhar}) {
     const {data, setData, post} = useForm();
     const [carregando, setCarregando] = useState(false)
     const [carregandoRegistros, setCarregandoRegistros] = useState(true)
@@ -71,19 +71,27 @@ export default function Dashboard({usuario, consultores}) {
     }
 
     return (
-        <Layout titlePage="Lista de Leads" menu="leads" submenu="leads-cards"
+        <Layout titlePage="Kanban de Leads" menu="leads" submenu="leads-cards"
                 voltar={route('admin.leads.cards-leads.index')}>
 
             <div className="mb-4 card card-body">
-                <div className="col-auto">
-                    <h6 className="d-block">Nome: {usuario.nome}</h6>
+                <div className="row justify-content-between">
+                    <div className="col-auto">
+                        <span className="d-block"><b>Nome:</b> {usuario.nome}</span>
+                    </div>
+                    <div className="col-auto">
+                        <span className="d-block"><b>Funcão:</b> {usuario.funcao}</span>
+                    </div>
+                    <div className="col-auto">
+                        <span className="d-block"><b>Setor:</b> {usuario.setor}</span>
+                    </div>
                 </div>
             </div>
 
             {/*Pesquisa*/}
             <div className='mb-4 card card-body'>
                 <div className="row justify-content-between">
-                    <div className="col">
+                    {isLeadsEncaminhar && <div className="col-md-5">
                         <div className="row">
                             <span>Alterar consultor</span>
                             <div className="col-md-6">
@@ -105,13 +113,13 @@ export default function Dashboard({usuario, consultores}) {
                                 <CircularProgress/>
                             </div>}
                         </div>
-                    </div>
-                    <div className="col">
-                        <button type="button" className="p-0 m-0 btn btn-link text-dark btn-sm"
+                    </div>}
+                    {isLeadsLimpar && <div className="col">
+                        <button type="button" className="btn btn-success btn-sm"
                                 data-bs-toggle="modal" data-bs-target="#modalLimpar">
-                            Remover Finaliados
+                            Limpar Finalizados
                         </button>
-                    </div>
+                    </div>}
                     <div className="col-auto text-right">
                         <FormControl variant="outlined" className="bg-white" size="small">
                             <InputLabel htmlFor="search">Pesquisar...</InputLabel>
@@ -178,7 +186,8 @@ export default function Dashboard({usuario, consultores}) {
                             <tr className="align-top">
                                 <td id="td-1" className="shadow-sm" style={{minWidth: 300}}>
                                     {leads.novo.map((dado, i) => {
-                                        return (<NovoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados} usuarioCard={usuario.id}/>)
+                                        return (<NovoCards key={i} dados={dado} leadsSelecionados={leadsSelecionados}
+                                                           usuarioCard={usuario.id}/>)
                                     })}
                                 </td>
                                 <td id="td-2" className="shadow-sm" style={{minWidth: 300}}>

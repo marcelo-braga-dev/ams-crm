@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('categoria', 32);
             $table->boolean('notificar')->default(1);
             $table->string('titulo');
-            $table->string('msg')->nullable();
+            $table->text('msg')->nullable();
             $table->string('url')->nullable();
             $table->timestamps();
 

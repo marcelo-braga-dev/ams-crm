@@ -39,6 +39,7 @@ return new class extends Migration {
             $table->string('classificacao', 8)->nullable();
             $table->string('anotacoes')->nullable();
             $table->dateTime('ultimo_pedido_data')->nullable();
+            $table->timestamp('data_encaminhado')->nullable();
             $table->string('capital_social')->nullable();
             $table->string('tipo')->nullable();
             $table->string('porte')->nullable();

@@ -39,7 +39,7 @@ class PreAtendimentoController extends Controller
             (new LeadsEncaminhados())->create($idEnviar, $id);
             (new Leads())->updateUser($id, $idEnviar);
             (new UpdateStatusLeads())->setAberto($id);
-            (new LeadsHistoricos())->createHistorico($id, (new AtivadoHistorico())->status());
+            (new LeadsHistoricos())->createHistorico($id, (new AtivadoHistorico())->status(), $request->msg);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

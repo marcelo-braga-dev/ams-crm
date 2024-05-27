@@ -44,6 +44,7 @@ class Leads extends Model
         'cidade',
         'estado',
         'status_data',
+        'data_encaminhado',
         'meio_contato',
         'infos',
         'classificacao',
@@ -93,6 +94,7 @@ class Leads extends Model
             ->whereIn('id', $idLead)
             ->update([
                 'user_id' => $idConsultor,
+                'data_encaminhado' => now()
             ]);
 
         $this->newQuery()
@@ -114,6 +116,7 @@ class Leads extends Model
             ->whereIn('id', $idLead)
             ->update([
                 'sdr_id' => $idConsultor,
+                'data_encaminhado' => now()
             ]);
 
         $this->newQuery()
@@ -756,8 +759,8 @@ class Leads extends Model
 
         $query = $this->newQuery()
             ->where('setor_id', $setor)
-            ->orderBy('status')
-            ->orderBy('updated_at');
+            ->orderBy('data_encaminhado')
+            ->orderBy('created_at');
 
         if ($comSdr) $query->whereNull('sdr_id',);
         if ($comConsultor) $query->whereNull('user_id');

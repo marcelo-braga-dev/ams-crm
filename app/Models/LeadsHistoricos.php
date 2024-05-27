@@ -45,13 +45,14 @@ class LeadsHistoricos extends Model
             ]);
     }
 
-    public function createHistorico(int $idLeads, string $status)
+    public function createHistorico(int $idLeads, string $status, $msg = null)
     {
         $this->newQuery()
             ->create([
                 'user_id' => id_usuario_atual(),
                 'lead_id' => $idLeads,
                 'status' => $status,
+                'msg' => $msg
             ]);
     }
 

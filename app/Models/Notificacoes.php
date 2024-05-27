@@ -53,19 +53,19 @@ class Notificacoes extends Model
             });
     }
 
-    public function getHistorico($id = null, $setor = 1, $limit = null)
+    public function getHistorico($id = null, $limit = null)
     {
         $nomes = (new User())->getNomes();
 
         $query = $this->newQuery()
             ->where('categoria', 'leads')
-            ->limit(500)
+            ->limit($limit)
             ->orderByDesc('id');
 
-        if ($id == null) {
-            $idsUser = (new User)->getIdSetor($setor);
-            $query->whereIn('user_id', $idsUser);
-        }
+//        if ($id == null) {
+//            $idsUser = (new User)->getIdSetor($setor);
+//            $query->whereIn('user_id', $idsUser);
+//        }
 
         $query->whereIn('user_id', supervisionados(id_usuario_atual()));
         if ($id) $query->where('user_id', $id);

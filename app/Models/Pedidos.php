@@ -54,6 +54,7 @@ class Pedidos extends Model
 
         return $this->newQuery()
             ->where('lead_id', $id)
+            ->orderByDesc('id')
             ->get(['id', 'preco_venda', 'pedidos.created_at as data_criacao', 'status'])
             ->transform(function ($item) use ($status) {
                 return [
@@ -115,7 +116,7 @@ class Pedidos extends Model
 
     public function vendasMensalEmpresa($mes, $ano, $setor)
     {
-       return $this->newQuery()
+        return $this->newQuery()
             ->whereIn(DB::raw('MONTH(data_faturamento)'), $mes)
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
             ->whereYear('data_faturamento', $ano)
@@ -620,7 +621,6 @@ class Pedidos extends Model
         }
         return [...$dados];
     }
-
 
 
     public function getVendasMesEmpresa($mes, $ano)
