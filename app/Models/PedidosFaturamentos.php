@@ -65,8 +65,8 @@ class PedidosFaturamentos extends Model
         $nomeClientes = (new PedidosClientes())->getNomes();
         $statusNome = (new StatusPedidos())->getStatus();
 
-        return $pedidos = (new Pedidos())->newQuery()
-            ->where('user_id', $id)
+        return (new Pedidos())->newQuery()
+            ->where('user_faturamento', $id)
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
             ->whereMonth('data_faturamento', $mes)
             ->whereYear('data_faturamento', $ano)
