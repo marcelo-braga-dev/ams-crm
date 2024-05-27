@@ -733,20 +733,18 @@ class Leads extends Model
     {
         $ids = is_array($id) ? $id : [$id];
 
-        $query = $this->newQuery()
-            ->whereIn('id', $ids);
+        $this->newQuery()
+            ->whereIn('id', $ids)
+            ->update([
+                'user_id' => null,
+            ]);
 
-        $query->update([
-            'user_id' => null,
-        ]);
-
-        foreach ($query->get() as $item) {
-
-            if ($item->status == (new AtivoStatusLeads)->getStatus())
-                $item->update([
-                    'status' => (new NovoStatusLeads())->getStatus()
-                ]);
-        }
+        $this->newQuery()
+            ->whereIn('id', $ids)
+            ->where('status', '!=', (new AtivoStatusLeads)->getStatus())
+            ->update([
+                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
     }
 
     public function removerSdr($id)
@@ -756,7 +754,13 @@ class Leads extends Model
         $this->newQuery()
             ->whereIn('id', $ids)
             ->update([
-                'sdr_id' => null,
+                'sdr_id' => null
+            ]);
+
+        $this->newQuery()
+            ->whereIn('id', $ids)
+            ->where('status', '!=', (new AtivoStatusLeads)->getStatus())
+            ->update([
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
     }
