@@ -53,13 +53,20 @@ if (!function_exists('converterCNPJ')) {
     function converterCNPJ($dados = '')
     {
         if (!$dados) return '';
+
         if (is_numeric($dados)) {
+            $qtd = mb_strlen($dados);
+
             $dados = preg_replace("/\D/", '', $dados);
 
             $res = substr_replace($dados, '-', -2, 0);
             $res = substr_replace($res, '/', -7, 0);
             $res = substr_replace($res, '.', -11, 0);
-            return substr_replace($res, '.', -15, 0);
+            $res = substr_replace($res, '.', -15, 0);
+
+            if ($qtd == 13) $res = '0' . $res;
+
+            return $res;
         }
         return $dados;
     }

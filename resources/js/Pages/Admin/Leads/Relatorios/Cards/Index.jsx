@@ -117,7 +117,7 @@ export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsE
                     {isLeadsLimpar && <div className="col">
                         <button type="button" className="btn btn-success btn-sm"
                                 data-bs-toggle="modal" data-bs-target="#modalLimpar">
-                            Limpar Finalizados
+                            Reiniciar Atendimento dos Finalizados
                         </button>
                     </div>}
                     <div className="col-auto text-right">
