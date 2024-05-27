@@ -9,7 +9,7 @@ const dashboard = {
     children: [
         {
             id: 'leads',
-            title: 'Leads',
+            title: 'Base de Clientes',
             type: 'collapse',
             url: undefined,
             icon: PeopleAltOutlinedIcon,
@@ -17,7 +17,7 @@ const dashboard = {
                 {
                     id: 'leads-cadastrados',
                     chave: chaves.leads.cadastrados,
-                    title: 'Cadastrados',
+                    title: 'Leads',
                     type: 'item',
                     url: route('admin.clientes.leads.leads-cadastrados'),
                 }, {

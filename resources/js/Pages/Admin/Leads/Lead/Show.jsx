@@ -9,7 +9,16 @@ import EditIcon from '@mui/icons-material/Edit';
 import {IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function Show({dados, historicos, usuarios, historicoPedidos, isLeadsEncaminhar, isLeadsLimpar}) {
+export default function Show({
+                                 dados,
+                                 historicos,
+                                 usuarios,
+                                 historicoPedidos,
+                                 isLeadsEncaminhar,
+                                 isLeadsLimpar,
+                                 isEditar,
+                                 isExcluir
+                             }) {
     const [consultorSelecionado, setConsultorSelecionado] = useState();
 
     function nomeConsultorSelecionado() {
@@ -53,13 +62,15 @@ export default function Show({dados, historicos, usuarios, historicoPedidos, isL
                     <div className="col-auto">
                         <div className="row">
                             <div className="col-12">
-                                <IconButton color="success"
-                                            href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
-                                    <EditIcon/>
-                                </IconButton>
-                                <IconButton color="success" data-bs-toggle="modal" data-bs-target="#modalExcluir">
-                                    <DeleteIcon color="error"/>
-                                </IconButton>
+                                {isEditar &&
+                                    <IconButton color="success"
+                                                href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
+                                        <EditIcon/>
+                                    </IconButton>}
+                                {isExcluir &&
+                                    <IconButton color="success" data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                                        <DeleteIcon color="error"/>
+                                    </IconButton>}
                             </div>
                         </div>
                     </div>

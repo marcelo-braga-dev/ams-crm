@@ -3,6 +3,7 @@ import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 
 import {router} from "@inertiajs/react";
+import maskJquery from "@/Helpers/maskJquery";
 
 export default function Edit({dados, urlAnterior}) {
     const {setData, data} = useForm({
@@ -22,6 +23,8 @@ export default function Edit({dados, urlAnterior}) {
             {_method: 'put', ...data, url: urlAnterior}
         );
     }
+
+    maskJquery()
 
     return (
         <Layout container voltar={route('admin.clientes.leads.leads-main.show', dados.id)} titlePage="Editar LEAD"
@@ -43,7 +46,7 @@ export default function Edit({dados, urlAnterior}) {
                 {/*PJ*/}
                 {<div className="row">
                     <div className="col mb-3">
-                        <TextField label="CNPJ :" value={data.cnpj} fullWidth
+                        <TextField label="CNPJ :" value={data.cnpj} fullWidth className="cnpj"
                                    onChange={e => setData('cnpj', e.target.value)}/>
                     </div>
                     <div className="col mb-3">

@@ -263,4 +263,14 @@ class ChavesPermissoes
     {
         return '52';
     }
+
+    public function chaveLeadsEditar()
+    {
+        return '53';
+    }
+
+    public function chaveLeadsExcluir()
+    {
+        return '54';
+    }
 }

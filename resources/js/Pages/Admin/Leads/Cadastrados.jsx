@@ -73,8 +73,8 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
             || filtro === 'comSdr' && item.sdr && item.sdr.length > 0
             || filtro === 'ddd' && item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
             || filtro === 'ddd' && filterText === '')
-        && ((status !== 'todos') ? (item.status === status) : true
-        ));
+        && (((status !== 'todos') ? (item.status === status) : true))
+    );
 
 
     const columns = [
@@ -247,14 +247,15 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
                                     renderInput={(params) => <TextField {...params} label="Enviar Lead para..."/>}
                                     onChange={(event, newValue) => setConsultorSelecionado(newValue.id)}
                                     options={usuarios}
-                                    getOptionLabel={(option) => option.nome + (option.isSdr ? ' [SDR]' :'')}
+                                    getOptionLabel={(option) => option.nome + (option.isSdr ? ' [SDR]' : '')}
                                     value={consultorSelecionado ?? undefined}
                                     renderOption={(props, option) => (
                                         <div key={option.id} className="d-flex w-100"  {...props}>
                                             <Avatar className="me-3 "
                                                     src={option.foto}
                                                     sx={{width: 25, height: 25}}/>
-                                            <small className="text-muted">{option.nome} {option.isSdr ? ' [SDR]' :''}</small>
+                                            <small
+                                                className="text-muted">{option.nome} {option.isSdr ? ' [SDR]' : ''}</small>
                                         </div>
                                     )}
                                 />

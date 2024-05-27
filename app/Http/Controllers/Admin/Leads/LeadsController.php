@@ -168,9 +168,11 @@ class LeadsController extends Controller
         $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
         $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar(id_usuario_atual());
+        $isEditar = (new UsersPermissoes())->isLeadsEditar(id_usuario_atual());
+        $isExcluir = (new UsersPermissoes())->isLeadsExcluir(id_usuario_atual());
 
         return Inertia::render('Admin/Leads/Lead/Show',
-            compact('dados', 'historicos', 'usuarios', 'historicoPedidos', 'isLeadsEncaminhar', 'isLeadsLimpar'));
+            compact('dados', 'historicos', 'usuarios', 'historicoPedidos', 'isLeadsEncaminhar', 'isLeadsLimpar', 'isEditar', 'isExcluir'));
     }
 
     public function edit($id)
