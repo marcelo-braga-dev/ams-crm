@@ -24,7 +24,7 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
     const [pageAtual, setPageAtual] = useState(1);
     const [leadsChecked, setLeadsChecked] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(100);
-    const [status, setStatus] = useState();
+    const [status, setStatus] = useState('todos');
     const [consultorSelecionado, setConsultorSelecionado] = useState();
     const [usuarios, setUsuarios] = useState([]);
     const [enviarLead, setEnviarLead] = useState(false);
@@ -44,24 +44,12 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
             })
     }, [setorSelecionado, enviarLead, comSdr, comConsultor, importacao]);
 
-    useEffect(() => {
-        if (status) setFiltro('status')
-    }, [status]);
+    // useEffect(() => {
+    //     if (status) setFiltro('status')
+    // }, [status]);
 
-    function getFilteredItems(linhas, filtro, filterText, status) {
-        return linhas.filter(
-            item => filtro === 'id' && item.id && item.id.toString() === filterText
-                || filtro === 'id' && filterText === ''
-                || filtro === 'nome' && item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) || filtro === 'nome' && item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
-                || filtro === 'telefone' && item.telefone && item.telefone.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
-                || filtro === 'cidade' && item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
-                || filtro === 'cnpj' && item.cnpj && item.cnpj.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
-                || filtro === 'consultor' && item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
-                || filtro === 'status' && (item.status.length > 0 ? item.status === status : false)
-                || filtro === 'comSdr' && item.sdr && item.sdr.length > 0
-                || filtro === 'ddd' && item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
-                || filtro === 'ddd' && filterText === '');
-    }
+    const [filterText, setFilterText] = useState('');
+    const [filtro, setFiltro] = useState('nome');
 
     const linhas = leads.map(function (items) {
         return {
@@ -81,10 +69,20 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
         }
     });
 
-    const [filterText, setFilterText] = useState('');
-    const [filtro, setFiltro] = useState('nome');
+    const filteredItems = linhas.filter(item => (
+            filtro === 'id' && item.id && item.id.toString() === filterText
+            || filtro === 'id' && filterText === ''
+            || filtro === 'nome' && item.name && item.name.toLowerCase().includes(filterText.toLowerCase()) || filtro === 'nome' && item.razao_social && item.razao_social.toLowerCase().includes(filterText.toLowerCase())
+            || filtro === 'telefone' && item.telefone && item.telefone.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
+            || filtro === 'cidade' && item.cidade && item.cidade.toLowerCase().includes(filterText.toLowerCase())
+            || filtro === 'cnpj' && item.cnpj && item.cnpj.replace(/[^0-9]/g, '').includes(filterText.replace(/[^0-9]/g, ''))
+            || filtro === 'consultor' && item.consultor && item.consultor.toLowerCase().includes(filterText.toLowerCase())
+            || filtro === 'comSdr' && item.sdr && item.sdr.length > 0
+            || filtro === 'ddd' && item.telefone && item.telefone.toLowerCase().includes('(' + filterText.toLowerCase() + ')')
+            || filtro === 'ddd' && filterText === '')
+        && ((status !== 'todos') ? (item.status === status) : true
+        ));
 
-    const filteredItems = getFilteredItems(linhas, filtro, filterText, status);
 
     const columns = [
         {
@@ -196,7 +194,7 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
                             defaultValue="" size="small"
                             onChange={event => setStatus(event.target.value)}
                         >
-                            <MenuItem value="">
+                            <MenuItem value="todos">
                                 Todos
                             </MenuItem>
                             <MenuItem value="novo">
