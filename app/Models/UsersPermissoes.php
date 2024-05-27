@@ -37,6 +37,13 @@ class UsersPermissoes extends Model
             ->pluck('user_id', 'chave');
     }
 
+    public function getSdrs()
+    {
+        return $this->newQuery()
+            ->where('chave', (new ChavesPermissoes())->chaveSdr())
+            ->pluck('user_id', 'user_id');
+    }
+
     public function isSrd($id)
     {
         return $this->newQuery()

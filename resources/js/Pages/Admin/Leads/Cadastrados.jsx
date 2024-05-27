@@ -247,14 +247,14 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
                                     renderInput={(params) => <TextField {...params} label="Enviar Lead para..."/>}
                                     onChange={(event, newValue) => setConsultorSelecionado(newValue.id)}
                                     options={usuarios}
-                                    getOptionLabel={(option) => option.nome}
+                                    getOptionLabel={(option) => option.nome + (option.isSdr ? ' [SDR]' :'')}
                                     value={consultorSelecionado ?? undefined}
                                     renderOption={(props, option) => (
                                         <div key={option.id} className="d-flex w-100"  {...props}>
                                             <Avatar className="me-3 "
                                                     src={option.foto}
                                                     sx={{width: 25, height: 25}}/>
-                                            <small className="text-muted">{option.nome}</small>
+                                            <small className="text-muted">{option.nome} {option.isSdr ? ' [SDR]' :''}</small>
                                         </div>
                                     )}
                                 />

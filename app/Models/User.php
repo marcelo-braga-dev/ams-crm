@@ -277,19 +277,26 @@ class User extends Authenticatable
 
     public function getUsuariosNomes($setor = null, $statusAtivo = true)
     {
-        $query = $this->newQuery()->orderBy('name')
-            ->whereIn('id', supervisionados(id_usuario_atual()));
+        $sdrs = (new UsersPermissoes())->getSdrs();
+
+        $query = $this->newQuery()
+            ->orderBy('name')
+            ->whereIn('users.id', supervisionados(id_usuario_atual()));
 
         if ($setor) $query->where('setor_id', $setor);
         if ($statusAtivo) $query->where('status', (new AtivoStatusUsuario)->getStatus());
 
-        return $query->get(['id', 'name', 'status', 'foto'])
-            ->transform(function ($item) {
+        return $query->select(DB::raw('
+                users.id as id, name, status, foto
+            '))
+            ->get()
+            ->transform(function ($item) use ($sdrs) {
                 return [
                     'id' => $item->id,
                     'nome' => $item->name,
                     'status' => $item->status,
                     'foto' => asset('storage/' . $item->foto),
+                    'isSdr' => $sdrs[$item->id] ?? null
                 ];
             });
     }
@@ -333,7 +340,6 @@ class User extends Authenticatable
                     'status' => $dados->status,
                     'setor_id' => $dados->setor,
                     'funcao_id' => $dados->funcao,
-                    // 'superior_idx' => $dados->funcao == (new Vendedores())->getFuncao() ? $dados->superior : null
                 ]);
         } catch (QueryException) {
             throw new \DomainException("Este email está em uso.");
