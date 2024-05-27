@@ -41,7 +41,7 @@ class MetasVendas extends Model
     {
         $this->newQuery()
             ->updateOrCreate(
-                ['user_id' => id_usuario_atual(), 'chave' => 'metas_empresa', 'ano' => $dados->ano, 'mes' => $dados->mes],
+                ['chave' => 'metas_empresa', 'ano' => $dados->ano, 'mes' => $dados->mes],
                 ['valor' => convert_money_float($dados->valor)]
             );
     }
