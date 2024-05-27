@@ -741,10 +741,11 @@ class Leads extends Model
         ]);
 
         foreach ($query->get() as $item) {
-            $leads = $item->where('status', '!=', (new AtivoStatusLeads)->getStatus());
-            $leads->update([
-                'status' => (new NovoStatusLeads())->getStatus()
-            ]);
+
+            if ($item->status == (new AtivoStatusLeads)->getStatus())
+                $item->update([
+                    'status' => (new NovoStatusLeads())->getStatus()
+                ]);
         }
     }
 
