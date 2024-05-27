@@ -9,11 +9,8 @@ import Checkbox from "@mui/material/Checkbox";
 import {router} from "@inertiajs/react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import {Autocomplete, ListItemButton, ListItemIcon, MenuList, Stack} from "@mui/material";
-import ListItemText from "@mui/material/ListItemText";
-import ListItem from "@mui/material/ListItem";
+import {Autocomplete, Stack} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-
 
 export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
 
@@ -43,10 +40,6 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
                 setLeadsChecked([])
             })
     }, [setorSelecionado, enviarLead, comSdr, comConsultor, importacao]);
-
-    // useEffect(() => {
-    //     if (status) setFiltro('status')
-    // }, [status]);
 
     const [filterText, setFilterText] = useState('');
     const [filtro, setFiltro] = useState('nome');
@@ -240,10 +233,10 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
                     <div className="col-auto">
                         <Stack direction="column" spacing="0">
                             <FormControlLabel label={<small>Apenas SEM SDR</small>}
-                                              control={<Switch size="small"
+                                              control={<Switch size="small" disabled={carregando}
                                                                onChange={e => setComSdr(e.target.checked)}/>}/>
                             <FormControlLabel label={<small>Apenas SEM Consultor(a)</small>}
-                                              control={<Switch size="small"
+                                              control={<Switch size="small" disabled={carregando}
                                                                onChange={e => setComConsultor(e.target.checked)}/>}/>
                         </Stack>
                     </div>
@@ -285,7 +278,6 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar}) {
             </div>
 
             {carregando && <LinearProgress/>}
-
 
             {!carregando &&
                 <div className="card card-body mb-4">
