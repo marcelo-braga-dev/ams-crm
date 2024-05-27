@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\src\Leads\Status\StatusLeads;
+use App\src\Leads\StatusAtendimentoLeads;
+use App\src\Pedidos\StatusPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -54,6 +57,30 @@ class LeadsHistoricos extends Model
                 'status' => $status,
                 'msg' => $msg
             ]);
+    }
+
+    public function historico()
+    {
+        $nomes = (new User())->getNomes();
+        $status = (new StatusAtendimentoLeads())->getStatus();
+
+        return $this->newQuery()
+            ->limit(1000)
+            ->orderByDesc('id')
+            ->get()
+            ->transform(function ($item) use ($nomes, $status) {
+                return [
+                    'id' => $item->lead_id,
+                    'nome' => $nomes[$item->user_id] ?? '',
+                    'lead_id' => $item->lead_id,
+                    'pedido_id' => $item->pedido_id,
+                    'status' => $status[$item->status] ?? '',
+                    'contato' => $item->meio_contato,
+                    'msg' => $item->msg,
+                    'data' => date('d/m/y H:i', strtotime($item->created_at))
+                ];
+            });
+
     }
 
     public function dados(int $id)
