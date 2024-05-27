@@ -11,6 +11,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import {Autocomplete, Stack} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir}) {
 
@@ -88,9 +89,10 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar, isLead
             <span className="d-block mb-3"><b>SDR:</b> {row.sdr}</span>
         </>, sortable: true, grow: 2,
     }, {
-        name: isLeadsExcluir && <button className="btn btn-link text-danger p-0 m-0"
-                                        data-bs-toggle="modal" data-bs-target="#modalExcluirLeads">Excluir
-        </button>,
+        name: isLeadsExcluir &&
+            <button className="btn btn-link text-danger p-0 m-0"
+                    data-bs-toggle="modal" data-bs-target="#modalExcluirLeads"><DeleteIcon color="error"/>
+            </button>,
         cell: row => <a
             className="btn btn-primary btn-sm m-0"
             href={route('admin.clientes.leads.leads-main.show', row.id)}>Ver</a>

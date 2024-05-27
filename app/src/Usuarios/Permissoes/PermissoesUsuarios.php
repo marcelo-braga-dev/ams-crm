@@ -31,8 +31,8 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveLeadsRelatorio(), 'nome' => 'Relatório'],
                     ['id' => $this->chaveLeadsImportar(), 'nome' => 'Importar Planilhas'],
                     ['id' => $this->chaveLeadsLimpar(), 'nome' => 'Reiniciar Atend. dos Finalizados'],
-                    ['id' => $this->chaveLeadsEditar(), 'nome' => 'Editar Clientes'],
-                    ['id' => $this->chaveLeadsExcluir(), 'nome' => 'Excluir Clientes'],
+                    ['id' => $this->chaveLeadsEditar(), 'nome' => 'Editar Leads'],
+                    ['id' => $this->chaveLeadsExcluir(), 'nome' => 'Excluir Leads'],
                 ]
             ], [
                 'categoria' => 'Produtos',
