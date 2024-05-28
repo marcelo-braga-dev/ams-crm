@@ -3,6 +3,7 @@ import InfoCliente from "@/Pages/Consultor/Pedidos/Create/Modelo2/Partials/InfoC
 import Pedidos from "@/Pages/Consultor/Pedidos/Create/Modelo2/Partials/Pedido";
 import {useForm} from "@inertiajs/react";
 import {useState} from "react";
+import InputsDadosLead from "@/Partials/Leads/InputsDados";
 
 export default function Form({lead, url, urlProdutos, fornecedores, endereco, categorias, unidades, errors}) {
     const {data, setData, post, progress, processing} = useForm({
@@ -51,7 +52,7 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
                     </div>
                 </div>
                 <div className="row mb-5 pb-4 border-bottom">
-                    <InfoCliente setData={setData} data={data}></InfoCliente>
+                    <InputsDadosLead data={data} setData={setData} required/>
                 </div>
                 <Pedidos fornecedores={fornecedores} setData={setData} data={data}
                          categorias={categorias} unidades={unidades} urlProdutos={urlProdutos}/>

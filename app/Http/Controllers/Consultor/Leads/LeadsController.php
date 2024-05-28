@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Consultor\Leads;
 
 use App\Http\Controllers\Controller;
+use App\Models\Enderecos;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
@@ -44,8 +45,10 @@ class LeadsController extends Controller
     public function edit($id)
     {
         $dados = (new Leads())->newQuery()->find($id);
+        $endereco = (new Enderecos())->get($dados->endereco);
+        $urlAnterior = url()->previous();
 
-        return Inertia::render('Consultor/Leads/Edit', compact('dados'));
+        return Inertia::render('Consultor/Leads/Edit', compact('dados', 'endereco', 'urlAnterior' ));
     }
 
     public function update($id, Request $request)

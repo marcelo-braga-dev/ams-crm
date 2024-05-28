@@ -4,18 +4,22 @@ import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Sdr from "./Graficos/Sdr";
 import Status from "./Graficos/Status";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
 import * as React from "react";
 
-export default function ({registrosStatus, sdr, mes, ano, setores, setor}) {
+export default function ({registrosStatus, sdr, qtds, mes, ano, setores, setor}) {
 
     const [registrosSdr, setRegistrosSdr] = useState([])
-    const [mesesSelecionado, setMesesSelecionado] = useState([]);
+    const [mesesSelecionado, setMesesSelecionado] = useState(mes);
     const [anoSelecionado, setAnoSelecionado] = useState(2024);
     const [setorSelecionado, setSetorSelecionado] = useState([setor]);
     const [mesesSelecionadoComp, setMesesSelecionadoComp] = useState([]);
     const [anoSelecionadoComp, setAnoSelecionadoComp] = useState();
+
+    useEffect(() => {
+        axios.get(route('admin.dashboard.leads.relatorio'))
+    }, []);
 
     function getDados(id) {
         axios.get(route('admin.dashboard.leads.relatorio', {id: id}))
@@ -145,6 +149,7 @@ export default function ({registrosStatus, sdr, mes, ano, setores, setor}) {
                             <tr>
                                 <th>Nome</th>
                                 <th className="text-center">Recebidos</th>
+                                <th className="text-center">Encaminhados</th>
                                 <th className="text-center">Ativados</th>
                             </tr>
                             </thead>
@@ -153,7 +158,8 @@ export default function ({registrosStatus, sdr, mes, ano, setores, setor}) {
                                 <tr>
                                     <td>{item.nome}</td>
                                     <td className="text-center">0</td>
-                                    <td className="text-center">0</td>
+                                    <td className="text-center">{qtds.encaminhados?.[item.id] ?? 0}</td>
+                                    <td className="text-center">{qtds.ativos?.[item.id] ?? 0}</td>
                                 </tr>
                             ))}
 

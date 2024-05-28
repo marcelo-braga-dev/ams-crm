@@ -5,6 +5,7 @@ namespace App\Models;
 use App\src\Usuarios\Status\AtivoStatusUsuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class LeadsEncaminhados extends Model
 {
@@ -53,8 +54,30 @@ class LeadsEncaminhados extends Model
                     'destino' => $nomes[$item->user_encaminhado] ?? '',
                     'lead_id' => $item->lead_id,
                     'lead_nome' => $item->nome,
-                    'data' => date('d/m/y H:i:s',strtotime($item->data))
+                    'data' => date('d/m/y H:i:s', strtotime($item->data))
                 ];
             });
+    }
+
+    public function relatorio($mes, $ano)
+    {
+        return $this->newQuery()
+            ->whereIn(DB::raw('MONTH(created_at)'), $mes)
+            ->whereYear('created_at', $ano)
+            ->selectRaw('user_id, COUNT(id) as qtd')
+            ->groupBy('user_id')
+            ->pluck('qtd', 'user_id');
+    }
+
+    public function ativosQtd(array $mes, string $ano)
+    {
+        return $this->newQuery()
+            ->join('pedidos', 'leads_encaminhados.lead_id', '=', 'pedidos.lead_id')
+            ->whereIn(DB::raw('MONTH(pedidos.created_at)'), $mes)
+            ->whereIn(DB::raw('MONTH(leads_encaminhados.created_at)'), $mes)
+            ->whereYear('leads_encaminhados.created_at', $ano)
+            ->selectRaw('leads_encaminhados.user_id, COUNT(leads_encaminhados.id) as qtd')
+            ->groupBy('leads_encaminhados.user_id')
+            ->pluck('qtd', 'leads_encaminhados.user_id');
     }
 }
