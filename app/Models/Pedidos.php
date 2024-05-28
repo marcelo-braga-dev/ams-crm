@@ -87,16 +87,18 @@ class Pedidos extends Model
         $nomes = (new User())->getNomesAvatar();
 
         return $this->newQuery()
-            ->whereIn(DB::raw('MONTH(data_faturamento)'), $mes)
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
-            ->whereYear('data_faturamento', $ano)
-            ->where('setor_id', $setor)
+            ->join('users', 'users.id', '=', 'pedidos.user_faturamento')
+            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereYear('pedidos.data_faturamento', $ano)
+            ->where('pedidos.setor_id', $setor)
             ->select(DB::raw('
                 user_faturamento as id,
                 SUM(preco_venda) as vendas,
                 SUM(preco_custo) as custos,
                 (SUM(preco_venda) - SUM(preco_custo)) as lucro,
-                COUNT(user_faturamento) as qtd
+                COUNT(user_faturamento) as qtd,
+                users.status as status
             '))
             ->groupBy('user_faturamento')
             ->orderByDesc('vendas')
@@ -110,6 +112,7 @@ class Pedidos extends Model
                     'qtd' => $item->qtd,
                     'nome' => $nomes[$item->id]['nome'] ?? '',
                     'foto' => $nomes[$item->id]['foto'] ?? '',
+                    'status' => !!$item->status
                 ];
             });
     }

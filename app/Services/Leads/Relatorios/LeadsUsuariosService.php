@@ -12,7 +12,7 @@ class LeadsUsuariosService
         $nomes = (new User())->getNomes();
 
         $qtd = [];
-        foreach (supervisionados(id_usuario_atual()) as $id) {
+        foreach (supervisionados(id_usuario_atual(), true) as $id) {
             $qtd[] = [
                 'id' => $id,
                 'nome' => $nomes[$id],

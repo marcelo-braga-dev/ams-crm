@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Usuarios\Status\AtivoStatusUsuario;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -166,6 +167,8 @@ class MetasVendas extends Model
     public function metasMensalUsuarios($mes, $ano)
     {
         return $this->newQuery()
+            ->join('users', 'users.id', '=', 'metas_vendas.user_id')
+            ->where('status', (new AtivoStatusUsuario())->getStatus())
             ->whereIn('mes', $mes)
             ->where('ano', $ano)
             ->select(DB::raw('SUM(valor) as valor, user_id'))

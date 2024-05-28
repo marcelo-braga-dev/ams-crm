@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Usuarios\Status\AtivoStatusUsuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,11 +40,15 @@ class UsersHierarquias extends Model
         }
     }
 
-    public function supervisionados($id)
+    public function supervisionados($id, $ativos = false)
     {
-        $dados =  $this->newQuery()
-            ->where('superior_id', $id)
-            ->get('user_id')
+        $query = $this->newQuery()
+            ->where('users_hierarquias.superior_id', $id);
+
+        if ($ativos) $query->join('users', 'users.id', '=', 'users_hierarquias.user_id')
+            ->where('users.status', (new AtivoStatusUsuario())->getStatus());
+
+        $dados = $query->get('user_id')
             ->transform(function ($item) {
                 return $item->user_id;
             })->toArray();

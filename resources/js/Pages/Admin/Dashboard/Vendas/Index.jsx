@@ -45,6 +45,8 @@ export default function ({mes, ano, setores, setor}) {
 
     const admin = isAdmin()
 
+    let metaAnoTotal = 0, metaAnoEmpresaTotal = 0, alcancadoAnoTotal = 0, difMetasVendasTotal = 0, margemMetasVendasTotal = 0
+
     useEffect(function () {
         setCarregando(true)
         axios.get(route('admin.dashboard.vendas.registros',
@@ -234,7 +236,7 @@ export default function ({mes, ano, setores, setor}) {
                                             <td className="text-dark">
                                                 <Stack direction="row" spacing={1}>
                                                     <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
-                                                    <b>{item.nome}</b>
+                                                    <b>{item.status ? item.nome : < del> {item.nome}</del>}</b>
                                                 </Stack>
                                             </td>
                                             <td className="text-dark">
@@ -362,8 +364,15 @@ export default function ({mes, ano, setores, setor}) {
                                         </thead>
                                         <tbody>
                                         {vendasMetasAnual.map((item, index) => {
-                                            const alcancado = vendasAnual?.[index + 1]?.vendas
-                                            const dif = alcancado - item.total_metas
+                                            const alcancado = vendasAnual?.[index + 1]?.vendas ?? 0
+                                            const dif = alcancado - (item.total_metas ?? 0)
+                                            const margem = ((alcancado - item.total_metas) / item.total_metas * 100) + 100
+
+                                            metaAnoTotal += item.total_metas ?? 0
+                                            metaAnoEmpresaTotal += (metasEmpresas?.[index + 1] ?? 0)
+                                            alcancadoAnoTotal += alcancado ?? 0
+                                            difMetasVendasTotal += dif
+                                            margemMetasVendasTotal += margem > 100 ? margem : (-margem)
 
                                             return (
                                                 <tr key={index}
@@ -376,12 +385,26 @@ export default function ({mes, ano, setores, setor}) {
                                                     <td className="text-dark">R$ {convertFloatToMoney(alcancado)}</td>
                                                     <td>
                                                         R$ {alcancado > 0 ? convertFloatToMoney(dif) : '0,00'} (
-                                                        {convertFloatToMoney(((alcancado - item.total_metas) / item.total_metas * 100) + 100)}%
+                                                        {convertFloatToMoney(margem)}%
                                                         )
                                                     </td>
                                                 </tr>
                                             )
                                         })}
+                                        <tr
+                                            className={difMetasVendasTotal >= 0 ? 'text-success' : (alcancadoAnoTotal > 0 ? 'text-danger' : '')}>
+                                            <td className="text-center text-dark">
+                                                <b>TOTAL</b>
+                                            </td>
+                                            <td className="text-dark">R$ {convertFloatToMoney(metaAnoTotal)}</td>
+                                            <td className="text-dark">R$ {convertFloatToMoney(metaAnoEmpresaTotal)}</td>
+                                            <td className="text-dark">R$ {convertFloatToMoney(alcancadoAnoTotal)}</td>
+                                            <td>
+                                                R$ {alcancadoAnoTotal > 0 ? convertFloatToMoney(difMetasVendasTotal) : '0,00'} (
+                                                {convertFloatToMoney(margemMetasVendasTotal + 100)}%
+                                                )
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>

@@ -83,9 +83,9 @@ if (!function_exists('is_admin')) {
 }
 
 if (!function_exists('supervisionados')) {
-    function supervisionados($id)
+    function supervisionados($id, $ativos = false)
     {
-        return (new UsersHierarquias())->supervisionados($id);
+        return (new UsersHierarquias())->supervisionados($id, $ativos);
     }
 }
 
