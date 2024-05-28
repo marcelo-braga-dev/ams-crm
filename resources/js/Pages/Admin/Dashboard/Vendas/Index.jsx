@@ -236,13 +236,13 @@ export default function ({mes, ano, setores, setor}) {
                                             <td className="text-dark">
                                                 <Stack direction="row" spacing={1}>
                                                     <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
-                                                    <b>{item.status ? item.nome : < del> {item.nome}</del>}</b>
+                                                    <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
                                                 </Stack>
                                             </td>
                                             <td className="text-dark">
-                                                R$ {convertFloatToMoney(meta)}
+                                                {item.status ? <span>R$ {convertFloatToMoney(meta)}</span> : '-'}
                                                 {vendasMetasComp &&
-                                                    <span className="d-block">R$ {convertFloatToMoney(metasComp)}</span>
+                                                    <span className="d-block">{metasComp > 0 ? <span>R$ {convertFloatToMoney(metasComp)}</span> : '-'}</span>
                                                 }
                                             </td>
                                             <td className="text-dark">R$ {convertFloatToMoney(item.vendas)}
@@ -264,11 +264,12 @@ export default function ({mes, ano, setores, setor}) {
                                                         {convertFloatToMoney((vendasComp - custosComp) / custosComp * 100)}%)</span>}
                                             </td>}
                                             <td>
-                                                <span
-                                                    className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}>
+                                                {item.status ?
+                                                    <span
+                                                        className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}>
                                                     R$ {convertFloatToMoney(item.vendas - meta)} (
-                                                    {convertFloatToMoney(((item.vendas - meta) / meta * 100) + 100)}%)
-                                                </span>
+                                                        {convertFloatToMoney(((item.vendas - meta) / meta * 100) + 100)}%)
+                                                </span> : '-'}
 
                                                 {vendasMetasComp && <span
                                                     className={"d-block " + ((difComp) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : ''))}>R$ {convertFloatToMoney(vendasComp - metasComp)} (
