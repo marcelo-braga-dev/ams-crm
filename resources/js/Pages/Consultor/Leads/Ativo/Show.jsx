@@ -43,32 +43,30 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
                 <div className="col-auto"></div>
             </div>
 
-            <div className="card mb-3">
-                <div className="card-body">
-                    <LeadsDados dados={dados}/>
-                    <div className="row">
-                        <div className="col">
-                            <span className="text-bold pe-2">Classificação:</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '❌' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '❌')}>❌</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '☹️' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '☹️')}>☹️</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '😐' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '😐')}>😐</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '🙂' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '🙂')}>🙂</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '😁' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
-                        </div>
-                        <div className="col text-end">
-                            <a href={route('consultor.leads.main.edit', dados.id)}
-                               className="btn btn-primary btn-sm mb-0">Editar Dados</a></div>
+            <div className="card card-body mb-3">
+                <div className="row">
+                    <div className="col">
+                        <LeadsDados dados={dados}/>
+                        <span className="text-bold pe-2">Classificação:</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '❌' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '❌')}>❌</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '☹️' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '☹️')}>☹️</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '😐' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '😐')}>😐</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '🙂' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '🙂')}>🙂</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '😁' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
                     </div>
+                    <div className="col-auto text-end">
+                        <a href={route('consultor.leads.main.edit', dados.id)}
+                           className="btn btn-primary btn-sm mb-0">Editar Dados</a></div>
                 </div>
             </div>
 
@@ -77,10 +75,12 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
                     <div className="row">
                         <div className="col-auto">
                             {permissaoPedido ? <div>
-                                    <a className={'btn btn-warning' + ((dados?.cliente?.cnpj || dados?.cliente?.cpf) ? '' : ' disabled')} href={route('consultor.pedidos.create', {lead: dados.id})}>
+                                    <a className={'btn btn-warning' + ((dados?.cliente?.cnpj || dados?.cliente?.cpf) ? '' : ' disabled')}
+                                       href={route('consultor.pedidos.create', {lead: dados.id})}>
                                         <RequestPageOutlinedIcon/> Lançar Pedido
                                     </a>
-                                    {!(dados?.cliente?.cnpj || dados?.cliente?.cpf) && <span className="text-danger h6 d-block">Cadastre o CNPJ ou CPF do cliente para emitir pedidos!</span>}
+                                    {!(dados?.cliente?.cnpj || dados?.cliente?.cpf) &&
+                                        <span className="text-danger h6 d-block">Cadastre o CNPJ ou CPF do cliente para emitir pedidos!</span>}
                                 </div>
                                 : 'Você não tem permissão para emitir pedidos.'}
                         </div>
