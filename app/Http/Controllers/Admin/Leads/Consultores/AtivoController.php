@@ -8,6 +8,7 @@ use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
 use App\Models\User;
+use App\Models\UsersPermissoes;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\Status\AtendimentoStatusLeads;
@@ -29,9 +30,10 @@ class AtivoController extends Controller
         $isSdr = is_sdr();
         $emitePedido = is_emite_pedido();
         $cardEmitePedido = $dados['consultor']['id'] ? is_emite_pedido($dados['consultor']['id']) : null;
+        $isEditar = (new UsersPermissoes())->isLeadsEditar(id_usuario_atual());
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Ativo/Show',
-            compact('dados', 'status', 'isSdr', 'emitePedido', 'cardEmitePedido', 'historicos', 'contatos', 'consultores'));
+            compact('dados', 'status', 'isSdr', 'emitePedido', 'cardEmitePedido', 'historicos', 'contatos', 'consultores', 'isEditar'));
     }
 
     public function store(Request $request)

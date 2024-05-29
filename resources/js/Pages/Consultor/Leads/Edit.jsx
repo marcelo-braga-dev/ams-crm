@@ -38,7 +38,7 @@ export default function Edit({dados, endereco, urlAnterior}) {
     function submit(e) {
         e.preventDefault();
         router.post(route('consultor.leads.main.update', dados.id),
-            {_method: 'put', ...data}
+            {_method: 'put', ...data, urlAnterior}
         );
     }
 

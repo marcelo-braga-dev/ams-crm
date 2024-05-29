@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
+use App\Models\Enderecos;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
@@ -177,14 +178,15 @@ class LeadsController extends Controller
     public function edit($id)
     {
         $dados = (new Leads())->find($id);
+        $endereco = (new Enderecos())->get($dados->endereco);
+
         $urlAnterior = url()->previous();
 
         return Inertia::render('Admin/Leads/Lead/Edit',
-            compact('dados', 'urlAnterior'));
+            compact('dados', 'endereco', 'urlAnterior'));
     }
 
-    public
-    function update($id, Request $request)
+    public function update($id, Request $request)
     {
         try {
             (new Leads())->atualizar($id, $request);

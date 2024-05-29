@@ -54,32 +54,30 @@ export default function Show({dados, status, contatos, historicos}) {
                 <div className="col-auto"><h6>Lead em Atendimento</h6></div>
             </div>
 
-            <div className="card mb-3">
-                <div className="card-body">
-                    <LeadsDados dados={dados}/>
-                    <div className="row">
-                        <div className="col">
-                            <span className="text-bold pe-2">Classificação:</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '❌' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '❌')}>❌</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '☹️' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '☹️')}>☹️</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '😐' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '😐')}>😐</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '🙂' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '🙂')}>🙂</span>
-                            <span
-                                className={'mx-1 cursor-pointer' + (data.classificacao === '😁' ? " border p-2 rounded bg-dark" : '')}
-                                onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
-                        </div>
-                        <div className="col text-end">
-                            <a href={route('consultor.leads.main.edit', dados.id)}
-                               className="btn btn-primary btn-sm mb-0">Editar Dados</a></div>
+            <div className="card card-body mb-4">
+                <div className="row">
+                    <div className="col">
+                        <LeadsDados dados={dados}/>
+                        <span className="text-bold pe-2">Classificação:</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '❌' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '❌')}>❌</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '☹️' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '☹️')}>☹️</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '😐' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '😐')}>😐</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '🙂' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '🙂')}>🙂</span>
+                        <span
+                            className={'mx-1 cursor-pointer' + (data.classificacao === '😁' ? " border p-2 rounded bg-dark" : '')}
+                            onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
                     </div>
+                    <div className="col-auto text-end">
+                        <a href={route('consultor.leads.main.edit', dados.id)}
+                           className="btn btn-primary btn-sm mb-0">Editar Dados</a></div>
                 </div>
             </div>
 
@@ -90,8 +88,10 @@ export default function Show({dados, status, contatos, historicos}) {
                             <div className="row">
                                 <div className="col-auto">
                                     <button data-bs-toggle="modal" data-bs-target="#modalEncaminhar"
-                                            className="btn btn-success">Encaminhar Lead
+                                            className={"btn btn-success" + ((dados?.cliente?.cnpj || dados?.cliente?.cpf) ? '' : ' disabled')}>
+                                        Encaminhar Lead
                                     </button>
+                                    {!(dados?.cliente?.cnpj || dados?.cliente?.cpf) && <small className="d-block text-danger">Cadastre o CNPJ ou CPF do Cliente!</small>}
                                 </div>
                                 <div className="col-auto">
                                     <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
@@ -175,14 +175,15 @@ export default function Show({dados, status, contatos, historicos}) {
                             <div className="row mt-3">
                                 <div className="col">
                                     <TextField label="Anotações..." multiline rows="3" fullWidth
-                                        onChange={e => setEncaminharMsg(e.target.value)}/>
+                                               onChange={e => setEncaminharMsg(e.target.value)}/>
                                 </div>
                             </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => avancaStatus()}>Encaminhar</button>
+                                    onClick={() => avancaStatus()}>Encaminhar
+                            </button>
                         </div>
                     </div>
                 </div>

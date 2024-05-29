@@ -5,8 +5,10 @@ import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
+import {IconButton} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
-export default function Show({dados, consultores, historicos, isSdr, emitePedido, cardEmitePedido, status, contatos}) {
+export default function Show({dados, consultores, historicos, isSdr, emitePedido, cardEmitePedido, isEditar, contatos}) {
     const {data, setData, post} = useForm({
         lead: dados.id,
         consultor: dados.consultor.id
@@ -56,7 +58,16 @@ export default function Show({dados, consultores, historicos, isSdr, emitePedido
             </div>
 
             <div className="card card-body mb-3">
-                <LeadsDados dados={dados}/>
+                <div className="row justify-content-between">
+                    <div className="col"><LeadsDados dados={dados}/></div>
+                    <div className="col-auto">
+                        {isEditar &&
+                            <IconButton color="success"
+                                        href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
+                                <EditIcon/>
+                            </IconButton>}
+                    </div>
+                </div>
             </div>
 
             {emitePedido && cardEmitePedido && <div className="card card-body mb-4">

@@ -55,12 +55,9 @@ class LeadsController extends Controller
     {
         try {
             (new Leads())->atualizar($id, $request);
-            $leads = (new Leads())->find($id);
 
             modalSucesso("Dados atualizado com sucesso!");
-            if ($leads->status == (new AtendimentoStatusLeads())->getStatus()) return redirect()->route('consultor.leads.atendimento.show', $id);
-            if ($leads->status == (new AtivoStatusLeads())->getStatus()) return redirect()->route('consultor.leads.ativo.show', $id);
-            return redirect()->route('consultor.leads.main.index');
+            return redirect($request->urlAnterior);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();
