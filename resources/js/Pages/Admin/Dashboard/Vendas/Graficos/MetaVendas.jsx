@@ -36,7 +36,7 @@ export default function MetaVendas({dadosComp, metasUsuarios, vendasUsuarios, me
         }
     ]
 
-     colunas.push(
+    if (!(vendasUsuariosComp.length === 0)) colunas.push(
         {
             label: "Meta Comp.",
             backgroundColor: "#245745",
