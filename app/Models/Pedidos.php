@@ -81,12 +81,11 @@ class Pedidos extends Model
             ->first();
     }
 
-    public function vendasPeriodo($mes, $ano, $setor)
+    public function vendasPeriodo($mes, $ano, $setor, $indice = false)
     {
-
         $nomes = (new User())->getNomesAvatar();
 
-        return $this->newQuery()
+        $items = $this->newQuery()
             ->join('users', 'users.id', '=', 'pedidos.user_faturamento')
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
@@ -115,6 +114,14 @@ class Pedidos extends Model
                     'status' => !!$item->status
                 ];
             });
+
+        if (!$indice) return $items;
+
+        $res = [];
+        foreach ($items as $item) {
+            $res[$item['id']] = $item;
+        }
+        return $res;
     }
 
     public function vendasMensalEmpresa($mes, $ano, $setor)

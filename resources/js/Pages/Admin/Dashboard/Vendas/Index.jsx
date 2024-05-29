@@ -21,12 +21,15 @@ import axios from "axios";
 import LinearProgress from '@mui/material/LinearProgress';
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
 import VendasEstadosGrafico from "./Graficos/VendasEstadosGrafico";
+import MetasVendas from "@/Pages/Admin/Dashboard/Vendas/Partials/MetasVendas";
 
 export default function ({mes, ano, setores, setor}) {
     const [vendasUsuarios, setVendasUsuarios] = useState([]);
+    const [vendasUsuariosComp, setVendasUsuariosComp] = useState([]);
     const [vendasTotal, setVendasTotal] = useState([]);
     const [vendasAnual, setVendasAnual] = useState([]);
     const [metasUsuarios, setMetasUsuarios] = useState([]);
+    const [metasUsuariosComp, setMetasUsuariosComp] = useState([]);
 
     const [mesesSelecionado, setMesesSelecionado] = useState([mes]);
     const [anoSelecionado, setAnoSelecionado] = useState(ano);
@@ -59,10 +62,13 @@ export default function ({mes, ano, setores, setor}) {
             }))
             .then(res => {
                 setVendasUsuarios(res.data.vendas.usuarios)
+                setVendasUsuariosComp(res.data.vedas_comp.usuarios)
+
                 setVendasTotal(res.data.vendas.total)
                 setVendasAnual(res.data.vendas_anual)
 
                 setMetasUsuarios(res.data.metas_usuarios)
+                setMetasUsuariosComp(res.data.metas_usuarios_comp)
                 //
                 setVendasMetas(res.data.vedas_metas)
                 setVendasMetasAnual(res.data.vedas_metas_anual)
@@ -205,136 +211,14 @@ export default function ({mes, ano, setores, setor}) {
                 <div className="mb-4 card">
                     <div className="card-body">
                         <h6>Meta x Vendas</h6>
-                        <div className="table-responsive">
-                            <table className="table text-sm table-sm">
-                                <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Meta</th>
-                                    <th>Total Vendas</th>
-                                    <th className="text-center">Qtd. Vendas</th>
-                                    {admin && <th>Lucro Bruto</th>}
-                                    <th>Meta x Vendas</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {vendasUsuarios?.map((item, index) => {
-                                    const meta = metasUsuarios?.[item.id]
-
-                                    const dif = item.vendas - meta
-
-                                    const vendasComp = vendasMetasComp?.vendas?.[index]?.vendas
-                                    const metasComp = vendasMetasComp?.vendas?.[index]?.meta
-                                    const lucroComp = vendasMetasComp?.vendas?.[index]?.lucro
-                                    const custosComp = vendasMetasComp?.vendas?.[index]?.custos
-                                    const qtdComp = vendasMetasComp?.vendas?.[index]?.qtd
-                                    const difComp = vendasComp - metasComp
-
-                                    return (
-                                        <tr key={index}>
-                                            <td className="text-dark">
-                                                <Stack direction="row" spacing={1}>
-                                                    <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
-                                                    <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
-                                                </Stack>
-                                            </td>
-                                            <td className="text-dark">
-                                                {item.status ? <span>R$ {convertFloatToMoney(meta)}</span> : '-'}
-                                                {vendasMetasComp &&
-                                                    <span className="d-block">{metasComp > 0 ? <span>R$ {convertFloatToMoney(metasComp)}</span> : '-'}</span>
-                                                }
-                                            </td>
-                                            <td className="text-dark">R$ {convertFloatToMoney(item.vendas)}
-                                                {vendasMetasComp &&
-                                                    <span
-                                                        className="d-block">R$ {convertFloatToMoney(vendasComp)}</span>
-                                                }
-                                            </td>
-                                            <td className="text-center text-dark">{item.qtd}
-                                                {vendasMetasComp &&
-                                                    <span className="d-block">{qtdComp}</span>
-                                                }
-                                            </td>
-                                            {admin && <td className="text-dark">
-                                                {item.lucro && <span>R$ {convertFloatToMoney(item.lucro)} (
-                                                    {convertFloatToMoney((item.vendas - item.custos) / item.custos * 100)}%)</span>}
-                                                {vendasMetasComp &&
-                                                    <span className="d-block">R$ {convertFloatToMoney(lucroComp)} (
-                                                        {convertFloatToMoney((vendasComp - custosComp) / custosComp * 100)}%)</span>}
-                                            </td>}
-                                            <td>
-                                                {item.status ?
-                                                    <span
-                                                        className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}>
-                                                    R$ {convertFloatToMoney(item.vendas - meta)} (
-                                                        {convertFloatToMoney(((item.vendas - meta) / meta * 100) + 100)}%)
-                                                </span> : '-'}
-
-                                                {vendasMetasComp && <span
-                                                    className={"d-block " + ((difComp) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : ''))}>R$ {convertFloatToMoney(vendasComp - metasComp)} (
-                                                    {convertFloatToMoney(((vendasComp - metasComp) / metasComp * 100) + 100)}%)</span>}
-                                            </td>
-                                            <td>
-                                                <a className="mb-0 btn btn-link text-dark btn-sm"
-                                                   href={route('admin.metas-vendas.vendas-faturadas.index', {
-                                                       id: item.id,
-                                                       mes: mesesSelecionado?.[0],
-                                                       ano: ano
-                                                   })}>
-                                                    Ver Vendas
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    )
-                                })}
-                                <tr
-                                    className={'bg-light ' + ((vendasTotal.vendas - vendasMetas?.totalMetas) > 0 ? 'text-success' : (vendasTotal.vendas - vendasMetas?.totalMetas < 0 ? 'text-danger' : ''))}>
-                                    <td className="text-dark"><b>TOTAL</b></td>
-                                    <td className="text-dark">
-                                        R$ {convertFloatToMoney(vendasMetas?.totalMetas)}
-                                        {vendasMetasComp && <span
-                                            className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</span>}
-                                    </td>
-                                    <td className="text-dark">
-                                        R$ {convertFloatToMoney(vendasTotal.vendas)}
-                                        {vendasMetasComp && <span
-                                            className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas)}</span>}
-                                    </td>
-                                    <td className="text-center text-dark">
-                                        {vendasTotal.qtd}
-                                        {vendasMetasComp &&
-                                            <span className="d-block">{vendasMetasComp?.totalQtd}</span>}
-                                    </td>
-                                    {admin && <td className="text-dark">
-                                        R$ {convertFloatToMoney(vendasTotal.lucro)}(
-                                        {convertFloatToMoney(vendasTotal.lucro / vendasTotal.custos * 100)}%)
-                                        {vendasMetasComp &&
-                                            <span
-                                                className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalCustos)}(
-                                                {convertFloatToMoney((vendasMetasComp?.totalVendas - vendasMetasComp?.totalCustos) / vendasMetasComp?.totalCustos * 100)}%)
-                                                </span>
-                                        }
-                                    </td>}
-                                    <td>
-                                        R$ {convertFloatToMoney(vendasTotal.vendas - vendasMetas?.totalMetas)} (
-                                        {convertFloatToMoney(((vendasTotal.vendas - vendasMetas?.totalMetas) / vendasMetas?.totalMetas * 100) + 100)}%)
-                                        {vendasMetasComp &&
-                                            <span
-                                                className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas)} (
-                                                {convertFloatToMoney(((vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas) / vendasMetasComp?.totalMetas * 100) + 100)}%)
-                                                </span>
-                                        }
-                                    </td>
-                                    <td></td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
+                        <MetasVendas
+                            metasUsuarios={metasUsuarios} vendasMetasComp={vendasMetasComp} vendasUsuariosComp={vendasUsuariosComp}
+                            vendasTotal={vendasTotal} vendasMetas={vendasMetas} vendasUsuarios={vendasUsuarios}
+                            metasUsuariosComp={metasUsuariosComp} admin={admin} mes={mesesSelecionado?.[0]} ano={ano} />
 
                         <div className="row">
-                            <MetaVendas vendasUsuarios={vendasUsuarios} metasUsuarios={metasUsuarios} dados={vendasMetas} dadosComp={vendasMetasComp}/>
+                            <MetaVendas vendasUsuarios={vendasUsuarios} metasUsuarios={metasUsuarios}
+                                        vendasUsuariosComp={vendasUsuariosComp} metasUsuariosComp={metasUsuariosComp}/>
                         </div>
                     </div>
                 </div>

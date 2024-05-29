@@ -20,7 +20,7 @@ class VendasController extends Controller
         $setor = $request->setor ?? 1;
 
         $setores = (new Setores())->get();
-
+//        $vendas = (new Pedidos())->vendasPeriodo([$mes], $ano, $setor, true);print_pre($vendas);
         return Inertia::render(
             'Admin/Dashboard/Vendas/Index',
             compact(
@@ -57,7 +57,10 @@ class VendasController extends Controller
             $mesComp = $request->mesComp ?? date('n');
             $anoComp = $request->anoComp ?? date('Y');
 
-            $metaVendasComp = (new VendasService())->metaVendas($mesComp, $anoComp, $setor);
+            $vendasComp = (new Pedidos())->vendasPeriodo($mesComp, $anoComp, $setor, true);
+            $metasUsuariosComp = (new MetasVendas())->metasMensalUsuarios($mesComp, $anoComp);
+            //
+//            $metaVendasComp = (new VendasService())->metaVendas($mesComp, $anoComp, $setor);
             $metasVendasAnualComp = (new VendasService())->metaVendasAnual($mesComp, $setor);
         }
 
@@ -66,9 +69,12 @@ class VendasController extends Controller
             'vendas_anual' => $vendasAnual,
             'metas_usuarios' => $metasUsuarios,
 
+            'vedas_comp' => ['usuarios' => $vendasComp ?? [], 'total' => $vendasTotal],
+            'metas_usuarios_comp' => $metasUsuariosComp ?? [],
+
+            //
             'vedas_metas' => $metaVendas,
             'vedas_metas_anual' => $metasVendasAnual,
-            'vedas_metas_comp' => $metaVendasComp,
             'vedas_metas_anual_comp' => $metasVendasAnualComp,
             'vendas_estados' => $vendasEstados,
             'meta_anual_empresa' => $metaAnualEmpresa
