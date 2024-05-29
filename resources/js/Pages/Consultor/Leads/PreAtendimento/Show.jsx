@@ -91,7 +91,8 @@ export default function Show({dados, status, contatos, historicos}) {
                                             className={"btn btn-success" + ((dados?.cliente?.cnpj || dados?.cliente?.cpf) ? '' : ' disabled')}>
                                         Encaminhar Lead
                                     </button>
-                                    {!(dados?.cliente?.cnpj || dados?.cliente?.cpf) && <small className="d-block text-danger">Cadastre o CNPJ ou CPF do Cliente!</small>}
+                                    {!(dados?.cliente?.cnpj || dados?.cliente?.cpf) && <small className="d-block text-danger">
+                                        Cadastre <a href={route('consultor.leads.main.edit', dados.id)}>aqui</a> o CNPJ ou CPF do Cliente!</small>}
                                 </div>
                                 <div className="col-auto">
                                     <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"

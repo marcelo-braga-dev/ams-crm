@@ -10,7 +10,7 @@ import Switch from '@mui/material/Switch';
 export default function Index({contas, status}) {
 
     function iconeStatus(status) {
-        return status === '1' ? <CheckCircleOutlineIcon color="success" sx={{fontSize: 16}} /> :
+        return status ? <CheckCircleOutlineIcon color="success" sx={{fontSize: 16}} /> :
             <BlockIcon color="error" sx={{fontSize: 16}}/>
     }
 
@@ -27,7 +27,7 @@ export default function Index({contas, status}) {
                 <div className="col-auto">
                     <FormControlLabel control={
                         <Switch
-                            defaultChecked={status === '1'}
+                            defaultChecked={status}
                             onChange={e => escolherStatus(e.target.checked)}/>} label="Mostrar Bloqueados"/>
                 </div>
             </div>

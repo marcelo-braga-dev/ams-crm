@@ -35,8 +35,8 @@ class User extends Authenticatable
         'setor_id',
         'is_admin',
         'is_financeiro',
+        'is_sdr',
         'funcao_id',
-        // 'tipo',
         'categoria',
         'status',
         'password',
@@ -75,7 +75,8 @@ class User extends Authenticatable
                     'is_financeiro' => $dados->financeiro,
                     'setor_id' => $dados->setor,
                     'funcao_id' => $dados->funcao,
-                    'is_admin' => $dados->admin
+                    'is_admin' => $dados->admin,
+                    'is_sdr' => $dados->sdr,
                 ]);
             return $dados->id;
         } catch (UniqueConstraintViolationException $exception) {
@@ -92,10 +93,11 @@ class User extends Authenticatable
                 'status' => $dados->status,
                 'email' => $dados->email,
                 'franquia_id' => $dados->franquia,
-                'is_financeiro' => $dados->financeiro,
                 'setor_id' => $dados->setor,
                 'funcao_id' => $dados->funcao,
-                'is_admin' => $dados->admin
+                'is_financeiro' => $dados->financeiro,
+                'is_admin' => $dados->admin,
+                'is_sdr' => $dados->sdr
             ]);
     }
 
@@ -114,7 +116,7 @@ class User extends Authenticatable
                     'id' => $item->id,
                     'nome' => $item->name,
                     'setor_nome' => $item->setor_nome,
-                    'status' => $item->status,
+                    'status' => (boolean)$item->status,
                     'funcao' => $item->funcao_nome,
                     'funcao_id' => $item->funcao_id,
                     'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
@@ -183,24 +185,21 @@ class User extends Authenticatable
     {
         $dados = $this->newQuery()->findOrFail($id);
         $setores = (new Setores())->getNomes();
-        $nomes = $this->getNomes();
         $franquias = (new Franquias())->getNomes();
         $funcoes = (new UsersFuncoes())->getNomes();
 
         return [
             'id' => $dados->id,
             'is_admin' => $dados->is_admin,
-            'is_admin_geral' => $dados->is_admin_geral,
+            'is_sdr' => $dados->is_sdr,
+            'financeiro' => $dados->is_financeiro,
             'nome' => $dados->name,
             'email' => $dados->email,
             'franquia' => $franquias[$dados->franquia_id] ?? '',
             'franquia_id' => $dados->franquia_id,
             'funcao' => $funcoes[$dados->funcao_id] ?? '',
             'funcao_id' => $dados->funcao_id,
-            'financeiro' => $dados->is_financeiro,
-            // 'idSupervisor' => $nomes[$dados->superior_id] ?? '',
-            // 'supervisor_id' => $dados->superior_id,
-            'status' => $dados->status,
+            'status' => (boolean)$dados->status,
             'setor' => $setores[$dados->setor_id]['nome'] ?? '',
             'setor_id' => $dados->setor_id,
             'ultimo_login' => date('d/m/Y H:i:s', strtotime($dados->ultimo_login)),
@@ -507,7 +506,7 @@ class User extends Authenticatable
             $query->select(DB::raw('
                 users.id as id,
                 users.name as nome,
-                users.status as status,
+                CASE WHEN users.status = 1 THEN TRUE ELSE FALSE END as status,
                 users.is_admin as is_admin,
                 users_funcoes.id as funcao_id,
                 users_funcoes.nome as funcao_nome,

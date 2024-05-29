@@ -26,6 +26,7 @@ export default function ({
         financeiro: usuario.financeiro,
         permissoes: permissoesUsuario,
         admin: usuario.is_admin,
+        sdr: usuario.is_sdr,
         admin_completo: usuario.admin_completo,
         supervisionados: supervisionados,
         status: usuario.status,
@@ -50,13 +51,9 @@ export default function ({
                             <TextField label="Email" type="email" fullWidth required defaultValue={data.email}
                                        onChange={e => setData('email', e.target.value)}/>
                         </div>
-                        <div className="col-md-2">
-                            <TextField label="Status" select required fullWidth
-                                       defaultValue={data.status}
-                                       onChange={e => setData('status', e.target.value)}>
-                                <MenuItem value="1">Ativo</MenuItem>
-                                <MenuItem value="0">Bloqueado</MenuItem>
-                            </TextField>
+                        <div className="col-md-3">
+                            <FormControlLabel label={data.status ? 'Usuário Ativo' : 'Usuário Bloqueado'} control={
+                                <Switch defaultChecked={data.status} onChange={e => setData('status', e.target.checked)}/>}/>
                         </div>
                     </div>
                     <div className="row">
@@ -85,27 +82,23 @@ export default function ({
                         </div>
                     </div>
                     <div className="row">
-                        <div className="mb-4 col-md-2">
-                            <TextField label="Função Admin/Gerente" select required fullWidth
-                                       defaultValue={data.admin}
-                                       onChange={e => setData('admin', e.target.value)}>
-                                <MenuItem value="0">Não</MenuItem>
-                                <MenuItem value="1">Sim</MenuItem>
-                            </TextField>
+                        <div className="col-md-3">
+                            <FormControlLabel label="Usuário do tipo Admin/Gerente" control={
+                                <Switch defaultChecked={data.admin} onChange={e => setData('admin', e.target.checked)}/>}/>
                         </div>
-                        <div className="mb-4 col-md-2">
-                            <TextField label="Acesso a Dados Financeiros" select required fullWidth
-                                       defaultValue={data.financeiro}
-                                       onChange={e => setData('financeiro', e.target.value)}>
-                                <MenuItem value="0">Não</MenuItem>
-                                <MenuItem value="1">Sim</MenuItem>
-                            </TextField>
+                        <div className="col-md-3">
+                            <FormControlLabel label="Usuário com função SDR" control={
+                                <Switch defaultChecked={data.sdr} onChange={e => setData('sdr', e.target.checked)}/>}/>
+                        </div>
+                        <div className="col-md-3">
+                            <FormControlLabel label="Acesso a Dados Financeiros" control={
+                                <Switch defaultChecked={data.financeiro} onChange={e => setData('financeiro', e.target.checked)}/>}/>
                         </div>
                     </div>
                 </div>
 
                 <div className="mb-4 card card-body">
-                    <span>Funções</span>
+                    <h6>Permissões de Acesso</h6>
                     <div className="row">
                         <div className="mb-4 col">
                             {permissoes?.map(categorias => {
@@ -124,7 +117,8 @@ export default function ({
                                                                     onChange={e => setData('permissoes', {
                                                                         ...data.permissoes,
                                                                         [item.id]: e.target.checked
-                                                                    })}/>}/>
+                                                                    })}/>
+                                                        }/>
                                                     </div>
                                                 )
                                             })}
@@ -140,17 +134,15 @@ export default function ({
                     <div className="row justify-content-between">
                         <div className="col"><h6>Supervisonados</h6></div>
                         <div className="col-auto">
-                            <FormControlLabel control={
+                            <FormControlLabel label="Ver Bloqueados" control={
                                 <Switch
-                                    // defaultChecked
-                                    onChange={e => setUsuarioAtivos(e.target.checked)}/>}
-                                              label="Ver Bloqueados"/>
+                                    onChange={e => setUsuarioAtivos(e.target.checked)}/>}/>
                         </div>
                     </div>
 
                     <div className="row row-cols-4">
                         {usuarios.map(item =>
-                            (item.status === '1' || usuarioAtivos) &&
+                            (item.status || usuarioAtivos) &&
                             <div key={item.id} className="mb-2 col">
                                 <div className="p-1 card card-body">
                                     <Stack direction="row" spacing="3" className="pt-2">

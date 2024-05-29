@@ -1,21 +1,22 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import MenuItem from "@mui/material/MenuItem";
-import { router, useForm } from '@inertiajs/react';
-import { useState } from "react";
-import { FormControlLabel, Switch, TextField } from "@mui/material";
+import {router, useForm} from '@inertiajs/react';
+import {useState} from "react";
+import {FormControlLabel, Switch, TextField} from "@mui/material";
+import * as React from "react";
 
-export default function ({ funcoes, franquias, setores, permissoes }) {
-    const { data, setData } = useForm();
+export default function ({funcoes, franquias, setores, permissoes}) {
+    const {data, setData} = useForm();
     const [isAdmin, setIsAdmin] = useState();
 
     const submit = (e) => {
         e.preventDefault();
-        router.post(route('admin.usuarios.usuario.store'), { ...data, is_admin: isAdmin });
+        router.post(route('admin.usuarios.usuario.store'), {...data, is_admin: isAdmin});
     };
 
     return (
         <Layout titlePage="Cadastrar Usuário" menu="usuarios" submenu="usuarios-contas"
-            voltar={route('admin.usuarios.usuario.index')}>
+                voltar={route('admin.usuarios.usuario.index')}>
             <form onSubmit={submit}>
                 <div className="mb-4 card card-body">
                     <div className="row">
@@ -42,32 +43,30 @@ export default function ({ funcoes, franquias, setores, permissoes }) {
                         </div>
                         <div className="mb-4 col-md-3">
                             <TextField label="Franquia" select required fullWidth
-                                onChange={e => setData('franquia', e.target.value)}>
+                                       onChange={e => setData('franquia', e.target.value)}>
                                 {franquias.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
                         <div className="mb-4 col-md-3">
                             <TextField label="Setor" select required fullWidth
-                                defaultValue={data.setor}
-                                onChange={e => setData('setor', e.target.value)}>
+                                       defaultValue={data.setor}
+                                       onChange={e => setData('setor', e.target.value)}>
                                 {setores.map((setor, index) => <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>)}
                             </TextField>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="mb-4 col-md-2">
-                            <TextField label="Função Admin/Gerente" select required fullWidth
-                                onChange={e => setData('admin', e.target.value)}>
-                                <MenuItem value="0" >Não</MenuItem>
-                                <MenuItem value="1" >Sim</MenuItem>
-                            </TextField>
+                        <div className="col-md-3">
+                            <FormControlLabel label="Usuário do tipo Admin/Gerente" control={
+                                <Switch onChange={e => setData('admin', e.target.checked)}/>}/>
                         </div>
-                        <div className="mb-4 col-md-2">
-                            <TextField label="Função Financeiro" select required fullWidth
-                                onChange={e => setData('financeiro', e.target.value)}>
-                                <MenuItem value="0" >Não</MenuItem>
-                                <MenuItem value="1" >Sim</MenuItem>
-                            </TextField>
+                        <div className="col-md-3">
+                            <FormControlLabel label="Usuário com função SDR" control={
+                                <Switch onChange={e => setData('sdr', e.target.checked)}/>}/>
+                        </div>
+                        <div className="col-md-3">
+                            <FormControlLabel label="Acesso a Dados Financeiros" control={
+                                <Switch onChange={e => setData('financeiro', e.target.checked)}/>}/>
                         </div>
                     </div>
                 </div>
@@ -87,7 +86,8 @@ export default function ({ funcoes, franquias, setores, permissoes }) {
                                                 return (
                                                     <div key={item.id} className="col">
                                                         <FormControlLabel label={item.nome} control={
-                                                            <Switch size="small" key={item.id} onChange={e => setData('permissoes', { ...data.permissoes, [item.id]: e.target.checked })} />} />
+                                                            <Switch size="small" key={item.id}
+                                                                    onChange={e => setData('permissoes', {...data.permissoes, [item.id]: e.target.checked})}/>}/>
                                                     </div>
                                                 )
                                             })}
@@ -105,6 +105,6 @@ export default function ({ funcoes, franquias, setores, permissoes }) {
                     </div>
                 </div>
             </form>
-        </Layout >
+        </Layout>
     )
 }

@@ -18,7 +18,7 @@ export default function ({usuario}) {
                             <h6>Nome: {usuario.nome}</h6>
                             <span className="d-block">ID: #{usuario.id}</span>
                             <span className="d-block">Email: {usuario.email}</span>
-                            <span className="d-block">Status: {usuario.status} </span>
+                            <span className="d-block">Status: {usuario.status ? 'Ativo' : 'Bloqueado'} </span>
                             <span className="d-block">Franquia: {usuario.franquia}</span>
                             <span className="d-block">Função: {usuario.funcao}</span>
                             <span className="d-block">Setor: {usuario.setor}</span>

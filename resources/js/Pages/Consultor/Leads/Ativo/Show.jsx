@@ -80,7 +80,8 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
                                         <RequestPageOutlinedIcon/> Lançar Pedido
                                     </a>
                                     {!(dados?.cliente?.cnpj || dados?.cliente?.cpf) &&
-                                        <span className="text-danger h6 d-block">Cadastre o CNPJ ou CPF do cliente para emitir pedidos!</span>}
+                                        <span className="text-danger h6 d-block">
+                                            Cadastre <a href={route('consultor.leads.main.edit', dados.id)}>aqui</a> o CNPJ ou CPF do cliente para emitir pedidos!</span>}
                                 </div>
                                 : 'Você não tem permissão para emitir pedidos.'}
                         </div>
