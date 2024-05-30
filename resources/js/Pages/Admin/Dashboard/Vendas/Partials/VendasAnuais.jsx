@@ -50,7 +50,7 @@ export default function VendasAnuais({vendasMetasAnual, vendasAnual, metasEmpres
                                         <td className="text-dark">R$ {convertFloatToMoney(item.total_metas)}</td>
                                         <td className="text-dark">R$ {convertFloatToMoney(metaEmpresa)}</td>
                                         <td className={dif >= 0 ? 'text-success' : (alcancado > 0 ? 'text-danger' : '')}>
-                                            R$ {alcancado > 0 ? convertFloatToMoney(dif) : '0,00'} ({convertFloatToMoney(margem)}%)
+                                            {alcancado > 0 ? <span>R$ {convertFloatToMoney(dif)} ({convertFloatToMoney(margem)}%)</span> : '-'}
                                         </td>
                                         <td className={difEmpresa >= 0 ? 'text-success' : (alcancado > 0 ? 'text-danger' : '')}>
                                             {(alcancado > 0 && metaEmpresa > 0)
@@ -71,7 +71,7 @@ export default function VendasAnuais({vendasMetasAnual, vendasAnual, metasEmpres
                                 </td>
                                 <td className={difTotalEmpresa >= 0 ? 'text-success' : (alcancadoAnoTotal > 0 ? 'text-danger' : '')}>
                                     R$ {alcancadoAnoTotal > 0 ? convertFloatToMoney(difTotalEmpresa) : '0,00'} (
-                                    {convertFloatToMoney(difTotalEmpresa + 100)}%)
+                                    {convertFloatToMoney(margemMetasVendasTotalEmpresa + 100)}%)
                                 </td>
                             </tr>
                             </tbody>
