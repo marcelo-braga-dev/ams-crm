@@ -51,16 +51,18 @@ class Pedidos extends Model
     public function historicoPedidosLead($id)
     {
         $status = (new StatusPedidos());
+        $nomes = (new User())->getNomes();
 
         return $this->newQuery()
             ->where('lead_id', $id)
             ->orderByDesc('id')
-            ->get(['id', 'preco_venda', 'pedidos.created_at as data_criacao', 'status'])
-            ->transform(function ($item) use ($status) {
+            ->get(['id', 'preco_venda', 'pedidos.created_at as data_criacao', 'status', 'user_id'])
+            ->transform(function ($item) use ($status, $nomes) {
                 return [
                     'id' => $item->id,
                     'status' => $status->getNomeStatus($item->status),
                     'valor' => convert_float_money($item->preco_venda),
+                    'consultor' => $nomes[$item->user_id],
                     'data_criacao' => date('d/m/y H:i', strtotime($item->data_criacao)),
                 ];
             });

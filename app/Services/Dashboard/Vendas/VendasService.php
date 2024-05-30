@@ -92,22 +92,22 @@ class VendasService
             ->leftJoin('enderecos', 'leads.endereco', '=', 'enderecos.id');
 
         return $query->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
-                ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
-                ->whereYear('pedidos.data_faturamento', $ano)
-                ->where('pedidos.setor_id', $setor)
-                ->select(DB::raw('
+            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+            ->whereYear('pedidos.data_faturamento', $ano)
+            ->where('pedidos.setor_id', $setor)
+            ->select(DB::raw('
                     count(pedidos.id) as qtd,
                     enderecos.estado as estado
                 '))
-                ->groupBy('enderecos.estado')
-                ->orderByDesc('qtd')
-                ->get();
+            ->groupBy('enderecos.estado')
+            ->orderByDesc('qtd')
+            ->get();
     }
 
 
-    public function vendasPorLeads($mes, $ano, $setor)
+    public function vendasPorLeads($mes, $ano, $setor, $limit = null, $index = false)
     {
-        return (new Pedidos())->newQuery()
+        $items = (new Pedidos())->newQuery()
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
             ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
@@ -117,11 +117,12 @@ class VendasService
                 count(pedidos.id) as qtd,
                 leads.id as lead_id,
                 leads.nome as lead_nome,
-                SUM(pedidos.preco_venda) as valor
+                SUM(pedidos.preco_venda) as valor,
+                leads.ultimo_pedido_data as pedido_data,
+                DATEDIFF(CURDATE(), leads.ultimo_pedido_data) as dif_data
                 '))
             ->groupBy('pedidos.lead_id')
             ->orderByDesc('valor')
-            ->limit(15)
             ->get()
             ->transform(function ($item) {
                 return [
@@ -129,6 +130,46 @@ class VendasService
                     'lead_nome' => $item->lead_nome,
                     'qtd' => $item->qtd,
                     'valor' => $item->valor,
+                    'pedido_data' => date('d/m/y', strtotime($item->pedido_data)),
+                    'pedido_data_dif' => $item->dif_data,
+                ];
+            });
+
+        if ($index) {
+            $res = [];
+            foreach ($items as $item) {
+                $res[$item['lead_id']] = $item;
+            }
+            return $res;
+        }
+        return $items;
+    }
+
+    public function vendasPorLeadsIds($mes, $ano, $mesComp, $anoComp, $setor, $limit = null)
+    {
+        return (new Pedidos())->newQuery()
+            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), [...$mesComp,...$mes ])
+            ->whereYear('pedidos.data_faturamento', $ano)
+            ->where('pedidos.setor_id', $setor)
+            ->select(DB::raw('
+                leads.id as lead_id,
+                leads.nome as lead_nome,
+                leads.ultimo_pedido_data as pedido_data,
+                DATEDIFF(CURDATE(), leads.ultimo_pedido_data) as dif_data,
+                SUM(pedidos.preco_venda) as valor
+                '))
+            ->groupBy('pedidos.lead_id')
+            ->orderByDesc('valor')
+            ->limit($limit)
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'lead_id' => $item->lead_id,
+                    'lead_nome' => $item->lead_nome,
+                    'pedido_data' => date('d/m/y', strtotime($item->pedido_data)),
+                    'pedido_data_dif' => $item->dif_data,
                 ];
             });
     }

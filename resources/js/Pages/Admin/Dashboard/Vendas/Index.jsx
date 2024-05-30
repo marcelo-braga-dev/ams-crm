@@ -39,6 +39,7 @@ export default function ({mes, ano, setores, setor}) {
 
     const [vendasMetas, setVendasMetas] = useState([]);
     const [vendasLeads, setVendasLeads] = useState([]);
+    const [vendasLeadsComp, setVendasLeadsComp] = useState([]);
     const [metasEmpresas, setMetasEmpresas] = useState([]);
     const [vendasMetasAnual, setVendasMetasAnual] = useState([]);
     const [vendasMetasComp, setVendasMetasComp] = useState([]);
@@ -46,6 +47,7 @@ export default function ({mes, ano, setores, setor}) {
     const [vendasEstados, setVendasEstados] = useState([]);
     const [carregando, setCarregando] = useState(true);
     const [filtrar, setFiltrar] = useState(false);
+    const [leads, setLeads] = useState([]);
 
     const admin = isAdmin()
 
@@ -70,6 +72,8 @@ export default function ({mes, ano, setores, setor}) {
                 setMetasUsuariosComp(res.data.metas_usuarios_comp)
 
                 setVendasLeads(res.data.vendas_leads)
+                setVendasLeadsComp(res.data.vendas_leads_comp)
+                setLeads(res.data.leads)
                 //
                 setVendasMetas(res.data.vedas_metas)
                 setVendasMetasAnual(res.data.vedas_metas_anual)
@@ -150,9 +154,7 @@ export default function ({mes, ano, setores, setor}) {
                             <div className="card-body">
                                 <div className="row align-items-center">
                                     <div className="col-auto">
-                                        <Avatar sx={{bgcolor: 'orange'}}>
-                                            <TrendingUpIcon/>
-                                        </Avatar>
+                                        <Avatar sx={{bgcolor: 'orange'}}> <TrendingUpIcon/> </Avatar>
                                     </div>
                                     <div className="col-auto">
                                         <small className="">Meta de Vendas</small>
@@ -169,15 +171,12 @@ export default function ({mes, ano, setores, setor}) {
                             <div className="card-body">
                                 <div className="row align-items-center">
                                     <div className="col-auto">
-                                        <Avatar sx={{bgcolor: 'blue'}}>
-                                            <AccountBalanceOutlinedIcon/>
-                                        </Avatar>
+                                        <Avatar sx={{bgcolor: 'blue'}}><AccountBalanceOutlinedIcon/> </Avatar>
                                     </div>
                                     <div className="col-auto">
                                         <small className="">Meta de Vendas da Empresa</small>
                                         <h6>R$ {convertFloatToMoney(metasEmpresas?.[mes])}</h6>
-                                        {vendasMetasComp?.totalMetas &&
-                                            <h6>R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</h6>}
+                                        {vendasMetasComp?.totalMetas && <h6>R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</h6>}
                                     </div>
                                 </div>
                             </div>
@@ -199,9 +198,7 @@ export default function ({mes, ano, setores, setor}) {
                                             {convertFloatToMoney(((vendasTotal.vendas - vendasMetas?.totalMetas) / vendasMetas?.totalMetas * 100) + 100)}%)
                                         </h6>
                                         {vendasMetasComp?.totalMetas &&
-                                            <h6 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas)}
-                                            </h6>}
-
+                                            <h6 className="text-end">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalMetas)}</h6>}
                                     </div>
                                 </div>
                             </div>
@@ -232,10 +229,10 @@ export default function ({mes, ano, setores, setor}) {
                             <div className="row justify-content-between">
                                 <div className="col"><h6>Top Compradores (Leads)</h6></div>
                                 <div className="col-auto">
-                                    <a className="btn btn-primary btn-sm">Ver Todos</a>
+                                    <a className="btn btn-primary btn-sm" href={route('admin.dashboard.vendas.leads')}>Ver Todos</a>
                                 </div>
                             </div>
-                            <TopLeadsGrafico dados={vendasLeads}/>
+                            <TopLeadsGrafico dados={vendasLeads} leads={leads} vendasLeadsComp={vendasLeadsComp}/>
                         </div>
                     </div>
                 </div>

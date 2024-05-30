@@ -8,7 +8,6 @@ import {useEffect, useState} from "react";
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import {round} from "lodash";
 
 export default function ({mes, ano, setores}) {

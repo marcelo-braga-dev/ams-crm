@@ -57,8 +57,8 @@ export default function VendasAnuais({vendasMetasAnual, vendasAnual, metasEmpres
                                         <td className="text-center">
                                             <b>{(item.mes).toUpperCase()} </b>
                                             {mesesVisivel?.[item.mes]
-                                                ? <VisibilityOutlinedIcon fontSize="small" onClick={() => setMesesVisivel({...mesesVisivel, [item.mes]: 0})}/>
-                                                : <VisibilityOffOutlinedIcon fontSize="small" onClick={() => setMesesVisivel({...mesesVisivel, [item.mes]: 1})}/>}
+                                                ? <VisibilityOutlinedIcon fontSize="small" className="cursor-pointer" onClick={() => setMesesVisivel({...mesesVisivel, [item.mes]: 0})}/>
+                                                : <VisibilityOffOutlinedIcon fontSize="small" className="cursor-pointer" onClick={() => setMesesVisivel({...mesesVisivel, [item.mes]: 1})}/>}
                                         </td>
                                         <td>{!!mesesVisivel?.[item.mes] && <span>R$ {convertFloatToMoney(alcancado)}</span>}</td>
                                         <td>{!!mesesVisivel?.[item.mes] && <span>R$ {convertFloatToMoney(item.total_metas)}</span>}</td>

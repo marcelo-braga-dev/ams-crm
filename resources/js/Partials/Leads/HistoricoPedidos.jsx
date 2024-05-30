@@ -10,12 +10,11 @@ export default function HistoricoPedidos({historicos}) {
                             <span className="d-block"><b>ID do Pedido:</b> #{item.id}</span>
                             <span className="d-block"><b>Status:</b> {item.status}</span>
                             <span className="d-block"><b>Valor:</b> R$ {item.valor}</span>
+                            <span className="d-block"><b>Consultor(a):</b> {item.consultor}</span>
                             <span className="d-block"><b>Data do Pedido:</b> R$ {item.data_criacao}</span>
                         </div>
                         <div className="col-auto">
-                            <a className="btn btn-primary btn-sm"
-                               href={route('admin.pedidos.show', item.id)}>Ver
-                                Pedido</a>
+                            <a className="btn btn-primary btn-sm" href={route('admin.pedidos.show', item.id)}>Ver Pedido</a>
                         </div>
                     </div>
                 </div>

@@ -25,8 +25,8 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                     {admin &&
                         <th onClick={() => setCamposVisivel(e => !e)}>
                             Lucro Bruto {camposVisivel
-                            ? <VisibilityOutlinedIcon fontSize="small"/>
-                            : <VisibilityOffOutlinedIcon fontSize="small"/>}
+                            ? <VisibilityOutlinedIcon className="cursor-pointer" fontSize="small"/>
+                            : <VisibilityOffOutlinedIcon className="cursor-pointer" fontSize="small"/>}
                         </th>}
                     <th></th>
                 </tr>
