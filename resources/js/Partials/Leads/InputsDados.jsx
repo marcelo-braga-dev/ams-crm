@@ -142,7 +142,7 @@ export default function InputsDadosLead({data, setData, required}) {
                                onChange={e => setData('endereco', {...data?.endereco, cidade: e.target.value})}/>
                 </div>
                 <div className="col-md-4 mb-4">
-                    <TextField label="Estado" fullWidth required={required} id="estado" select
+                    <TextField label="Estado" fullWidth required id="estado" select
                                value={data?.endereco?.estado}
                                defaultValue={data?.endereco?.estado}
                                onChange={e => setData('endereco', {...data?.endereco, estado: e.target.value})}>

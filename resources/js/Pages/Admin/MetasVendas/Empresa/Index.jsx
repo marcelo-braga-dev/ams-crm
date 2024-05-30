@@ -8,6 +8,8 @@ import MetasAtingidas from "./Graficos/MetasAtingidas";
 import {useState} from "react";
 import {convertInputMoney} from "@/Components/Inputs/TextFieldMoney";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import * as React from "react";
+import {converterMes, converterMesCompleto} from "@/Helpers/helper";
 
 const meses = [
     {mes: '1', abv: 'jan', nome: 'Janeiro'},
@@ -24,21 +26,22 @@ const meses = [
     {mes: '12', abv: 'dez', nome: 'Dezembro'},
 ]
 
-export default function ({meta, mes, ano, metasMensais, vendasMensais, vendasMensalUsuario}) {
-    const [mesSelecionado, setMesSelecionado] = useState(mes)
+export default function ({meta, mes, ano, metasMensais, vendasMensais, setores, setor, vendasMensalUsuario}) {
+    // const [mesSelecionado, setMesSelecionado] = useState(mes)
+    // const [setorSelecionado, setSetorSelecionado] = useState(setor)
     const [valorMeta, setValorMeta] = useState(convertFloatToMoney(meta))
     const [mostarBtn, setMostarBtn] = useState(false)
 
     function submit(e) {
         e.preventDefault()
         router.post(route('admin.metas-vendas.empresa.update', 1), {
-            valor: valorMeta, mes, ano,
+            valor: valorMeta, mes, ano, setor,
             _method: 'put',
         });
     }
 
-    function selecionaPeriodo(mes, ano) {
-        router.get(route('admin.metas-vendas.empresa.index'), {mes, ano})
+    function selecionaPeriodo(mes, ano, setor) {
+        router.get(route('admin.metas-vendas.empresa.index'), {mes, ano, setor})
     }
 
     router.on('success', () => setMostarBtn(false))
@@ -51,16 +54,22 @@ export default function ({meta, mes, ano, metasMensais, vendasMensais, vendasMen
             <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col-2">
-                        <TextField label="Mẽs" select fullWidth defaultValue={mesSelecionado}
-                                   onChange={e => selecionaPeriodo(e.target.value, ano)}>
+                        <TextField label="Mẽs" select fullWidth defaultValue={mes}
+                                   onChange={e => selecionaPeriodo(e.target.value, ano, setor)}>
                             {meses.map(item => <MenuItem key={item.mes} value={item.mes}>{item.nome}</MenuItem>)}
                         </TextField>
                     </div>
                     <div className="col-2">
                         <TextField label="Ano" select fullWidth defaultValue={ano}
-                                   onChange={e => selecionaPeriodo(mes, e.target.value)}>
+                                   onChange={e => selecionaPeriodo(mes, e.target.value, setor)}>
                             <MenuItem value="2023">2023</MenuItem>
                             <MenuItem value="2024">2024</MenuItem>
+                        </TextField>
+                    </div>
+                    <div className="col-2">
+                        <TextField label="Setor" select fullWidth defaultValue={setor}
+                                   onChange={e => selecionaPeriodo(mes, ano, e.target.value)}>
+                            {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                         </TextField>
                     </div>
                 </div>
@@ -70,8 +79,11 @@ export default function ({meta, mes, ano, metasMensais, vendasMensais, vendasMen
                 <div className="row row-cols-1 p-3">
                     <div className="col mb-4">
                         <div className='row card card-body flex-row'>
-                            <div className="row border-bottom mb-4">
-                                <div className="col"><h6>MÊS: {mes}</h6></div>
+                            <div className="row border-bottom mb-4 pb-2">
+                                <div className="col">
+                                    <span className="me-5"><b>Meta:</b> {converterMesCompleto(mes)}/{ano}</span>
+                                    <span> <b>Setor:</b> {(setores.find(item => item.id == setor)).nome}</span>
+                                </div>
                             </div>
                             <div className="row">
                                 <div className='col-md-2 mb-3'>

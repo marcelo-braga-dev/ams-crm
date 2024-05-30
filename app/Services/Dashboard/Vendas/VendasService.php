@@ -83,19 +83,53 @@ class VendasService
 
     public function vendasPorEstados($mes, $ano, $setor)
     {
+        $query = (new Pedidos())->newQuery();
+
+        if (modelo_setor($setor) == 1) $query->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
+            ->leftJoin('enderecos', 'pedidos_clientes.endereco', '=', 'enderecos.id');
+
+        else $query->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
+            ->leftJoin('enderecos', 'leads.endereco', '=', 'enderecos.id');
+
+        return $query->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+                ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+                ->whereYear('pedidos.data_faturamento', $ano)
+                ->where('pedidos.setor_id', $setor)
+                ->select(DB::raw('
+                    count(pedidos.id) as qtd,
+                    enderecos.estado as estado
+                '))
+                ->groupBy('enderecos.estado')
+                ->orderByDesc('qtd')
+                ->get();
+    }
+
+
+    public function vendasPorLeads($mes, $ano, $setor)
+    {
         return (new Pedidos())->newQuery()
-            ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
-            ->leftJoin('enderecos', 'pedidos_clientes.endereco', '=', 'enderecos.id')
+            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
             ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)
             ->select(DB::raw('
                 count(pedidos.id) as qtd,
-                enderecos.estado as estado
+                leads.id as lead_id,
+                leads.nome as lead_nome,
+                SUM(pedidos.preco_venda) as valor
                 '))
-            ->groupBy('enderecos.estado')
-            ->orderByDesc('qtd')
-            ->get();
+            ->groupBy('pedidos.lead_id')
+            ->orderByDesc('valor')
+            ->limit(15)
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'lead_id' => $item->lead_id,
+                    'lead_nome' => $item->lead_nome,
+                    'qtd' => $item->qtd,
+                    'valor' => $item->valor,
+                ];
+            });
     }
 }

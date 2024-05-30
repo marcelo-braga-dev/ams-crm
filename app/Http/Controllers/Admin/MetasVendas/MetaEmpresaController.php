@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\MetasVendas;
 use App\Http\Controllers\Controller;
 use App\Models\MetasVendas;
 use App\Models\Pedidos;
+use App\Models\Setores;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,15 +16,16 @@ class MetaEmpresaController extends Controller
     {
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
+        $setor = $request->setor ?? 1;
 
-        $meta = (new MetasVendas())->getMetaEmpresa($mes, $ano);
-        $vendasMensais = (new Pedidos())->vendasMensaisEmpresa($ano);
+        $setores = (new Setores())->get();
+        $meta = (new MetasVendas())->getMetaEmpresa($mes, $ano, $setor);
+        $vendasMensais = (new Pedidos())->vendasMensaisEmpresa($ano, $setor);
 
-        $metasMensais = (new MetasVendas())->metasMensaisEmpresa($ano);
-//        print_pre($vendasMensais);
+        $metasMensais = (new MetasVendas())->metasMensaisEmpresa($ano, $setor);
 
         return Inertia::render('Admin/MetasVendas/Empresa/Index',
-            compact('meta', 'mes', 'ano', 'metasMensais', 'vendasMensais'));
+            compact('meta', 'mes', 'ano', 'metasMensais', 'vendasMensais', 'setor', 'setores'));
     }
 
     public function update($id, Request $request)

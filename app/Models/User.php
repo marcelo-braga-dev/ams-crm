@@ -587,9 +587,18 @@ class User extends Authenticatable
     {
         return $this->newQuery()
             ->join('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
+            ->whereIn('users.id', supervisionados(id_usuario_atual(), true))
             ->where('users_permissoes.chave', (new ChavesPermissoes())->chaveSdr())
-            ->get(['users.id as id', 'name as nome', 'foto'])
-            ->toArray();
+            ->orderBy('nome')
+            ->get(['users.id as id', 'name as nome', 'foto', DB::raw('CASE WHEN users.status = 1 THEN TRUE ELSE FALSE END as status')])
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->nome,
+                    'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
+                    'status' => $item->status,
+                ];
+            });
     }
 
     public function usuariosRecebeLeads()
@@ -610,5 +619,23 @@ class User extends Authenticatable
             ->orderBy('id')
             ->where('setor_id', $setor)
             ->pluck('users.id');
+    }
+
+    public function usuariosConsultores()
+    {
+        return $this->newQuery()
+            ->join('users_permissoes', 'users.id', '=', 'users_permissoes.user_id')
+            ->whereIn('users.id', supervisionados(id_usuario_atual(), true))
+            ->where('users_permissoes.chave', (new ChavesPermissoes())->chavePedidosEmitir())
+            ->orderBy('nome')
+            ->get(['users.id as id', 'name as nome', 'foto', DB::raw('CASE WHEN users.status = 1 THEN TRUE ELSE FALSE END as status')])
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->nome,
+                    'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
+                    'status' => $item->status,
+                ];
+            });
     }
 }

@@ -8,6 +8,8 @@ import MetasAtingidas from "./Graficos/MetasAtingidas";
 import {useState} from "react";
 import {convertInputMoney} from "@/Components/Inputs/TextFieldMoney";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import {converterMesCompleto} from "@/Helpers/helper";
+import * as React from "react";
 
 const meses = [
     {mes: '1', nome: 'Janeiro'},
@@ -83,8 +85,8 @@ export default function ({
                 <div className="row row-cols-1 p-3">
                     <div className="col mb-4">
                         <div className='row card card-body flex-row'>
-                            <div className="row border-bottom mb-4">
-                                <div className="col"><h6>MÊS: </h6></div>
+                            <div className="row border-bottom mb-4 pb-2">
+                                <div className="col"><span className="me-5"><b>Meta:</b> {converterMesCompleto(mes)}/{ano}</span></div>
                             </div>
                             <div className="row">
                                 <div className='col-md-2 mb-3'>

@@ -7,12 +7,10 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import TimelineIcon from '@mui/icons-material/Timeline';
 import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
-import TopVendas from "@/Pages/Admin/Dashboard/Vendas/Graficos/TopVendas";
-import VendasAnuais from "@/Pages/Admin/Dashboard/Vendas/Graficos/VendasMensasPie";
-import {Stack, TextField} from "@mui/material";
+
+import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {useEffect, useState} from "react";
-import {router} from "@inertiajs/react";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import {converterMes, isAdmin} from "@/Helpers/helper";
 
@@ -22,6 +20,8 @@ import LinearProgress from '@mui/material/LinearProgress';
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
 import VendasEstadosGrafico from "./Graficos/VendasEstadosGrafico";
 import MetasVendas from "@/Pages/Admin/Dashboard/Vendas/Partials/MetasVendas";
+import VendasAnuais from "@/Pages/Admin/Dashboard/Vendas/Partials/VendasAnuais";
+import TopLeadsGrafico from "@/Pages/Admin/Dashboard/Vendas/Graficos/TopLeadsGrafico";
 
 export default function ({mes, ano, setores, setor}) {
     const [vendasUsuarios, setVendasUsuarios] = useState([]);
@@ -33,11 +33,12 @@ export default function ({mes, ano, setores, setor}) {
 
     const [mesesSelecionado, setMesesSelecionado] = useState([mes]);
     const [anoSelecionado, setAnoSelecionado] = useState(ano);
-    const [setorSelecionado, setSetorSelecionado] = useState([setor]);
+    const [setorSelecionado, setSetorSelecionado] = useState(setor);
     const [mesesSelecionadoComp, setMesesSelecionadoComp] = useState([]);
     const [anoSelecionadoComp, setAnoSelecionadoComp] = useState();
 
     const [vendasMetas, setVendasMetas] = useState([]);
+    const [vendasLeads, setVendasLeads] = useState([]);
     const [metasEmpresas, setMetasEmpresas] = useState([]);
     const [vendasMetasAnual, setVendasMetasAnual] = useState([]);
     const [vendasMetasComp, setVendasMetasComp] = useState([]);
@@ -47,8 +48,6 @@ export default function ({mes, ano, setores, setor}) {
     const [filtrar, setFiltrar] = useState(false);
 
     const admin = isAdmin()
-
-    let metaAnoTotal = 0, metaAnoEmpresaTotal = 0, alcancadoAnoTotal = 0, difMetasVendasTotal = 0, margemMetasVendasTotal = 0
 
     useEffect(function () {
         setCarregando(true)
@@ -69,6 +68,8 @@ export default function ({mes, ano, setores, setor}) {
 
                 setMetasUsuarios(res.data.metas_usuarios)
                 setMetasUsuariosComp(res.data.metas_usuarios_comp)
+
+                setVendasLeads(res.data.vendas_leads)
                 //
                 setVendasMetas(res.data.vedas_metas)
                 setVendasMetasAnual(res.data.vedas_metas_anual)
@@ -81,7 +82,7 @@ export default function ({mes, ano, setores, setor}) {
     }, [filtrar])
 
     return (
-        <Layout titlePage="Indicadores de Vendas" menu="dashboard" submenu="dashboard-vendas">
+        <Layout empty titlePage="Indicadores de Vendas" menu="dashboard" submenu="dashboard-vendas">
             <div className="mb-4 card card-body">
                 <div className="row">
                     <div className="col-2">
@@ -214,7 +215,7 @@ export default function ({mes, ano, setores, setor}) {
                         <MetasVendas
                             metasUsuarios={metasUsuarios} vendasMetasComp={vendasMetasComp} vendasUsuariosComp={vendasUsuariosComp}
                             vendasTotal={vendasTotal} vendasMetas={vendasMetas} vendasUsuarios={vendasUsuarios}
-                            metasUsuariosComp={metasUsuariosComp} admin={admin} mes={mesesSelecionado?.[0]} ano={ano} />
+                            metasUsuariosComp={metasUsuariosComp} admin={admin} mes={mesesSelecionado?.[0]} ano={ano}/>
 
                         <div className="row">
                             <MetaVendas vendasUsuarios={vendasUsuarios} metasUsuarios={metasUsuarios}
@@ -223,88 +224,27 @@ export default function ({mes, ano, setores, setor}) {
                     </div>
                 </div>
 
+                <VendasAnuais vendasAnual={vendasAnual} metasEmpresas={metasEmpresas} vendasMetasAnual={vendasMetasAnual}/>
+
                 <div className="mb-4 row">
-                    <div className="col-md-5">
-                        <div className="card">
-                            <div className="card-body">
-                                <h6>Vendas Anuais</h6>
-                                <VendasAnuais dados={vendasMetasAnual} vendasAnual={vendasAnual} metasEmpresas={metasEmpresas}/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-7">
-                        <div className="card">
-                            <div className="card-body">
-                                <h6>Vendas Anuais</h6>
-                                <div className="table-responsive">
-                                    <table className="table text-sm table-sm">
-                                        <thead>
-                                        <tr>
-                                            <th className="text-center">Mẽs</th>
-                                            <th>Meta Vendas</th>
-                                            <th>Meta Empresa</th>
-                                            <th>Alcançado</th>
-                                            <th>Meta x Vendas</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {vendasMetasAnual.map((item, index) => {
-                                            const alcancado = vendasAnual?.[index + 1]?.vendas ?? 0
-                                            const dif = alcancado - (item.total_metas ?? 0)
-                                            const margem = ((alcancado - item.total_metas) / item.total_metas * 100) + 100
-
-                                            metaAnoTotal += item.total_metas ?? 0
-                                            metaAnoEmpresaTotal += (metasEmpresas?.[index + 1] ?? 0)
-                                            alcancadoAnoTotal += alcancado ?? 0
-                                            difMetasVendasTotal += dif
-                                            margemMetasVendasTotal += margem > 100 ? margem : (-margem)
-
-                                            return (
-                                                <tr key={index}
-                                                    className={dif >= 0 ? 'text-success' : (alcancado > 0 ? 'text-danger' : '')}>
-                                                    <td className="text-center text-dark">
-                                                        <b>{(item.mes).toUpperCase()}</b>
-                                                    </td>
-                                                    <td className="text-dark">R$ {convertFloatToMoney(item.total_metas)}</td>
-                                                    <td className="text-dark">R$ {convertFloatToMoney(metasEmpresas?.[index + 1])}</td>
-                                                    <td className="text-dark">R$ {convertFloatToMoney(alcancado)}</td>
-                                                    <td>
-                                                        R$ {alcancado > 0 ? convertFloatToMoney(dif) : '0,00'} (
-                                                        {convertFloatToMoney(margem)}%
-                                                        )
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })}
-                                        <tr
-                                            className={difMetasVendasTotal >= 0 ? 'text-success' : (alcancadoAnoTotal > 0 ? 'text-danger' : '')}>
-                                            <td className="text-center text-dark">
-                                                <b>TOTAL</b>
-                                            </td>
-                                            <td className="text-dark">R$ {convertFloatToMoney(metaAnoTotal)}</td>
-                                            <td className="text-dark">R$ {convertFloatToMoney(metaAnoEmpresaTotal)}</td>
-                                            <td className="text-dark">R$ {convertFloatToMoney(alcancadoAnoTotal)}</td>
-                                            <td>
-                                                R$ {alcancadoAnoTotal > 0 ? convertFloatToMoney(difMetasVendasTotal) : '0,00'} (
-                                                {convertFloatToMoney(margemMetasVendasTotal + 100)}%
-                                                )
-                                            </td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                    <div className="col-md-12">
+                        <div className="card card-body">
+                            <div className="row justify-content-between">
+                                <div className="col"><h6>Top Compradores (Leads)</h6></div>
+                                <div className="col-auto">
+                                    <a className="btn btn-primary btn-sm">Ver Todos</a>
                                 </div>
                             </div>
+                            <TopLeadsGrafico dados={vendasLeads}/>
                         </div>
                     </div>
                 </div>
 
                 <div className="mb-4 row">
                     <div className="col-md-12">
-                        <div className="card">
-                            <div className="card-body">
-                                <h6>Vendas Por Estados mês: {converterMes(mesesSelecionado?.[0])}/{anoSelecionado}</h6>
-                                <VendasEstadosGrafico dados={vendasEstados}/>
-                            </div>
+                        <div className="card card-body">
+                            <h6>Vendas Por Estados mês: {converterMes(mesesSelecionado?.[0])}/{anoSelecionado}</h6>
+                            <VendasEstadosGrafico dados={vendasEstados}/>
                         </div>
                     </div>
                 </div>

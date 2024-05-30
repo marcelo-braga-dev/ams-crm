@@ -1,38 +1,54 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import "chart.js/auto";
-import {TextField} from "@mui/material";
+import {Stack, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Sdr from "./Graficos/Sdr";
 import Status from "./Graficos/Status";
 import {useEffect, useState} from "react";
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
 import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import {round} from "lodash";
 
-export default function ({registrosStatus, sdr, qtds, mes, ano, setores, setor}) {
+export default function ({mes, ano, setores}) {
 
-    const [registrosSdr, setRegistrosSdr] = useState([])
+    const [usuariosSdr, setUsuariosSdr] = useState([])
+    const [usuariosConsultores, setUsuariosConsultores] = useState([])
+    const [registrosUsuario, setRegistrosUsuario] = useState([])
+    const [registrosStatus, setRegistrosStatus] = useState([])
+    const [registrosQtds, setRegistrosQtds] = useState([])
+    const [statusQtd, setStatusQtd] = useState([])
+
+    const [usuarioSelecionado, setUsuarioSelecionado] = useState();
     const [mesesSelecionado, setMesesSelecionado] = useState(mes);
-    const [anoSelecionado, setAnoSelecionado] = useState(2024);
-    const [setorSelecionado, setSetorSelecionado] = useState([setor]);
-    const [mesesSelecionadoComp, setMesesSelecionadoComp] = useState([]);
-    const [anoSelecionadoComp, setAnoSelecionadoComp] = useState();
+    const [anoSelecionado, setAnoSelecionado] = useState(ano);
+    const [setorSelecionado, setSetorSelecionado] = useState(1);
+
+    let totalLeadsCadastrados = 0
 
     useEffect(() => {
-        axios.get(route('admin.dashboard.leads.relatorio'))
-    }, []);
+        axios.get(route('admin.dashboard.leads.relatorio',
+            {id: usuarioSelecionado, mes: mesesSelecionado, ano: anoSelecionado, setor: setorSelecionado}))
+            .then(res => {
+                setUsuariosSdr(res.data.usuarios_sdr)
+                setUsuariosConsultores(res.data.usuarios_consultores)
+                setRegistrosUsuario(res.data.registros_usuario)
+                setRegistrosStatus(res.data.registros_status)
+                setRegistrosQtds(res.data.status_qtds)
+                setStatusQtd(res.data.status_qtd)
 
-    function getDados(id) {
-        axios.get(route('admin.dashboard.leads.relatorio', {id: id}))
-            .then(res => setRegistrosSdr(res.data.sdr))
-    }
+                setRegistrosUsuario(res.data.registros_usuario)
+            })
+
+    }, [usuarioSelecionado, mesesSelecionado, anoSelecionado, setorSelecionado]);
 
     return (
         <Layout titlePage="Indicadores de Leads" menu="dashboard" submenu="dashboard-leads">
-
             <div className="mb-4 card card-body">
                 <div className="row">
                     <div className="col-2">
-                        <TextField label="Setor" select fullWidth defaultValue={setor}
+                        <TextField label="Setor" select fullWidth defaultValue={setorSelecionado}
                                    onChange={e => setSetorSelecionado(e.target.value)}>
                             {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                         </TextField>
@@ -47,122 +63,99 @@ export default function ({registrosStatus, sdr, qtds, mes, ano, setores, setor})
                             <MenuItem value="2024">2024</MenuItem>
                         </TextField>
                     </div>
-                    <div className="col-2">
-                        <button className="btn btn-primary btn-sm"
-                                onClick={() => setFiltrar(e => !e)}>Filtrar
-                        </button>
-                    </div>
                 </div>
                 <div className="mt-2 row">
                     <div className="col-2">
                     </div>
-                    <div className="col-2">
-                        <SelectMesesMultiples value={mesesSelecionadoComp} label="Comparar Meses"
-                                              useState={setMesesSelecionadoComp}/>
-                    </div>
-                    <div className="col-2">
-                        <TextField label="Comparar Ano" select fullWidth
-                                   onChange={e => setAnoSelecionadoComp(e.target.value)}>
-                            <MenuItem value="2023">2023</MenuItem>
-                            <MenuItem value="2024">2024</MenuItem>
-                        </TextField>
-                    </div>
+                    {/*<div className="col-2">*/}
+                    {/*    <SelectMesesMultiples value={mesesSelecionadoComp} label="Comparar Meses"*/}
+                    {/*                          useState={setMesesSelecionadoComp}/>*/}
+                    {/*</div>*/}
+                    {/*<div className="col-2">*/}
+                    {/*    <TextField label="Comparar Ano" select fullWidth*/}
+                    {/*               onChange={e => setAnoSelecionadoComp(e.target.value)}>*/}
+                    {/*        <MenuItem value="2023">2023</MenuItem>*/}
+                    {/*        <MenuItem value="2024">2024</MenuItem>*/}
+                    {/*    </TextField>*/}
+                    {/*</div>*/}
                 </div>
             </div>
-
-            <div className="card card-body mb-4">
-                <div className="row mb-3">
-                    <div className="col-md-3">
-                        <TextField select fullWidth label="Usuário"
-                                   onChange={e => getDados(e.target.value)}>
-                            {sdr.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
-                        </TextField>
-                    </div>
-                </div>
-                {registrosSdr.length > 0 ? <>
-                    <div className="row">
-                        <div className="col-auto mb-4">
-                            <small className="d-block">Total de Leads recebidos no período: 0.</small>
-                        </div>
-                        <div className="col-auto mb-4">
-                            <small>Total de Leads ativados no período: 0.</small>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-7">
-                            <Sdr dados={registrosSdr}/>
-                        </div>
-                        <div className="col-md-5">
-                            <table className="table text-center table-sm">
-                                <thead>
-                                <tr>
-                                    <th className="text-start">Status</th>
-                                    <th>Referência</th>
-                                    <th>Comparado</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td className="text-start">Iniciar Atendimento</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td className="text-start">Pré Atendimento</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td className="text-start">Em Aberto</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td className="text-start">Em Atendimento</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td className="text-start">Ativo</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                <tr>
-                                    <td className="text-start">Finalizado</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </> : 'Nenhum registro encontrado.'}
-            </div>
-
 
             <div className="row">
-                <div className="col-md-6">
+                <div className="col">
                     <div className="card card-body mb-4">
-                        <span>Total de Leads Encaminhados no Período</span>
+                        <h6>Histórico dos SDR</h6>
                         <table className="table">
                             <thead>
                             <tr>
                                 <th>Nome</th>
-                                <th className="text-center">Recebidos</th>
+                                <th className="text-center">Atendimento</th>
                                 <th className="text-center">Encaminhados</th>
                                 <th className="text-center">Ativados</th>
+                                <th className="text-center">Conversão</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {sdr.map(item => (
-                                <tr>
-                                    <td>{item.nome}</td>
-                                    <td className="text-center">0</td>
-                                    <td className="text-center">{qtds.encaminhados?.[item.id] ?? 0}</td>
-                                    <td className="text-center">{qtds.ativos?.[item.id] ?? 0}</td>
-                                </tr>
-                            ))}
+                            {usuariosSdr.map(item => {
+                                const calcConversao = (registrosQtds.ativos?.[item.id] ?? 0) / (registrosQtds.pre_atendimento?.[item.id] ?? 0)
+                                const conversao = (calcConversao > 0 && isFinite(calcConversao)) ? round(calcConversao, 2) : 0
 
+                                return (
+                                    <tr key={item.id}>
+                                        <td>
+                                            <Stack direction="row" spacing={1}>
+                                                <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
+                                                <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
+                                            </Stack>
+                                        </td>
+                                        <td className="text-center">{registrosQtds.pre_atendimento?.[item.id] ?? 0}</td>
+                                        <td className="text-center">{registrosQtds.encaminhados?.[item.id] ?? 0}</td>
+                                        <td className="text-center">{registrosQtds.ativos?.[item.id] ?? 0}</td>
+                                        <td className="text-center">{conversao}%</td>
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className="row">
+                <div className="col">
+                    <div className="card card-body mb-4">
+                        <h6>Histórico dos Consultores(as)</h6>
+                        <table className="table">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th className="text-center">Em Aberto</th>
+                                <th className="text-center">Em Atendimento</th>
+                                <th className="text-center">Ativo</th>
+                                <th className="text-center">Finalizados</th>
+                                <th>Conversão</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {usuariosConsultores.map(item => {
+                                const calcConversao = (statusQtd?.[item.id]?.ativo ?? 0) / (statusQtd?.[item.id]?.atendimento ?? 0)
+                                const conversao = (calcConversao > 0 && isFinite(calcConversao)) ? round(calcConversao, 2) : 0
+                                return (
+                                <tr key={item.id}>
+                                    <td>
+                                        <Stack direction="row" spacing={1}>
+                                            <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
+                                            <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
+                                        </Stack>
+                                    </td>
+                                    <td className="text-center">{statusQtd?.[item.id]?.aberto ?? 0}</td>
+                                    <td className="text-center">{statusQtd?.[item.id]?.atendimento ?? 0}</td>
+                                    <td className="text-center">{statusQtd?.[item.id]?.ativo ?? 0}</td>
+                                    <td className="text-center">{statusQtd?.[item.id]?.finalizado ?? 0}</td>
+                                    <td className="text-center">{conversao}%</td>
+                                </tr>
+                            )})}
                             </tbody>
                         </table>
                     </div>
@@ -171,39 +164,38 @@ export default function ({registrosStatus, sdr, qtds, mes, ano, setores, setor})
 
             <div className="card card-body mb-4">
                 <div className="row">
-                    <div className="col-md-6">
-                        <span>Total de Leads</span>
+                    <div className="col-md-8">
+                        <h6>Total de Leads com Usuários</h6>
                         <Status dados={registrosStatus}/>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                         <table className="table table-sm">
                             <thead>
                             <tr>
                                 <th>Status</th>
                                 <th className="text-center">Referência</th>
-                                <th className="text-center">Média Tempo</th>
                             </tr>
                             </thead>
 
                             <tbody>
-                            {registrosStatus.map(item => (
-                                <tr>
-                                    <td>{item.status}</td>
-                                    <td className="text-center">{item.qtd}</td>
-                                    <td className="text-center">0 dias</td>
-                                </tr>
-                            ))}
+                            {registrosStatus.map(item => {
+                                totalLeadsCadastrados += item.qtd
+                                return (
+                                    <tr key={item.status}>
+                                        <td>{item.status}</td>
+                                        <td className="text-center">{item.qtd}</td>
+                                    </tr>
+                                )
+                            })}
                             <tr className="bg-light">
                                 <td>Total</td>
-                                <td className="text-center">0</td>
-                                <td className="text-center">0 dias</td>
+                                <td className="text-center">{totalLeadsCadastrados}</td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
         </Layout>
     )
 }

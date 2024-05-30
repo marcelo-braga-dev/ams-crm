@@ -576,21 +576,21 @@ class Pedidos extends Model
         ];
     }
 
-    public function vendasMensaisEmpresa($ano)
+    public function vendasMensaisEmpresa($ano, $setor)
     {
         return [
-            '1' => $this->getVendasMesEmpresa(1, $ano),
-            '2' => $this->getVendasMesEmpresa(2, $ano),
-            '3' => $this->getVendasMesEmpresa(3, $ano),
-            '4' => $this->getVendasMesEmpresa(4, $ano),
-            '5' => $this->getVendasMesEmpresa(5, $ano),
-            '6' => $this->getVendasMesEmpresa(6, $ano),
-            '7' => $this->getVendasMesEmpresa(7, $ano),
-            '8' => $this->getVendasMesEmpresa(8, $ano),
-            '9' => $this->getVendasMesEmpresa(9, $ano),
-            '10' => $this->getVendasMesEmpresa(10, $ano),
-            '11' => $this->getVendasMesEmpresa(11, $ano),
-            '12' => $this->getVendasMesEmpresa(12, $ano),
+            '1' => $this->getVendasMesEmpresa(1, $ano, $setor),
+            '2' => $this->getVendasMesEmpresa(2, $ano, $setor),
+            '3' => $this->getVendasMesEmpresa(3, $ano, $setor),
+            '4' => $this->getVendasMesEmpresa(4, $ano, $setor),
+            '5' => $this->getVendasMesEmpresa(5, $ano, $setor),
+            '6' => $this->getVendasMesEmpresa(6, $ano, $setor),
+            '7' => $this->getVendasMesEmpresa(7, $ano, $setor),
+            '8' => $this->getVendasMesEmpresa(8, $ano, $setor),
+            '9' => $this->getVendasMesEmpresa(9, $ano, $setor),
+            '10' => $this->getVendasMesEmpresa(10, $ano, $setor),
+            '11' => $this->getVendasMesEmpresa(11, $ano, $setor),
+            '12' => $this->getVendasMesEmpresa(12, $ano, $setor),
         ];
     }
 
@@ -633,10 +633,11 @@ class Pedidos extends Model
     }
 
 
-    public function getVendasMesEmpresa($mes, $ano)
+    public function getVendasMesEmpresa($mes, $ano, $setor)
     {
         return (new Pedidos())->newQuery()
             ->where('user_faturamento', '>=', 1)
+            ->where('setor_id', $setor)
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
             ->whereMonth('data_faturamento', $mes)
             ->whereYear('data_faturamento', $ano)

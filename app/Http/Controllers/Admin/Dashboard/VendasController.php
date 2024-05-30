@@ -20,15 +20,12 @@ class VendasController extends Controller
         $setor = $request->setor ?? 1;
 
         $setores = (new Setores())->get();
-//        $vendas = (new Pedidos())->vendasPeriodo([$mes], $ano, $setor, true);print_pre($vendas);
-        return Inertia::render(
-            'Admin/Dashboard/Vendas/Index',
-            compact(
-                'mes',
-                'ano',
-                'setores',
-                'setor'
-            )
+
+//        $vendasLeads = (new VendasService())->vendasPorLeads([$mes], $ano, $setor);
+//        print_pre($vendasLeads);
+
+        return Inertia::render('Admin/Dashboard/Vendas/Index',
+            compact('mes', 'ano', 'setores', 'setor')
         );
     }
 
@@ -45,13 +42,14 @@ class VendasController extends Controller
         $metasUsuarios = (new MetasVendas())->metasMensalUsuarios($mes, $ano);
 
         //
-        $metaVendasComp = null;
         $metasVendasAnualComp = null;
 
         $metaVendas = (new VendasService())->metaVendas($mes, $ano, $setor);
         $metasVendasAnual = (new VendasService())->metaVendasAnual($ano, $setor);
+        $metaAnualEmpresa = (new MetasVendas())->metasMensaisEmpresa($ano, $setor);
+
         $vendasEstados = (new VendasService())->vendasPorEstados($mes, $ano, $setor);
-        $metaAnualEmpresa = (new MetasVendas())->metasMensaisEmpresa($ano);
+        $vendasLeads = (new VendasService())->vendasPorLeads($mes, $ano, $setor);
 
         if ($request->mesComp || $request->anoComp) {
             $mesComp = $request->mesComp ?? date('n');
@@ -60,7 +58,6 @@ class VendasController extends Controller
             $vendasComp = (new Pedidos())->vendasPeriodo($mesComp, $anoComp, $setor, true);
             $metasUsuariosComp = (new MetasVendas())->metasMensalUsuarios($mesComp, $anoComp);
             //
-//            $metaVendasComp = (new VendasService())->metaVendas($mesComp, $anoComp, $setor);
             $metasVendasAnualComp = (new VendasService())->metaVendasAnual($mesComp, $setor);
         }
 
@@ -71,6 +68,7 @@ class VendasController extends Controller
 
             'vedas_comp' => ['usuarios' => $vendasComp ?? [], 'total' => $vendasTotal],
             'metas_usuarios_comp' => $metasUsuariosComp ?? [],
+            'vendas_leads' => $vendasLeads,
 
             //
             'vedas_metas' => $metaVendas,

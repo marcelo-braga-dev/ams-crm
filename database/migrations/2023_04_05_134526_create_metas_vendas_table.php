@@ -15,6 +15,7 @@ return new class extends Migration {
         Schema::create('metas_vendas', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('setor_id')->nullable();
             $table->string('chave');
             $table->integer('ano');
             $table->integer('mes');
@@ -22,6 +23,7 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('setor_id')->references('id')->on('setores');
             $table->index('user_id');
         });
     }

@@ -15,12 +15,6 @@ class UsersHierarquias extends Model
         'superior_id'
     ];
 
-    public function getSuperior()
-    {
-        // return $this->newQuery()
-        //     ->pluck('superior_id', 'user_id');
-    }
-
     public function idSupervisonados($id)
     {
         return $this->newQuery()

@@ -1,9 +1,9 @@
 import React from "react";
-import { Pie, Bar } from "react-chartjs-2";
+import {Pie, Bar} from "react-chartjs-2";
 
-export default function Status({ dados }) {
+export default function Status({dados}) {
 
-    const nome = dados.map(item => item.status )
+    const nome = dados.map(item => item.status)
     const qtd = dados.map(item => item.qtd)
 
     const data = {
@@ -31,7 +31,6 @@ export default function Status({ dados }) {
     };
 
     return (
-        <Bar options={options} data={data}
-             height={100} />
+        <Bar options={options} data={data} height={100}/>
     )
 }

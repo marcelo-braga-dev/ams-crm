@@ -11,8 +11,15 @@ export default function Sdr({dados}) {
         'Ativo',
         'Finalizado',
     ]
-    const nome = dados.map(item => item.status)
-    const qtd = dados.map(item => item.qtd)
+
+    const qtd = [
+        dados?.novo,
+        dados?.pre_atendimento,
+        dados?.aberto,
+        dados?.atendimento,
+        dados?.ativo,
+        dados?.finalizado
+    ]
 
     const data = {
         labels: status,
@@ -39,7 +46,6 @@ export default function Sdr({dados}) {
     };
 
     return (
-        <Bar options={options} data={data}
-             height={80}/>
+        <Bar options={options} data={data} height={100}/>
     )
 }

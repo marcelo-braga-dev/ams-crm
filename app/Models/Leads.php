@@ -694,17 +694,19 @@ class Leads extends Model
 
     public function relatorioLeads()
     {
-        $nomes = (new StatusLeads())->nomesStatus();
+        $status = (new StatusLeads())->nomesStatus();
 
         return $this->newQuery()
             ->groupBy('status')
+            ->whereNotNull('user_id')
+            ->orWhereNotNull( 'sdr_id')
             ->select(DB::raw('
                 status, COUNT(id) as qtd
             '))
             ->get()
-            ->transform(function ($item) use ($nomes) {
+            ->transform(function ($item) use ($status) {
                 return [
-                    'status' => $nomes[$item->status] ?? '?',
+                    'status' => $status[$item->status] ?? '?',
                     'qtd' => $item->qtd,
                 ];
             });

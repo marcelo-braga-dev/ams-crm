@@ -1,7 +1,7 @@
 import React from "react";
 import {Pie, Bar} from "react-chartjs-2";
 
-export default function VendasMensasPie({dados, metasEmpresas, vendasAnual}) {
+export default function VendasMensasGrafico({dados, metasEmpresas, vendasAnual}) {
     const mesesNomes = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'ago', 'set', 'out', 'nov', 'dez']
 
     mesesNomes.map(item => item)
@@ -45,6 +45,6 @@ export default function VendasMensasPie({dados, metasEmpresas, vendasAnual}) {
     };
 
     return (
-        <Bar options={options} data={data} height={200}/>
+        <Bar options={options} data={data} height={80}/>
     )
 }

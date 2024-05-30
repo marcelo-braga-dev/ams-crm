@@ -38,7 +38,7 @@ export default function ({
     };
 
     return (
-        <Layout titlePage="Editar Usuário" menu="usuarios" submenu="usuarios-contas"
+        <Layout empty titlePage="Editar Usuário" menu="usuarios" submenu="usuarios-contas"
                 voltar={route('admin.usuarios.usuario.index')}>
             <form onSubmit={submit}>
                 <div className="mb-4 card card-body">
@@ -167,9 +167,9 @@ export default function ({
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="col-md-4">
-                        <button className="btn btn-primary">Salvar</button>
+                <div className="row mb-6 justify-content-center">
+                    <div className="col-auto">
+                        <button className="btn btn-success">Salvar</button>
                     </div>
                 </div>
             </form>
