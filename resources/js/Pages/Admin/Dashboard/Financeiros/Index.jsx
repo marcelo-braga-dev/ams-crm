@@ -18,7 +18,7 @@ export default function ({fluxoCaixa, salarios, faturamento, prazos, mes, ano, s
     }
 
     return (
-        <Layout container titlePage="Indicadores Financeiros" menu="dashboard" submenu="dashboard-financeiro">
+        <Layout empty titlePage="Indicadores Financeiros" menu="dashboard" submenu="dashboard-financeiro">
 
             {/*Filtro*/}
             <div className="card card-body mb-4">

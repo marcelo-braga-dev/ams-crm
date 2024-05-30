@@ -44,7 +44,7 @@ export default function ({mes, ano, setores}) {
     }, [usuarioSelecionado, mesesSelecionado, anoSelecionado, setorSelecionado]);
 
     return (
-        <Layout titlePage="Indicadores de Leads" menu="dashboard" submenu="dashboard-leads">
+        <Layout empty titlePage="Indicadores de Leads" menu="dashboard" submenu="dashboard-leads">
             <div className="mb-4 card card-body">
                 <div className="row">
                     <div className="col-2">
@@ -121,7 +121,6 @@ export default function ({mes, ano, setores}) {
                 </div>
             </div>
 
-
             <div className="row">
                 <div className="col">
                     <div className="card card-body mb-4">
@@ -134,7 +133,7 @@ export default function ({mes, ano, setores}) {
                                 <th className="text-center">Em Atendimento</th>
                                 <th className="text-center">Ativo</th>
                                 <th className="text-center">Finalizados</th>
-                                <th>Conversão</th>
+                                <th className="text-center">Conversão</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -173,7 +172,7 @@ export default function ({mes, ano, setores}) {
                             <thead>
                             <tr>
                                 <th>Status</th>
-                                <th className="text-center">Referência</th>
+                                <th className="text-center">Qtd.</th>
                             </tr>
                             </thead>
 

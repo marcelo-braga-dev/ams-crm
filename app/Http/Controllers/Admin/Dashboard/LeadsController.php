@@ -21,7 +21,7 @@ class LeadsController extends Controller
 
         $setores = (new Setores())->get();
 
-//        print_pre((new LeadsStatusHistoricos())->qtdUsuarios($mes, $ano));
+//        print_pre((new Leads())->relatorioLeads());
 
         return Inertia::render('Admin/Dashboard/Leads/Index',
             compact('mes', 'ano', 'setores'));

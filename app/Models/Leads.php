@@ -696,20 +696,23 @@ class Leads extends Model
     {
         $status = (new StatusLeads())->nomesStatus();
 
-        return $this->newQuery()
+        $items = $this->newQuery()
             ->groupBy('status')
             ->whereNotNull('user_id')
             ->orWhereNotNull( 'sdr_id')
             ->select(DB::raw('
                 status, COUNT(id) as qtd
             '))
-            ->get()
-            ->transform(function ($item) use ($status) {
-                return [
-                    'status' => $status[$item->status] ?? '?',
-                    'qtd' => $item->qtd,
-                ];
-            });
+            ->pluck('qtd','status');
+
+        return [
+            ['status' => $status['novo'] ?? '',  'qtd' => $items['novo'] ?? 0],
+            ['status' => $status['pre_atendimento'] ?? '',  'qtd' => $items['pre_atendimento'] ?? 0],
+            ['status' => $status['aberto'] ?? '',  'qtd' => $items['aberto'] ?? 0],
+            ['status' => $status['atendimento'] ?? '',  'qtd' => $items['atendimento'] ?? 0],
+            ['status' => $status['ativo'] ?? '',  'qtd' => $items['ativo'] ?? 0],
+            ['status' => $status['finalizado'] ?? '',  'qtd' => $items['finalizado'] ?? 0],
+        ];
     }
 
     public function relatorioUsuarios($id)
