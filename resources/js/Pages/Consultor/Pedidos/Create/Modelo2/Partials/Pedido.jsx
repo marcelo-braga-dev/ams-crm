@@ -17,16 +17,11 @@ let somasArray = []
 let totalGeral = 0
 
 const FilterComponent = ({filterText, onFilter}) => (
-    <>
-        <TextField
-            id="search"
-            type="text"
-            placeholder="Pesquisar..."
-            value={filterText}
-            onChange={onFilter}
-            size="small"
-        />
-    </>
+    <TextField
+        fullWidth placeholder="Pesquisar Produto..."
+        value={filterText}
+        onChange={onFilter}
+    />
 );
 
 export default function Pedido({fornecedores, unidades, categorias, urlProdutos, data, setData}) {
@@ -118,7 +113,6 @@ export default function Pedido({fornecedores, unidades, categorias, urlProdutos,
                                            vencimento: e.target.value
                                        }
                                    })}/>
-
                     </div>
                     <div className="col mb-4">
 
@@ -209,7 +203,6 @@ export default function Pedido({fornecedores, unidades, categorias, urlProdutos,
     // TABLE
     const columns = [
         {
-            // name: 'Imagem',
             selector: row =>
                 <div className="row justify-content-center">
                     <div className="col-auto text-center">
@@ -286,194 +279,200 @@ export default function Pedido({fornecedores, unidades, categorias, urlProdutos,
     /// TABLE - FIM
 
     return <Box>
-        <div className="row mb-4">
-            <div className="col-md-4">
-                <TextField label="Forma de Pagamento" select fullWidth required defaultValue=""
-                           onChange={e => setData('forma_pagamento', e.target.value)}>
-                    <MenuItem value="PIX">PIX</MenuItem>
-                    <MenuItem value="Boleto">Boleto</MenuItem>
-                    <MenuItem value="Cartão de Crédito">Cartão de Crédito</MenuItem>
-                    <MenuItem value="Cartão de Débito">Cartão de Débito</MenuItem>
-                    <MenuItem value="Dinheiro">Dinheiro</MenuItem>
-                    <MenuItem value="Cheque">Cheque</MenuItem>
-                    <MenuItem value="Bonificação">Bonificação</MenuItem>
-                </TextField>
-            </div>
-            <div className="col-auto">
-                {data.forma_pagamento?.includes('Crédito') &&
-                    <TextField
-                        required type="number" label="Qtd. de Parcelas"
-                        onChange={e => qtdCredito(e.target.value)}/>}
-                {data.forma_pagamento?.includes('Boleto') &&
-                    <TextField
-                        required type="number" label="Qtd. de Parcelas"
-                        onChange={e => qtdBoletos(e.target.value)}/>}
-                {data.forma_pagamento?.includes('Cheque') &&
-                    <TextField
-                        required type="number" label="Qtd. de Cheques"
-                        onChange={e => qtdCheque(e.target.value)}/>}
-            </div>
-            <div className="col">
-                {data.forma_pagamento?.includes('PIX') &&
-                    <TextField
-                        type="file" label="Comprovante de Pagamento" InputLabelProps={{shrink: true}}
-                        onChange={e => setData('file_pix', e.target.files[0])}/>}
-            </div>
-        </div>
+        <div className="card card-body mb-4">
+            <div className="row">
+                <div className="col-auto">
+                    <FormControl>
+                        <FormLabel>Documentos do Cliente</FormLabel>
+                        <RadioGroup row value={documento}
+                                    onChange={event => setDocumento(event.target.value)}>
+                            <FormControlLabel value="cnh" control={<Radio size="small"/>} label="CNH"/>
+                            <FormControlLabel value="rg" control={<Radio size="small"/>} label="RG/CPF"/>
+                        </RadioGroup>
+                    </FormControl>
+                </div>
 
-        {data.forma_pagamento?.includes('Cheque') && chequesCampos()}
-
-        <div className="border-bottom pb-3 mb-5"/>
-
-
-        <div className="row border-bottom pb-4 mb-5">
-            <div className="col-md-6">
-                <TextField
-                    label="Imagem da Lista de Pedido" required
-                    fullWidth type="file" InputLabelProps={{shrink: true}}
-                    onChange={e => setData('img_pedido', e.target.files[0])}>
-                </TextField>
-            </div>
-            <div className="col">
-                <FormControl>
-                    <FormLabel>Documentos do Cliente</FormLabel>
-                    <RadioGroup row value={documento}
-                                onChange={event => setDocumento(event.target.value)}>
-                        <FormControlLabel value="cnh" control={<Radio size="small"/>} label="CNH"/>
-                        <FormControlLabel value="rg" control={<Radio size="small"/>} label="RG/CPF"/>
-                    </RadioGroup>
-                </FormControl>
-                {documento === 'cnh' && <>
+                {documento === 'cnh' && <div className="col-md-4 pt-4">
                     <TextField
-                        label="CNH" required className="mb-4"
-                        fullWidth type="file" InputLabelProps={{shrink: true}}
+                        label="CNH" required fullWidth type="file" InputLabelProps={{shrink: true}}
                         onChange={e => setData('img_cnh', e.target.files[0])}>
                     </TextField>
-                </>}
+                </div>}
                 {documento === 'rg' && <>
-                    <TextField
-                        label="RG" required className="mb-4"
-                        fullWidth type="file" InputLabelProps={{shrink: true}}
-                        onChange={e => setData('img_rg', e.target.files[0])}>
-                    </TextField>
-                    <TextField
-                        label="CPF" required
-                        fullWidth type="file" InputLabelProps={{shrink: true}}
-                        onChange={e => setData('img_cpf', e.target.files[0])}>
-                    </TextField>
+                    <div className="col-md-4 pt-4">
+                        <TextField
+                            label="RG" required fullWidth type="file" InputLabelProps={{shrink: true}}
+                            onChange={e => setData('img_rg', e.target.files[0])}>
+                        </TextField>
+                    </div>
+                    <div className="col-md-4 pt-4">
+                        <TextField
+                            label="CPF" required fullWidth type="file" InputLabelProps={{shrink: true}}
+                            onChange={e => setData('img_cpf', e.target.files[0])}>
+                        </TextField>
+                    </div>
                 </>}
             </div>
         </div>
 
-        <div className="row mb-3">
-            <div className="col-md-5 mb-3">
-                <TextField label="Fornecedor" select fullWidth defaultValue=""
-                           onChange={e => fornecedorSelecionar(e.target.value)}>
-                    <MenuItem value="">Todos</MenuItem>
-                    {fornecedores.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </div>
-            <div className="col-md-4 mb-3">
-                <TextField label="Categoria" select fullWidth defaultValue=""
-                           onChange={e => categoriaSelecionar(e.target.value)}>
-                    <MenuItem value="">Todos</MenuItem>
-                    {categorias.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </div>
-            <div className="col-md-3 mb-3">
-                <TextField label="Unidade de Medida" select fullWidth defaultValue=""
-                           onChange={e => unidadeSelecionar(e.target.value)}>
-                    <MenuItem value="">Todos</MenuItem>
-                    {unidades.map((option, index) => (
-                        <MenuItem key={index} value={option.id}>
-                            {option.valor} {option.nome}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </div>
-        </div>
-
-        {produtos.length ? <>
+        <div className="card card-body mb-4">
             <div className="row">
+                <div className="col-md-4">
+                    <TextField label="Forma de Pagamento" select fullWidth required defaultValue=""
+                               onChange={e => setData('forma_pagamento', e.target.value)}>
+                        <MenuItem value="PIX">PIX</MenuItem>
+                        <MenuItem value="Boleto">Boleto</MenuItem>
+                        <MenuItem value="Cartão de Crédito">Cartão de Crédito</MenuItem>
+                        <MenuItem value="Cartão de Débito">Cartão de Débito</MenuItem>
+                        <MenuItem value="Dinheiro">Dinheiro</MenuItem>
+                        <MenuItem value="Cheque">Cheque</MenuItem>
+                        <MenuItem value="Bonificação">Bonificação</MenuItem>
+                    </TextField>
+                </div>
+                <div className="col-auto">
+                    {data.forma_pagamento?.includes('Crédito') &&
+                        <TextField
+                            required type="number" label="Qtd. de Parcelas"
+                            onChange={e => qtdCredito(e.target.value)}/>}
+                    {data.forma_pagamento?.includes('Boleto') &&
+                        <TextField
+                            required type="number" label="Qtd. de Parcelas"
+                            onChange={e => qtdBoletos(e.target.value)}/>}
+                    {data.forma_pagamento?.includes('Cheque') &&
+                        <TextField
+                            required type="number" label="Qtd. de Cheques"
+                            onChange={e => qtdCheque(e.target.value)}/>}
+                </div>
                 <div className="col">
-                    <DataTable
-                        columns={columns}
-                        data={filteredItems}
-                        paginationPerPage="5"
-                        subHeaderComponent={subHeaderComponentMemo}
-                        subHeader pagination
-                    />
+                    {data.forma_pagamento?.includes('PIX') &&
+                        <TextField
+                            type="file" label="Comprovante de Pagamento" InputLabelProps={{shrink: true}}
+                            onChange={e => setData('file_pix', e.target.files[0])}/>}
                 </div>
             </div>
-        </> : ''}
 
-        {somasArray.length > 0 && <>
-            <h5 className="mt-5">Confirmar Pedido</h5>
-            <small className="d-block mb-4">Verifique as informações dos produtos e clique para confirmar</small>
-            <div className="table-responsive">
-                <table className="table">
-                    <thead>
-                    <tr>
-                        <th className="col-1"></th>
-                        <th className="col-1"></th>
-                        <th>Produtos</th>
-                        <th className="col-1">Unidade</th>
-                        <th className="col-1">Desc. p/ Und.</th>
-                        <th className="col-1">Quantidade</th>
-                        <th className="col-1">Total</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {somasArray.map((item, index) => {
-                        if (item.dados.qtd < 1) return ''
-                        return (
-                            <tr key={index}>
-                                <td className="col-1">
-                                    <FormControlLabel required control={<Checkbox/>} label=""/>
-                                </td>
-                                <td className="p-3">
-                                    {item.dados.foto &&
-                                        <img className="rounded" src={item.dados.foto} width="100" alt="foto"/>}
-                                </td>
-                                <td>
-                                    <h6 className="mb-0 text-wrap">{item.dados.nome}</h6>
-                                    <span
-                                        className="mb-0 text-warning fw-bold">R$ {convertFloatToMoney(item.dados.preco_venda_float)}</span>
-                                </td>
-                                <td className="text-center">{item.dados.und}</td>
-                                <td className="text-center">R$ {convertFloatToMoney(item.dados.desconto)}</td>
-                                <td className="text-center">{item.dados.qtd} und.</td>
-                                <td className="text-center">R$ {convertFloatToMoney((item.dados.preco_venda_float - (item.dados.desconto ?? 0)) * item.dados.qtd)}</td>
-                            </tr>
-                        )
-                    })}
-                    <tr className="fs-4" style={{color: 'green'}}>
-                        <th colSpan="4"></th>
-                        <th>TOTAL GERAL:</th>
-                        <th className="text-center">
-                            {convertFloatToMoney(totalGeral)}
-                        </th>
-                    </tr>
-                    </tbody>
-                </table>
+            {data.forma_pagamento?.includes('Cheque') && chequesCampos()}
+        </div>
+
+        <div className="card card-body mb-4">
+            <div className="row">
+                <div className="col-md-6">
+                    <TextField
+                        label="Orçamento do Pedido" required
+                        fullWidth type="file" InputLabelProps={{shrink: true}}
+                        onChange={e => setData('img_pedido', e.target.files[0])}>
+                    </TextField>
+                </div>
             </div>
-        </>}
+        </div>
 
+        <div className="card card-body mb-4">
+            <div className="row">
+                <div className="col">
+                    <FilterComponent onFilter={e => setFilterText(e.target.value)} filterText={filterText}/>
+                </div>
+                <div className="col">
+                    <TextField label="Fornecedor" select fullWidth defaultValue=""
+                               onChange={e => fornecedorSelecionar(e.target.value)}>
+                        <MenuItem value="">Todos</MenuItem>
+                        {fornecedores.map((option, index) => (
+                            <MenuItem key={index} value={option.id}>
+                                {option.nome}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </div>
+                <div className="col">
+                    <TextField label="Categoria" select fullWidth defaultValue=""
+                               onChange={e => categoriaSelecionar(e.target.value)}>
+                        <MenuItem value="">Todos</MenuItem>
+                        {categorias.map((option, index) => (
+                            <MenuItem key={index} value={option.id}>
+                                {option.nome}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </div>
+                <div className="col">
+                    <TextField label="Unidade de Medida" select fullWidth defaultValue=""
+                               onChange={e => unidadeSelecionar(e.target.value)}>
+                        <MenuItem value="">Todos</MenuItem>
+                        {unidades.map((option, index) => (
+                            <MenuItem key={index} value={option.id}>
+                                {option.valor} {option.nome}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </div>
+            </div>
 
-        <div className="border-bottom pb-3 mb-5"/>
-        <div className="row mb-3 mt-4">
-            <div className="col mb-3">
-                <TextField
-                    label="Anotações" multiline rows="4" fullWidth
-                    value={data.obs} onChange={e => setData('obs', e.target.value)}/>
+            {produtos.length ?
+                <DataTable
+                    columns={columns}
+                    data={filteredItems}
+                    pagination paginationPerPage="5"
+                /> : ''}
+
+            {somasArray.length > 0 && <>
+                <h5 className="mt-5">Confirmar Pedido</h5>
+                <small className="d-block mb-4">Verifique as informações dos produtos e clique para confirmar</small>
+                <div className="table-responsive">
+                    <table className="table">
+                        <thead>
+                        <tr>
+                            <th className="col-1"></th>
+                            <th className="col-1"></th>
+                            <th>Produtos</th>
+                            <th className="col-1">Unidade</th>
+                            <th className="col-1">Desc. p/ Und.</th>
+                            <th className="col-1">Quantidade</th>
+                            <th className="col-1">Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {somasArray.map((item, index) => {
+                            if (item.dados.qtd < 1) return ''
+                            return (
+                                <tr key={index}>
+                                    <td className="col-1">
+                                        <FormControlLabel required control={<Checkbox/>} label=""/>
+                                    </td>
+                                    <td className="p-3">
+                                        {item.dados.foto &&
+                                            <img className="rounded" src={item.dados.foto} width="100" alt="foto"/>}
+                                    </td>
+                                    <td>
+                                        <h6 className="mb-0 text-wrap">{item.dados.nome}</h6>
+                                        <span
+                                            className="mb-0 text-warning fw-bold">R$ {convertFloatToMoney(item.dados.preco_venda_float)}</span>
+                                    </td>
+                                    <td className="text-center">{item.dados.und}</td>
+                                    <td className="text-center">R$ {convertFloatToMoney(item.dados.desconto)}</td>
+                                    <td className="text-center">{item.dados.qtd} und.</td>
+                                    <td className="text-center">R$ {convertFloatToMoney((item.dados.preco_venda_float - (item.dados.desconto ?? 0)) * item.dados.qtd)}</td>
+                                </tr>
+                            )
+                        })}
+                        <tr className="fs-4" style={{color: 'green'}}>
+                            <th colSpan="4"></th>
+                            <th>TOTAL GERAL:</th>
+                            <th className="text-center">
+                                {convertFloatToMoney(totalGeral)}
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </>}
+        </div>
+
+        <div className="card card-body mb-4">
+            <div className="row">
+                <div className="col">
+                    <TextField
+                        label="Anotações" multiline rows="2" fullWidth
+                        value={data.obs} onChange={e => setData('obs', e.target.value)}/>
+                </div>
             </div>
         </div>
     </Box>

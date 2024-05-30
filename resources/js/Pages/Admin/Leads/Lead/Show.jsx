@@ -8,6 +8,8 @@ import {router} from "@inertiajs/react";
 import EditIcon from '@mui/icons-material/Edit';
 import {IconButton} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import HistoricoAtendimento from "@/Partials/Leads/HistoricoAtendimento";
+import HistoricoPedidos from "@/Partials/Leads/HistoricoPedidos";
 
 export default function Show({
                                  dados,
@@ -52,7 +54,7 @@ export default function Show({
     }
 
     return (
-        <Layout titlePage="Informações do Lead" menu="leads" submenu="cadastrados"
+        <Layout empty titlePage="Informações do Lead" menu="leads" submenu="leads-cadastrados"
                 voltar={route('admin.clientes.leads.leads-cadastrados')}>
             <div className="card card-body mb-4">
                 <div className="row">
@@ -136,47 +138,13 @@ export default function Show({
                 <div className="col">
                     <div className="card card-body">
                         <h6 className="mb-3">Histórico de Atendimento</h6>
-                        {historicos.map((dado, index) => (
-                            <div className="card card-body mb-4">
-                                <div key={index} className="row">
-                                    <div className="col">
-                                        <h6 className="mb-2">{historicos.length - index}. {dado.status}</h6>
-                                        <span className="d-block"><b>Autor:</b> {dado.nome}</span>
-                                        <span className="d-block"><b>Meio de Contato:</b> {dado.meio_contato}</span>
-                                        <span className="d-block"><b>Anotações:</b> {dado.msg}</span>
-                                        <span className="small">Data: {dado.data_criacao}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                        {historicos.length === 0 && <div className="row text-center">
-                            <span>Não há histórico de atendimentos.</span>
-                        </div>}
+                        <HistoricoAtendimento historicos={historicos} />
                     </div>
                 </div>
                 <div className="col">
                     <div className="card card-body">
                         <h6 className="mb-3">Histórico de Pedidos</h6>
-                        {historicoPedidos.map(item => (
-                            <div className="card card-body mb-4">
-                                <div className="row justify-content-between">
-                                    <div className="col">
-                                        <span className="d-block"><b>ID do Pedido:</b> #{item.id}</span>
-                                        <span className="d-block"><b>Status:</b> {item.status}</span>
-                                        <span className="d-block"><b>Valor:</b> R$ {item.valor}</span>
-                                        <span className="d-block"><b>Data do Pedido:</b> R$ {item.data_criacao}</span>
-                                    </div>
-                                    <div className="col-auto">
-                                        <a className="btn btn-primary btn-sm"
-                                           href={route('admin.pedidos.show', item.id)}>Ver
-                                            Pedido</a>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                        {historicoPedidos.length === 0 && <div className="row text-center">
-                            <span>Não há histórico de pedidos.</span>
-                        </div>}
+                        <HistoricoPedidos historicos={historicoPedidos}/>
                     </div>
                 </div>
             </div>

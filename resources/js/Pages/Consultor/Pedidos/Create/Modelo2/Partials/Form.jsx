@@ -46,32 +46,26 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
         <form onSubmit={submit}>
             <div className="">
                 <AlertDanger errors={errors}/>
-                <div className="row mb-3">
-                    <div className="col">
-                        <b>LEAD:</b> {lead.nome}
-                    </div>
-                </div>
-                <div className="row mb-5 pb-4 border-bottom">
+
+                <div className="card card-body mb-4">
                     <InputsDadosLead data={data} setData={setData} required/>
                 </div>
+
                 <Pedidos fornecedores={fornecedores} setData={setData} data={data}
                          categorias={categorias} unidades={unidades} urlProdutos={urlProdutos}/>
 
-                <div className="row text-center mb-3">
-                    <div className="col">
-                        {progress && (
-                            <progress value={progress.percentage} max="100">
-                                {progress.percentage}%
-                            </progress>
-                        )}
+                <div className="card card-body mb-4">
+                    <div className="row text-center mb-3">
+                        <div className="col">
+                            {progress && <progress value={progress.percentage} max="100">{progress.percentage}%</progress>}
+                        </div>
                     </div>
-                </div>
-                <div className="row text-center">
-                    <div className="col">
-                        {alerta && <div className="alert alert-danger text-white">
-                            Selecione os Produtos do pedido.</div>}
+                    <div className="row text-center">
+                        <div className="col">
+                            {alerta && <div className="alert alert-danger text-white">Selecione os Produtos do pedido.</div>}
 
-                        <button className="btn btn-primary">Cadastrar</button>
+                            <button type="submit" className="btn btn-success">Cadastrar Pedido</button>
+                        </div>
                     </div>
                 </div>
             </div>

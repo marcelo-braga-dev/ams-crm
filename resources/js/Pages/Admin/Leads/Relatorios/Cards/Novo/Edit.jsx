@@ -3,8 +3,6 @@ import LeadsDados from "@/Components/Leads/LeadsDados";
 import {router, useForm} from "@inertiajs/react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 
 export default function Edit({dados, historicos, consultores, usuarioCard}) {
 
@@ -23,8 +21,9 @@ export default function Edit({dados, historicos, consultores, usuarioCard}) {
 
     function enviarComentario(tag, id) {
         post(route('admin.leads.adicionar-comentarios', {id: id, msg: data[tag]}));
-        window.location.reload()
     }
+
+    router.on('success', () => window.location.reload())
 
     function nomeConsultorSelecionado() {
         const nome = consultores[consultores.findIndex(i => i.id === data.novo_consultor)]?.name;
@@ -39,7 +38,7 @@ export default function Edit({dados, historicos, consultores, usuarioCard}) {
     }
 
     return (
-        <Layout container titlePage="Iniciar Atendimento - Lead" menu="leads" submenu="leads-cards"
+        <Layout empty container titlePage="Iniciar Atendimento - Lead" menu="leads" submenu="leads-cards"
                 voltar={route('admin.leads.cards-leads.index', {id: usuarioCard})}>
             {dados.consultor.nome && <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
@@ -50,42 +49,24 @@ export default function Edit({dados, historicos, consultores, usuarioCard}) {
                 <LeadsDados dados={dados}/>
             </div>
 
-            <div className="card card-body mb-6">
-                <div className="row border-bottom mb-3">
+            <div className="card card-body mb-4">
+                <div className="row">
                     <div className="col-auto">
                         <button type="button" className="btn btn-outline-dark" data-bs-toggle="modal"
                                 data-bs-target="#statusAvancar">Avançar Status para "Pré Atendimento"
                         </button>
                     </div>
                 </div>
-                {/*<div className="row">*/}
-                {/*    <span>Alterar consultor</span>*/}
-                {/*    <div className="col-md-4">*/}
-                {/*        <TextField label="Selecione o Consultor..." select*/}
-                {/*                   fullWidth required size="small" defaultValue=""*/}
-                {/*                   onChange={e => setData('novo_consultor', e.target.value)}>*/}
-                {/*            {consultores.map((option) => (*/}
-                {/*                <MenuItem key={option.id} value={option.id}>*/}
-                {/*                    {option.name}*/}
-                {/*                </MenuItem>*/}
-                {/*            ))}*/}
-                {/*        </TextField>*/}
-                {/*    </div>*/}
-                {/*    <div className="col-4 p-0">*/}
-                {/*        <button type="button" className="btn btn-dark" data-bs-toggle="modal"*/}
-                {/*                data-bs-target="#alterarConsultor">*/}
-                {/*            ENVIAR*/}
-                {/*        </button>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
             </div>
 
-            <h6 className="mb-3">Histórico de Atendimento</h6>
+            <div className="card card-body">
+                <h6 className="mb-3">Histórico de Atendimento</h6>
+                <HistoricoLista
+                    historicos={historicos} enviarComentario={enviarComentario}
+                    setData={setData} urlPedidos="admin.pedidos.show"
+                />
+            </div>
 
-            <HistoricoLista
-                historicos={historicos} enviarComentario={enviarComentario}
-                setData={setData} urlPedidos="admin.pedidos.show"
-            />
 
             {/*Avancar Status*/}
             <div className="modal fade mt-5" id="statusAvancar" tabIndex="-1" aria-labelledby="limparLeadLabel"
@@ -117,17 +98,14 @@ export default function Edit({dados, historicos, consultores, usuarioCard}) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="limparLeadLabel">Alterar consultor</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             {nomeConsultorSelecionado()}
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => alterarConsultor()}>Alterar
-                            </button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => alterarConsultor()}>Alterar</button>
                         </div>
                     </div>
                 </div>

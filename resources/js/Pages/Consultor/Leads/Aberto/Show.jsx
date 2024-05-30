@@ -29,7 +29,7 @@ export default function Show({dados, historicos, status, contatos, isSdr}) {
     }
 
     return (
-        <Layout container titlePage="Em Aberto" voltar={route('consultor.leads.main.index')}
+        <Layout empty titlePage="Em Aberto - Lead" voltar={route('consultor.leads.main.index')}
                 menu="clientes-lista">
 
             <div className="card card-body mb-4">

@@ -53,7 +53,7 @@ export default function Show({dados, historicos, consultores, status, contatos})
     }
 
     return (
-        <Layout titlePage="Lead - Em Atendimento" menu="leads" submenu="leads-cards"
+        <Layout empty titlePage="Lead - Em Atendimento" menu="leads" submenu="leads-cards"
                 voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>

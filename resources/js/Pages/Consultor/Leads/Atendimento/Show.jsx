@@ -38,19 +38,13 @@ export default function Show({dados, status, contatos, historicos, isSdr}) {
     }
 
     function enviarComentario(tag, id) {
-        console.log(data[tag])
         post(route('consultor.leads.add-comentarios', {id: id, comentario: data[tag]}));
-        window.location.reload()
     }
 
+    router.on('success', () => window.location.reload())
+
     return (
-        <Layout container menu="clientes-lista"
-                voltar={route('consultor.leads.main.index')} titlePage="Lead - Em Atendimento">
-
-            <div className="row justify-content-between">
-                <div className="col-auto"><h6>Lead em Atendimento</h6></div>
-            </div>
-
+        <Layout empty menu="clientes-lista" voltar={route('consultor.leads.main.index')} titlePage="Lead - Em Atendimento">
             <div className="card mb-3">
                 <div className="card-body">
                     <LeadsDados dados={dados}/>
@@ -74,8 +68,7 @@ export default function Show({dados, status, contatos, historicos, isSdr}) {
                                 onClick={() => updateClassificacao(dados.id, '😁')}>😁</span>
                         </div>
                         <div className="col text-end">
-                            <a href={route('consultor.leads.main.edit', dados.id)}
-                               className="btn btn-primary btn-sm mb-0">Editar Dados</a></div>
+                            <a href={route('consultor.leads.main.edit', dados.id)} className="btn btn-primary btn-sm mb-0">Editar Dados</a></div>
                     </div>
                 </div>
             </div>

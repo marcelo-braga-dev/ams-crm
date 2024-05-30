@@ -97,7 +97,7 @@ export default function ({mes, ano, setores}) {
                             </thead>
                             <tbody>
                             {usuariosSdr.map(item => {
-                                const calcConversao = (registrosQtds.ativos?.[item.id] ?? 0) / (registrosQtds.pre_atendimento?.[item.id] ?? 0)
+                                const calcConversao = (registrosQtds.ativos?.[item.id] ?? 0) / (registrosQtds.encaminhados?.[item.id] ?? 0) * 100
                                 const conversao = (calcConversao > 0 && isFinite(calcConversao)) ? round(calcConversao, 2) : 0
 
                                 return (
@@ -138,23 +138,24 @@ export default function ({mes, ano, setores}) {
                             </thead>
                             <tbody>
                             {usuariosConsultores.map(item => {
-                                const calcConversao = (statusQtd?.[item.id]?.ativo ?? 0) / (statusQtd?.[item.id]?.atendimento ?? 0)
+                                const calcConversao = (statusQtd?.[item.id]?.ativo ?? 0) / (statusQtd?.[item.id]?.atendimento ?? 0) * 100
                                 const conversao = (calcConversao > 0 && isFinite(calcConversao)) ? round(calcConversao, 2) : 0
                                 return (
-                                <tr key={item.id}>
-                                    <td>
-                                        <Stack direction="row" spacing={1}>
-                                            <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
-                                            <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
-                                        </Stack>
-                                    </td>
-                                    <td className="text-center">{statusQtd?.[item.id]?.aberto ?? 0}</td>
-                                    <td className="text-center">{statusQtd?.[item.id]?.atendimento ?? 0}</td>
-                                    <td className="text-center">{statusQtd?.[item.id]?.ativo ?? 0}</td>
-                                    <td className="text-center">{statusQtd?.[item.id]?.finalizado ?? 0}</td>
-                                    <td className="text-center">{conversao}%</td>
-                                </tr>
-                            )})}
+                                    <tr key={item.id}>
+                                        <td>
+                                            <Stack direction="row" spacing={1}>
+                                                <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
+                                                <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
+                                            </Stack>
+                                        </td>
+                                        <td className="text-center">{statusQtd?.[item.id]?.aberto ?? 0}</td>
+                                        <td className="text-center">{statusQtd?.[item.id]?.atendimento ?? 0}</td>
+                                        <td className="text-center">{statusQtd?.[item.id]?.ativo ?? 0}</td>
+                                        <td className="text-center">{statusQtd?.[item.id]?.finalizado ?? 0}</td>
+                                        <td className="text-center">{conversao}%</td>
+                                    </tr>
+                                )
+                            })}
                             </tbody>
                         </table>
                     </div>

@@ -30,18 +30,13 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
     }
 
     function enviarComentario(tag, id) {
-
         post(route('consultor.leads.add-comentarios', {id: id, comentario: data[tag]}));
-        window.location.reload()
     }
 
+    router.on('success', () => window.location.reload())
+
     return (
-        <Layout container voltar={route('consultor.leads.main.index')} titlePage="Lead - Ativo"
-                menu="clientes-lista">
-            <div className="row justify-content-between">
-                <div className="col-auto"><h6>Lead Ativo</h6></div>
-                <div className="col-auto"></div>
-            </div>
+        <Layout empty voltar={route('consultor.leads.main.index')} titlePage="Lead - Ativo"  menu="clientes-lista">
 
             <div className="card card-body mb-3">
                 <div className="row">

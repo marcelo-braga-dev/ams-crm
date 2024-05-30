@@ -26,7 +26,7 @@ export default function ImagePdf({url, string}) {
         const urlCompleta = url ? "/storage/" + url : string
 
         return (
-            <div className="row">
+            <div className="row mx-auto">
                 <div className="col-auto">
                     {/*<a className="text-dark" href={urlCompleta} target="_blank">*/}
                     <img className="img-thumbnail d-block cursor-pointer" alt="" src={urlCompleta}

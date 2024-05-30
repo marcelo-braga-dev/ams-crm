@@ -47,13 +47,7 @@ export default function Show({dados, status, contatos, historicos}) {
     }
 
     return (
-        <Layout container menu="clientes-lista"
-                voltar={route('consultor.leads.main.index')} titlePage="Pré Atendimento - Leads">
-
-            <div className="row justify-content-between">
-                <div className="col-auto"><h6>Lead em Atendimento</h6></div>
-            </div>
-
+        <Layout empty menu="clientes-lista" voltar={route('consultor.leads.main.index')} titlePage="Pré Atendimento - Leads">
             <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col">
@@ -83,25 +77,24 @@ export default function Show({dados, status, contatos, historicos}) {
 
             <div className="row justify-content-between">
                 <div className="col mb-3">
-                    <div className="card">
-                        <div className="card-body">
-                            <div className="row">
-                                <div className="col-auto">
-                                    <button data-bs-toggle="modal" data-bs-target="#modalEncaminhar"
-                                            className={"btn btn-success" + ((dados?.cliente?.cnpj || dados?.cliente?.cpf) ? '' : ' disabled')}>
-                                        Encaminhar Lead
-                                    </button>
-                                    {!(dados?.cliente?.cnpj || dados?.cliente?.cpf) && <small className="d-block text-danger">
-                                        Cadastre <a href={route('consultor.leads.main.edit', dados.id)}>aqui</a> o CNPJ ou CPF do Cliente!</small>}
-                                </div>
-                                <div className="col-auto">
-                                    <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
-                                            data-bs-target="#modalFinalizary">
-                                        Finalizar Atendimento
-                                    </button>
-                                </div>
+                    <div className="card card-body">
+                        <div className="row">
+                            <div className="col-auto">
+                                <button data-bs-toggle="modal" data-bs-target="#modalEncaminhar"
+                                        className={"btn btn-success" + ((dados?.cliente?.cnpj || dados?.cliente?.cpf) ? '' : ' disabled')}>
+                                    Encaminhar Lead
+                                </button>
+                                {!(dados?.cliente?.cnpj || dados?.cliente?.cpf) && <small className="d-block text-danger">
+                                    Cadastre <a href={route('consultor.leads.main.edit', dados.id)}>aqui</a> o CNPJ ou CPF do Cliente!</small>}
+                            </div>
+                            <div className="col-auto">
+                                <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
+                                        data-bs-target="#modalFinalizary">
+                                    Finalizar Atendimento
+                                </button>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

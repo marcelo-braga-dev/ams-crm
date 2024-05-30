@@ -40,7 +40,7 @@ export default function InputsDadosLead({data, setData, required}) {
 
     return (
         <>
-            <div className="row mt-4">
+            <div className="row">
                 {/*Check Pessoa*/}
                 <div className="col">
                     <FormControl>

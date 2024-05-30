@@ -39,10 +39,10 @@ export default function Form({url, fornecedores, lead}) {
 
     return (
         <form onSubmit={submit}>
-            <div className="row mb-5 pb-4 border-bottom">
+            <div className="card card-body mb-4">
                 <InfoCliente setData={setData} data={data}/>
             </div>
-            <div className="row mb-5 border-bottom">
+            <div className="card card-body mb-4">
                 <Anexos setData={setData} data={data}></Anexos>
             </div>
 
@@ -57,11 +57,13 @@ export default function Form({url, fornecedores, lead}) {
                     )}
                 </div>
             </div>
-            <div className="row text-center">
-                <div className="col">
-                    <button className="btn btn-primary" disabled={processing}>Cadastrar</button>
+            <div className="card card-body mb-4">
+                <div className="row text-center">
+                    <div className="col">
+                        <button className="btn btn-success" disabled={processing}>Cadastrar Pedido</button>
+                    </div>
                 </div>
-            </div>
+                </div>
         </form>
-    )
+)
 }

@@ -8,8 +8,7 @@ export default function HistoricoLista({historicos, enviarComentario, setData, u
     return (
         historicos?.length > 0 ?
             historicos.map((dado, index) => (
-                <div key={index} className="row shadow p-2 mb-3 rounded">
-
+                <div key={index} className="row card card-body mb-3">
                     <div className="col-auto">
                         {qtdHistorico - index}.
                     </div>
@@ -17,8 +16,7 @@ export default function HistoricoLista({historicos, enviarComentario, setData, u
                         <span className="h6 mb-6">{dado.id_pedido ? dado.msg : dado.status}</span>
                         <span className="d-block"><b>Autor:</b> {dado.nome}</span>
                         {dado.meio_contato &&
-                            <span className="d-block">
-                                                <b>Meio de Contato:</b> {dado.meio_contato}</span>}
+                            <span className="d-block"><b>Meio de Contato:</b> {dado.meio_contato}</span>}
                         {dado.msg &&
                             <span className="d-block"><b>Anotações:</b> {dado.msg}</span>}
                         {dado.id_pedido && <a href={route(urlPedidos, dado.id_pedido)}
@@ -30,7 +28,7 @@ export default function HistoricoLista({historicos, enviarComentario, setData, u
                             <div className="mb-3">
                                 {dado.comentarios.map((msg, index) => {
                                     return (
-                                        <div key={index} className="card border p-2 mb-2 rounded">
+                                        <div key={index} className="card card-body p-2 mb-2 ">
                                             <small className="d-block"><b>Autor:</b> {msg.nome}</small>
                                             <small><b>Mensagem:</b> {msg.msg}</small>
                                             <small><b>Data:</b> {msg.data}</small>
@@ -38,17 +36,18 @@ export default function HistoricoLista({historicos, enviarComentario, setData, u
                                     )
                                 })}
                             </div>
-                            <div className="row">
-                                <div className="col">
-                                    <TextField size="small" className="d-block" fullWidth label="Novo Comentário..."
-                                               onChange={e => setData('msg_' + index, e.target.value)}>
-
-                                    </TextField></div>
-                                <div className="col-auto">
-                                    <button className="btn btn-success btn-sm mt-1"
-                                            onClick={() => enviarComentario('msg_' + index, dado.id)}>
-                                        Salvar
-                                    </button>
+                            <div className="card card-body">
+                                <div className="row">
+                                    <div className="col">
+                                        <TextField size="small" className="d-block" fullWidth label="Novo Comentário..."
+                                                   onChange={e => setData('msg_' + index, e.target.value)}>
+                                        </TextField></div>
+                                    <div className="col-auto">
+                                        <button className="btn btn-success btn-sm mt-1"
+                                                onClick={() => enviarComentario('msg_' + index, dado.id)}>
+                                            Salvar
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

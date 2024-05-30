@@ -70,8 +70,8 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
     }
 
     return (
-        <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="pedidos-lista" empty>
-            <Card className="p-3 mb-3">
+        <Layout titlePage="Quadro de Pedidos" menu="pedidos" submenu="pedidos-lista" empty>
+            <div className="card card-body mb-4">
                 <div className="row justify-content-between">
                     <div className="col-md-5">
                         <div className="row">
@@ -124,11 +124,11 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                         </div>
                     </div>
                 </div>
-            </Card>
+            </div>
 
             {/*/!*Tabela*!/*/}
             {pedidos &&
-                <Card className="p-3">
+                <div className="card card-body">
                     <ScrollContainer hideScrollbars={false}>
                         <div style={{height: '75vh'}}>
                             <table id="table-cards" className="mx-1">
@@ -370,7 +370,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                             </table>
                         </div>
                     </ScrollContainer>
-                </Card>
+                </div>
             }
 
             {carregando && <LinearProgress color="inherit"/>}

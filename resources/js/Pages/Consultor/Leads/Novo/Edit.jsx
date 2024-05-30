@@ -29,7 +29,7 @@ export default function Edit({dados, historicos, status, contatos}) {
     }
 
     return (
-        <Layout container titlePage="Iniciar Atendimento" voltar={route('consultor.leads.main.index')}
+        <Layout empty container titlePage="Iniciar Atendimento" voltar={route('consultor.leads.main.index')}
                 menu="clientes-lista">
 
             <div className="card card-body mb-4">

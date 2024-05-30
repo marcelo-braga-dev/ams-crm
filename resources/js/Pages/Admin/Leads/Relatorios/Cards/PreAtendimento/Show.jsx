@@ -56,7 +56,7 @@ export default function Show({dados, historicos, consultores, status, contatos})
     }
 
     return (
-        <Layout titlePage="Pré Atendimento - Lead" menu="leads" submenu="leads-cards"
+        <Layout empty titlePage="Pré Atendimento - Lead" menu="leads" submenu="leads-cards"
                 voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
             {dados.consultor.nome && <div className="card card-body mb-3">
                 <small>Consultor(a)</small>

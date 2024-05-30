@@ -50,7 +50,7 @@ export default function Show({dados, consultores, historicos, isSdr, emitePedido
     }
 
     return (
-        <Layout titlePage="Ativo - Lead" menu="leads" submenu="leads-cards"
+        <Layout empty titlePage="Ativo - Lead" menu="leads" submenu="leads-cards"
                 voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
             <div className="card card-body mb-3">
                 <small>Consultor(a)</small>
@@ -72,7 +72,7 @@ export default function Show({dados, consultores, historicos, isSdr, emitePedido
 
             {emitePedido && cardEmitePedido && <div className="card card-body mb-4">
                 <div className="row pt-3">
-                    <div className="col mb-4">
+                    <div className="col">
                         <a className="btn btn-warning"
                            href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
                     </div>

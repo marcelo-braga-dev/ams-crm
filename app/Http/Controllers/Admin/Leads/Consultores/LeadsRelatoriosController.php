@@ -25,7 +25,7 @@ class LeadsRelatoriosController extends Controller
     public function adicionarComentarios(Request $request)
     {
         (new LeadsHistoricosComentarios())->create($request->id, $request->msg);
-        (new LeadsNotificacao())->notificarComentarios($request->consultor, $request->msg, $request->lead);
+        $request->consultor && (new LeadsNotificacao())->notificarComentarios($request->consultor, $request->msg, $request->lead);
 
         return redirect()->back();
     }
