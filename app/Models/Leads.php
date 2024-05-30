@@ -392,8 +392,6 @@ class Leads extends Model
             ->select(DB::raw('COUNT(status) as qtd, status'))
             ->groupBy('status')
             ->pluck('qtd', 'status');
-//            ->get()
-//        ->toArray();
     }
 
     /**

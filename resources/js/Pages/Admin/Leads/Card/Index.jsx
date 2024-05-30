@@ -1,25 +1,20 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
-import { ListItemButton, TextField } from "@mui/material";
 import * as React from "react";
-import MenuItem from "@mui/material/MenuItem";
-import { router } from "@inertiajs/react";
+import {router} from "@inertiajs/react";
 
 
-export default function ({ setores, setor, statusLeads }) {
-    function alterarSetor(e) {
-        router.get(route('admin.leads.cards-leads.index', { setor: e }))
-    }
+export default function ({statusLeads}) {
 
-    let totalLeads = 0
-    let totalNovo = 0
-    let totalPreAtendimento = 0
-    let totalAberto = 0
-    let totalAtendimento = 0
-    let totalAtivo = 0
-    let totalFinalizado = 0
+    let totalLeads = 0,
+        totalNovo = 0,
+        totalPreAtendimento = 0,
+        totalAberto = 0,
+        totalAtendimento = 0,
+        totalAtivo = 0,
+        totalFinalizado = 0
 
     return (
-        <Layout titlePage="Cards do Usuário" menu="leads" submenu="leads-cards">
+        <Layout titlePage="Cards do Leads" menu="leads" submenu="leads-cards">
             <div className="mt-4 card">
                 <div className="card-body">
                     <div className="table table-responsive">
@@ -50,7 +45,7 @@ export default function ({ setores, setor, statusLeads }) {
 
                                 return (
                                     <tr key={index} className=""
-                                        onClick={() => router.get(route('admin.leads.consultores-cards.index', {id: dado.id})) }>
+                                        onClick={() => router.get(route('admin.leads.consultores-cards.index', {id: dado.id}))}>
                                         <td className="text-wrap text-start"><b>{dado.nome}</b></td>
                                         <td>{dado.status.novo ?? 0}</td>
                                         <td>{dado.status.pre_atendimento ?? 0}</td>
@@ -61,7 +56,7 @@ export default function ({ setores, setor, statusLeads }) {
                                         <td>{total}</td>
                                         <td>
                                             <a className="px-3 py-1 mb-0 btn btn-primary btn-sm"
-                                                href='#'>
+                                               href='#'>
                                                 Ver Kanban
                                             </a>
                                         </td>

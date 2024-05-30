@@ -15,13 +15,10 @@ class CardsController extends Controller
 {
     public function index(Request $request)
     {
-        $setor = $request->setor ?? 1;
-        $setores = (new Setores())->get();
-
         $statusLeads = (new LeadsUsuariosService())->get($request->setor);
 
         return Inertia::render('Admin/Leads/Card/Index',
-            compact('setor', 'setores', 'statusLeads'));
+            compact('statusLeads'));
     }
 
     public function limparFinalizados(Request $request)

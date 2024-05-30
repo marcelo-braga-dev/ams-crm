@@ -3,7 +3,14 @@ import Avatar from "@mui/material/Avatar";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import * as React from "react";
 
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
+import {useState} from "react";
+
 export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUsuariosComp, metasUsuarios, vendasMetasComp, vendasTotal, vendasMetas, admin, mes, ano}) {
+
+    const [camposVisivel, setCamposVisivel] = useState(false);
+
     return (
         <div className="table-responsive">
             <table className="table text-sm table-sm">
@@ -14,8 +21,13 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                     <th>Meta</th>
                     <th>Total Vendas</th>
                     <th className="text-center">Qtd. Vendas</th>
-                    {admin && <th>Lucro Bruto</th>}
                     <th>Meta x Vendas</th>
+                    {admin &&
+                        <th onClick={() => setCamposVisivel(e => !e)}>
+                            Lucro Bruto {camposVisivel
+                            ? <VisibilityOutlinedIcon fontSize="small"/>
+                            : <VisibilityOffOutlinedIcon fontSize="small"/>}
+                        </th>}
                     <th></th>
                 </tr>
                 </thead>
@@ -57,11 +69,6 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                                 {item.qtd}
                                 {qtdComp && <span className="d-block">{qtdComp}</span>}
                             </td>
-                            {admin && <td className="text-dark">
-                                {item.lucro && <span>R$ {convertFloatToMoney(item.lucro)} ({convertFloatToMoney(item.lucro / item.custos * 100)}%)</span>}
-                                {lucroComp && <span className="d-block">R$ {convertFloatToMoney(lucroComp)} (
-                                    {convertFloatToMoney((lucroComp) / custosComp * 100)}%)</span>}
-                            </td>}
                             <td>
                                 {item.status ?
                                     <span className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}>
@@ -73,6 +80,12 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                                                     R$ {convertFloatToMoney(difComp)} (
                                     {convertFloatToMoney(((difComp) / metasComp * 100) + 100)}%)</span>}
                             </td>
+                            {admin && <td className="text-dark">
+                                {item.lucro && camposVisivel &&
+                                    <span>R$ {convertFloatToMoney(item.lucro)} ({convertFloatToMoney(item.lucro / item.custos * 100)}%)</span>}
+                                {lucroComp && camposVisivel &&
+                                    <span className="d-block">R$ {convertFloatToMoney(lucroComp)} ({convertFloatToMoney((lucroComp) / custosComp * 100)}%)</span>}
+                            </td>}
                             <td>
                                 <a className="mb-0 btn btn-link text-dark btn-sm"
                                    href={route('admin.metas-vendas.vendas-faturadas.index', {
@@ -96,7 +109,7 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                             className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</span>}
                     </td>
                     <td className="text-dark">
-                        R$ {convertFloatToMoney(vendasTotal.vendas)}
+                    R$ {convertFloatToMoney(vendasTotal.vendas)}
                         {vendasMetasComp && <span
                             className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas)}</span>}
                     </td>
@@ -105,16 +118,6 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                         {vendasMetasComp &&
                             <span className="d-block">{vendasMetasComp?.totalQtd}</span>}
                     </td>
-                    {admin && <td className="text-dark">
-                        R$ {convertFloatToMoney(vendasTotal.lucro)}(
-                        {convertFloatToMoney(vendasTotal.lucro / vendasTotal.custos * 100)}%)
-                        {vendasMetasComp &&
-                            <span
-                                className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalCustos)}(
-                                {convertFloatToMoney((vendasMetasComp?.totalVendas - vendasMetasComp?.totalCustos) / vendasMetasComp?.totalCustos * 100)}%)
-                                                </span>
-                        }
-                    </td>}
                     <td>
                         R$ {convertFloatToMoney(vendasTotal.vendas - vendasMetas?.totalMetas)} (
                         {convertFloatToMoney(((vendasTotal.vendas - vendasMetas?.totalMetas) / vendasMetas?.totalMetas * 100) + 100)}%)
@@ -125,6 +128,12 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                                                 </span>
                         }
                     </td>
+                    {admin && <td className="text-dark">
+                        {camposVisivel && <span>R$ {convertFloatToMoney(vendasTotal.lucro)} ({convertFloatToMoney(vendasTotal.lucro / vendasTotal.custos * 100)}%)</span>}
+                        {vendasMetasComp && camposVisivel &&
+                            <span className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas - vendasMetasComp?.totalCustos)} (
+                                {convertFloatToMoney((vendasMetasComp?.totalVendas - vendasMetasComp?.totalCustos) / vendasMetasComp?.totalCustos * 100)}%)</span>}
+                    </td>}
                     <td></td>
                 </tr>
 
