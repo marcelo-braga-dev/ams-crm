@@ -150,13 +150,16 @@ export default function VendasAnuais({vendasMetasAnual, vendasAnual, metasEmpres
                                 const difABEmpresa = Math.abs(difTotalEmpresa) - Math.abs(difTotalEmpresaB)
                                 const difMargemEmprsa = margemMetasVendasTotalEmpresaB - margemMetasVendasTotalEmpresa
                                 const difMargem = margemMetasVendasTotalB - margemMetasVendasTotal
+                                const alcancado = alcancadoAnoTotal - alcancadoAnoTotalB
 
                                 return (
                                     <tr>
                                         <td className="text-center text-dark"><b>DIF A e B</b></td>
                                         <td></td>
                                         <td></td>
-                                        <td className="text-dark">R$ {convertFloatToMoney(alcancadoAnoTotal - alcancadoAnoTotalB)}</td>
+                                        <td className={alcancado > 0 ? 'text-success' : alcancado < 0 ? 'text-danger' : ''}>
+                                            R$ {convertFloatToMoney(alcancado)}
+                                        </td>
                                         <td className="text-dark">R$ {convertFloatToMoney(metaAnoTotal - metaAnoTotalB)}</td>
                                         <td className="text-dark">R$ {convertFloatToMoney(metaAnoEmpresaTotal - metaAnoEmpresaTotalB)}</td>
                                         <td className={difAB > 0 ? 'text-success' : difAB < 0 ? 'text-danger' : ''}>
