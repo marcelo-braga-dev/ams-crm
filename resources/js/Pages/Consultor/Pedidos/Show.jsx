@@ -91,18 +91,14 @@ export default function Pedidos({dados, produtos, historico}) {
                         </div>
                     </div>
                     <div className="card card-body mb-4">
-                        <div className="row">
+                        <div className="row row-cols-4">
                             {dados.pedido_files.planilha_pedido &&
                                 <div className="col-md-4">
                                     <span className="d-block">Imagem da Planilha de Pedidos</span>
                                     <ImagePdf url={dados.pedido_files.planilha_pedido}/>
                                 </div>
                             }
-                        </div>
-                        <div className="row">
-                            <div className="col">
-                                <DadosPedidoFinanceiroFiles dados={dados}/>
-                            </div>
+                            <DadosPedidoFinanceiroFiles dados={dados}/>
                         </div>
                     </div>
                 </TabPanel>

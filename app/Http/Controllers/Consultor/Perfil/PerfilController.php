@@ -12,7 +12,7 @@ class PerfilController extends Controller
 {
     public function index()
     {
-        $dados = (new DadosUsuariosService())->usuario(id_usuario_atual());
+        $dados = (new User())->get(id_usuario_atual());
 
         return Inertia::render('Consultor/Perfil/Show', compact('dados'));
     }

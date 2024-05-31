@@ -92,7 +92,7 @@ export default function ({vendas, usuario, usuarios, mes, ano}) {
                                 <tbody>
                                 {vendas.map(item => {
                                     return (
-                                        <tr key={item.id} className="cursor-pointer" onClick={() => router.get(route('admin.pedidos.show', item.id))}>
+                                        <tr key={item.id}>
                                             <td className="text-center col-1">#{item.id}</td>
                                             <td>{item.data}</td>
                                             <td>

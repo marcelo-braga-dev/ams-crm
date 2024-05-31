@@ -17,22 +17,25 @@ class MetasController extends Controller
         $ano = $request->ano ?? date('Y');
         $idUsuario = id_usuario_atual();
 
-        $vendasMensalUsuario = (new Pedidos())->_vendasMensaisUsuario($idUsuario, $ano);
-        $dados = (new MetasVendas())->getMeta($idUsuario, $ano);
+        $vendas = (new Pedidos())->vendasMensaisUsuario($idUsuario, $ano);
+        $metas = (new MetasVendas())->metasMensais($idUsuario, $ano);
 
         return Inertia::render(
             'Consultor/Relatorios/Metas/Index',
-            compact('idUsuario', 'vendasMensalUsuario', 'ano', 'dados')
+            compact('idUsuario', 'vendas', 'metas', 'ano')
         );
     }
 
     public function show($id, Request $request)
     {
+        $mes = $request->mes ?? date('n');
+        $ano = $request->ano ?? date('Y');
+        $mes = is_array($mes) ? $mes : [$mes];
 
-        $periodo = $request->mes . '/' . $request->ano;
-        $usuario = (new User())->get($id);
-        $vendas = (new PedidosFaturamentos())->faturadosPeriodo($id, $request->mes, $request->ano);
+        $usuario = (new User())->get(id_usuario_atual());
+        $vendas = (new PedidosFaturamentos())->faturadosPeriodo(id_usuario_atual(), $mes, $ano);
 
-        return Inertia::render('Consultor/Relatorios/Metas/Show', compact('vendas', 'usuario', 'periodo'));
+        return Inertia::render('Consultor/Relatorios/Metas/Show',
+            compact('vendas', 'usuario', 'mes', 'ano'));
     }
 }

@@ -2,7 +2,8 @@ import ImagePdf from "@/Components/Elementos/ImagePdf";
 import * as React from "react";
 
 export default function DadosPedidoFinanceiroFiles({dados}) {
-    return (<>
+    return (
+        <>
             {dados.pedido_files.nota_fiscal &&
                 <div className="col mb-4">
                     <div className="card card-body">
@@ -60,7 +61,6 @@ export default function DadosPedidoFinanceiroFiles({dados}) {
                     <ImagePdf url={dados.pedido_files.boleto_2}/>
                 </div>
             </div>}
-
         </>
     )
 }

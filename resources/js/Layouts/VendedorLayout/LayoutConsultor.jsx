@@ -32,7 +32,7 @@ const Layout = ({ titlePage, menu, children, voltar, empty }) => {
             <Header open={!open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle} />
             <Drawer open={!open} menu={menu} handleDrawerToggle={handleDrawerToggle} permissoes={permissoes} />
             <BoxStyled open={!open}>
-                <Container maxWidth={false}>
+                <Container maxWidth={false} className="mb-5">
                     {empty ? children :
                         <Card className="p-3">
                             {children}

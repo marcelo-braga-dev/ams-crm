@@ -26,8 +26,8 @@ export default function Create({ dados, flash }) {
     }
 
     return (
-        <Layout container titlePage="Perfil" menu="perfil-conta">
-            <Card className="p-3 mb-4">
+        <Layout empty titlePage="Perfil" menu="perfil-conta">
+            <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col-auto">
                         <Avatar className="cursor-pointer"
@@ -45,13 +45,13 @@ export default function Create({ dados, flash }) {
                         <span className="d-block"><b>Email:</b> {dados.email}</span>
                         <span className="d-block"><b>Função:</b> {dados.funcao}</span>
                         <span className="d-block"><b>Franquia:</b> {dados.franquia}</span>
-                        <span className="d-block"><b>Setor:</b> {dados.setor_nome}</span>
+                        <span className="d-block"><b>Setor:</b> {dados.setor}</span>
                     </div>
                 </div>
-            </Card>
+            </div>
 
             {/*Alterar Senha*/}
-            <Card className="p-3">
+            <div className="card card-body mb-4">
                 <div className="row">
                     <h5 className="mb-2 mb-4">Alterar Senha</h5>
                     {flash.erro && <Alert className="mb-3" severity="error">{flash.erro}</Alert>}
@@ -63,7 +63,7 @@ export default function Create({ dados, flash }) {
                             <div className="col">
                                 <TextField
                                     label="Senha Atual" required fullWidth type="password"
-                                    onChange={e => setData('senha_atual', e.target.value)} />
+                                    onChange={e => setData('senha_atual', e.target.value)}/>
                             </div>
                             <div className="col">
                             </div>
@@ -72,12 +72,12 @@ export default function Create({ dados, flash }) {
                             <div className="col">
                                 <TextField
                                     label="Nova Senha" required fullWidth type="password"
-                                    onChange={e => setData('nova_senha', e.target.value)} />
+                                    onChange={e => setData('nova_senha', e.target.value)}/>
                             </div>
                             <div className="col">
                                 <TextField
                                     label="Confirmar Nova Senha" required fullWidth type="password"
-                                    onChange={e => setData('confirmar_senha', e.target.value)} />
+                                    onChange={e => setData('confirmar_senha', e.target.value)}/>
                             </div>
                         </div>
                         <div className="text-center row">
@@ -89,7 +89,7 @@ export default function Create({ dados, flash }) {
                         </div>
                     </form>
                 </div>
-            </Card>
+            </div>
             {/*Alterar Senha - fim */}
         </Layout>
     )

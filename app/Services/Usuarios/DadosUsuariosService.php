@@ -6,6 +6,9 @@ use App\Models\Franquias;
 use App\Models\Setores;
 use App\Models\User;
 
+/**
+ * @deprecated
+ */
 class DadosUsuariosService
 {
     private array $setores;

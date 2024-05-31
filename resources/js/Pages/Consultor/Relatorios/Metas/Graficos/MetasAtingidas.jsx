@@ -1,27 +1,20 @@
 import {Bar} from "react-chartjs-2";
+import "chart.js/auto";
 import React from "react";
-import {convertMoneyFloat} from "@/Helpers/converterDataHorario";
 
-export default function MetasAtingidas({items, dados, vendasMensalUsuario}) {
+export default function MetasAtingidas({vendas, metas, meses}) {
 
-    const meses = items.map((item) => {
-        return item.meta_index ?? ''
-    })
-    const metas = items.map((item) => {
-        return convertMoneyFloat(dados?.metas?.[item.meta_index] ?? 0)
-    })
-    const atingida = items.map((item) => {
-        return vendasMensalUsuario[item.meta_index].vendas ?? 0
-    })
-
+    const mesesNomes = meses.map(item => item.abv.toUpperCase())
+    const metasMensal = meses.map(item => metas?.[item.mes])
+    const atingida = meses.map(item => vendas?.[item.mes]?.vendas)
 
     const data = {
-        labels: meses,
+        labels: mesesNomes,
         datasets: [
             {
                 label: "Meta",
                 backgroundColor: "#0000FFaa",
-                data: metas,
+                data: metasMensal,
             }, {
                 label: "Alcançado",
                 backgroundColor: "rgba(229,210,4)",
@@ -44,6 +37,6 @@ export default function MetasAtingidas({items, dados, vendasMensalUsuario}) {
     };
 
     return (
-        <Bar height={80} options={options} data={data}/>
+        <Bar height={100} options={options} data={data}/>
     )
 }

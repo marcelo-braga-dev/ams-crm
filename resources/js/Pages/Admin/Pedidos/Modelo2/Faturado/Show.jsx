@@ -34,7 +34,9 @@ export default function Create({ pedido }) {
                 </div>
             }
 
-            <DadosPedidoFinanceiroFiles dados={pedido} />
+            <div className="row row-cols-4">
+                <DadosPedidoFinanceiroFiles dados={pedido} />
+            </div>
 
             {funcaoUsuario &&
                 <div className="row justify-content-center mt-4">
