@@ -153,7 +153,7 @@ export default function VendasAnuais({vendasMetasAnual, vendasAnual, metasEmpres
                                 const alcancado = alcancadoAnoTotal - alcancadoAnoTotalB
 
                                 return (
-                                    <tr>
+                                    <tr key={1}>
                                         <td className="text-center text-dark"><b>DIF A e B</b></td>
                                         <td></td>
                                         <td></td>
