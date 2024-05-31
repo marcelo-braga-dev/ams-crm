@@ -44,6 +44,18 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                     const dif = item.vendas - meta
                     const difComp = vendasComp - metasComp
 
+                    const margemDif = (dif / meta * 100) + 100
+                    const margemDifCom = (difComp / metasComp * 100) + 100
+
+                    const difMeta = Math.abs(dif) - Math.abs(difComp)
+                    const difMetaMargem = Math.abs(margemDif) - Math.abs(margemDifCom)
+
+                    const margemLucro = item.lucro / item.custos * 100
+                    const margemLucroComp = lucroComp / custosComp * 100
+
+                    const difLucro = Math.abs(item.lucro) - Math.abs(lucroComp)
+                    const difLucroMargem = Math.abs(margemLucro) - Math.abs(margemLucroComp)
+
                     return (
                         <tr key={index}>
                             <td className="text-dark">
@@ -54,46 +66,59 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                             </td>
                             {vendasUsuariosComp.length === 0 ? '' :
                                 <td className="col-1">
-                                    <b>REF:</b><br/>
-                                    <b>COMP:</b>
+                                    Referência:
+                                    <span className="d-block border-top border-bottom">Comparar:</span>
+                                    <span>Diferença:</span>
                                 </td>}
                             <td className="text-dark">
                                 {item.status ? <span>R$ {convertFloatToMoney(meta)}</span> : '-'}
-                                {metasComp && <span className="d-block">R$ {convertFloatToMoney(metasComp)}</span>}
+                                {metasComp && <>
+                                    <span className="d-block border-top border-bottom">R$ {convertFloatToMoney(metasComp)}</span>
+                                    R$ {convertFloatToMoney(meta - metasComp)}
+                                </>}
                             </td>
                             <td className="text-dark">
                                 R$ {convertFloatToMoney(item.vendas)}
-                                {vendasComp && <span className="d-block">R$ {convertFloatToMoney(vendasComp)}</span>}
+                                {vendasComp && <>
+                                    <span className="d-block border-top border-bottom">R$ {convertFloatToMoney(vendasComp)}</span>
+                                    R$ {convertFloatToMoney(item.vendas - vendasComp)}
+                                </>}
                             </td>
                             <td className="text-center text-dark">
                                 {item.qtd}
-                                {qtdComp && <span className="d-block">{qtdComp}</span>}
+                                {qtdComp && <>
+                                    <span className="d-block border-top border-bottom">{qtdComp}</span>
+                                    {item.qtd - qtdComp}
+                                </>}
                             </td>
                             <td>
                                 {item.status ?
                                     <span className={(dif) > 0 ? 'text-success' : (dif < 0 ? 'text-danger' : '')}>
-                                                        R$ {convertFloatToMoney(dif)} ({convertFloatToMoney(((dif) / meta * 100) + 100)}%)
-                                                    </span> : '-'}
-
-                                {metasComp && <span
-                                    className={"d-block " + ((difComp) > 0 ? 'text-success' : (difComp < 0 ? 'text-danger' : ''))}>
-                                                    R$ {convertFloatToMoney(difComp)} (
-                                    {convertFloatToMoney(((difComp) / metasComp * 100) + 100)}%)</span>}
+                                        R$ {convertFloatToMoney(dif)} ({convertFloatToMoney(margemDif)}%)
+                                    </span> : '-'}
+                                {!!difComp && <>
+                                    <span className={"d-block border-top border-bottom " + ((difComp) > 0 ? 'text-success' : (difComp < 0 ? 'text-danger' : ''))}>
+                                        R$ {convertFloatToMoney(difComp)} ({convertFloatToMoney(margemDifCom)}%)</span>
+                                    <span className={"d-block " + (difMeta > 0 ? 'text-success' : (difMeta < 0 ? 'text-danger' : ''))}>
+                                        R$ {convertFloatToMoney(difMeta)} ({convertFloatToMoney(difMetaMargem)}%)</span>
+                                </>}
                             </td>
                             {admin && <td className="text-dark">
                                 {item.lucro && camposVisivel &&
-                                    <span>R$ {convertFloatToMoney(item.lucro)} ({convertFloatToMoney(item.lucro / item.custos * 100)}%)</span>}
-                                {lucroComp && camposVisivel &&
-                                    <span className="d-block">R$ {convertFloatToMoney(lucroComp)} ({convertFloatToMoney((lucroComp) / custosComp * 100)}%)</span>}
+                                    <span>R$ {convertFloatToMoney(item.lucro)} ({convertFloatToMoney(margemLucro)}%)</span>}
+                                {lucroComp && camposVisivel && <>
+                                    <span className="d-block border-top border-bottom">
+                                        R$ {convertFloatToMoney(lucroComp)} ({convertFloatToMoney(margemLucroComp)}%)</span>
+                                    <span className={"d-block " + (difLucro > 0 ? 'text-success' : (difLucro < 0 ? 'text-danger' : ''))}>
+                                        R$ {convertFloatToMoney(difLucro)}
+                                    </span>
+                                </>
+                                }
                             </td>}
                             <td>
                                 <a className="mb-0 btn btn-link text-dark btn-sm"
-                                   href={route('admin.metas-vendas.vendas-faturadas.index', {
-                                       id: item.id,
-                                       mes: mes,
-                                       ano: ano
-                                   })}>
-                                    Ver Vendas
+                                   href={route('admin.metas-vendas.vendas-faturadas.index', {id: item.id, mes: mes, ano: ano})}>
+                                    Ver Pedidos
                                 </a>
                             </td>
                         </tr>
@@ -109,7 +134,7 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
                             className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalMetas)}</span>}
                     </td>
                     <td className="text-dark">
-                    R$ {convertFloatToMoney(vendasTotal.vendas)}
+                        R$ {convertFloatToMoney(vendasTotal.vendas)}
                         {vendasMetasComp && <span
                             className="d-block">R$ {convertFloatToMoney(vendasMetasComp?.totalVendas)}</span>}
                     </td>

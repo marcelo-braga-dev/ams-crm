@@ -59,8 +59,10 @@ class PedidosFaturamentos extends Model
         }
     }
 
-    public function faturadosPeriodo($id = null, $mes = null, $ano = null)
+    public function faturadosPeriodo($id, array $mes, $ano)
     {
+
+
         $nomeLeads = (new Leads())->getNomes();
         $nomeClientes = (new PedidosClientes())->getNomes();
         $statusNome = (new StatusPedidos())->getStatus();
@@ -68,8 +70,9 @@ class PedidosFaturamentos extends Model
         return (new Pedidos())->newQuery()
             ->where('user_faturamento', $id)
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
-            ->whereMonth('data_faturamento', $mes)
+            ->whereIn(DB::raw('MONTH(data_faturamento)'), $mes)
             ->whereYear('data_faturamento', $ano)
+            ->orderBy('data_faturamento')
             ->get()
             ->transform(function ($item) use ($nomeLeads, $nomeClientes, $statusNome) {
                 return [
@@ -78,7 +81,7 @@ class PedidosFaturamentos extends Model
                     'cliente' => $nomeClientes[$item->id] ?? '',
                     'valor' => $item->preco_venda,
                     'status' => $statusNome[$item->status] ?? '',
-                    'data' => $item->data_faturamento,
+                    'data' => date('d/m/y H:i', strtotime($item->data_faturamento)),
                 ];
             });
     }

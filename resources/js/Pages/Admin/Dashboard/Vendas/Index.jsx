@@ -208,7 +208,13 @@ export default function ({mes, ano, setores, setor}) {
 
                 <div className="mb-4 card">
                     <div className="card-body">
-                        <h6>Meta x Vendas</h6>
+                        <div className="row justify-content-between">
+                            <div className="col-auto"><h6>Meta x Vendas</h6></div>
+                            <div className="col-auto">
+                                <a className="btn btn-primary btn-sm" href={route('admin.metas-vendas.vendas-faturadas.index')}>Ver Pedidos</a>
+                            </div>
+                        </div>
+
                         <MetasVendas
                             metasUsuarios={metasUsuarios} vendasMetasComp={vendasMetasComp} vendasUsuariosComp={vendasUsuariosComp}
                             vendasTotal={vendasTotal} vendasMetas={vendasMetas} vendasUsuarios={vendasUsuarios}
