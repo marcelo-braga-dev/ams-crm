@@ -614,7 +614,7 @@ class Leads extends Model
         $nomes = (new User())->getNomes();
 
         return $this->newQuery()
-            ->leftJoin('pins', 'leads.id', '=', 'pins.lead_id')
+            ->leftJoin('pins', 'leads.id', '=',  DB::raw('pins.lead_id AND pins.user_id = ' . id_usuario_atual()))
             ->where('leads.user_id', $id)
             ->orWhere('leads.sdr_id', $id)
             ->orderByDesc('pin')

@@ -9,9 +9,6 @@ import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import TruckIcon from '@mui/icons-material/LocalShippingOutlined';
 import HandymanIcon from '@mui/icons-material/Handyman';
 
-// import EmailIcon from './IconsCard/EmailIconPopover';
-// import TelefoneIcon from './IconsCard/TelefoneIcon';
-
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
 
@@ -41,7 +38,9 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                     <tbody>
                     <tr>
                         <td className="col-1 px-2"><PersonIcon sx={{fontSize: 22}}/></td>
-                        <td><b>{dados.cliente.toUpperCase()}</b></td>
+                        <td className="d-inline-block text-truncate pt-2" style={{width: 210}}>
+                            <b>{dados.cliente.toUpperCase()}</b>
+                        </td>
                         <td className="col-1 px-0">{menuMore}</td>
                     </tr>
                     <tr>
@@ -50,7 +49,20 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                     </tr>
                     <tr>
                         <td className="col-1 px-2"><PaymentIcon className='mr-2' sx={{fontSize: 20}}/></td>
-                        <td>{dados.forma_pagamento.toUpperCase()}</td>
+                        <td className="d-inline-block text-truncate" style={{width: 200}}>
+                            {dados.forma_pagamento.toUpperCase()}
+                        </td>
+                        <td className="col-1 px-2 cursor-pointer">
+                            {pin ?
+                                <PushPinIcon color="error" onClick={() => {
+                                    setPin(e => !e)
+                                    armazenarPin()
+                                }} sx={{fontSize: 20}}/>
+                                : <PushPinOutlinedIcon sx={{fontSize: 20}} onClick={() => {
+                                    setPin(e => !e)
+                                    armazenarPin()
+                                }}/>}
+                        </td>
                     </tr>
                     <tr>
                         <td className="col-1 px-2"><TruckIcon className='mr-2' sx={{fontSize: 20}}/></td>
@@ -78,16 +90,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
 
             {/*Icons Buttons*/}
             <div className="row pt-2 justify-content-between">
-                <div className="col-auto cursor-pointer">
-                    {pin ?
-                        <PushPinIcon color="error" onClick={() => {
-                            setPin(e => !e)
-                            armazenarPin()
-                        }} sx={{fontSize: 20}}/>
-                        : <PushPinOutlinedIcon sx={{fontSize: 20}} onClick={() => {
-                            setPin(e => !e)
-                            armazenarPin()
-                        }}/>}
+                <div className="col-auto">
                 </div>
                 <div className="col-auto text-right">
                     <span>ID: #{dados.id}</span>

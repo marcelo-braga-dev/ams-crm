@@ -3,7 +3,6 @@ import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import React, {useEffect, useState} from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
 import pesquisaCards from "@/Helpers/pesquisaCards";
-import ScrollControlHorizontal from "@/Helpers/scrollControlHorizontal";
 
 import NovoCards from './Cards/NovoCard';
 import PreAtendimentoCard from './Cards/PreAtendimentoCard';
@@ -37,9 +36,6 @@ export default function Dashboard({isSdr}) {
                                    InputProps={{endAdornment: <InputAdornment position="start"><SearchOutlinedIcon/></InputAdornment>}}
                         />
                     </div>
-                    <div className="col-auto">
-                        <ScrollControlHorizontal/>
-                    </div>
                 </div>
             </div>
 
@@ -48,9 +44,6 @@ export default function Dashboard({isSdr}) {
             {/*Tabela*/}
             {leads &&
                 <div className="row justify-content-center">
-                    <div className="col-auto d-none d-md-block">
-                        <ScrollControlHorizontal lateral="e"/>
-                    </div>
                     <div className="col-auto">
                         <div id="scrollControlHorizontal" className="overflow-scroll" style={{height: '75vh'}}>
                             <table>
@@ -130,9 +123,6 @@ export default function Dashboard({isSdr}) {
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div className="col-auto d-none d-md-block">
-                        <ScrollControlHorizontal lateral="d"/>
                     </div>
                 </div>
             }

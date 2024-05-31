@@ -370,7 +370,7 @@ class Pedidos extends Model
     public function getPedidos($idUsuario, $setor, $fornecedor)
     {
         $query = $this->newQuery()
-            ->leftJoin('pins', 'pedidos.id', '=', 'pins.pedido_id')
+            ->leftJoin('pins', 'pedidos.id', '=', DB::raw('pins.pedido_id AND pins.user_id = ' . id_usuario_atual()))
             ->whereIn('pedidos.user_id', supervisionados(id_usuario_atual()))
             ->orderByDesc('pin')
             ->orderBy('status_data');
@@ -379,8 +379,7 @@ class Pedidos extends Model
         if ($setor) $query->where('setor_id', $setor);
         if ($fornecedor) $query->where('fornecedor_id', $fornecedor);
 
-        return $query->get(['*', 'pedidos.id as id', 'pedidos.user_id as user_id', 'pedidos.lead_id as lead_id',
-            DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin')]);
+        return $query->get(['pedidos.*', DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin')]);
     }
 
     public function getDados(?int $setor)
