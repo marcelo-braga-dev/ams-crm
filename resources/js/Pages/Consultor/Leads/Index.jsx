@@ -45,7 +45,7 @@ export default function Dashboard({isSdr}) {
             {leads &&
                 <div className="row justify-content-center">
                     <div className="col-auto">
-                        <div id="scrollControlHorizontal" className="overflow-scroll" style={{height: '75vh'}}>
+                        <div className="overflow-scroll bg-white" style={{height: '78vh'}}>
                             <table>
                                 <thead>
                                 <tr>
@@ -88,7 +88,7 @@ export default function Dashboard({isSdr}) {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr className="align-top bg-white">
+                                <tr className="align-top">
                                     {isSdr && <td id="td-1" style={{minWidth: 300}}>
                                         {leads.novo.map((dado) => {
                                             return (<NovoCards key={dado.id} dados={dado}/>)
