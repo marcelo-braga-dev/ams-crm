@@ -246,7 +246,7 @@ export default function ({mes, ano, setores, setor}) {
                 <div className="mb-4 row">
                     <div className="col-md-12">
                         <div className="card card-body">
-                            <h6>Vendas Por Estados mês: {converterMes(mesesSelecionado?.[0])}/{anoSelecionado}</h6>
+                            <h6>Vendas Por Estados</h6>
                             <VendasEstadosGrafico dados={vendasEstados}/>
                         </div>
                     </div>
