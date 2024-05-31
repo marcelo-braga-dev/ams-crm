@@ -41,11 +41,9 @@ class Pedidos extends Model
         'imposto',
     ];
 
-    protected Builder $query;
-
     private function initQuery(): void
     {
-        $this->query = $this->newQuery();
+        ;
     }
 
     public function historicoPedidosLead($id)
@@ -171,33 +169,33 @@ class Pedidos extends Model
 
     private function franquia(): void
     {
-        if (is_admin() && !franquia_usuario_atual()) {
-            $fraquia = franquia_selecionada();
-            if ($fraquia) $this->query->where('franquia_id', $fraquia);
-            return;
-        }
-
-        $this->query->where('franquia_id', franquia_usuario_atual());
+//        if (is_admin() && !franquia_usuario_atual()) {
+//            $fraquia = franquia_selecionada();
+//            if ($fraquia) $this->query->where('franquia_id', $fraquia);
+//            return;
+//        }
+//
+//        $this->query->where('franquia_id', franquia_usuario_atual());
     }
 
     private function pedidosSubordinados(): void
     {
-        $this->query->whereIn('user_id', supervisionados(id_usuario_atual()));
+
     }
 
     public function usuario($idUsuario = null): void
     {
-        if ($idUsuario) $this->query->where('user_id', $idUsuario);
+
     }
 
     public function setor($setor = null): void
     {
-        if ($setor) $this->query->where('setor_id', $setor);
+
     }
 
     public function fornecedor($fornecedor = null): void
     {
-        if ($fornecedor) $this->query->where('fornecedor_id', $fornecedor);
+
     }
 
     function create($dados)
@@ -369,16 +367,20 @@ class Pedidos extends Model
         $this->updateStatus($id, $dados->status, $dados->prazo, $motivo);
     }
 
-    public function getPedidos($idUsuario, $setorAtual, $fornecedorAtual)
+    public function getPedidos($idUsuario, $setor, $fornecedor)
     {
-        $this->initQuery();
-        // $this->franquia();
-        $this->pedidosSubordinados();
-        $this->usuario($idUsuario);
-        $this->setor($setorAtual);
-        $this->fornecedor($fornecedorAtual);
+        $query = $this->newQuery()
+            ->leftJoin('pins', 'pedidos.id', '=', 'pins.pedido_id')
+            ->whereIn('pedidos.user_id', supervisionados(id_usuario_atual()))
+            ->orderByDesc('pin')
+            ->orderBy('status_data');
 
-        return $this->query->get();
+        if ($idUsuario) $query->where('pedidos.user_id', $idUsuario);
+        if ($setor) $query->where('setor_id', $setor);
+        if ($fornecedor) $query->where('fornecedor_id', $fornecedor);
+
+        return $query->get(['*', 'pedidos.id as id', 'pedidos.user_id as user_id', 'pedidos.lead_id as lead_id',
+            DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin')]);
     }
 
     public function getDados(?int $setor)

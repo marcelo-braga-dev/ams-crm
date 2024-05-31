@@ -611,11 +611,38 @@ class Leads extends Model
 
     public function getCards($id)
     {
+        $nomes = (new User())->getNomes();
+
         return $this->newQuery()
-            ->where('user_id', $id)
-            ->orWhere('sdr_id', $id)
-            ->orderBy('status_data', 'desc')
-            ->get();
+            ->leftJoin('pins', 'leads.id', '=', 'pins.lead_id')
+            ->where('leads.user_id', $id)
+            ->orWhere('leads.sdr_id', $id)
+            ->orderByDesc('pin')
+            ->orderByDesc('status_data')
+            ->get(['leads.id', 'status', 'leads.user_id', 'sdr_id', 'nome', 'razao_social', 'cnpj', 'cnpj', 'telefone', 'status_data',
+                DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin')])
+            ->transform(function ($item) use ($nomes) {
+                return [
+                    'pin' => !!$item->pin,
+                    'status' => $item->status,
+                    'id' => $item->id,
+                    'consultor' => $nomes[$item->user_id] ?? '',
+                    'sdr_nome' => $nomes[$item->sdr_id] ?? '',
+                    'cliente' => [
+                        'nome' => $item->nome ?: $item->razao_social,
+                        'cnpj' => converterCNPJ($item->cnpj),
+                        'cidade' => $item->cidade,
+                        'estado' => $item->estado,
+                    ],
+                    'contato' => [
+                        'email' => $item->email,
+                        'telefone' => converterTelefone($item->telefone),
+                    ],
+                    'infos' => [
+                        'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
+                    ],
+                ];
+            });
     }
 
     public function importacao($id)

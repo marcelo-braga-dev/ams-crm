@@ -38,6 +38,7 @@ class DadosPedidoServices
         if ($this->status($pedido->status) || $this->prazo($pedido))
             return [
                 'id' => $pedido->id,
+                'pin' => !!$pedido->pin,
                 'modelo' => $pedido->modelo,
                 'cliente' => $nomeCliente ?? '',
                 'consultor' => $this->consultores[$pedido->user_id] ?? '',
@@ -56,9 +57,6 @@ class DadosPedidoServices
                     'data_status' => date('d/m/y H:i', strtotime($pedido->status_data)),
                     'data_prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),
                     'prazo_atrasado' => $this->getDiferenca($pedido->status_data, $pedido->prazo)
-                ],
-                'icones' => [
-                    'pin' => '',
                 ],
                 'infos' => [
                     'situacao' => $pedido->situacao,

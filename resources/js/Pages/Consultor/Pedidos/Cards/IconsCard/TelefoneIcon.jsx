@@ -3,6 +3,8 @@ import React from "react";
 import CallIcon from "@mui/icons-material/CallSharp";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
+import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+import PushPinIcon from '@mui/icons-material/PushPin';
 
 export default function TelefoneIcon({dados}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -21,8 +23,10 @@ export default function TelefoneIcon({dados}) {
     return (
         dados.contato.telefone ?
             (<>
-                <CallIcon className="mx-1 cursor-pointer" aria-describedby={id}
+
+                <PushPinOutlinedIcon className="mx-1 cursor-pointer" aria-describedby={id}
                           variant="contained" onClick={handleClick}/>
+
                 <Popover
                     id={id}
                     open={open}
@@ -33,8 +37,8 @@ export default function TelefoneIcon({dados}) {
                         horizontal: 'left',
                     }}
                 >
-                    <Typography sx={{p: 2}}>{dados.contato.telefone}</Typography>
+                    <Typography sx={{p: 2}}>{dados.contato.telefone}XXXX</Typography>
                 </Popover></>) :
-            <CallIcon className="mx-1" color="disabled" variant="contained"/>
+            <PushPinOutlinedIcon className="mx-1" color="disabled" variant="contained"/>
     )
 }

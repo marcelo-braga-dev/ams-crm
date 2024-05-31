@@ -13,10 +13,5 @@ function btn(id) {
 
 export default function AtendimentoCard({dados}) {
 
-    return (
-        <Card
-            dados={dados}
-            btn={btn(dados.id)}
-        />
-    )
+    return <Card dados={dados} btn={btn(dados.id)} />
 }

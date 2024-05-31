@@ -55,7 +55,7 @@ class CardDadosService
         $cards['cancelado'] = $this->getDadosCard($dados, $objeto, $canceladoStatus);
         $cards['encomenda'] = $this->getDadosCard($dados, $objeto, $encomendaStatus);
         $cards['total'] = $this->countCards;
-
+//print_pre($cards);
         return $cards;
     }
 

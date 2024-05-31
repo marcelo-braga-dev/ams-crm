@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PersonIcon from '@mui/icons-material/Person';
 import Money from '@mui/icons-material/AttachMoneyRounded';
 import Chip from '@mui/material/Chip';
@@ -9,16 +9,23 @@ import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import TruckIcon from '@mui/icons-material/LocalShippingOutlined';
 import HandymanIcon from '@mui/icons-material/Handyman';
 
-import EmailIcon from './IconsCard/EmailIconPopover';
-import TelefoneIcon from './IconsCard/TelefoneIcon';
+// import EmailIcon from './IconsCard/EmailIconPopover';
+// import TelefoneIcon from './IconsCard/TelefoneIcon';
 
+import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
-import PinIcon from "./IconsCard/PinIcon";
+
 import PaymentIcon from "@mui/icons-material/Payment";
 import {usePage} from "@inertiajs/react";
 
 export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, border}) {
     const goCard = usePage().props.goCard
+
+    const [pin, setPin] = useState(dados.pin)
+
+    function armazenarPin() {
+        axios.post(route('geral.pins.pedidos'), {pedido_id: dados.id})
+    }
 
     return (
         <div className="pesquisar-card shadow bg-white m-2 py-2 px-3 rounded" id={"card-id-" + dados.id}
@@ -70,25 +77,30 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
             </div>
 
             {/*Icons Buttons*/}
-            <div className="row pt-2">
-                <div className="col">
-                    {/*<PinIcon dados={dados} />*/}
-                    <TelefoneIcon dados={dados}/>
-                    <EmailIcon dados={dados}/>
+            <div className="row pt-2 justify-content-between">
+                <div className="col-auto cursor-pointer">
+                    {pin ?
+                        <PushPinIcon color="error" onClick={() => {
+                            setPin(e => !e)
+                            armazenarPin()
+                        }} sx={{fontSize: 20}}/>
+                        : <PushPinOutlinedIcon sx={{fontSize: 20}} onClick={() => {
+                            setPin(e => !e)
+                            armazenarPin()
+                        }}/>}
                 </div>
-                <div className="col text-right">
-                    <span className="text-sm text-muted">ID: #{dados.id}</span>
+                <div className="col-auto text-right">
+                    <span>ID: #{dados.id}</span>
                 </div>
             </div>
 
             {/* Pills */}
             <Stack className='py-2' direction="row" spacing={1}>
-                {dados.infos.sac ?
+                {!!dados.infos.sac &&
                     <a href={route('consultor.chamados.index')}>
                         <Chip style={{cursor: 'pointer'}} icon={<SpeakerNotesIcon className='ml-2'/>} label="SAC"
                               color="warning" size="small"/>
-                    </a>
-                    : ''}
+                    </a>}
             </Stack>
 
             <div className='row'>
@@ -99,16 +111,12 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
             {/* Datas */}
             <div className='row border-top justify-content-between'>
                 <div className='col-auto'>
-                    <CalendarMonthIcon sx={{fontSize: 16}} className='mr-1'></CalendarMonthIcon>
-                    <span style={{fontSize: 11}}>
-                    {dados.prazos.data_status}
-                    </span>
+                    <CalendarMonthIcon sx={{fontSize: 15}} className='mr-1'></CalendarMonthIcon>
+                    <span style={{fontSize: 12}}>{dados.prazos.data_status}</span>
                 </div>
                 <div className='col-auto'>
-                    <AlarmOutlinedIcon sx={{fontSize: 16}} className='mr-1'></AlarmOutlinedIcon>
-                    <span style={{fontSize: 11}}>
-                        {dados.prazos.data_prazo}
-                    </span>
+                    <AlarmOutlinedIcon sx={{fontSize: 15}} className='mr-1'></AlarmOutlinedIcon>
+                    <span style={{fontSize: 12}}>{dados.prazos.data_prazo}</span>
                 </div>
             </div>
         </div>

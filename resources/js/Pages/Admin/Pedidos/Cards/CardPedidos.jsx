@@ -1,23 +1,27 @@
-import React from 'react';
-import Money from '@mui/icons-material/AttachMoneyRounded';
+import React, {useState} from 'react';
 import Stack from '@mui/material/Stack';
+import {usePage} from "@inertiajs/react";
+
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
+import Money from '@mui/icons-material/AttachMoneyRounded';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import TruckIcon from '@mui/icons-material/LocalShippingOutlined';
 import PaymentIcon from '@mui/icons-material/Payment';
-
-import EmailIcon from './Partials/IconsCard/EmailIconPopover';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
-
-import TelefoneIcon from "./Partials/IconsCard/TelefoneIcon";
 import HandymanIcon from "@mui/icons-material/Handyman";
 import PersonIcon from "@mui/icons-material/Person";
-import {usePage} from "@inertiajs/react";
+import PushPinIcon from "@mui/icons-material/PushPin";
+import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
 
 export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, border}) {
 
     const goCard = usePage().props.goCard
+    const [pin, setPin] = useState(dados.pin)
+
+    function armazenarPin() {
+        axios.post(route('geral.pins.pedidos'), {pedido_id: dados.id})
+    }
 
     return (
         <div className="pesquisar-card shadow bg-white m-2 py-2 px-3 rounded" id={'card-id-' + dados.id}
@@ -27,7 +31,6 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                  borderLeft: '3px solid ' + border
              }}
         >
-
             <div className="row">
                 <table>
                     <tbody>
@@ -43,6 +46,17 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                     <tr>
                         <td className="col-1 px-2"><Money sx={{fontSize: 22}}/></td>
                         <td>R$ {dados.preco}</td>
+                        <td className="col-1 px-2 cursor-pointer">
+                            {pin ?
+                                <PushPinIcon color="error" onClick={() => {
+                                    setPin(e => !e)
+                                    armazenarPin()
+                                }} sx={{fontSize: 20}}/>
+                                : <PushPinOutlinedIcon sx={{fontSize: 20}} onClick={() => {
+                                    setPin(e => !e)
+                                    armazenarPin()
+                                }}/>}
+                        </td>
                     </tr>
                     <tr>
                         <td className="col-1 px-2"><PaymentIcon className='mr-2' sx={{fontSize: 20}}/></td>
@@ -70,15 +84,13 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                     {btnAvancaStatus}
                 </div>
             </div>
+
             {/*Icons Buttons*/}
-            <div className="row justify-content-between mb-2">
-                <div className="col-auto">
-                    {/*<PinIcon dados={dados} />*/}
-                    <TelefoneIcon dados={dados}/>
-                    <EmailIcon dados={dados}/>
+            <div className="row pt-2 mb-2 justify-content-between">
+                <div className="col-auto cursor-pointer">
                 </div>
                 <div className="col-auto text-right">
-                    <span className="text-sm text-muted">ID: #{dados.id}</span>
+                    <span>ID: #{dados.id}</span>
                 </div>
             </div>
 

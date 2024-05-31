@@ -37,4 +37,7 @@ Route::middleware(['auth', 'auth.consultores'])
 
         Route::get('get-leads', [LeadsController::class, 'getLeads'])
             ->name('get-leads');
+
+        Route::post('alterar-pin', [LeadsController::class, 'alterarPin'])
+            ->name('alterar-pin');
     });

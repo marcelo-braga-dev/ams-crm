@@ -7,6 +7,7 @@ use App\Models\Enderecos;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
+use App\Models\Pins;
 use App\Services\Leads\CardLeadsService;
 use App\Services\Leads\CardsLeadsService;
 use App\src\Leads\Status\AtendimentoStatusLeads;
@@ -92,5 +93,10 @@ class LeadsController extends Controller
         $leads = (new CardsLeadsService())->getConsultor(id_usuario_atual());
 
         return response()->json($leads);
+    }
+
+    public function alterarPin(Request $request)
+    {
+        (new Pins())->createLead($request->lead_id);
     }
 }
