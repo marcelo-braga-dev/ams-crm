@@ -13,6 +13,10 @@ use Inertia\Inertia;
 
 class ChamadosController extends Controller
 {
+    public function create(Request $request)
+    {
+        return Inertia::render('');
+    }
     public function index()
     {
         $chamados = (new ChamadoDadosCardService())->cardsConsultor();

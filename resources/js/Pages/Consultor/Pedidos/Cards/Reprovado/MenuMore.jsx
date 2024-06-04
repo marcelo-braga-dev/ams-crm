@@ -16,6 +16,7 @@ export default function MenuMore({id}) {
     // MoreMenu
 const moreMenu = [
     {title: 'Ver Informações', url: route('consultor.pedidos.show', id)},
+    {title: 'SAC', url: route('consultor.pedidos.show', id)},
 ];
 const [anchorEl, setAnchorEl] = React.useState(null);
 const open = Boolean(anchorEl);
@@ -36,9 +37,7 @@ const handleClose = () => setAnchorEl(null);
                     {moreMenu.map(({title, url}) => {
                         return (
                         <Link key={id}  href={url} underline="none" color="inherit">
-                            <MenuItem key={id} onClick={handleClose}>
-                                {title}
-                            </MenuItem>
+                            <MenuItem key={id} onClick={handleClose}>{title}</MenuItem>
                         </Link>)
                     })}
             </Menu>

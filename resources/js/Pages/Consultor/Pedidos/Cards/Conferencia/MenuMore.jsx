@@ -16,6 +16,7 @@ export default function MenuMore({id}) {
     // MoreMenu
 const moreMenu = [
     {title: 'Ver Informações', url: route('consultor.pedidos.show', id)},
+    {title: 'SAC', url: route('consultor.chamados.create')},
 ];
 const [anchorEl, setAnchorEl] = React.useState(null);
 const open = Boolean(anchorEl);

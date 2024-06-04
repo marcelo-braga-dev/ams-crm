@@ -207,8 +207,7 @@ class Leads extends Model
         } catch (QueryException $exception) {
             $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
             $msg = $existCnpj ? 'CNPJ já cadastrado!' : '';
-
-            throw new \DomainException($msg);
+//            throw new \DomainException($exception->getMessage());
         }
     }
 
@@ -614,7 +613,7 @@ class Leads extends Model
         $nomes = (new User())->getNomes();
 
         return $this->newQuery()
-            ->leftJoin('pins', 'leads.id', '=',  DB::raw('pins.lead_id AND pins.user_id = ' . id_usuario_atual()))
+            ->leftJoin('pins', 'leads.id', '=', DB::raw('pins.lead_id AND pins.user_id = ' . id_usuario_atual()))
             ->where('leads.user_id', $id)
             ->orWhere('leads.sdr_id', $id)
             ->orderByDesc('pin')
@@ -724,19 +723,19 @@ class Leads extends Model
         $items = $this->newQuery()
             ->groupBy('status')
             ->whereNotNull('user_id')
-            ->orWhereNotNull( 'sdr_id')
+            ->orWhereNotNull('sdr_id')
             ->select(DB::raw('
                 status, COUNT(id) as qtd
             '))
-            ->pluck('qtd','status');
+            ->pluck('qtd', 'status');
 
         return [
-            ['status' => $status['novo'] ?? '',  'qtd' => $items['novo'] ?? 0],
-            ['status' => $status['pre_atendimento'] ?? '',  'qtd' => $items['pre_atendimento'] ?? 0],
-            ['status' => $status['aberto'] ?? '',  'qtd' => $items['aberto'] ?? 0],
-            ['status' => $status['atendimento'] ?? '',  'qtd' => $items['atendimento'] ?? 0],
-            ['status' => $status['ativo'] ?? '',  'qtd' => $items['ativo'] ?? 0],
-            ['status' => $status['finalizado'] ?? '',  'qtd' => $items['finalizado'] ?? 0],
+            ['status' => $status['novo'] ?? '', 'qtd' => $items['novo'] ?? 0],
+            ['status' => $status['pre_atendimento'] ?? '', 'qtd' => $items['pre_atendimento'] ?? 0],
+            ['status' => $status['aberto'] ?? '', 'qtd' => $items['aberto'] ?? 0],
+            ['status' => $status['atendimento'] ?? '', 'qtd' => $items['atendimento'] ?? 0],
+            ['status' => $status['ativo'] ?? '', 'qtd' => $items['ativo'] ?? 0],
+            ['status' => $status['finalizado'] ?? '', 'qtd' => $items['finalizado'] ?? 0],
         ];
     }
 
