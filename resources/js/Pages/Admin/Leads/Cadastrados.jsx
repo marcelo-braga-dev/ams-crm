@@ -59,6 +59,7 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar, isLead
             cidade: items.cliente.cidade,
             estado: items.cliente.estado,
             pedido_emitido: items.infos.pedido_emitido,
+            data_encaminhado: items.infos.encaminhado_data,
         }
     });
 
@@ -84,9 +85,10 @@ export default function ({categorias, datasImportacao, isLeadsEncaminhar, isLead
     }, {
         // name: '',
         selector: row => <>
-            <span className="d-block mb-3"><b>Status do Lead:</b> {row.status_nome}</span>
-            <span className="d-block mb-3"><b>Consultor(a):</b> {row.consultor}</span>
-            <span className="d-block mb-3"><b>SDR:</b> {row.sdr}</span>
+            <span className="d-block"><b>Status do Lead:</b> {row.status_nome}</span>
+            <span className="d-block"><b>Consultor(a):</b> {row.consultor}</span>
+            <span className="d-block"><b>SDR:</b> {row.sdr}</span>
+            {row.data_encaminhado && <span className="d-block"><b>Data Encaminhamento:</b> {row.data_encaminhado}</span>}
         </>, sortable: true, grow: 2,
     }, {
         name: isLeadsExcluir &&

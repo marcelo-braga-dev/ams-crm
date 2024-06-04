@@ -1,5 +1,5 @@
 import CardPedidos from "../CardPedidos";
-import MenuMore from './MenuMore';
+import MenuMore from "@/Pages/Consultor/Pedidos/Cards/MenuMore";
 import BtnAvancaStatus from "./BtnAvancaStatus";
 import AlertsCard from "./AlertsCard";
 

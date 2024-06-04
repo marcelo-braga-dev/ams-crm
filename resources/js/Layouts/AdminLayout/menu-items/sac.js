@@ -14,11 +14,11 @@ const dashboard = {
             icon: SpeakerNotesOutlinedIcon,
             submenu: [
                 {
-                    id: 'sac-chamdos',
+                    id: 'sac-chamados',
                     chave: chaves.sac.chamados,
                     title: 'Chamados',
                     type: 'item',
-                    url: route('admin.chamado.index'),
+                    url: route('admin.chamados.index'),
                 }
             ]
         }

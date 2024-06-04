@@ -4,33 +4,41 @@ namespace App\Http\Controllers\Consultor\Chamados;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
-use App\Models\PedidosChamados;
-use App\Models\PedidosChamadosHistoricos;
-use App\Services\Chamados\ChamadoDadosCardService;
-use App\Services\Chamados\MensagensChamadosService;
+use App\Models\Sac;
+use App\Models\SacMensagens;
+use App\Services\Chamados\CardsService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ChamadosController extends Controller
 {
-    public function create(Request $request)
-    {
-        return Inertia::render('');
-    }
     public function index()
     {
-        $chamados = (new ChamadoDadosCardService())->cardsConsultor();
+        $sac = (new CardsService())->cards();
 
-        return Inertia::render('Consultor/Chamados/Index', compact('chamados'));
+        return Inertia::render('Consultor/Chamados/Index', compact('sac'));
     }
 
-    public function show($idChamado)
+    public function create(Request $request)
     {
-        $chamado = (new PedidosChamados())->get($idChamado);
-        $pedido = (new Pedidos())->getDadosPedido($chamado['id_pedido']);
-        $mensagens = (new MensagensChamadosService())->mensagens($idChamado);
+        $pedido = $request->pedido_id;
 
-        return Inertia::render('Consultor/Chamados/Show',
-            compact('chamado', 'pedido', 'mensagens'));
+        return Inertia::render('Consultor/Chamados/Create', compact('pedido'));
+    }
+
+    public function store(Request $request)
+    {
+        (new Sac())->create($request);
+
+        modalSucesso('SAC aberto com sucesso!');
+        return redirect()->route('consultor.chamados.index');
+    }
+
+    public function update($id, Request $request)
+    {
+        (new SacMensagens())->create($id, $request);
+
+        modalSucesso('Mensagem adicionada com sucesso!');
+        return redirect()->back();
     }
 }

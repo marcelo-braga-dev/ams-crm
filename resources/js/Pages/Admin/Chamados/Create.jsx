@@ -1,69 +1,69 @@
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
-
-import React from 'react';
-import {useForm} from '@inertiajs/react';
+import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import {TextField} from "@mui/material";
-import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
+import {useState} from "react";
 
-export default function Create({pedido}) {
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import {useForm} from "@inertiajs/inertia-react";
+import {router} from "@inertiajs/react";
 
-    const {setData, post} = useForm({
-        id: pedido.pedido.id
-    });
+export default function ({pedido}) {
+    const [qtdAnexos, setQtdAnexos] = useState(2)
+
+    const {data, setData} = useForm({
+        pedido_id: pedido
+    })
+
+    const anesxos = () => {
+        let a = [];
+        for (let i = 1; i <= qtdAnexos; i++) {
+            a.push(
+                <div key={i} className="col-md-4 mb-4">
+                    <TextField type="file" label="Anexos" InputLabelProps={{shrink: true}} fullWidth
+                               onChange={e => setData('anexos', {...data?.anexos, [i]: e.target.files[0]})}/>
+                </div>
+            )
+        }
+        return a
+    }
 
     function submit(e) {
         e.preventDefault()
-        post(route('admin.chamado.store'))
+        router.post(route('admin.chamados.store'), {...data})
     }
 
     return (
-        <Layout container titlePage="Abrir SAQ" voltar={route('admin.pedidos.index')}
-                menu="sac" submenu="chamados">
+        <Layout titlePage="Cadastrar SAC" empty menu="sac" submenu="sac-chamados">
             <form onSubmit={submit}>
-                <div className="row mb-4">
-                    <div className="col">
-                        <DadosPedidoMinimo dados={pedido}/>
+                <div className="card card-body mb-4">
+                    <div className="row mb-4">
+                        <div className="col">
+                            <TextField label="Título" fullWidth required onChange={e => setData('titulo', e.target.value)}/>
+                        </div>
+                    </div>
+
+                    <div className="row mb-4">
+                        <div className="col">
+                            <TextField label="Mensagem" multiline rows="4" fullWidth required
+                                       onChange={e => setData('msg', e.target.value)}/>
+                        </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-12 mb-4">
-                        <TextField label="Título" fullWidth required
-                                   onChange={e => setData('titulo', e.target.value)}></TextField>
+
+                <div className="card card-body mb-4">
+                    <div className="row mb-3">
+                        <div className="col-auto"><span className="me-4">Anexos</span></div>
+                        <div className="col-auto"><RemoveIcon sx={{fontSize: 18}} onClick={() => setQtdAnexos(e => e > 1 ? --e : 1)}/></div>
+                        <div className="col-auto"><span><b>{qtdAnexos}</b></span></div>
+                        <div className="col-auto"><AddIcon sx={{fontSize: 18}} onClick={() => setQtdAnexos(e => ++e)}/></div>
+                    </div>
+                    <div className="row row-cols-3">
+                        {anesxos()}
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-md-12 mb-4">
-                        <TextField multiline rows={6} label="Mensagem" fullWidth required
-                                   onChange={e => setData('mensagem', e.target.value)}></TextField>
-                    </div>
-                </div>
-                <div className="row mb-4">
-                    <div className="col-md-6 mb-3">
-                        <TextField type="file" fullWidth
-                                   onChange={e => setData('anexo_1', e.target.files[0])}>
-                        </TextField>
-                    </div>
-                    <div className="col-md-6 mb-3">
-                        <TextField type="file" fullWidth
-                                   onChange={e => setData('anexo_2', e.target.files[0])}>
-                        </TextField>
-                    </div>
-                </div>
-                <div className="row text-center">
-                    <div className="col">
-                        <button className="btn btn-primary">Abrir SAC</button>
-                    </div>
-                </div>
+                <button className="btn btn-primary">Salvar</button>
             </form>
+
         </Layout>
     )
 }
-
-
-
-
-
-
-
-
-

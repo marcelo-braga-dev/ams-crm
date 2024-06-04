@@ -198,7 +198,7 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                 </TabPanel>
                 <TabPanel value={value} index={5}>
                     <h6>SAC</h6>
-                    <a href={route('admin.chamado.create', {id: pedido.pedido.id})}
+                    <a href={route('admin.chamados.create', {id: pedido.pedido.id})}
                        className="btn btn-primary">
                         ABRIR SAC
                     </a>

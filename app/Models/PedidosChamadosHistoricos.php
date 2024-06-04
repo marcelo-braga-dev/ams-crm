@@ -22,10 +22,11 @@ class PedidosChamadosHistoricos extends Model
         'prazo'
     ];
 
-    public function create($idPedidos, $idChamado, $status, $msg, $prazo, $dados)
+    public function create($idPedidos, $idChamado, $status, $msg, $prazo, $anexos)
     {
-        $anexo1 = (new Images())->armazenar($dados, 'anexo_1', 'chamados-anexos');
-        $anexo2 = (new Images())->armazenar($dados, 'anexo_2', 'chamados-anexos');
+        foreach ($anexos as $anexo) {
+            $anexo2 = (new Images())->armazenarSeparado($anexo, 'chamados-anexos');
+        }
 
         $this->newQuery()
             ->create([

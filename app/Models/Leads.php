@@ -840,7 +840,8 @@ class Leads extends Model
                         'status_nome' => (new StatusLeads())->nome($item->status),
                         'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
                         'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
-                        'pedido_emitido' => $item->pedido_emitido
+                        'pedido_emitido' => $item->pedido_emitido,
+                        'encaminhado_data' => $item->data_encaminhado ? date('d/m/y H:i', strtotime($item->data_encaminhado)) : null,
                     ]
                 ];
             });

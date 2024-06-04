@@ -24,11 +24,7 @@ function TabPanel(props) {
             aria-labelledby={`simple-tab-${index}`}
             {...other}
         >
-            {value === index && (
-                <Box sx={{p: 3}}>
-                    {children}
-                </Box>
-            )}
+            {value === index && children}
         </div>
     );
 }
@@ -48,9 +44,9 @@ export default function Pedidos({dados, produtos, historico}) {
     };
 
     return (
-        <Layout titlePage="Pedidos" menu="pedidos-lista" voltar={route('consultor.pedidos.index', {id_card: dados.pedido.id})}>
+        <Layout empty titlePage="Pedidos" menu="pedidos-lista" voltar={route('consultor.pedidos.index', {id_card: dados.pedido.id})}>
             <Box sx={{width: '100%'}}>
-                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                <div className="card card-body mb-4">
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="Pedido" {...a11yProps(0)} />
                         <Tab label="Cliente" {...a11yProps(1)} />
@@ -58,8 +54,10 @@ export default function Pedidos({dados, produtos, historico}) {
                         <Tab label="Anexos" {...a11yProps(3)} />
                         <Tab label="Histórico" {...a11yProps(3)} />
                     </Tabs>
-                </Box>
-                <TabPanel value={value} index={0}>
+                </div>
+
+
+                <TabPanel value={value} index={0} className="p-0 m-0 ">
                     <div className="card card-body mb-4">
                         <div className="row">
                             <div className="col-md-8">
@@ -67,13 +65,15 @@ export default function Pedidos({dados, produtos, historico}) {
                             </div>
                         </div>
                     </div>
-                    <div className="card card-body mb-4">
-                        <div className="row">
-                            <div className="col">
-                                <DadosProdutos dados={produtos}/>
+                    {!!produtos.length &&
+                        <div className="card card-body mb-4">
+                            <div className="row">
+                                <div className="col">
+                                    <DadosProdutos dados={produtos}/>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <div className="card card-body mb-4">
@@ -85,11 +85,12 @@ export default function Pedidos({dados, produtos, historico}) {
                 <TabPanel value={value} index={2}>
                     <div className="card card-body mb-4">
                         <div className="row">
-                            <div className="col mb-4">
+                            <div className="col">
                                 <DadosPedidoFinanceiro dados={dados}/>
                             </div>
                         </div>
                     </div>
+                    {(dados.pedido_files.planilha_pedido || !!dados.length) &&
                     <div className="card card-body mb-4">
                         <div className="row row-cols-4">
                             {dados.pedido_files.planilha_pedido &&
@@ -100,7 +101,7 @@ export default function Pedidos({dados, produtos, historico}) {
                             }
                             <DadosPedidoFinanceiroFiles dados={dados}/>
                         </div>
-                    </div>
+                    </div>}
                 </TabPanel>
                 <TabPanel value={value} index={3}>
                     <DadosPedidoFiles dados={dados}/>

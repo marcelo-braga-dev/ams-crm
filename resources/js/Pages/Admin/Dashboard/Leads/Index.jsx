@@ -82,7 +82,7 @@ export default function ({mes, ano, setores}) {
                                 <thead>
                                 <tr>
                                     <th>Nome</th>
-                                    <th className="text-center">Atendimento</th>
+                                    <th className="text-center">Pré Atendimento</th>
                                     <th className="text-center">Encaminhados</th>
                                     <th className="text-center">Ativados</th>
                                     <th className="text-center">Finalizados</th>

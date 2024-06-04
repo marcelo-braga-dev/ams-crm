@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Admin\Chamados;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
-use App\Models\PedidosChamados;
-use App\Models\PedidosChamadosHistoricos;
-use App\Services\Chamados\ChamadoDadosCardService;
-use App\Services\Chamados\MensagensChamadosService;
-use App\src\Chamados\Status\FinalizadosChamadoStatus;
-use App\src\Chamados\Status\NovoChamadoStatus;
-use App\src\Chamados\Status\RespondidoChamadoStatus;
+use App\Models\Sac;
+use App\Models\SacMensagens;
+use App\Services\Chamados\CardsService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,59 +14,31 @@ class ChamadosController extends Controller
 {
     public function index()
     {
-        $dados = (new ChamadoDadosCardService())->cardsAdmin();
+        $sac = (new CardsService())->cards();
 
-        return Inertia::render('Admin/Chamados/Index', compact('dados'));
-    }
-
-    public function show($id)
-    {
-        $chamado = (new PedidosChamados())->get($id);
-        $pedido = (new Pedidos())->getDadosPedido($chamado['id_pedido']);
-        $mensagens = (new MensagensChamadosService())->mensagens($id);
-
-        return Inertia::render('Admin/Chamados/Show',
-            compact('chamado', 'pedido', 'mensagens'));
+        return Inertia::render('Admin/Chamados/Index', compact('sac'));
     }
 
     public function create(Request $request)
     {
-        $pedido = (new Pedidos())->getDadosPedido($request->id);
+        $pedido = $request->pedido_id;
 
         return Inertia::render('Admin/Chamados/Create', compact('pedido'));
     }
 
     public function store(Request $request)
     {
-        (new NovoChamadoStatus())
-            ->create($request->id, $request->titulo, $request->mensagem, $request);
+        (new Sac())->create($request);
 
-        modalSucesso('Chamado criado com sucesso!');
-        return redirect()->route('admin.chamado.index');
+        modalSucesso('SAC aberto com sucesso!');
+        return redirect()->route('admin.chamados.index');
     }
 
-    public function edit($id)
+    public function update($id, Request $request)
     {
-        $chamado = (new PedidosChamados())->get($id);
-        $pedido = (new Pedidos())->getDadosPedido($chamado['id_pedido']);
-        $mensagens = (new MensagensChamadosService())->mensagens($id);
+        (new SacMensagens())->create($id, $request);
 
-        return Inertia::render('Admin/Chamados/Edit',
-            compact('chamado', 'pedido', 'mensagens'));
-    }
-
-    public function update(Request $request)
-    {
-        if ($request->finalizar) {
-            (new FinalizadosChamadoStatus())
-                ->updateStatus($request->id_pedido, $request->id_chamado, $request->mensagem, $request);
-            (new Pedidos())->updateChamado($request->id_pedido, 0);
-            return redirect()->route('admin.chamado.index');
-        } else {
-            (new RespondidoChamadoStatus())
-                ->responder($request->id_pedido, $request->id_chamado, $request->mensagem, $request);
-        }
-
+        modalSucesso('Mensagem adicionada com sucesso!');
         return redirect()->back();
     }
 }

@@ -30,7 +30,7 @@ class PedidosChamados extends Model
             ->create([
                 'pedido_id' => $idPedido,
                 'consultor' => $idConsultor,
-                'admin' => auth()->id(),
+                'admin' => id_usuario_atual(),
                 'cliente' => $idCliente,
                 'status' => $status,
                 'status_data' => now(),

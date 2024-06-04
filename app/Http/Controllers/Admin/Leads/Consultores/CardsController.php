@@ -28,7 +28,8 @@ class CardsController extends Controller
     {
         (new Leads())->setConsultor([$request->id], null);
 
-        return redirect()->route('admin.leads.consultores-cards.index', ['id' => $request->consultor]);
+        modalSucesso('Consultor(a) removido com sucesso!');
+        return redirect()->back();
     }
 
     public function update(Request $request)

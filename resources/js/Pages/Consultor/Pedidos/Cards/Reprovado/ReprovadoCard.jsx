@@ -1,7 +1,8 @@
 import CardPedidos from "../CardPedidos";
-import MenuMore from './MenuMore';
+
 import BtnAvancaStatus from "./BtnAvancaStatus";
 import AlertsCard from "./AlertsCard";
+import MenuMore from "@/Pages/Consultor/Pedidos/Cards/MenuMore";
 
 export default function CardReprovado({dados, cor}) {
     return (

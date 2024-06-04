@@ -10,6 +10,9 @@ use App\src\Chamados\Status\NovoChamadoStatus;
 use App\src\Chamados\Status\RespondidoChamadoStatus;
 use DateTime;
 
+/**
+ * @deprecated
+ */
 class ChamadoDadosCardService
 {
     //private $dados;
@@ -82,5 +85,9 @@ class ChamadoDadosCardService
         $saida = new DateTime(date('Y-m-d H:i:s', strtotime("+$prazoLimite days", strtotime($prazoData))));
 
         return $saida->diff($entrada)->invert ? null : 1;
+    }
+
+    public function cards()
+    {
     }
 }

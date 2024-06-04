@@ -12,8 +12,6 @@ export default function Show({dados, historicos, consultores}) {
         consultor: dados.consultor.id
     });
 
-    const [qtdHistorico, setQtqHistorico] = useState(historicos.length);
-
     function remover() {
         post(route('admin.leads.limpar-consultor', {id: dados.id, consultor: dados.consultor.id}))
     }
@@ -124,7 +122,7 @@ export default function Show({dados, historicos, consultores}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => remover()}>Remover
+                                    onClick={() => remover()}>Remover Consultor(a)
                             </button>
                         </div>
                     </div>

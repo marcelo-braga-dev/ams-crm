@@ -7,8 +7,10 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {IconButton} from "@mui/material";
 
-export default function ImagePdf({url, string}) {
+export default function ImagePdf({url, string, urlRaiz}) {
     const [lightboxOpen, setLightboxOpen] = useState(false);
+
+    const urlCompleta = urlRaiz ? url : (url ? "/storage/" + url : string)
     const closeLightbox = () => {
         setLightboxOpen(false);
     };
@@ -16,14 +18,13 @@ export default function ImagePdf({url, string}) {
 
     if (url && url.split('.').pop() === 'pdf') {
         return (
-            <a className="btn btn-danger mt-2" href={"/storage/" + url} target="_blank">
+            <a className="btn btn-danger mt-2" href={urlCompleta} target="_blank">
                 <i className="fas fa-file-pdf pe-2" style={{fontSize: 25}}></i> Abrir PDF
             </a>
         )
     }
 
     if (url || string) {
-        const urlCompleta = url ? "/storage/" + url : string
 
         return (
             <div className="row mx-auto">

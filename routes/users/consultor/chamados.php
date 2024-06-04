@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\Consultor\Chamados\AbertoController;
+use App\Http\Controllers\Consultor\Chamados\AtendimentoController;
+use App\Http\Controllers\Consultor\Chamados\FinalizadoController;
 use App\Http\Controllers\Consultor\Chamados\ChamadosController;
-use App\Http\Controllers\Consultor\Chamados\NovoController;
-use App\Http\Controllers\Consultor\Chamados\RespostasController;
 use Illuminate\Support\Facades\Route;
 
 // Chamados
@@ -17,6 +18,11 @@ Route::middleware(['auth', 'auth.consultores'])
     ->name('consultor.chamado.')
     ->prefix('consultor/chamado')
     ->group(function () {
-        Route::resource('novo', NovoController::class);
-        Route::resource('responder', RespostasController::class);
+        Route::resource('aberto', AbertoController::class);
+        Route::resource('atendimento', AtendimentoController::class);
+        Route::resource('finalizado', FinalizadoController::class);
+
+        Route::post('aberto', [AbertoController::class, 'avancarStatus'])->name('aberto.avancar');
+        Route::post('atendimento', [AtendimentoController::class, 'avancarStatus'])->name('atendimento.avancar');
+        Route::post('finalizado', [FinalizadoController::class, 'avancarStatus'])->name('finalizado.avancar');
     });
