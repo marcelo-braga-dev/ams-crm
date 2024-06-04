@@ -6,24 +6,87 @@ use App\Services\Images;
 use App\src\Produtos\ProdutosStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Produtos extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'fornecedores_id',
+        'fornecedor_id',
+        'categoria_id',
         'setores_id',
+        'unidade_id',
         'nome',
         'preco_fornecedor',
         'preco_venda',
-        'unidade',
+//        'unidade',
         'estoque_local',
-        'categoria',
+//        'categoria',
         'descricao',
         'url_foto'
     ];
 
+    private function joinsAdd(Model $query)
+    {
+        return $query->leftJoin('produtos_fornecedores', 'produtos.fornecedor_id', '=', 'produtos_fornecedores.id')
+            ->leftJoin('produtos_categorias', 'produtos.categoria_id', '=', 'produtos_categorias.id')
+            ->leftJoin('produtos_unidades', 'produtos.unidade_id', '=', 'produtos_unidades.id')
+            ->leftJoin('produtos_transitos', 'produtos.id', '=', 'produtos_transitos.produtos_id')
+            ->groupBy('produtos.id')
+            ->orderBy('produtos.nome');
+    }
+
+    private function colunas()
+    {
+        return ['produtos.*', 'produtos_categorias.nome as categoria_nome', 'produtos_fornecedores.nome as fornecedor',
+            'produtos_unidades.nome as unidade as unidade', 'produtos_unidades.valor as unidade_valor',
+            DB::raw('CAST(produtos_transitos.qtd AS SIGNED) as estoque_transito'),
+            DB::raw('DATE_FORMAT(produtos.created_at, "%d/%m/%Y %H:%i:%s") as data_cadastro'),
+            DB::raw('(SELECT is_financeiro FROM users WHERE id = 2) as financeiro')
+        ];
+    }
+
+    private function dado($item)
+    {
+        return [
+            'id' => $item->id,
+            'nome' => $item->nome,
+            'foto' => $item->url_foto ? asset('storage/' . $item->url_foto) : '',
+            'fornecedor' => $item->fornecedor,
+            'descricao' => $item->descricao,
+            'preco' => $item->preco_venda,
+            'preco_custo' => $item->financeiro ? $item->preco_fornecedor : null,
+            'unidade' => $item->unidade_valor . ' ' . $item->unidade,
+            'categoria_nome' => $item->categoria_nome,
+            'estoque' => $item->estoque_local ?? 0,
+            'estoque_transito' => $item->estoque_transito ?? 0,
+            'data_cadastro' => $item->data_cadastro,
+        ];
+    }
+
+    public function produto($id = null)
+    {
+        $item = $this->joinsAdd($this)
+            ->where('produtos.id', $id)
+            ->first($this->colunas());
+
+        return $this->dado($item);
+    }
+
+    public function produtos($id = null)
+    {
+        return $this->joinsAdd($this)
+            ->where($id ? ['produtos.id' => $id] : null)
+            ->get($this->colunas())
+            ->transform(function ($item) {
+                return $this->dado($item);
+            });
+    }
+
+    /**
+     * @deprecated
+     */
     public function getProdutos($idFornecedor)
     {
         $categorias = (new ProdutosCategorias())->getNomes();

@@ -15,6 +15,12 @@ const dashboard = {
             icon: Inventory2OutlinedIcon,
             submenu: [
                 {
+                    id: 'produtos-cadastrados',
+                    chave: chaves.produtos.cadastrados,
+                    title: 'Produtos',
+                    type: 'item',
+                    url: route('admin.produtos.index'),
+                }, {
                     id: 'produtos-lista',
                     chave: chaves.produtos.cadastrados,
                     title: 'Todos Produtos',

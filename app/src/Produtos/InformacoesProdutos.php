@@ -2,7 +2,7 @@
 
 namespace App\src\Produtos;
 
-use App\Models\ProdutosInformacoes;
+use App\Models\ProdutosDados;
 use App\Services\Images;
 
 class InformacoesProdutos
@@ -40,22 +40,22 @@ class InformacoesProdutos
 
     public function setUtilidade($id, $valor)
     {
-        (new ProdutosInformacoes())->create($id, $this->utilidade, $valor);
+        (new ProdutosDados())->create($id, $this->utilidade, $valor);
     }
 
     public function setModoUsar($id, $valor)
     {
-        (new ProdutosInformacoes())->create($id, $this->modoUsar, $valor);
+        (new ProdutosDados())->create($id, $this->modoUsar, $valor);
     }
 
     public function setVantagens($id, $valor)
     {
-        (new ProdutosInformacoes())->create($id, $this->vantagens, $valor);
+        (new ProdutosDados())->create($id, $this->vantagens, $valor);
     }
 
     public function setDuvidas($id, $valor)
     {
-        (new ProdutosInformacoes())->create($id, $this->duvidas, $valor);
+        (new ProdutosDados())->create($id, $this->duvidas, $valor);
     }
 
     public function setGaleria($id, $valor)
@@ -63,7 +63,7 @@ class InformacoesProdutos
         if ($valor)
             foreach ($valor as $item) {
                 $url = (new Images())->armazenarSeparado($item, 'produtos/galeria');
-                (new ProdutosInformacoes())->createGaleria($id, $this->galeria, $url);
+                (new ProdutosDados())->createGaleria($id, $this->galeria, $url);
             }
     }
 }

@@ -14,7 +14,9 @@ return new class extends Migration {
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('fornecedores_id');
+            $table->unsignedBigInteger('fornecedor_id')->nullable();
+            $table->unsignedBigInteger('categoria_id')->nullable();
+            $table->unsignedBigInteger('unidade_id')->nullable();
             $table->string('nome');
             $table->string('descricao')->nullable();
             $table->float('preco_fornecedor')->nullable();
@@ -24,6 +26,10 @@ return new class extends Migration {
             $table->integer('categoria');
             $table->string('url_foto')->nullable();
             $table->timestamps();
+
+            $table->foreign('fornecedor_id')->references('id')->on('produtos_fornecedores');
+            $table->foreign('categoria_id')->references('id')->on('produtos_categorias');
+            $table->foreign('unidade_id')->references('id')->on('produtos_unidades');
         });
     }
 

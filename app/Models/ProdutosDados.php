@@ -6,7 +6,7 @@ use App\src\Produtos\InformacoesProdutos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProdutosInformacoes extends Model
+class ProdutosDados extends Model
 {
     use HasFactory;
 

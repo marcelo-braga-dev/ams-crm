@@ -8,6 +8,7 @@ use App\Models\LeadsEncaminhados;
 use App\Models\LeadsStatusHistoricos;
 use App\Models\Setores;
 use App\Models\User;
+use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -20,8 +21,6 @@ class LeadsController extends Controller
         $ano = $request->ano ?? date('Y');
 
         $setores = (new Setores())->get();
-
-//        print_pre((new Leads())->relatorioLeads());
 
         return Inertia::render('Admin/Dashboard/Leads/Index',
             compact('mes', 'ano', 'setores'));
@@ -43,7 +42,8 @@ class LeadsController extends Controller
         $statusQtds = [
             'pre_atendimento' => (new LeadsStatusHistoricos())->periodoStatus((new PreAtendimentoStatusLeads())->getStatus(), $mes, $ano),
             'encaminhados' => (new LeadsEncaminhados())->relatorio($mes, $ano),
-            'ativos' => (new LeadsEncaminhados())->ativosQtd($mes, $ano)
+            'ativos' => (new LeadsEncaminhados())->ativosQtd($mes, $ano),
+            'finalizados' => (new LeadsStatusHistoricos())->periodoStatus((new FinalizadoStatusLeads())->getStatus(), $mes, $ano),
         ];
 
         $statusHistoricos = (new LeadsStatusHistoricos())->qtdUsuarios($mes, $ano);

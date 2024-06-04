@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
-use App\Models\ProdutosInformacoes;
+use App\Models\ProdutosDados;
 use App\Models\ProdutosUnidades;
 use App\Services\Fornecedores\FornecedoresService;
 use App\Services\Setores\SetoresService;
@@ -58,7 +58,7 @@ class ProdutosFornecedoresController extends Controller
         $fornecedor = (new Fornecedores())->find($produto['fornecedores_id']);
         $categorias = (new ProdutosCategorias())->categorias();
         $unidades = (new ProdutosUnidades())->get();
-        $infos = (new ProdutosInformacoes())->get($id);
+        $infos = (new ProdutosDados())->get($id);
 
         return Inertia::render(
             'Admin/Produtos/Edit',
