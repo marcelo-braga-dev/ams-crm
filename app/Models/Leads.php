@@ -144,6 +144,7 @@ class Leads extends Model
                 $status = $isSdr ? (new NovoStatusLeads())->getStatus() : (new AbertoStatusLeads())->getStatus();
                 $isSdr ? $sdr = $usuario : $vendedor = $usuario;
             }
+            if ($importacao) $status = (new NovoStatusLeads())->getStatus();
 
             $verificacaoCnpj = null;
             $verificacaoTel = null;
