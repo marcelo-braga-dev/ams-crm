@@ -138,12 +138,12 @@ export default function ({usuario, ano, mes}) {
             <div className="mb-4 border card card-body">
                 <div className="px-4 row row-cols-3">
                     <div className="col">
-                        <span><b>Meta:</b> R$ {convertFloatToMoney(metaMes)}</span>
+                        <span><b>Meta:</b> R$ {convertFloatToMoney(metaMes ?? 0)}</span>
                     </div>
                     <div className="col">
                         <span
                             className={margemAtingida ? (margemAtingida >= 100 ? 'text-success' : 'text-danger') : ''}>
-                            <b>Alcançado:</b> R$ {convertFloatToMoney(vendasMes)} {margemAtingida ? `(${convertFloatToMoney(margemAtingida)}%)` : ''}
+                            <b>Alcançado:</b> R$ {convertFloatToMoney(vendasMes ?? 0)} {margemAtingida ? `(${convertFloatToMoney(margemAtingida ?? 0)}%)` : ''}
                         </span>
                     </div>
                 </div>
@@ -151,12 +151,12 @@ export default function ({usuario, ano, mes}) {
                 {vendasEquipe > 0 &&
                     <div className="px-4 row row-cols-3">
                         <div className="col">
-                            <span><b>Meta da Equipe:</b> R$ {convertFloatToMoney(metasEquipe)}</span>
+                            <span><b>Meta da Equipe:</b> R$ {convertFloatToMoney(metasEquipe ?? 0)}</span>
                         </div>
                         <div className="col">
                             <span
                                 className={margemAtingidaEquipe ? (margemAtingidaEquipe >= 100 ? 'text-success' : 'text-danger') : ''}>
-                                <b>Alcançado pela Equipe:</b> R$ {convertFloatToMoney(vendasEquipe)} {margemAtingidaEquipe ? `(${convertFloatToMoney(margemAtingidaEquipe)}%)` : ''}
+                                <b>Alcançado pela Equipe:</b> R$ {convertFloatToMoney(vendasEquipe ?? 0)} {margemAtingidaEquipe ? `(${convertFloatToMoney(margemAtingidaEquipe ?? 0)}%)` : ''}
                             </span>
                         </div>
                     </div>
@@ -167,7 +167,7 @@ export default function ({usuario, ano, mes}) {
                 <div className="row">
                     <div className="mb-2 col">
                         <span
-                            className="text-lg d-block"><b>Salário Total: R$ {convertFloatToMoney(registros?.total)}</b></span>
+                            className="text-lg d-block"><b>Salário Total: R$ {convertFloatToMoney(registros?.total ?? 0)}</b></span>
                     </div>
                 </div>
                 <div className="row row-cols-4">
@@ -176,7 +176,7 @@ export default function ({usuario, ano, mes}) {
                         <div className="border card card-body">
                             <span className="mb-3"><b>Salário Fixo</b></span>
                             <TextField fullWidth label="Valor Salário"
-                                       value={(data?.salario_fixo?.valor ?? convertFloatToMoney(registros?.salario_fixo?.valor)) ?? ''}
+                                       value={(data?.salario_fixo?.valor ?? convertFloatToMoney(registros?.salario_fixo?.valor ?? 0)) ?? ''}
                                        InputProps={startAdornment}
                                        onChange={e => {
                                            setData({
@@ -246,7 +246,7 @@ export default function ({usuario, ano, mes}) {
                             <div className="row">
                                 <div className="col">
                                     <TextField fullWidth label="Valor Prêmio" InputProps={endAdornment}
-                                               value={(data?.premio?.margem ?? convertFloatToMoney(registros?.premio?.margem, 3)) ?? ''}
+                                               value={(data?.premio?.margem ?? convertFloatToMoney(registros?.premio?.margem ?? 0, 3)) ?? ''}
                                                onChange={e => {
                                                    setData({
                                                        'premio': {
@@ -259,7 +259,7 @@ export default function ({usuario, ano, mes}) {
                                                }}/>
                                 </div>
                                 <div className="pt-2 col">
-                                    R$ {convertFloatToMoney((data?.premio?.margem ? convertMoneyFloat(data?.premio?.margem, 3) : registros?.premio?.margem) * vendasMes / 100)}
+                                    R$ {convertFloatToMoney((data?.premio?.margem ? convertMoneyFloat(data?.premio?.margem ?? 0, 3) : registros?.premio?.margem) * vendasMes / 100)}
                                 </div>
                             </div>
                             <br/>
@@ -322,7 +322,7 @@ export default function ({usuario, ano, mes}) {
                         <div className="border card card-body">
                             <span className="mb-3"><b>Prêmio Extra</b></span>
                             <TextField fullWidth label="Valor Prêmio"
-                                       value={(data?.premio_extra?.valor ?? convertFloatToMoney(registros?.premio_extra?.valor)) ?? ''}
+                                       value={(data?.premio_extra?.valor ?? convertFloatToMoney(registros?.premio_extra?.valor ?? 0)) ?? ''}
                                        InputProps={startAdornment}
                                        onChange={e => {
                                            setData({
@@ -392,7 +392,7 @@ export default function ({usuario, ano, mes}) {
                         <div className="border card card-body">
                             <span className="mb-3"><b>Prêmio Mensal</b></span>
                             <TextField fullWidth label="Valor do Prêmio"
-                                       value={(data?.bonus?.valor ?? convertFloatToMoney(registros?.bonus?.valor)) ?? ''}
+                                       value={(data?.bonus?.valor ?? convertFloatToMoney(registros?.bonus?.valor ?? 0)) ?? ''}
                                        InputProps={startAdornment}
                                        onChange={e => {
                                            setData({
