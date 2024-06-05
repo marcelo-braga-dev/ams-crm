@@ -6,9 +6,12 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import {useForm} from "@inertiajs/inertia-react";
 import {router} from "@inertiajs/react";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 export default function ({pedido}) {
     const [qtdAnexos, setQtdAnexos] = useState(2)
+    const [avaria, setAraria] = useState(false)
 
     const {data, setData} = useForm({
         pedido_id: pedido
@@ -32,6 +35,7 @@ export default function ({pedido}) {
         router.post(route('consultor.chamados.store'), {...data})
     }
 
+    console.log(avaria)
     return (
         <Layout titlePage="Cadastrar SAC" empty menu="sac-chamados">
             <form onSubmit={submit}>
@@ -48,6 +52,45 @@ export default function ({pedido}) {
                                        onChange={e => setData('msg', e.target.value)}/>
                         </div>
                     </div>
+                </div>
+
+                <div className="card card-body mb-4">
+                    <div className="row">
+                        <div className="col">
+                            <FormControlLabel label="Avarias?" control={
+                                <Switch checked={avaria} onChange={e => setAraria(e.target.checked)}/>}/>
+                        </div>
+                    </div>
+                    {avaria && <>
+                        <div className="row mb-4 mt-2">
+                            <div className="col-3">
+                                <TextField label="Número da Nota Fiscal" required fullWidth/>
+                            </div>
+                            <div className="col-3">
+                                <FormControlLabel control={<Switch/>} label="Foi agendado a entrega?"/>
+                            </div>
+                            <div className="col-3">
+                                <FormControlLabel control={<Switch/>} label="Material estava paletizado?"/>
+                            </div>
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col">
+                                <TextField type="file" label="Imagem Ressalva no Ct-e (conhecimento de transporte ou na NF)"
+                                           InputLabelProps={{shrink: true}} fullWidth required
+                                           onChange={e => setData('anexos', {...data?.anexos, [i]: e.target.files[0]})}/>
+                            </div>
+
+                            <div className="col">
+                                <TextField type="file" label="Imagem da Entrega" InputLabelProps={{shrink: true}} fullWidth required
+                                           onChange={e => setData('anexos', {...data?.anexos, [i]: e.target.files[0]})}/>
+                            </div>
+
+                            <div className="col">
+                                <TextField type="file" label="Imagem do Produto Danificado" InputLabelProps={{shrink: true}} fullWidth required
+                                           onChange={e => setData('anexos', {...data?.anexos, [i]: e.target.files[0]})}/>
+                            </div>
+                        </div>
+                    </>}
                 </div>
 
                 <div className="card card-body mb-4">

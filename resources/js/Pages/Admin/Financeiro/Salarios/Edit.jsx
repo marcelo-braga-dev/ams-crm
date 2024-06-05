@@ -14,7 +14,6 @@ const endAdornment = { endAdornment: <InputAdornment position="end">%</InputAdor
 
 export default function ({ usuario, ano, mes }) {
     const [registros, setRegistros] = useState([])
-    const [mesSelecionado, setMesSelecionado] = useState(mes)
     const [anoSelecionado, setAnoSelecionado] = useState(ano)
     const [competenciaSelecionado, setCompetenciaSelecionado] = useState(mes)
 
@@ -24,8 +23,6 @@ export default function ({ usuario, ano, mes }) {
     const [margemAtingidaEquipe, setMargemAtingidaEquipe] = useState(0)
     const [vendasEquipe, setVendasEquipe] = useState(0)
     const [metasEquipe, setMetasEquipe] = useState(0)
-    const [metasAnual, setMetasAnual] = useState([])
-    const [vendasAnual, setVendasAnual] = useState([])
 
     const [vendasMensais, setVendasMensais] = useState([])
     const [metasMensais, setMetasMensais] = useState([])
@@ -39,7 +36,6 @@ export default function ({ usuario, ano, mes }) {
         router.post(route('admin.financeiro.salarios.store', {
             ...data,
             campo: campo,
-            mes: mesSelecionado,
             competencia: competenciaSelecionado,
             ano: anoSelecionado,
             user_id: usuario.id,
@@ -52,14 +48,12 @@ export default function ({ usuario, ano, mes }) {
     function buscarRegistros() {
         axios.get(route('admin.financeiro.salarios.registros', {
             id: usuario.id,
-            mes: mesSelecionado,
             ano: anoSelecionado,
             competencia: competenciaSelecionado,
         })).then(res => {
             setRegistros(res.data.registros)
             setVendasMes(res.data.vendas_mes.vendas)
             setMetaMes(res.data.meta_mes)
-            // setMetasAnual(res.data.metas_anual)
             setMetasEquipe(res.data.metas_equipe)
             setVendasEquipe(res.data.vendas_equipe)
 
@@ -76,7 +70,7 @@ export default function ({ usuario, ano, mes }) {
 
     useEffect(() => {
         buscarRegistros()
-    }, [mesSelecionado, anoSelecionado, competenciaSelecionado]);
+    }, [anoSelecionado, competenciaSelecionado]);
 
     function mascaraMoeda(valor, dig = 2) {
         let valorAlterado = valor.target.value;
@@ -125,8 +119,8 @@ export default function ({ usuario, ano, mes }) {
                 <div className="row">
                     <div className="col-2">
                         <TextField label="Competência" select fullWidth
-                            value={mesSelecionado ?? ''}
-                            onChange={e => setMesSelecionado(e.target.value)}>
+                            value={competenciaSelecionado ?? ''}
+                            onChange={e => setCompetenciaSelecionado(e.target.value)}>
                             {meses.map(item => <MenuItem key={item.mes} value={item.mes}>{item.nome}</MenuItem>)}
                         </TextField>
                     </div>
@@ -209,7 +203,7 @@ export default function ({ usuario, ano, mes }) {
                             <div className="pt-3 row justify-content-between">
                                 <div className="col-auto">
                                     <Switch
-                                        checked={((data?.salario_fixo?.status)?.toString()) ? data?.salario_fixo?.status : registros?.salario_fixo?.status}
+                                        checked={((data?.salario_fixo?.status) === '1') ? data?.salario_fixo?.status === '1' : registros?.salario_fixo?.status === '1'}
                                         onChange={e => {
                                             setData({
                                                 'salario_fixo': {
@@ -219,7 +213,7 @@ export default function ({ usuario, ano, mes }) {
                                             })
                                             setCampoEditar('salario_fixo')
                                         }} />
-                                    <small>{((data?.salario_fixo?.status)?.toString() ? data?.salario_fixo?.status : registros?.salario_fixo?.status) ? 'Pago' : 'Aberto'}</small>
+                                    <small>{((data?.salario_fixo?.status  === '1') ? data?.salario_fixo?.status === '1' : registros?.salario_fixo?.status === '1') ? 'Pago' : 'Aberto'}</small>
                                 </div>
                                 <div className="col-auto">
                                     {campoEditar === 'salario_fixo' &&
@@ -273,7 +267,7 @@ export default function ({ usuario, ano, mes }) {
                                 <div className="pt-3 row justify-content-between">
                                     <div className="col-auto">
                                         <Switch
-                                            checked={((data?.premio?.status)?.toString()) ? data?.premio?.status : registros?.premio?.status}
+                                            checked={((data?.premio?.status === '1')) ? data?.premio?.status === '1' : registros?.premio?.status === '1'}
                                             onChange={e => {
                                                 setData({
                                                     'premio': {
@@ -283,7 +277,7 @@ export default function ({ usuario, ano, mes }) {
                                                 })
                                                 setCampoEditar('premio')
                                             }} />
-                                        <small>{((data?.premio?.status)?.toString() ? data?.premio?.status : registros?.premio?.status) ? 'Pago' : 'Aberto'}</small>
+                                        <small>{((data?.premio?.status) === '1' ? data?.premio?.status === '1' : registros?.premio?.status === '1') ? 'Pago' : 'Aberto'}</small>
                                     </div>
                                     <div className="col-auto">
                                         {campoEditar === 'premio' &&
@@ -341,7 +335,7 @@ export default function ({ usuario, ano, mes }) {
                                                 })
                                                 setCampoEditar('premio_extra')
                                             }} />
-                                        <small>{((data?.premio_extra?.status)?.toString() ? data?.premio_extra?.status : registros?.premio_extra?.status) ? 'Pago' : 'Aberto'}</small>
+                                        <small>{((data?.premio_extra?.status) === '1' ? data?.premio_extra?.status === '1' : registros?.premio_extra?.status === '1') ? 'Pago' : 'Aberto'}</small>
                                     </div>
                                     <div className="col-auto">
                                         {campoEditar === 'premio_extra' &&
@@ -387,7 +381,7 @@ export default function ({ usuario, ano, mes }) {
                             <div className="pt-3 row justify-content-between">
                                 <div className="col-auto">
                                     <Switch
-                                        checked={((data?.bonus?.status)?.toString()) ? data?.bonus?.status : registros?.bonus?.status}
+                                        checked={((data?.bonus?.status) === '1') ? data?.bonus?.status === '1' : registros?.bonus?.status === '1'}
                                         onChange={e => {
                                             setData({
                                                 'bonus': {
@@ -397,7 +391,7 @@ export default function ({ usuario, ano, mes }) {
                                             })
                                             setCampoEditar('bonus')
                                         }} />
-                                    <small>{((data?.bonus?.status)?.toString() ? data?.bonus?.status : registros?.bonus?.status) ? 'Pago' : 'Aberto'}</small>
+                                    <small>{((data?.bonus?.status) === '1' ? data?.bonus?.status === '1' : registros?.bonus?.status === '1') ? 'Pago' : 'Aberto'}</small>
                                 </div>
                                 <div className="col-auto">
                                     {campoEditar === 'bonus' &&

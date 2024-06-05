@@ -29,8 +29,7 @@ class SalariosController extends Controller
     {
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
-//        $metasMensais = (new MetasVendas())->metasMensais(1, 2024);
-//        print_pre($metasMensais);
+
         $usuario = (new User())->get($id);
 
         return Inertia::render('Admin/Financeiro/Salarios/Edit',
@@ -38,7 +37,7 @@ class SalariosController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {//print_pre($request->all());
         (new FinanceirosSalarios())->atualizar($request);
 
         modalSucesso('Informações atualizadas com sucesso!');
@@ -47,7 +46,7 @@ class SalariosController extends Controller
 
     public function registros(Request $request)
     {
-        $mes = $request->mes ?? date('n');
+        $mes = $request->competencia ?? date('n');
         $ano = $request->ano ?? date('Y');
 
         $registros = (new FinanceirosSalarios())->salariosMes($request->id, $mes, $ano);

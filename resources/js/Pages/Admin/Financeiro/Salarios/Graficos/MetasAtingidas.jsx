@@ -18,7 +18,7 @@ const meses = [
 ]
 
 export default function MetasAtingidas({metasMensais, vendasMensais}) {
-console.log(metasMensais)
+
     const mesesNome = meses.map((item) => {
         return item.nome ?? ''
     })
