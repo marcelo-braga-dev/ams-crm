@@ -33,16 +33,16 @@ export default function ({usuario, ano, mes}) {
 
     const submit = (campo) => {
         setCampoEditar(undefined)
-        router.post(route('admin.financeiro.salarios.store', {
-            ...data,
-            campo: campo,
-            competencia: competenciaSelecionado,
-            ano: anoSelecionado,
-            user_id: usuario.id,
-        }), {}, {preserveScroll: true})
+        axios.post(route('admin.financeiro.salarios.store', {
+                 ...data,
+                 campo: campo,
+                 competencia: competenciaSelecionado,
+                 ano: anoSelecionado,
+                 user_id: usuario.id,
+             })).then(res => {
+            buscarRegistros()
+        })
     }
-
-    router.on('success', () =>  buscarRegistros())
 
     function buscarRegistros() {
         axios.get(route('admin.financeiro.salarios.registros', {
