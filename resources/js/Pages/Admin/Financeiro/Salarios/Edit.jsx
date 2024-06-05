@@ -40,10 +40,9 @@ export default function ({usuario, ano, mes}) {
             ano: anoSelecionado,
             user_id: usuario.id,
         }), {}, {preserveScroll: true})
-        buscarRegistros()
     }
 
-    router.on('success', () => setData({}))
+    router.on('success', () =>  buscarRegistros())
 
     function buscarRegistros() {
         axios.get(route('admin.financeiro.salarios.registros', {
@@ -51,6 +50,7 @@ export default function ({usuario, ano, mes}) {
             ano: anoSelecionado,
             competencia: competenciaSelecionado,
         })).then(res => {
+            setData({})
             setRegistros(res.data.registros)
             setVendasMes(res.data.vendas_mes.vendas)
             setMetaMes(res.data.meta_mes)
@@ -390,8 +390,8 @@ export default function ({usuario, ano, mes}) {
                     {/*Bonus*/}
                     <div className="col">
                         <div className="border card card-body">
-                            <span className="mb-3"><b>Bônus do Mês</b></span>
-                            <TextField fullWidth label="Valor do Bônus"
+                            <span className="mb-3"><b>Prêmio Mensal</b></span>
+                            <TextField fullWidth label="Valor do Prêmio"
                                        value={(data?.bonus?.valor ?? convertFloatToMoney(registros?.bonus?.valor)) ?? ''}
                                        InputProps={startAdornment}
                                        onChange={e => {
