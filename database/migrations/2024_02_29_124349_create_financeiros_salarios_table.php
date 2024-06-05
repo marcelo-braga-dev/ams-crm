@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->integer('ano');
-            $table->integer('mes');
             $table->integer('competencia');
 
             $table->string('chave');

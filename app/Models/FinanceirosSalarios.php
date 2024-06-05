@@ -13,7 +13,6 @@ class FinanceirosSalarios extends Model
     protected $fillable = [
         'user_id',
         'ano',
-        'mes',
         'competencia',
 
         'chave',
@@ -27,7 +26,7 @@ class FinanceirosSalarios extends Model
     {
         $salario = $this->newQuery()
             ->where('user_id', $idUsuario)
-            ->where('mes', $mes)
+            ->where('competencia', $mes)
             ->where('ano', $ano)
             ->get();
 
@@ -45,7 +44,7 @@ class FinanceirosSalarios extends Model
     {
         $query = $this->newQuery();
 
-        $filtro = ['chave' => $dados->campo, 'user_id' => $dados->user_id, 'mes' => $dados->mes, 'ano' => $dados->ano, 'competencia' => $dados->competencia];
+        $filtro = ['chave' => $dados->campo, 'user_id' => $dados->user_id, 'ano' => $dados->ano, 'competencia' => $dados->competencia];
 
         if (isset($dados[$dados->campo]['valor']))
             $query->updateOrCreate(
@@ -86,7 +85,15 @@ class FinanceirosSalarios extends Model
         $total = 0;
         foreach ($dados as $item) {
             $dia = intval(date('d', strtotime($item->data_pagamento)));
-            $res[$dia][] = ['tipo' => $tipos[$item->chave] ?? '', 'id' => $item->id, 'user_id' => $item->user_id, 'nome' => $nomes[$item->user_id], 'data' => date('d/m/Y', strtotime($item->data_pagamento)), 'mes' => $item->mes, 'valor' => $item->valor, 'status' => $item->status];;
+            $res[$dia][] = [
+                'tipo' => $tipos[$item->chave] ?? '',
+                'id' => $item->id,
+                'user_id' => $item->user_id,
+                'nome' => $nomes[$item->user_id],
+                'data' => date('d/m/Y', strtotime($item->data_pagamento)),
+                'valor' => $item->valor,
+                'status' => $item->status
+            ];;
             $total += $item->valor;
         }
 

@@ -123,14 +123,6 @@ export default function ({ usuario, ano, mes }) {
             </div>
             <div className="py-4 mb-4 border card card-body">
                 <div className="row">
-
-                    <div className="col-2">
-                        <TextField label="Mês" select fullWidth
-                            value={competenciaSelecionado ?? ''}
-                            onChange={e => setCompetenciaSelecionado(e.target.value)}>
-                            {meses.map(item => <MenuItem key={item.mes} value={item.mes}>{item.nome}</MenuItem>)}
-                        </TextField>
-                    </div>
                     <div className="col-2">
                         <TextField label="Competência" select fullWidth
                             value={mesSelecionado ?? ''}
