@@ -20,6 +20,7 @@ class FinanceirosSalarios extends Model
         'margem',
         'data_pagamento',
         'status',
+        'anotacoes',
     ];
 
     public function salariosMes($idUsuario, $mes, $ano)
@@ -32,6 +33,7 @@ class FinanceirosSalarios extends Model
 
         $res = [];
         $res['total'] = 0;
+
         foreach ($salario as $sal) {
             $res[$sal->chave] = $sal;
             $res['total'] += $sal->valor;
@@ -68,6 +70,12 @@ class FinanceirosSalarios extends Model
             $query->updateOrCreate(
                 $filtro,
                 ['margem' => convert_money_float($dados[$dados->campo]['margem'], 3)]
+            );
+
+        if (isset($dados[$dados->campo]['anotacoes']))
+            $query->updateOrCreate(
+                $filtro,
+                ['anotacoes' => $dados[$dados->campo]['anotacoes']]
             );
     }
 

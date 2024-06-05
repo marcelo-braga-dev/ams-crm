@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->float('margem', 8, 3)->nullable();
             $table->date('data_pagamento')->nullable();
             $table->string('status')->nullable();
+            $table->string('anotacoes')->nullable();
 
             $table->timestamps();
 

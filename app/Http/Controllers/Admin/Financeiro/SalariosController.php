@@ -37,7 +37,8 @@ class SalariosController extends Controller
     }
 
     public function store(Request $request)
-    {//print_pre($request->all());
+    {
+//        print_pre($request->all());
         (new FinanceirosSalarios())->atualizar($request);
 
         modalSucesso('Informações atualizadas com sucesso!');
