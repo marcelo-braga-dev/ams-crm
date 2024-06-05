@@ -364,7 +364,7 @@ export default function ({usuario, ano, mes}) {
                                 <div className="row justify-content-between">
                                     <div className="col-auto">
                                         <Switch
-                                            checked={((data?.premio_extra?.status)?.toString()) ? data?.premio_extra?.status : registros?.premio_extra?.status}
+                                            checked={((data?.premio_extra?.status)?.toString()) ? data?.premio_extra?.status == '1' : registros?.premio_extra?.status == '1'}
                                             onChange={e => {
                                                 setData({
                                                     'premio_extra': {
