@@ -5,8 +5,10 @@ import {useForm} from "@inertiajs/react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
+import {IconButton} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
-export default function Show({dados, historicos, consultores, status, contatos}) {
+export default function Show({dados, historicos, consultores, isEditar, status, contatos}) {
 
     const {data, setData, post} = useForm({
         lead: dados.id,
@@ -61,7 +63,16 @@ export default function Show({dados, historicos, consultores, status, contatos})
             </div>
 
             <div className="card card-body mb-3">
-                <LeadsDados dados={dados}/>
+                <div className="row">
+                    <div className="col"><LeadsDados dados={dados}/></div>
+                    <div className="col-auto">
+                        {isEditar &&
+                            <IconButton color="success"
+                                        href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
+                                <EditIcon/>
+                            </IconButton>}
+                    </div>
+                </div>
             </div>
 
             <div className="card card-body mb-4">
@@ -84,7 +95,7 @@ export default function Show({dados, historicos, consultores, status, contatos})
                     <h6>Atualizar Status do Lead</h6>
                     <div className="row mb-4">
                         <div className="col">
-                        <TextField label="Anotações" multiline rows="2" fullWidth
+                            <TextField label="Anotações" multiline rows="2" fullWidth
                                        onChange={e => setData('msg', e.target.value)}/>
                         </div>
                     </div>

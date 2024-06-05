@@ -8,6 +8,7 @@ use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
 use App\Models\User;
+use App\Models\UsersPermissoes;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\Status\AtivoStatusLeads;
@@ -26,10 +27,11 @@ class PreAtendimentoController extends Controller
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getUsuarios($dados['infos']['setor']);
+        $isEditar = (new UsersPermissoes())->isLeadsEditar(id_usuario_atual());
 
         return Inertia::render(
             'Admin/Leads/Relatorios/Cards/PreAtendimento/Show',
-            compact('dados', 'status', 'historicos', 'contatos', 'consultores')
+            compact('dados', 'status', 'historicos', 'contatos', 'consultores', 'isEditar')
         );
     }
 

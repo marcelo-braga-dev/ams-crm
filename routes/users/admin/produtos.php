@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Produtos\CategoriasController;
 use App\Http\Controllers\Admin\Produtos\EstoqueLocalController;
 use App\Http\Controllers\Admin\Produtos\EstoquesController;
 use App\Http\Controllers\Admin\Produtos\EstoqueTransitoController;
+use App\Http\Controllers\Admin\Produtos\ProdutosController;
 use App\Http\Controllers\Admin\Produtos\ProdutosFornecedoresController;
 use App\Http\Controllers\Admin\Produtos\UnidadesController;
 use Illuminate\Support\Facades\Route;
@@ -13,7 +14,7 @@ Route::middleware(['auth', 'auth.admins'])
     ->name('admin.')
     ->prefix('admin')
     ->group(function () {
-        Route::resource('produtos', \App\Http\Controllers\Admin\Produtos\ProdutosController::class);
+        Route::resource('produtos', ProdutosController::class);
 
 
         Route::resource('produtos-fornecedores', ProdutosFornecedoresController::class);

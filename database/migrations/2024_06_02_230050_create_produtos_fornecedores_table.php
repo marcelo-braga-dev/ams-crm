@@ -14,6 +14,13 @@ return new class extends Migration
         Schema::create('produtos_fornecedores', function (Blueprint $table) {
             $table->id();
             $table->string('nome');
+            $table->integer('setor_id')->nullable();
+            $table->integer('franquia_id')->nullable();
+            $table->integer('cnpj')->nullable();
+            $table->string('atendente')->nullable();
+            $table->integer('telefone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('anotacoes')->nullable();
             $table->timestamps();
         });
     }

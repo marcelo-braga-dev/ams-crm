@@ -20,13 +20,7 @@ const dashboard = {
                     title: 'Produtos',
                     type: 'item',
                     url: route('admin.produtos.index'),
-                }, {
-                    id: 'produtos-lista',
-                    chave: chaves.produtos.cadastrados,
-                    title: 'Todos Produtos',
-                    type: 'item',
-                    url: route('admin.produtos-fornecedores.index'),
-                }, {
+                },{
                     id: 'produtos-categorias',
                     chave: chaves.produtos.categorias,
                     title: 'Categorias',
@@ -39,25 +33,12 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.produtos-unidades.index'),
                 }, {
-                    id: 'produtos-estoques',
-                    chave: chaves.produtos.estoque,
-                    title: 'Estoques',
+                    id: 'produtos-unidades',
+                    chave: chaves.produtos.unidades,
+                    title: 'Configurações',
                     type: 'item',
-                    url: route('admin.config.index'),
-                    submenu: [
-                        {
-                            id: 'produtos-estoques-transito',
-                            title: 'Estoque em Transito',
-                            url: route('admin.estoque-transito.index'),
-                            tag: 'estoque-transito'
-                        }, {
-                            id: 'produtos-estoques-local',
-                            title: 'Estoque Local',
-                            url: route('admin.estoque-local.index'),
-                            tag: 'estoque-local'
-                        }
-                    ]
-                }
+                    url: route('admin.produtos-unidades.index'),
+                },
             ]
         }
     ]

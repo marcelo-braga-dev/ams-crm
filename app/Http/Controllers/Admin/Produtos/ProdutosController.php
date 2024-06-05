@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Admin\Produtos;
 use App\Http\Controllers\Controller;
 use App\Models\Produtos;
 use App\Models\ProdutosDados;
+use App\Models\ProdutosFornecedores;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProdutosController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $produtos = (new Produtos())->produtos();
+        $produtos = (new Produtos())->produtos($request->fornecedor);
+        $fornecedores = (new ProdutosFornecedores());
 
         return Inertia::render('Admin/Produtos/Index', compact('produtos'));
     }
