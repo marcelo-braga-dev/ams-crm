@@ -14,7 +14,7 @@ export default function Create({sac, pedido}) {
     return (
         <Layout empty titlePage="Informações do SAC" menu="sac-chamados" container voltar={route('consultor.chamados.index')}>
             <div className="card card-body mb-4">
-                <SacDados sac={sac} pedido={pedido} />
+                <SacDados sac={sac} pedido={pedido} urlPedido={route('consultor.pedidos.show', sac.pedido_id)} />
             </div>
 
             {/*Historico de Mensagens*/}

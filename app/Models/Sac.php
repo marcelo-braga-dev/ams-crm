@@ -78,13 +78,7 @@ class Sac extends Model
             'titulo' => $item->titulo,
             'pedido_id' => $item->pedido_id,
             'status' => $item->status,
-            'data' => date('d/m/y H:i', strtotime($item->created_at)),
-//            'nota' => $item->nota,
-//            'entrega_agendada' => $item->entrega_agendada,
-//            'paletizado' => $item->paletizado,
-//            'img_cte' => ass $item->img_cte,
-//            'img_entrega' => $item->img_entrega,
-//            'img_produto' => $item->img_produto,
+            'data' => date('d/m/y H:i', strtotime($item->created_at))
         ];
     }
 
@@ -110,6 +104,17 @@ class Sac extends Model
                     }]);
             }])
             ->find($id);
+    }
+
+    public function pedido($id)
+    {
+        return $this->newQuery()
+            ->select('id', 'user_id', 'pedido_id', 'status', 'titulo',
+                DB::raw("DATE_FORMAT(created_at, '%d/%m/%Y %m:%s') AS data"),
+                DB::raw("(SELECT name FROM users WHERE users.id = sacs.user_id) AS autor"),
+                'nota', 'entrega_agendada', 'paletizado', 'img_cte', 'img_entrega', 'img_produto')
+            ->where('pedido_id', $id)
+            ->get();
     }
 
     public function avancarStatus(int $id, string $status)

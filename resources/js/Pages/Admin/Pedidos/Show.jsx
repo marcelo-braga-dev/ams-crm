@@ -1,5 +1,4 @@
 import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
-import Typography from "@mui/material/Typography";
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -15,7 +14,6 @@ import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 import {router, usePage} from "@inertiajs/react";
-import GridOnIcon from '@mui/icons-material/GridOn';
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -28,7 +26,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{p: 3}}>
+                <Box>
                     {children}
                 </Box>
             )}
@@ -43,7 +41,7 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({pedido, produtos, historico, historicoAcompanhamento, urlPrevious}) {
+export default function Pedidos({pedido, produtos, historico, historicoAcompanhamento, sacHistorico, urlPrevious}) {
     const [value, setValue] = React.useState(0);
     const funcaoUsuario = usePage().props.auth.user.is_financeiro == 1
 
@@ -52,28 +50,26 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
     };
 
     return (
-        <Layout container titlePage="Informações do Pedido" menu="pedidos" submenu="pedidos-lista"
-                voltar={urlPrevious}>
-            <Box sx={{width: '100%'}}>
-                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                    <div className="row justify-content-between">
-                        <div className="col">
-                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                <Tab label="Pedido" {...a11yProps(0)} />
-                                <Tab label="Cliente" {...a11yProps(1)} />
-                                <Tab label="Financeiro" {...a11yProps(2)} />
-                                <Tab label="Anexos" {...a11yProps(3)} />
-                                <Tab label="Histórico" {...a11yProps(4)} />
-                                <Tab label="SAC" {...a11yProps(5)} />
-                            </Tabs>
-                        </div>
-                        <div className="col-auto m-0">
-                            <a className="btn btn-primary btn-sm"
-                               href={route('admin.pedidos.edit', pedido.id)}>Editar</a>
-                        </div>
+        <Layout empty titlePage="Informações do Pedido" menu="pedidos" submenu="pedidos-lista" voltar={urlPrevious}>
+            <div className="card card-body mb-4">
+                <div className="row justify-content-between">
+                    <div className="col">
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                            <Tab label="Pedido" {...a11yProps(0)} />
+                            <Tab label="Cliente" {...a11yProps(1)} />
+                            <Tab label="Financeiro" {...a11yProps(2)} />
+                            <Tab label="Anexos" {...a11yProps(3)} />
+                            <Tab label="Histórico" {...a11yProps(4)} />
+                            <Tab label="SAC" {...a11yProps(5)} />
+                        </Tabs>
                     </div>
-
-                </Box>
+                    <div className="col-auto m-0">
+                        <a className="btn btn-primary btn-sm"
+                           href={route('admin.pedidos.edit', pedido.id)}>Editar</a>
+                    </div>
+                </div>
+            </div>
+            <Box sx={{width: '100%'}}>
                 <TabPanel value={value} index={0}>
                     <div className="card card-body mb-4">
                         <div className="row">
@@ -197,11 +193,38 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                     }
                 </TabPanel>
                 <TabPanel value={value} index={5}>
-                    <h6>SAC</h6>
-                    <a href={route('admin.chamados.create', {id: pedido.pedido.id})}
-                       className="btn btn-primary">
-                        ABRIR SAC
-                    </a>
+                    <div className="card card-body">
+                        {!!sacHistorico.length &&
+                            <table className="table">
+                                <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Autor</th>
+                                    <th>Título</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {sacHistorico.map(item => (
+                                    <tr>
+                                        <td className="col-1">{item.data}</td>
+                                        <td className="col-1">{item.status}</td>
+                                        <td className="col-1">{item.autor}</td>
+                                        <td>{item.titulo}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        }
+
+                        {!!!sacHistorico.length && 'Não há registros de SAC.'}
+
+                        <div className="col mt-4">
+                            <a className="btn btn-primary" href={route('admin.chamados.create', {id: pedido.pedido.id})}>
+                                Abrir SAC
+                            </a>
+                        </div>
+                    </div>
                 </TabPanel>
             </Box>
         </Layout>

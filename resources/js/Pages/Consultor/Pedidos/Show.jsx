@@ -1,5 +1,4 @@
 import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
-import Typography from "@mui/material/Typography";
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -36,7 +35,7 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({dados, produtos, historico}) {
+export default function Pedidos({dados, produtos, historico, sacHistorico}) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -52,10 +51,10 @@ export default function Pedidos({dados, produtos, historico}) {
                         <Tab label="Cliente" {...a11yProps(1)} />
                         <Tab label="Financeiro" {...a11yProps(2)} />
                         <Tab label="Anexos" {...a11yProps(3)} />
-                        <Tab label="Histórico" {...a11yProps(3)} />
+                        <Tab label="Histórico" {...a11yProps(4)} />
+                        <Tab label="SAC" {...a11yProps(4)} />
                     </Tabs>
                 </div>
-
 
                 <TabPanel value={value} index={0} className="p-0 m-0 ">
                     <div className="card card-body mb-4">
@@ -137,6 +136,39 @@ export default function Pedidos({dados, produtos, historico}) {
                                 })}
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </TabPanel>
+                <TabPanel value={value} index={5}>
+                    <div className="card card-body">
+                        {!!sacHistorico.length &&
+                            <table className="table">
+                                <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Autor</th>
+                                    <th>Título</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {sacHistorico.map(item => (
+                                    <tr>
+                                        <td className="col-1">{item.data}</td>
+                                        <td className="col-1">{item.status}</td>
+                                        <td className="col-1">{item.autor}</td>
+                                        <td>{item.titulo}</td>
+                                    </tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        }
+                        {!!!sacHistorico.length && 'Não há registros de SAC.'}
+
+                        <div className="col mt-4">
+                            <a className="btn btn-primary" href={route('consultor.chamados.create', {id: dados.pedido.id})}>
+                                Abrir SAC
+                            </a>
                         </div>
                     </div>
                 </TabPanel>

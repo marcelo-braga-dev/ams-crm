@@ -10,6 +10,7 @@ use App\Models\Pedidos;
 use App\Models\PedidosAcompanhamentos;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosProdutos;
+use App\Models\Sac;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Pedidos\CardDadosService;
@@ -39,12 +40,13 @@ class PedidosController extends Controller
         $historico = (new PedidosHistoricos())->historico($id);
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
         $historicoAcompanhamento = (new PedidosAcompanhamentos())->get($id);
+        $sacHistorico = (new Sac())->pedido($id);
 
         $urlPrevious = go_card($id);
 
         return Inertia::render(
             'Admin/Pedidos/Show',
-            compact('pedido', 'historico', 'produtos', 'historicoAcompanhamento', 'urlPrevious')
+            compact('pedido', 'historico', 'produtos', 'historicoAcompanhamento', 'sacHistorico', 'urlPrevious')
         );
     }
 

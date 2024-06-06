@@ -1,7 +1,7 @@
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import React from "react";
 
-export default function SacDados({sac, pedido}) {
+export default function SacDados({sac, pedido, urlPedido}) {
     return (<>
         <h5>Título: {sac.titulo}</h5>
         <div className="row">
@@ -13,7 +13,7 @@ export default function SacDados({sac, pedido}) {
             <div className="col">
                 <span className="d-block">
                     ID do Pedido: #{sac.pedido_id}
-                    <a className="btn btn-link btn-sm text-dark p-0 m-0 ms-4" href={route('consultor.pedidos.show', sac.pedido_id)}>Ver Pedido</a>
+                    <a className="btn btn-link btn-sm text-dark p-0 m-0 ms-4" href={urlPedido}>Ver Pedido</a>
                 </span>
                 <span className="d-block">Status do Pedido: {pedido.pedido.status}</span>
                 <span className="d-block">Integrador: {pedido.integrador.nome}</span>

@@ -13,6 +13,7 @@ use App\Models\PedidosProdutos;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
 use App\Models\ProdutosUnidades;
+use App\Models\Sac;
 use App\Models\Setores;
 use App\Services\Pedidos\CardDadosService;
 use App\src\Modelos\CompletoModelo;
@@ -91,10 +92,11 @@ class PedidosController extends Controller
 
         $historico = (new PedidosHistoricos())->historico($id);
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
+        $sacHistorico = (new Sac())->pedido($id);
 
         return Inertia::render(
             'Consultor/Pedidos/Show',
-            compact('dados', 'historico', 'produtos')
+            compact('dados', 'historico', 'produtos', 'sacHistorico')
         );
     }
 
