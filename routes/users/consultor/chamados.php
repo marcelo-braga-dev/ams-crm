@@ -4,6 +4,7 @@ use App\Http\Controllers\Consultor\Chamados\AbertoController;
 use App\Http\Controllers\Consultor\Chamados\AtendimentoController;
 use App\Http\Controllers\Consultor\Chamados\FinalizadoController;
 use App\Http\Controllers\Consultor\Chamados\ChamadosController;
+use App\Http\Controllers\Consultor\Chamados\PedidoChamadosController;
 use Illuminate\Support\Facades\Route;
 
 // Chamados
@@ -21,6 +22,7 @@ Route::middleware(['auth', 'auth.consultores'])
         Route::resource('aberto', AbertoController::class);
         Route::resource('atendimento', AtendimentoController::class);
         Route::resource('finalizado', FinalizadoController::class);
+        Route::resource('pedido', PedidoChamadosController::class);
 
         Route::post('aberto', [AbertoController::class, 'avancarStatus'])->name('aberto.avancar');
         Route::post('atendimento', [AtendimentoController::class, 'avancarStatus'])->name('atendimento.avancar');

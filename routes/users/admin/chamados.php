@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Chamados\AbertoController;
 use App\Http\Controllers\Admin\Chamados\AtendimentoController;
 use App\Http\Controllers\Admin\Chamados\FinalizadoController;
 
+use App\Http\Controllers\Admin\Chamados\PedidoChamadosController;
 use Illuminate\Support\Facades\Route;
 
 // SAC
@@ -20,6 +21,7 @@ Route::name('admin.chamado.')
         Route::resource('aberto', AbertoController::class);
         Route::resource('atendimento', AtendimentoController::class);
         Route::resource('finalizado', FinalizadoController::class);
+        Route::resource('pedido', PedidoChamadosController::class);
 
         Route::post('aberto', [AbertoController::class, 'avancarStatus'])->name('aberto.avancar');
         Route::post('atendimento', [AtendimentoController::class, 'avancarStatus'])->name('atendimento.avancar');

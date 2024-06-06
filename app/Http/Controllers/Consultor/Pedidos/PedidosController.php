@@ -102,7 +102,6 @@ class PedidosController extends Controller
 
     public function store(Request $request)
     {
-
         try {
             $idPedido = (new Pedido())->salvar($request);
         } catch (\DomainException $exception) {

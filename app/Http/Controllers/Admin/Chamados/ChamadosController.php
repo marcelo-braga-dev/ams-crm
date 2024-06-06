@@ -19,6 +19,22 @@ class ChamadosController extends Controller
         return Inertia::render('Admin/Chamados/Index', compact('sac'));
     }
 
+    public function show($id)
+    {
+        $chamado = (new Sac())->find($id);
+
+        switch ($chamado['status']) {
+            case 'novo':
+                return redirect()->route('admin.chamado.aberto.show', $chamado['id']);
+            case 'atendimento':
+                return redirect()->route('admin.chamado.atendimento.show', $chamado['id']);
+            case 'finalizado':
+                return redirect()->route('admin.chamado.finalizado.show', $chamado['id']);
+            default:
+                redirect()->back();
+        }
+    }
+
     public function create(Request $request)
     {
         $pedido = $request->pedido_id;

@@ -96,7 +96,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
 
             {/* Pills */}
             <Stack direction="row" spacing={1}>
-                {dados.infos.sac ? <a href={route('admin.chamados.pedido.show', dados.id)}>
+                {dados.infos.sac ? <a href={route('admin.chamado.pedido.show', dados.id)}>
                     <span className="badge rounded-pill bg-warning mb-2">
                         <SpeakerNotesIcon className="ml-2"/> SAC
                     </span>

@@ -44,6 +44,7 @@ class Sac extends Model
                 'img_produto' => $produto ?? null,
             ]);
 
+        (new Pedidos())->setSac($dados->pedido_id);
         (new SacMensagens())->create($item->id, $dados);
 
         return $item->id;

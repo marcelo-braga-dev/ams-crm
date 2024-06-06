@@ -149,6 +149,7 @@ export default function Pedidos({dados, produtos, historico, sacHistorico}) {
                                     <th>Status</th>
                                     <th>Autor</th>
                                     <th>Título</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -158,6 +159,7 @@ export default function Pedidos({dados, produtos, historico, sacHistorico}) {
                                         <td className="col-1">{item.status}</td>
                                         <td className="col-1">{item.autor}</td>
                                         <td>{item.titulo}</td>
+                                        <td><a className="btn btn-primary" href={route('consultor.chamados.show', item.id)}>Ver</a></td>
                                     </tr>
                                 ))}
                                 </tbody>

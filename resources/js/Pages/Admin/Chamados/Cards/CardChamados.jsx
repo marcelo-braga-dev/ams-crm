@@ -17,7 +17,6 @@ export default function CardChamados({dados}) {
         <>
             <div className="row bg-white shadow p-1 py-2 m-1 mb-4 rounded">
                 <div className="col-12">
-                    <small className="text-muted d-block">Título:</small>
                     <h6 className="d-block">{dados.titulo}</h6>
                 </div>
                 <div className="col-12">
@@ -32,7 +31,7 @@ export default function CardChamados({dados}) {
                             <small className="">Data: {dados.data}</small>
                         </div>
                         <div className="col-auto">
-                            <small className="text-muted d-block">Prazo: {dados.prazo} dias</small>
+                            {/*<small className="text-muted d-block">Prazo: {dados.prazo} dias</small>*/}
                         </div>
                     </div>
                 </div>

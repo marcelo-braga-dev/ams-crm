@@ -202,6 +202,7 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                                     <th>Status</th>
                                     <th>Autor</th>
                                     <th>Título</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -211,6 +212,7 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                                         <td className="col-1">{item.status}</td>
                                         <td className="col-1">{item.autor}</td>
                                         <td>{item.titulo}</td>
+                                        <td><a className="btn btn-primary btn-sm" href={route('admin.chamados.show', item.id)}>Abrir</a></td>
                                     </tr>
                                 ))}
                                 </tbody>
