@@ -45,9 +45,12 @@ export default function Create({sac, pedido}) {
             <div className="card card-body mb-4">
                 <SacDados sac={sac} pedido={pedido}/>
             </div>
-            <div className="row">
-                <div className="col">
-                    <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Finalizar SAC</button>
+
+            <div className="card card-body mb-4">
+                <div className="row">
+                    <div className="col">
+                        <button className="btn btn-primary mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal">Finalizar SAC</button>
+                    </div>
                 </div>
             </div>
 
