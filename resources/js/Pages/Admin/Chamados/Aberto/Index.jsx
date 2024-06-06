@@ -1,13 +1,10 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import React, {useState} from "react";
-import {useForm} from "@inertiajs/inertia-react";
 import {router} from "@inertiajs/react";
+import SacDados from "@/Partials/SAC/SacDados";
 
 export default function Create({sac, pedido}) {
-
-    const {data, setData} = useForm()
-
     function avancaStatus() {
         router.post(route('admin.chamado.aberto.avancar'), {id: sac.id})
     }
@@ -15,24 +12,12 @@ export default function Create({sac, pedido}) {
     return (
         <Layout empty titlePage="Informações do SAC" menu="sac" submenu="sac-chamados" voltar={route('admin.chamados.index')}>
             <div className="card card-body mb-4">
-                <h5>Título: {sac.titulo}</h5>
-                <div className="row">
-                    <div className="col">
-                        <span className="d-block">Autor: {sac.autor}</span>
-                        <span className="d-block">Stataus do SAC: {sac.status}</span>
-                        <span className="d-block">Data de abertura: {sac.data}</span>
-                    </div>
-                    <div className="col">
-                        <span className="d-block">ID do Pedido: #{sac.pedido_id}
-                            <a className="btn btn-link btn-sm text-dark p-0 m-0 ms-4" href={route('admin.pedidos.show', sac.pedido_id)}>Ver Pedido</a></span>
-                        <span className="d-block">Integrador: {pedido.integrador.nome}</span>
-                        <span className="d-block">Cliente: {pedido.cliente.nome}</span>
-                        <span className="d-block">Status do Pedido: {pedido.pedido.status}</span>
+                <SacDados sac={sac} pedido={pedido}/>
+            </div>
 
-                    </div>
-                    <div className="col">
-                        <button className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">Iniciar Atendimento</button>
-                    </div>
+            <div className="row">
+                <div className="col">
+                    <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Iniciar Atendimento</button>
                 </div>
             </div>
 

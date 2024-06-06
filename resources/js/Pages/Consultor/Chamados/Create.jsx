@@ -64,30 +64,33 @@ export default function ({pedido}) {
                     {avaria && <>
                         <div className="row mb-4 mt-2">
                             <div className="col-3">
-                                <TextField label="Número da Nota Fiscal" required fullWidth/>
+                                <TextField label="Número da Nota Fiscal" required fullWidth
+                                           onChange={e => setData('nota', e.target.value)}/>
                             </div>
                             <div className="col-3">
-                                <FormControlLabel control={<Switch/>} label="Foi agendado a entrega?"/>
+                                <FormControlLabel label="Foi agendado a entrega?" control={
+                                    <Switch onChange={e => setData('entrega_agendada', e.target.checked)}/>}/>
                             </div>
                             <div className="col-3">
-                                <FormControlLabel control={<Switch/>} label="Material estava paletizado?"/>
+                                <FormControlLabel label="Material estava paletizado?" control={
+                                    <Switch onChange={e => setData('paletizado', e.target.checked)}/>}/>
                             </div>
                         </div>
                         <div className="row mb-4">
                             <div className="col">
                                 <TextField type="file" label="Imagem Ressalva no Ct-e (conhecimento de transporte ou na NF)"
                                            InputLabelProps={{shrink: true}} fullWidth required
-                                           onChange={e => setData('anexos', {...data?.anexos, [i]: e.target.files[0]})}/>
+                                           onChange={e => setData('img_cte', e.target.files[0])}/>
                             </div>
 
                             <div className="col">
                                 <TextField type="file" label="Imagem da Entrega" InputLabelProps={{shrink: true}} fullWidth required
-                                           onChange={e => setData('anexos', {...data?.anexos, [i]: e.target.files[0]})}/>
+                                           onChange={e => setData('img_entrega', e.target.files[0])}/>
                             </div>
 
                             <div className="col">
                                 <TextField type="file" label="Imagem do Produto Danificado" InputLabelProps={{shrink: true}} fullWidth required
-                                           onChange={e => setData('anexos', {...data?.anexos, [i]: e.target.files[0]})}/>
+                                           onChange={e => setData('img_produto', e.target.files[0])}/>
                             </div>
                         </div>
                     </>}

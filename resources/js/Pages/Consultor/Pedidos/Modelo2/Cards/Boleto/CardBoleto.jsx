@@ -1,5 +1,5 @@
 import CardPedidos from "../CardPedidos";
-import MenuMore from './MenuMore';
+import MenuMore from "@/Pages/Consultor/Pedidos/Cards/MenuMore";
 import AlertsCard from "./AlertsCard";
 
 export default function CardBoleto({dados, cor}) {

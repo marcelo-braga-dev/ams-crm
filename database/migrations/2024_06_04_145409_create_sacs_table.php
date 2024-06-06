@@ -16,6 +16,12 @@ return new class extends Migration {
             $table->unsignedBigInteger('pedido_id')->nullable();
             $table->string('status');
             $table->string('titulo');
+            $table->string('nota')->nullable();
+            $table->boolean('entrega_agendada')->nullable();
+            $table->boolean('paletizado')->nullable();
+            $table->string('img_cte')->nullable();
+            $table->string('img_entrega')->nullable();
+            $table->string('img_produto')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

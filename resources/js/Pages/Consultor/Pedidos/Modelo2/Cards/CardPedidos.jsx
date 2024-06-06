@@ -7,13 +7,7 @@ import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import AlarmOutlinedIcon from '@mui/icons-material/AlarmOutlined';
 import TruckIcon from '@mui/icons-material/LocalShippingOutlined';
-import HandymanIcon from '@mui/icons-material/Handyman';
 
-import EmailIcon from './IconsCard/EmailIconPopover';
-import TelefoneIcon from './IconsCard/TelefoneIcon';
-
-import PushPinIcon from '@mui/icons-material/PushPin';
-import PinIcon from "./IconsCard/PinIcon";
 import PaymentIcon from "@mui/icons-material/Payment";
 import {usePage} from "@inertiajs/react";
 
@@ -96,8 +90,8 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
             <div className="row pt-2">
                 <div className="col">
                     {/*<PinIcon dados={dados} />*/}
-                    <TelefoneIcon dados={dados}/>
-                    <EmailIcon dados={dados}/>
+                    {/*<TelefoneIcon dados={dados}/>*/}
+                    {/*<EmailIcon dados={dados}/>*/}
                 </div>
                 <div className="col-auto text-right">
                     <span className="text-sm text-muted">ID: #{dados.id}</span>

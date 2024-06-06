@@ -1,6 +1,5 @@
 import CardPedidos from "../CardPedidos";
-import MenuMore from './MenuMore';
-import BtnAvancaStatus from "./BtnAvancaStatus";
+import MenuMore from "@/Pages/Consultor/Pedidos/Cards/MenuMore";
 import AlertsCard from "./AlertsCard";
 
 export default function EncomendaCard({dados, cor}) {

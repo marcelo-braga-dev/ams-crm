@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Images;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -15,16 +16,32 @@ class Sac extends Model
         'pedido_id',
         'titulo',
         'status',
+        'nota',
+        'entrega_agendada',
+        'paletizado',
+        'img_cte',
+        'img_entrega',
+        'img_produto',
     ];
 
     public function create($dados): int
     {
+        if ($dados->img_cte) $cte = (new Images())->armazenar($dados, 'img_cte', 'chamados-anexos');
+        if ($dados->img_entrega) $entrega = (new Images())->armazenar($dados, 'img_entrega', 'chamados-anexos');
+        if ($dados->img_produto) $produto = (new Images())->armazenar($dados, 'img_produto', 'chamados-anexos');
+
         $item = $this->newQuery()
             ->create([
                 'user_id' => id_usuario_atual(),
                 'titulo' => $dados->titulo,
                 'pedido_id' => $dados->pedido_id,
                 'status' => 'novo',
+                'nota' => $dados->nota,
+                'entrega_agendada' => $dados->entrega_agendada,
+                'paletizado' => $dados->paletizado,
+                'img_cte' => $cte ?? null,
+                'img_entrega' => $entrega ?? null,
+                'img_produto' => $produto ?? null,
             ]);
 
         (new SacMensagens())->create($item->id, $dados);
@@ -61,7 +78,13 @@ class Sac extends Model
             'titulo' => $item->titulo,
             'pedido_id' => $item->pedido_id,
             'status' => $item->status,
-            'data' => date('d/m/y H:i', strtotime($item->created_at))
+            'data' => date('d/m/y H:i', strtotime($item->created_at)),
+//            'nota' => $item->nota,
+//            'entrega_agendada' => $item->entrega_agendada,
+//            'paletizado' => $item->paletizado,
+//            'img_cte' => ass $item->img_cte,
+//            'img_entrega' => $item->img_entrega,
+//            'img_produto' => $item->img_produto,
         ];
     }
 
@@ -75,7 +98,8 @@ class Sac extends Model
         return $this->newQuery()
             ->select('id', 'user_id', 'pedido_id', 'status', 'titulo',
                 DB::raw("DATE_FORMAT(created_at, '%d/%m/%Y %m:%s') AS data"),
-                DB::raw("(SELECT name FROM users WHERE users.id = sacs.user_id) AS autor"))
+                DB::raw("(SELECT name FROM users WHERE users.id = sacs.user_id) AS autor"),
+                'nota', 'entrega_agendada', 'paletizado', 'img_cte', 'img_entrega', 'img_produto')
             ->with(['mensagens' => function ($query) {
                 $query->orderBy('id')
                     ->select('id', 'user_id', 'sac_id', 'msg', 'prazo',

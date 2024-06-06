@@ -6,6 +6,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import {useForm} from "@inertiajs/inertia-react";
 import {router} from "@inertiajs/react";
+import SacDados from "@/Partials/SAC/SacDados";
 
 export default function Create({sac, pedido}) {
     const [qtdAnexos, setQtdAnexos] = useState(2)
@@ -42,21 +43,7 @@ export default function Create({sac, pedido}) {
     return (
         <Layout empty titlePage="Informações do SAC" menu="sac-chamados" container voltar={route('consultor.chamados.index')}>
             <div className="card card-body mb-4">
-                <h5>Título: {sac.titulo}</h5>
-                <div className="row">
-                    <div className="col">
-                        <span className="d-block">Autor: {sac.autor}</span>
-                        <span className="d-block">Stataus do SAC: {sac.status}</span>
-                        <span className="d-block">Data de abertura: {sac.data}</span>
-                    </div>
-                    <div className="col">
-                        <span className="d-block">ID do Pedido: #{sac.pedido_id}
-                            <a className="btn btn-link btn-sm text-dark p-0 m-0 ms-4" href={route('consultor.pedidos.show', sac.pedido_id)}>Ver Pedido</a></span>
-                        <span className="d-block">Integrador: {pedido.integrador.nome}</span>
-                        <span className="d-block">Cliente: {pedido.cliente.nome}</span>
-                        <span className="d-block">Status do Pedido: {pedido.pedido.status}</span>
-                    </div>
-                </div>
+                <SacDados sac={sac} pedido={pedido} />
             </div>
 
             {/*Historico de Mensagens*/}
