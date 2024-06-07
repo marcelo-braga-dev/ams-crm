@@ -111,12 +111,13 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                     </div>
                 }
 
-                {dados.infos.ultima_msg &&
-                    <div className="div border p-1 px-2 mt-2 border-gray-300 rounded">
-                        <small><b>Última Mensagem:</b><br/>{dados.infos.ultima_msg}</small>
-                        <small className="d-block text-end font-italic">{dados.infos.data_ultima_msg}</small>
+                {dados?.infos?.pedido_dias && <div className="row mt-3">
+                    <div className={dados?.infos?.pedido_dias < 15
+                        ? ''
+                        : (dados?.infos?.pedido_dias > 30 ? "alert bg-danger text-white" : "alert bg-info text-white")}>
+                        <small>Último Pedido: {dados.infos.pedido_dias} dias atrás</small>
                     </div>
-                }
+                </div>}
 
                 {/*BOTAO*/}
                 {btn && <div className="row justify-content-end mt-3">
