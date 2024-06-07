@@ -7,8 +7,9 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import {IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import HistoricoPedidos from "@/Partials/Leads/HistoricoPedidos";
 
-export default function Show({dados, consultores, historicos, isSdr, emitePedido, cardEmitePedido, isEditar, contatos}) {
+export default function Show({dados, consultores, historicos, historicoPedidos, isSdr, emitePedido, cardEmitePedido, isEditar, contatos}) {
     const {data, setData, post} = useForm({
         lead: dados.id,
         consultor: dados.consultor.id
@@ -115,13 +116,24 @@ export default function Show({dados, consultores, historicos, isSdr, emitePedido
                 </form>
             </div>
 
-            <div className="card card-body">
-                <h6 className="mb-3">Histórico de Atendimento</h6>
-                <HistoricoLista
-                    historicos={historicos} enviarComentario={enviarComentario}
-                    setData={setData} urlPedidos="admin.pedidos.show"
-                />
+            <div className="row">
+                <div className="col">
+                    <div className="card card-body">
+                        <h6 className="mb-3">Histórico de Atendimento</h6>
+                        <HistoricoLista
+                            historicos={historicos} enviarComentario={enviarComentario}
+                            setData={setData} urlPedidos="admin.pedidos.show"
+                        />
+                    </div>
+                </div>
+                <div className="col">
+                    <div className="card card-body">
+                        <h6 className="mb-3">Histórico de Pedidos</h6>
+                        <HistoricoPedidos historicos={historicoPedidos}/>
+                    </div>
+                </div>
             </div>
+
 
             {/*Limpar Lead*/}
             <div className="modal fade mt-5" id="limparLead" tabIndex="-1" aria-labelledby="limparLeadLabel"

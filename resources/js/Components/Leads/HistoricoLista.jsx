@@ -8,7 +8,7 @@ export default function HistoricoLista({historicos, enviarComentario, setData, u
     return (
         historicos?.length > 0 ?
             historicos.map((dado, index) => (
-                <div key={index} className="row card card-body mb-3">
+                <div key={index} className="row card card-body mb-3 mx-3">
                     <div className="col-auto">
                         {qtdHistorico - index}.
                     </div>
@@ -36,18 +36,16 @@ export default function HistoricoLista({historicos, enviarComentario, setData, u
                                     )
                                 })}
                             </div>
-                            <div className="card card-body">
-                                <div className="row">
-                                    <div className="col">
-                                        <TextField size="small" className="d-block" fullWidth label="Novo Comentário..."
-                                                   onChange={e => setData('msg_' + index, e.target.value)}>
-                                        </TextField></div>
-                                    <div className="col-auto">
-                                        <button className="btn btn-success btn-sm mt-1"
-                                                onClick={() => enviarComentario('msg_' + index, dado.id)}>
-                                            Salvar
-                                        </button>
-                                    </div>
+                            <div className="row">
+                                <div className="col">
+                                    <TextField size="small" className="d-block" fullWidth label="Novo Comentário..."
+                                               onChange={e => setData('msg_' + index, e.target.value)}>
+                                    </TextField></div>
+                                <div className="col-auto">
+                                    <button className="btn btn-success btn-sm mt-1"
+                                            onClick={() => enviarComentario('msg_' + index, dado.id)}>
+                                        Salvar
+                                    </button>
                                 </div>
                             </div>
                         </div>
