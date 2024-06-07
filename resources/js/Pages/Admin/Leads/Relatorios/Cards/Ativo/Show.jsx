@@ -63,8 +63,7 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                     <div className="col"><LeadsDados dados={dados}/></div>
                     <div className="col-auto">
                         {isEditar &&
-                            <IconButton color="success"
-                                        href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
+                            <IconButton color="success" href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
                                 <EditIcon/>
                             </IconButton>}
                     </div>
@@ -74,8 +73,7 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
             {emitePedido && cardEmitePedido && <div className="card card-body mb-4">
                 <div className="row pt-3">
                     <div className="col">
-                        <a className="btn btn-warning"
-                           href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
+                        <a className="btn btn-warning" href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
                     </div>
                 </div>
             </div>}
@@ -85,14 +83,9 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                     <h6>Atualizar Status do Lead</h6>
                     <div className="row">
                         <div className="col-md-3 mb-4">
-                            <TextField label="Meio Contato" select fullWidth required defaultValue=""
-                                       size="small"
+                            <TextField label="Meio Contato" select fullWidth required defaultValue="" size="small"
                                        onChange={e => setData('meio_contato', e.target.value)}>
-                                {contatos.map((option, index) => (
-                                    <MenuItem key={index} value={option.key}>
-                                        {option.nome}
-                                    </MenuItem>
-                                ))}
+                                {contatos.map((option, index) => <MenuItem key={index} value={option.key}>{option.nome}</MenuItem>)}
                             </TextField>
                         </div>
                     </div>
@@ -105,9 +98,7 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                     <div className="row">
                         <div className="col">
                             <div className="text-center">
-                                <button className="btn btn-primary"
-                                        onClick={() => setData('salvar_msg', true)}
-                                        type="submit">
+                                <button className="btn btn-primary" type="submit" onClick={() => setData('salvar_msg', true)}>
                                     Enviar Anotações
                                 </button>
                             </div>
@@ -117,7 +108,7 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
             </div>
 
             <div className="row">
-                <div className="col">
+                <div className="col-8">
                     <div className="card card-body">
                         <h6 className="mb-3">Histórico de Atendimento</h6>
                         <HistoricoLista
@@ -134,7 +125,6 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                 </div>
             </div>
 
-
             {/*Limpar Lead*/}
             <div className="modal fade mt-5" id="limparLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
@@ -142,17 +132,14 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="limparLeadLabel">Limpar LEAD</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             Remover esse Lead deste consultor(a)?
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => remover()}>Remover
-                            </button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => remover()}>Remover</button>
                         </div>
                     </div>
                 </div>
@@ -165,17 +152,14 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="limparLeadLabel">Limpar LEAD</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             Voltar Status deste leads para "EM ATENDIMENTO"?
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-success" data-bs-dismiss="modal"
-                                    onClick={() => voltarStatus()}>Confirmar
-                            </button>
+                            <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={() => voltarStatus()}>Confirmar</button>
                         </div>
                     </div>
                 </div>
@@ -188,8 +172,7 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="limparLeadLabel">Limpar LEAD</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             Avançar Status deste leads para "Finalizado"?
