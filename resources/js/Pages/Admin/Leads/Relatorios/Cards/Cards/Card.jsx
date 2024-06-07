@@ -9,6 +9,7 @@ import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
 import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import PushPinIcon from "@mui/icons-material/PushPin";
 import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 
 export default function CardLeads({dados, btn, leadsSelecionados}) {
     const [pin, setPin] = useState(dados.pin)
@@ -75,6 +76,18 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                     }
                 </div>
 
+                {/*CNPJ*/}
+                {dados.cliente.cnpj &&
+                    <div className="row">
+                        <div className="col-1 mb-2">
+                            <ArticleOutlinedIcon sx={{fontSize: 18}}/>
+                        </div>
+                        <div className="col-10 text-dark text-truncate">
+                            {dados.cliente.cnpj}
+                        </div>
+                    </div>
+                }
+
                 {/*TELEFONE*/}
                 {dados.cliente.cidade &&
                     <div className="row">
@@ -111,15 +124,17 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                     </div>
                 }
 
-                {dados?.infos?.pedido_dias && <div className="row mt-3">
+                {!!dados?.infos?.pedido_dias && <div className="row mt-3">
                     <div className={dados?.infos?.pedido_dias < 15
                         ? ''
                         : (dados?.infos?.pedido_dias > 30 ? "alert bg-danger text-white" : "alert bg-info text-white")}>
                         <small>Último Pedido: {dados.infos.pedido_dias} dias atrás</small>
                     </div>
                 </div>}
+                {dados?.infos?.pedido_dias === 0 && <div className="row mt-3"><small>Último Pedido: Hoje</small></div>}
 
-                {/*BOTAO*/}
+
+                    {/*BOTAO*/}
                 {btn && <div className="row justify-content-end mt-3">
                     <div className="col-auto">
                         {btn}

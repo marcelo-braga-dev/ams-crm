@@ -618,6 +618,7 @@ class Leads extends Model
             ->where('leads.user_id', $id)
             ->orWhere('leads.sdr_id', $id)
             ->orderByDesc('pin')
+            ->orderByDesc('pedido_dias')
             ->orderByDesc('status_data')
             ->get(['leads.id', 'status', 'leads.user_id', 'sdr_id', 'nome', 'razao_social', 'cnpj', 'cnpj', 'telefone', 'status_data',
                 DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin'),

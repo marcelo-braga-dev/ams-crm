@@ -99,6 +99,7 @@ export default function CardLeads({dados, btn}) {
                         </div>
                     </div>
                 }
+
                 {dados?.infos?.pedido_dias && <div className="row mt-3">
                     <div className={dados?.infos?.pedido_dias < 15
                         ? ''
@@ -106,6 +107,8 @@ export default function CardLeads({dados, btn}) {
                         <small>Último Pedido: {dados.infos.pedido_dias} dias atrás</small>
                     </div>
                 </div>}
+                {dados?.infos?.pedido_dias === 0 && <div className="row mt-3"><small>Último Pedido: Hoje</small></div>}
+
 
                 {/*BOTAO*/}
                 {btn && <div className="row justify-content-end mt-3">
