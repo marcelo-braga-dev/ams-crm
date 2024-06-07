@@ -222,7 +222,7 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                         {!!!sacHistorico.length && 'Não há registros de SAC.'}
 
                         <div className="col mt-4">
-                            <a className="btn btn-primary" href={route('admin.chamados.create', {id: pedido.pedido.id})}>
+                            <a className="btn btn-primary" href={route('admin.chamados.create', {pedido_id: pedido.pedido.id})}>
                                 Abrir SAC
                             </a>
                         </div>

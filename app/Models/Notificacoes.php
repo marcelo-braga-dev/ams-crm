@@ -62,11 +62,6 @@ class Notificacoes extends Model
             ->limit($limit)
             ->orderByDesc('id');
 
-//        if ($id == null) {
-//            $idsUser = (new User)->getIdSetor($setor);
-//            $query->whereIn('user_id', $idsUser);
-//        }
-
         $query->whereIn('user_id', supervisionados(id_usuario_atual()));
         if ($id) $query->where('user_id', $id);
 
@@ -96,12 +91,19 @@ class Notificacoes extends Model
             ->where('notificar', 1)
             ->count();
 
+        $qtdSac = $this->newQuery()
+            ->where('user_id', $idUsuario)
+            ->where('categoria', (new NotificacoesCategorias())->sac())
+            ->where('notificar', 1)
+            ->count();
+
         $qtsChatInterno = (new NotificacoesChatInterno())->qtdNovas();
 
         return [
             'pedidos' => $qtdPedidos,
             'leads' => $qtdLeads,
-            'chat_interno' => $qtsChatInterno
+            'chat_interno' => $qtsChatInterno,
+            'sac' => $qtdSac
         ];
     }
 
@@ -128,19 +130,21 @@ class Notificacoes extends Model
         }
     }
 
-    public function marcarTodasLidas()
+    public function marcarTodasLidas($categoria)
     {
         $this->newQuery()
             ->where('user_id', id_usuario_atual())
+            ->where('categoria', $categoria)
             ->update([
                 'notificar' => 0
             ]);
     }
 
-    public function deletar()
+    public function deletar($categoria)
     {
         $this->newQuery()
             ->where('user_id', id_usuario_atual())
+            ->where('categoria', $categoria)
             ->delete();
     }
 

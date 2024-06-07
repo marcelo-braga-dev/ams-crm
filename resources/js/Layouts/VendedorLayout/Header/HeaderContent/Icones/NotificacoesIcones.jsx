@@ -6,11 +6,13 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import setUltimoLoginUsuario from "@/Helpers/setUltimoLoginUsuario";
+import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 
 export default function NotificacoesIcones() {
-    const [qtdLeads, setQtdLeads] = React.useState();
-    const [qtdPedidos, setQtdPedidos] = React.useState();
-    const [qtdChatInterno, setChatInterno] = React.useState();
+    const [qtdLeads, setQtdLeads] = React.useState(0);
+    const [qtdPedidos, setQtdPedidos] = React.useState(0);
+    const [qtdChatInterno, setChatInterno] = React.useState(0);
+    const [qtdSac, setQtdSac] = React.useState(0);
 
     setUltimoLoginUsuario()
 
@@ -18,8 +20,14 @@ export default function NotificacoesIcones() {
         <RequestNotificacoes
             url={route('consultor.notificacoes.pedidos.show', 0)}
             urlPageChat={route('consultor.chat-interno.index')}
-            setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads}
+            setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads} setQtdSac={setQtdSac}
         />
+
+        <IconButton disableRipple sx={{color: 'black', mx: 1}} href={route('consultor.notificacoes.sac.index')}>
+            <Badge badgeContent={qtdSac} color="error">
+                <HeadsetMicOutlinedIcon/>
+            </Badge>
+        </IconButton>
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     href={route('consultor.chat-interno.index')}>

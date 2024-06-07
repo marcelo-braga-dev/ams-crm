@@ -1,53 +1,48 @@
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import {router} from '@inertiajs/react'
 
 import {Typography} from "@mui/material";
-
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import Avatar from "@mui/material/Avatar";
-
-import {converterDataHorario} from "@/Helpers/converterDataHorario";
-
-import * as React from 'react';
+import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 
 export default function Create({notificacoes}) {
 
     const alterarNotificar = (id, value) => {
-        router.post(route('admin.notificacoes.pedidos.update', id), {
+        router.post(route('consultor.notificacoes.sac.update', id), {
             _method: 'put',
             status: value,
         })
     }
 
     function marcarComoLidas() {
-        router.post(route('admin.notificacoes.pedidos.marcar-lidas'), {
+        router.post(route('consultor.notificacoes.sac.marcar-lidas'), {
             _method: 'put',
         })
-
-        window.location.reload();
     }
 
     function deletar() {
-        router.post(route('admin.notificacoes.pedidos.destroy', 0), {
+        router.post(route('consultor.notificacoes.sac.destroy', 0), {
             _method: 'delete',
         })
     }
 
+    router.on('success', () => window.location.reload())
+
     return (
-        <Layout empty titlePage="Notificações">
+        <Layout empty titlePage="Notificações de SAC">
             <div className="container bg-wh ite rounded px-3 px-md-6 py-4 mb-4">
                 <div className="row justify-content-end">
                     <div className="col-auto">
                         <button type="submit" className="btn btn-outline-primary"
                                 onClick={() => marcarComoLidas()}>
-                            <i className="fas fa-eye pe-2"></i>Marcar como lidas
+                            <i className="fas fa-eye pe-2"></i>Marcar todas como lidas
                         </button>
                     </div>
                     <div className="col-auto">
                         <button type="button" className="btn btn-outline-danger"
                                 data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i className="fas fa-trash pe-2"></i>Deletar Notificações
+                            <i className="fas fa-trash pe-2"></i>Deletar Todas Notificações
                         </button>
                     </div>
                 </div>
@@ -60,13 +55,20 @@ export default function Create({notificacoes}) {
                                 <div className="row px-4">
                                     <div className="col-1 text-center p-0">
                                         <Avatar sx={{bgcolor: 'black'}}>
-                                            <NoteAltOutlinedIcon/>
+                                            <HeadsetMicOutlinedIcon/>
                                         </Avatar>
+                                        <br/>
+                                        <div className="form-check form-switch">
+                                            <input className="form-check-input" type="checkbox"
+                                                   defaultChecked={!!dados.notificar}
+                                                   onChange={e => alterarNotificar(dados.id, e.target.checked)}
+                                            />
+                                        </div>
                                     </div>
                                     <div className="col-10 p-0">
                                         <div className="row mb-2">
                                             <div className="col-auto">
-                                                <Typography><b>{dados.titulo}</b></Typography>
+                                                <Typography><b>{dados.titulo.toUpperCase()}.</b></Typography>
                                                 <Typography className="pl-2" variant="body1">
                                                     {dados.msg}
                                                 </Typography>
@@ -92,20 +94,7 @@ export default function Create({notificacoes}) {
                                     </div>
 
                                     <div className="col-1">
-                                        {dados.url &&
-                                            <a className="btn btn-dark btn-sm"
-                                               href={dados.url}>
-                                                Abrir
-                                            </a>
-                                        }
-                                        <div className="mt-4">
-                                            <div className="form-check form-switch">
-                                                <input className="form-check-input" type="checkbox"
-                                                       defaultChecked={!!dados.notificar}
-                                                       onChange={e => alterarNotificar(dados.id, e.target.checked)}
-                                                />
-                                            </div>
-                                        </div>
+                                        {dados.url && <a className="btn btn-dark btn-sm" href={route('consultor.chamados.show', dados.url)}>Abrir</a>}
                                     </div>
                                 </div>
                             </div>)

@@ -8,13 +8,13 @@ use App\src\Pedidos\Notificacoes\NotificacoesCategorias;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class PedidosNotificacoesController extends Controller
+class SacNotificacoesController extends Controller
 {
     public function index()
     {
-        $notificacoes = (new Notificacoes())->getUsuario((new NotificacoesCategorias())->pedidos(), 100);
+        $notificacoes = (new Notificacoes())->getUsuario((new NotificacoesCategorias())->sac(), 100);
 
-        return Inertia::render('Admin/Notificacoes/Index', compact('notificacoes'));
+        return Inertia::render('Admin/Notificacoes/Sac/Index', compact('notificacoes'));
     }
 
     public function show()
@@ -30,14 +30,14 @@ class PedidosNotificacoesController extends Controller
 
     public function marcarLidas()
     {
-        (new Notificacoes())->marcarTodasLidas((new NotificacoesCategorias)->pedidos());
+        (new Notificacoes())->marcarTodasLidas((new NotificacoesCategorias)->sac());
 
         return redirect()->back();
     }
 
     public function destroy()
     {
-        (new Notificacoes())->deletar((new NotificacoesCategorias())->pedidos());
+        (new Notificacoes())->deletar((new NotificacoesCategorias())->sac());
 
         return redirect()->back();
     }

@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\Notificacoes\PedidosNotificacoesController;
+use App\Http\Controllers\Admin\Notificacoes\SacNotificacoesController;
 use Illuminate\Support\Facades\Route;
 
-Route::name('admin.')
-    ->prefix('admin')
+Route::name('admin.notificacoes.')
+    ->prefix('admin/notificacoes')
     ->group(function () {
-        Route::resource('notificacoes', PedidosNotificacoesController::class);
+        Route::resource('pedidos', PedidosNotificacoesController::class);
+        Route::resource('sac', SacNotificacoesController::class);
 
         Route::put('marcar-lidas', [PedidosNotificacoesController::class, 'marcarLidas'])
             ->name('notificacoes.marcar-lidas');

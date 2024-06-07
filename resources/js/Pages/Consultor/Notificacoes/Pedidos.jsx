@@ -1,5 +1,5 @@
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
-import {router} from '@inertiajs/react'
+import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import { router } from '@inertiajs/react'
 
 import {Typography} from "@mui/material";
 
@@ -10,32 +10,34 @@ import Avatar from "@mui/material/Avatar";
 import {converterDataHorario} from "@/Helpers/converterDataHorario";
 
 import * as React from 'react';
+import Switch from '@mui/material/Switch';
+
 
 export default function Create({notificacoes}) {
 
     const alterarNotificar = (id, value) => {
-        router.post(route('admin.notificacoes.pedidos.update', id), {
+        router.post(route('consultor.notificacoes.pedidos.update', id), {
             _method: 'put',
             status: value,
         })
     }
-
     function marcarComoLidas() {
-        router.post(route('admin.notificacoes.pedidos.marcar-lidas'), {
+        router.post(route('consultor.notificacoes.marcar-lidas'), {
             _method: 'put',
         })
-
-        window.location.reload();
     }
 
     function deletar() {
-        router.post(route('admin.notificacoes.pedidos.destroy', 0), {
+        router.post(route('consultor.notificacoes.pedidos.destroy', 0), {
             _method: 'delete',
         })
     }
 
+    router.on('success', () => window.location.reload())
+
     return (
-        <Layout empty titlePage="Notificações">
+        <Layout titlePage="Notificações">
+
             <div className="container bg-wh ite rounded px-3 px-md-6 py-4 mb-4">
                 <div className="row justify-content-end">
                     <div className="col-auto">
@@ -45,8 +47,8 @@ export default function Create({notificacoes}) {
                         </button>
                     </div>
                     <div className="col-auto">
-                        <button type="button" className="btn btn-outline-danger"
-                                data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <button  type="button" className="btn btn-outline-danger"
+                                 data-bs-toggle="modal" data-bs-target="#exampleModal">
                             <i className="fas fa-trash pe-2"></i>Deletar Notificações
                         </button>
                     </div>
@@ -55,9 +57,9 @@ export default function Create({notificacoes}) {
                     <div className="col-12 mb-3 p-3">
 
                         {notificacoes.map((dados, index) => {
-                            return (<div className="card card-body mb-4" key={index}>
+                            return (<div key={index}>
                                 {/*Card*/}
-                                <div className="row px-4">
+                                <div className="row mb-4 p-4 rounded bg-white bord er-2 border-dark shadow">
                                     <div className="col-1 text-center p-0">
                                         <Avatar sx={{bgcolor: 'black'}}>
                                             <NoteAltOutlinedIcon/>
@@ -99,12 +101,9 @@ export default function Create({notificacoes}) {
                                             </a>
                                         }
                                         <div className="mt-4">
-                                            <div className="form-check form-switch">
-                                                <input className="form-check-input" type="checkbox"
-                                                       defaultChecked={!!dados.notificar}
-                                                       onChange={e => alterarNotificar(dados.id, e.target.checked)}
-                                                />
-                                            </div>
+                                            <Switch
+                                                defaultChecked={!!dados.notificar}
+                                                onChange={e => alterarNotificar(dados.id, e.target.checked)}/>
                                         </div>
                                     </div>
                                 </div>
@@ -122,8 +121,7 @@ export default function Create({notificacoes}) {
                 </div>
             </div>
 
-            <div className="modal fade mt-5" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
+            <div className="modal fade mt-5" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -136,8 +134,7 @@ export default function Create({notificacoes}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
-                                    onClick={() => deletar()}>Excluir
-                            </button>
+                                    onClick={() => deletar()}>Excluir</button>
                         </div>
                     </div>
                 </div>

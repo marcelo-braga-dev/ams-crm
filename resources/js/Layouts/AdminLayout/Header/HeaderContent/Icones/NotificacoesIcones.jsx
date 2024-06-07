@@ -5,8 +5,7 @@ import {Badge, IconButton, List} from "@mui/material";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
-import PeopleIcon from "@mui/icons-material/People";
-import ContactPhoneOutlinedIcon from '@mui/icons-material/ContactPhoneOutlined';
+import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
 
 import Popover from "@mui/material/Popover";
 import ListItem from "@mui/material/ListItem";
@@ -49,8 +48,9 @@ const StyledBadge = styled(Badge)(({theme}) => ({
 
 export default function NotificacoesIcones({corTexto}) {
     const [qtdLeads, setQtdLeads] = React.useState();
-    const [qtdPedidos, setQtdPedidos] = React.useState();
-    const [qtdChatInterno, setChatInterno] = React.useState();
+    const [qtdPedidos, setQtdPedidos] = React.useState(0);
+    const [qtdChatInterno, setChatInterno] = React.useState(0);
+    const [qtdSac, setQtdSac] = React.useState(0);
     const [usuariosOnline, setUsuariosOnline] = useState([]);
 
     setUltimoLoginUsuario()
@@ -99,41 +99,41 @@ export default function NotificacoesIcones({corTexto}) {
 
     return (<>
         <RequestNotificacoes
-            url={route('admin.notificacoes.show', 0)}
+            url={route('admin.notificacoes.pedidos.show', 0)}
             urlPageChat={route('admin.chat-interno.index')}
-            setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads}
+            setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads} setQtdSac={setQtdSac}
         />
 
-        <IconButton disableRipple sx={{color: corTexto, mx: 1}}
-                    href={route('admin.emails.index')}>
+        <IconButton disableRipple sx={{color: corTexto, mx: 1}} href={route('admin.notificacoes.sac.index')}>
+            <Badge badgeContent={qtdSac} color="error">
+                <HeadsetMicOutlinedIcon/>
+            </Badge>
+        </IconButton>
+
+        <IconButton disableRipple sx={{color: corTexto, mx: 1}} href={route('admin.emails.index')}>
             <Badge badgeContent={0} color="error">
                 <EmailOutlinedIcon/>
             </Badge>
         </IconButton>
 
-        <IconButton disableRipple sx={{color: corTexto, mx: 1}}
-                    href={route('admin.agenda.calendario.index')}>
+        <IconButton disableRipple sx={{color: corTexto, mx: 1}} href={route('admin.agenda.calendario.index')}>
             <Badge badgeContent={0} color="error">
                 <CalendarMonthOutlinedIcon/>
             </Badge>
         </IconButton>
 
-        <IconButton disableRipple sx={{color: corTexto, mx: 1}}
-                    onClick={handleClick2}>
+        <IconButton disableRipple sx={{color: corTexto, mx: 1}} onClick={handleClick2}>
             <Badge badgeContent={usuariosOnline.length} color="error">
                 <PeopleAltOutlinedIcon/>
             </Badge>
         </IconButton>
         <Popover
-            id={id}
-            open={open2}
-            anchorEl={anchorEl2}
+            id={id} open={open2} anchorEl={anchorEl2}
             onClose={handleClose}
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
-            }}
-        >
+            }} >
             {usuariosOnline.length ? <List>
                     {usuariosOnline.map((dado, index) => {
                         return (
@@ -149,7 +149,6 @@ export default function NotificacoesIcones({corTexto}) {
                                         variant="dot">
                                         <Avatar src={dado.foto}/>
                                     </StyledBadge>
-
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={dado.nome}
@@ -169,15 +168,8 @@ export default function NotificacoesIcones({corTexto}) {
             </Badge>
         </IconButton>
 
-        {/*<IconButton disableRipple sx={{color: corTexto, mx: 1}}*/}
-        {/*            href={route('admin.notificacoes.leads.index')}>*/}
-        {/*    <Badge badgeContent={qtdLeads} color="error">*/}
-        {/*        <ContactPhoneOutlinedIcon/>*/}
-        {/*    </Badge>*/}
-        {/*</IconButton>*/}
-
         <IconButton disableRipple sx={{color: corTexto, mx: 1}}
-                    href={route('admin.notificacoes.index')}>
+                    href={route('admin.notificacoes.pedidos.index')}>
             <Badge badgeContent={qtdPedidos} color="error">
                 <NotificationsOutlinedIcon/>
             </Badge>

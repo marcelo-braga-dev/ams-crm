@@ -46,7 +46,7 @@ export default function ({ notificacoesPedidos }) {
     const [usuariosOnline, setUsuariosOnline] = useState([]);
 
     const alterarNotificar = (id, value) => {
-        router.post(route('admin.notificacoes.update', id), {
+        router.post(route('admin.notificacoes.pedidos.update', id), {
             _method: 'put',
             status: value,
         })

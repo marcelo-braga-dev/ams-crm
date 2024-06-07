@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\Images;
+use App\src\Pedidos\Notificacoes\NotificacoesCategorias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -44,8 +45,17 @@ class Sac extends Model
                 'img_produto' => $produto ?? null,
             ]);
 
+        $idsNotificar = (new User())->getIdAdmins();
+
+        foreach ($idsNotificar as $user) {
+            (new Notificacoes())->create($user->id, (new NotificacoesCategorias())->sac(), 'SAC criado', 'SAC criado no pedido #' . $dados->pedido_id, $item->id);
+        }
+        if (!is_admin()) (new Notificacoes())->create(id_usuario_atual(), (new NotificacoesCategorias())->sac(), 'SAC criado', 'SAC criado no pedido #' . $dados->pedido_id, $item->id);
+        $pedidoUser = (new Pedidos())->find($dados->pedido_id)->user_id;
+        if (!is_admin($pedidoUser) && $pedidoUser !== id_usuario_atual()) (new Notificacoes())->create($pedidoUser, (new NotificacoesCategorias())->sac(), 'SAC criado', 'SAC criado no pedido #' . $dados->pedido_id, $item->id);
+
+        (new SacMensagens())->create($item->id, $dados, false);
         (new Pedidos())->setSac($dados->pedido_id);
-        (new SacMensagens())->create($item->id, $dados);
 
         return $item->id;
     }

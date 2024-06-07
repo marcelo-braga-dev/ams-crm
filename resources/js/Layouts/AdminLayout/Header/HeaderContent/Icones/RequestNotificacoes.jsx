@@ -5,7 +5,7 @@ import NavMenuToglle from "../../../../../../assets/argon/bootstrap5/js/nav-menu
 import Snackbar from "@mui/material/Snackbar";
 import {Alert} from "@mui/material";
 
-export default function RequestNotificacoes({url, urlPageChat, setQtdPedidos, setChatInterno, setQtdLeads}) {
+export default function RequestNotificacoes({url, urlPageChat, setQtdPedidos, setChatInterno, setQtdLeads, setQtdSac}) {
     let qtdNotifiChatInterno;
     const [play] = useSound(boopSfx);
 
@@ -13,6 +13,7 @@ export default function RequestNotificacoes({url, urlPageChat, setQtdPedidos, se
         await axios.get(url).then((res) => {
             setQtdPedidos(res.data.pedidos);
             setChatInterno(res.data.chat_interno);
+            setQtdSac(res.data.sac)
             if (setQtdLeads) setQtdLeads(res.data.leads)
             if (res.data.chat_interno > qtdNotifiChatInterno) {
                 alertChatInterno()

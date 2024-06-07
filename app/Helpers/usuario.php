@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Models\UsersHierarquias;
 
 if (!function_exists('id_usuario_atual')) {
@@ -76,8 +77,10 @@ if (!function_exists('is_fluxocaixa_saidas')) {
 }
 
 if (!function_exists('is_admin')) {
-    function is_admin(): bool
+    function is_admin($id = null): bool
     {
+        if ($id) return (new User)->find($id)->is_admin;
+
         return auth()->user()->is_admin;
     }
 }

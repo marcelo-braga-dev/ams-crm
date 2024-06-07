@@ -1,5 +1,5 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
-import { router } from '@inertiajs/react'
+import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import {router} from '@inertiajs/react'
 
 import {Typography} from "@mui/material";
 
@@ -10,46 +10,45 @@ import Avatar from "@mui/material/Avatar";
 import {converterDataHorario} from "@/Helpers/converterDataHorario";
 
 import * as React from 'react';
-import Switch from '@mui/material/Switch';
-
+import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 
 export default function Create({notificacoes}) {
 
     const alterarNotificar = (id, value) => {
-        router.post(route('consultor.notificacoes.pedidos.update', id), {
+        router.post(route('admin.notificacoes.sac.update', id), {
             _method: 'put',
             status: value,
         })
     }
+
     function marcarComoLidas() {
-        router.post(route('consultor.notificacoes.marcar-lidas'), {
+        router.post(route('admin.notificacoes.sac.marcar-lidas'), {
             _method: 'put',
         })
-
-        window.location.reload();
     }
 
     function deletar() {
-        router.post(route('consultor.notificacoes.pedidos.destroy', 0), {
+        router.post(route('admin.notificacoes.sac.destroy', 0), {
             _method: 'delete',
         })
     }
 
-    return (
-        <Layout titlePage="Notificações">
+    router.on('success', () => window.location.reload())
 
+    return (
+        <Layout empty titlePage="Notificações de SAC">
             <div className="container bg-wh ite rounded px-3 px-md-6 py-4 mb-4">
                 <div className="row justify-content-end">
                     <div className="col-auto">
                         <button type="submit" className="btn btn-outline-primary"
                                 onClick={() => marcarComoLidas()}>
-                            <i className="fas fa-eye pe-2"></i>Marcar como lidas
+                            <i className="fas fa-eye pe-2"></i>Marcar todas como lidas
                         </button>
                     </div>
                     <div className="col-auto">
-                        <button  type="button" className="btn btn-outline-danger"
-                                 data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i className="fas fa-trash pe-2"></i>Deletar Notificações
+                        <button type="button" className="btn btn-outline-danger"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i className="fas fa-trash pe-2"></i>Deletar Todas Notificações
                         </button>
                     </div>
                 </div>
@@ -57,18 +56,25 @@ export default function Create({notificacoes}) {
                     <div className="col-12 mb-3 p-3">
 
                         {notificacoes.map((dados, index) => {
-                            return (<div key={index}>
+                            return (<div className="card card-body mb-4" key={index}>
                                 {/*Card*/}
-                                <div className="row mb-4 p-4 rounded bg-white bord er-2 border-dark shadow">
+                                <div className="row px-4">
                                     <div className="col-1 text-center p-0">
                                         <Avatar sx={{bgcolor: 'black'}}>
-                                            <NoteAltOutlinedIcon/>
+                                            <HeadsetMicOutlinedIcon/>
                                         </Avatar>
+                                        <br/>
+                                        <div className="form-check form-switch">
+                                            <input className="form-check-input" type="checkbox"
+                                                   defaultChecked={!!dados.notificar}
+                                                   onChange={e => alterarNotificar(dados.id, e.target.checked)}
+                                            />
+                                        </div>
                                     </div>
                                     <div className="col-10 p-0">
                                         <div className="row mb-2">
                                             <div className="col-auto">
-                                                <Typography><b>{dados.titulo}</b></Typography>
+                                                <Typography><b>{dados.titulo.toUpperCase()}.</b></Typography>
                                                 <Typography className="pl-2" variant="body1">
                                                     {dados.msg}
                                                 </Typography>
@@ -94,17 +100,7 @@ export default function Create({notificacoes}) {
                                     </div>
 
                                     <div className="col-1">
-                                        {dados.url &&
-                                            <a className="btn btn-dark btn-sm"
-                                               href={dados.url}>
-                                                Abrir
-                                            </a>
-                                        }
-                                        <div className="mt-4">
-                                            <Switch
-                                                defaultChecked={!!dados.notificar}
-                                                onChange={e => alterarNotificar(dados.id, e.target.checked)}/>
-                                        </div>
+                                        {dados.url && <a className="btn btn-dark btn-sm" href={route('admin.chamados.show', dados.url)}>Abrir</a>}
                                     </div>
                                 </div>
                             </div>)
@@ -121,7 +117,8 @@ export default function Create({notificacoes}) {
                 </div>
             </div>
 
-            <div className="modal fade mt-5" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade mt-5" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -134,7 +131,8 @@ export default function Create({notificacoes}) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                             <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
-                                    onClick={() => deletar()}>Excluir</button>
+                                    onClick={() => deletar()}>Excluir
+                            </button>
                         </div>
                     </div>
                 </div>

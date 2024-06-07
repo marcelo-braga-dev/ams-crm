@@ -13,6 +13,7 @@ export default function Create({sac, pedido}) {
 
     const {data, setData, reset} = useForm({
         msg: null,
+        pedido_id: pedido.id,
         anexos: []
     })
 
