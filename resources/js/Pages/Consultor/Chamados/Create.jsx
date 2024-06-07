@@ -35,9 +35,8 @@ export default function ({pedido}) {
         router.post(route('consultor.chamados.store'), {...data})
     }
 
-    console.log(avaria)
     return (
-        <Layout titlePage="Cadastrar SAC" empty menu="sac-chamados">
+        <Layout titlePage="Abrir SAC" empty menu="sac-chamados">
             <form onSubmit={submit}>
                 <div className="card card-body mb-4">
                     <div className="row mb-4">
