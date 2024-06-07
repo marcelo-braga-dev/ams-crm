@@ -9,7 +9,7 @@ class LeadsUsuariosService
 {
     public function get($setor = null)
     {
-        $nomes = (new User())->getNomes();
+        $nomes = (new User())->getNomesAvatar();
 
         $qtd = [];
         foreach (supervisionados(id_usuario_atual(), true) as $id) {
