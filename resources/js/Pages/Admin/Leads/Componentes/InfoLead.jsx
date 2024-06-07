@@ -3,6 +3,7 @@ import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import React from "react";
+import Chip from "@mui/material/Chip";
 
 export default function InfoLead({dado}) {
     return (
@@ -46,9 +47,15 @@ export default function InfoLead({dado}) {
                 </td>
                 <td>
                     <span className="d-block">{dado.cidade} {dado.estado &&
-                    <span>- {dado.estado}</span>}</span>
+                        <span>- {dado.estado}</span>}</span>
                 </td>
             </tr>}
+
+            <tr>
+                <td>
+                    {dado.data_encaminhado && <Chip label="Já Atendido" color="success" variant="outlined" size="small"/>}
+                </td>
+            </tr>
             </tbody>
         </table>
     )
