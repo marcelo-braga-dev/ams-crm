@@ -23,7 +23,7 @@ class CardsController extends Controller
 
     public function limparFinalizados(Request $request)
     {
-        (new Leads())->limparFinalizados($request->id);
+        (new Leads())->limparStatus($request->id, $request->status);
 
         modalSucesso('Ação realizada com sucesso!');
         return redirect()->back();

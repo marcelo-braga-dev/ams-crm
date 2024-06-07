@@ -30,6 +30,7 @@ export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsE
     const [carregandoRegistros, setCarregandoRegistros] = useState(true)
     const [leads, setRegistros] = useState([])
     const [enviadoLead, setEnviadoLead] = useState(false)
+    const [limparStatus, setLimparStatus] = useState('')
 
     useEffect(() => {
         setCarregandoRegistros(true)
@@ -66,8 +67,9 @@ export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsE
     }
 
     function limpar() {
-        router.post(route('admin.leads.cards-leads.limpar-finalizados',
-            {id: usuario.id}))
+        setLimparStatus('')
+        limparStatus && router.post(route('admin.leads.cards-leads.limpar-finalizados', {id: usuario.id, status: limparStatus}))
+
         setEnviadoLead(e => !e)
     }
 
@@ -90,51 +92,71 @@ export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsE
             </div>
 
             {/*Pesquisa*/}
-            <div className='mb-4 card card-body'>
-                <div className="row justify-content-between">
-                    {isLeadsEncaminhar && <div className="col-md-5">
+            <div className="row justify-content-between mb-4">
+                {isLeadsEncaminhar &&
+                    <div className="col-4">
+                        <div className="card card-body">
+                            <div className="row mx-0">
+                                <span>Alterar consultor dos Leads</span>
+                                <div className="col-md-9">
+                                    <TextField label="Selecione o Consultor..." select
+                                               fullWidth required size="small" defaultValue=""
+                                               onChange={e => setData('novo_consultor', e.target.value)}>
+                                        {consultores.map((option) => (
+                                            <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
+                                        ))}
+                                    </TextField>
+                                </div>
+                                <div className="p-0 col-3">
+                                    <button type="button" className="btn btn-dark btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#alterarConsultor">
+                                        ENVIAR
+                                    </button>
+                                </div>
+                                {carregando && <div className="col">
+                                    <CircularProgress/>
+                                </div>}
+                            </div>
+                        </div>
+                    </div>
+                }
+                {isLeadsLimpar && <div className="col-3">
+                    <div className="card card-body">
+                        Remover todos os Leads do status
                         <div className="row">
-                            <span>Alterar consultor</span>
-                            <div className="col-md-6">
-                                <TextField label="Selecione o Consultor..." select
+                            <div className="col-7">
+                                <TextField label="Status" select value={limparStatus ?? ''}
                                            fullWidth required size="small" defaultValue=""
-                                           onChange={e => setData('novo_consultor', e.target.value)}>
-                                    {consultores.map((option) => (
-                                        <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
-                                    ))}
+                                           onChange={e => setLimparStatus(e.target.value)}>
+                                    <MenuItem value="pre_atendimento">Pré Atendiemnto</MenuItem>
+                                    <MenuItem value="aberto">Em Aberto</MenuItem>
+                                    <MenuItem value="atendimento">Atendimento</MenuItem>
+                                    <MenuItem value="finalizado">Finalizado</MenuItem>
                                 </TextField>
                             </div>
-                            <div className="p-0 col-4">
-                                <button type="button" className="btn btn-dark btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#alterarConsultor">
-                                    ENVIAR
+                            <div className="col-auto">
+                                <button type="button" className="btn btn-success btn-sm"
+                                        data-bs-toggle="modal" data-bs-target="#modalLimpar">
+                                    Remover
                                 </button>
                             </div>
-                            {carregando && <div className="col">
-                                <CircularProgress/>
-                            </div>}
                         </div>
-                    </div>}
-                    {isLeadsLimpar && <div className="col">
-                        <button type="button" className="btn btn-success btn-sm"
-                                data-bs-toggle="modal" data-bs-target="#modalLimpar">
-                            Reiniciar Atendimento dos Finalizados
-                        </button>
-                    </div>}
-                    <div className="col-auto text-right">
+
+                    </div>
+                </div>
+                }
+                <div className="col-3 text-end">
+                    <div className="card card-body">
                         <FormControl variant="outlined" className="bg-white" size="small">
                             <InputLabel htmlFor="search">Pesquisar...</InputLabel>
                             <OutlinedInput id="search" label="Pesquisar..."
-                                           endAdornment={
-                                               <InputAdornment position="end">
-                                                   <SearchOutlinedIcon></SearchOutlinedIcon>
-                                               </InputAdornment>
-                                           }
+                                           endAdornment={<InputAdornment position="end"><SearchOutlinedIcon/></InputAdornment>}
                                            onChange={e => pesquisaCards(e.target.value)}/>
                         </FormControl>
                     </div>
                 </div>
             </div>
+
 
             {/*Tabela*/}
             {carregandoRegistros && <LinearProgress/>}
@@ -224,7 +246,8 @@ export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsE
                 </div>
             }
 
-            {/*Alterar consultor*/}
+            {/*Alterar consultor*/
+            }
             <div className="mt-5 modal fade" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
@@ -247,19 +270,18 @@ export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsE
                 </div>
             </div>
 
-            {/*MODAL LIMPAR*/}
+            {/*MODAL LIMPAR*/
+            }
             <div className="mt-5 modal fade" id="modalLimpar" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title">LIMPAR LEAD</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <h5 className="modal-title">Remover LEADs</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            Limpar cards FINALIZADOS?
-
+                            Deseja realmente remover estes Leads?
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>

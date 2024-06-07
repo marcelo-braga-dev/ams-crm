@@ -848,4 +848,23 @@ class Leads extends Model
                 ];
             });
     }
+
+    public function limparStatus(int $id, string $status)
+    {
+        $this->newQuery()
+            ->where('user_id', $id)
+            ->where('status', $status)
+            ->update([
+                'user_id' => null,
+                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
+
+        $this->newQuery()
+            ->where('sdr_id', $id)
+            ->where('status', $status)
+            ->update([
+                'sdr_id' => null,
+                'status' => (new NovoStatusLeads())->getStatus()
+            ]);
+    }
 }
