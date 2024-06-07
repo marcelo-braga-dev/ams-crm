@@ -1,4 +1,9 @@
 <?php
+if(!function_exists('url_storage')) {
+    function url_storage():string {
+        return env('APP_STORAGE');
+    }
+}
 if(!function_exists('modelo_usuario')) {
     function modelo_usuario():int {
         return (new \App\Models\User())->modeloPedidos();
