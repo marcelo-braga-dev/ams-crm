@@ -620,7 +620,8 @@ class Leads extends Model
             ->orderByDesc('pin')
             ->orderByDesc('status_data')
             ->get(['leads.id', 'status', 'leads.user_id', 'sdr_id', 'nome', 'razao_social', 'cnpj', 'cnpj', 'telefone', 'status_data',
-                DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin')])
+                DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin'),
+                DB::raw('DATEDIFF(CURDATE(), leads.ultimo_pedido_data) as pedido_dias')])
             ->transform(function ($item) use ($nomes) {
                 return [
                     'pin' => !!$item->pin,
@@ -640,6 +641,7 @@ class Leads extends Model
                     ],
                     'infos' => [
                         'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
+                        'pedido_dias' => $item->pedido_dias
                     ],
                 ];
             });
