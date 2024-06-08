@@ -11,4 +11,6 @@ Route::name('admin.metas-vendas.')
         Route::resource('consultores', ConsultoresController::class);
         Route::resource('empresa', MetaEmpresaController::class);
         Route::resource('vendas-faturadas', VendasFaturadasController::class);
+
+        Route::post('planilha', [VendasFaturadasController::class, 'planilha'])->name('planilha');
     });

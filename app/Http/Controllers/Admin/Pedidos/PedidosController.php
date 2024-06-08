@@ -91,9 +91,4 @@ class PedidosController extends Controller
 
         return response()->json(['pedidos' => $pedidos, 'modelo' => modelo_setor($setorPedidos), 'setor' => $setorPedidos]);
     }
-
-    public function gerarPlanilhaPedidos(Request $request)
-    {
-        return response()->json((new PlanilhaProdutos())->gerar($request->dataInicio, $request->dataFim, $request->setor));
-    }
 }

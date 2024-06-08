@@ -25,6 +25,11 @@ export default function ({vendas, usuario, usuarios, mes, ano}) {
             {id: usuarioSelecionado, mes: mesesSelecionado, ano: anoSelecionado}))
     }
 
+    function gerarPlanilha() {
+        axios.post(route('admin.metas-vendas.planilha'), {vendas: vendas, usuario: usuario})
+            .then(res => window.location.href = res.data)
+    }
+
     return (
         <Layout empty titlePage="Vendas Realizadas" menu="dashboard" submenu="dashboard-vendas"
                 voltar={route('admin.dashboard.vendas.index')}>
@@ -66,11 +71,20 @@ export default function ({vendas, usuario, usuarios, mes, ano}) {
                                     <span className="d-block">Setor: {usuario.setor}</span>
                                 </div>
                             </div>
-
                         </div>
+                    </div>
+                </div>
+
+                <div className="card card-body mb-4">
+                    <div className="row">
                         <div className="col">
                             <h6 className="d-block">Total: R$ {convertFloatToMoney(total)}</h6>
+                        </div>
+                        <div className="col">
                             <span className="d-block">Qtd. Pedidos: {vendas?.length}</span>
+                        </div>
+                        <div className="col-auto">
+                            <button className="btn btn-primary d-block mb-0 btn-sm" onClick={() => gerarPlanilha()}>Baixar Planilha</button>
                         </div>
                     </div>
                 </div>

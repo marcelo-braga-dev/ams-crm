@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin\MetasVendas;
 
 use App\Models\User;
+use App\Services\Excel\VendasUsuario;
+use App\Services\Pedidos\PlanilhaProdutos;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use App\Models\Pedidos;
 use Illuminate\Http\Request;
@@ -24,5 +27,12 @@ class VendasFaturadasController extends Controller
 
         return Inertia::render('Admin/MetasVendas/VedasFaturadas/Index',
             compact('vendas', 'usuario', 'usuarios', 'mes', 'ano'));
+    }
+
+    public function planilha(Request $request)
+    {
+        $file = (new VendasUsuario())->gerar($request->usuario, $request->vendas);
+
+        return response()->json($file);
     }
 }

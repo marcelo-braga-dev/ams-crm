@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoNotaController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoPagamentoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\CanceladoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\ConferenciaController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\EncomendaController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\EntregueController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\FaturadoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\LancadoController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Admin\Pedidos\PedidosController;
 use App\Http\Controllers\Admin\Pedidos\Quadros\PedidosQuadrosController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\FaturamentoController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\ProdutosController;
+use App\Http\Controllers\Admin\Pedidos\Relatorios\VendasController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
@@ -65,14 +67,14 @@ Route::name('admin.pedidos.')
         Route::post('config-cores-pedidos', [ConfigController::class, 'atualizarCoresPedidos'])
             ->name('config-cores-pedidos');
 
-        Route::post('gerar-planilha-pedidos', [PedidosController::class, 'gerarPlanilhaPedidos'])
+        Route::post('gerar-planilha-pedidos', [VendasController::class, 'gerarPlanilhaPedidos'])
             ->name('gerar-planilha-pedidos');
     });
 
 Route::name('admin.modelo-2.pedidos.')
     ->prefix('admin/modelo-2/pedidos')
     ->group(function () {
-        Route::resource('encomenda', \App\Http\Controllers\Admin\Pedidos\Modelo1\EncomendaController::class);
+        Route::resource('encomenda', EncomendaController::class);
         Route::resource('lancado', \App\Http\Controllers\Admin\Pedidos\Modelo2\LancadoController::class);
         Route::resource('faturado', \App\Http\Controllers\Admin\Pedidos\Modelo2\FaturadoController::class);
     });
