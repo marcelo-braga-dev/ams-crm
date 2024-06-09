@@ -84,7 +84,7 @@ export default function ({vendas, usuario, usuarios, mes, ano}) {
                             <span className="d-block">Qtd. Pedidos: {vendas?.length}</span>
                         </div>
                         <div className="col-auto">
-                            <button className="btn btn-primary d-block mb-0 btn-sm" onClick={() => gerarPlanilha()}>Baixar Planilha</button>
+                            <button className="btn btn-warning d-block mb-0 btn-sm" onClick={() => gerarPlanilha()}>Baixar Planilha</button>
                         </div>
                     </div>
                 </div>

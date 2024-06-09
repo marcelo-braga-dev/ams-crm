@@ -8,4 +8,5 @@ Route::middleware(['auth', 'auth.consultores'])
     ->prefix('consultor/relatorios')
     ->group(function () {
         Route::resource('metas', MetasController::class);
+        Route::post('planilha', [MetasController::class, 'planilha'])->name('planilha');
     });

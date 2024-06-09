@@ -23,6 +23,11 @@ export default function ({vendas, usuario, mes, ano}) {
             {id: 1, mes: mesesSelecionado, ano: anoSelecionado})
     }
 
+    function gerarPlanilha() {
+        axios.post(route('consultor.relatorios.planilha'), {vendas: vendas, usuario: usuario})
+            .then(res => window.location.href = res.data)
+    }
+
     return (
         <Layout empty titlePage="Vendas do Período" menu="relatorios-metas" voltar={route('consultor.relatorios.metas.index')}>
 
@@ -62,6 +67,9 @@ export default function ({vendas, usuario, mes, ano}) {
                     <div className="col">
                         <h6 className="d-block">Total: R$ {convertFloatToMoney(total)}</h6>
                         <span className="d-block">Qtd. Pedidos: {vendas?.length}</span>
+                    </div>
+                    <div className="col-auto">
+                        <button className="btn btn-warning" onClick={() => gerarPlanilha()}>Baixar Planilha</button>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,7 @@ use App\Models\MetasVendas;
 use App\Models\Pedidos;
 use App\Models\PedidosFaturamentos;
 use App\Models\User;
+use App\Services\Excel\VendasUsuario;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -37,5 +38,12 @@ class MetasController extends Controller
 
         return Inertia::render('Consultor/Relatorios/Metas/Show',
             compact('vendas', 'usuario', 'mes', 'ano'));
+    }
+
+    public function planilha(Request $request)
+    {
+        $file = (new VendasUsuario())->gerar($request->usuario, $request->vendas);
+
+        return response()->json($file);
     }
 }
