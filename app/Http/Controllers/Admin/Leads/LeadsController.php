@@ -76,9 +76,10 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
-        (new Leads())->create($request, $request->setor);
+        $id = (new Leads())->create($request, $request->setor);
 
-        return redirect()->route('admin.clientes.leads.leads-main.index');
+        modalSucesso('Lead cadastrado com sucesso!');
+        return redirect()->route('admin.clientes.leads.leads-main.show', $id);
     }
 
     public function updateConsultor(Request $request)
@@ -127,8 +128,7 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public
-    function ocultos(Request $request)
+    public function ocultos(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
 
