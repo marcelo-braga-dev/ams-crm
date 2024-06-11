@@ -21,6 +21,7 @@ export default function Edit({dados, endereco, urlAnterior}) {
         telefone: dados.telefone,
         email: dados.email,
         inscricao_estadual: dados.inscricao_estadual,
+        atendente: dados.atendente,
 
         cidade: dados.cidade,
         estado: dados.estado,

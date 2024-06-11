@@ -20,6 +20,7 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
         inscricao_estadual: lead.inscricao_estadual,
         preco: 0,
         produtos: [],
+        atendente: lead.atendente,
 
         cidade: lead.cidade,
         estado: lead.estado,
