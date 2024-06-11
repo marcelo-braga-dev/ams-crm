@@ -42,7 +42,7 @@ class LeadsController extends Controller
 
 //        print_pre($dados = (new Leads())->teste(1, $request->com_sdr, $request->com_consultor, $request->importacao));
 
-        return Inertia::render('Admin/Leads/Cadastrados',
+        return Inertia::render('Admin/Leads/Cadastrados/Index',
             compact('categorias', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
     }
 
