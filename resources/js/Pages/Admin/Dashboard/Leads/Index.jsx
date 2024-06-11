@@ -27,7 +27,7 @@ export default function ({mes, ano, setores}) {
     const [carregando, setCarregando] = useState(true);
 
     let totalLeadsCadastrados = 0, totalUsuarios = 0, totalConsultores = 0
-    let totalAtendimento = 0, totalEncaminhados = 0, totalAtivos = 0, totalFinalizados = 0, totalConversao = 0
+    let totalNovo = 0, totalAtendimento = 0, totalEncaminhados = 0, totalAtivos = 0, totalFinalizados = 0, totalConversao = 0
     let totalAbertoC = 0, totalAtendimentoC = 0, totalAtivosC = 0, totalFinalizadosC = 0, totalConversaoC = 0
 
     useEffect(() => {
@@ -82,30 +82,29 @@ export default function ({mes, ano, setores}) {
                                 <thead>
                                 <tr>
                                     <th>Nome</th>
+                                    <th className="text-center">Iniciar Atendimento</th>
                                     <th className="text-center">Pré Atendimento</th>
                                     <th className="text-center">Encaminhados</th>
                                     <th className="text-center">Ativados</th>
                                     <th className="text-center">Finalizados</th>
                                     <th className="text-center bg-light">Total</th>
-                                    <th className="text-center">Conversão</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {usuariosSdr.map(item => {
-                                    const calcConversao = (registrosQtds.ativos?.[item.id] ?? 0) / (registrosQtds.encaminhados?.[item.id] ?? 0) * 100
-                                    const conversao = (calcConversao > 0 && isFinite(calcConversao)) ? round(calcConversao, 2) : 0
                                     const totalUsuario = (registrosQtds.pre_atendimento?.[item.id] ?? 0) +
                                         (registrosQtds.encaminhados?.[item.id] ?? 0) +
                                         (registrosQtds.ativos?.[item.id] ?? 0) +
-                                        (registrosQtds.finalizados?.[item.id] ?? 0)
+                                        (registrosQtds.finalizados?.[item.id] ?? 0) +
+                                        (registrosQtds.novo?.[item.id] ?? 0)
 
                                     totalUsuarios += totalUsuario
 
+                                    totalNovo += (registrosQtds.novo?.[item.id] ?? 0)
                                     totalAtendimento += (registrosQtds.pre_atendimento?.[item.id] ?? 0)
                                     totalEncaminhados += (registrosQtds.encaminhados?.[item.id] ?? 0)
                                     totalAtivos += (registrosQtds.ativos?.[item.id] ?? 0)
                                     totalFinalizados += (registrosQtds.finalizados?.[item.id] ?? 0)
-                                    totalConversao += conversao
 
                                     return (
                                         <tr key={item.id}>
@@ -115,23 +114,23 @@ export default function ({mes, ano, setores}) {
                                                     <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
                                                 </Stack>
                                             </td>
+                                            <td className="text-center">{registrosQtds.novo?.[item.id] ?? 0}</td>
                                             <td className="text-center">{registrosQtds.pre_atendimento?.[item.id] ?? 0}</td>
                                             <td className="text-center">{registrosQtds.encaminhados?.[item.id] ?? 0}</td>
                                             <td className="text-center">{registrosQtds.ativos?.[item.id] ?? 0}</td>
                                             <td className="text-center">{registrosQtds.finalizados?.[item.id] ?? 0}</td>
                                             <td className="text-center bg-light">{totalUsuario}</td>
-                                            <td className="text-center">{conversao}%</td>
                                         </tr>
                                     )
                                 })}
                                 <tr className="bg-light text-center">
                                     <td className="text-start"><b>TOTAL</b></td>
+                                    <td>{totalNovo}</td>
                                     <td>{totalAtendimento}</td>
                                     <td>{totalEncaminhados}</td>
                                     <td>{totalAtivos}</td>
                                     <td>{totalFinalizados}</td>
                                     <td>{totalUsuarios}</td>
-                                    <td>{totalConversao}%</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -152,7 +151,6 @@ export default function ({mes, ano, setores}) {
                                     <th className="text-center">Ativo</th>
                                     <th className="text-center">Finalizados</th>
                                     <th className="text-center bg-light">TOTAL</th>
-                                    <th className="text-center">Conversão</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -185,7 +183,6 @@ export default function ({mes, ano, setores}) {
                                             <td>{statusQtd?.[item.id]?.ativo ?? 0}</td>
                                             <td>{statusQtd?.[item.id]?.finalizado ?? 0}</td>
                                             <td className="bg-light">{totalConsultor}</td>
-                                            <td>{conversao}%</td>
                                         </tr>
                                     )
                                 })}
@@ -196,7 +193,7 @@ export default function ({mes, ano, setores}) {
                                     <td>{totalAtivosC}</td>
                                     <td>{totalFinalizadosC}</td>
                                     <td className="bg-light">{totalConsultores}</td>
-                                    <td></td>
+
                                 </tr>
                                 </tbody>
                             </table>

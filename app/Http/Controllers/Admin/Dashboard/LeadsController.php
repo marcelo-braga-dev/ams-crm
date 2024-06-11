@@ -9,6 +9,7 @@ use App\Models\LeadsStatusHistoricos;
 use App\Models\Setores;
 use App\Models\User;
 use App\src\Leads\Status\FinalizadoStatusLeads;
+use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
@@ -40,6 +41,7 @@ class LeadsController extends Controller
         $registrosStatus = (new Leads())->relatorioLeads();
 
         $statusQtds = [
+            'novo' => (new LeadsStatusHistoricos())->periodoStatus((new NovoStatusLeads())->getStatus(), $mes, $ano),
             'pre_atendimento' => (new LeadsStatusHistoricos())->periodoStatus((new PreAtendimentoStatusLeads())->getStatus(), $mes, $ano),
             'encaminhados' => (new LeadsEncaminhados())->relatorio($mes, $ano),
             'ativos' => (new LeadsEncaminhados())->ativosQtd($mes, $ano),
