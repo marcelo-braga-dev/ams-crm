@@ -117,7 +117,7 @@ export default function ({notificacoesPedidos}) {
                                 {usuariosOnline.map((dado, index) => {
                                     return (
                                         <ListItem key={dado.id} className="pb-0 cursor-pointer"
-                                                  onClick={() => window.location.href = route('admin.usuarios.consultores.show', dado.id)}>
+                                                  onClick={() => window.location.href = route('admin.usuarios.usuario.show', dado.id)}>
                                             <ListItemAvatar>
                                                 <StyledBadge
                                                     overlap="circular"
