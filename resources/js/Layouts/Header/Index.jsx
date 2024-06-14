@@ -1,12 +1,12 @@
 import {useTheme} from '@mui/material/styles';
-import {AppBar, IconButton, Toolbar, useMediaQuery} from '@mui/material';
+import {AppBar, IconButton, Stack, Toolbar, Typography, useMediaQuery} from '@mui/material';
 
 import AppBarStyled from './AppBarStyled.js';
 import HeaderContent from './HeaderContent/Index';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 
 import React from "react";
-import {TextIndentLeft, TextIndentRight} from "react-bootstrap-icons";
+import {ArrowLeft, ArrowLeftShort, TextIndentLeft, TextIndentRight} from "react-bootstrap-icons";
 
 const appBar = {
     position: 'fixed',
@@ -20,12 +20,14 @@ const Header = ({toggleMenu, titlePage, voltar, setToggleMenu}) => {
 
     const mainHeader = (
         <Toolbar style={{borderBottom: '1px solid #f4f4f4'}}>
-            <IconButton disableRipple edge="start" onClick={() => setToggleMenu(e => !e)}>
-                {toggleMenu ? <TextIndentRight size="22"/> : <TextIndentLeft size="22"/>}
-            </IconButton>
-            <IconButton disableRipple edge="start" disabled={!!!voltar} href={voltar}>
-                {!!voltar && <ArrowBackOutlinedIcon sx={{fontSize: 18}}/>}
-            </IconButton>
+            <Stack direction="row" spacing={1}>
+                <IconButton disableRipple edge="start" onClick={() => setToggleMenu(e => !e)}>
+                    {toggleMenu ? <TextIndentRight size="22"/> : <TextIndentLeft size="22"/>}
+                </IconButton>
+                <IconButton disableRipple edge="start" disabled={!!!voltar} href={voltar}>
+                    {!!voltar && <ArrowLeftShort size="22"/>}
+                </IconButton>
+            </Stack>
             <HeaderContent titlePage={titlePage}/>
         </Toolbar>
     );

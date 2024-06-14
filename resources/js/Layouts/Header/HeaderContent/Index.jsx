@@ -1,5 +1,5 @@
 // material-ui
-import { Box, useMediaQuery } from '@mui/material';
+import {Box, useMediaQuery} from '@mui/material';
 
 // project import
 import Search from './Search.jsx';
@@ -11,26 +11,24 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import NotificacoesIcones from "./Icones/NotificacoesIcones";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import { router, usePage } from "@inertiajs/react";
-import { isAdmin } from "@/Helpers/helper";
+import {router, usePage} from "@inertiajs/react";
+import {isAdmin} from "@/Helpers/helper";
 
-const HeaderContent = ({ titlePage }) => {
+const HeaderContent = ({titlePage}) => {
     const matchesXs = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
     return (
         <>
-            <div className="row w-100 text-truncate">
-                <div className="mx-3 col-10 text-truncate">
-                    {titlePage}
-                </div>
+            <div className="row ms-2 w-100 text-truncate">
+                {titlePage}
             </div>
 
-            {matchesXs && <Box sx={{ width: '100%', ml: 1 }} />}
+            {/*{matchesXs && <Box sx={{ width: '100%', ml: 1 }} />}*/}
 
-            <NotificacoesIcones  />
+            <NotificacoesIcones/>
 
-            {!matchesXs && <Profile />}
-            {matchesXs && <MobileSection />}
+            {!matchesXs && <Profile/>}
+            {matchesXs && <MobileSection/>}
         </>
     );
 };
