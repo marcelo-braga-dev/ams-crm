@@ -13,7 +13,7 @@ export default function Layout({children, titlePage, voltar, menu, submenu}) {
     return (
         <Box sx={{display: 'flex', width: '100%'}}>
             <Head title={titlePage}/>
-            <Header toggleMenu={toggleMenu} titlePage={titlePage} voltar={voltar}/>
+            <Header toggleMenu={toggleMenu} titlePage={titlePage} voltar={voltar} setToggleMenu={setToggleMenu}/>
             <Drawer toggleMenu={toggleMenu} permissoes={permissoes} menu={menu} submenu={submenu}/>
 
             <Content open={toggleMenu}>

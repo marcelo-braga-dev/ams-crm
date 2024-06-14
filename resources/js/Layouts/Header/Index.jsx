@@ -6,6 +6,7 @@ import HeaderContent from './HeaderContent/Index';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 
 import React from "react";
+import {TextIndentLeft, TextIndentRight} from "react-bootstrap-icons";
 
 const appBar = {
     position: 'fixed',
@@ -13,12 +14,15 @@ const appBar = {
     elevation: 0,
 };
 
-const Header = ({toggleMenu, titlePage, voltar}) => {
+const Header = ({toggleMenu, titlePage, voltar, setToggleMenu}) => {
     const theme = useTheme();
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
 
     const mainHeader = (
         <Toolbar style={{borderBottom: '1px solid #f4f4f4'}}>
+            <IconButton disableRipple edge="start" onClick={() => setToggleMenu(e => !e)}>
+                {toggleMenu ? <TextIndentRight size="22"/> : <TextIndentLeft size="22"/>}
+            </IconButton>
             <IconButton disableRipple edge="start" disabled={!!!voltar} href={voltar}>
                 {!!voltar && <ArrowBackOutlinedIcon sx={{fontSize: 18}}/>}
             </IconButton>
