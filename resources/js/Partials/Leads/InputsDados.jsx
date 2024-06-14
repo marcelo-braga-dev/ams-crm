@@ -89,16 +89,21 @@ export default function InputsDadosLead({data, setData, required}) {
                 </div>)}
             </div>
             <div className="row">
-                <div className="col-md-4 mb-4">
-                    <TextField label="Data Nascimento" id="nascimento" required={required} defaultValue={data?.nascimento}
+                <div className="col-md-3 mb-4">
+                    <TextField label={data?.pessoa === 'Jurídica' ? 'Data Abertura' : "Data Nascimento"} id="nascimento" required={required}
+                               defaultValue={data?.nascimento}
                                onBlur={e => setData('nascimento', e.target.value)} type={'date'}
                                fullWidth InputLabelProps={{shrink: true}}></TextField>
                 </div>
-                <div className="col-md-4 mb-4">
+                <div className="col-md-3 mb-4">
+                    <TextField label={'Atendente'} required={required} fullWidth defaultValue={data?.atendente}
+                               onBlur={e => setData('atendente', e.target.value)}/>
+                </div>
+                <div className="col-md-3 mb-4">
                     <TextField label={'Telefone'} required={required} fullWidth className="phone" defaultValue={data?.telefone}
                                onBlur={e => setData('telefone', e.target.value)}/>
                 </div>
-                <div className="col-md-4 mb-4">
+                <div className="col-md-3 mb-4">
                     <TextField label="Email" type="email" defaultValue={data?.email}
                                onBlur={e => setData('email', e.target.value)} fullWidth>
                     </TextField>

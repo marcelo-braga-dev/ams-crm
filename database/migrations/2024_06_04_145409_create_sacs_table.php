@@ -19,6 +19,9 @@ return new class extends Migration {
             $table->string('nota')->nullable();
             $table->boolean('entrega_agendada')->nullable();
             $table->boolean('paletizado')->nullable();
+            $table->boolean('avaria')->nullable();
+            $table->boolean('produtos_quebrados')->nullable();
+            $table->boolean('produtos_faltam')->nullable();
             $table->string('img_cte')->nullable();
             $table->string('img_entrega')->nullable();
             $table->string('img_produto')->nullable();

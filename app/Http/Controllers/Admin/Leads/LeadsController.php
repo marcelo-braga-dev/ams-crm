@@ -23,16 +23,6 @@ use Inertia\Inertia;
 
 class LeadsController extends Controller
 {
-//    public function index(Request $request)
-//    {
-//        $categorias = (new SetoresService())->setores();
-//
-//        $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
-//
-//        return Inertia::render('Admin/Leads/Encaminhar',
-//            compact('datasImportacao', 'categorias'));
-//    }
-
     public function cadastrados(Request $request)
     {
         $categorias = (new SetoresService())->setores();
@@ -40,9 +30,7 @@ class LeadsController extends Controller
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
         $isLeadsExcluir = (new UsersPermissoes())->isLeadsExcluir(id_usuario_atual());
 
-//        print_pre($dados = (new Leads())->teste(1, $request->com_sdr, $request->com_consultor, $request->importacao));
-
-        return Inertia::render('Admin/Leads/Cadastrados',
+        return Inertia::render('Admin/Leads/Cadastrados/Index',
             compact('categorias', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
     }
 
@@ -55,10 +43,20 @@ class LeadsController extends Controller
         return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
     }
 
+    public function leadsCadastradosPaginate(Request $request)
+    {
+        $categoriaAtual = $request->filtros['setor'] ?? 1;
+
+        $usuarios = (new User())->getUsuariosNomes($categoriaAtual);
+        $dados = (new Leads())->getDadosMinimoPaginate($categoriaAtual, $request->filtros);
+
+        return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
+    }
+
     public function registrosEncaminhar(Request $request)
     {
         $categoriaAtual = $request->setor ?? 1;
-        $idImportacao = $request->id_importacao;
+        $idImportacao = $request->importacao_id;
         $usuariosSdr = (new User())->usuariosSdr();
         $usuariosVendedor = (new User())->usuariosRecebeLeads();
 

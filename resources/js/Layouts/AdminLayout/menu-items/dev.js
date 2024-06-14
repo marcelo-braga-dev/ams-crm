@@ -1,5 +1,5 @@
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
-import LaptopMacOutlinedIcon from "@mui/icons-material/LaptopMacOutlined";
+import {CodeSlash} from "react-bootstrap-icons";
 
 const dashboard = {
     id: '',
@@ -11,7 +11,7 @@ const dashboard = {
             title: 'Desenvolvimento',
             type: 'collapse',
             url: undefined,
-            icon: LaptopMacOutlinedIcon,
+            icon: CodeSlash,
             admin: true,
             submenu: [
                 {

@@ -8,10 +8,16 @@ use App\Models\LeadsStatusHistoricos;
 class FinalizadoStatusLeads
 {
     private string $status = 'finalizado';
+    private string $cor = 'rgb(0, 0, 0)';
 
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public function getCor()
+    {
+        return $this->cor;
     }
 
     public function getNome()

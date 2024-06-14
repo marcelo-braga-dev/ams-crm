@@ -1,56 +1,50 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import React from "react";
+import Avatar from "@mui/material/Avatar";
+import {Stack, Typography} from "@mui/material";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle";
+import CardTable from "@/Components/Cards/CardTable";
 
-export default function ({ consultores, idUsuarioAtual }) {
+export default function ({consultores, idUsuarioAtual}) {
     return (
         <Layout titlePage="Emitir Pedidos" menu="pedidos" submenu="pedidos-novo">
-            <div className="mb-4 card card-body">
-                <div className="col">
-                    <a className="btn btn-warning"
-                        href={route('admin.leads.consultores-cards.index', { id: idUsuarioAtual })}>Emitir seu Pedido</a>
-                </div>
-            </div>
+            <CardContainer>
+                <CardBody>
+                    <a className="btn btn-warning" href={route('admin.leads.consultores-cards.index', {id: idUsuarioAtual})}>
+                        Emitir seu Pedido
+                    </a>
+                </CardBody>
+            </CardContainer>
 
 
-            <div className="card card-body">
-                <h6>Emitir Pedidos para Consultores(as)</h6>
-                <div className="table table-responsive">
-                    <table className="table text-sm text-center cursor-pointer table-hover">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>Novo</th>
-                                <th>Atendimento</th>
-                                <th>Ativo</th>
-                                <th>Finalizado</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
+            <CardContainer>
+                <CardTitle title="Emitir Pedidos para Consultores(as)"/>
+                <CardTable>
+                    <table className="table-1 cursor-pointer">
                         <tbody>
-                            {consultores.map((dado, index) => {
-                                return (
-                                    <tr key={index}
-                                        onClick={() => window.location.href = route('admin.leads.consultores-cards.index', { id: dado.id })}>
-                                        <td>#{dado.id}</td>
-                                        <td className="text-wrap text-start"><b>{dado.nome}</b></td>
-                                        <td>{dado.novo ?? 0}</td>
-                                        <td>{dado.atendimento ?? 0}</td>
-                                        <td>{dado.ativo ?? 0}</td>
-                                        <td>{dado.finalizado ?? 0}</td>
-                                        <td>
-                                            <a className="px-3 py-1 mb-0 btn btn-primary btn-sm"
-                                                href={route('admin.leads.consultores-cards.index', { id: dado.id })}>
-                                                Ver
-                                            </a>
-                                        </td>
-                                    </tr>
-                                )
-                            })}
+                        {consultores.map((dado, index) => {
+                            return (
+                                <tr key={index} onClick={() => window.location.href = route('admin.leads.consultores-cards.index', {id: dado.id})}>
+                                    <td className="text-wrap text-start">
+                                        <Stack direction="row" spacing={2}>
+                                            <Avatar src={dado.nome.foto} sx={{width: 25, height: 25}}/>
+                                            <Stack direction="column" spacing={0}>
+                                                <Typography variant="h6"><b>{dado.nome.nome}</b></Typography>
+                                            </Stack>
+                                        </Stack>
+                                    </td>
+                                    <td>
+                                        <button className="px-3 py-1 mb-0 btn btn-primary btn-sm">Abrir</button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
                         </tbody>
                     </table>
-                </div>
-            </div>
+                </CardTable>
+            </CardContainer>
         </Layout>
     )
 }

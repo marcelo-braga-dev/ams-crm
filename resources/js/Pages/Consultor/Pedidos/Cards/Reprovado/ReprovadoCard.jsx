@@ -1,4 +1,4 @@
-import CardPedidos from "../CardPedidos";
+import CardPedidos from "@/Components/Pedidos/CardPedidos";
 
 import BtnAvancaStatus from "./BtnAvancaStatus";
 import AlertsCard from "./AlertsCard";

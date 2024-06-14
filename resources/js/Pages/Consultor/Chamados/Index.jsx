@@ -27,6 +27,12 @@ export default function Pedidos({sac}) {
                                         </div>
                                     </th>
                                     <th className="sticky-top" style={{width: 300}}>
+                                        <div className={styleCard} style={{backgroundColor: 'blue'}}>
+                                            <div className='col-auto'>Com Avarias</div>
+                                            <div className='col-auto'>Qdt: {sac.avaria.length}</div>
+                                        </div>
+                                    </th>
+                                    <th className="sticky-top" style={{width: 300}}>
                                         <div className={styleCard} style={{backgroundColor: 'black'}}>
                                             <div className='col-auto'>Finalizado</div>
                                             <div className='col-auto'>Qdt: {sac.finalizado.length}</div>
@@ -41,6 +47,9 @@ export default function Pedidos({sac}) {
                                     </td>
                                     <td>
                                         {sac?.atendimento?.map(dado => <CardChamados key={dado.id} dados={dado}/>)}
+                                    </td>
+                                    <td>
+                                        {sac?.avaria?.map(dado => <CardChamados key={dado.id} dados={dado}/>)}
                                     </td>
                                     <td>
                                         {sac?.finalizado?.map(dado => <CardChamados key={dado.id} dados={dado}/>)}

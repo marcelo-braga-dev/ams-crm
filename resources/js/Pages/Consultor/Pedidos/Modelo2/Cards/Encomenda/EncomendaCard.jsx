@@ -1,4 +1,4 @@
-import CardPedidos from "../CardPedidos";
+import CardPedidos from "@/Components/Pedidos/CardPedidos";
 import MenuMore from "@/Pages/Consultor/Pedidos/Cards/MenuMore";
 import AlertsCard from "./AlertsCard";
 

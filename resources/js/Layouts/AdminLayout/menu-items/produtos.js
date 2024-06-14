@@ -1,6 +1,5 @@
-import * as React from "react";
-import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
+import {BoxSeam} from "react-bootstrap-icons";
 
 const dashboard = {
     id: 'produtos',
@@ -12,7 +11,7 @@ const dashboard = {
             title: 'Produtos',
             type: 'collapse',
             url: undefined,
-            icon: Inventory2OutlinedIcon,
+            icon: BoxSeam,
             submenu: [
                 {
                     id: 'produtos-cadastrados',
@@ -26,13 +25,7 @@ const dashboard = {
                     title: 'Categorias',
                     type: 'item',
                     url: route('admin.produtos-categorias.index'),
-                }, {
-                    id: 'produtos-unidades',
-                    chave: chaves.produtos.unidades,
-                    title: 'Unidades',
-                    type: 'item',
-                    url: route('admin.produtos-unidades.index'),
-                }, {
+                },  {
                     id: 'produtos-unidades',
                     chave: chaves.produtos.unidades,
                     title: 'Configurações',

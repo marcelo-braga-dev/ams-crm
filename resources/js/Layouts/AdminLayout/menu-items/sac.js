@@ -1,5 +1,5 @@
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
-import SpeakerNotesOutlinedIcon from "@mui/icons-material/SpeakerNotesOutlined";
+import {Tag} from "react-bootstrap-icons";
 
 const dashboard = {
     id: '',
@@ -11,7 +11,7 @@ const dashboard = {
             title: 'SAC',
             type: 'collapse',
             url: undefined,
-            icon: SpeakerNotesOutlinedIcon,
+            icon: Tag,
             submenu: [
                 {
                     id: 'sac-chamados',

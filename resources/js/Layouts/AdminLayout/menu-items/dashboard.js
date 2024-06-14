@@ -1,5 +1,5 @@
-import InsertChartOutlinedRoundedIcon from "@mui/icons-material/InsertChartOutlinedRounded";
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
+import {BarChartLine} from "react-bootstrap-icons";
 
 const dashboard = {
     id: '',
@@ -11,7 +11,7 @@ const dashboard = {
             title: 'Dashboard',
             type: 'collapse',
             url: undefined,
-            icon: InsertChartOutlinedRoundedIcon,
+            icon: BarChartLine,
 
             submenu: [
                 {

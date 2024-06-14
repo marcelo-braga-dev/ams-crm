@@ -1,6 +1,5 @@
-import * as React from "react";
-import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
+import {ChatText} from "react-bootstrap-icons";
 
 const dashboard = {
     id: 'chat',
@@ -12,7 +11,7 @@ const dashboard = {
             title: 'Chats',
             type: 'collapse',
             url: undefined,
-            icon: QuestionAnswerOutlinedIcon,
+            icon: ChatText,
             submenu: [
                 {
                     id: 'chat-interno',

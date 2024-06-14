@@ -1,4 +1,7 @@
 import React from 'react'
+import {Typography} from "@mui/material";
+import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import Chip from "@mui/material/Chip";
 
 export default function CardChamados({dados}) {
 
@@ -16,22 +19,25 @@ export default function CardChamados({dados}) {
     return (
         <>
             <div className="row bg-white shadow p-1 py-2 m-1 mb-4 rounded">
-                <div className="col-12">
-                    <h6 className="d-block">{dados.titulo}</h6>
+                <div className="col-12 mb-2">
+                    <Typography><b>{dados.titulo}</b></Typography>
                 </div>
                 <div className="col-12">
-                    <span>Autor: {dados.nome}</span>
+                    <Typography><b>Autor:</b> {dados.autor}</Typography>
                 </div>
                 <div className="col-12">
-                    <small>ID do Pedido: #{dados.pedido_id}</small>
+                    <Typography><b>ID do Pedido:</b> #{dados.pedido_id}</Typography>
+                    <Typography><b>Status Pedido:</b> {dados.pedido_status}</Typography>
+                    <Typography><b>Valor:</b> R$ {convertFloatToMoney(dados.valor)}</Typography>
+                    {dados.fornecedor_nome && <Typography><b>Distribudora:</b> {dados.fornecedor_nome}</Typography>}
                 </div>
                 <div className="col-12">
                     <div className="row">
                         <div className="col">
-                            <small className="">Data: {dados.data}</small>
+                            <small className="">Data: {dados.data_cadastro}</small>
                         </div>
                         <div className="col-auto">
-                            {/*<small className="text-muted d-block">Prazo: {dados.prazo} dias</small>*/}
+                            <small className="text-muted d-block">ID: #{dados.id}</small>
                         </div>
                     </div>
                 </div>
@@ -39,7 +45,8 @@ export default function CardChamados({dados}) {
                 <div className="col-12">
                     <div className="row">
                         <div className="col">
-                            <small className="text-muted d-block">ID: #{dados.id}</small>
+                            {!!dados.avaria && <Chip label="AVARIA" size="small"/>}
+
                         </div>
                         <div className="col-auto">
                             <a href={url()} className="btn btn-primary btn-sm p-1 px-3">Abrir</a>

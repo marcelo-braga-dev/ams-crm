@@ -50,4 +50,12 @@ class Pins extends Model
                 'pedido_id' => $id,
             ]);
     }
+
+    public function removerLead($id)
+    {
+        $this->newQuery()
+            ->where('lead_id', $id)
+            ->delete();
+
+    }
 }

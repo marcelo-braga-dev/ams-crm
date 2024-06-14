@@ -28,4 +28,25 @@ class StatusLeads
         $nomes = $this->nomesStatus();
         return $nomes[$status] ?? '';
     }
+
+    public function nomeCor($status)
+    {
+        $novo = (new NovoStatusLeads());
+        $preAtendimento = (new PreAtendimentoStatusLeads());
+        $aberto = (new AbertoStatusLeads());
+        $atendimento = (new AtendimentoStatusLeads());
+        $ativo = (new AtivoStatusLeads());
+        $finalizado = (new FinalizadoStatusLeads());
+
+        $status = match ($status) {
+            $novo->getStatus() => (new NovoStatusLeads()),
+            $aberto->getStatus() => (new AbertoStatusLeads()),
+            $preAtendimento->getStatus() => (new PreAtendimentoStatusLeads()),
+            $atendimento->getStatus() => (new AtendimentoStatusLeads()),
+            $ativo->getStatus() => (new AtivoStatusLeads()),
+            $finalizado->getStatus() => (new FinalizadoStatusLeads()),
+        };
+
+        return ['nome' => $status->getNome(), 'cor' => $status->getCor()];
+    }
 }

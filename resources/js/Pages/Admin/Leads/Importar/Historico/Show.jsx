@@ -6,15 +6,17 @@ import {
     ListItemButton,
     TextField
 } from "@mui/material";
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";
 
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Checkbox from "@mui/material/Checkbox";
 import ListItem from "@mui/material/ListItem";
 import InfoLead from "@/Pages/Admin/Leads/Componentes/InfoLead";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import CardTable from "@/Components/Cards/CardTable";
 
 export default function Filtering({leads, dadosimportacao}) {
     // loading
@@ -87,15 +89,15 @@ export default function Filtering({leads, dadosimportacao}) {
                                     <div className="col-6">
                                         <InfoLead dado={row}/>
                                     </div>
-                                    {(row.consultor || row.status) &&
-                                        <div className="col">
-                                            {row.status === 'finalizado' && <span>Status: {row.status}<br/><br/></span>}
-                                            {row.consultor &&
-                                                <span>Último Vendedor(a):<br/>
-                                                    {row.consultor}</span>
-                                            }
-                                        </div>
-                                    }
+
+                                    <div className="col">
+                                        <span>Status: {row.status}<br/><br/></span>
+                                        {row.consultor &&
+                                            <span>Último Vendedor(a):<br/>
+                                                {row.consultor}</span>
+                                        }
+                                    </div>
+
                                 </div>
                             </ListItemButton>
                         </ListItem>
@@ -164,16 +166,15 @@ export default function Filtering({leads, dadosimportacao}) {
         }
     }
 
-    // Form Excluir - fim
-
-    // Form Ocultar
-    function ocultar() {
+    function excluirImportacao() {
         if (leadsChecked) {
             setOpen(!open);
-            router.post(route('admin.clientes.leads.ocultar',
-                {leadsSelecionados: leadsChecked}))
+            router.post(route('admin.clientes.leads.importar-historico.destroy', dadosimportacao.id), {_method: 'DELETE'})
+
         }
     }
+
+    // Form Excluir - fim
 
     router.on('success', (event) => {
         setLeadsChecked([])
@@ -183,94 +184,122 @@ export default function Filtering({leads, dadosimportacao}) {
     })
 
     // Form Ocultar - fim
-
-
     return (
         <Layout container titlePage="Histórico da Importação" menu="leads" submenu="leads-importar"
-        voltar={route('admin.clientes.leads.importar-historico.index')}>
-            <form onSubmit={encaminharLead}>
-                <div className="row justify-content-between mb-4">
-                    <div className="col">
-                        <span className="d-block"><b>Data da Importação:</b> {dadosimportacao.data}</span>
-                        <span className="d-block"><b>Responsável pela Importação:</b> {dadosimportacao.nome}</span>
-                        <span className="d-block"><b>ID da Importação:</b>  #{dadosimportacao.id}</span>
-                        <span className="d-block"><b>Qtd. Total de Leads Importados:</b> {dadosimportacao.qtd}</span>
-                        <span className="d-block"><b>Setor:</b> {dadosimportacao.setor}</span>
-                    </div>
-                    <div className="col-md-auto ">
-                        <button type="button" className="btn btn-link btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#modalEsconder">
-                            <VisibilityOffIcon sx={{fontSize: 18}}/> OCULTAR
-                        </button>
-                        <button type="button" className="btn btn-link text-danger btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#modalExcluir">
-                            <DeleteIcon sx={{fontSize: 18}} /> EXCLUIR
-                        </button>
-                    </div>
-                </div>
-            </form>
+                voltar={route('admin.clientes.leads.importar-historico.index')}>
 
-            {/*FILTRO*/}
-            <div className="row">
-                <div className="col ps-3">
-                    <Checkbox checked={checkedPage || false} onChange={e => adicionarLeadsCheck(e.target.checked)}/>
-                    {leadsChecked.length} selecionados
-                </div>
-                <div className="col-auto text-right">
-                    <TextField
-                        id="outlined-select-currency"
-                        select
-                        placeholder="asas"
-                        label="Filtro"
-                        defaultValue="nome"
-                        size="small"
-                        onChange={event => setFiltro(event.target.value)}
-                    >
-                        <MenuItem value="id">
-                            ID
-                        </MenuItem>
-                        <MenuItem value="nome">
-                            Nome/Razão Social
-                        </MenuItem>
-                        <MenuItem value="cnpj">
-                            CNPJ
-                        </MenuItem>
-                        <MenuItem value="cidade">
-                            Cidade
-                        </MenuItem>
-                        <MenuItem value="ddd">
-                            DDD
-                        </MenuItem>
-                        <MenuItem value="telefone">
-                            Telefone
-                        </MenuItem>
-                    </TextField>
-                    <TextField
-                        id="search"
-                        type="text"
-                        placeholder="Pesquisar..."
-                        value={filterText}
-                        onChange={e => setFilterText(e.target.value)}
-                        size="small"
+            <CardContainer>
+                <CardBody>
+                    <div className="row justify-content-between mb-4">
+                        <div className="col">
+                            <span className="d-block"><b>Data da Importação:</b> {dadosimportacao.data}</span>
+                            <span className="d-block"><b>Responsável pela Importação:</b> {dadosimportacao.nome}</span>
+                            <span className="d-block"><b>ID da Importação:</b>  #{dadosimportacao.id}</span>
+                            <span className="d-block"><b>Qtd. Total de Leads Importados:</b> {dadosimportacao.qtd}</span>
+                            <span className="d-block"><b>Setor:</b> {dadosimportacao.setor}</span>
+                        </div>
+                        <div className="col-auto">
+                            <button className="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalExcluirImportacao">
+                                Excluir Importação
+                            </button>
+                        </div>
+                    </div>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardTable>
+                    {/*FILTRO*/}
+                    <div className="row">
+                        <div className="col ps-3">
+                            <Checkbox checked={checkedPage || false}
+                                      onChange={e => adicionarLeadsCheck(e.target.checked)}/>
+                            {leadsChecked.length} selecionados
+                            <button className="btn btn-link text-danger btn-sm mt-2" data-bs-toggle="modal"
+                                    data-bs-target="#modalExcluir">
+                                <DeleteIcon sx={{fontSize: 22}}/>
+                            </button>
+                        </div>
+                        <div className="col-auto text-right">
+                            <TextField
+                                id="outlined-select-currency"
+                                select
+                                placeholder="asas"
+                                label="Filtro"
+                                defaultValue="nome"
+                                size="small"
+                                onChange={event => setFiltro(event.target.value)}
+                            >
+                                <MenuItem value="id">
+                                    ID
+                                </MenuItem>
+                                <MenuItem value="nome">
+                                    Nome/Razão Social
+                                </MenuItem>
+                                <MenuItem value="cnpj">
+                                    CNPJ
+                                </MenuItem>
+                                <MenuItem value="cidade">
+                                    Cidade
+                                </MenuItem>
+                                <MenuItem value="ddd">
+                                    DDD
+                                </MenuItem>
+                                <MenuItem value="telefone">
+                                    Telefone
+                                </MenuItem>
+                            </TextField>
+                            <TextField
+                                id="search"
+                                type="text"
+                                placeholder="Pesquisar..."
+                                value={filterText}
+                                onChange={e => setFilterText(e.target.value)}
+                                size="small"
+                            />
+                        </div>
+                    </div>
+
+                    <DataTable
+                        columns={columns}
+                        data={filteredItems}
+                        pagination
+                        paginationPerPage={rowsPerPage}
+                        onChangeRowsPerPage={value => setRowsPerPage(value)}
+                        onChangePage={value => {
+                            setPageAtual(value)
+                            setCheckedPage(false)
+                        }}
+                        paginationComponentOptions={{
+                            rowsPerPageText: 'Itens por página',
+                            rangeSeparatorText: 'de',
+                        }}
                     />
+                </CardTable>
+            </CardContainer>
+
+            {/*MODAL EXCLUIR*/}
+            <div className="modal fade mt-5" id="modalExcluirImportacao" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Excluir Importação</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Excluir TODOS os Leads dessa importação?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
+                                    onClick={() => excluirImportacao()}>Excluir
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <DataTable
-                columns={columns}
-                data={filteredItems}
-                pagination
-                paginationPerPage={rowsPerPage}
-                onChangeRowsPerPage={value => setRowsPerPage(value)}
-                onChangePage={value => {
-                    setPageAtual(value)
-                    setCheckedPage(false)
-                }}
-                paginationComponentOptions={{
-                    rowsPerPageText: 'Itens por página',
-                    rangeSeparatorText: 'de',
-                }}
-            />
 
             {/*MODAL EXCLUIR*/}
             <div className="modal fade mt-5" id="modalExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"
@@ -298,33 +327,6 @@ export default function Filtering({leads, dadosimportacao}) {
                 </div>
             </div>
 
-            {/*MODAL ESCONDER*/}
-            <div className="modal fade mt-5" id="modalEsconder" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Ocultar</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            {leadsChecked.length ?
-                                <>Ocultar Leads Selecionados?</> :
-                                <div className="alert alert-danger text-white">Selecione os leads para ocultar.</div>
-                            }
-
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                    onClick={() => ocultar()}>
-                                Ocultar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div>
                 <Backdrop
                     sx={{color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1}}

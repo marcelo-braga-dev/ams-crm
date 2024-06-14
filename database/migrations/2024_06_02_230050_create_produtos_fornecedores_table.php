@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('nome');
             $table->integer('setor_id')->nullable();
             $table->integer('franquia_id')->nullable();
-            $table->integer('cnpj')->nullable();
+            $table->bigInteger('cnpj')->nullable();
             $table->string('atendente')->nullable();
-            $table->integer('telefone')->nullable();
+            $table->bigInteger('telefone')->nullable();
             $table->string('email')->nullable();
             $table->string('anotacoes')->nullable();
             $table->timestamps();

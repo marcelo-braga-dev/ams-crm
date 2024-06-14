@@ -371,15 +371,62 @@ class Pedidos extends Model
     {
         $query = $this->newQuery()
             ->leftJoin('pins', 'pedidos.id', '=', DB::raw('pins.pedido_id AND pins.user_id = ' . id_usuario_atual()))
+            ->leftJoin('users', 'pedidos.user_id', '=', 'users.id')
+            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
+            ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
+            ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
+            ->leftJoin('setores', 'pedidos.setor_id', '=', 'setores.id')
             ->whereIn('pedidos.user_id', supervisionados(id_usuario_atual()))
             ->orderByDesc('pin')
             ->orderBy('status_data');
 
-        if ($idUsuario) $query->where('pedidos.user_id', $idUsuario);
-        if ($setor) $query->where('setor_id', $setor);
-        if ($fornecedor) $query->where('fornecedor_id', $fornecedor);
+        $query->where(function ($query) {
+            $query->whereRaw('(pedidos.status = "entregue" OR pedidos.status = "cancelado") AND DATEDIFF(CURDATE(), pedidos.status_data) <= 3')
+                ->orWhereRaw('pedidos.status != "entregue" AND pedidos.status != "cancelado"');
+        });
 
-        return $query->get(['pedidos.*', DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin')]);
+        if ($idUsuario) $query->where('pedidos.user_id', $idUsuario);
+        if ($setor) $query->where('pedidos.setor_id', $setor);
+        if ($fornecedor) $query->where('pedidos.fornecedor_id', $fornecedor);
+
+        $query->select(DB::raw("
+            pedidos.*, CASE WHEN pins.user_id = " . id_usuario_atual() . " THEN TRUE ELSE FALSE END as pin,
+            users.name as consultor_nome, leads.nome as lead_nome, pedidos_clientes.nome as cliente_nome, pedidos_clientes.razao_social as cliente_razao_social,
+            produtos_fornecedores.nome as fornecedor, setores.nome as setor_nome, setores.cor as setor_cor
+        "));
+
+        return $query->get()
+            ->transform(function ($pedido) {
+                return [
+                    'id' => $pedido->id,
+                    'pin' => !!$pedido->pin,
+                    'modelo' => $pedido->modelo,
+                    'cliente' => $pedido->cliente_nome ?? $pedido->cliente_razao_social ?? null,
+                    'consultor' => $pedido->consultor_nome,
+                    'preco' => $pedido->preco_venda,
+                    'fornecedor' => $pedido->fornecedor ?? '',
+                    'integrador' => $pedido->lead_nome ?? '',
+                    'setor_nome' => $pedido->setor_nome,
+                    'setor_cor' => $pedido->setor_cor,
+                    'status' => $pedido->status,
+                    'forma_pagamento' => $pedido->forma_pagamento,
+                    'faturamento' => 10000000,
+                    'contato' => [
+//                'telefone' => $pedido->cliente ? $this->clientes[$pedido->cliente]['telefone'] : $this->clientesPedidos[$pedido->id]['telefone'],
+//                'email' => $pedido->cliente ? $this->clientes[$pedido->cliente]['email'] : $this->clientesPedidos[$pedido->id]['email']
+                    ],
+                    'prazos' => [
+                        'data_status' => date('d/m/y H:i', strtotime($pedido->status_data)),
+                        'data_prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),
+                        'prazo_atrasado' => false//diferenca que falta para o prazo estourar
+                    ],
+                    'infos' => [
+                        'situacao' => $pedido->situacao,
+                        'alerta' => $pedido->alerta,
+                        'sac' => $pedido->sac,
+                    ],
+                ];
+            });
     }
 
     public function getDados(?int $setor)
@@ -685,7 +732,7 @@ class Pedidos extends Model
 
     public function atualizar($id, $dados)
     {
-        $query = $this->newQuery() ->find($id);
+        $query = $this->newQuery()->find($id);
 
         if ($dados['preco']) $query->update(['preco_venda' => convert_money_float($dados['preco'])]);
         if ($dados['preco_custo']) $query->update(['preco_custo' => convert_money_float($dados['preco_custo'])]);

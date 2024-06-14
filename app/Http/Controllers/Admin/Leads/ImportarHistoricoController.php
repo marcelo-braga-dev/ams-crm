@@ -28,4 +28,12 @@ class ImportarHistoricoController extends Controller
         return Inertia::render('Admin/Leads/Importar/Historico/Show',
             compact('leads', 'dadosimportacao'));
     }
+
+    public function destroy($id)
+    {
+        (new Leads)->removerImportacao($id);
+
+        modalSucesso('Leads deletados com sucesso!');
+        return redirect()->back();
+    }
 }
