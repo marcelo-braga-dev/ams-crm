@@ -23,24 +23,12 @@ use Inertia\Inertia;
 
 class LeadsController extends Controller
 {
-//    public function index(Request $request)
-//    {
-//        $categorias = (new SetoresService())->setores();
-//
-//        $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
-//
-//        return Inertia::render('Admin/Leads/Encaminhar',
-//            compact('datasImportacao', 'categorias'));
-//    }
-
     public function cadastrados(Request $request)
     {
         $categorias = (new SetoresService())->setores();
         $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
         $isLeadsExcluir = (new UsersPermissoes())->isLeadsExcluir(id_usuario_atual());
-
-//        print_pre($dados = (new Leads())->teste(1, $request->com_sdr, $request->com_consultor, $request->importacao));
 
         return Inertia::render('Admin/Leads/Cadastrados',
             compact('categorias', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
@@ -127,8 +115,7 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public
-    function ocultos(Request $request)
+    public function ocultos(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
 
