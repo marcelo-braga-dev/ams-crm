@@ -880,7 +880,7 @@ class Leads extends Model
 
         if ($filtros['sdr'] ?? null) $query->whereNull('sdr_id');
         if ($filtros['consultor'] ?? null) $query->whereNull('user_id');
-        if (!!$filtros['importacao'] ?? null) $query->where('importacao_id', $filtros['importacao']);
+        if ($filtros['importacao'] ?? null) $query->where('importacao_id', $filtros['importacao']);
         if ($filtros['status'] ?? null) $query->where('status', $filtros['status']);
         if ($filtros['leads'] ?? null) {
             if ($filtros['leads'] == 'novos') $query->whereNull('data_encaminhado');

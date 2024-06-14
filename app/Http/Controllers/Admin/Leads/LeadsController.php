@@ -30,8 +30,17 @@ class LeadsController extends Controller
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
         $isLeadsExcluir = (new UsersPermissoes())->isLeadsExcluir(id_usuario_atual());
 
-        return Inertia::render('Admin/Leads/Cadastrados',
+        return Inertia::render('Admin/Leads/Cadastrados/Index',
             compact('categorias', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
+    }
+
+    public function leadsCadastradosPaginate(Request $request)
+    {
+        $categoriaAtual = $request->filtros['setor'] ?? 1;
+        $usuarios = (new User())->getUsuariosNomes($categoriaAtual);
+        $dados = (new Leads())->getDadosMinimoPaginate($categoriaAtual, $request->filtros);
+
+        return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
     }
 
     public function leadsCadastrados(Request $request)
@@ -64,9 +73,10 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
-        (new Leads())->create($request, $request->setor);
+        $id = (new Leads())->create($request, $request->setor);
 
-        return redirect()->route('admin.clientes.leads.leads-main.index');
+        modalSucesso('Lead Cadastrado com sucesso!');
+        return redirect()->route('admin.clientes.leads.leads-main.show', $id);
     }
 
     public function updateConsultor(Request $request)
