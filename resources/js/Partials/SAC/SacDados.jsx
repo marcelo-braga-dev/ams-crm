@@ -4,9 +4,12 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardTitle from "@/Components/Cards/CardTitle";
 import CardBody from "@/Components/Cards/CardBody";
 import {Stack, Typography} from "@mui/material";
-import {Paperclip, Tags} from "react-bootstrap-icons";
+import {Check, Paperclip, Tags, X} from "react-bootstrap-icons";
 
 export default function SacDados({sac, pedido, urlPedido}) {
+    const iconBool = (statusItem) => {
+        return  statusItem ? <Check color="green" size={22}/> : <X color="red" size={22}/>
+    }
 
     return (<>
         <CardContainer>
@@ -43,10 +46,10 @@ export default function SacDados({sac, pedido, urlPedido}) {
                 {sac.nota && <>
                     <Stack direction="row" spacing={3}>
                         <span className="d-block"><b>Nota Fiscal:</b> {sac.nota}</span>
-                        <span className="d-block"><b>Entrega Agendada:</b> {sac.entrega_agendada ? 'SIM' : 'NÃO'}</span>
-                        <span className="d-block"><b>Material Paletizado:</b> {sac.paletizado ? 'SIM' : 'NÃO'}</span>
-                        <span className="d-block"><b>Produtos Quebrados/Danificados:</b> {sac.produtos_quebrados ? 'SIM' : 'NÃO'}</span>
-                        <span className="d-block"><b>Produtos Faltando:</b> {sac.produtos_faltam ? 'SIM' : 'NÃO'}</span>
+                        <span className="d-block"><b>Entrega Agendada:</b> {iconBool(sac.entrega_agendada)}</span>
+                        <span className="d-block"><b>Material Paletizado:</b> {iconBool(sac.paletizado)}</span>
+                        <span className="d-block"><b>Produtos Quebrados/Danificados:</b> {iconBool(sac.produtos_quebrados)}</span>
+                        <span className="d-block"><b>Produtos Faltando:</b> {iconBool(sac.produtos_faltam)}</span>
                     </Stack>
 
                     <div className="row mt-4">

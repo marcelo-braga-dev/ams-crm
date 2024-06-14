@@ -381,7 +381,7 @@ class Pedidos extends Model
             ->orderBy('status_data');
 
         $query->where(function ($query) {
-            $query->whereRaw('(pedidos.status = "entregue" OR pedidos.status = "cancelado") AND DATEDIFF(CURDATE(), pedidos.status_data) <= 3')
+            $query->whereRaw('(pedidos.status = "entregue" OR pedidos.status = "cancelado") AND DATEDIFF(CURDATE(), pedidos.status_data) <= 1')
                 ->orWhereRaw('pedidos.status != "entregue" AND pedidos.status != "cancelado"');
         });
 
