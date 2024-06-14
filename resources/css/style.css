@@ -46,7 +46,7 @@
 }
 
 .table-1 tbody {
-    :last-child {
+    &:last-child {
         border-bottom: 0;
     }
 }
@@ -63,7 +63,7 @@
     font-size: 15px;
     font-weight: 400;
     border-right: 1px solid #f5f5f7;
-    :nth-child {
+    &:nth-child {
         border-left: 0;
     }
 }
