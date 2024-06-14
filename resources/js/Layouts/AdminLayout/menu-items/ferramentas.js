@@ -1,5 +1,5 @@
-import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
+import {Box} from "react-bootstrap-icons";
 
 const dashboard = {
     id: 'ferramentas',
@@ -11,7 +11,7 @@ const dashboard = {
             title: 'Ferramentas',
             type: 'collapse',
             url: undefined,
-            icon: HandymanOutlinedIcon,
+            icon: Box,
             submenu: [
                 {
                     id: 'ferramentas-agenda',

@@ -2,6 +2,7 @@ import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import DataTable from "react-data-table-component";
 import React from "react";
 import {TextField} from "@mui/material";
+import CardContainer from "@/Components/Cards/CardContainer";
 
 const FilterComponent = ({filterText, onFilter}) => (
     <TextField
@@ -118,21 +119,17 @@ export default function ({historicoLeads, historicoNotificacoes}) {
     }, [filterTextNotificacao]);
 
     return (
-        <Layout titlePage="Históricos de Leads" menu="leads" submenu="leads-historico">
-
-            <div className="card card-body mb-4">
-                <h6>Histórico dos Leads</h6>
+        <Layout empty titlePage="Históricos de Leads" menu="leads" submenu="leads-historico">
+            <CardContainer>
                 <DataTable
                     columns={columns}
                     data={filteredItems}
-                    pagination subHeader   striped  highlightOnHover
+                    pagination subHeader striped highlightOnHover
                     paginationPerPage="20"
                     subHeaderComponent={subHeaderComponentMemo}
                 />
-            </div>
-
-            <div className="card card-body">
-                <h6>Histórico de Notificações dos Leads</h6>
+            </CardContainer>
+            <CardContainer>
                 <DataTable
                     columns={columnsNotificacao}
                     data={filteredItemsNotificacao}
@@ -145,7 +142,7 @@ export default function ({historicoLeads, historicoNotificacoes}) {
                     highlightOnHover
                     selectableRowsHighlight
                 />
-            </div>
+            </CardContainer>
         </Layout>
     )
 }

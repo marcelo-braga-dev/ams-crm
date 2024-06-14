@@ -8,10 +8,16 @@ use App\Models\LeadsStatusHistoricos;
 class AtivoStatusLeads
 {
     private string $status = 'ativo';
+    private string $cor = 'rgb(165, 42, 42)';
 
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public function getCor()
+    {
+        return $this->cor;
     }
 
     public function getNome(): string

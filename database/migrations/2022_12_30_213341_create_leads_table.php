@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('sdr_id')->nullable();
             $table->unsignedBigInteger('setor_id');
             $table->string('status', 32)->default('novo');
-            $table->integer('id_importacao')->nullable();
+            $table->integer('importacao_id')->nullable();
             $table->string('atendente')->nullable();
             $table->boolean('pessoa_juridica')->default(1);
             $table->unsignedBigInteger('cnpj')->nullable()->unique();
@@ -52,6 +52,7 @@ return new class extends Migration {
 
             $table->index('user_id');
             $table->index('setor_id');
+            $table->softDeletes();
         });
     }
 

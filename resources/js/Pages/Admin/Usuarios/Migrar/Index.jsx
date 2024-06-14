@@ -1,11 +1,12 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
-import {Button, Table} from "reactstrap";
+import Layout from "@/Layouts/Layout";
 import * as React from "react";
-import {FormLabel, Radio, RadioGroup, TextField} from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from '@mui/material/FormControl';
+import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import MenuItem from "@mui/material/MenuItem";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle";
+import {ExclamationCircle} from "react-bootstrap-icons";
 
 export default function ({dados}) {
 
@@ -17,52 +18,54 @@ export default function ({dados}) {
     }
 
     return (
-        <Layout container titlePage="Migrar Conteúdo de Usuários"
-                menu="usuarios" submenu="usuarios-migrar">
-            <h6 className="text-danger d-block mb-3">ESSA OPERAÇÃO É IRREVERSÍVEL!</h6>
+        <Layout container titlePage="Migrar Conteúdo de Usuários" menu="usuarios" submenu="usuarios-migrar">
+            <CardContainer>
+                <CardTitle title={<h6 className="text-danger d-block mb-3">ESSA OPERAÇÃO É IRREVERSÍVEL!</h6>} icon={<ExclamationCircle color="red" size={22}/>}/>
+                <CardBody>
+                    <form>
+                        <div className="row">
+                            <div className="col-md-4 mb-4">
+                                <span className="d-block">Enviar dados do Usuário</span>
+                                <TextField label="Selecione o Usuário..." select
+                                           fullWidth required size="small" defaultValue=""
+                                           onChange={e => setData('consultor_antigo', e.target.value)}>
+                                    {dados.map((option) => (
+                                        <MenuItem key={option.id} value={option.id}>
+                                            #{option.id} - {option.nome}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                            <div className="col-md-4 mb-4">
+                                <span className="d-block">Para Usuário Recebedor</span>
+                                <TextField label="Selecione o Usuário..." select
+                                           fullWidth required size="small" defaultValue=""
+                                           onChange={e => setData('novo_consultor', e.target.value)}>
+                                    {dados.map((option) => (
+                                        <MenuItem key={option.id} value={option.id}>
+                                            #{option.id} - {option.nome}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            </div>
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col-md-4">
 
-            <form>
-                <div className="row">
-                    <div className="col-md-4 mb-4">
-                        <span className="d-block">Enviar dados do Usuário</span>
-                        <TextField label="Selecione o Usuário..." select
-                                   fullWidth required size="small" defaultValue=""
-                                   onChange={e => setData('consultor_antigo', e.target.value)}>
-                            {dados.map((option) => (
-                                <MenuItem key={option.id} value={option.id}>
-                                    #{option.id} - {option.nome}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </div>
-                    <div className="col-md-4 mb-4">
-                        <span className="d-block">Para Usuário Recebedor</span>
-                        <TextField label="Selecione o Usuário..." select
-                                   fullWidth required size="small" defaultValue=""
-                                   onChange={e => setData('novo_consultor', e.target.value)}>
-                            {dados.map((option) => (
-                                <MenuItem key={option.id} value={option.id}>
-                                    #{option.id} - {option.nome}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </div>
-                </div>
-                <div className="row mb-4">
-                    <div className="col-md-4">
+                            </div>
+                        </div>
 
-                    </div>
-                </div>
-
-                <div className="row justify-content-center">
-                    <div className="col-auto">
-                        <button type="button" className="btn btn-dark" data-bs-toggle="modal"
-                                data-bs-target="#modalEnviar">
-                            ENVIAR
-                        </button>
-                    </div>
-                </div>
-            </form>
+                        <div className="row justify-content-center">
+                            <div className="col-auto">
+                                <button type="button" className="btn btn-dark" data-bs-toggle="modal"
+                                        data-bs-target="#modalEnviar">
+                                    ENVIAR
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </CardBody>
+            </CardContainer>
 
             {/*MODAL ENVIAR*/}
             <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"

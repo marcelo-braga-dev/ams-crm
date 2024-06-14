@@ -42,7 +42,7 @@ class LeadsController extends Controller
 
 //        print_pre($dados = (new Leads())->teste(1, $request->com_sdr, $request->com_consultor, $request->importacao));
 
-        return Inertia::render('Admin/Leads/Cadastrados/Index',
+        return Inertia::render('Admin/Leads/Cadastrados',
             compact('categorias', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
     }
 
@@ -76,10 +76,9 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
-        $id = (new Leads())->create($request, $request->setor);
+        (new Leads())->create($request, $request->setor);
 
-        modalSucesso('Lead cadastrado com sucesso!');
-        return redirect()->route('admin.clientes.leads.leads-main.show', $id);
+        return redirect()->route('admin.clientes.leads.leads-main.index');
     }
 
     public function updateConsultor(Request $request)
@@ -128,7 +127,8 @@ class LeadsController extends Controller
         return redirect()->back();
     }
 
-    public function ocultos(Request $request)
+    public
+    function ocultos(Request $request)
     {
         $categoriaAtual = $request->categoria ?? 1;
 

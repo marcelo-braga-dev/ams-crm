@@ -1,5 +1,5 @@
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
-import SettingsSuggestOutlinedIcon from "@mui/icons-material/SettingsSuggestOutlined";
+import {Gear} from "react-bootstrap-icons";
 
 const dashboard = {
     id: '',
@@ -11,7 +11,7 @@ const dashboard = {
             title: 'Configurações',
             type: 'collapse',
             url: undefined,
-            icon: SettingsSuggestOutlinedIcon,
+            icon: Gear,
             admin: true,
             submenu: [
                 {

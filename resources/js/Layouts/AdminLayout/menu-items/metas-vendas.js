@@ -1,5 +1,5 @@
-import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
+import {ClipboardData} from "react-bootstrap-icons";
 
 const dashboard = {
     id: '',
@@ -11,7 +11,7 @@ const dashboard = {
             title: 'Metas de Vendas',
             type: 'collapse',
             url: undefined,
-            icon: TrendingUpOutlinedIcon,
+            icon: ClipboardData,
             admin: true,
             submenu: [
                 {

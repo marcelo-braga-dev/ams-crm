@@ -41,6 +41,8 @@ Route::name('admin.clientes.leads.')
         Route::get('registros-encaminhar', [LeadsController::class, 'registrosEncaminhar'])->name('registros-encaminhar');
         Route::post('finalizar-status-lead/{id}', [LeadsController::class, 'finaliarStatus'])->name('finalizar-status-lead');
 
+        Route::get('get-leads-cadastrados-paginate', [LeadsController::class, 'leadsCadastradosPaginate'])->name('get-leads-cadastrados-paginate');
+
         Route::get('leads-relatorio', [RelatoriosController::class, 'relatorio'])->name('leads-relatorio');
         Route::get('leads-dados-relatorio', [RelatoriosController::class, 'dados'])->name('leads-dados-relatorio');
     });

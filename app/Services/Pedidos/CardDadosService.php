@@ -19,9 +19,6 @@ use App\src\Pedidos\Status\RevisarStatusPedido;
 
 class CardDadosService
 {
-    private int $countCards = 0;
-
-    // Retorna todos os cards
     public function getCards($id = null, ?int $fornecedorAtual = null, ?int $setorAtual = null): array
     {
         $reprovado = (new RevisarStatusPedido())->getStatus();
@@ -38,38 +35,28 @@ class CardDadosService
         $canceladoStatus = (new CanceladoStatus())->getStatus();
         $encomendaStatus = (new EncomendaStatus())->getStatus();
 
-        $objeto = (new DadosPedidoServices());
         $dados = (new Pedidos())->getPedidos($id, $setorAtual, $fornecedorAtual);
 
-        $cards['reprovado'] = $this->getDadosCard($dados, $objeto, $reprovado);
-        $cards['conferencia'] = $this->getDadosCard($dados, $objeto, $conferenciaStatus);
-        $cards['lancado'] = $this->getDadosCard($dados, $objeto, $lancadoStatus);
-        $cards['nota'] = $this->getDadosCard($dados, $objeto, $notaStatus);
-        $cards['pagamento'] = $this->getDadosCard($dados, $objeto, $pagamentoStatus);
-        $cards['faturamento'] = $this->getDadosCard($dados, $objeto, $faturamentoStatus);
-        $cards['faturado_vista'] = $this->getDadosCard($dados, $objeto, $faturadoVistaStatus);
-        $cards['faturado_prazo'] = $this->getDadosCard($dados, $objeto, $faturadoPrazoStatus);
-        $cards['faturado'] = $this->getDadosCard($dados, $objeto, $faturadoStatus);
-        $cards['acompanhamento'] = $this->getDadosCard($dados, $objeto, $acompanhamentoStatus);
-        $cards['entregue'] = $this->getDadosCard($dados, $objeto, $entregueStatus);
-        $cards['cancelado'] = $this->getDadosCard($dados, $objeto, $canceladoStatus);
-        $cards['encomenda'] = $this->getDadosCard($dados, $objeto, $encomendaStatus);
-        $cards['total'] = $this->countCards;
-//print_pre($cards);
+        $cards['reprovado'] = $this->getDadosCard($dados, $reprovado);
+        $cards['conferencia'] = $this->getDadosCard($dados, $conferenciaStatus);
+        $cards['lancado'] = $this->getDadosCard($dados, $lancadoStatus);
+        $cards['nota'] = $this->getDadosCard($dados, $notaStatus);
+        $cards['pagamento'] = $this->getDadosCard($dados, $pagamentoStatus);
+        $cards['faturamento'] = $this->getDadosCard($dados, $faturamentoStatus);
+        $cards['faturado_vista'] = $this->getDadosCard($dados, $faturadoVistaStatus);
+        $cards['faturado_prazo'] = $this->getDadosCard($dados, $faturadoPrazoStatus);
+        $cards['faturado'] = $this->getDadosCard($dados, $faturadoStatus);
+        $cards['acompanhamento'] = $this->getDadosCard($dados, $acompanhamentoStatus);
+        $cards['entregue'] = $this->getDadosCard($dados, $entregueStatus);
+        $cards['cancelado'] = $this->getDadosCard($dados, $canceladoStatus);
+        $cards['encomenda'] = $this->getDadosCard($dados, $encomendaStatus);
+        $cards['total'] = $dados->count();
+
         return $cards;
     }
 
-    private function getDadosCard($dados, DadosPedidoServices $objeto, $status): array
+    private function getDadosCard($dados, $status)
     {
-        $items = $dados->where('status', $status);
-        $faturamento = convert_float_money($items->sum('preco_venda'));
-
-        $res = [];
-        foreach ($items as $dado) {
-            $card = $objeto->dadosCard($dado, $faturamento);
-            if ($card) $res[] = $card;
-        }
-        $this->countCards += count($res);
-        return $res;
+        return [...$dados->where('status', $status)];
     }
 }

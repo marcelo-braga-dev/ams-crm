@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 
 import React, {useEffect, useState} from 'react';
 import FormControl from "@mui/material/FormControl";
@@ -20,6 +20,8 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import {CircularProgress} from "@mui/material";
 import LinearProgress from '@mui/material/LinearProgress';
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
 
 let idLeads = []
 const styleCard = 'p-2 mx-1 text-white row justify-content-between rounded-top'
@@ -74,88 +76,86 @@ export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsE
     }
 
     return (
-        <Layout empty titlePage="Kanban de Leads" menu="leads" submenu="leads-cards"
-                voltar={route('admin.leads.cards-leads.index')}>
+        <Layout empty titlePage="Kanban de Leads" menu="leads" submenu="leads-cards" voltar={route('admin.leads.cards-leads.index')}>
 
-            <div className="mb-4 card card-body">
-                <div className="row justify-content-between">
-                    <div className="col-auto">
-                        <span className="d-block"><b>Nome:</b> {usuario.nome}</span>
+            <CardContainer>
+                <CardBody>
+                    <div className="row justify-content-between">
+                        <div className="col-auto">
+                            <span className="d-block"><b>Nome:</b> {usuario.nome}</span>
+                        </div>
+                        <div className="col-auto">
+                            <span className="d-block"><b>Funcão:</b> {usuario.funcao}</span>
+                        </div>
+                        <div className="col-auto">
+                            <span className="d-block"><b>Setor:</b> {usuario.setor}</span>
+                        </div>
+                        <div className="col-3 text-end">
+                            <FormControl variant="outlined" className="bg-white" size="small">
+                                <InputLabel htmlFor="search">Pesquisar...</InputLabel>
+                                <OutlinedInput id="search" label="Pesquisar..."
+                                               endAdornment={<InputAdornment position="end"><SearchOutlinedIcon/></InputAdornment>}
+                                               onChange={e => pesquisaCards(e.target.value)}/>
+                            </FormControl>
+                        </div>
                     </div>
-                    <div className="col-auto">
-                        <span className="d-block"><b>Funcão:</b> {usuario.funcao}</span>
-                    </div>
-                    <div className="col-auto">
-                        <span className="d-block"><b>Setor:</b> {usuario.setor}</span>
-                    </div>
-                </div>
-            </div>
+                </CardBody>
+            </CardContainer>
 
-            {/*Pesquisa*/}
-            <div className="row justify-content-between mb-4">
-                {isLeadsEncaminhar &&
-                    <div className="col-4">
-                        <div className="card card-body">
-                            <div className="row mx-0">
-                                <span>Alterar consultor dos Leads</span>
-                                <div className="col-md-9">
-                                    <TextField label="Selecione o Consultor..." select
+            <CardContainer>
+                <CardBody>
+                    <div className="row justify-content-between">
+                        {isLeadsEncaminhar &&
+                            <div className="col-4">
+                                <div className="row mx-0">
+                                    <span>Alterar consultor dos Leads</span>
+                                    <div className="col-md-9">
+                                        <TextField label="Selecione o Consultor..." select
+                                                   fullWidth required size="small" defaultValue=""
+                                                   onChange={e => setData('novo_consultor', e.target.value)}>
+                                            {consultores.map((option) => (
+                                                <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
+                                            ))}
+                                        </TextField>
+                                    </div>
+                                    <div className="p-0 col-3">
+                                        <button type="button" className="btn btn-dark btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#alterarConsultor">
+                                            ENVIAR
+                                        </button>
+                                    </div>
+                                    {carregando && <div className="col">
+                                        <CircularProgress/>
+                                    </div>}
+                                </div>
+                            </div>
+                        }
+                        {isLeadsLimpar && <div className="col-4">
+                            Remover todos os Leads do status
+                            <div className="row">
+                                <div className="col-7">
+                                    <TextField label="Status" select value={limparStatus ?? ''}
                                                fullWidth required size="small" defaultValue=""
-                                               onChange={e => setData('novo_consultor', e.target.value)}>
-                                        {consultores.map((option) => (
-                                            <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
-                                        ))}
+                                               onChange={e => setLimparStatus(e.target.value)}>
+                                        <MenuItem value="pre_atendimento">Pré Atendiemnto</MenuItem>
+                                        <MenuItem value="aberto">Em Aberto</MenuItem>
+                                        <MenuItem value="atendimento">Atendimento</MenuItem>
+                                        <MenuItem value="finalizado">Finalizado</MenuItem>
                                     </TextField>
                                 </div>
-                                <div className="p-0 col-3">
-                                    <button type="button" className="btn btn-dark btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#alterarConsultor">
-                                        ENVIAR
+                                <div className="col-auto">
+                                    <button type="button" className="btn btn-success btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#modalLimpar">
+                                        Remover
                                     </button>
                                 </div>
-                                {carregando && <div className="col">
-                                    <CircularProgress/>
-                                </div>}
                             </div>
                         </div>
-                    </div>
-                }
-                {isLeadsLimpar && <div className="col-3">
-                    <div className="card card-body">
-                        Remover todos os Leads do status
-                        <div className="row">
-                            <div className="col-7">
-                                <TextField label="Status" select value={limparStatus ?? ''}
-                                           fullWidth required size="small" defaultValue=""
-                                           onChange={e => setLimparStatus(e.target.value)}>
-                                    <MenuItem value="pre_atendimento">Pré Atendiemnto</MenuItem>
-                                    <MenuItem value="aberto">Em Aberto</MenuItem>
-                                    <MenuItem value="atendimento">Atendimento</MenuItem>
-                                    <MenuItem value="finalizado">Finalizado</MenuItem>
-                                </TextField>
-                            </div>
-                            <div className="col-auto">
-                                <button type="button" className="btn btn-success btn-sm"
-                                        data-bs-toggle="modal" data-bs-target="#modalLimpar">
-                                    Remover
-                                </button>
-                            </div>
-                        </div>
+                        }
 
                     </div>
-                </div>
-                }
-                <div className="col-3 text-end">
-                    <div className="card card-body">
-                        <FormControl variant="outlined" className="bg-white" size="small">
-                            <InputLabel htmlFor="search">Pesquisar...</InputLabel>
-                            <OutlinedInput id="search" label="Pesquisar..."
-                                           endAdornment={<InputAdornment position="end"><SearchOutlinedIcon/></InputAdornment>}
-                                           onChange={e => pesquisaCards(e.target.value)}/>
-                        </FormControl>
-                    </div>
-                </div>
-            </div>
+                </CardBody>
+            </CardContainer>
 
 
             {/*Tabela*/}

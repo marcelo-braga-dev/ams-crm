@@ -1,6 +1,7 @@
 :root {
     --cor-principal: #252525
 }
+
 .text-primary {
     color: #000 !important;
 }
@@ -24,4 +25,45 @@
 .btn-outline-primary:hover {
     border-color: var(--cor-principal);
     color: var(--cor-principal) !important;
+}
+
+/*Table*/
+ table.table-1   {
+    width: 100%
+}
+
+.table-1 th  {
+    color: #3b4056;
+    background-color: #f5f5f7;
+    position: relative;
+    border-bottom-color: #f5f5f7;
+    padding-block: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: .8125rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.table-1 tbody {
+    :last-child {
+        border-bottom: 0;
+    }
+}
+
+.table-1 tr {
+    border-bottom: 1px solid #ececec;
+}
+
+.table-1 td {
+    color: rgb(103, 107, 123);
+    padding-block: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 15px;
+    font-weight: 400;
+    border-right: 1px solid #f5f5f7;
+    :nth-child {
+        border-left: 0;
+    }
 }

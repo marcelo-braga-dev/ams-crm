@@ -16,18 +16,20 @@ use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
 class Leads extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'user_id',
         'sdr_id',
         'status',
-        'id_importacao',
+        'importacao_id',
         'nome',
         'setor_id',
         'cnpj',
@@ -63,7 +65,7 @@ class Leads extends Model
     public function getDisponiveis($setor, $idImportacao = null)
     {
         $query = $this->newQuery();
-        if ($idImportacao) $query->where('id_importacao', $idImportacao);
+        if ($idImportacao) $query->where('importacao_id', $idImportacao);
 
         $nomes = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
@@ -169,7 +171,7 @@ class Leads extends Model
                         'cnpj' => $cnpj ?: null,
                         'inscricao_estadual' => $dados['inscricao_estadual'] ?? null,
                         'email' => $dados['email'] ?? null,
-                        'id_importacao' => $importacao,
+                        'importacao_id' => $importacao,
                         'atendente' => $dados['atendente'] ?? null,
                         'setor_id' => $setor,
                         'endereco' => $idEndereco,
@@ -238,7 +240,7 @@ class Leads extends Model
 
         if ($comSdr) $query->where('sdr_id', '>', 1);
         if ($comConsultor) $query->where('user_id', '>', 1);
-        if ($importacao) $query->where('id_importacao', $importacao);
+        if ($importacao) $query->where('importacao_id', $importacao);
 
         return $query->get()
             ->transform(function ($item) use ($nomeConsultores) {
@@ -279,6 +281,7 @@ class Leads extends Model
 
         try {
             (new LeadsHistoricos())->remover($id);
+            (new Pins())->removerLead($id);
 
             $this->newQuery()
                 ->whereIn('id', $ids)
@@ -422,6 +425,7 @@ class Leads extends Model
     private function dados($item, $nomes = [], $setores = [])
     {
         //$telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
+        if ($item)
 
         return [
             'id' => $item->id,
@@ -651,7 +655,7 @@ class Leads extends Model
     public function importacao($id)
     {
         return $this->newQuery()
-            ->where('id_importacao', $id)
+            ->where('importacao_id', $id)
             ->get()
             ->transform(function ($item) {
                 return $this->dados($item);
@@ -809,7 +813,7 @@ class Leads extends Model
 
         if ($comSdr) $query->whereNull('sdr_id',);
         if ($comConsultor) $query->whereNull('user_id');
-        if ($importacao) $query->where('id_importacao', $importacao);
+        if ($importacao) $query->where('importacao_id', $importacao);
 
         return $query->get()
             ->transform(function ($item) use ($nomeConsultores) {
@@ -850,6 +854,83 @@ class Leads extends Model
             });
     }
 
+    public function getDadosMinimoPaginate($setor, $filtros)
+    {
+        $nomeConsultores = (new User())->getNomes();
+        $setores = (new Setores())->getNomes();
+
+        $query = $this->newQuery()->where('setor_id', $setor);
+
+        $orderBy = $filtros['ordenar_by'] ?? 'ASC';
+        switch ($filtros['ordenar'] ?? null) {
+            case 'id' :
+                $query->orderBy('id', $orderBy);
+                break;
+            case 'nome' :
+                $query->orderBy('nome', $orderBy);
+                break;
+            case 'razao_social' :
+                $query->orderBy('razao_social', $orderBy)->whereNotNull('razao_social');
+                break;
+            default :
+                $query->orderBy('data_encaminhado', $orderBy)
+                    ->orderBy('created_at');
+                break;
+        }
+
+        if ($filtros['sdr'] ?? null) $query->whereNull('sdr_id');
+        if ($filtros['consultor'] ?? null) $query->whereNull('user_id');
+        if (!!$filtros['importacao'] ?? null) $query->where('importacao_id', $filtros['importacao']);
+        if ($filtros['status'] ?? null) $query->where('status', $filtros['status']);
+        if ($filtros['leads'] ?? null) {
+            if ($filtros['leads'] == 'novos') $query->whereNull('data_encaminhado');
+            if ($filtros['leads'] == 'atendidos') $query->whereNotNull('data_encaminhado');
+            if ($filtros['leads'] == 'ativados') $query->whereNotNull('ultimo_pedido_data');
+        }
+
+        $this->filtrar($filtros, $query);
+
+        $items = $query->paginate(100);
+
+        $dados = $items->transform(function ($item) use ($nomeConsultores, $setores) {
+            return [
+                'id' => $item->id,
+                'consultor' => [
+                    'nome' => $nomeConsultores[$item->user_id] ?? '',
+                    'id' => $item->user_id
+                ],
+                'sdr' => [
+                    'nome' => $nomeConsultores[$item->sdr_id] ?? '',
+                    'id' => $item->sdr_id
+                ],
+                'cliente' => [
+                    'nome' => $item->nome,
+                    'razao_social' => $item->razao_social,
+                    'cnpj' => converterCNPJ($item->cnpj),
+                    'rg' => $item->rg,
+                    'cpf' => $item->cpf,
+                    'cidade' => $item->cidade,
+                    'estado' => $item->estado,
+                    'classificacao' => $item->classificacao
+                ],
+                'contato' => [
+                    'telefone' => converterTelefone($item->telefone),
+                ],
+                'infos' => [
+                    'setor' => $setores[$item->setor_id]['nome'] ?? '',
+                    'status' => $item->status,
+                    'status_nome' => (new StatusLeads())->nomeCor($item->status),
+                    'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
+                    'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
+                    'pedido_emitido' => $item->pedido_emitido,
+                    'encaminhado_data' => $item->data_encaminhado ? date('d/m/y H:i', strtotime($item->data_encaminhado)) : null,
+                ]
+            ];
+        });
+
+        return ['dados' => $dados, 'paginate' => ['current' => $items->currentPage(), 'last_page' => $items->lastPage(), 'total' => $items->total()]];
+    }
+
     public function limparStatus(int $id, string $status)
     {
         $this->newQuery()
@@ -867,5 +948,45 @@ class Leads extends Model
                 'sdr_id' => null,
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
+    }
+
+    public function filtrar($filtros, \Illuminate\Database\Eloquent\Builder $query): void
+    {
+        $filtro = $filtros['filtro'] ?? null;
+        $valor = $filtros['filtro_valor'] ?? null;
+
+        if ($valor && $filtro)
+            switch ($filtro) {
+                case 'id':
+                    $query->where('id', $valor);
+                    break;
+                case 'nome':
+                    {
+                        $query->where(function ($query) use ($valor) {
+                            $query->where('nome', 'LIKE', '%' . $valor . '%')
+                                ->orWhere('razao_social', 'LIKE', '%' . $valor . '%');
+                        });
+                    }
+                    break;
+                case 'cnpj':
+                    $query->where('cnpj', 'LIKE', "{$valor}%");
+                    break;
+                case 'cidade':
+                    $query->where('cidade', 'LIKE', "{$valor}%");
+                    break;
+                case 'ddd':
+                    $query->where('telefone', 'LIKE', "55{$valor}%");
+                    break;
+                case 'telefone':
+                    $query->where('telefone', 'LIKE', "%{$valor}%");
+                    break;
+            }
+    }
+
+    public function removerImportacao($id)
+    {
+        $this->newQuery()
+            ->where('importacao_id', $id)
+            ->delete();
     }
 }

@@ -1,6 +1,5 @@
-import * as React from "react";
-import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
+import {People} from "react-bootstrap-icons";
 
 const dashboard = {
     id: '',
@@ -12,7 +11,7 @@ const dashboard = {
             title: 'Base de Clientes',
             type: 'collapse',
             url: undefined,
-            icon: PeopleAltOutlinedIcon,
+            icon: People,
             submenu: [
                 {
                     id: 'leads-cadastrados',

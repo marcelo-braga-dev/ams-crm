@@ -1,8 +1,11 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
-import React, {useState} from "react";
 import {router} from "@inertiajs/react";
 import SacDados from "@/Partials/SAC/SacDados";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle";
+import {ChatLeftText} from "react-bootstrap-icons";
 
 export default function Create({sac, pedido}) {
     function avancaStatus() {
@@ -11,51 +14,54 @@ export default function Create({sac, pedido}) {
 
     return (
         <Layout empty titlePage="Informações do SAC - Em Aberto" menu="sac" submenu="sac-chamados" voltar={route('admin.chamados.index')}>
-            <div className="card card-body mb-4">
-                <SacDados sac={sac} pedido={pedido} urlPedido={route('admin.pedidos.show', sac.pedido_id)}/>
-            </div>
 
-            <div className="card card-body mb-4">
-                <div className="row">
-                    <div className="col">
-                        <button className="btn btn-primary mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal">Iniciar Atendimento</button>
-                    </div>
-                </div>
-            </div>
+            <SacDados sac={sac} pedido={pedido} urlPedido={route('admin.pedidos.show', sac.pedido_id)}/>
 
-            {/*Historico de Mensagens*/}
-            {sac.mensagens.map((dado) => {
-                return (
-                    <div key={dado.id} className="card card-body mb-4">
-                        <div className="row">
-                            <div className="col mb-2">
-                                <span><b>Autor:</b> {dado.autor}</span>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col mb-2">
-                                <small className="d-block">
-                                    <b>Data:</b> {dado.data}
-                                </small>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col">
-                                <span><b>Mensagem:</b> {dado.msg}</span>
-                            </div>
-                        </div>
-                        {!!dado.anexos.length &&
-                            <div className="row row-cols-4 mt-3">
-                                {dado.anexos.map(item => (
-                                    <div className="col">
-                                        <ImagePdf url={item.url} urlRaiz/>
+            <CardContainer>
+                <CardBody>
+                    <button className="btn btn-primary mb-0" data-bs-toggle="modal" data-bs-target="#exampleModal">Iniciar Atendimento</button>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardTitle icon={<ChatLeftText size={25}/>} title="Mensagens"/>
+                <CardBody>
+                    {sac.mensagens.map((dado) => {
+                        return (
+                            <CardContainer key={dado.id}>
+                                <CardBody>
+                                    <div className="row">
+                                        <div className="col mb-2">
+                                            <span><b>Autor:</b> {dado.autor}</span>
+                                        </div>
                                     </div>
-                                ))}
-                            </div>
-                        }
-                    </div>
-                )
-            })}
+                                    <div className="row">
+                                        <div className="col mb-2">
+                                            <small className="d-block">
+                                                <b>Data:</b> {dado.data}
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col">
+                                            <span><b>Mensagem:</b> {dado.msg}</span>
+                                        </div>
+                                    </div>
+                                    {!!dado.anexos.length &&
+                                        <div className="row row-cols-4 mt-3">
+                                            {dado.anexos.map(item => (
+                                                <div className="col">
+                                                    <ImagePdf url={item.url} urlRaiz/>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    }
+                                </CardBody>
+                            </CardContainer>
+                        )
+                    })}
+                </CardBody>
+            </CardContainer>
 
             <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">

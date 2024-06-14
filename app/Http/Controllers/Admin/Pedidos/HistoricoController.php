@@ -26,7 +26,7 @@ class HistoricoController extends Controller
 
         $setorAtual = session('sessaoSetor')['id'] ?? null;
 
-        $pedidos = (new PedidosService())->todosPedidos($setorAtual);
+        $pedidos = (new Pedidos())->getDados($setorAtual);
         $setores = (new SetoresService())->setores();
 
         return Inertia::render('Admin/Pedidos/Historicos/Index',

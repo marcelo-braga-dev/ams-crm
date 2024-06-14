@@ -17,9 +17,10 @@ class ImportarController extends Controller
     {
         $setores = (new SetoresService())->setores();
         $modelo = asset('storage/importacao/importacao_leads_modelo.csv');
+        $historicos = (new LeadsImportarHistoricos())->historicos();
 
         return Inertia::render('Admin/Leads/Importar/Index',
-            compact('setores', 'modelo'));
+            compact('setores', 'modelo', 'historicos'));
     }
 
     public function store(Request $request)

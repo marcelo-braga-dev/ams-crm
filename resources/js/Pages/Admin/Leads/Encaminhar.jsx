@@ -208,8 +208,8 @@ export default function Filtering({
 
     function selecionarImportacao(idImportacao) {
         setOpen(!open);
-        router.get(route('admin.clientes.leads.leads-main.index',
-            {id_importacao: idImportacao}))
+        router.get(route('admin.clientes.leads.leads-cadastrados',
+            {importacao_id: idImportacao}))
 
     }
 

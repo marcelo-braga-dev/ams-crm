@@ -1,5 +1,5 @@
-import AccountBalanceOutlinedIcon from '@mui/icons-material/AccountBalanceOutlined';
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
+import {Coin} from "react-bootstrap-icons";
 
 const dashboard = {
     id: 'adada',
@@ -12,7 +12,7 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             admin: true,
-            icon: AccountBalanceOutlinedIcon,
+            icon: Coin,
             submenu: [
                 {
                     id: 'fluxo-caixa',

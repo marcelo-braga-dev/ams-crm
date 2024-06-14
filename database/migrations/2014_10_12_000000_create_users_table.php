@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('cnpj')->nullable()->unique();
             $table->string('status', 32)->default((new AtivoStatusUsuario())->getStatus());
             $table->unsignedBigInteger('franquia_id');
             $table->unsignedBigInteger('setor_id');

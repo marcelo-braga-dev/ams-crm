@@ -20,6 +20,9 @@ class Sac extends Model
         'nota',
         'entrega_agendada',
         'paletizado',
+        'avaria',
+        'produtos_quebrados',
+        'produtos_faltam',
         'img_cte',
         'img_entrega',
         'img_produto',
@@ -40,6 +43,9 @@ class Sac extends Model
                 'nota' => $dados->nota,
                 'entrega_agendada' => $dados->entrega_agendada,
                 'paletizado' => $dados->paletizado,
+                'avaria' => $dados->avaria,
+                'produtos_quebrados' => $dados->produtos_quebrados,
+                'produtos_faltam' => $dados->produtos_faltam,
                 'img_cte' => $cte ?? null,
                 'img_entrega' => $entrega ?? null,
                 'img_produto' => $produto ?? null,
@@ -62,15 +68,20 @@ class Sac extends Model
 
     public function cards()
     {
-        $nomes = (new User())->getNomes();
-
         return $this->newQuery()
-            ->whereIn('user_id', supervisionados(id_usuario_atual()))
+            ->leftJoin('users', 'sacs.user_id', '=', 'users.id')
+            ->leftJoin('pedidos', 'sacs.pedido_id', '=', 'pedidos.id')
+            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
+            ->leftJoin('pedidos_clientes', 'pedidos_clientes.pedido_id', '=', 'pedidos.id')
+            ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
+
+            ->whereIn('sacs.user_id', supervisionados(id_usuario_atual()))
             ->orderByDesc('id')
-            ->get()
-            ->transform(function ($item) use ($nomes) {
-                return $this->dados($item, $nomes);
-            });
+            ->select(DB::raw('
+                sacs.*, sacs.created_at as data_cadastro , users.name as autor, leads.nome as lead_nome, pedidos_clientes.nome as cliente_nome, pedidos.preco_venda as valor,
+                pedidos.status as pedido_status, pedidos.setor_id as pedido_setor, produtos_fornecedores.nome as fornecedor_nome
+                '))
+            ->get();
     }
 
     public function find($id)
@@ -104,7 +115,7 @@ class Sac extends Model
             ->select('id', 'user_id', 'pedido_id', 'status', 'titulo',
                 DB::raw("DATE_FORMAT(created_at, '%d/%m/%Y %m:%s') AS data"),
                 DB::raw("(SELECT name FROM users WHERE users.id = sacs.user_id) AS autor"),
-                'nota', 'entrega_agendada', 'paletizado', 'img_cte', 'img_entrega', 'img_produto')
+                'nota', 'entrega_agendada', 'paletizado', 'img_cte', 'img_entrega', 'img_produto', 'produtos_quebrados', 'produtos_faltam')
             ->with(['mensagens' => function ($query) {
                 $query->orderBy('id')
                     ->select('id', 'user_id', 'sac_id', 'msg', 'prazo',

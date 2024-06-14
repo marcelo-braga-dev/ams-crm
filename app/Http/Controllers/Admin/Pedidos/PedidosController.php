@@ -23,6 +23,7 @@ class PedidosController extends Controller
 {
     public function index(Request $request)
     {
+//        print_pre($pedidos = (new CardDadosService())->getCards(null, $request->fornecedor, 1));
         $setores = (new Setores())->get();
         $fornecedores = (new Fornecedores())->get();
         $coresAbas = (new ConfigCores())->getPedidos();

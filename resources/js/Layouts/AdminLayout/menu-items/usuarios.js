@@ -1,5 +1,5 @@
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import {PersonGear} from "react-bootstrap-icons";
 
 const dashboard = {
     id: '',
@@ -11,7 +11,7 @@ const dashboard = {
             title: 'Usuários',
             type: 'collapse',
             url: undefined,
-            icon: PersonOutlineOutlinedIcon,
+            icon: PersonGear,
             admin: true,
             submenu: [
                 {

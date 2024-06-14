@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from "@/Layouts/Layout";
 
 import CardPedidos from './Cards/Card';
 
@@ -20,6 +20,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ScrollContainer from "react-indiana-drag-scroll";
 
 import Card from "@mui/material/Card";
+import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
 export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
     const [pedidos, setPedidos] = useState()
@@ -69,58 +70,61 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
         if (elemento) elemento.scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});
     }
 
+    function totalPedidos(status) {
+        return  convertFloatToMoney(pedidos[status].reduce((acc, produto) => acc + produto.preco, 0))
+    }
+
     return (
         <Layout titlePage="Quadro de Pedidos" menu="pedidos" submenu="pedidos-lista" empty>
-            <div className="card card-body mb-4">
-                <div className="row justify-content-between">
-                    <div className="col-md-5">
-                        <div className="row">
-                            <div className="col-md-5">
-                                <TextField select label="Setores" size="small" fullWidth
-                                           defaultValue="" value={setorSelecionado ?? ''}
-                                           onChange={e => atualizarPagina(null, e.target.value)}>
-                                    <MenuItem value="todos">Todos</MenuItem>
-                                    {setores.map((setor, index) => {
-                                        return (
-                                            <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
-                                        )
-                                    })}
-                                </TextField>
-                            </div>
-                            <div className="col-md-5">
-                                <TextField select size="small" label="Fornecedores" fullWidth
-                                           defaultValue="" value={fornecedorSelecionado ?? ''}
-                                           onChange={e => atualizarPagina(e.target.value, '')}>
-                                    <MenuItem value="">Todos</MenuItem>
-                                    {fornecedores.map((item, index) => {
-                                        return (
-                                            <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
-                                        )
-                                    })}
-                                </TextField>
-                            </div>
+
+            <div className="row justify-content-between mb-4">
+                <div className="col-md-5">
+                    <div className="row">
+                        <div className="col-md-4">
+                            <TextField select label="Setores" size="small" fullWidth
+                                       defaultValue="" value={setorSelecionado ?? ''}
+                                       onChange={e => atualizarPagina(null, e.target.value)}>
+                                <MenuItem value="todos">Todos</MenuItem>
+                                {setores.map((setor, index) => {
+                                    return (
+                                        <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
+                                    )
+                                })}
+                            </TextField>
+                        </div>
+                        <div className="col-md-4">
+                            <TextField select size="small" label="Fornecedores" fullWidth
+                                       defaultValue="" value={fornecedorSelecionado ?? ''}
+                                       onChange={e => atualizarPagina(e.target.value, '')}>
+                                <MenuItem value="">Todos</MenuItem>
+                                {fornecedores.map((item, index) => {
+                                    return (
+                                        <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
+                                    )
+                                })}
+                            </TextField>
                         </div>
                     </div>
+                </div>
 
-                    <div className="col-md-5">
-                        {/*Pesquisa*/}
-                        <div className="row justify-content-end">
-                            <div className="col-auto pt-2">
-                                <small className="text-muted">Qtd. Total Pedidos: {qtdPedidos}</small>
-                            </div>
-                            <div className="col-md-6 text-end">
-                                <FormControl variant="outlined" className="bg-white" size="small">
-                                    <InputLabel htmlFor="search">Pesquisar...</InputLabel>
-                                    <OutlinedInput
-                                        id="search" label="Pesquisar..."
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <SearchOutlinedIcon></SearchOutlinedIcon>
-                                            </InputAdornment>
-                                        }
-                                        onChange={e => pesquisaCards(e.target.value)}/>
-                                </FormControl>
-                            </div>
+                <div className="col-md-5">
+                    {/*Pesquisa*/}
+                    <div className="row justify-content-end">
+                        <div className="col-auto pt-2">
+                            <small className="text-muted">Qtd. Total Pedidos: {qtdPedidos}</small>
+                        </div>
+                        <div className="col-md-6 text-end">
+                            <FormControl variant="outlined" className="bg-white" size="small">
+                                <InputLabel htmlFor="search">Pesquisar...</InputLabel>
+                                <OutlinedInput
+                                    id="search" label="Pesquisar..."
+                                    endAdornment={
+                                        <InputAdornment position="end">
+                                            <SearchOutlinedIcon></SearchOutlinedIcon>
+                                        </InputAdornment>
+                                    }
+                                    onChange={e => pesquisaCards(e.target.value)}/>
+                            </FormControl>
                         </div>
                     </div>
                 </div>
@@ -129,7 +133,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
             {/*/!*Tabela*!/*/}
             {pedidos &&
                 <ScrollContainer hideScrollbars={false}>
-                    <div style={{height: '75vh'}}>
+                    <div style={{height: '80vh'}}>
                         <table id="table-cards" className="mx-1">
                             <thead>
                             <tr>
@@ -138,7 +142,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                          className='row justify-content-between rounded-top text-white me-1 p-2'>
                                         <div className='col-auto'>Reprovados</div>
                                         <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
+                                        <small className="d-block text-end">R$ {totalPedidos('reprovado')}</small>
                                     </div>
                                 </th>
                                 {modelo2 &&
@@ -147,7 +151,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Encomenda</div>
                                             <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
-                                            <small className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
+                                            <small className="d-block text-end">R$ {totalPedidos('encomenda')}</small>
                                         </div>
                                     </th>}
                                 <th id="th-3" style={{minWidth: 300}} className="sticky-top">
@@ -155,7 +159,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Conferência</div>
                                         <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
+                                        <small className="d-block text-end">R$ {totalPedidos('conferencia')}</small>
                                     </div>
                                 </th>
                                 <th id="th-4" style={{minWidth: 300}} className="sticky-top">
@@ -163,7 +167,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Lançado</div>
                                         <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
-                                        <small className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
+                                        <small className="d-block text-end">R$ {totalPedidos('lancado')}</small>
                                     </div>
                                 </th>
                                 {modelo1 &&
@@ -172,7 +176,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Aguard. Nota/Boleto</div>
                                             <div className='col-auto'>Qdt: {pedidos.nota.length}</div>
-                                            <small className="d-block text-end">R$ {(pedidos.nota[0]?.faturamento ?? '0,00')}</small>
+                                            <small className="d-block text-end">R$ {totalPedidos('nota')}</small>
                                         </div>
                                     </th>}
                                 {modelo1 &&
@@ -181,7 +185,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Aguard. Pagamento</div>
                                             <div className='col-auto'>Qdt: {pedidos.pagamento.length}</div>
-                                            <small className="d-block text-end">R$ {(pedidos.pagamento[0]?.faturamento ?? '0,00')}</small>
+                                            <small className="d-block text-end">R$ {totalPedidos('pagamento')}</small>
                                         </div>
                                     </th>}
                                 {modelo1 &&
@@ -190,7 +194,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                              className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Aguard. Faturamento</div>
                                             <div className='col-auto'>Qdt: {pedidos.faturamento.length}</div>
-                                            <small className="d-block text-end">R$ {(pedidos.faturamento[0]?.faturamento ?? '0,00')}</small>
+                                            <small className="d-block text-end">R$ {totalPedidos('faturamento')}</small>
                                         </div>
                                     </th>}
                                 {modelo1 &&
@@ -199,7 +203,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Faturado</div>
                                             <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
-                                            <small className="d-block text-end">R$ {(pedidos.faturado[0]?.faturamento ?? '0,00')}</small>
+                                            <small className="d-block text-end">R$ {totalPedidos('faturado')}</small>
                                         </div>
                                     </th>}
                                 {modelo2 &&
@@ -208,7 +212,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                              className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Faturado à Vista</div>
                                             <div className='col-auto'>Qdt: {pedidos.faturado_vista.length}</div>
-                                            <small className="d-block text-end">R$ {(pedidos.faturado_vista[0]?.faturamento ?? '0,00')}</small>
+                                            <small className="d-block text-end">R$ {totalPedidos('faturado_vista')}</small>
                                         </div>
                                     </th>}
                                 {modelo2 &&
@@ -217,7 +221,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                              className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Faturado à Prazo</div>
                                             <div className='col-auto'>Qdt: {pedidos.faturado_prazo.length}</div>
-                                            <small className="d-block text-end">R$ {(pedidos.faturado_prazo[0]?.faturamento ?? '0,00')}</small>
+                                            <small className="d-block text-end">R$ {totalPedidos('faturado_prazo')}</small>
                                         </div>
                                     </th>}
                                 {modelo1 &&
@@ -226,7 +230,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                              className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                             <div className='col-auto'>Acompanhamento</div>
                                             <div className='col-auto'>Qdt: {pedidos.acompanhamento.length}</div>
-                                            <small className="d-block text-end">R$ {(pedidos.acompanhamento[0]?.faturamento ?? '0,00')}</small>
+                                            <small className="d-block text-end">R$ {totalPedidos('acompanhamento')}</small>
                                         </div>
                                     </th>}
                                 <th id="th-12" style={{minWidth: 300}} className="sticky-top">
@@ -234,8 +238,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                          className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                         <div className='col-auto'>Entregue</div>
                                         <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
-                                        <small
-                                            className="d-block text-end">R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
+                                        <small className="d-block text-end">R$ {totalPedidos('entregue')}</small>
                                     </div>
                                 </th>
                                 <th id="th-13" style={{minWidth: 300}} className="sticky-top">
@@ -330,10 +333,9 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                         </table>
                     </div>
                 </ScrollContainer>
-
             }
 
-            {carregando && <LinearProgress/>}
+            {carregando && <LinearProgress  color="inherit" />}
 
             <Fab size="small" color="default" sx={{
                 position: 'fixed',

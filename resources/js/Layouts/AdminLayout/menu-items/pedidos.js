@@ -1,7 +1,5 @@
-import * as React from "react";
-
-import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
 import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
+import {CardText} from "react-bootstrap-icons";
 
 const dashboard = {
     id: 'pedidos',
@@ -13,7 +11,7 @@ const dashboard = {
             title: 'Pedidos',
             type: 'collapse',
             url: undefined,
-            icon: RequestPageOutlinedIcon,
+            icon: CardText,
             submenu: [
                 {
                     id: 'pedidos-lista',
@@ -47,14 +45,7 @@ const dashboard = {
                     type: 'item',
                     admin: true,
                     url: route('admin.config.index'),
-                },
-                // {
-                //     id: 'pedidos-quadros',
-                //     title: 'Quadros',
-                //     type: 'item',
-                //     admin: true,
-                //     url: route('admin.pedidos.quadros.index'),
-                // }
+                }
             ]
         }
     ]
