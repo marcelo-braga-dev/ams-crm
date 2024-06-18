@@ -12,6 +12,7 @@ use App\Models\PedidosHistoricos;
 use App\Models\PedidosProdutos;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
+use App\Models\ProdutosFornecedores;
 use App\Models\ProdutosUnidades;
 use App\Models\Sac;
 use App\Models\Setores;
@@ -55,7 +56,7 @@ class PedidosController extends Controller
     {
         $setor = setor_usuario_atual();
 
-        $fornecedores = (new Fornecedores())->getAll($setor);
+        $fornecedores = (new ProdutosFornecedores())->getAll($setor);
         $lead = (new Leads())->find($request->lead);
 
         $endereco = (new Enderecos())->get($lead->endereco);

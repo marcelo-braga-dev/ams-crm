@@ -9,8 +9,6 @@ import MiniDrawerStyled from './MiniDrawerStyled.js';
 const MainDrawer = ({ menu, submenu, permissoes, open, handleDrawerToggle, window }) => {
     const theme = useTheme();
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
-    const drawerWidth = 260
-    // responsive drawer container
     const container = window !== undefined ? () => window().document.body : undefined;
 
     // header content
@@ -35,7 +33,7 @@ const MainDrawer = ({ menu, submenu, permissoes, open, handleDrawerToggle, windo
                         display: { xs: 'block', lg: 'none' },
                         '& .MuiDrawer-paper': {
                             boxSizing: 'border-box',
-                            width: drawerWidth,
+                            width: 260,
                             borderRight: `1px solid ${theme.palette.divider}`,
                             backgroundImage: 'none',
                             boxShadow: 'inherit'

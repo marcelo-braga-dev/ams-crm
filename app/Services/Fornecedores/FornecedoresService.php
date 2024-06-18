@@ -3,6 +3,7 @@
 namespace App\Services\Fornecedores;
 
 use App\Models\Fornecedores;
+use App\Models\ProdutosFornecedores;
 use App\Models\Setores;
 
 class FornecedoresService
@@ -16,13 +17,7 @@ class FornecedoresService
 
     public function fornecedores(?int $setor = null)
     {
-        $dados = [];
-        $items = (new Fornecedores())->getAll($setor);
-
-        foreach ($items as $item) {
-            $dados[] = $this->dados($item);
-        }
-        return $dados;
+        return (new ProdutosFornecedores())->fornecedores($setor);
     }
 
     private function dados($item)
@@ -30,6 +25,7 @@ class FornecedoresService
         return [
             'id' => $item->id,
             'nome' => $item->nome,
+            'cnpj' => $item->cnpj,
             'setor' => $this->setores[$item->setor]['nome']
         ];
     }

@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @deprecated
+ */
 class Fornecedores extends Model
 {
     use HasFactory;
@@ -20,49 +23,12 @@ class Fornecedores extends Model
         'anotacoes'
     ];
 
-    public function find($id)
-    {
-        if ($id) {
-            $item = $this->newQuery()->find($id);
-            return $this->dados($item);
-        }
-        return null;
-    }
 
-    public function getNomes()
-    {
-        return $this->newQuery()->pluck('nome','id');
-    }
 
     public function get()
     {
         return $this->newQuery()
             ->get();
-    }
-
-    public function getDados(?int $setor)
-    {
-        $franquias = Franquias::getNomes();
-        $setores = (new Setores())->getNomes();
-
-        $query = $this->newQuery();
-        if ($setor) $query->where('setor', $setor);
-
-        return $query->orderByDesc('id')->get()
-            ->transform(function ($items) use ($franquias, $setores) {
-                return $this->dados($items, $franquias, $setores);
-            });
-    }
-
-    /**
-     * @deprecated
-     */
-    public function getAll(?int $setor)
-    {
-        $query = $this->newQuery();
-        if ($setor) $query->where('setor', $setor);
-
-        return $query->orderByDesc('id')->get();
     }
 
     public function create($dados)

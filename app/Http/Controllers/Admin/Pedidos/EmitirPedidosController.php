@@ -8,6 +8,7 @@ use App\Models\Fornecedores;
 use App\Models\Leads;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
+use App\Models\ProdutosFornecedores;
 use App\Models\ProdutosUnidades;
 use App\Models\Setores;
 use App\Services\Leads\Relatorios\LeadsUsuariosService;
@@ -32,7 +33,7 @@ class EmitirPedidosController extends Controller
     {
         $setor = setor_usuario_atual();
 
-        $fornecedores = (new Fornecedores())->getAll($setor);
+        $fornecedores = (new ProdutosFornecedores())->getAll($setor);
         $lead = (new Leads())->find($request->lead);
 
         $endereco = (new Enderecos())->get($lead->endereco);

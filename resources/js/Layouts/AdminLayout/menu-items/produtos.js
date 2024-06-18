@@ -20,6 +20,12 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.produtos.index'),
                 },{
+                    id: 'produtos-fornecedores',
+                    chave: chaves.produtos.categorias,
+                    title: 'Fornecedores',
+                    type: 'item',
+                    url: route('admin.produtos-fornecedores.index'),
+                }, {
                     id: 'produtos-categorias',
                     chave: chaves.produtos.categorias,
                     title: 'Categorias',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pedidos\Relatorios;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
+use App\Models\ProdutosFornecedores;
 use App\Models\User;
 use App\Services\Excel\ExportarExcelService;
 use App\Services\Pedidos\Relatorios\ProdutosService;
@@ -25,7 +26,7 @@ class ProdutosController extends Controller
         $urlPlanilha = (new ExportarExcelService())->faturamento($historicos);
 //        $historicos = (new ProdutosRelatoriosService())->relatorio($mes, $consultor, $fornecedor);
 
-        $fornecedores = (new Fornecedores())->getAll(null);
+        $fornecedores = (new ProdutosFornecedores())->getAll(null);
         $consultores = (new User())->getUsuarios();
 
         return Inertia::render('Admin/Pedidos/Relatorio/Produtos/Index',

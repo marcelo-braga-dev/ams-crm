@@ -6,7 +6,7 @@ import DrawerHeader from './DrawerHeader';
 import DrawerContent from './DrawerContent';
 import MiniDrawerStyled from './MiniDrawerStyled.js';
 
-const MainDrawer = ({ menu, submenu, permissoes, toggleMenu, handleDrawerToggle, window }) => {
+const MainDrawer = ({ menu, submenu, permissoes, toggleMenu, setToggleMenu, window }) => {
     const theme = useTheme();
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
     const container = window !== undefined ? () => window().document.body : undefined;
@@ -27,7 +27,7 @@ const MainDrawer = ({ menu, submenu, permissoes, toggleMenu, handleDrawerToggle,
                     container={container}
                     variant="temporary"
                     open={toggleMenu}
-                    onClose={handleDrawerToggle}
+                    onClose={() => setToggleMenu(e => !e)}
                     ModalProps={{ keepMounted: true }}
                     sx={{
                         display: { xs: 'block', lg: 'none' },

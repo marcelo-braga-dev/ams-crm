@@ -14,9 +14,10 @@ class ProdutosController extends Controller
     public function index(Request $request)
     {
         $produtos = (new Produtos())->produtos($request->fornecedor);
+//        print_pre($produtos);
         $fornecedores = (new ProdutosFornecedores());
 
-        return Inertia::render('Admin/Produtos/Index', compact('produtos'));
+        return Inertia::render('Admin/Produtos/Index/Index', compact('produtos'));
     }
 
     public function show($id)

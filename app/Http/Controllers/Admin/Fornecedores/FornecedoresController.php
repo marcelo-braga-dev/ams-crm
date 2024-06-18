@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Fornecedores;
 use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
 use App\Models\Franquias;
+use App\Models\ProdutosFornecedores;
 use App\Models\Setores;
 use App\Services\Fornecedores\FornecedoresService;
 use App\Services\Setores\SetoresService;
@@ -18,7 +19,7 @@ class FornecedoresController extends Controller
         $setorAtual = $request->setor;
         $setores = (new Setores())->get();
 
-        $fornecedores = (new Fornecedores())->getDados($setorAtual);
+        $fornecedores = (new ProdutosFornecedores())->getDados($setorAtual);
 
         return Inertia::render('Admin/Fornecedores/Index',
             compact('fornecedores', 'setores', 'setorAtual'));

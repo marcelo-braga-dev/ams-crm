@@ -1,66 +1,50 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardTable from "@/Components/Cards/CardTable";
+import CardTitle from "@/Components/Cards/CardTitle";
 
 export default function Create({fornecedores, setores, setorAtual}) {
 
     return (
-        <Layout titlePage="Produtos por Fornecedores"
-                menu="produtos" submenu="produtos-lista">
-            {/*Setores*/}
-            <div className="row mb-4">
-                <h6>Setores</h6>
-                <div className="col">
-                    <div className="btn-group" role="group" aria-label="Basic outlined example">
-                        <a type="button"
-                           href={route('admin.produtos-fornecedores.index')}
-                           className={(!setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
-                            Todos
-                        </a>
-                        {setores.map((setor, index) => {
+        <Layout titlePage="Produtos por Fornecedores" menu="produtos" submenu="produtos-fornecedores">
+
+            <CardContainer>
+                <CardTitle title="Fornecedores">
+                    {/*<a className="btn btn-primary" href={route('admin.produtos-fornecedores.create')}>Cadastrar</a>*/}
+                </CardTitle>
+                <CardTable>
+                    <table className="table-1">
+                        <thead>
+                        <tr>
+                            <th>Fornecedor</th>
+                            <th>CNPJ</th>
+                            <th>Setor</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {fornecedores.map((dados) => {
                             return (
-                                <a type="button" key={index}
-                                   href={route('admin.produtos-fornecedores.index', {setor: setor.id})}
-                                   className={(setor.id == setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
-                                    {setor.nome}
-                                </a>
+                                <tr key={dados.id}>
+                                    <td>
+                                        {dados.nome}
+                                    </td>
+                                    <td>
+                                        {dados.cnpj}
+                                    </td>
+                                    <td>
+                                        {dados.setor_nome}
+                                    </td>
+                                    <td className="text-right">
+                                    </td>
+                                </tr>
                             )
                         })}
-                    </div>
-                </div>
-            </div>
+                        </tbody>
+                    </table>
+                </CardTable>
+            </CardContainer>
 
-            <div className="table-responsive">
-                <table className="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Fornecedor</th>
-                        <th>Setor</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {fornecedores.map((dados) => {
-                        return (
-                            <tr key={dados.id}>
-                                <td>
-                                    #{dados.id}
-                                </td>
-                                <td>
-                                    {dados.nome}
-                                </td>
-                                <td>
-                                    {dados.setor}
-                                </td>
-                                <td className="text-right">
-                                    <a href={route('admin.produtos-fornecedores.show', dados.id)}
-                                       className="btn btn-warning btn-sm">Produtos</a>
-                                </td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
-            </div>
         </Layout>
     )
 }

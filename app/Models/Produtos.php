@@ -74,10 +74,11 @@ class Produtos extends Model
         return $this->dado($item);
     }
 
-    public function produtos($id = null)
+    public function produtos($fornecedor = null)
     {
         return $this->joinsAdd($this)
-            ->where($id ? ['produtos.id' => $id] : null)
+//            ->where($id ? ['produtos.id' => $id] : null)
+
             ->get($this->colunas())
             ->transform(function ($item) {
                 return $this->dado($item);
@@ -138,7 +139,7 @@ class Produtos extends Model
     {
         $dados = $this->newQuery()->find($id);
         $categorias = (new ProdutosCategorias())->getNomes();
-        $fornecedores = (new Fornecedores())->getNomes();
+        $fornecedores = (new ProdutosFornecedores())->getNomes();
         $unidades = (new ProdutosUnidades())->getNomes();
         $financeiro = is_financeiro();
 
@@ -212,7 +213,7 @@ class Produtos extends Model
     public function getProdutosFormulario($request)
     {
         $categorias = (new ProdutosCategorias())->getNomes();
-        $fornecedores = (new Fornecedores())->getNomes();
+        $fornecedores = (new ProdutosFornecedores())->getNomes();
         $unidades = (new ProdutosUnidades())->getNomes();
         $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
 

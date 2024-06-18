@@ -14,7 +14,7 @@ use App\src\Produtos\InformacoesProdutos;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class ProdutosFornecedoresController extends Controller
+class  ProdutosFornecedoresController extends Controller
 {
     public function index(Request $request)
     {

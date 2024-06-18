@@ -46,7 +46,7 @@ class ProdutosHistoricos extends Model
 
     public function get($mes, $fornecedor, $consultor)
     {
-        $fornecedoresNomes = (new Fornecedores())->getNomes();
+        $fornecedoresNomes = (new ProdutosFornecedores())->getNomes();
 
         return (new ProdutosHistoricos())->newQuery()
             ->where($consultor ? ['vendedor' => $consultor] : null)
@@ -86,7 +86,7 @@ class ProdutosHistoricos extends Model
 
     public function getDados($consultor, $fornecedor, string $mes)
     {
-        $fornecedoresNomes = (new Fornecedores())->getNomes();
+        $fornecedoresNomes = (new ProdutosFornecedores())->getNomes();
 
         return (new ProdutosHistoricos())->newQuery()
             ->where($consultor ? ['vendedor' => $consultor] : null)
@@ -116,7 +116,7 @@ class ProdutosHistoricos extends Model
 
     public function relatorio($mes, $consultor, $fornecedor)
     {
-        $fornecedoresNomes = (new Fornecedores())->getNomes();
+        $fornecedoresNomes = (new ProdutosFornecedores())->getNomes();
 
         return $this->newQuery()
             ->where($consultor ? ['vendedor' => $consultor] : null)

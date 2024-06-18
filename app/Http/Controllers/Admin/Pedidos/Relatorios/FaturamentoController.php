@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pedidos\Relatorios;
 
 use App\Http\Controllers\Controller;
 use App\Models\Fornecedores;
+use App\Models\ProdutosFornecedores;
 use App\Models\User;
 use App\Services\Pedidos\Relatorios\ProdutosService;
 use App\Services\Setores\SetoresService;
@@ -31,7 +32,7 @@ class FaturamentoController extends Controller
         $mes = $request->mes ?? date('m');
         $idConsultor = $id;
 
-        $fornecedores = (new Fornecedores())->getAll(null);
+        $fornecedores = (new ProdutosFornecedores())->getAll(null);
         $produtos = (new ProdutosService())->faturamento($mes, $fornecedor, $id);
         $consultor = (new User)->get($id);
 
