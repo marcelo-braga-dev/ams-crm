@@ -42,8 +42,8 @@ class ProdutosFornecedores extends Model
                 'id' => $item->id,
                 'nome' => $item->nome,
                 'cnpj' => $item->cnpj,
-                'setor' => $setores[$item->setor]['nome'] ?? '',
-                'setor_id' => $item->setor,
+                'setor' => $setores[$item->setor_id]['nome'] ?? '',
+                'setor_id' => $item->setor_id,
                 'franquia' => $franquias[$item->franquia] ?? '',
                 'franquia_id' => $item->franquia,
                 'atendente' => $item->atendente,
@@ -82,7 +82,7 @@ class ProdutosFornecedores extends Model
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery();
-        if ($setor) $query->where('setor', $setor);
+        if ($setor) $query->where('setor_id', $setor);
 
         return $query->orderByDesc('id')->get()
             ->transform(function ($items) use ($franquias, $setores) {
@@ -96,7 +96,7 @@ class ProdutosFornecedores extends Model
     public function getAll(?int $setor)
     {
         $query = $this->newQuery();
-        if ($setor) $query->where('setor', $setor);
+        if ($setor) $query->where('setor_id', $setor);
 
         return $query->orderByDesc('id')->get();
     }
