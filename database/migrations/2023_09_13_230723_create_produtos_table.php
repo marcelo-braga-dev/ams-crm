@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('fornecedor_id')->nullable();
             $table->unsignedBigInteger('categoria_id')->nullable();
             $table->unsignedBigInteger('unidade_id')->nullable();
+            $table->boolean('status')->default(1);
             $table->string('nome');
             $table->string('descricao')->nullable();
             $table->float('preco_fornecedor')->nullable();

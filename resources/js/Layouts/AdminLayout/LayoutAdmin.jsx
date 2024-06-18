@@ -24,15 +24,12 @@ const Layout = ({ titlePage, menu, submenu, children, voltar, empty }) => {
         setOpen(!open);
     };
 
-    const handleDrawerToggle2 = () => {
-    };
-
     return (
         <Box sx={{ display: 'flex', width: '100%' }}>
             <Head title={titlePage} />
             <ModalsAlerts />
             <Header open={!open} titlePage={titlePage} voltar={voltar} handleDrawerToggle={handleDrawerToggle} />
-            <Drawer open={!open} menu={menu} submenu={submenu} handleDrawerToggle={handleDrawerToggle2} permissoes={permissoes} />
+            <Drawer open={!open} menu={menu} submenu={submenu} handleDrawerToggle={handleDrawerToggle} permissoes={permissoes} />
             <BoxStyled open={!open}>
                 <Container maxWidth={false}>
                     {empty ? children :

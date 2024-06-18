@@ -17,6 +17,7 @@ class Produtos extends Model
         'categoria_id',
         'setores_id',
         'unidade_id',
+        'status',
         'nome',
         'preco_fornecedor',
         'preco_venda',
