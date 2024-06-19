@@ -13,6 +13,8 @@ import PropTypes from "prop-types";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 function CustomTabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -47,7 +49,7 @@ function a11yProps(index) {
     };
 }
 
-export default function ({produto, fornecedor, categorias, unidades, infos}) {
+export default function ({produto, categorias, unidades, infos, setores, fornecedores}) {
     const [value, setValue] = React.useState(0);
     const [qtdFiles, setQtdFiles] = useState(2);
 
@@ -56,20 +58,27 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
     };
 
     const {data, setData, post} = useForm({
-        fornecedor: fornecedor.id,
         nome: produto.nome,
         preco_venda: produto.preco_venda,
         preco_fornecedor: produto.preco_fornecedor,
         unidade: produto.unidade,
-        url_foto: produto.foto,
-        categoria: produto.categoria,
-        descricao: produto.descricao,
-        galeria: []
+        // url_foto: produto.foto,
+        setor: produto.setor_id,
+        fornecedor: produto.fornecedor_id,
+        unidade_id: produto.unidade_id,
+        unidade_valor: produto.unidade_valor,
+        categoria: produto.categoria_id,
+        galeria: [],
+        descricao: infos.descricao,
+        utilidade: infos.utilidade,
+        modo_usar: infos.modo_usar,
+        vantagens: infos.vantagens,
+        duvidas: infos.duvidas,
     })
 
     function onSubmit(e) {
         e.preventDefault()
-        router.post(route('admin.produtos-fornecedores.update', produto.id), {
+        router.post(route('admin.produtos.update', produto.id), {
             _method: 'put', ...data
         })
     }
@@ -86,16 +95,28 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
     }
 
     return (
-        <Layout titlePage="Editar Produto" container menu="produtos" submenu="todos-produtos"
+        <Layout titlePage="Editar Produto" container menu="produtos" submenu="produtos-cadastrados"
                 voltar={route('admin.produtos.show', produto.id)}>
-
-            <CardContainer>
-                <CardTitle title={'Fornecedor: ' + fornecedor.nome}/>
-                <CardBody>
-                    <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit}>
+                <CardContainer>
+                    <CardBody>
                         <div className="row">
                             <div className="col mb-4">
                                 <TextField label="Nome" fullWidth required defaultValue={data.nome} onChange={e => setData('nome', e.target.value)}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-md-3 mb-4">
+                                <TextField label="Setor" select fullWidth required defaultValue={data.setor}
+                                           onChange={e => setData('setor', e.target.value)}>
+                                    {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                                </TextField>
+                            </div>
+                            <div className="col-md-3 mb-4">
+                                <TextField label="Distribuidora" select fullWidth required defaultValue={data.fornecedor}
+                                           onChange={e => setData('fornecedor', e.target.value)}>
+                                    {fornecedores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                                </TextField>
                             </div>
                         </div>
                         <div className="row">
@@ -106,13 +127,21 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
                                 <TextFieldMoney label="Preço do Fornecedor" value={data.preco_fornecedor} setData={setData} index="preco_fornecedor"/>
                             </div>
                             <div className="col mb-4">
-                                <TextField label="Unidade" select fullWidth required defaultValue={data.unidade} onChange={e => setData('unidade', e.target.value)}>
-                                    {unidades.map((item) => {
-                                        return (
-                                            <MenuItem key={item.id} value={item.id}>{item.valor} {item.nome}</MenuItem>
-                                        )
-                                    })}
-                                </TextField>
+                                <Box display="flex" alignItems="center" gap={0}>
+                                    <TextField
+                                        label="Unidade" required defaultValue={data.unidade_valor}
+                                        onChange={e => setData('unidade_valor', e.target.value)}
+                                    />
+                                    <FormControl>
+                                        <Select
+                                            required sx={{width: '5rem'}} defaultValue={data.unidade_id}
+                                            onChange={e => setData('unidade_id', e.target.value)}>
+                                            {unidades.map((item, index) => {
+                                                return <MenuItem key={index} value={item.id}>{item.valor} {item.nome}</MenuItem>
+                                            })}
+                                        </Select>
+                                    </FormControl>
+                                </Box>
                             </div>
                             <div className="col mb-4">
                                 <TextField label="Categoria" select fullWidth required defaultValue={data.categoria}
@@ -125,9 +154,13 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
                                 </TextField>
                             </div>
                         </div>
+                    </CardBody>
+                </CardContainer>
+                <CardContainer>
+                    <CardBody>
                         <div className="row mb-4">
-                            {data.url_foto && <div className="col-auto">
-                                <ImagePdf url={data.url_foto}/>
+                            {produto.foto && <div className="col-auto">
+                                <ImagePdf url={produto.foto}/>
                             </div>}
                             <div className="col-auto">
                                 <label>Atualizar Imagem do Produto</label>
@@ -137,8 +170,11 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
                                 </TextField>
                             </div>
                         </div>
-
-                        <div className="row mt-4">
+                    </CardBody>
+                </CardContainer>
+                <CardContainer>
+                    <CardBody>
+                        <div className="row">
                             <div className="col">
                                 <Box sx={{width: '100%'}}>
                                     <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
@@ -152,24 +188,23 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
                                         </Tabs>
                                     </Box>
                                     <CustomTabPanel value={value} index={0}>
-                                        <TextField label="Descrição do Produto..." multiline fullWidth minRows="10"
-                                                   defaultValue={data.descricao}
+                                        <TextField label="Descrição do Produto..." multiline fullWidth minRows="10" defaultValue={data.descricao}
                                                    onChange={event => setData('descricao', event.target.value)}/>
                                     </CustomTabPanel>
                                     <CustomTabPanel value={value} index={1}>
-                                        <TextField label="Para que serve?" fullWidth multiline minRows="15" defaultValue={infos.utilidade}
+                                        <TextField label="Para que serve?" fullWidth multiline minRows="10" defaultValue={data.utilidade}
                                                    onChange={event => setData('utilidade', event.target.value)}/>
                                     </CustomTabPanel>
                                     <CustomTabPanel value={value} index={2}>
-                                        <TextField label="Modo de Usar..." fullWidth multiline minRows="15" defaultValue={infos.modo_usar}
+                                        <TextField label="Modo de Usar..." fullWidth multiline minRows="10" defaultValue={data.modo_usar}
                                                    onChange={event => setData('modo_usar', event.target.value)}/>
                                     </CustomTabPanel>
                                     <CustomTabPanel value={value} index={3}>
-                                        <TextField label="Vantagens..." fullWidth multiline minRows="15" defaultValue={infos.vantagens}
+                                        <TextField label="Vantagens..." fullWidth multiline minRows="10" defaultValue={data.vantagens}
                                                    onChange={event => setData('vantagens', event.target.value)}/>
                                     </CustomTabPanel>
                                     <CustomTabPanel value={value} index={4}>
-                                        <TextField label="Dúvidas..." fullWidth multiline minRows="15" defaultValue={infos.duvidas}
+                                        <TextField label="Dúvidas..." fullWidth multiline minRows="10" defaultValue={data.duvidas}
                                                    onChange={event => setData('duvidas', event.target.value)}/>
                                     </CustomTabPanel>
                                     <CustomTabPanel value={value} index={5}>
@@ -191,15 +226,15 @@ export default function ({produto, fornecedor, categorias, unidades, infos}) {
                                 </Box>
                             </div>
                         </div>
+                    </CardBody>
+                </CardContainer>
 
-                        <div className="row justify-content-center">
-                            <div className="col-auto">
-                                <button className="btn btn-primary" type="submit">Salvar</button>
-                            </div>
-                        </div>
-                    </form>
-                </CardBody>
-            </CardContainer>
+                <div className="row justify-content-center">
+                    <div className="col-auto">
+                        <button className="btn btn-primary" type="submit">Salvar</button>
+                    </div>
+                </div>
+            </form>
         </Layout>
     )
 }

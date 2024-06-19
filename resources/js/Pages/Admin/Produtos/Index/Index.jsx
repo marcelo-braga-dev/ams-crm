@@ -1,85 +1,34 @@
 import Layout from "@/Layouts/Layout";
-import {Stack, TextField, Typography} from "@mui/material";
-import Avatar from "@mui/material/Avatar";
-import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import {TextField} from "@mui/material";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
-import CardTable from "@/Components/Cards/CardTable";
-import CardTitle from "@/Components/Cards/CardTitle";
 import Tabela from "./Tabela";
+import MenuItem from "@mui/material/MenuItem";
+import {useEffect, useState} from "react";
 
-export default function ({produtos}) {
+export default function Index({fornecedores, isFinanceiro}) {
+
+    const [fornecedorSel, setFornecedorSel] = useState()
+
+
+
     return (
-        <Layout empty titlePage="Produtos Cadastrados" menu="produtos" submenu="produtos-cadastrados">
+        <Layout titlePage="Produtos Cadastrados" menu="produtos" submenu="produtos-cadastrados">
             <CardContainer>
                 <CardBody>
                     <div className="row">
-                        <div className="col">
-                            <TextField label="Fornecedor"/>
+                        <div className="col-md-3">
+                            <TextField label="Distribuidora" select fullWidth onChange={e => setFornecedorSel(e.target.value)}>
+                                <MenuItem value="">Todos</MenuItem>
+                                {fornecedores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
                         </div>
                     </div>
                 </CardBody>
             </CardContainer>
 
-            <Tabela produtos={produtos} />
+            <Tabela isFinanceiro={isFinanceiro} fornecedorSel={fornecedorSel}/>
 
-
-
-            {/*<CardContainer>*/}
-            {/*    <CardBody>*/}
-            {/*        <div className="row">*/}
-            {/*            <div className="col">*/}
-            {/*                <a className="btn btn-primary btn-sm" href={route('admin.produtos.create')}>Cadastrar Produto</a>*/}
-            {/*            </div>*/}
-            {/*            <div className="col-auto"><small>Quantidade: {produtos.length}</small></div>*/}
-            {/*        </div>*/}
-            {/*        <div className="row">*/}
-            {/*            <div className="col">*/}
-            {/*                {produtos.map(item => (*/}
-            {/*                    <CardContainer>*/}
-            {/*                        <CardBody>*/}
-            {/*                            <div className="row">*/}
-            {/*                                <div className="col-1">*/}
-            {/*                                    <Avatar variant="square" style={{width: 50, height: 50}} src={item.foto}/>*/}
-            {/*                                </div>*/}
-            {/*                                <div className="col">*/}
-            {/*                                    {item.nome}*/}
-            {/*                                    <div className="row">*/}
-            {/*                                        <div className="col">*/}
-            {/*                                            <Typography variant="body1">ID: #{item.id}</Typography>*/}
-            {/*                                            <Typography variant="body1">Fornecedor: {item.fornecedor}</Typography>*/}
-            {/*                                            <Typography variant="body1">Categoria: {item.categoria_nome}</Typography>*/}
-            {/*                                            <Typography variant="body1"></Typography>*/}
-            {/*                                        </div>*/}
-            {/*                                        <div className="col">*/}
-            {/*                                            <Typography variant="body1">Valor: R$ {convertFloatToMoney(item.preco)}</Typography>*/}
-            {/*                                            <Typography variant="body1">Custo: R$ {convertFloatToMoney(item.preco_custo)}</Typography>*/}
-            {/*                                            <Typography variant="body1">Unidade: {item.unidade}</Typography>*/}
-            {/*                                        </div>*/}
-            {/*                                        <div className="col">*/}
-            {/*                                            <Typography variant="body1">Estoque: {item.estoque} und.</Typography>*/}
-            {/*                                            <Typography variant="body1">Em Trânsito: {item.estoque_transito ?? 0} und.</Typography>*/}
-            {/*                                            <Typography variant="body1">Total: {item.estoque_transito + item.estoque} und.</Typography>*/}
-            {/*                                        </div>*/}
-            {/*                                        <div className="col">*/}
-            {/*                                            <Typography variant="body1">Estoque: {item.estoque} und.</Typography>*/}
-            {/*                                            <Typography variant="body1">Em Trânsito: {item.estoque_transito ?? 0} und.</Typography>*/}
-            {/*                                            <Typography variant="body1">Total: {item.estoque_transito + item.estoque} und.</Typography>*/}
-            {/*                                        </div>*/}
-            {/*                                        <div className="col-auto">*/}
-            {/*                                            <a className="btn btn-link m-0 px-2 py-1 text-dark"*/}
-            {/*                                               href={route('admin.produtos.estoques.index')}><small>Ver Estoque</small></a>*/}
-            {/*                                        </div>*/}
-            {/*                                    </div>*/}
-            {/*                                </div>*/}
-            {/*                            </div>*/}
-            {/*                        </CardBody>*/}
-            {/*                    </CardContainer>*/}
-            {/*                ))}*/}
-            {/*            </div>*/}
-            {/*        </div>*/}
-            {/*    </CardBody>*/}
-            {/*</CardContainer>*/}
         </Layout>
     )
 }

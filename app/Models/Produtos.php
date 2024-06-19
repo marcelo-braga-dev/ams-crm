@@ -15,15 +15,14 @@ class Produtos extends Model
     protected $fillable = [
         'fornecedor_id',
         'categoria_id',
-        'setores_id',
+        'setor_id',
         'unidade_id',
+        'unidade_valor',
         'status',
         'nome',
         'preco_fornecedor',
         'preco_venda',
-//        'unidade',
         'estoque_local',
-//        'categoria',
         'descricao',
         'url_foto'
     ];
@@ -40,11 +39,11 @@ class Produtos extends Model
 
     private function colunas()
     {
-        return ['produtos.*', 'produtos_categorias.nome as categoria_nome', 'produtos_fornecedores.nome as fornecedor',
-            'produtos_unidades.nome as unidade as unidade', 'produtos_unidades.valor as unidade_valor',
-            DB::raw('CAST(produtos_transitos.qtd AS SIGNED) as estoque_transito'),
-            DB::raw('DATE_FORMAT(produtos.created_at, "%d/%m/%Y %H:%i:%s") as data_cadastro'),
-            DB::raw('(SELECT is_financeiro FROM users WHERE id = 2) as financeiro')
+        return ['produtos.*', 'produtos_categorias.nome AS categoria_nome', 'produtos_fornecedores.nome AS fornecedor',
+            'produtos_unidades.nome AS unidade_nome',
+            DB::raw('CAST(produtos_transitos.qtd AS SIGNED) AS estoque_transito'),
+            DB::raw('DATE_FORMAT(produtos.created_at, "%d/%m/%Y %H:%i:%s") AS data_cadastro'),
+            DB::raw('(SELECT is_financeiro FROM users WHERE id = 2) AS financeiro')
         ];
     }
 
@@ -58,11 +57,12 @@ class Produtos extends Model
             'descricao' => $item->descricao,
             'preco' => $item->preco_venda,
             'preco_custo' => $item->financeiro ? $item->preco_fornecedor : null,
-            'unidade' => $item->unidade_valor . ' ' . $item->unidade,
+            'unidade' => $item->unidade_valor . ' ' . $item->unidade_nome,
             'categoria_nome' => $item->categoria_nome,
             'estoque' => $item->estoque_local ?? 0,
             'estoque_transito' => $item->estoque_transito ?? 0,
             'data_cadastro' => $item->data_cadastro,
+            'status' => $item->status,
         ];
     }
 
@@ -78,7 +78,7 @@ class Produtos extends Model
     public function produtos($fornecedor = null)
     {
         return $this->joinsAdd($this)
-//            ->where($id ? ['produtos.id' => $id] : null)
+            ->where($fornecedor ? ['produtos.fornecedor_id' => $fornecedor] : null)
 
             ->get($this->colunas())
             ->transform(function ($item) {
@@ -97,7 +97,7 @@ class Produtos extends Model
         $financeiro = is_financeiro();
 
         return $this->newQuery()
-            ->where('fornecedores_id', $idFornecedor)
+            ->where('fornecedor_id', $idFornecedor)
             ->orderByDesc('id')
             ->get()
             ->transform(function ($dados) use ($categorias, $estoqueVendedor, $unidades, $financeiro) {
@@ -108,7 +108,7 @@ class Produtos extends Model
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
                     'preco_fornecedor_float' => $financeiro ? $dados->preco_fornecedor : 0,
-                    'unidade' => $unidades[$dados->unidade] ?? '',
+                    'unidade' => $unidades[$dados->unidade_id] ?? '',
                     'estoque' => $dados->estoque_local,
                     'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
                     'categoria' => $categorias[$dados->categoria] ?? '',
@@ -123,13 +123,14 @@ class Produtos extends Model
 
         $dados = $this->newQuery()
             ->create([
-                'fornecedores_id' => $dados->fornecedor,
+                'fornecedor_id' => $dados->fornecedor,
+                'categoria_id' => $dados->categoria,
+                'setor_id' => $dados->setor,
+                'unidade_id' => $dados->unidade_id,
+                'unidade_valor' => $dados->unidade_valor,
                 'nome' => $dados->nome,
                 'preco_fornecedor' => convert_money_float($dados->preco_fornecedor),
                 'preco_venda' => convert_money_float($dados->preco_venda),
-                'unidade' => $dados->unidade,
-                'categoria' => $dados->categoria,
-                'descricao' => $dados->descricao,
                 'url_foto' => $url
             ]);
 
@@ -147,15 +148,17 @@ class Produtos extends Model
         return [
             'id' => $dados->id,
             'nome' => $dados->nome,
-            'fornecedores_id' => $dados->fornecedores_id,
-            'fornecedor_nome' => $fornecedores[$dados->fornecedores_id] ?? '',
+            'fornecedor_id' => $dados->fornecedor_id,
+            'fornecedor_nome' => $fornecedores[$dados->fornecedor_id] ?? '',
             'preco_fornecedor' => $financeiro ? convert_float_money($dados->preco_fornecedor) : 0,
             'preco_venda' => convert_float_money($dados->preco_venda),
-            'unidade' => $dados->unidade,
-            'unidade_nome' => $unidades[$dados->unidade] ?? '',
+            'setor_id' => $dados->setor_id,
+            'unidade_id' => $dados->unidade_id,
+            'unidade_valor' => $dados->unidade_valor,
+            'unidade_nome' => $unidades[$dados->unidade_id] ?? '',
             'estoque' => $dados->estoque_local,
             'foto' => $dados->url_foto,
-            'categoria' => $dados->categoria,
+            'categoria_id' => $dados->categoria_id,
             'categoria_nome' => $categorias[$dados->categoria] ?? '',
             'descricao' => $dados->descricao,
         ];
@@ -173,12 +176,14 @@ class Produtos extends Model
         }
 
         $sql->update([
+            'fornecedor_id' => $dados->fornecedor,
+            'categoria_id' => $dados->categoria,
+            'setor_id' => $dados->setor,
+            'unidade_id' => $dados->unidade_id,
+            'unidade_valor' => $dados->unidade_valor,
             'nome' => $dados->nome,
             'preco_fornecedor' => convert_money_float($dados->preco_fornecedor),
-            'preco_venda' => convert_money_float($dados->preco_venda),
-            'unidade' => $dados->unidade,
-            'categoria' => $dados->categoria,
-            'descricao' => $dados->descricao,
+            'preco_venda' => convert_money_float($dados->preco_venda)
         ]);
     }
 
@@ -220,9 +225,9 @@ class Produtos extends Model
 
         $query = $this->newQuery();
 
-        if ($request->fornecedor) $query->where('fornecedores_id', $request->fornecedor);
+        if ($request->fornecedor) $query->where('fornecedor_id', $request->fornecedor);
         if ($request->categoria) $query->where('categoria', $request->categoria);
-        if ($request->unidade) $query->where('unidade', $request->unidade);
+        if ($request->unidade) $query->where('unidade', $request->unidade_id);
 
         $financeiro = is_financeiro();
 
@@ -237,12 +242,12 @@ class Produtos extends Model
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
                     'preco_fornecedor_float' => $financeiro ? $dados->preco_fornecedor : 0,
-                    'unidade' => $unidades[$dados->unidade] ?? '',
+                    'unidade' => $unidades[$dados->unidade_id] ?? '',
                     'estoque' => $dados->estoque_local,
                     'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
                     'categoria' => $categorias[$dados->categoria] ?? '',
-                    'fornecedor' => $fornecedores[$dados->fornecedores_id] ?? '',
-                    'fornecedor_id' => $dados->fornecedores_id,
+                    'fornecedor' => $fornecedores[$dados->fornecedor_id] ?? '',
+                    'fornecedor_id' => $dados->fornecedor_id,
                     'foto' => url_arquivos($dados->url_foto)
                 ];
             });
@@ -255,7 +260,7 @@ class Produtos extends Model
                 return [
                     'id' => $item->id,
                     'nome' => $item->nome,
-                    'fornecedores_id' => $item->fornecedores_id,
+                    'fornecedores_id' => $item->fornecedor_id,
                 ];
             });
 
@@ -264,5 +269,19 @@ class Produtos extends Model
             $res[$item['id']] = $item;
         }
         return $res;
+    }
+
+    public function updateStatus(int $id, int $status)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['status' => $status]);
+    }
+
+    public function updateEstoqueLocal(int $id, $estoque)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['estoque_local' => $estoque]);
     }
 }

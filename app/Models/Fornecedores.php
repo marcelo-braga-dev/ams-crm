@@ -23,8 +23,6 @@ class Fornecedores extends Model
         'anotacoes'
     ];
 
-
-
     public function get()
     {
         return $this->newQuery()
@@ -62,22 +60,5 @@ class Fornecedores extends Model
                 'email' => $dados->get('email'),
                 'anotacoes' => $dados->get('anotacoes')
             ]);
-    }
-
-    private function dados($item, $franquias = [], $setores = [])
-    {
-        return [
-            'id' => $item->id,
-            'nome' => $item->nome,
-            'cnpj' => $item->cnpj,
-            'setor' => $setores[$item->setor]['nome'] ?? '',
-            'setor_id' => $item->setor,
-            'franquia' => $franquias[$item->franquia] ?? '',
-            'franquia_id' => $item->franquia,
-            'atendente' => $item->atendente,
-            'telefone' => $item->telefone,
-            'email' => $item->email,
-            'anotacoes' => $item->anotacoes,
-        ];
     }
 }

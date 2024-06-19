@@ -2,7 +2,6 @@ import React from "react";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
 export default function ({dados}) {
-    console.log(dados)
     return (<>
         <div className="row">
             <div className="col">

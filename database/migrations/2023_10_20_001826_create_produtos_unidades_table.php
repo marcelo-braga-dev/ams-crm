@@ -14,7 +14,6 @@ return new class extends Migration {
     {
         Schema::create('produtos_unidades', function (Blueprint $table) {
             $table->id();
-            $table->float('valor', 8, 3)->nullable();
             $table->string('nome');
             $table->timestamps();
         });

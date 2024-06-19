@@ -10,7 +10,6 @@ class ProdutosUnidades extends Model
     use HasFactory;
 
     protected $fillable = [
-        'valor',
         'nome'
     ];
 
@@ -18,7 +17,6 @@ class ProdutosUnidades extends Model
     {
         $this->newQuery()
             ->create([
-                'valor' => $dados['valor'],
                 'nome' => $dados['nome'],
             ]);
     }
@@ -26,16 +24,7 @@ class ProdutosUnidades extends Model
     public function get()
     {
         return $this->newQuery()
-            ->orderBy('nome')
-            ->orderBy('valor')
-            ->get()
-            ->transform(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'nome' => $item->nome,
-                    'valor' => $item->valor,
-                ];
-            });
+            ->get();
     }
 
     public function getNomes(): array
@@ -44,7 +33,7 @@ class ProdutosUnidades extends Model
 
         $dados = [];
         foreach ($items as $dado) {
-            $dados[$dado->id] = $dado->valor . ' ' . $dado->nome;
+            $dados[$dado->id] = $dado->nome;
         }
 
         return $dados;

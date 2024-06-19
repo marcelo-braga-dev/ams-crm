@@ -21,8 +21,12 @@ export default function CardChamados({dados}) {
             <div className="col-12 mb-2">
                 <Typography><b>{dados.titulo}</b></Typography>
             </div>
-            <div className="col-12">
+            <div className="col-12 mb-2">
                 <Typography><b>Autor:</b> {dados.autor}</Typography>
+            </div>
+            <div className="col-12 mb-2">
+                <Typography><b>Cliente:</b> {dados.cliente_nome}</Typography>
+                <Typography><b>Integrador:</b> {dados.lead_nome}</Typography>
             </div>
             <div className="col-12">
                 <Typography><b>ID do Pedido:</b> #{dados.pedido_id}</Typography>

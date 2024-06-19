@@ -24,6 +24,16 @@ export default function ImagePdf({url, string, urlRaiz}) {
         )
     }
 
+    if (url && url.split('.').pop() === 'mp4') {
+        return (
+            <video width="320" height="240" controls>
+                <source src={url} type="video/mp4"/>
+                <source src={url} type="video/ogg"/>
+                Não tem suporte para este tipo de vídeo.
+            </video>
+        )
+    }
+
     if (url || string) {
 
         return (

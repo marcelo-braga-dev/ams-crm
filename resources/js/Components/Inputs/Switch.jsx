@@ -43,7 +43,7 @@ const SwitchLabel = styled.label`
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    background: ${props => (props.isOn ? props.onColor : 'grey')};
+    background: ${props => (props.isOn ? '#000' : 'grey')};
     border-radius: 50px;
     position: relative;
     transition: background-color 0.2s;
@@ -61,13 +61,14 @@ const SwitchButton = styled.span`
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.24);
 `;
 
-const Switch = ({checked, handleToggle, onColor = '#000', size}) => {
-    const [isChecked, isSetChecked] = useState(false);
-
-    const handleSmallToggle = (ex) => {
-        isSetChecked(e => !e);
-    };
+const Switch = ({checked, onChange, size}) => {
+    const [isChecked, isSetChecked] = useState(checked);
     const inputRef = round(Math.random() * 10000);
+
+    const handleSmallToggle = (valor) => {
+        isSetChecked(e => !e);
+        onChange(!!!isChecked)
+    };
 
     return (
         <SwitchContainer>
@@ -79,7 +80,7 @@ const Switch = ({checked, handleToggle, onColor = '#000', size}) => {
             />
             <SwitchLabel
                 htmlFor={'ch' + inputRef}
-                isOn={isChecked} onColor={onColor} size={size}>
+                isOn={isChecked} size={size}>
                 <SwitchButton isOn={isChecked}/>
             </SwitchLabel>
         </SwitchContainer>

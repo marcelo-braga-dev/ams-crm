@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Admin\Pedidos;
 
 use App\Http\Controllers\Controller;
 use App\Models\ConfigCores;
-use App\Models\Fornecedores;
-use App\Models\Franquias;
 use App\Models\Pedidos;
 use App\Models\PedidosAcompanhamentos;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosProdutos;
+use App\Models\ProdutosFornecedores;
 use App\Models\Sac;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Pedidos\CardDadosService;
-use App\Services\Pedidos\PlanilhaProdutos;
-use App\src\Usuarios\Usuarios;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -24,7 +21,7 @@ class PedidosController extends Controller
     public function index(Request $request)
     {
         $setores = (new Setores())->get();
-        $fornecedores = (new Fornecedores())->get();
+        $fornecedores = (new ProdutosFornecedores())->fornecedores();
         $coresAbas = (new ConfigCores())->getPedidos();
         $goCard = $request->id_card;
 

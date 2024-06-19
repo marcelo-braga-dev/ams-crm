@@ -40,62 +40,6 @@ class  ProdutosFornecedoresController extends Controller
         );
     }
 
-    public function create(Request $request)
-    {
-        $fornecedor = (new Fornecedores())->find($request->fornecedor);
-        $categorias = (new ProdutosCategorias())->categorias($fornecedor['setor_id']);
-        $unidades = (new ProdutosUnidades())->get();
-
-        return Inertia::render(
-            'Admin/Produtos/Create',
-            compact('fornecedor', 'categorias', 'unidades')
-        );
-    }
-
-    public function edit($id)
-    {
-        $produto = (new Produtos())->find($id);
-        $fornecedor = (new Fornecedores())->find($produto['fornecedores_id']);
-        $categorias = (new ProdutosCategorias())->categorias();
-        $unidades = (new ProdutosUnidades())->get();
-        $infos = (new ProdutosDados())->get($id);
-
-        return Inertia::render(
-            'Admin/Produtos/Edit',
-            compact('produto', 'fornecedor', 'categorias', 'unidades', 'infos')
-        );
-    }
-
-    public function update($id, Request $request)
-    {
-        (new Produtos())->atualizar($id, $request);
-
-        $keys = (new InformacoesProdutos());
-        $keys->setUtilidade($id, $request->utilidade);
-        $keys->setModoUsar($id, $request->modo_usar);
-        $keys->setVantagens($id, $request->vantagens);
-        $keys->setDuvidas($id, $request->duvidas);
-        $keys->setGaleria($id, $request->galeria);
-
-        modalSucesso('Dados atualizado com sucesso!');
-        return redirect()->route('admin.produtos-fornecedores.show', $request->fornecedor);
-    }
-
-    public function store(Request $request)
-    {
-        $id = (new Produtos())->create($request);
-
-        $keys = (new InformacoesProdutos());
-        $keys->setUtilidade($id, $request->utilidade);
-        $keys->setModoUsar($id, $request->modo_usar);
-        $keys->setVantagens($id, $request->vantagens);
-        $keys->setDuvidas($id, $request->duvidas);
-        $keys->setGaleria($id, $request->galeria);
-
-        modalSucesso('Produto Cadastrado com Sucesso!');
-        return redirect()->route('admin.produtos-fornecedores.show', $request->fornecedor);
-    }
-
     public function destroy($id)
     {
         (new Produtos())->excluir($id);

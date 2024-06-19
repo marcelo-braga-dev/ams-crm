@@ -33,4 +33,7 @@ Route::middleware(['auth', 'auth.admins'])
     ->prefix('admin/produto')
     ->group(function () {
         Route::resource('estoques', EstoquesController::class);
+        Route::get('get-produtos', [ProdutosController::class, 'produtos'])->name('get-produtos');
+        Route::post('update-status', [ProdutosController::class, 'updateStatus'])->name('update-status');
+        Route::post('update-estoque-local', [ProdutosController::class, 'updateEstoqueLocal'])->name('update-estoque-local');
     });

@@ -57,7 +57,7 @@ export default function ({produto, infos}) {
                                     <ProdutosDados dados={produto}/>
                                 </div>
                                 <div className="col-auto">
-                                    <a href={route('admin.produtos-fornecedores.edit', produto.id)}
+                                    <a href={route('admin.produtos.edit', produto.id)}
                                        className="btn btn-primary btn-sm me-2">Editar</a>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@ export default function ({produto, infos}) {
                                     </Tabs>
                                 </Box>
                                 <CustomTabPanel value={value} index={0}>
-                                    <Text texto={produto.descricao}/>
+                                    <Text texto={infos.descricao}/>
                                 </CustomTabPanel>
                                 <CustomTabPanel value={value} index={1}>
                                     <Text texto={infos.utilidade}/>

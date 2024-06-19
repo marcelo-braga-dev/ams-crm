@@ -7,11 +7,17 @@ use App\Services\Images;
 
 class InformacoesProdutos
 {
+    private string $descricao = 'descricao';
     private string $utilidade = 'utilidade';
     private string $modoUsar = 'modo_usar';
     private string $vantagens = 'vantagens';
     private string $duvidas = 'duvidas';
     private string $galeria = 'galeria';
+
+    public function keyDescricao()
+    {
+        return $this->descricao;
+    }
 
     public function keyUtilidade()
     {
@@ -36,6 +42,10 @@ class InformacoesProdutos
     public function keyGaleria()
     {
         return $this->galeria;
+    }
+    public function setDescricao($id, $valor)
+    {
+        (new ProdutosDados())->create($id, $this->descricao, $valor);
     }
 
     public function setUtilidade($id, $valor)

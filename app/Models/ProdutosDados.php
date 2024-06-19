@@ -49,6 +49,7 @@ class ProdutosDados extends Model
         }
 
         return [
+            'descricao' => $dados->where('nome', $chaves->keyDescricao())->first()->valor ?? '',
             'utilidade' => $dados->where('nome', $chaves->keyUtilidade())->first()->valor ?? '',
             'modo_usar' => $dados->where('nome', $chaves->keyModoUsar())->first()->valor ?? '',
             'vantagens' => $dados->where('nome', $chaves->keyVantagens())->first()->valor ?? '',
