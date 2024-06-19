@@ -10,6 +10,7 @@ const BoxStyled = styled(Box)(({theme, open}) => ({
         duration: theme.transitions.duration.leavingScreen
     }),
     ...(open && {
+        width: `calc(100% - ${drawerWidth}px)`,
         transition: theme.transitions.create(['width', 'margin'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen
