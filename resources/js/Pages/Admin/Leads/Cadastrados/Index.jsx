@@ -115,6 +115,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
     const [filtroLeads, setFiltroLeads] = useState(false);
     const [filtroOrdenar, setFiltroFiltroOrdenar] = useState('');
     const [filtroOrdenarBy, setFiltroFiltroOrdenarBy] = useState('');
+    const [filtroQtdPagina, setFiltroQtdPagina] = useState(100);
     const isFirstRender = useRef(true);
 
     function getLeads() {
@@ -131,6 +132,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                 leads: filtroLeads,
                 ordenar: filtroOrdenar,
                 ordenar_by: filtroOrdenarBy,
+                page_qtd: filtroQtdPagina,
             },
         })).then(res => {
             setLeads(res.data.leads.dados);
@@ -146,7 +148,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
     useEffect(() => {
         setPaginate(1)
         getLeads()
-    }, [filtroSetor, filtroImportacao, filtroStatus, filtroSdr, filtroConsultor, enviarLead, filtroValor, filtroLeads, filtroOrdenar, filtroOrdenarBy]);
+    }, [filtroSetor, filtroImportacao, filtroStatus, filtroSdr, filtroConsultor, enviarLead, filtroValor, filtroLeads, filtroOrdenar, filtroOrdenarBy, filtroQtdPagina]);
 
     useEffect(() => {
         if (isFirstRender.current) {
@@ -284,7 +286,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
             </CardContainer>
 
             <Tabela leads={leads} setPaginate={setPaginate} paginate={paginate} paginateDados={paginateDados} setOrdenar={setFiltroFiltroOrdenar}
-                    setFiltroFiltroOrdenarBy={setFiltroFiltroOrdenarBy}
+                    setFiltroFiltroOrdenarBy={setFiltroFiltroOrdenarBy} setFiltroQtdPagina={setFiltroQtdPagina}
                     leadsChecked={leadsChecked} setLeadsChecked={setLeadsChecked} checkedPage={checkedPage} adicionarLeadsCheck={adicionarLeadsCheck}/>
 
             <Modal id="modalEnviar" title="ALTERAR CONSULTOR" body={<>{leadsChecked.length} selecionados.<br/>{nomeConsultorSelecionado()}</>}

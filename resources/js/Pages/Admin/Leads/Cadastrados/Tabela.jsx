@@ -9,7 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 export default function Tabela({
                                    leads, setPaginate, paginate, paginateDados, setOrdenar, setFiltroFiltroOrdenarBy,
-                                   leadsChecked, setLeadsChecked, checkedPage, adicionarLeadsCheck
+                                   leadsChecked, setLeadsChecked, checkedPage, adicionarLeadsCheck, setFiltroQtdPagina
                                }) {
 
     const linhas = leads.map(function (items) {
@@ -71,6 +71,9 @@ export default function Tabela({
                                     <MenuItem value="">Padrão</MenuItem>
                                     <MenuItem value="asc">ASC</MenuItem>
                                     <MenuItem value="desc">DESC</MenuItem>
+                                </TextField>
+                                <TextField label={<small>Qtd. por Página</small>} size="small" defaultValue="100" variant="standard" sx={{width: 80}}
+                                           onChange={e => setFiltroQtdPagina(e.target.value)}>
                                 </TextField>
                             </Stack>
                         </th>

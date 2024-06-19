@@ -889,7 +889,7 @@ class Leads extends Model
 
         $this->filtrar($filtros, $query);
 
-        $items = $query->paginate(100);
+        $items = $query->paginate($filtros['page_qtd'] ?? 50);
 
         $dados = $items->transform(function ($item) use ($nomeConsultores, $setores) {
             return [
