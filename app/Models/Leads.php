@@ -151,8 +151,6 @@ class Leads extends Model
             $verificacaoCnpj = null;
             $verificacaoTel = null;
 
-//            if ($cnpj) $verificacaoCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
-
             $idEndereco = (new Enderecos())->create($dados['endereco'] ?? null);
 
             $pessoa = ($dados['pessoa'] ?? null) ? !(($dados['pessoa'] ?? null) == 'Pessoa Física') : substr($cnpj, -6, 4) == '0001';
@@ -417,13 +415,15 @@ class Leads extends Model
         $item = $this->newQuery()->find($id);
         $nomes = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
+        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
 
-        return $this->dados($item, $nomes, $setores);
+        return $this->dados($item, $nomes, $setores, $telefones);
     }
 
-    private function dados($item, $nomes = [], $setores = [])
+    private function dados($item, $nomes = [], $setores = [], $telefones = [])
     {
-        //$telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
+
+
         if ($item)
 
             return [
@@ -461,7 +461,7 @@ class Leads extends Model
                 'contato' => [
                     'email' => $item->email,
                     'telefone' => converterTelefone($item->telefone),
-                    'telefones' => [], //$telefones,
+                    'telefones' => $telefones,
                     'atendente' => $item->atendente,
                 ],
                 'infos' => [

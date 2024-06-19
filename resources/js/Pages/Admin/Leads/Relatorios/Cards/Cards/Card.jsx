@@ -7,9 +7,10 @@ import EmailIcon from '@mui/icons-material/Email';
 import Checkbox from '@mui/material/Checkbox';
 import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
 import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
-import PushPinIcon from "@mui/icons-material/PushPin";
-import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import {CardList, Headset, Pen, PersonFill, PinAngle, PinAngleFill} from "react-bootstrap-icons";
+import {CardLink} from "reactstrap";
+import {Typography} from "@mui/material";
 
 export default function CardLeads({dados, btn, leadsSelecionados}) {
     const [pin, setPin] = useState(dados.pin)
@@ -28,11 +29,11 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                     </div>
                     <div className="col-auto pt-2">
                         {pin ?
-                            <PushPinIcon color="error" onClick={() => {
+                            <PinAngleFill color="red" onClick={() => {
                                 setPin(e => !e)
                                 armazenarPin()
                             }} sx={{fontSize: 20}}/>
-                            : <PushPinOutlinedIcon sx={{fontSize: 20}} onClick={() => {
+                            : <PinAngle onClick={() => {
                                 setPin(e => !e)
                                 armazenarPin()
                             }}/>}
@@ -41,10 +42,10 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
 
                 <div className="row border-bottom pb-2 mb-2">
                     <div className="col-1 text-dark">
-                        <PersonIcon sx={{fontSize: 22}}/>
+                        <PersonFill  size="18"/>
                     </div>
                     <div className="col-9 text-dark text-truncate">
-                        <b>{dados.cliente.nome.toUpperCase()}</b>
+                        <Typography variant="body1" fontWeight="bold">{dados.cliente.nome.toUpperCase()}</Typography>
                     </div>
                 </div>
 
@@ -55,10 +56,10 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                     {dados.consultor &&
                         <div className="row">
                             <div className="col-1 mb-2">
-                                <NoteAltOutlinedIcon sx={{fontSize: 22}}/>
+                                <Pen size="14"/>
                             </div>
                             <div className="col-10 text-dark text-truncate">
-                                {dados.consultor}
+                                <Typography variant="body1">{dados.consultor}</Typography>
                             </div>
                         </div>
                     }
@@ -67,10 +68,10 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                     {dados.sdr_nome &&
                         <div className="row">
                             <div className="col-1 mb-2">
-                                <HeadsetMicIcon sx={{fontSize: 20}}/>
+                                <Headset size="17"/>
                             </div>
                             <div className="col-10 text-dark text-truncate">
-                                {dados.sdr_nome}
+                                <Typography variant="body1">{dados.sdr_nome}</Typography>
                             </div>
                         </div>
                     }
@@ -79,11 +80,11 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                 {/*CNPJ*/}
                 {dados.cliente.cnpj &&
                     <div className="row">
-                        <div className="col-1 mb-2">
-                            <ArticleOutlinedIcon sx={{fontSize: 18}}/>
+                        <div className="col-1">
+                            <CardList size="17"/>
                         </div>
                         <div className="col-10 text-dark text-truncate">
-                            {dados.cliente.cnpj}
+                            <Typography variant="body1">{dados.cliente.cnpj}</Typography>
                         </div>
                     </div>
                 }
@@ -95,7 +96,7 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                             <PhoneIcon sx={{fontSize: 18}}/>
                         </div>
                         <div className="col-10 text-dark text-truncate">
-                            {dados.contato.telefone}
+                            <Typography variant="body1">{dados.contato.telefone}</Typography>
                         </div>
                     </div>
                 }
@@ -107,7 +108,7 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                             <EmailIcon sx={{fontSize: 18}}/>
                         </div>
                         <div className="col-10 text-dark text-truncate">
-                            {dados.contato.email}
+                            <Typography variant="body1">{dados.contato.email}</Typography>
                         </div>
                     </div>
                 }
@@ -119,7 +120,7 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                             <PinDropIcon sx={{fontSize: 18}}/>
                         </div>
                         <div className="col-10 text-dark text-truncate">
-                            {dados.cliente.cidade} / {dados.cliente.estado}
+                            <Typography variant="body1">{dados.cliente.cidade} / {dados.cliente.estado}</Typography>
                         </div>
                     </div>
                 }

@@ -18,7 +18,7 @@ import PreAtendimentoCard from "./Cards/PreAtendimentoCard";
 import {router, useForm} from "@inertiajs/react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import {CircularProgress} from "@mui/material";
+import {CircularProgress, Typography} from "@mui/material";
 import LinearProgress from '@mui/material/LinearProgress';
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
@@ -152,7 +152,6 @@ export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsE
                             </div>
                         </div>
                         }
-
                     </div>
                 </CardBody>
             </CardContainer>
@@ -176,13 +175,17 @@ export default function Dashboard({usuario, consultores, isLeadsLimpar, isLeadsE
                                     </th>
                                     <th className="sticky-top" id="th-2">
                                         <div className={styleCard} style={{backgroundColor: 'orange'}}>
-                                            <div className='col-auto'>Pré Atendimento</div>
-                                            <div className='col-auto'>Qdt: {leads.pre_atendimento.length}</div>
+                                            <div className='col-auto'>
+                                                Pré Atendimento
+                                            </div>
+                                            <div className='col-auto'><Typography variant="body1">Qdt: {leads.pre_atendimento.length}</Typography></div>
                                         </div>
                                     </th>
                                     <th className="sticky-top" id="th-3">
                                         <div className={styleCard} style={{backgroundColor: 'green'}}>
-                                            <div className='col-auto'>Em Aberto</div>
+                                            <div className='col-auto'>
+                                                Em Aberto
+                                            </div>
                                             <div className='col-auto'>Qdt: {leads.aberto.length}</div>
                                         </div>
                                     </th>
