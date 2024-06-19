@@ -42,7 +42,6 @@ class ImportarController extends Controller
 
         (new LeadsImportarHistoricos())->atualizar($idHistorico, $qtd);
 
-
         modalSucesso("Importação Realizada com sucesso!");
         return redirect()->route('admin.clientes.leads.importar-historico.index');
     }

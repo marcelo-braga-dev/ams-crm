@@ -208,9 +208,8 @@ class Leads extends Model
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
         } catch (QueryException $exception) {
-            $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
-            $msg = $existCnpj ? 'CNPJ já cadastrado!' : '';
-//            throw new \DomainException($exception->getMessage());
+            $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
+            throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
         }
     }
 
@@ -427,55 +426,55 @@ class Leads extends Model
         //$telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
         if ($item)
 
-        return [
-            'id' => $item->id,
-            'consultor' => [
-                'nome' => $nomes[$item->user_id] ?? '',
-                'id' => $item->user_id
-            ],
-            'sdr' => [
-                'nome' => $nomes[$item->sdr_id] ?? '',
-                'id' => $item->sdr_id
-            ],
-            'cliente' => [
-                'nome' => $item->nome,
-                'razao_social' => $item->razao_social,
-                'cnpj' => converterCNPJ($item->cnpj),
-                'rg' => $item->rg,
-                'cpf' => $item->cpf,
-                'cidade' => $item->cidade,
-                'estado' => $item->estado,
-                'endereco' => $item->endereco ? getEnderecoCompleto($item->endereco) : '',
-                'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
-                'classificacao' => $item->classificacao
-            ],
-            'dados' => [
-                'capital_social' => $item->capital_social,
-                'tipo' => $item->tipo,
-                'porte' => $item->porte,
-                'atividade_principal' => $item->atividade_principal,
-                'natureza_juridica' => $item->natureza_juridica,
-                'quadro_societario' => $item->quadro_societario,
-                'data_situacao' => $item->data_situacao,
-                'data_abertura' => $item->data_abertura,
-            ],
-            'contato' => [
-                'email' => $item->email,
-                'telefone' => converterTelefone($item->telefone),
-                'telefones' => [], //$telefones,
-                'atendente' => $item->atendente,
-            ],
-            'infos' => [
-                'setor' => $setores[$item->setor_id] ?? '',
-                'status' => $item->status,
-                'status_nome' => (new StatusLeads())->nome($item->status),
-                'status_anotacoes' => $item->status_anotacoes,
-                'anotacoes' => $item->infos,
-                'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
-                'contato' => $item->meio_contato,
-                'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
-            ],
-        ];
+            return [
+                'id' => $item->id,
+                'consultor' => [
+                    'nome' => $nomes[$item->user_id] ?? '',
+                    'id' => $item->user_id
+                ],
+                'sdr' => [
+                    'nome' => $nomes[$item->sdr_id] ?? '',
+                    'id' => $item->sdr_id
+                ],
+                'cliente' => [
+                    'nome' => $item->nome,
+                    'razao_social' => $item->razao_social,
+                    'cnpj' => converterCNPJ($item->cnpj),
+                    'rg' => $item->rg,
+                    'cpf' => $item->cpf,
+                    'cidade' => $item->cidade,
+                    'estado' => $item->estado,
+                    'endereco' => $item->endereco ? getEnderecoCompleto($item->endereco) : '',
+                    'pessoa' => $item->pessoa_fisica ? 'PF' : 'PJ',
+                    'classificacao' => $item->classificacao
+                ],
+                'dados' => [
+                    'capital_social' => $item->capital_social,
+                    'tipo' => $item->tipo,
+                    'porte' => $item->porte,
+                    'atividade_principal' => $item->atividade_principal,
+                    'natureza_juridica' => $item->natureza_juridica,
+                    'quadro_societario' => $item->quadro_societario,
+                    'data_situacao' => $item->data_situacao,
+                    'data_abertura' => $item->data_abertura,
+                ],
+                'contato' => [
+                    'email' => $item->email,
+                    'telefone' => converterTelefone($item->telefone),
+                    'telefones' => [], //$telefones,
+                    'atendente' => $item->atendente,
+                ],
+                'infos' => [
+                    'setor' => $setores[$item->setor_id] ?? '',
+                    'status' => $item->status,
+                    'status_nome' => (new StatusLeads())->nome($item->status),
+                    'status_anotacoes' => $item->status_anotacoes,
+                    'anotacoes' => $item->infos,
+                    'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
+                    'contato' => $item->meio_contato,
+                    'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
+                ],
+            ];
     }
 
     private function dadosMinimo($item, $nomes = [], $setores = [])

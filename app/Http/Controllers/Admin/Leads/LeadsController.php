@@ -73,10 +73,15 @@ class LeadsController extends Controller
 
     public function store(Request $request)
     {
-        $id = (new Leads())->create($request, $request->setor);
+        try {
+            $id = (new Leads())->create($request, $request->setor);
 
-        modalSucesso('Lead Cadastrado com sucesso!');
-        return redirect()->route('admin.clientes.leads.leads-main.show', $id);
+            modalSucesso('Lead Cadastrado com sucesso!');
+            return redirect()->route('admin.clientes.leads.leads-main.show', $id);
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+            return redirect()->back();
+        }
     }
 
     public function updateConsultor(Request $request)
