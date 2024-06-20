@@ -31,13 +31,6 @@ class LancadoController extends Controller
             (new PedidosImagens())->updateNotaFiscal($id, $request);
             (new PedidosImagens())->updateLinkPagamento($id, $request);
 
-            $produtos = (new PedidosProdutos())->getProdutosPedido($id);
-
-            foreach ($produtos as $item) {
-                $produto = (new Produtos())->find($item['id_produto']);
-                (new ProdutosHistoricos())->create($produto, (new ProdutosStatus())->venda(), $request['consultor'], $item['qtd']);
-            }
-
             if ($request->forma_pagamento == 'vista') (new PedidoUpdateStatus())->setFaturadoVista($id);
             if ($request->forma_pagamento == 'prazo') (new PedidoUpdateStatus())->setFaturadoPrazo($id);
 
