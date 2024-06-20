@@ -226,9 +226,7 @@ export default function Pedido({fornecedores, unidades, categorias, urlProdutos,
                         <span className="d-block">Categoria: {row.categoria}</span>
                         <span className="d-block mb-3">Distribuidor: {row.fornecedor}</span>
 
-                        <span className="d-block"><b>Estoque:</b></span>
-                        <span className="me-4">Trânsito: {row.estoque_consultor}</span>
-                        <span className="">Loja: {row.estoque}</span>
+                        <span className="d-block">Estoque: {row.estoque} und.</span>
                     </div>
                 </div>,
             grow: 4,

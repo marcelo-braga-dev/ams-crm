@@ -6,11 +6,10 @@ import Tabela from "./Tabela";
 import MenuItem from "@mui/material/MenuItem";
 import {useEffect, useState} from "react";
 
-export default function Index({fornecedores, isFinanceiro}) {
+export default function Index({fornecedores,categorias, isFinanceiro}) {
 
     const [fornecedorSel, setFornecedorSel] = useState()
-
-
+    const [categoriaSel, setCategoriaSel] = useState()
 
     return (
         <Layout titlePage="Produtos Cadastrados" menu="produtos" submenu="produtos-cadastrados">
@@ -23,11 +22,17 @@ export default function Index({fornecedores, isFinanceiro}) {
                                 {fornecedores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
+                        <div className="col-md-3">
+                            <TextField label="Categoria" select fullWidth onChange={e => setCategoriaSel(e.target.value)}>
+                                <MenuItem value="">Todos</MenuItem>
+                                {categorias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
+                        </div>
                     </div>
                 </CardBody>
             </CardContainer>
 
-            <Tabela isFinanceiro={isFinanceiro} fornecedorSel={fornecedorSel}/>
+            <Tabela isFinanceiro={isFinanceiro} fornecedorSel={fornecedorSel} categoriaSel={categoriaSel}/>
 
         </Layout>
     )

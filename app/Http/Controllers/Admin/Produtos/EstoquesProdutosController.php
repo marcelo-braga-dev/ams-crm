@@ -10,7 +10,10 @@ use App\Services\Setores\SetoresService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class EstoqueLocalController extends Controller
+/**
+ * @deprecated
+ */
+class EstoquesProdutosController extends Controller
 {
     public function index(Request $request)
     {

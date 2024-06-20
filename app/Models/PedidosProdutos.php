@@ -26,6 +26,8 @@ class PedidosProdutos extends Model
     {
         foreach ($dados->produtos as $item) {
             if ($item['qtd'] ?? null) {
+                (new Produtos())->subtrairEstoque($idPedido, $item['id'], $item['qtd']);
+
                 $this->newQuery()
                     ->create([
                         'pedido_id' => $idPedido,

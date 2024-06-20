@@ -7,6 +7,7 @@ use App\Models\Fornecedores;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
 use App\Models\ProdutosDados;
+use App\Models\ProdutosEstoquesHistoricos;
 use App\Models\ProdutosFornecedores;
 use App\Models\ProdutosUnidades;
 use App\Models\Setores;
@@ -18,17 +19,17 @@ class ProdutosController extends Controller
 {
     public function index(Request $request)
     {
-        $produtos = (new Produtos())->produtos($request->fornecedor);
+        $categorias = (new ProdutosCategorias())->categorias();
         $fornecedores = (new ProdutosFornecedores())->fornecedores();
         $isFinanceiro = is_financeiro();
 
         return Inertia::render('Admin/Produtos/Index/Index',
-            compact('produtos', 'fornecedores', 'isFinanceiro'));
+            compact( 'categorias', 'fornecedores', 'isFinanceiro'));
     }
 
     public function produtos(Request $request)
     {
-        $produtos = (new Produtos())->produtos($request->fornecedor);
+        $produtos = (new Produtos())->produtos($request->fornecedor, $request->categoria);
 
         return response()->json($produtos);
     }
@@ -109,9 +110,11 @@ class ProdutosController extends Controller
         (new Produtos())->updateStatus($request->id, $request->status);
     }
 
-    public function updateEstoqueLocal(Request $request)
+    public function updateEstoque(Request $request)
     {
+        (new ProdutosEstoquesHistoricos())->createEntrada($request);
+        (new Produtos())->updateEstoque($request->produto_id, $request->qtd);
+
         modalSucesso('Estoque Atualizado com sucesso!');
-        (new Produtos())->updateEstoqueLocal($request->id, $request->estoque);
     }
 }

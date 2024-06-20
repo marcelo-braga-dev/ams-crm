@@ -32,7 +32,6 @@ class Produtos extends Model
         return $query->leftJoin('produtos_fornecedores', 'produtos.fornecedor_id', '=', 'produtos_fornecedores.id')
             ->leftJoin('produtos_categorias', 'produtos.categoria_id', '=', 'produtos_categorias.id')
             ->leftJoin('produtos_unidades', 'produtos.unidade_id', '=', 'produtos_unidades.id')
-            ->leftJoin('produtos_transitos', 'produtos.id', '=', 'produtos_transitos.produtos_id')
             ->groupBy('produtos.id')
             ->orderBy('produtos.nome');
     }
@@ -41,7 +40,6 @@ class Produtos extends Model
     {
         return ['produtos.*', 'produtos_categorias.nome AS categoria_nome', 'produtos_fornecedores.nome AS fornecedor',
             'produtos_unidades.nome AS unidade_nome',
-            DB::raw('CAST(produtos_transitos.qtd AS SIGNED) AS estoque_transito'),
             DB::raw('DATE_FORMAT(produtos.created_at, "%d/%m/%Y %H:%i:%s") AS data_cadastro'),
             DB::raw('(SELECT is_financeiro FROM users WHERE id = 2) AS financeiro')
         ];
@@ -75,11 +73,11 @@ class Produtos extends Model
         return $this->dado($item);
     }
 
-    public function produtos($fornecedor = null)
+    public function produtos($fornecedor = null, $categoria = null)
     {
         return $this->joinsAdd($this)
             ->where($fornecedor ? ['produtos.fornecedor_id' => $fornecedor] : null)
-
+            ->where($categoria ? ['produtos.categoria_id' => $categoria] : null)
             ->get($this->colunas())
             ->transform(function ($item) {
                 return $this->dado($item);
@@ -93,7 +91,7 @@ class Produtos extends Model
     {
         $categorias = (new ProdutosCategorias())->getNomes();
         $unidades = (new ProdutosUnidades())->getNomes();
-        $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
+//        $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
         $financeiro = is_financeiro();
 
         return $this->newQuery()
@@ -206,14 +204,14 @@ class Produtos extends Model
         (new ProdutosHistoricos())->create($produto, (new ProdutosStatus())->local(), $valor, id_usuario_atual());
     }
 
-    public function subtrairEstoque($id, $valorAtual, $valorNovo)
+    public function subtrairEstoque($idPedido, $idProduto, $qtd)
     {
-        $dados = $this->newQuery()
-            ->find($id);
+        $dados = $this->newQuery()->find($idProduto);
 
-        $atual = $dados->estoque_local - ($valorNovo - $valorAtual);
+        $atual = $dados->estoque_local - $qtd;
+        $dados->update(['estoque_local' => $atual]);
 
-        $this->atualizarEstoqueLocal($id, $atual);
+        (new ProdutosEstoquesHistoricos())->createSaida($idPedido, $idProduto, $qtd);
     }
 
     public function getProdutosFormulario($request)
@@ -221,7 +219,6 @@ class Produtos extends Model
         $categorias = (new ProdutosCategorias())->getNomes();
         $fornecedores = (new ProdutosFornecedores())->getNomes();
         $unidades = (new ProdutosUnidades())->getNomes();
-        $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
 
         $query = $this->newQuery();
 
@@ -233,7 +230,7 @@ class Produtos extends Model
 
         return $query->orderBy('nome')
             ->get()
-            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $fornecedores, $unidades, $financeiro) {
+            ->transform(function ($dados) use ($categorias, $fornecedores, $unidades, $financeiro) {
                 return [
                     'id' => $dados->id,
                     'nome' => $dados->nome,
@@ -244,7 +241,7 @@ class Produtos extends Model
                     'preco_fornecedor_float' => $financeiro ? $dados->preco_fornecedor : 0,
                     'unidade' => $unidades[$dados->unidade_id] ?? '',
                     'estoque' => $dados->estoque_local,
-                    'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
+                    'estoque_consultor' => 0,
                     'categoria' => $categorias[$dados->categoria] ?? '',
                     'fornecedor' => $fornecedores[$dados->fornecedor_id] ?? '',
                     'fornecedor_id' => $dados->fornecedor_id,
@@ -278,7 +275,7 @@ class Produtos extends Model
             ->update(['status' => $status]);
     }
 
-    public function updateEstoqueLocal(int $id, $estoque)
+    public function updateEstoque(int $id, $estoque)
     {
         $this->newQuery()
             ->find($id)

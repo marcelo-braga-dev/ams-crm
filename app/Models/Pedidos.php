@@ -41,11 +41,6 @@ class Pedidos extends Model
         'imposto',
     ];
 
-    private function initQuery(): void
-    {
-        ;
-    }
-
     public function historicoPedidosLead($id)
     {
         $status = (new StatusPedidos());

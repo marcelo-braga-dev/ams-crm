@@ -8,7 +8,7 @@ use App\Models\PedidosArquivos;
 use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
 use App\Models\PedidosProdutos;
-use App\Models\ProdutosTransito;
+use App\Models\Produtos;
 use App\src\Modelos\CompletoModelo;
 use App\src\Modelos\ProdutoModelo;
 use App\src\Pedidos\Arquivos\ArquivosPedido;
@@ -45,6 +45,8 @@ class Pedido
                         (new Leads())->atualizar($request->id_lead, $request);
                         $idPedido = (new Pedidos())->create($request);
 
+                        (new PedidosProdutos())->create($idPedido, $request);
+
                         (new ArquivosPedido())->comprovantePix($idPedido, $request);
                         (new ArquivosPedido())->cheques($idPedido, $request);
 
@@ -54,8 +56,6 @@ class Pedido
                         (new PedidosArquivos())->setCPF($idPedido, $request);
                         (new PedidosArquivos())->setCNH($idPedido, $request);
 
-                        (new PedidosProdutos())->create($idPedido, $request);
-                        (new ProdutosTransito())->subtrairVendaPedido($request);
                     } catch (\DomainException | QueryException $exception) {
                         DB::rollBack();
                         throw new \DomainException($exception->getMessage());
