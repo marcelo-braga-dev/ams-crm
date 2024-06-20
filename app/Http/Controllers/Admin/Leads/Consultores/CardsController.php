@@ -15,6 +15,11 @@ class CardsController extends Controller
 {
     public function index(Request $request)
     {
+        if (!$request->id) {
+            modalErro('Falha na abertura da página!');
+            return redirect()->route('admin.leads.cards-leads.index');
+        }
+
         $usuario = (new User())->get($request->id);
         $consultores = (new User())->getUsuarios();
         $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar(id_usuario_atual());

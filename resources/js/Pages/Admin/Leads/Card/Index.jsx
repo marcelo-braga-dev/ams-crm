@@ -17,7 +17,7 @@ export default function ({statusLeads}) {
         totalFinalizado = 0
 
     return (
-        <Layout empty titlePage="Cards do Leads" menu="leads" submenu="leads-cards">
+        <Layout empty titlePage="Tabelas de Leads" menu="leads" submenu="leads-cards">
             <CardContainer>
                 <div className="table-responsive">
                     <table className="table-1">
