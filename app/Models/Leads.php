@@ -8,6 +8,7 @@ use App\src\Leads\Status\AbertoStatusLeads;
 use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
+use App\src\Leads\Status\InativoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\StatusLeads;
@@ -984,5 +985,14 @@ class Leads extends Model
         $this->newQuery()
             ->where('importacao_id', $id)
             ->delete();
+    }
+
+    public function inativar($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['status' => (new InativoStatusLeads())->getStatus()]);
+
+        (new LeadsHistoricos())->createHistorico($id, (new InativoStatusLeads())->getStatus());
     }
 }

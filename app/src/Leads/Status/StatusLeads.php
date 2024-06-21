@@ -12,6 +12,7 @@ class StatusLeads
         $atendimento = (new AtendimentoStatusLeads());
         $ativo = (new AtivoStatusLeads());
         $finalizado = (new FinalizadoStatusLeads());
+        $inativo = (new InativoStatusLeads());
 
         return [
             $novo->getStatus() => $novo->getNome(),
@@ -20,6 +21,7 @@ class StatusLeads
             $atendimento->getStatus() => $atendimento->getNome(),
             $ativo->getStatus() => $ativo->getNome(),
             $finalizado->getStatus() => $finalizado->getNome(),
+            $inativo->getStatus() => $inativo->getNome(),
         ];
     }
 
@@ -37,6 +39,7 @@ class StatusLeads
         $atendimento = (new AtendimentoStatusLeads());
         $ativo = (new AtivoStatusLeads());
         $finalizado = (new FinalizadoStatusLeads());
+        $inativo = (new InativoStatusLeads());
 
         $status = match ($status) {
             $novo->getStatus() => (new NovoStatusLeads()),
@@ -45,6 +48,7 @@ class StatusLeads
             $atendimento->getStatus() => (new AtendimentoStatusLeads()),
             $ativo->getStatus() => (new AtivoStatusLeads()),
             $finalizado->getStatus() => (new FinalizadoStatusLeads()),
+            $inativo->getStatus() => (new InativoStatusLeads()),
         };
 
         return ['nome' => $status->getNome(), 'cor' => $status->getCor()];

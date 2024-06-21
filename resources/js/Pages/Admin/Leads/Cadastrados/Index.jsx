@@ -47,6 +47,7 @@ const FilterSection = ({
                     <MenuItem value="atendimento">Atendimento</MenuItem>
                     <MenuItem value="ativo">Ativo</MenuItem>
                     <MenuItem value="finalizado">Finalizados</MenuItem>
+                    <MenuItem value="inativo">Inativos</MenuItem>
                 </TextField>
             </div>
             <div className="col-md-2">

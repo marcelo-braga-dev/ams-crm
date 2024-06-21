@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
 import LeadsDados from "@/Components/Leads/LeadsDados";
-import {useForm} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
 import TextField from "@mui/material/TextField";
@@ -44,6 +44,10 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
         post(route('admin.leads.update-consultor'))
     }
 
+    function inativarLead() {
+        router.post(route('admin.clientes.leads.inativar-lead'), {id: dados.id, _method: 'PUT'})
+    }
+
     function onSubmit(e) {
         e.preventDefault();
         post(route('admin.leads.atualizar-status'))
@@ -69,14 +73,16 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                     </div>
                 </div>
             </div>
-
-            {emitePedido && cardEmitePedido && <div className="card card-body mb-4">
-                <div className="row pt-3">
-                    <div className="col">
+            <div className="row pt-3 mb-4 justify-content-between">
+                <div className="col">
+                    {emitePedido && cardEmitePedido &&
                         <a className="btn btn-warning" href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
-                    </div>
+                    }
                 </div>
-            </div>}
+                {isEditar && <div className="col-auto">
+                    <button className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar Lead</button>
+                </div>}
+            </div>
 
             <div className="card card-body mb-4">
                 <form onSubmit={onSubmit}>
@@ -121,6 +127,26 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                     <div className="card card-body">
                         <h6 className="mb-3">Histórico de Pedidos</h6>
                         <HistoricoPedidos historicos={historicoPedidos}/>
+                    </div>
+                </div>
+            </div>
+
+            {/*Inativar Lead*/}
+            <div className="modal fade mt-5" id="inativarLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="limparLeadLabel">Inativar LEAD</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Deseja inativar este leads?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => inativarLead()}>Inativar</button>
+                        </div>
                     </div>
                 </div>
             </div>
