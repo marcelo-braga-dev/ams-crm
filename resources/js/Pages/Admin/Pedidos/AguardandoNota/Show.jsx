@@ -1,10 +1,12 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import {router} from '@inertiajs/react'
 import {useForm} from '@inertiajs/react';
 
 import {TextField} from "@mui/material";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
 
 export default function Create({dados}) {
     const {data, setData, progress} = useForm({
@@ -18,33 +20,42 @@ export default function Create({dados}) {
         })
     }
 
-    return (<Layout container voltar={route('admin.pedidos.index', {id_card:  dados.pedido.id})} titlePage="Pedido Aguardando Nota"
-                    menu="pedidos" submenu="pedidos-lista">
-            <div className="row shadow p-2 mb-4">
-                <div className="col">
-                    <DadosPedido dados={dados}/>
-                </div>
-                <div className="col">
-                    <DadosPedidoCliente dados={dados}/>
-                </div>
-            </div>
-            <div className="row shadow p-2 mb-4">
-                <h6 className="mb-4">Enviar Nota/Boleto</h6>
-                <form onSubmit={submit}>
-                    <div className="row mb-4">
-                        <div className="col-md-6 mb-3">
-                            <TextField
-                                type="file" fullWidth required
-                                onChange={e => setData('file_boleto', e.target.files[0])}>
-                            </TextField>
+    return (
+        <Layout container voltar={route('admin.pedidos.index', {id_card: dados.pedido.id})} titlePage="Pedido Aguardando Nota"
+                menu="pedidos" submenu="pedidos-lista">
+            <CardContainer>
+                <CardBody>
+                    <div className="row">
+                        <div className="col">
+                            <DadosPedido dados={dados}/>
+                        </div>
+                        <div className="col">
+                            <DadosPedidoCliente dados={dados}/>
                         </div>
                     </div>
+                </CardBody>
+            </CardContainer>
 
-                    <button className="btn btn-primary" type='submit'>
-                        Salvar
-                    </button>
-                </form>
-            </div>
+            <CardContainer>
+                <CardBody>
+                    <div className="row">
+                        <h6 className="mb-4">Enviar Nota/Boleto</h6>
+                        <form onSubmit={submit}>
+                            <div className="row mb-4">
+                                <div className="col-md-4 mb-3">
+                                    <TextField
+                                        type="file" fullWidth required
+                                        onChange={e => setData('file_boleto', e.target.files[0])}>
+                                    </TextField>
+                                </div>
+                            </div>
+                            <button className="btn btn-primary" type='submit'>
+                                Salvar
+                            </button>
+                        </form>
+                    </div>
+                </CardBody>
+            </CardContainer>
         </Layout>
     )
 }

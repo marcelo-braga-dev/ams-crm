@@ -9,7 +9,7 @@ import pesquisaCep from '@/Helpers/pesquisaCep';
 export default function InfoCliente({setData, data}) {
 
     return <>
-        <Row className={"mt-4"}>
+        <Row >
             <Col>
                 <FormControl>
                     <RadioGroup

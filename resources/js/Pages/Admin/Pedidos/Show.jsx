@@ -82,15 +82,13 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                                 </div>
                             </div>
 
-                            {produtos.length > 0 && <div className="card card-body mb-4">
-                                <div className="row">
-                                    <div className="col">
-                                        {funcaoUsuario ?
-                                            <DadosProdutosCompleta dados={produtos}/> :
-                                            <DadosProdutos dados={produtos}/>}
-                                    </div>
+                            {produtos.length > 0 &&
+                                <div className="mt-4">
+                                    {funcaoUsuario ?
+                                        <DadosProdutosCompleta dados={produtos}/> :
+                                        <DadosProdutos dados={produtos}/>}
                                 </div>
-                            </div>}
+                            }
                         </TabPanel>
                         <TabPanel value={value} index={1}>
                             <DadosPedidoCliente dados={pedido}/>

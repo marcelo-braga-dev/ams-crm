@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {router} from '@inertiajs/react'
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 import {Button, Card, Col, Container, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
 
@@ -14,6 +14,8 @@ import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFile
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
 import BoxShadow from "@/Components/Layout/BoxShadow";
 import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
 
 export default function Pedidos({pedido, produtos}) {
 
@@ -49,59 +51,69 @@ export default function Pedidos({pedido, produtos}) {
     return (
         <Layout container voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}
                 titlePage="Pedido em Conferência" menu="pedidos" submenu="pedidos-lista">
-            <BoxShadow>
-                {pedido.pedido.alerta && <Alert severity="info">
-                    <b>PEDIDO PASSOU POR REVISÃO</b><br/>
-                    {pedido.pedido.alerta}
-                </Alert>}
-                <Row>
-                    <Col className={"mb-3"}>
-                        <DadosPedido dados={pedido}/>
-                    </Col>
-                    <Col className={"mb-3"}>
-                        <DadosPedidoCliente dados={pedido}/>
-                    </Col>
-                </Row>
-            </BoxShadow>
-
-            <Card>
-                <div className="row">
-                    <div className="col">
-                        <DadosProdutos dados={produtos}/>
-                    </div>
-                </div>
-            </Card>
-
-            <BoxShadow>
-                <Row>
-                    <Col className={"mb-3"}>
-                        <Typography variant={"h6"}>Documentos:</Typography>
-                    </Col>
-                </Row>
-                <DadosPedidoFiles dados={pedido}/>
-                <DadosPedidoClienteFiles dados={pedido}/>
-            </BoxShadow>
-            <BoxShadow>
-                <form onSubmit={submit}>
-                    <Row className={"mt-4 text-center"}>
-                        <Col>
-                            <button type="button" className="btn btn-info" data-bs-toggle="modal"
-                                    data-bs-target="#modalEncomenda">
-                                Enviar para Encomenda
-                            </button>
+            <CardContainer>
+                <CardBody>
+                    {pedido.pedido.alerta && <Alert severity="info">
+                        <b>PEDIDO PASSOU POR REVISÃO</b><br/>
+                        {pedido.pedido.alerta}
+                    </Alert>}
+                    <Row>
+                        <Col className={"mb-3"}>
+                            <DadosPedido dados={pedido}/>
                         </Col>
-                        <Col>
-                            <Button color={"primary"} component={"button"} type={"submit"}>Aprovar Pedido</Button>
-                        </Col>
-                        <Col>
-                            <Button color="danger" onClick={handleOpen}>Reprovar Pedido</Button>
+                        <Col className={"mb-3"}>
+                            <DadosPedidoCliente dados={pedido}/>
                         </Col>
                     </Row>
-                </form>
-            </BoxShadow>
+                </CardBody>
+            </CardContainer>
 
-            {/*MODAL*/
+            {!!produtos.length &&
+                <CardContainer>
+                    <CardBody>
+                        <div className="row">
+                            <div className="col">
+                                <DadosProdutos dados={produtos}/>
+                            </div>
+                        </div>
+                    </CardBody>
+                </CardContainer>
             }
+
+            <CardContainer>
+                <CardBody>
+                    <form onSubmit={submit}>
+                        <div className="row text-center">
+                            <div className="col">
+                                <button type="button" className="btn btn-info" data-bs-toggle="modal"
+                                        data-bs-target="#modalEncomenda">
+                                    Enviar para Encomenda
+                                </button>
+                            </div>
+                            <div className="col">
+                                <Button color={"success"} component={"button"} type={"submit"}>Aprovar Pedido</Button>
+                            </div>
+                            <div className="col">
+                                <Button color="danger" onClick={handleOpen}>Reprovar Pedido</Button>
+                            </div>
+                        </div>
+                    </form>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardBody>
+                    <Row>
+                        <Col className={"mb-3"}>
+                            <Typography variant={"h6"}>Documentos:</Typography>
+                        </Col>
+                    </Row>
+                    <DadosPedidoFiles dados={pedido}/>
+                    <DadosPedidoClienteFiles dados={pedido}/>
+                </CardBody>
+            </CardContainer>
+
+            {/*MODAL*/}
             <Modal
                 open={open}
                 onClose={handleClose}>

@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import {router} from '@inertiajs/react'
 
 import React, {useState} from 'react';
@@ -9,6 +9,8 @@ import InfoCliente from "./Partials/InfoCliente";
 import Anexos from "./Partials/Anexos";
 import Pedidos from "./Partials/Pedido";
 import {Alert} from "@mui/material";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
 
 export default function Edit({pedido, cliente, img, fornecedores, endereco}) {
     const {errors} = usePage().props;
@@ -56,33 +58,44 @@ export default function Edit({pedido, cliente, img, fornecedores, endereco}) {
 
     return (
         <Layout titlePage="Revisar Pedido" menu="pedidos" submenu="pedidos-lista"
-                voltar={route('admin.pedidos.index', {id_card:  pedido.id})}>
+                voltar={route('admin.pedidos.index', {id_card: pedido.id})}>
 
-            <Alert severity="warning">{pedido.obs}</Alert>
+            <Alert className="mb-4" severity="warning">{pedido.obs}</Alert>
 
             <form onSubmit={submit}>
-                    <AlertDanger errors={errors}/>
-                    <InfoCliente setData={setData} data={data}/>
+                <AlertDanger errors={errors}/>
+                <CardContainer>
+                    <CardBody>
+                        <InfoCliente setData={setData} data={data}/>
+                    </CardBody>
+                </CardContainer>
 
-                    <Anexos setData={setData} data={data} img={img}/>
+                <CardContainer>
+                    <CardBody>
+                        <Anexos setData={setData} data={data} img={img}/>
+                    </CardBody>
+                </CardContainer>
 
-                    <Pedidos fornecedores={fornecedores}
-                             setData={setData} data={data} img={img}/>
+                <CardContainer>
+                    <CardBody>
+                        <Pedidos fornecedores={fornecedores} setData={setData} data={data} img={img}/>
+                    </CardBody>
+                </CardContainer>
 
-                    <div className="row text-center mb-3">
-                        <div className="col">
-                            {progress && (
-                                <progress value={progress.percentage} max="100">
-                                    {progress.percentage}%
-                                </progress>
-                            )}
-                        </div>
+                <div className="row text-center mb-3">
+                    <div className="col">
+                        {progress && (
+                            <progress value={progress.percentage} max="100">
+                                {progress.percentage}%
+                            </progress>
+                        )}
                     </div>
-                    <div className="row text-center">
-                        <div className="col">
-                            <button className="btn btn-primary" disabled={processing}>Atualizar</button>
-                        </div>
+                </div>
+                <div className="row text-center">
+                    <div className="col">
+                        <button className="btn btn-primary" disabled={processing}>Atualizar</button>
                     </div>
+                </div>
             </form>
         </Layout>
     )

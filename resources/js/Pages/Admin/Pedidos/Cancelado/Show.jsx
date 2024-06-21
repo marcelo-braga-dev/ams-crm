@@ -3,10 +3,11 @@ import {router} from '@inertiajs/react'
 import React from 'react';
 import {useForm} from '@inertiajs/react';
 
-//step
 import {TextField} from "@mui/material";
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
 
 export default function Create({pedido}) {
 
@@ -22,26 +23,28 @@ export default function Create({pedido}) {
         })
     }
 
-    return (<Layout titlePage="Pedido Cancelado" container voltar={route('admin.pedidos.index', {id_card:  pedido.pedido.id})}
-                    menu="pedidos" submenu="pedidos-lista">
-        <div className="row">
-            <div className="col">
-                <DadosPedidoMinimo dados={pedido}/>
-            </div>
-        </div>
-        <form onSubmit={submit}>
+    return (
+        <Layout titlePage="Pedido Cancelado" container voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}
+                menu="pedidos" submenu="pedidos-lista">
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoMinimo dados={pedido}/>
+                </CardBody>
+            </CardContainer>
 
-            <div className="row my-4">
-                <TextField
-                    label="Motivos do Cancelamento" fullWidth multiline rows={4} required
-                    value={data.obs} onChange={e => setData('motivo', e.target.value)}
-                />
-            </div>
-
-            <button className="btn btn-danger" type="submit">
-                Cancelar Pedido
-            </button>
-        </form>
-
-    </Layout>)
+            <form onSubmit={submit}>
+                <CardContainer>
+                    <CardBody>
+                        <TextField
+                            label="Motivos do Cancelamento" fullWidth multiline rows={4} required
+                            value={data.obs} onChange={e => setData('motivo', e.target.value)}
+                        />
+                        <div className="mt-3">
+                            <button className="btn btn-danger" type="submit">Cancelar Pedido</button>
+                        </div>
+                    </CardBody>
+                </CardContainer>
+            </form>
+        </Layout>
+    )
 }

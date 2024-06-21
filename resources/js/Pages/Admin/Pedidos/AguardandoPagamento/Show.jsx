@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 
 import {router} from '@inertiajs/react'
 import {Button, Card, Col, Container, Form, Row} from "reactstrap";
@@ -8,10 +8,11 @@ import {useForm} from '@inertiajs/react'
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import {TextField} from "@mui/material";
 import React from "react";
-import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
-import BoxShadow from "@/Components/Layout/BoxShadow";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle";
 
 export default function Pedidos({dados}) {
     const {data, setData} = useForm()
@@ -27,26 +28,32 @@ export default function Pedidos({dados}) {
     return (
         <Layout container titlePage="Pedido Aguardando Pagamento" voltar={route('admin.pedidos.index', {id_card:  dados.pedido.id})}
                 menu="pedidos" submenu="pedidos-lista">
-            <div className="row shadow p-2 mb-4">
-                <div className="row mb-4">
-                    <div className="col">
-                        <DadosPedido dados={dados}/>
+            <CardContainer>
+                <CardBody>
+                    <div className="row">
+                        <div className="row mb-4">
+                            <div className="col">
+                                <DadosPedido dados={dados}/>
+                            </div>
+                            <div className="col">
+                                <DadosPedidoCliente dados={dados}/>
+                            </div>
+                        </div>
+                        <Row>
+                            <Col>
+                                <Typography variant={"body1"} component="p">Baixar Nota/Boleto</Typography>
+                                <ImagePdf url={dados.pedido_files.boleto}/>
+                            </Col>
+                        </Row>
                     </div>
-                    <div className="col">
-                        <DadosPedidoCliente dados={dados}/>
-                    </div>
-                </div>
-                <Row>
-                    <Col>
-                        <Typography variant={"body1"} component="p">Baixar Nota/Boleto</Typography>
-                        <ImagePdf url={dados.pedido_files.boleto}/>
-                    </Col>
-                </Row>
-            </div>
+                </CardBody>
+            </CardContainer>
 
-            <BoxShadow>
+
+            <CardContainer>
+                <CardTitle title="Enviar Comprovantes de Pagametos"/>
+                <CardBody>
                 <form onSubmit={submit}>
-                    <h5 className="mb-3">Enviar Comprovantes de Pagametos</h5>
                     <span>Recibo do Pagamento</span>
                     <Row className="mb-4">
                         <Col className={"mb-3"} lg={"6"}>
@@ -68,6 +75,8 @@ export default function Pedidos({dados}) {
                         </Button>
                     </div>
                 </form>
-            </BoxShadow>
-        </Layout>);
+                </CardBody>
+            </CardContainer>
+        </Layout>
+    );
 }

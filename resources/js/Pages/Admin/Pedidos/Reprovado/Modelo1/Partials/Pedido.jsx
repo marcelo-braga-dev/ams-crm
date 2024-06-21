@@ -20,7 +20,7 @@ import * as React from "react";
 export default function Pedidos({fornecedores, setData, data, img}) {
 
     return <Box>
-        <Row className="my-4">
+        <Row>
             {/*Preco*/}
             <Col className="mb-3 col-md-4">
                 <TextFieldMoney label="Preço" value={data.preco} setData={setData} index="preco" required/>
@@ -38,22 +38,19 @@ export default function Pedidos({fornecedores, setData, data, img}) {
         </Row>
         <Row className={"mb-3"}>
             <Col className={"mb-3"} lg={"6"}>
-                <Paper className={"p-3"} elevation={1}>
-                    <Typography variant={"body1"}>Orçamento</Typography>
-                    <ImagePdf url={img.url_orcamento}></ImagePdf>
-                    <TextField
-                        type="file" label="Orçamento" InputLabelProps={{ shrink: true }}
-                        onChange={e => setData('file_orcamento', e.target.files[0])}/>
-                </Paper>
+                <ImagePdf url={img.url_orcamento}></ImagePdf>
+                <TextField
+                    type="file" label="Orçamento" InputLabelProps={{shrink: true}}
+                    onChange={e => setData('file_orcamento', e.target.files[0])}/>
             </Col>
         </Row>
-        <Row className={"mt-4"}>
+        <Row className={"mt-4 mb-4"}>
             <Col>
                 <FormControl>
                     <FormLabel id="demo-row-radio-buttons-group-label">Formas de Pagamento</FormLabel>
                     <RadioGroup required
-                        row aria-labelledby="demo-row-radio-buttons-group-label" defaultValue={data.forma_pagamento}
-                        name="row-radio-buttons-group" onChange={e => setData('forma_pagamento', e.target.value)}>
+                                row aria-labelledby="demo-row-radio-buttons-group-label" defaultValue={data.forma_pagamento}
+                                name="row-radio-buttons-group" onChange={e => setData('forma_pagamento', e.target.value)}>
                         <FormControlLabel value="À Vista" control={<Radio id="forma_pagamento"/>} label="À Vista"/>
                         <FormControlLabel value="Financiamento" control={<Radio id="forma_pagamento"/>} label="Financiamento"/>
                         <FormControlLabel value="Boleto" control={<Radio id="forma_pagamento"/>} label="Boleto"/>
@@ -69,10 +66,10 @@ export default function Pedidos({fornecedores, setData, data, img}) {
                             type="file" label="Carta de Autorização" InputLabelProps={{shrink: true}}
                             onChange={e => setData('file_carta_autorizacao', e.target.files[0])}/>
                     </Paper>
-                    }
+                }
             </Col>
         </Row>
-        <Row className={"mb-3"}>
+        <Row className={"mb-4"}>
             <Col className={"mb-3"} lg={"12"}>
                 <TextField
                     label="Anotações" multiline rows={4} fullWidth
