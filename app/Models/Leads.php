@@ -995,4 +995,11 @@ class Leads extends Model
 
         (new LeadsHistoricos())->createHistorico($id, (new InativoStatusLeads())->getStatus());
     }
+
+    public function reativar(mixed $id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['status' => (new AtivoStatusLeads())->getStatus()]);
+    }
 }

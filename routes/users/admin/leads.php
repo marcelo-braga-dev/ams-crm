@@ -38,6 +38,7 @@ Route::name('admin.clientes.leads.')
         Route::put('alterar-consultor', [LeadsController::class, 'alterarConsultor'])->name('alterar-consultor');
         Route::put('alterar-sdr', [LeadsController::class, 'alterarSdr'])->name('alterar-sdr');
         Route::put('inativar-lead', [LeadsController::class, 'inativarLead'])->name('inativar-lead');
+        Route::put('reativar-lead', [LeadsController::class, 'reativarLead'])->name('reativar-lead');
         Route::post('limpar-consultor', [LeadsController::class, 'limparConsultor'])->name('limpar-consultor');
         Route::get('get-leads-cadastrados', [LeadsController::class, 'leadsCadastrados'])->name('get-leads-cadastrados');
         Route::get('registros-encaminhar', [LeadsController::class, 'registrosEncaminhar'])->name('registros-encaminhar');

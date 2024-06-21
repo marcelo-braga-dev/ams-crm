@@ -278,4 +278,11 @@ class LeadsController extends Controller
 
         modalSucesso('Lead inativado com sucesso!');
     }
+
+    public function reativarLead(Request $request)
+    {
+        (new Leads())->reativar($request->id);
+
+        modalSucesso('Lead inativado com sucesso!');
+    }
 }

@@ -61,6 +61,10 @@ export default function Show({
         router.post(route('admin.clientes.leads.inativar-lead'), {id: dados.id, _method: 'PUT'})
     }
 
+    function reativarLead() {
+        router.post(route('admin.clientes.leads.reativar-lead'), {id: dados.id, _method: 'PUT'})
+    }
+
     return (
         <Layout empty titlePage="Informações do Lead" menu="leads" submenu="leads-cadastrados"
                 voltar={route('admin.clientes.leads.leads-cadastrados')}>
@@ -145,7 +149,10 @@ export default function Show({
                                 </div>
                             </>}
                             {isInativar && <div className="col text-end">
-                                <button className="btn btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar Lead</button>
+                                {dados.infos.status === 'ativo' &&
+                                    <button className="btn btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar Lead</button>}
+                                {dados.infos.status === 'inativo' &&
+                                    <button className="btn btn-success mb-0" onClick={() => reativarLead()}>Reativar Lead</button>}
                             </div>}
                         </div>
                     </CardBody>

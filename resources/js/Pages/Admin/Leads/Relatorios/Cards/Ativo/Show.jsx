@@ -57,6 +57,10 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
         window.location.reload()
     }
 
+    function reativarLead() {
+        router.post(route('admin.clientes.leads.reativar-lead'), {id: dados.id, _method: 'PUT'})
+    }
+
     return (
         <Layout empty titlePage="Ativo - Lead" menu="leads" submenu="leads-cards"
                 voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
@@ -100,8 +104,14 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                                 <a className="btn btn-warning mb-0" href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
                             }
                         </div>
-                        {isInativar && <div className="col-auto">
-                            <button className="btn btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar Lead</button>
+                        {/*{isInativar && <div className="col-auto">*/}
+                        {/*    <button className="btn btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar Lead</button>*/}
+                        {/*</div>}*/}
+                        {isInativar && <div className="col text-end">
+                            {dados.infos.status === 'ativo' &&
+                                <button className="btn btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar Lead</button>}
+                            {dados.infos.status === 'inativo' &&
+                                <button className="btn btn-success mb-0" onClick={() => reativarLead()}>Reativar Lead</button>}
                         </div>}
                     </div>
                 </CardBody>
