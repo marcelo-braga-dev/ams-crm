@@ -138,13 +138,13 @@ export default function Show({
                             </div>}
                             {isLeadsLimpar && <>
                                 <div className="col-auto">
-                                    <button className="btn btn-info"
-                                            data-bs-toggle="modal" data-bs-target="#modalRemoverConsultor">Remover Vendedor
+                                    <button className="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#modalRemoverConsultor">
+                                        Remover Vendedor
                                     </button>
                                 </div>
                                 <div className="col-auto">
-                                    <button className="btn btn-warning" data-bs-toggle="modal"
-                                            data-bs-target="#modalRemoverSDR">Remover SDR
+                                    <button className="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#modalRemoverSDR">
+                                        Remover SDR
                                     </button>
                                 </div>
                             </>}

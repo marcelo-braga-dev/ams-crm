@@ -1,10 +1,13 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 
 import {router} from "@inertiajs/react";
 import maskJquery from "@/Helpers/maskJquery";
 import InputsDadosLead from "@/Partials/Leads/InputsDados";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle";
 
 export default function Edit({dados, endereco, urlAnterior}) {
     const {setData, data} = useForm({
@@ -34,7 +37,6 @@ export default function Edit({dados, endereco, urlAnterior}) {
         },
     });
 
-
     function submit(e) {
         e.preventDefault();
         router.post(route('admin.clientes.leads.leads-main.update', dados.id),
@@ -45,13 +47,16 @@ export default function Edit({dados, endereco, urlAnterior}) {
     maskJquery()
 
     return (
-        <Layout container voltar={urlAnterior} titlePage="Editar LEAD"
-                menu="leads" submenu="leads-cadastrados">
-            <span className="h6">Atualizar informações</span>
-            <form onSubmit={submit}>
-                <InputsDadosLead data={data} setData={setData}/>
-                <button type="submit" className="btn btn-primary">Salvar</button>
-            </form>
+        <Layout container voltar={urlAnterior} titlePage="Editar LEAD" menu="leads" submenu="leads-cadastrados">
+            <CardContainer>
+                <CardTitle title="Atualizar informações do lead"/>
+                <CardBody>
+                    <form onSubmit={submit}>
+                        <InputsDadosLead data={data} setData={setData}/>
+                        <button type="submit" className="btn btn-primary">Salvar</button>
+                    </form>
+                </CardBody>
+            </CardContainer>
         </Layout>
     )
 }

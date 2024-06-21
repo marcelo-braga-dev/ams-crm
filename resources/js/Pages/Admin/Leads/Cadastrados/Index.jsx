@@ -116,7 +116,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
     const [filtroLeads, setFiltroLeads] = useState(false);
     const [filtroOrdenar, setFiltroFiltroOrdenar] = useState('');
     const [filtroOrdenarBy, setFiltroFiltroOrdenarBy] = useState('');
-    const [filtroQtdPagina, setFiltroQtdPagina] = useState(100);
+    const [filtroQtdPagina, setFiltroQtdPagina] = useState(50);
     const isFirstRender = useRef(true);
 
     function getLeads() {
@@ -287,7 +287,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
             </CardContainer>
 
             <Tabela leads={leads} setPaginate={setPaginate} paginate={paginate} paginateDados={paginateDados} setOrdenar={setFiltroFiltroOrdenar}
-                    setFiltroFiltroOrdenarBy={setFiltroFiltroOrdenarBy} setFiltroQtdPagina={setFiltroQtdPagina}
+                    setFiltroFiltroOrdenarBy={setFiltroFiltroOrdenarBy} setFiltroQtdPagina={setFiltroQtdPagina} filtroQtdPagina={filtroQtdPagina}
                     leadsChecked={leadsChecked} setLeadsChecked={setLeadsChecked} checkedPage={checkedPage} adicionarLeadsCheck={adicionarLeadsCheck}/>
 
             <Modal id="modalEnviar" title="ALTERAR CONSULTOR" body={<>{leadsChecked.length} selecionados.<br/>{nomeConsultorSelecionado()}</>}
