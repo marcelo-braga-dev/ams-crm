@@ -110,11 +110,11 @@ class LeadsController extends Controller
             return redirect()->back();
         }
 
+        if ($request->return_back) return redirect()->back();
         return redirect()->route('admin.clientes.leads.leads-cadastrados');
     }
 
-    public
-    function ocultar(Request $request)
+    public function ocultar(Request $request)
     {
         try {
             if (!empty($request->leadsSelecionados)) {
@@ -155,13 +155,12 @@ class LeadsController extends Controller
 
     public function alterarConsultor(Request $request)
     {
-        $categoriaAtual = $request->categoria ?? 1;
-        $dados = (new Leads())->getLeadsComConsultor($categoriaAtual);
-        $consultores = (new User())->getUsuarios($categoriaAtual);
-        $categorias = (new SetoresService())->setores();
+        $isSdr = is_sdr($request->novo_consultor);
+        $isSdr ?
+            (new Leads())->setSdr($request->idLeads, $request->novo_consultor, $request->alterarStatus) :
+            (new Leads())->setConsultor($request->idLeads, $request->novo_consultor, $request->alterarStatus);
 
-        return Inertia::render('Admin/Leads/AlterarConsultor',
-            compact('dados', 'consultores', 'categorias', 'categoriaAtual'));
+        modalSucesso('Leads enviado com sucesso!');
     }
 
     public function show($id)
@@ -249,5 +248,23 @@ class LeadsController extends Controller
 
         modalSucesso('Status Atualizado com sucesso!');
         return redirect()->route('admin.leads.cards-finalizado.show', $id);
+    }
+
+    public function limparSdr(Request $request)
+    {
+        $idLeads = $request->id ? [$request->id] : $request->idLeads;
+        (new Leads())->setSdr($idLeads, null, $request->alterarStatus);
+
+        modalSucesso('Consultor(a) removido com sucesso!');
+    }
+
+    public function alterarSdr(Request $request)
+    {
+        $isSdr = is_sdr($request->novo_consultor);
+        $isSdr ?
+            (new Leads())->setSdr($request->idLeads, $request->novo_consultor, $request->alterarStatus) :
+            (new Leads())->setConsultor($request->idLeads, $request->novo_consultor, $request->alterarStatus);
+
+        modalSucesso('Leads enviado com sucesso!');
     }
 }

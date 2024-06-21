@@ -35,7 +35,8 @@ Route::name('admin.clientes.leads.')
         Route::post('restaurar', [LeadsController::class, 'restaurar'])->name('restaurar');
         Route::post('remover-consultor', [LeadsController::class, 'removerConsultor'])->name('remover-consultor');
         Route::post('remover-sdr', [LeadsController::class, 'removerSdr'])->name('remover-sdr');
-        Route::get('alterar-consultor', [LeadsController::class, 'alterarConsultor'])->name('alterar-consultor');
+        Route::put('alterar-consultor', [LeadsController::class, 'alterarConsultor'])->name('alterar-consultor');
+        Route::put('alterar-sdr', [LeadsController::class, 'alterarSdr'])->name('alterar-sdr');
         Route::post('limpar-consultor', [LeadsController::class, 'limparConsultor'])->name('limpar-consultor');
         Route::get('get-leads-cadastrados', [LeadsController::class, 'leadsCadastrados'])->name('get-leads-cadastrados');
         Route::get('registros-encaminhar', [LeadsController::class, 'registrosEncaminhar'])->name('registros-encaminhar');
@@ -67,8 +68,8 @@ Route::name('admin.leads.')
 
         Route::post('cards-leads-limpar', [LeadsCardsController::class, 'limparFinalizados'])->name('cards-leads.limpar-finalizados');
 
-        Route::post('limpar-consultor', [CardsController::class, 'limparConsultor'])
-            ->name('limpar-consultor');
+        Route::post('limpar-consultor', [CardsController::class, 'limparConsultor'])->name('limpar-consultor');
+        Route::post('limpar-sdr', [LeadsController::class, 'limparSdr'])->name('limpar-sdr');
 
         Route::get('registros', [CardsController::class, 'registros'])
             ->name('registros');

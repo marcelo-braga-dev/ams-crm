@@ -21,32 +21,33 @@ class CardsController extends Controller
         }
 
         $usuario = (new User())->get($request->id);
-        $consultores = (new User())->getUsuarios();
+        $consultores = (new User())->usuariosConsultores();
+        $sdrs = (new User())->usuariosSdr();
         $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar(id_usuario_atual());
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Index',
-            compact('usuario', 'consultores', 'isLeadsLimpar', 'isLeadsEncaminhar'));
+            compact('usuario', 'sdrs', 'consultores', 'isLeadsLimpar', 'isLeadsEncaminhar'));
     }
 
     public function limparConsultor(Request $request)
     {
-        (new Leads())->setConsultor([$request->id], null);
+        $idLeads = $request->id ? [$request->id] : $request->idLeads;
+        (new Leads())->setConsultor($idLeads, null);
 
         modalSucesso('Consultor(a) removido com sucesso!');
-        return redirect()->back();
     }
 
-    public function update(Request $request)
-    {
-        $isSdr = is_sdr($request->novo_consultor);
-        $isSdr ?
-            (new Leads())->setSdr($request->idLeads, $request->novo_consultor) :
-            (new Leads())->setConsultor($request->idLeads, $request->novo_consultor);
-
-        modalSucesso('Leads enviado com sucesso!');
-        return redirect()->back();
-    }
+//    public function update(Request $request)
+//    {
+//        $isSdr = is_sdr($request->novo_consultor);
+//        $isSdr ?
+//            (new Leads())->setSdr($request->idLeads, $request->novo_consultor) :
+//            (new Leads())->setConsultor($request->idLeads, $request->novo_consultor);
+//
+//        modalSucesso('Leads enviado com sucesso!');
+//        return redirect()->back();
+//    }
 
     public function registros(Request $request)
     {

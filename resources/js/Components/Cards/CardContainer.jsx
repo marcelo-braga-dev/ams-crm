@@ -7,9 +7,9 @@ const Card = styled.div`
     margin-bottom: 2rem;
 `
 
-export default function CardContainer({children}) {
+export default function CardContainer({children, className}) {
     return (
-        <Card>
+        <Card className={className}>
             {children}
         </Card>
     )

@@ -90,29 +90,27 @@ class Leads extends Model
             ]);
     }
 
-    public function setConsultor($idLead, $idConsultor)
+    public function setConsultor($idLeads, $idConsultor, $alterarStatus = true)
     {
         $this->newQuery()
-            ->whereIn('id', $idLead)
+            ->whereIn('id', $idLeads)
             ->update([
                 'user_id' => $idConsultor,
                 'data_encaminhado' => now()
             ]);
 
-        $this->newQuery()
-            ->whereIn('id', $idLead)
-            ->where('status', '!=', (new AtivoStatusLeads())->getStatus())
+        if ($alterarStatus) $this->newQuery()
+            ->whereIn('id', $idLeads)
             ->update([
                 'status' => (new AbertoStatusLeads())->getStatus()
             ]);
 
-
-        foreach ($idLead as $id) {
+        foreach ($idLeads as $id) {
             (new LeadsHistoricos())->createHistorico($id, (new NovoStatusLeads())->getStatus());
         }
     }
 
-    public function setSdr($idLead, $idConsultor)
+    public function setSdr($idLead, $idConsultor, $alterarStatus = true)
     {
         $this->newQuery()
             ->whereIn('id', $idLead)
@@ -121,9 +119,8 @@ class Leads extends Model
                 'data_encaminhado' => now()
             ]);
 
-        $this->newQuery()
+        if ($alterarStatus) $this->newQuery()
             ->whereIn('id', $idLead)
-            ->where('status', '!=', (new AtivoStatusLeads())->getStatus())
             ->update([
                 'status' => (new NovoStatusLeads())->getStatus()
             ]);
