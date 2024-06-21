@@ -12,6 +12,7 @@ import HistoricoAtendimento from "@/Partials/Leads/HistoricoAtendimento";
 import HistoricoPedidos from "@/Partials/Leads/HistoricoPedidos";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle";
 
 export default function Show({
                                  dados,
@@ -21,7 +22,8 @@ export default function Show({
                                  isLeadsEncaminhar,
                                  isLeadsLimpar,
                                  isEditar,
-                                 isExcluir
+                                 isExcluir,
+                                 isInativar
                              }) {
     const [consultorSelecionado, setConsultorSelecionado] = useState();
 
@@ -55,10 +57,15 @@ export default function Show({
             {lead: dados.id}))
     }
 
+    function inativarLead() {
+        router.post(route('admin.clientes.leads.inativar-lead'), {id: dados.id, _method: 'PUT'})
+    }
+
     return (
         <Layout empty titlePage="Informações do Lead" menu="leads" submenu="leads-cadastrados"
                 voltar={route('admin.clientes.leads.leads-cadastrados')}>
             <CardContainer>
+                <CardTitle title="Informações do Lead"/>
                 <CardBody>
                     <div className="row">
                         <div className="col">
@@ -137,6 +144,9 @@ export default function Show({
                                     </button>
                                 </div>
                             </>}
+                            {isInativar && <div className="col text-end">
+                                <button className="btn btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar Lead</button>
+                            </div>}
                         </div>
                     </CardBody>
                 </CardContainer>
@@ -145,17 +155,17 @@ export default function Show({
             <div className="row">
                 <div className="col">
                     <CardContainer>
+                        <CardTitle title="Histórico de Atendimento"/>
                         <CardBody>
-                        <h6 className="mb-3">Histórico de Atendimento</h6>
-                        <HistoricoAtendimento historicos={historicos}/>
+                            <HistoricoAtendimento historicos={historicos}/>
                         </CardBody>
                     </CardContainer>
                 </div>
                 <div className="col">
                     <CardContainer>
+                        <CardTitle title="Histórico de Pedidos"/>
                         <CardBody>
-                        <h6 className="mb-3">Histórico de Pedidos</h6>
-                        <HistoricoPedidos historicos={historicoPedidos}/>
+                            <HistoricoPedidos historicos={historicoPedidos}/>
                         </CardBody>
                     </CardContainer>
                 </div>
@@ -255,6 +265,26 @@ export default function Show({
                                     onClick={() => removerSdr()}>
                                 Remover
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/*Inativar Lead*/}
+            <div className="modal fade mt-5" id="inativarLead" tabIndex="-1" aria-labelledby="limparLeadLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="limparLeadLabel">Inativar LEAD</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Deseja inativar este leads?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => inativarLead()}>Inativar</button>
                         </div>
                     </div>
                 </div>

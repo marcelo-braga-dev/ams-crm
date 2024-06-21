@@ -1,9 +1,13 @@
 import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 
-export default function () {
+import Game from "./MemoryGame/Game";
+
+const Page = () => {
     return (
-        <Layout titlePage="Home">
-            Bem vindo(a)!
+        <Layout empty>
+            {/*<Game/>*/}
         </Layout>
     )
 }
+
+export default Page

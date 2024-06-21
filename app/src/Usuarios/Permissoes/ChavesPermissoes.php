@@ -273,4 +273,9 @@ class ChavesPermissoes
     {
         return '54';
     }
+
+    public function chaveLeadsInativar()
+    {
+        return '55';
+    }
 }

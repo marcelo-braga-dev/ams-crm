@@ -165,17 +165,21 @@ class LeadsController extends Controller
 
     public function show($id)
     {
+        $idUsuario = id_usuario_atual();
+
         $dados = (new Leads())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
         $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
         $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
-        $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
-        $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar(id_usuario_atual());
-        $isEditar = (new UsersPermissoes())->isLeadsEditar(id_usuario_atual());
-        $isExcluir = (new UsersPermissoes())->isLeadsExcluir(id_usuario_atual());
+        $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar($idUsuario);
+        $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar($idUsuario);
+        $isEditar = (new UsersPermissoes())->isLeadsEditar($idUsuario);
+        $isExcluir = (new UsersPermissoes())->isLeadsExcluir($idUsuario);
+        $isInativar = (new UsersPermissoes())->isLeadsInativar($idUsuario);
 
         return Inertia::render('Admin/Leads/Lead/Show',
-            compact('dados', 'historicos', 'usuarios', 'historicoPedidos', 'isLeadsEncaminhar', 'isLeadsLimpar', 'isEditar', 'isExcluir'));
+            compact('dados', 'historicos', 'usuarios', 'historicoPedidos',
+                'isLeadsEncaminhar', 'isLeadsLimpar', 'isEditar', 'isExcluir', 'isInativar'));
     }
 
     public function edit($id)

@@ -1,23 +1,29 @@
 import * as React from "react";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import {router} from "@inertiajs/react";
+import {Stack, Typography} from "@mui/material";
 
 export default function HistoricoPedidos({historicos}) {
     return (
         <>
             {historicos.map(item => (
-                <div className="card card-body mb-3">
-                    <div className="row justify-content-between">
-                        <div className="col">
-                            <span className="d-block"><b>ID do Pedido:</b> #{item.id}</span>
-                            <span className="d-block"><b>Status:</b> {item.status}</span>
-                            <span className="d-block"><b>Valor:</b> R$ {item.valor}</span>
-                            <span className="d-block"><b>Consultor(a):</b> {item.consultor}</span>
-                            <span className="d-block"><b>Data do Pedido:</b> R$ {item.data_criacao}</span>
+                <CardContainer>
+                    <CardBody>
+                        <div className="row justify-content-between cursor-pointer"
+                             onClick={() => router.get(route('admin.pedidos.show', item.id))}>
+                            <Stack direction="row" spacing={2}>
+                                <Typography variant="body1"><b>ID do Pedido:</b> #{item.id}</Typography>
+                                <Typography variant="body1"><b>Status:</b> {item.status}</Typography>
+                            </Stack>
+                            <Stack direction="row" spacing={2}>
+                                <Typography variant="body1"><b>Valor:</b> R$ {item.valor}</Typography>
+                            </Stack>
+                            <Typography variant="body1"><b>Consultor(a):</b> {item.consultor}</Typography>
+                            <Typography variant="body1"><b>Data do Pedido:</b> {item.data_criacao}</Typography>
                         </div>
-                        <div className="col-auto">
-                            <a className="btn btn-primary btn-sm" href={route('admin.pedidos.show', item.id)}>Ver Pedido</a>
-                        </div>
-                    </div>
-                </div>
+                    </CardBody>
+                </CardContainer>
             ))}
             {historicos.length === 0 && <div className="row text-center">
                 <span>Não há histórico de pedidos.</span>

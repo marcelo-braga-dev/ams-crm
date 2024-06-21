@@ -1,4 +1,4 @@
-export default function LeadsDados({dados}) {console.log(dados?.contato?.telefones?.length > 1)
+export default function LeadsDados({dados}) {
     return (<>
         <div className="row">
             <div className="col mb-2">
@@ -16,7 +16,7 @@ export default function LeadsDados({dados}) {console.log(dados?.contato?.telefon
                 {dados.infos.anotacoes && <span className="d-block"><b>Anotações:</b> {dados.infos.anotacoes}</span>}
             </div>
             <div className="col mb-2">
-                {!(dados?.contato?.telefones?.length === 0) &&
+                {!(dados?.contato?.telefones?.length === 1) &&
                     <span className="d-block"><b>Telefone:</b> {dados.contato.telefone}</span>}
                 {dados?.contato?.telefones?.length > 1 && <span
                     className="d-block"><b>Telefones:</b> {dados.contato.telefones.map(item => item + ', ')}</span>}

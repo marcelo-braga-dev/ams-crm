@@ -32,10 +32,12 @@ class AtivoController extends Controller
         $emitePedido = is_emite_pedido();
         $cardEmitePedido = $dados['consultor']['id'] ? is_emite_pedido($dados['consultor']['id']) : null;
         $isEditar = (new UsersPermissoes())->isLeadsEditar(id_usuario_atual());
+        $isInativar = (new UsersPermissoes())->isLeadsInativar(id_usuario_atual());
         $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Ativo/Show',
-            compact('dados', 'status', 'historicoPedidos', 'isSdr', 'emitePedido', 'cardEmitePedido', 'historicos', 'contatos', 'consultores', 'isEditar'));
+            compact('dados', 'status', 'historicoPedidos', 'isSdr', 'isInativar', 'emitePedido',
+                'cardEmitePedido', 'historicos', 'contatos', 'consultores', 'isEditar'));
     }
 
     public function store(Request $request)

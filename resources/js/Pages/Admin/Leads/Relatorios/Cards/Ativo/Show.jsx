@@ -1,15 +1,18 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import {router, useForm} from "@inertiajs/react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import {IconButton} from "@mui/material";
+import {IconButton, Typography} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import HistoricoPedidos from "@/Partials/Leads/HistoricoPedidos";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle";
 
-export default function Show({dados, consultores, historicos, historicoPedidos, isSdr, emitePedido, cardEmitePedido, isEditar, contatos}) {
+export default function Show({dados, consultores, historicos, historicoPedidos, isSdr, isInativar, emitePedido, cardEmitePedido, isEditar, contatos}) {
     const {data, setData, post} = useForm({
         lead: dados.id,
         consultor: dados.consultor.id
@@ -57,77 +60,103 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
     return (
         <Layout empty titlePage="Ativo - Lead" menu="leads" submenu="leads-cards"
                 voltar={route('admin.leads.cards-leads.index', {id: dados.consultor.id})}>
-            <div className="card card-body mb-3">
-                <small>Consultor(a)</small>
-                <h5>{dados.consultor.nome}</h5>
-            </div>
-
-            <div className="card card-body mb-3">
-                <div className="row justify-content-between">
-                    <div className="col"><LeadsDados dados={dados}/></div>
-                    <div className="col-auto">
-                        {isEditar &&
-                            <IconButton color="success" href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
-                                <EditIcon/>
-                            </IconButton>}
-                    </div>
-                </div>
-            </div>
-            <div className="row pt-3 mb-4 justify-content-between">
-                <div className="col">
-                    {emitePedido && cardEmitePedido &&
-                        <a className="btn btn-warning" href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
-                    }
-                </div>
-                {isEditar && <div className="col-auto">
-                    <button className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar Lead</button>
-                </div>}
-            </div>
-
-            <div className="card card-body mb-4">
-                <form onSubmit={onSubmit}>
-                    <h6>Atualizar Status do Lead</h6>
-                    <div className="row">
-                        <div className="col-md-3 mb-4">
-                            <TextField label="Meio Contato" select fullWidth required defaultValue="" size="small"
-                                       onChange={e => setData('meio_contato', e.target.value)}>
-                                {contatos.map((option, index) => <MenuItem key={index} value={option.key}>{option.nome}</MenuItem>)}
-                            </TextField>
-                        </div>
-                    </div>
-                    <div className="row mb-4">
-                        <div className="col">
-                            <TextField label="Anotações" multiline rows="2" fullWidth
-                                       onChange={e => setData('msg', e.target.value)}/>
-                        </div>
-                    </div>
+            <CardContainer>
+                <CardBody>
                     <div className="row">
                         <div className="col">
-                            <div className="text-center">
-                                <button className="btn btn-primary" type="submit" onClick={() => setData('salvar_msg', true)}>
-                                    Enviar Anotações
-                                </button>
+                            <Typography variant="body2">Consultor(a)</Typography>
+                            <Typography>{dados.consultor.nome ? dados.consultor.nome : '-'}</Typography>
+                        </div>
+                        <div className="col">
+                            <Typography variant="body2">SDR</Typography>
+                            <Typography>{dados.sdr.nome ? dados.sdr.nome : '-'}</Typography>
+                        </div>
+                        <div className="col">
+                            <Typography variant="body2">Setor</Typography>
+                            <Typography>{dados.infos.setor.nome}</Typography>
+                        </div>
+                    </div>
+
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardTitle title="Dados do Lead">
+                    {isEditar &&
+                        <IconButton className="mb-0" color="success" href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
+                            <EditIcon className="mb-0"/>
+                        </IconButton>}
+                </CardTitle>
+                <CardBody>
+                    <LeadsDados dados={dados}/>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardBody>
+                    <div className="row justify-content-between">
+                        <div className="col">
+                            {emitePedido && cardEmitePedido &&
+                                <a className="btn btn-warning mb-0" href={route('admin.pedidos.emitir.create', {lead: dados.id})}>Emitir Pedido</a>
+                            }
+                        </div>
+                        {isInativar && <div className="col-auto">
+                            <button className="btn btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar Lead</button>
+                        </div>}
+                    </div>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardTitle title="Atualizar Status do Lead"/>
+                <CardBody>
+                    <form onSubmit={onSubmit}>
+                        <div className="row">
+                            <div className="col-md-3 mb-4">
+                                <TextField label="Meio Contato" select fullWidth required defaultValue="" size="small"
+                                           onChange={e => setData('meio_contato', e.target.value)}>
+                                    {contatos.map((option, index) => <MenuItem key={index} value={option.key}>{option.nome}</MenuItem>)}
+                                </TextField>
                             </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                        <div className="row mb-4">
+                            <div className="col">
+                                <TextField label="Anotações" multiline rows="2" fullWidth
+                                           onChange={e => setData('msg', e.target.value)}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <div className="text-center">
+                                    <button className="btn btn-primary" type="submit" onClick={() => setData('salvar_msg', true)}>
+                                        Enviar Anotações
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </CardBody>
+            </CardContainer>
 
             <div className="row">
                 <div className="col-8">
-                    <div className="card card-body">
-                        <h6 className="mb-3">Histórico de Atendimento</h6>
-                        <HistoricoLista
-                            historicos={historicos} enviarComentario={enviarComentario}
-                            setData={setData} urlPedidos="admin.pedidos.show"
-                        />
-                    </div>
+                    <CardContainer>
+                        <CardTitle title="Histórico de Atendimento"/>
+                        <CardBody>
+                            <HistoricoLista
+                                historicos={historicos} enviarComentario={enviarComentario}
+                                setData={setData} urlPedidos="admin.pedidos.show"
+                            />
+                        </CardBody>
+                    </CardContainer>
                 </div>
                 <div className="col">
-                    <div className="card card-body">
-                        <h6 className="mb-3">Histórico de Pedidos</h6>
-                        <HistoricoPedidos historicos={historicoPedidos}/>
-                    </div>
+                    <CardContainer>
+                        <CardTitle title="Histórico de Pedidos"/>
+                        <CardBody>
+                            <HistoricoPedidos historicos={historicoPedidos}/>
+                        </CardBody>
+                    </CardContainer>
                 </div>
             </div>
 

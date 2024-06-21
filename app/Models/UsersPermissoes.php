@@ -107,4 +107,12 @@ class UsersPermissoes extends Model
             ->where('chave', (new ChavesPermissoes())->chaveLeadsExcluir())
             ->exists();
     }
+
+    public function isLeadsInativar($id)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->where('chave', (new ChavesPermissoes())->chaveLeadsInativar())
+            ->exists();
+    }
 }
