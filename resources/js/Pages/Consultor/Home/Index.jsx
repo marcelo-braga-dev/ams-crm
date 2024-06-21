@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 
-import Game from "./MemoryGame/Game";
+// import Game from "./MemoryGame/Game";
 
 const Page = () => {
     return (
