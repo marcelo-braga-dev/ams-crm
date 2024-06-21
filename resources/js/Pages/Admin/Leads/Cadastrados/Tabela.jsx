@@ -6,6 +6,7 @@ import Chip from "@mui/material/Chip";
 import {Eye, Trash} from "react-bootstrap-icons";
 import CardTable from "@/Components/Cards/CardTable";
 import MenuItem from "@mui/material/MenuItem";
+import {router} from "@inertiajs/react";
 
 export default function Tabela({
                                    leads, setPaginate, paginate, paginateDados, setOrdenar, setFiltroFiltroOrdenarBy,
@@ -84,14 +85,14 @@ export default function Tabela({
                         <tr key={item.id}>
                             <td className="align-top">
                                 <Checkbox
-                                    edge="start"
+                                    edge="start" tabIndex={-1}
                                     checked={leadsChecked.indexOf(item.id) !== -1}
-                                    tabIndex={-1}
                                     onChange={() => handleToggle(item.id)}
                                 />
                             </td>
                             <td style={{width: '40%'}}>
-                                <Typography variant="body1"><b>{item.nome}</b></Typography>
+                                <Typography variant="body1" className="cursor-pointer" fontWeight="bold"
+                                    onClick={() => router.get(route('admin.clientes.leads.leads-main.show', item.id))}>{item.nome}</Typography>
                                 {(item.nome !== item.razao_social) && <Typography variant="body2">{item.razao_social}</Typography>}
                                 <Stack direction="row" spacing={2} className="mb-2">
                                     <Typography variant="body2">#{item.id}</Typography>

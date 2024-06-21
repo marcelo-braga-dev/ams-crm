@@ -160,7 +160,7 @@ export default function Show({
             }
 
             <div className="row">
-                <div className="col">
+                <div className="col-md-8">
                     <CardContainer>
                         <CardTitle title="Histórico de Atendimento"/>
                         <CardBody>
