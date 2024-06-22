@@ -1,6 +1,6 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import "chart.js/auto";
-import {Stack, TextField} from "@mui/material";
+import {Stack, TextField, Typography} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import Status from "./Graficos/Status";
 import {useEffect, useState} from "react";
@@ -9,6 +9,10 @@ import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import {round} from "lodash";
 import LinearProgress from "@mui/material/LinearProgress";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle";
+import CardTable from "@/Components/Cards/CardTable";
 
 export default function ({mes, ano, setores}) {
 
@@ -50,191 +54,194 @@ export default function ({mes, ano, setores}) {
 
     return (
         <Layout empty titlePage="Indicadores de Leads" menu="dashboard" submenu="dashboard-leads">
-            <div className="mb-4 card card-body">
-                <div className="row">
-                    <div className="col-2">
-                        <TextField label="Setor" select fullWidth defaultValue={setorSelecionado}
-                                   onChange={e => setSetorSelecionado(e.target.value)}>
-                            {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
-                        </TextField>
+            {/*<CardContainer>*/}
+            {/*    <CardTitle title={} icon={}/>*/}
+            {/*    <CardBody>*/}
+            {/*        */}
+            {/*    </CardBody>*/}
+            {/*</CardContainer>*/}
+
+            <CardContainer>
+                <CardBody>
+                    <div className="row">
+                        <div className="col-2">
+                            <TextField label="Setor" select fullWidth defaultValue={setorSelecionado}
+                                       onChange={e => setSetorSelecionado(e.target.value)}>
+                                {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
+                        </div>
+                        <div className="col-4">
+                            <Stack direction="row">
+                                <SelectMesesMultiples label="Mês Referência" value={mesesSelecionado} useState={setMesesSelecionado}/>
+                                <TextField label="Ano" select fullWidth defaultValue={ano} style={{width: '10rem'}}
+                                           onChange={e => setAnoSelecionado(e.target.value)}>
+                                    <MenuItem value="2023">2023</MenuItem>
+                                    <MenuItem value="2024">2024</MenuItem>
+                                </TextField>
+                            </Stack>
+                        </div>
                     </div>
-                    <div className="col-2">
-                        <SelectMesesMultiples label="Mês Referência" value={mesesSelecionado} useState={setMesesSelecionado}/>
-                    </div>
-                    <div className="col-2">
-                        <TextField label="Ano" select fullWidth defaultValue={ano}
-                                   onChange={e => setAnoSelecionado(e.target.value)}>
-                            <MenuItem value="2023">2023</MenuItem>
-                            <MenuItem value="2024">2024</MenuItem>
-                        </TextField>
-                    </div>
-                </div>
-            </div>
+                </CardBody>
+            </CardContainer>
 
             {carregando && <LinearProgress/>}
 
             {!carregando && <>
-                <div className="row">
-                    <div className="col">
-                        <div className="card card-body mb-4">
-                            <h6>Histórico dos SDR</h6>
-                            <table className="table">
-                                <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th className="text-center">Iniciar Atendimento</th>
-                                    <th className="text-center">Pré Atendimento</th>
-                                    <th className="text-center">Encaminhados</th>
-                                    <th className="text-center">Ativados</th>
-                                    <th className="text-center">Finalizados</th>
-                                    <th className="text-center bg-light">Total</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {usuariosSdr.map(item => {
-                                    const totalUsuario = (registrosQtds.pre_atendimento?.[item.id] ?? 0) +
-                                        (registrosQtds.encaminhados?.[item.id] ?? 0) +
-                                        (registrosQtds.ativos?.[item.id] ?? 0) +
-                                        (registrosQtds.finalizados?.[item.id] ?? 0) +
-                                        (registrosQtds.novo?.[item.id] ?? 0)
+                <CardContainer>
+                    <CardTable title="Histórico dos SDR">
+                        <table className="table-1">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th className="text-center">Iniciar Atendimento</th>
+                                <th className="text-center">Pré Atendimento</th>
+                                <th className="text-center">Encaminhados</th>
+                                <th className="text-center">Ativados</th>
+                                <th className="text-center">Finalizados</th>
+                                <th className="text-center bg-light">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {usuariosSdr.map(item => {
+                                const totalUsuario = (registrosQtds.pre_atendimento?.[item.id] ?? 0) +
+                                    (registrosQtds.encaminhados?.[item.id] ?? 0) +
+                                    (registrosQtds.ativos?.[item.id] ?? 0) +
+                                    (registrosQtds.finalizados?.[item.id] ?? 0) +
+                                    (registrosQtds.novo?.[item.id] ?? 0)
 
-                                    totalUsuarios += totalUsuario
+                                totalUsuarios += totalUsuario
 
-                                    totalNovo += (registrosQtds.novo?.[item.id] ?? 0)
-                                    totalAtendimento += (registrosQtds.pre_atendimento?.[item.id] ?? 0)
-                                    totalEncaminhados += (registrosQtds.encaminhados?.[item.id] ?? 0)
-                                    totalAtivos += (registrosQtds.ativos?.[item.id] ?? 0)
-                                    totalFinalizados += (registrosQtds.finalizados?.[item.id] ?? 0)
+                                totalNovo += (registrosQtds.novo?.[item.id] ?? 0)
+                                totalAtendimento += (registrosQtds.pre_atendimento?.[item.id] ?? 0)
+                                totalEncaminhados += (registrosQtds.encaminhados?.[item.id] ?? 0)
+                                totalAtivos += (registrosQtds.ativos?.[item.id] ?? 0)
+                                totalFinalizados += (registrosQtds.finalizados?.[item.id] ?? 0)
 
-                                    return (
-                                        <tr key={item.id}>
-                                            <td>
-                                                <Stack direction="row" spacing={1}>
-                                                    <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
-                                                    <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
-                                                </Stack>
-                                            </td>
-                                            <td className="text-center">{registrosQtds.novo?.[item.id] ?? 0}</td>
-                                            <td className="text-center">{registrosQtds.pre_atendimento?.[item.id] ?? 0}</td>
-                                            <td className="text-center">{registrosQtds.encaminhados?.[item.id] ?? 0}</td>
-                                            <td className="text-center">{registrosQtds.ativos?.[item.id] ?? 0}</td>
-                                            <td className="text-center">{registrosQtds.finalizados?.[item.id] ?? 0}</td>
-                                            <td className="text-center bg-light">{totalUsuario}</td>
-                                        </tr>
-                                    )
-                                })}
-                                <tr className="bg-light text-center">
-                                    <td className="text-start"><b>TOTAL</b></td>
-                                    <td>{totalNovo}</td>
-                                    <td>{totalAtendimento}</td>
-                                    <td>{totalEncaminhados}</td>
-                                    <td>{totalAtivos}</td>
-                                    <td>{totalFinalizados}</td>
-                                    <td>{totalUsuarios}</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                return (
+                                    <tr key={item.id}>
+                                        <td>
+                                            <Stack direction="row" spacing={1}>
+                                                <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
+                                                <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
+                                            </Stack>
+                                        </td>
+                                        <td className="text-center">{registrosQtds.novo?.[item.id] ?? 0}</td>
+                                        <td className="text-center">{registrosQtds.pre_atendimento?.[item.id] ?? 0}</td>
+                                        <td className="text-center">{registrosQtds.encaminhados?.[item.id] ?? 0}</td>
+                                        <td className="text-center">{registrosQtds.ativos?.[item.id] ?? 0}</td>
+                                        <td className="text-center">{registrosQtds.finalizados?.[item.id] ?? 0}</td>
+                                        <td className="text-center bg-light">{totalUsuario}</td>
+                                    </tr>
+                                )
+                            })}
+                            <tr className="bg-light text-center">
+                                <td className="text-start"><b>TOTAL</b></td>
+                                <td>{totalNovo}</td>
+                                <td>{totalAtendimento}</td>
+                                <td>{totalEncaminhados}</td>
+                                <td>{totalAtivos}</td>
+                                <td>{totalFinalizados}</td>
+                                <td>{totalUsuarios}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </CardTable>
+                </CardContainer>
+
+                <CardContainer>
+                    <CardTable title="Histórico dos Consultores(as)">
+                        <table className="table-1">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th className="text-center">Em Aberto</th>
+                                <th className="text-center">Em Atendimento</th>
+                                <th className="text-center">Ativo</th>
+                                <th className="text-center">Finalizados</th>
+                                <th className="text-center bg-light">TOTAL</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {usuariosConsultores.map(item => {
+                                const calcConversao = (statusQtd?.[item.id]?.ativo ?? 0) / (statusQtd?.[item.id]?.atendimento ?? 0) * 100
+                                const conversao = (calcConversao > 0 && isFinite(calcConversao)) ? round(calcConversao, 2) : 0
+
+                                const totalConsultor = (statusQtd?.[item.id]?.aberto ?? 0) +
+                                    (statusQtd?.[item.id]?.atendimento ?? 0) +
+                                    (statusQtd?.[item.id]?.ativo ?? 0) +
+                                    (statusQtd?.[item.id]?.finalizado ?? 0)
+
+                                totalConsultores += totalConsultor
+                                totalAbertoC += (statusQtd?.[item.id]?.aberto ?? 0)
+                                totalAtendimentoC += (statusQtd?.[item.id]?.atendimento ?? 0)
+                                totalAtivosC += (statusQtd?.[item.id]?.ativo ?? 0)
+                                totalFinalizadosC += (statusQtd?.[item.id]?.finalizado ?? 0)
+                                totalConversaoC += conversao
+
+                                return (
+                                    <tr key={item.id} className="text-center">
+                                        <td className="text-start">
+                                            <Stack direction="row" spacing={1}>
+                                                <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
+                                                <Typography>{item.status ? item.nome : <del> {item.nome}</del>}</Typography>
+                                            </Stack>
+                                        </td>
+                                        <td>{statusQtd?.[item.id]?.aberto ?? 0}</td>
+                                        <td>{statusQtd?.[item.id]?.atendimento ?? 0}</td>
+                                        <td>{statusQtd?.[item.id]?.ativo ?? 0}</td>
+                                        <td>{statusQtd?.[item.id]?.finalizado ?? 0}</td>
+                                        <td className="bg-light">{totalConsultor}</td>
+                                    </tr>
+                                )
+                            })}
+                            <tr className="bg-light text-center">
+                                <td className="text-start"><b>TOTAL</b></td>
+                                <td>{totalAbertoC}</td>
+                                <td>{totalAtendimentoC}</td>
+                                <td>{totalAtivosC}</td>
+                                <td>{totalFinalizadosC}</td>
+                                <td className="bg-light">{totalConsultores}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </CardTable>
+                </CardContainer>
+
+                <CardContainer>
+                    <CardTitle title="Total de Leads com Usuários"/>
+                    <CardBody>
+                        <div className="row">
+                            <div className="col-md-8">
+                                <Status dados={registrosStatus}/>
+                            </div>
+                            <div className="col-md-4">
+                                <table className="table-1 table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th className="text-center">Qtd.</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {registrosStatus.map(item => {
+                                        totalLeadsCadastrados += item.qtd
+                                        return (
+                                            <tr key={item.status}>
+                                                <td>{item.status}</td>
+                                                <td className="text-center">{item.qtd}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                    <tr className="bg-light">
+                                        <td>Total</td>
+                                        <td className="text-center">{totalLeadsCadastrados}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col">
-                        <div className="card card-body mb-4">
-                            <h6>Histórico dos Consultores(as)</h6>
-                            <table className="table">
-                                <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th className="text-center">Em Aberto</th>
-                                    <th className="text-center">Em Atendimento</th>
-                                    <th className="text-center">Ativo</th>
-                                    <th className="text-center">Finalizados</th>
-                                    <th className="text-center bg-light">TOTAL</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {usuariosConsultores.map(item => {
-                                    const calcConversao = (statusQtd?.[item.id]?.ativo ?? 0) / (statusQtd?.[item.id]?.atendimento ?? 0) * 100
-                                    const conversao = (calcConversao > 0 && isFinite(calcConversao)) ? round(calcConversao, 2) : 0
-
-                                    const totalConsultor = (statusQtd?.[item.id]?.aberto ?? 0) +
-                                        (statusQtd?.[item.id]?.atendimento ?? 0) +
-                                        (statusQtd?.[item.id]?.ativo ?? 0) +
-                                        (statusQtd?.[item.id]?.finalizado ?? 0)
-
-                                    totalConsultores += totalConsultor
-                                    totalAbertoC += (statusQtd?.[item.id]?.aberto ?? 0)
-                                    totalAtendimentoC += (statusQtd?.[item.id]?.atendimento ?? 0)
-                                    totalAtivosC += (statusQtd?.[item.id]?.ativo ?? 0)
-                                    totalFinalizadosC += (statusQtd?.[item.id]?.finalizado ?? 0)
-                                    totalConversaoC += conversao
-
-                                    return (
-                                        <tr key={item.id} className="text-center">
-                                            <td className="text-start">
-                                                <Stack direction="row" spacing={1}>
-                                                    <Avatar src={item.foto} sx={{width: 24, height: 24}}/>
-                                                    <b>{item.status ? item.nome : <del> {item.nome}</del>}</b>
-                                                </Stack>
-                                            </td>
-                                            <td>{statusQtd?.[item.id]?.aberto ?? 0}</td>
-                                            <td>{statusQtd?.[item.id]?.atendimento ?? 0}</td>
-                                            <td>{statusQtd?.[item.id]?.ativo ?? 0}</td>
-                                            <td>{statusQtd?.[item.id]?.finalizado ?? 0}</td>
-                                            <td className="bg-light">{totalConsultor}</td>
-                                        </tr>
-                                    )
-                                })}
-                                <tr className="bg-light text-center">
-                                    <td className="text-start"><b>TOTAL</b></td>
-                                    <td>{totalAbertoC}</td>
-                                    <td>{totalAtendimentoC}</td>
-                                    <td>{totalAtivosC}</td>
-                                    <td>{totalFinalizadosC}</td>
-                                    <td className="bg-light">{totalConsultores}</td>
-
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="card card-body mb-4">
-                    <div className="row">
-                        <div className="col-md-8">
-                            <h6>Total de Leads com Usuários</h6>
-                            <Status dados={registrosStatus}/>
-                        </div>
-                        <div className="col-md-4">
-                            <table className="table table-sm">
-                                <thead>
-                                <tr>
-                                    <th>Status</th>
-                                    <th className="text-center">Qtd.</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                {registrosStatus.map(item => {
-                                    totalLeadsCadastrados += item.qtd
-                                    return (
-                                        <tr key={item.status}>
-                                            <td>{item.status}</td>
-                                            <td className="text-center">{item.qtd}</td>
-                                        </tr>
-                                    )
-                                })}
-                                <tr className="bg-light">
-                                    <td>Total</td>
-                                    <td className="text-center">{totalLeadsCadastrados}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+                    </CardBody>
+                </CardContainer>
             </>}
         </Layout>
     )

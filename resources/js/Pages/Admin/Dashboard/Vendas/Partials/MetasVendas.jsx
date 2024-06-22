@@ -13,7 +13,7 @@ export default function MetasVendas({vendasUsuarios, metasUsuariosComp, vendasUs
 
     return (
         <div className="table-responsive">
-            <table className="table text-sm table-sm">
+            <table className="table-1 table-sm border-0">
                 <thead>
                 <tr>
                     <th>Nome</th>

@@ -4,7 +4,6 @@ namespace App\src\Produtos;
 
 class ProdutosStatus
 {
-    private string $transito = 'estoque_transito';
     private string $local = 'estoque_local';
     private string $venda = 'venda';
 

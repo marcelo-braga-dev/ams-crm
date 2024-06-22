@@ -58,7 +58,6 @@ class Produtos extends Model
             'unidade' => $item->unidade_valor . ' ' . $item->unidade_nome,
             'categoria_nome' => $item->categoria_nome,
             'estoque' => $item->estoque_local ?? 0,
-            'estoque_transito' => $item->estoque_transito ?? 0,
             'data_cadastro' => $item->data_cadastro,
             'status' => $item->status,
         ];

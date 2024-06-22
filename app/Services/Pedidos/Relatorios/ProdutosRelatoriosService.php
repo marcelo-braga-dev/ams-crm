@@ -14,7 +14,6 @@ class ProdutosRelatoriosService
         $historicos = (new ProdutosHistoricos())->relatorio($mes, $consultor, $fornecedor);
 
         $estoquesLocal = $historicos->where('status', 'estoque_local');
-        $estoqueTransito = $historicos->where('status', 'estoque_transito');
 
         $semanas = $this->getDatasSemanas($mes);
         print_pre($semanas, 'SEMANAS');

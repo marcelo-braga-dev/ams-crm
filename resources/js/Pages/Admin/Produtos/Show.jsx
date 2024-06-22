@@ -11,6 +11,7 @@ import ProdutosDados from "@/Components/Produtos/ProdutosDados";
 import Avatar from "@mui/material/Avatar";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import {ArrowDown, ArrowDownShort, ArrowUp, ArrowUpShort} from "react-bootstrap-icons";
 
 function CustomTabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -35,7 +36,7 @@ function a11yProps(index) {
     };
 }
 
-export default function ({produto, infos}) {
+export default function ({produto, infos, estoqueHistorico}) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -79,6 +80,7 @@ export default function ({produto, infos}) {
                                         <Tab label="Vantagens" {...a11yProps(3)} />
                                         <Tab label="Dúvidas" {...a11yProps(4)} />
                                         <Tab label="Galerias" {...a11yProps(5)} />
+                                        <Tab label="Estoque" {...a11yProps(6)} />
                                     </Tabs>
                                 </Box>
                                 <CustomTabPanel value={value} index={0}>
@@ -102,6 +104,37 @@ export default function ({produto, infos}) {
                                             <ImagePdf url={item}/>
                                         )
                                     })}
+                                </CustomTabPanel>
+                                <CustomTabPanel value={value} index={6}>
+                                    <Typography className="mb-3">Estoque Atual: {produto.estoque} und.</Typography>
+                                    <table className="table-1">
+                                        <thead>
+                                        <tr>
+                                            <th className="text-center"></th>
+                                            <th className="text-center">Qtd</th>
+                                            <th>Autor</th>
+                                            <th>Informações</th>
+                                            <th>Data</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {estoqueHistorico.map(item => (
+                                            <tr>
+                                                <td className="text-center" style={{width: '3rem'}}>
+                                                    {item.tipo === 'entrada' ? <ArrowUpShort size="25" color="green"/> : <ArrowDownShort size="25" color="red"/>}
+                                                </td>
+                                                <td className="text-center">{item.qtd}</td>
+                                                <td>{item.autor}</td>
+                                                <td>
+                                                    {item.nota && <Typography>Nota: {item.nota}</Typography>}
+                                                    {item.pedido_id && <Typography>Pedido: #{item.pedido_id}</Typography>}
+                                                </td>
+                                                <td>{item.data}</td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+
                                 </CustomTabPanel>
                             </Box>
                         </div>

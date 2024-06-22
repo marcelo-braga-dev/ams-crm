@@ -38,9 +38,10 @@ class ProdutosController extends Controller
     {
         $produto = (new Produtos())->produto($id);
         $infos = (new ProdutosDados())->get($id);
+        $estoqueHistorico = (new ProdutosEstoquesHistoricos())->gets($id);
 
         return Inertia::render('Admin/Produtos/Show',
-            compact('produto', 'infos'));
+            compact('produto', 'infos', 'estoqueHistorico'));
     }
 
     public function create()

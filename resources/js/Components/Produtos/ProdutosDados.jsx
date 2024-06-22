@@ -20,7 +20,6 @@ export default function ({dados}) {
                 <span className="d-block"><b>Preço de Venda:</b> R$ {convertFloatToMoney(dados.preco)}</span>
                 {!!dados.preco_custo && <span className="d-block"><b>Preço do Forn.:</b> R$ {convertFloatToMoney(dados.preco_custo)}</span>}
                 <span className="d-block"><b>Estoque:</b> {dados.estoque} und.</span>
-                <span className="d-block"><b>Estoque em Trânsito:</b> {dados.estoque_transito} und.</span>
             </div>
         </div>
     </>)
