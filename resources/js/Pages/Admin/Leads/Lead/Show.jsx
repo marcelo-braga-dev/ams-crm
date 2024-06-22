@@ -13,6 +13,7 @@ import HistoricoPedidos from "@/Partials/Leads/HistoricoPedidos";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
+import {BoxSeam, ListUl, PersonBoundingBox} from "react-bootstrap-icons";
 
 export default function Show({
                                  dados,
@@ -69,7 +70,7 @@ export default function Show({
         <Layout empty titlePage="Informações do Lead" menu="leads" submenu="leads-cadastrados"
                 voltar={route('admin.clientes.leads.leads-cadastrados')}>
             <CardContainer>
-                <CardTitle title="Informações do Lead"/>
+                <CardTitle title="Informações do Lead" icon={<PersonBoundingBox size="22"/>}/>
                 <CardBody>
                     <div className="row">
                         <div className="col">
@@ -162,7 +163,7 @@ export default function Show({
             <div className="row">
                 <div className="col-md-8">
                     <CardContainer>
-                        <CardTitle title="Histórico de Atendimento"/>
+                        <CardTitle title="Histórico de Atendimento" icon={<ListUl size={24}/>}/>
                         <CardBody>
                             <HistoricoAtendimento historicos={historicos}/>
                         </CardBody>
@@ -170,7 +171,7 @@ export default function Show({
                 </div>
                 <div className="col">
                     <CardContainer>
-                        <CardTitle title="Histórico de Pedidos"/>
+                        <CardTitle title="Histórico de Pedidos" icon={<BoxSeam size="22"/> }/>
                         <CardBody>
                             <HistoricoPedidos historicos={historicoPedidos}/>
                         </CardBody>

@@ -7,11 +7,10 @@ const Title = styled.span`
     font-weight: 600;
 `
 const Container = styled.span`
-    padding-inline: 20px;
-    padding-top: 20px;
+    margin-bottom: 10px;
 `
 
-export default function CardTitle({title, icon, children, subtitle, className}) {
+export default function CardTitleDefault({title, icon, children, subtitle, className}) {
     return (
         <Container className="row">
             <div className="col mb-0">

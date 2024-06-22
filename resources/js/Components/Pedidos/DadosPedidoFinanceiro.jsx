@@ -1,5 +1,10 @@
+import {CardChecklist} from "react-bootstrap-icons";
+import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
+
 export default function DadosPedidoFinanceiro({dados}) {
     return (<>
+            <CardTitleDefault title="Informações Financeiras" icon={<CardChecklist size="23"/>}/>
+
             {dados.financeiro.preco && <span><b>Valor Total:</b> R$ {dados.financeiro.preco}</span>}
             {dados.financeiro.repasse_float > 0 && <span className="d-block"><b>Repasse:</b> R$ {dados.financeiro.repasse}</span>}
             {dados.financeiro.preco_custo &&

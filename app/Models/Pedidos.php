@@ -424,34 +424,33 @@ class Pedidos extends Model
             });
     }
 
-    public function getDados(?int $setor)
+    public function paginate($filtros)
     {
-        $query = $this->newQuery();
+        $query = $this->newQuery()
+            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
+            ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
+            ->leftJoin('users', 'pedidos.user_id', '=', 'users.id')
+            ->whereIn('pedidos.user_id', supervisionados(id_usuario_atual()))
+            ->orderByDesc('pedidos.id')
+            ->selectRaw('pedidos.*, leads.nome AS lead_nome, leads.id AS lead_id, pedidos_clientes.nome AS cliente_nome,
+                users.name AS consultor_nome');
 
-        if ($setor) $query->where('setor_id', $setor);
-        $query->whereIn('user_id', supervisionados(id_usuario_atual()));
+        $this->filtrar($filtros, $query);
 
-        $nomes = (new User())->getNomes();
-        $clientes = (new PedidosClientes())->getCardDados();
-        $integradores = (new Leads())->getNomes();
         $status = (new StatusPedidos())->getStatus();
         $setorNomes = (new Setores())->getNomes();
-        $leads = (new Leads())->getNomes();
 
-        return $query->orderByDesc('id')
-            ->get()
-            ->transform(function ($item) use ($nomes, $integradores, $status, $clientes, $setorNomes, $leads) {
-                return [
-                    'id' => $item->id,
-                    'status' => $status[$item->status] ?? '-',
-                    'cliente' => ($clientes[$item->id]['nome'] ?? null) ?? ($leads[$item->cliente_id] ?? null),
-                    'consultor' => $nomes[$item->user_id] ?? '-',
-                    'integrador' => $integradores[$item->lead_id] ?? '-',
-                    'preco' => convert_float_money($item->preco_venda),
-                    'setor' => $setorNomes[$item->setor_id] ?? '',
-                    'data' => date('d/m/y H:i', strtotime($item->status_data)),
-                ];
-            });
+        $items = $query->paginate();
+
+        $dados = $items->transform(function ($item) use ($status, $setorNomes) {
+            $item->status = $status[$item->status] ?? '-';
+            $item->preco = convert_float_money($item->preco_venda);
+            $item->setor = $setorNomes[$item->setor_id] ?? '';
+            $item->data = date('d/m/y H:i', strtotime($item->status_data));
+            return $item;
+        });
+
+        return ['dados' => $dados, 'paginate' => ['current' => $items->currentPage(), 'last_page' => $items->lastPage(), 'total' => $items->total()]];
     }
 
     public function dados($pedido): array
@@ -741,5 +740,37 @@ class Pedidos extends Model
         $this->newQuery()
             ->find($id)
             ->update(['sac' => 1]);
+    }
+
+    public function filtrar($filtros, Builder $query): void
+    {
+        $filtro = $filtros['filtro'] ?? null;
+        $valor = $filtros['filtro_valor'] ?? null;
+
+        if ($filtros['setor'] ?? null) $query->where('pedidos.setor_id', $filtros['setor']);
+
+        if ($valor && $filtro)
+            switch ($filtro) {
+                case 'id':
+                    $query->where('pedidos.id', $valor);
+                    break;
+                case 'cliente':
+                    $query->where('pedidos_clientes.nome', 'LIKE', "%{$valor}%");
+                    break;
+                case 'consultor':
+                    $query->where('users.name', 'LIKE', "%{$valor}%");
+                    break;
+                case 'integrador':
+                    {
+                        $query->where(function ($query) use ($valor) {
+                            $query->where('leads.nome', 'LIKE', '%' . $valor . '%')
+                                ->orWhere('leads.razao_social', 'LIKE', '%' . $valor . '%');
+                        });
+                    }
+                    break;
+                case 'cnpj':
+                    $query->where('cnpj', 'LIKE', "{$valor}%");
+                    break;
+            }
     }
 }

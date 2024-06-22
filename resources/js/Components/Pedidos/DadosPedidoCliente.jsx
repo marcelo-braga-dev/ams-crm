@@ -1,9 +1,10 @@
 import Typography from "@mui/material/Typography";
-import converterDatas from "@/Helpers/converterDatas";
+import {Person} from "react-bootstrap-icons";
+import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
 
 export default function DadosPedidoCliente({dados}) {
     return (<>
-        <Typography variant="subtitle1" className="mb-2">Informações do Cliente</Typography>
+        <CardTitleDefault title="Informações do Cliente" icon={<Person size={22}/>}/>
         {dados.cliente.nome && <Typography><b>Cliente:</b> {dados.cliente.nome}</Typography>}
         {dados.cliente.nascimento && <Typography><b>Data Nascimento:</b> {dados.cliente.nascimento}</Typography>}
         {dados.cliente.rg && <Typography><b>RG:</b> {dados.cliente.rg}</Typography>}

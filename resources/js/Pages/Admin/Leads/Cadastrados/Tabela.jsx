@@ -3,7 +3,7 @@ import Checkbox from "@mui/material/Checkbox";
 import {Box, Stack, TextField, Typography} from "@mui/material";
 import CardContainer from "@/Components/Cards/CardContainer";
 import Chip from "@mui/material/Chip";
-import {Eye, Trash} from "react-bootstrap-icons";
+import {Eye, People, Trash} from "react-bootstrap-icons";
 import CardTable from "@/Components/Cards/CardTable";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";
@@ -46,7 +46,7 @@ export default function Tabela({
 
     return (
         <CardContainer>
-            <CardTable title="Leads" paginate={paginate} paginateDados={paginateDados} setPaginate={setPaginate}>
+            <CardTable title="Leads" icon={<People size="23"/>}  paginate={paginate} paginateDados={paginateDados} setPaginate={setPaginate}>
                 <table className="table-1">
                     <thead>
                     <tr>

@@ -69,6 +69,8 @@ Route::name('admin.pedidos.')
 
         Route::post('gerar-planilha-pedidos', [VendasController::class, 'gerarPlanilhaPedidos'])
             ->name('gerar-planilha-pedidos');
+
+        Route::get('historico-registros', [HistoricoController::class, 'registros'])->name('historico-registros');
     });
 
 Route::name('admin.modelo-2.pedidos.')

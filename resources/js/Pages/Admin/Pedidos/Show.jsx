@@ -17,6 +17,9 @@ import {router, usePage} from "@inertiajs/react";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTable from "@/Components/Cards/CardTable";
+import {ListCheck, Paperclip, Tags} from "react-bootstrap-icons";
+import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
+import {List} from "@mui/material";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -76,11 +79,7 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                 <CardBody>
                     <Box sx={{width: '100%'}}>
                         <TabPanel value={value} index={0}>
-                            <div className="row">
-                                <div className="col">
-                                    <DadosPedido dados={pedido}/>
-                                </div>
-                            </div>
+                            <DadosPedido dados={pedido}/>
 
                             {produtos.length > 0 &&
                                 <div className="mt-4">
@@ -117,10 +116,11 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                         </TabPanel>
                         {/*Anexos*/}
                         <TabPanel value={value} index={3}>
-                            <DadosPedidoFiles dados={pedido}></DadosPedidoFiles>
+                            <DadosPedidoFiles dados={pedido}/>
                         </TabPanel>
                         {/*Historico*/}
                         <TabPanel value={value} index={4}>
+                            <CardTitleDefault title="Histórico dos Status" icon={<ListCheck size="23"/>}/>
                             <CardTable>
                                 <table className="table-1">
                                     <thead>
@@ -190,6 +190,7 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                             }
                         </TabPanel>
                         <TabPanel value={value} index={5}>
+                            <CardTitleDefault title="SAC" icon={<Tags size="23"/>}/>
                             <CardTable>
                                 {!!sacHistorico.length &&
                                     <table className="table">
