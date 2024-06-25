@@ -1,5 +1,5 @@
 export default function LeadsDados({dados}) {
-    return (<>
+    return (<>{console.log(dados.contato.telefone.length)}
         <div className="row">
             <div className="col mb-2">
                 <span className="d-block"><b>Nome:</b> {dados.cliente.nome ?? dados.cliente.razao_social}</span>
@@ -16,10 +16,11 @@ export default function LeadsDados({dados}) {
                 {dados.infos.anotacoes && <span className="d-block"><b>Anotações:</b> {dados.infos.anotacoes}</span>}
             </div>
             <div className="col mb-2">
-                {!(dados?.contato?.telefones?.length === 1) &&
+                {dados.contato.telefone &&
                     <span className="d-block"><b>Telefone:</b> {dados.contato.telefone}</span>}
                 {dados?.contato?.telefones?.length > 1 && <span
                     className="d-block"><b>Telefones:</b> {dados.contato.telefones.map(item => item + ', ')}</span>}
+
                 {dados.contato.email && <span className="d-block"><b>Email:</b> {dados.contato.email}</span>}
                 {dados.contato.atendente &&
                     <span className="d-block"><b>Nome do Contato:</b> {dados.contato.atendente}</span>}

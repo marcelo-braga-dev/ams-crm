@@ -1,4 +1,4 @@
-import {useContext, useMemo} from 'react';
+import {useContext, useMemo, useState} from 'react';
 
 import {useTheme} from '@mui/material/styles';
 import {Box, Drawer, useMediaQuery} from '@mui/material';
@@ -17,8 +17,28 @@ const MainDrawer = ({window}) => {
     const drawerHeader = useMemo(() => <DrawerHeader open={toggleMenu}/>, [toggleMenu]);
     const drawerContent = useMemo(() => <DrawerContent/>, []);
 
+    const [timeoutId, setTimeoutId] = useState(null);
+
+    const handleMouseEnter = () => {
+        clearTimeout(timeoutId);  // Limpa qualquer timeout anterior
+        const id = setTimeout(() => {
+            menuToggle(true);
+        }, 300);  // Atraso de 1 segundo
+        setTimeoutId(id);  // Armazena o ID do timeout
+    };
+
+    const handleMouseLeave = () => {
+        clearTimeout(timeoutId);  // Limpa qualquer timeout anterior
+        const id = setTimeout(() => {
+            menuToggle(false);
+        }, 300);  // Atraso de 1 segundo
+        setTimeoutId(id);  // Armazena o ID do timeout
+    };
+
     return (
-        <Box component="nav" sx={{flexShrink: {md: 0}, zIndex: 1300}} onMouseEnter={() => menuToggle(true)} onMouseLeave={() => menuToggle(false)}>
+        <Box component="nav" sx={{flexShrink: {md: 0}, zIndex: 1300}}
+             onMouseEnter={handleMouseEnter}
+             onMouseLeave={handleMouseLeave}>
             {!matchDownMD ? (
                 <MiniDrawerStyled variant="permanent" open={toggleMenu}>
                     {drawerHeader}

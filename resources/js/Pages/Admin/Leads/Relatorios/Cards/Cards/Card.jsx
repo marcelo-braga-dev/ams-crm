@@ -1,15 +1,9 @@
 import React, {useState} from "react";
-import PersonIcon from "@mui/icons-material/Person";
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import Checkbox from '@mui/material/Checkbox';
-import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
-import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import {CardList, Headset, Pen, PersonFill, PinAngle, PinAngleFill} from "react-bootstrap-icons";
-import {CardLink} from "reactstrap";
+import {CardList, Headset, Pen, PersonFill, PinAngle, PinAngleFill, Telephone} from "react-bootstrap-icons";
 import {Typography} from "@mui/material";
 
 export default function CardLeads({dados, btn, leadsSelecionados}) {
@@ -42,7 +36,7 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
 
                 <div className="row border-bottom pb-2 mb-2">
                     <div className="col-1 text-dark">
-                        <PersonFill  size="18"/>
+                        <PersonFill size="18"/>
                     </div>
                     <div className="col-9 text-dark text-truncate">
                         <Typography variant="body1" fontWeight="bold">{dados.cliente.nome.toUpperCase()}</Typography>
@@ -90,10 +84,10 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                 }
 
                 {/*TELEFONE*/}
-                {dados.cliente.cidade &&
+                {dados.contato.telefone &&
                     <div className="row">
                         <div className="col-1 mb-2">
-                            <PhoneIcon sx={{fontSize: 18}}/>
+                            <Telephone size="15"/>
                         </div>
                         <div className="col-10 text-dark text-truncate">
                             <Typography variant="body1">{dados.contato.telefone}</Typography>
@@ -135,7 +129,7 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                 {dados?.infos?.pedido_dias === 0 && <div className="row mt-3"><small>Último Pedido: Hoje</small></div>}
 
 
-                    {/*BOTAO*/}
+                {/*BOTAO*/}
                 {btn && <div className="row justify-content-end mt-3">
                     <div className="col-auto">
                         {btn}
