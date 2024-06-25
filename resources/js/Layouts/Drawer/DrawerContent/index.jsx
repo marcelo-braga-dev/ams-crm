@@ -8,9 +8,9 @@ const style = {
     }
 }
 
-const DrawerContent = ({menu, submenu, permissoes}) => (
+const DrawerContent = () => (
     <SimpleBar sx={style}>
-        <Navigation menu={menu} submenu={submenu} permissoes={permissoes}/>
+        <Navigation />
     </SimpleBar>
 );
 

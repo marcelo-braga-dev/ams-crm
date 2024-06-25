@@ -7,7 +7,7 @@ const chavesPermissoes = {
         alterar_consultor: 38, relatorio: 39, encaminhados: 51
     },
     produtos: {
-        cadastrados: 6, cadastrar: 7, categorias: 40, unidades: 41, estoque: 42
+        cadastrados: 6, cadastrar: 7, categorias: 40, unidades: 41, estoque: 42, integracoes: 56
     },
     dashboards: {
         integrados: 8, vendas: 9, financeiros: 10, economicos: 11, leads: 43

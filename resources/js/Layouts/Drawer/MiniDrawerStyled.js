@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 
 // project import
-import { drawerWidth } from '@/Themes/config.js';
+import { drawerWidth, drawerMinWidth } from '@/Themes/config.js';
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -22,7 +22,7 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen
   }),
   overflowX: 'hidden',
-  width: 0,
+  width: drawerMinWidth,
   borderRight: 'none',
   boxShadow: theme.customShadows.z1
 });

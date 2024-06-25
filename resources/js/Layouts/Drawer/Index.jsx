@@ -1,22 +1,24 @@
-import { useMemo } from 'react';
+import {useContext, useMemo} from 'react';
 
-import { useTheme } from '@mui/material/styles';
-import { Box, Drawer, useMediaQuery } from '@mui/material';
+import {useTheme} from '@mui/material/styles';
+import {Box, Drawer, useMediaQuery} from '@mui/material';
 import DrawerHeader from './DrawerHeader';
 import DrawerContent from './DrawerContent';
 import MiniDrawerStyled from './MiniDrawerStyled.js';
+import AuthProvider from '@/Layouts/Contexts/Context'
 
-const MainDrawer = ({ menu, submenu, permissoes, toggleMenu, setToggleMenu, window }) => {
+const MainDrawer = ({window}) => {
     const theme = useTheme();
+    const {toggleMenu, menuToggle} = useContext(AuthProvider);
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
     const container = window !== undefined ? () => window().document.body : undefined;
 
     // header content
-    const drawerContent = useMemo(() => <DrawerContent menu={menu} submenu={submenu} permissoes={permissoes} />, []);
-    const drawerHeader = useMemo(() => <DrawerHeader open={toggleMenu} />, [toggleMenu]);
+    const drawerHeader = useMemo(() => <DrawerHeader open={toggleMenu}/>, [toggleMenu]);
+    const drawerContent = useMemo(() => <DrawerContent/>, []);
 
     return (
-        <Box component="nav" sx={{ flexShrink: { md: 0 }, zIndex: 1300 }}>
+        <Box component="nav" sx={{flexShrink: {md: 0}, zIndex: 1300}} onMouseEnter={() => menuToggle(true)} onMouseLeave={() => menuToggle(false)}>
             {!matchDownMD ? (
                 <MiniDrawerStyled variant="permanent" open={toggleMenu}>
                     {drawerHeader}
@@ -27,10 +29,10 @@ const MainDrawer = ({ menu, submenu, permissoes, toggleMenu, setToggleMenu, wind
                     container={container}
                     variant="temporary"
                     open={toggleMenu}
-                    onClose={() => setToggleMenu(e => !e)}
-                    ModalProps={{ keepMounted: true }}
+                    onClose={() => menuToggle(e => !e)}
+                    ModalProps={{keepMounted: true}}
                     sx={{
-                        display: { xs: 'block', lg: 'none' },
+                        display: {xs: 'block', lg: 'none'},
                         '& .MuiDrawer-paper': {
                             boxSizing: 'border-box',
                             width: 260,

@@ -16,3 +16,4 @@ require __DIR__ . '/users/index.php';
 require __DIR__ . '/users/admin/index.php';
 require __DIR__ . '/users/consultor/index.php';
 require __DIR__ . '/users/geral/index.php';
+require __DIR__ . '/users/integrador/index.php';

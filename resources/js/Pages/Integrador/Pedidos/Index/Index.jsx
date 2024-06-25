@@ -1,17 +1,8 @@
 import React, {useEffect, useState} from "react";
 import pesquisaCards from "@/Helpers/pesquisaCards";
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 
-import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
-import CardReprovado from './Cards/Reprovado/ReprovadoCard';
-import CardLancado from './Cards/Lancado/CardLancado';
-import CardBoleto from './Cards/Boleto/CardBoleto';
-import CardPagamento from './Cards/Pagamento/CardPagamento';
-import CardFaturando from './Cards/Faturando/CardFaturando';
-import CardFaturado from './Cards/Faturado/CardFaturado';
-import CardAcompanhamento from "./Cards/Acompanhamento/CardAcompanhamento";
-import CardEntregue from './Cards/Entregue/CardEntregue';
-import CardCancelado from './Cards/Cancelado/CardCancelado';
+import Cards from './Cards';
 
 import InputAdornment from '@mui/material/InputAdornment';
 
@@ -33,10 +24,9 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
     }
 
     return (
-        <Layout titlePage="Lista de Pedidos" menu="pedidos-lista" empty>
+        <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="pedidos-lista">
             {/*Pesquisa*/}
-            <div className="card card-body mb-4">
-                <div className="row justify-content-between">
+                <div className="row justify-content-between mb-4">
                     <div className="col-3 text-right">
                         <TextField fullWidth label="Pesquisar..."
                                    onChange={e => pesquisaCards(e.target.value)}
@@ -46,11 +36,10 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                         <small className="text-muted">Qtd. Total Pedidos: {qtdPedidos}</small>
                     </div>
                 </div>
-            </div>
 
             {/*Tabela*/}
             <ScrollContainer hideScrollbars={false}>
-                <div style={{height: '78vh'}}>
+                <div className="overflow-scroll bg-white" style={{height: '84vh'}}>
                     <table>
                         <thead>
                         <tr>
@@ -141,52 +130,52 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                         <tr className="align-top">
                             <td id="td-1" style={{minWidth: 300}}>
                                 {pedidos.reprovado.map((dados) => {
-                                    return <CardReprovado key={dados.id} dados={dados} cor={coresAbas.reprovado}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.reprovado}/>
                                 })}
                             </td>
                             <td id="td-2" style={{minWidth: 300}}>
                                 {pedidos.conferencia.map((dados) => {
-                                    return <ConferenciaCard key={dados.id} dados={dados} cor={coresAbas.conferencia}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.conferencia}/>
                                 })}
                             </td>
                             <td id="td-3" style={{minWidth: 300}}>
                                 {pedidos.lancado.map((dados) => {
-                                    return <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.lancado}/>
                                 })}
                             </td>
                             <td id="td-4" style={{minWidth: 300}}>
                                 {pedidos.nota.map((dados) => {
-                                    return <CardBoleto key={dados.id} dados={dados} cor={coresAbas.boleto}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.boleto}/>
                                 })}
                             </td>
                             <td id="td-5" style={{minWidth: 300}}>
                                 {pedidos.pagamento.map((dados) => {
-                                    return <CardPagamento key={dados.id} dados={dados} cor={coresAbas.pagamento}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.pagamento}/>
                                 })}
                             </td>
                             <td id="td-6" style={{minWidth: 300}}>
                                 {pedidos.faturamento.map((dados) => {
-                                    return <CardFaturando key={dados.id} dados={dados} cor={coresAbas.faturamento}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.faturamento}/>
                                 })}
                             </td>
                             <td id="td-7" style={{minWidth: 300}}>
                                 {pedidos.faturado.map((dados) => {
-                                    return <CardFaturado key={dados.id} dados={dados} cor={coresAbas.faturado}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.faturado}/>
                                 })}
                             </td>
                             <td id="td-8" style={{minWidth: 300}}>
                                 {pedidos.acompanhamento.map((dados) => {
-                                    return <CardAcompanhamento key={dados.id} dados={dados} cor={coresAbas.acompanhamento}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.acompanhamento}/>
                                 })}
                             </td>
                             <td id="td-9" style={{minWidth: 300}}>
                                 {pedidos.entregue.map((dados) => {
-                                    return <CardEntregue key={dados.id} dados={dados} cor={coresAbas.entregue}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.entregue}/>
                                 })}
                             </td>
                             <td id="td-10" style={{minWidth: 300}}>
                                 {pedidos.cancelado.map((dados) => {
-                                    return <CardCancelado key={dados.id} dados={dados} cor={coresAbas.cancelados}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.cancelados}/>
                                 })}
                             </td>
                         </tr>

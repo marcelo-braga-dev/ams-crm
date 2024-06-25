@@ -362,18 +362,21 @@ class Pedidos extends Model
         $this->updateStatus($id, $dados->status, $dados->prazo, $motivo);
     }
 
-    public function getPedidos($idUsuario, $setor, $fornecedor)
+    public function getPedidos($idUsuario, $setor, $fornecedor, $lead)
     {
+        $usuarioAtual = id_usuario_atual();
+
         $query = $this->newQuery()
-            ->leftJoin('pins', 'pedidos.id', '=', DB::raw('pins.pedido_id AND pins.user_id = ' . id_usuario_atual()))
+            ->leftJoin('pins', 'pedidos.id', '=', DB::raw('pins.pedido_id AND pins.user_id = ' . $usuarioAtual))
             ->leftJoin('users', 'pedidos.user_id', '=', 'users.id')
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
             ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
             ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
             ->leftJoin('setores', 'pedidos.setor_id', '=', 'setores.id')
-            ->whereIn('pedidos.user_id', supervisionados(id_usuario_atual()))
             ->orderByDesc('pin')
             ->orderBy('status_data');
+
+        if (!$lead) $query->whereIn('pedidos.user_id', supervisionados($usuarioAtual));
 
         $query->where(function ($query) {
             $query->whereRaw('(pedidos.status = "entregue" OR pedidos.status = "cancelado") AND DATEDIFF(CURDATE(), pedidos.status_data) <= 1')
@@ -381,11 +384,12 @@ class Pedidos extends Model
         });
 
         if ($idUsuario) $query->where('pedidos.user_id', $idUsuario);
+        if ($lead) $query->where('leads.cnpj', '53882826000279');
         if ($setor) $query->where('pedidos.setor_id', $setor);
         if ($fornecedor) $query->where('pedidos.fornecedor_id', $fornecedor);
 
         $query->select(DB::raw("
-            pedidos.*, CASE WHEN pins.user_id = " . id_usuario_atual() . " THEN TRUE ELSE FALSE END as pin,
+            pedidos.*, CASE WHEN pins.user_id = " . $usuarioAtual . " THEN TRUE ELSE FALSE END as pin,
             users.name as consultor_nome, leads.nome as lead_nome, pedidos_clientes.nome as cliente_nome, pedidos_clientes.razao_social as cliente_razao_social,
             produtos_fornecedores.nome as fornecedor, setores.nome as setor_nome, setores.cor as setor_cor
         "));

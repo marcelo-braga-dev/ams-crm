@@ -51,130 +51,132 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
 
             {/*Tabela*/}
             <ScrollContainer hideScrollbars={false}>
-                <table className="bg-white" style={{height: '78vh'}}>
-                    <thead>
-                    <tr>
-                        <th id="th-1" className="sticky-top">
-                            <div style={{backgroundColor: coresAbas.reprovado ?? 'black'}}
-                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                <div className='col-auto'>Reprovados</div>
-                                <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
-                                <small className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
-                            </div>
-                        </th>
-                        <th id="th-2" className="sticky-top">
-                            <div style={{backgroundColor: coresAbas.encomenda ?? 'black'}}
-                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                <div className='col-auto'>Encomenda</div>
-                                <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
-                                <small className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
-                            </div>
-                        </th>
-                        <th id="th-3" className="sticky-top">
-                            <div style={{backgroundColor: coresAbas.conferencia ?? 'black'}}
-                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                <div className='col-auto'>Conferência</div>
-                                <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
-                                <small className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
-                            </div>
-                        </th>
-                        <th id="th-4" className="sticky-top">
-                            <div style={{backgroundColor: coresAbas.lancado ?? 'black'}}
-                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                <div className='col-auto'>Lançado</div>
-                                <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
-                                <small className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
-                            </div>
-                        </th>
-                        <th id="th-5" className="sticky-top">
-                            <div style={{backgroundColor: 'rgba(59,189,13,0.6)'}}
-                                 className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
-                                <div className='col-auto'>Faturado à Vista</div>
-                                <div className='col-auto'>Qdt: {pedidos.faturado_vista.length}</div>
-                                <small className="d-block text-end">R$ {(pedidos.faturado_vista[0]?.faturamento ?? '0,00')}</small>
-                            </div>
-                        </th>
-                        <th id="th-6" className="sticky-top">
-                            <div style={{backgroundColor: "#854787"}}
-                                 className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
-                                <div className='col-auto'>Faturado à Prazo</div>
-                                <div className='col-auto'>Qdt: {pedidos.faturado_prazo.length}</div>
-                                <small className="d-block text-end">R$ {(pedidos.faturado_prazo[0]?.faturamento ?? '0,00')}</small>
-                            </div>
-                        </th>
-                        <th id="th-8" className="sticky-top">
-                            <div style={{backgroundColor: coresAbas.entregue ?? 'black'}}
-                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                <div className='col-auto'>Entregue</div>
-                                <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
-                                <small className="d-block text-end">TOTAL
-                                    R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
-                            </div>
-                        </th>
-                        <th id="th-9" className="sticky-top">
-                            <div style={{backgroundColor: coresAbas.cancelados ?? 'black'}}
-                                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                <div className='col-12'>Cancelados</div>
-                                <div className='col-12 text-end'>Qdt: {pedidos.cancelado.length}</div>
-                            </div>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr className="align-top">
-                        <td id="td-1" style={{minWidth: 300}}>
-                            {pedidos.reprovado.map((dados) => {
-                                return (<CardReprovado key={dados.id} dados={dados}
-                                                       cor={coresAbas.reprovado}/>)
-                            })}
-                        </td>
-                        <td id="td-2" style={{minWidth: 300}}>
-                            {pedidos.encomenda.map((dados) => {
-                                return (<CardEncomenda key={dados.id} dados={dados}
-                                                       cor={coresAbas.encomenda}/>)
-                            })}
-                        </td>
-                        <td id="td-3" style={{minWidth: 300}}>
-                            {pedidos.conferencia.map((dados) => {
-                                return (<ConferenciaCard key={dados.id} dados={dados}
-                                                         cor={coresAbas.conferencia}/>)
-                            })}
-                        </td>
-                        <td id="td-4" style={{minWidth: 300}}>
-                            {pedidos.lancado.map((dados) => {
-                                return (
-                                    <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
-                            })}
-                        </td>
-                        <td id="td-5" style={{minWidth: 300}}>
-                            {pedidos.faturado_vista.map((dados) => {
-                                return (
-                                    <CardFaturado key={dados.id} dados={dados}
-                                                  cor={"rgba(59,189,13,0.6)"}/>)
-                            })}
-                        </td>
-                        <td id="td-6" style={{minWidth: 300}}>
-                            {pedidos.faturado_prazo.map((dados) => {
-                                return (
-                                    <CardFaturado key={dados.id} dados={dados}
-                                                  cor={'#854787'}/>)
-                            })}
-                        </td>
-                        <td id="td-8" style={{minWidth: 300}}>
-                            {pedidos.entregue.map((dados) => {
-                                return (<CardEntregue key={dados.id} dados={dados}
-                                                      cor={coresAbas.entregue}/>)
-                            })}
-                        </td>
-                        <td id="td-9" style={{minWidth: 300}}>
-                            {pedidos.cancelado.map((dados) => {
-                                return (<CardCancelado key={dados.id} dados={dados}
-                                                       cor={coresAbas.cancelados}/>)
-                            })}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div style={{height: '78vh'}}>
+                    <table className="bg-white">
+                        <thead>
+                        <tr>
+                            <th id="th-1" className="sticky-top">
+                                <div style={{backgroundColor: coresAbas.reprovado ?? 'black'}}
+                                     className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div className='col-auto'>Reprovados</div>
+                                    <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
+                                    <small className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
+                                </div>
+                            </th>
+                            <th id="th-2" className="sticky-top">
+                                <div style={{backgroundColor: coresAbas.encomenda ?? 'black'}}
+                                     className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div className='col-auto'>Encomenda</div>
+                                    <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
+                                    <small className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
+                                </div>
+                            </th>
+                            <th id="th-3" className="sticky-top">
+                                <div style={{backgroundColor: coresAbas.conferencia ?? 'black'}}
+                                     className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div className='col-auto'>Conferência</div>
+                                    <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
+                                    <small className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
+                                </div>
+                            </th>
+                            <th id="th-4" className="sticky-top">
+                                <div style={{backgroundColor: coresAbas.lancado ?? 'black'}}
+                                     className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div className='col-auto'>Lançado</div>
+                                    <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
+                                    <small className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
+                                </div>
+                            </th>
+                            <th id="th-5" className="sticky-top">
+                                <div style={{backgroundColor: 'rgba(59,189,13,0.6)'}}
+                                     className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div className='col-auto'>Faturado à Vista</div>
+                                    <div className='col-auto'>Qdt: {pedidos.faturado_vista.length}</div>
+                                    <small className="d-block text-end">R$ {(pedidos.faturado_vista[0]?.faturamento ?? '0,00')}</small>
+                                </div>
+                            </th>
+                            <th id="th-6" className="sticky-top">
+                                <div style={{backgroundColor: "#854787"}}
+                                     className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div className='col-auto'>Faturado à Prazo</div>
+                                    <div className='col-auto'>Qdt: {pedidos.faturado_prazo.length}</div>
+                                    <small className="d-block text-end">R$ {(pedidos.faturado_prazo[0]?.faturamento ?? '0,00')}</small>
+                                </div>
+                            </th>
+                            <th id="th-8" className="sticky-top">
+                                <div style={{backgroundColor: coresAbas.entregue ?? 'black'}}
+                                     className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div className='col-auto'>Entregue</div>
+                                    <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
+                                    <small className="d-block text-end">TOTAL
+                                        R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
+                                </div>
+                            </th>
+                            <th id="th-9" className="sticky-top">
+                                <div style={{backgroundColor: coresAbas.cancelados ?? 'black'}}
+                                     className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div className='col-12'>Cancelados</div>
+                                    <div className='col-12 text-end'>Qdt: {pedidos.cancelado.length}</div>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr className="align-top">
+                            <td id="td-1" style={{minWidth: 300}}>
+                                {pedidos.reprovado.map((dados) => {
+                                    return (<CardReprovado key={dados.id} dados={dados}
+                                                           cor={coresAbas.reprovado}/>)
+                                })}
+                            </td>
+                            <td id="td-2" style={{minWidth: 300}}>
+                                {pedidos.encomenda.map((dados) => {
+                                    return (<CardEncomenda key={dados.id} dados={dados}
+                                                           cor={coresAbas.encomenda}/>)
+                                })}
+                            </td>
+                            <td id="td-3" style={{minWidth: 300}}>
+                                {pedidos.conferencia.map((dados) => {
+                                    return (<ConferenciaCard key={dados.id} dados={dados}
+                                                             cor={coresAbas.conferencia}/>)
+                                })}
+                            </td>
+                            <td id="td-4" style={{minWidth: 300}}>
+                                {pedidos.lancado.map((dados) => {
+                                    return (
+                                        <CardLancado key={dados.id} dados={dados} cor={coresAbas.lancado}/>)
+                                })}
+                            </td>
+                            <td id="td-5" style={{minWidth: 300}}>
+                                {pedidos.faturado_vista.map((dados) => {
+                                    return (
+                                        <CardFaturado key={dados.id} dados={dados}
+                                                      cor={"rgba(59,189,13,0.6)"}/>)
+                                })}
+                            </td>
+                            <td id="td-6" style={{minWidth: 300}}>
+                                {pedidos.faturado_prazo.map((dados) => {
+                                    return (
+                                        <CardFaturado key={dados.id} dados={dados}
+                                                      cor={'#854787'}/>)
+                                })}
+                            </td>
+                            <td id="td-8" style={{minWidth: 300}}>
+                                {pedidos.entregue.map((dados) => {
+                                    return (<CardEntregue key={dados.id} dados={dados}
+                                                          cor={coresAbas.entregue}/>)
+                                })}
+                            </td>
+                            <td id="td-9" style={{minWidth: 300}}>
+                                {pedidos.cancelado.map((dados) => {
+                                    return (<CardCancelado key={dados.id} dados={dados}
+                                                           cor={coresAbas.cancelados}/>)
+                                })}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </ScrollContainer>
         </Layout>
     )

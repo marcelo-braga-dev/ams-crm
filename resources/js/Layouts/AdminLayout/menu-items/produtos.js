@@ -26,6 +26,13 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.produtos-fornecedores.index'),
                 }, {
+                    id: 'produtos-integracoes',
+                    chave: chaves.produtos.integracoes,
+                    title: 'Integrações',
+                    type: 'item',
+                    url: route('admin.produtos.integracoes.index'),
+                },
+                {
                     id: 'produtos-categorias',
                     chave: chaves.produtos.categorias,
                     title: 'Categorias',

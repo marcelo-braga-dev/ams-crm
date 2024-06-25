@@ -1,25 +1,23 @@
 import * as React from "react";
 
+import AuthProvider from '@/Layouts/Contexts/Context'
 import {Box} from '@mui/material';
-
 import NavGroup from './Navs/NavGroup';
-import menuItemsAdmin from '@/Layouts/AdminLayout/menu-items/index';
-import menuItemsColsultor from '@/Layouts/VendedorLayout/menu-items/index';
-import {usePage} from "@inertiajs/react";
+import {useContext} from "react";
 
-const Navigation = ({menu, submenu, permissoes}) => {
-    const funcao = usePage().props.auth.user.is_admin
-    const menuItems = funcao ? menuItemsAdmin : menuItemsColsultor
+const Navigation = () => {
+    const {menuItems, permissoes} = useContext(AuthProvider)
 
     const navGroups = menuItems.items.map((item, index) => {
         let mostrarAba = false
+
         item.children.map(keys => {
             keys.submenu?.map(key => {
-                if (permissoes?.[key.chave]) mostrarAba = true
+                if (permissoes?.[key.chave] || key.chave === true) mostrarAba = true
             })
         })
 
-        if (mostrarAba) return <NavGroup key={index} item={item} menu={menu} submenu={submenu} permissoes={permissoes}/>
+        if (mostrarAba) return <NavGroup key={index} item={item}/>
     });
 
     return (

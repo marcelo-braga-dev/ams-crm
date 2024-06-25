@@ -36,7 +36,7 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
     router.on('success', () => window.location.reload())
 
     return (
-        <Layout empty voltar={route('consultor.leads.main.index')} titlePage="Lead - Ativo"  menu="clientes-lista">
+        <Layout empty voltar={route('consultor.leads.main.index')} titlePage="Lead - Ativo" menu="clientes-lista">
 
             <div className="card card-body mb-3">
                 <div className="row">
@@ -68,7 +68,7 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
             <div className="card mb-3">
                 <div className="card-body">
                     <div className="row">
-                        <div className="col-auto">
+                        <div className="col">
                             {permissaoPedido ? <div>
                                     <a className={'btn btn-warning' + ((dados?.cliente?.cnpj || dados?.cliente?.cpf) ? '' : ' disabled')}
                                        href={route('consultor.pedidos.create', {lead: dados.id})}>
@@ -79,6 +79,9 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
                                             Cadastre <a href={route('consultor.leads.main.edit', dados.id)}>aqui</a> o CNPJ ou CPF do cliente para emitir pedidos!</span>}
                                 </div>
                                 : 'Você não tem permissão para emitir pedidos.'}
+                        </div>
+                        <div className="col">
+                            <button className="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">Criar Conta para o Lead</button>
                         </div>
                     </div>
                 </div>
@@ -161,6 +164,24 @@ export default function Show({dados, status, contatos, historicos, permissaoPedi
                         {historicoPedidos.length === 0 && <div className="row text-center">
                             <span>Não há histórico de pedidos.</span>
                         </div>}
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Criar Conta</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            Deseja criar uma conta para este cliente acessar a plataforma?
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Criar Conta</button>
+                        </div>
                     </div>
                 </div>
             </div>

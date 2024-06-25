@@ -1,7 +1,5 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import {Bell, Box, Gear, Person} from "react-bootstrap-icons";
 
 import AMS from './Images/AMS.png';
 import img1 from './Images/CLAMPER.png';
@@ -86,7 +84,6 @@ const Game = () => {
                     </div>
                 </div>
             ))}
-            ACERTOS: {matchedPairs} |
             {matchedPairs === initialCards.length / 2 && <div className="win-message">Você venceu!</div>}
         </div>
     );

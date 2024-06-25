@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import Layout from "@/Layouts/Layout";
 
 import CardPedidos from './Cards/Card';
@@ -19,7 +19,6 @@ import Fab from '@mui/material/Fab';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import Card from "@mui/material/Card";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
 export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
@@ -30,22 +29,24 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState()
     const [qtdPedidos, setQtdPedidos] = useState(0)
 
-    const modelo1 = (modelo === 1 || modelo === null)
-    const modelo2 = (modelo === 2 || modelo === null)
+    const {franquia_selecionada} = usePage().props;
 
-    function atualizarPagina(forcededorId, setorId) {
-        setCarregando(true)
-        setPedidos(undefined)
-        setSetorSelecionado(setorId)
-        setFornecedorSelecionado(forcededorId)
-        console.log(setorId)
-        axios.get(route('admin.pedidos-cards', {setor: setorId, fornecedor: forcededorId}))
+    const modelo1 = useMemo(() => modelo === 1 || modelo === null, [modelo]);
+    const modelo2 = useMemo(() => modelo === 2 || modelo === null, [modelo]);
+
+    const atualizarPagina = useCallback((fornecedorId, setorId) => {
+        setCarregando(true);
+        setPedidos(undefined);
+        setSetorSelecionado(setorId);
+        setFornecedorSelecionado(fornecedorId);
+
+        axios.get(route('admin.pedidos-cards', {setor: setorId, fornecedor: fornecedorId}))
             .then(res => {
-                setPedidos(res.data.pedidos)
-                setModelo(res.data.modelo)
-                setQtdPedidos(res.data.pedidos.total)
-            }).finally(() => setCarregando(false))
-    }
+                setPedidos(res.data.pedidos);
+                setModelo(res.data.modelo);
+                setQtdPedidos(res.data.pedidos.total);
+            }).finally(() => setCarregando(false));
+    }, []);
 
     useEffect(function () {
         setCarregando(true)
@@ -59,20 +60,20 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                 setFornecedorSelecionado()
                 setQtdPedidos(res.data.pedidos.total)
             })
-    }, [usePage().props.franquia_selecionada])
+    }, [franquia_selecionada])
 
     useEffect(() => {
         if (pedidos && goCard) goCardPosicao()
     }, [pedidos]);
 
-    function goCardPosicao() {
+    const goCardPosicao = useCallback(() => {
         const elemento = document.getElementById("card-id-" + goCard);
         if (elemento) elemento.scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});
-    }
+    }, [goCard]);
 
-    function totalPedidos(status) {
-        return  convertFloatToMoney(pedidos[status].reduce((acc, produto) => acc + produto.preco, 0))
-    }
+    const totalPedidos = useCallback((status) => {
+        return convertFloatToMoney(pedidos[status].reduce((acc, produto) => acc + produto.preco, 0));
+    }, [pedidos]);
 
     return (
         <Layout titlePage="Quadro de Pedidos" menu="pedidos" submenu="pedidos-lista" empty>
@@ -85,11 +86,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                        defaultValue="" value={setorSelecionado ?? ''}
                                        onChange={e => atualizarPagina(null, e.target.value)}>
                                 <MenuItem value="todos">Todos</MenuItem>
-                                {setores.map((setor, index) => {
-                                    return (
-                                        <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
-                                    )
-                                })}
+                                {setores.map(setor => <MenuItem key={setor.id} value={setor.id}>{setor.nome}</MenuItem>)}
                             </TextField>
                         </div>
                         <div className="col-md-4">
@@ -97,11 +94,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                                        defaultValue="" value={fornecedorSelecionado ?? ''}
                                        onChange={e => atualizarPagina(e.target.value, '')}>
                                 <MenuItem value="">Todos</MenuItem>
-                                {fornecedores.map((item, index) => {
-                                    return (
-                                        <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>
-                                    )
-                                })}
+                                {fornecedores.map((item, index) => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
                     </div>
@@ -335,7 +328,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                 </ScrollContainer>
             }
 
-            {carregando && <LinearProgress  color="inherit" />}
+            {carregando && <LinearProgress color="inherit"/>}
 
             <Fab size="small" color="default" sx={{
                 position: 'fixed',

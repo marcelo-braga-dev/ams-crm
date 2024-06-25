@@ -19,37 +19,31 @@ use App\src\Pedidos\Status\RevisarStatusPedido;
 
 class CardDadosService
 {
-    public function getCards($id = null, ?int $fornecedorAtual = null, ?int $setorAtual = null): array
+    public function getCards($id = null, ?int $fornecedorAtual = null, ?int $setorAtual = null, $lead = null): array
     {
-        $reprovado = (new RevisarStatusPedido())->getStatus();
-        $conferenciaStatus = (new ConferenciaStatusPedido())->getStatus();
-        $lancadoStatus = (new LancadoStatus())->getStatus();
-        $notaStatus = (new AguardandoNotaStatus())->getStatus();
-        $pagamentoStatus = (new AguardandoPagamentoStatus())->getStatus();
-        $faturamentoStatus = (new AguardandoFaturamentoStatus())->getStatus();
-        $faturadoStatus = (new FaturadoStatus())->getStatus();
-        $faturadoVistaStatus = (new FaturadoVistaStatus())->getStatus();
-        $faturadoPrazoStatus = (new FaturadoPrazoStatus())->getStatus();
-        $acompanhamentoStatus = (new AcompanhamentoStatus())->getStatus();
-        $entregueStatus = (new EntregueStatus())->getStatus();
-        $canceladoStatus = (new CanceladoStatus())->getStatus();
-        $encomendaStatus = (new EncomendaStatus())->getStatus();
+        $statusClasses = [
+            'reprovado' => RevisarStatusPedido::class,
+            'conferencia' => ConferenciaStatusPedido::class,
+            'lancado' => LancadoStatus::class,
+            'nota' => AguardandoNotaStatus::class,
+            'pagamento' => AguardandoPagamentoStatus::class,
+            'faturamento' => AguardandoFaturamentoStatus::class,
+            'faturado' => FaturadoStatus::class,
+            'faturado_vista' => FaturadoVistaStatus::class,
+            'faturado_prazo' => FaturadoPrazoStatus::class,
+            'acompanhamento' => AcompanhamentoStatus::class,
+            'entregue' => EntregueStatus::class,
+            'cancelado' => CanceladoStatus::class,
+            'encomenda' => EncomendaStatus::class,
+        ];
 
-        $dados = (new Pedidos())->getPedidos($id, $setorAtual, $fornecedorAtual);
+        $dados = (new Pedidos())->getPedidos($id, $setorAtual, $fornecedorAtual, $lead);
 
-        $cards['reprovado'] = $this->getDadosCard($dados, $reprovado);
-        $cards['conferencia'] = $this->getDadosCard($dados, $conferenciaStatus);
-        $cards['lancado'] = $this->getDadosCard($dados, $lancadoStatus);
-        $cards['nota'] = $this->getDadosCard($dados, $notaStatus);
-        $cards['pagamento'] = $this->getDadosCard($dados, $pagamentoStatus);
-        $cards['faturamento'] = $this->getDadosCard($dados, $faturamentoStatus);
-        $cards['faturado_vista'] = $this->getDadosCard($dados, $faturadoVistaStatus);
-        $cards['faturado_prazo'] = $this->getDadosCard($dados, $faturadoPrazoStatus);
-        $cards['faturado'] = $this->getDadosCard($dados, $faturadoStatus);
-        $cards['acompanhamento'] = $this->getDadosCard($dados, $acompanhamentoStatus);
-        $cards['entregue'] = $this->getDadosCard($dados, $entregueStatus);
-        $cards['cancelado'] = $this->getDadosCard($dados, $canceladoStatus);
-        $cards['encomenda'] = $this->getDadosCard($dados, $encomendaStatus);
+        $cards = [];
+        foreach ($statusClasses as $key => $class) {
+            $status = (new $class())->getStatus();
+            $cards[$key] = $this->getDadosCard($dados, $status);
+        }
         $cards['total'] = $dados->count();
 
         return $cards;
