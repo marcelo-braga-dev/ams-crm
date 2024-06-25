@@ -10,6 +10,7 @@ import img5 from './Images/HELIUS.png';
 import img6 from './Images/HONOR SOLAR.png';
 import img7 from './Images/OSDA.png';
 import img8 from './Images/SOLIS.png';
+import {Typography} from "@mui/material";
 
 const initialCards = [
     {id: 1, content: 'A', matched: false, img: img1},
@@ -71,21 +72,24 @@ const Game = () => {
         }
     };
 
-    return (
-        <div className="game-board">
-            {cards.map((card, index) => (
-                <div
-                    key={index}
-                    className={`card ${flippedCards.includes(index) || card.matched ? 'flipped pe-none' : ''}`}
-                    onClick={() => handleCardClick(index)}
-                >
-                    <div className="card-content">
-                        {flippedCards.includes(index) || card.matched ? <img src={card.img} alt="card"/> : <img src={AMS} alt="card"/>}
+    return (<>
+            {!!matchedPairs && <Typography>VOCÊ GANHOU</Typography>}
+            <div className="game-board">
+                {cards.map((card, index) => (
+                    <div
+                        key={index}
+                        className={`card ${flippedCards.includes(index) || card.matched ? 'flipped pe-none' : ''}`}
+                        onClick={() => handleCardClick(index)}
+                    >
+                        <div className="card-content">
+                            {flippedCards.includes(index) || card.matched ? <img src={card.img} alt="card"/> : <img src={AMS} alt="card"/>}
+                        </div>
                     </div>
-                </div>
-            ))}
-            {matchedPairs === initialCards.length / 2 && <div className="win-message">Você venceu!</div>}
-        </div>
+                ))}
+
+                {matchedPairs === initialCards.length / 2 && <div className="win-message">Você venceu!</div>}
+            </div>
+        </>
     );
 };
 

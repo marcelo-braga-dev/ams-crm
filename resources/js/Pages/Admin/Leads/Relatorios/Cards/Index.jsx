@@ -150,7 +150,7 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                 </CardBody>
             </CardContainer>
 
-            <div className="row row-cols-3 justify-content-between">
+            <div className="row row-cols-4 justify-content-between">
                 {isLeadsEncaminhar &&
                     <div className="col">
                         <CardContainer>
@@ -220,8 +220,35 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                         </CardContainer>
                     </div>
                 }
+                {isLeadsLimpar && <div className="col">
+                    <CardContainer>
+                        <CardBody>
+                            <Typography variant="body1">Remover todos os Leads do status:</Typography>
+                            <div className="row">
+                                <div className="col-7">
+                                    <TextField label="Status" select value={limparStatus ?? ''}
+                                               fullWidth required size="small" defaultValue=""
+                                               onChange={e => setLimparStatus(e.target.value)}>
+                                        <MenuItem value="pre_atendimento">Pré Atendiemnto</MenuItem>
+                                        <MenuItem value="aberto">Em Aberto</MenuItem>
+                                        <MenuItem value="atendimento">Atendimento</MenuItem>
+                                        <MenuItem value="finalizado">Finalizado</MenuItem>
+                                    </TextField>
+                                </div>
+                                <div className="col-auto">
+                                    <button type="button" className="btn btn-success btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#modalLimpar">
+                                        Remover
+                                    </button>
+                                </div>
+                            </div>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+                }
 
-                <div className="col text-end">
+
+                <div className="col-auto text-end">
                     <CardContainer>
                         <CardBody>
                             <Stack direction="row" spacing={3}>
@@ -231,32 +258,6 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                         </CardBody>
                     </CardContainer>
                 </div>
-                {isLeadsLimpar && <div className="col">
-                    {/*<CardContainer>*/}
-                    {/*    <CardBody>*/}
-                    {/*        <Typography variant="body1">Remover todos os Leads do status:</Typography>*/}
-                    {/*        <div className="row">*/}
-                    {/*            <div className="col-7">*/}
-                    {/*                <TextField label="Status" select value={limparStatus ?? ''}*/}
-                    {/*                           fullWidth required size="small" defaultValue=""*/}
-                    {/*                           onChange={e => setLimparStatus(e.target.value)}>*/}
-                    {/*                    <MenuItem value="pre_atendimento">Pré Atendiemnto</MenuItem>*/}
-                    {/*                    <MenuItem value="aberto">Em Aberto</MenuItem>*/}
-                    {/*                    <MenuItem value="atendimento">Atendimento</MenuItem>*/}
-                    {/*                    <MenuItem value="finalizado">Finalizado</MenuItem>*/}
-                    {/*                </TextField>*/}
-                    {/*            </div>*/}
-                    {/*            <div className="col-auto">*/}
-                    {/*                <button type="button" className="btn btn-success btn-sm"*/}
-                    {/*                        data-bs-toggle="modal" data-bs-target="#modalLimpar">*/}
-                    {/*                    Remover*/}
-                    {/*                </button>*/}
-                    {/*            </div>*/}
-                    {/*        </div>*/}
-                    {/*    </CardBody>*/}
-                    {/*</CardContainer>*/}
-                </div>
-                }
             </div>
 
             {/*Tabela*/}
@@ -270,7 +271,7 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                                 <thead>
                                 <tr>
                                     <th className="sticky-top" id="th-1">
-                                        <div className={styleCard} style={{backgroundColor: 'blue'}}>
+                                    <div className={styleCard} style={{backgroundColor: 'blue'}}>
                                             <div className='col-auto'>Iniciar Atendimento</div>
                                             <div className='col-auto'>Qdt: {leads.novo.length}</div>
                                         </div>
