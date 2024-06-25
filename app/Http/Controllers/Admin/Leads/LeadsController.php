@@ -264,10 +264,10 @@ class LeadsController extends Controller
 
     public function alterarSdr(Request $request)
     {
-        $isSdr = is_sdr($request->novo_consultor);
+        $isSdr = is_sdr($request->novo_sdr);
         $isSdr ?
-            (new Leads())->setSdr($request->idLeads, $request->novo_consultor, $request->alterarStatus) :
-            (new Leads())->setConsultor($request->idLeads, $request->novo_consultor, $request->alterarStatus);
+            (new Leads())->setSdr($request->idLeads, $request->novo_sdr, $request->alterarStatus) :
+            (new Leads())->setConsultor($request->idLeads, $request->novo_sdr, $request->alterarStatus);
 
         modalSucesso('Leads enviado com sucesso!');
     }

@@ -5,14 +5,12 @@ namespace App\Models;
 use App\Services\Excel\RelatorioLeads;
 use App\src\Leads\Dados\DadosLeads;
 use App\src\Leads\Status\AbertoStatusLeads;
-use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\InativoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\StatusLeads;
-use App\src\Leads\StatusAtendimentoLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -74,7 +72,6 @@ class Leads extends Model
         return $query->where('setor_id', $setor)
             ->where('user_id', '=', null)
             ->where('setor_id', '=', $setor)
-//            ->where('status', '=', 'finalizado')
             ->orderBy('updated_at')
             ->get()
             ->transform(function ($item) use ($nomes, $setores) {
@@ -243,16 +240,11 @@ class Leads extends Model
             });
     }
 
-    public function getConsultores(int $id)
-    {
-        return $this->newQuery()
-            ->where('user_id', $id)
-            ->get();
-    }
-
     public function find($id)
     {
-        return $this->newQuery()->find($id);
+        return $this->newQuery()
+            ->join('enderecos', 'leads.endereco', '=', 'enderecos.id')
+            ->find($id, ['leads.*', 'enderecos.cidade AS cidade', 'enderecos.estado AS estado']);
     }
 
     public function updateStatus($id, $status)
@@ -295,23 +287,6 @@ class Leads extends Model
             ->where('setor_id', $setor)
             ->orderByDesc('id')
             ->get();
-    }
-
-    public function getLeadsComConsultor($setor)
-    {
-        $query = $this->newQuery()
-            ->where('user_id', '>', 0)
-            ->where('sdr_id', '>', 0)
-            ->where('setor_id', $setor)
-            ->orderByDesc('id');
-
-        $query->whereIn('user_id', supervisionados(id_usuario_atual()));
-        $nomes = (new User())->getNomes();
-
-        return $query->get()
-            ->transform(function ($item) use ($nomes) {
-                return $this->dadosMinimo($item, $nomes);
-            });
     }
 
     public function atualizar($id, $dados)
@@ -420,8 +395,6 @@ class Leads extends Model
 
     private function dados($item, $nomes = [], $setores = [], $telefones = [])
     {
-
-
         if ($item)
 
             return [
@@ -477,8 +450,6 @@ class Leads extends Model
 
     private function dadosMinimo($item, $nomes = [], $setores = [])
     {
-        //$telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
-
         return [
             'id' => $item->id,
             'consultor' => [
@@ -516,8 +487,6 @@ class Leads extends Model
     private function dadosResumido($item, $nomeConsultores = []): array
     {
         if (!$item) return [];
-
-        //        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
 
         return [
             'id' => $item->id,
@@ -569,14 +538,6 @@ class Leads extends Model
             ]);
     }
 
-    public function qtdLeads()
-    {
-        return $this->newQuery()
-            ->select('user_id', DB::raw('count(*) as qtdUsers'))
-            ->groupBy('user_id')
-            ->get();
-    }
-
     public function qtdLeadsStatusConsultor($idConsultor): array
     {
         $dados = $this->newQuery()
@@ -590,11 +551,6 @@ class Leads extends Model
             $items[$dado->status] = $dado->qtd ?? 0;
         }
         return $items;
-    }
-
-    public function getCardDados()
-    {
-        return $this->newQuery()->pluck('nome', 'id');
     }
 
     public function getNomes()
@@ -668,14 +624,11 @@ class Leads extends Model
 
     public function relatorio($setor)
     {
-        //        $telefones = (new LeadsDados())->telefones(true);
-
         $dados = $this->newQuery()
             ->where('leads.status', (new AtivoStatusLeads())->getStatus())
             ->where('leads.setor_id', $setor)
             ->leftJoin('users', 'leads.user_id', '=', 'users.id')
             ->leftJoin('pedidos', 'leads.id', '=', 'pedidos.lead_id')
-            //            ->leftJoin('leads_dados', 'leads.id', '=', 'leads_dados.lead_id')
             ->select(DB::raw('
                 leads.id as lead_id, leads.nome, razao_social, cnpj, cpf, name as consultor,
                 telefone, pedidos.created_at as pedido_data,

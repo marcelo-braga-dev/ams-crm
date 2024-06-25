@@ -77,7 +77,7 @@ class PedidosController extends Controller
             case 3:
                 return Inertia::render(
                     'Consultor/Pedidos/Create/Modelo3/Create',
-                    compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades')
+                    compact('lead')
                 );
             default:
             {

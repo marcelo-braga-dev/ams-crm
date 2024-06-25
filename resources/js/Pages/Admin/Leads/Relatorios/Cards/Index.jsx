@@ -18,12 +18,13 @@ import PreAtendimentoCard from "./Cards/PreAtendimentoCard";
 import {router, useForm} from "@inertiajs/react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import {Avatar, Box, CircularProgress, Divider, Stack, Typography} from "@mui/material";
+import {Avatar, Box, CircularProgress, Divider, Radio, RadioGroup, Stack, Typography} from "@mui/material";
 import LinearProgress from '@mui/material/LinearProgress';
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import Switch from "@mui/material/Switch";
 import {Trash} from "react-bootstrap-icons";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 let idLeads = []
 const styleCard = 'p-2 mx-1 text-white row justify-content-between rounded-top'
@@ -39,15 +40,21 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
 
     const [alterarStatusConsultor, setAlterarStatusConsultor] = useState(true)
     const [alterarStatusSdr, setAlterarStatusSdr] = useState(true)
+    const [tipoEncaminhar, setTipoEncaminhar] = useState()
 
     useEffect(() => {
-        setCarregandoRegistros(true)
-        axios.get(route('admin.leads.registros', {id: usuario.id}))
-            .then(res => {
-                setRegistros(res.data.registros)
-                setCarregandoRegistros(false)
-            })
+        fetchLeads();
     }, [enviadoLead]);
+
+    const fetchLeads = async () => {
+        setCarregandoRegistros(true);
+        try {
+            const res = await axios.get(route('admin.leads.registros', {id: usuario.id}));
+            setRegistros(res.data.registros);
+        } finally {
+            setCarregandoRegistros(false);
+        }
+    };
 
     function leadsSelecionados(idLead) {
         const index = idLeads.indexOf(idLead)
@@ -67,12 +74,11 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                 ...data, idLeads: idLeads, alterarStatus: alterarStatusConsultor
             })
         }
-        setEnviadoLead(e => !e)
     }
 
     function alterarSdr() {
         setCarregando(true)
-        if (data?.novo_consultor === 'vazio') {
+        if (data?.novo_sdr === 'vazio') {
             router.post(route('admin.leads.limpar-sdr'), {
                 ...data, idLeads: idLeads, alterarStatus: alterarStatusConsultor
             })
@@ -81,17 +87,14 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                 ...data, idLeads: idLeads, alterarStatus: alterarStatusConsultor, _method: 'PUT'
             })
         }
-
-        setEnviadoLead(e => !e)
     }
 
     const excluirLeads = () => {
         setCarregando(true)
         router.post(route('admin.clientes.leads.delete', {lead: idLeads, return_back: true}));
-        setEnviadoLead(e => !e)
     };
 
-    router.on('success', () => setCarregandoRegistros(false))
+    router.on('success', () => setEnviadoLead(e => !e))
 
     function nomeConsultorSelecionado() {
         if (data?.novo_consultor === 'vazio') {
@@ -106,11 +109,11 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
     }
 
     function nomeSdrSelecionado() {
-        if (data?.novo_consultor === 'vazio') {
+        if (data?.novo_sdr === 'vazio') {
             return <Typography variant="body1">Deseja remover o SDR destes LEADS?</Typography>
         }
 
-        const nome = sdrs[sdrs.findIndex(i => i.id === data.novo_consultor)]?.nome;
+        const nome = sdrs[sdrs.findIndex(i => i.id === data.novo_sdr)]?.nome;
         return nome ? <>
             <b>TROCAR</b> o SDR do Lead para:<br/>
             <h5>{nome}</h5>
@@ -120,8 +123,6 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
     function limpar() {
         setLimparStatus('')
         limparStatus && router.post(route('admin.leads.cards-leads.limpar-finalizados', {id: usuario.id, status: limparStatus}))
-
-        setEnviadoLead(e => !e)
     }
 
     return (
@@ -195,7 +196,7 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                                     <div className="col-md-9">
                                         <TextField label="Selecione o SDR..." select
                                                    fullWidth required size="small" defaultValue=""
-                                                   onChange={e => setData('novo_consultor', e.target.value)}>
+                                                   onChange={e => setData('novo_sdr', e.target.value)}>
                                             <MenuItem value="vazio" className="text-muted ps-5">Nenhum SDR</MenuItem>
                                             <Divider/>
                                             {sdrs.map((option) => <MenuItem key={option.id} value={option.id}>
@@ -247,7 +248,6 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                 </div>
                 }
 
-
                 <div className="col-auto text-end">
                     <CardContainer>
                         <CardBody>
@@ -271,7 +271,7 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                                 <thead>
                                 <tr>
                                     <th className="sticky-top" id="th-1">
-                                    <div className={styleCard} style={{backgroundColor: 'blue'}}>
+                                        <div className={styleCard} style={{backgroundColor: 'blue'}}>
                                             <div className='col-auto'>Iniciar Atendimento</div>
                                             <div className='col-auto'>Qdt: {leads.novo.length}</div>
                                         </div>
