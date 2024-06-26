@@ -10,7 +10,6 @@ import Chip from './Chip';
 import IconButton from './IconButton';
 import InputLabel from './InputLabel';
 import LinearProgress from './LinearProgress';
-import Link from './Link';
 import ListItemIcon from './ListItemIcon';
 import OutlinedInput from './OutlinedInput';
 import Tab from './Tab';
@@ -31,7 +30,6 @@ export default function ComponentsOverrides(theme) {
         IconButton(theme),
         InputLabel(theme),
         LinearProgress(),
-        Link(),
         ListItemIcon(),
         OutlinedInput(theme),
         Tab(theme),
