@@ -1,6 +1,5 @@
 import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
-import Form from "./Partials/Form";
-import {Grid, TextField, Typography} from "@mui/material";
+import {Grid, Stack, TextField, Typography} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import InputAdornment from "@mui/material/InputAdornment";
 import CardContainer from "@/Components/Cards/CardContainer";
@@ -8,8 +7,16 @@ import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import {BoxSeam, Calculator, Person} from "react-bootstrap-icons";
 import {round} from "lodash";
+import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import {useState} from "react";
+import {router} from "@inertiajs/react";
 
 export default function Create({lead}) {
+    const [fetchKits, setFetchKits] = useState(false)
+
+    const toggleKits = () => {
+        setFetchKits(e => !e)
+    }
 
     return (<Layout empty menu="pedidos" container titlePage="Gerar Orçamento" voltar={route('consultor.pedidos.index')}>
         <CardContainer>
@@ -55,39 +62,40 @@ export default function Create({lead}) {
                             <MenuItem value={4}>380V/Trifásico</MenuItem>
                         </TextField>
                     </div>
-                    <div className="col-md-3">
-                        <TextField label="Direção da Instalação" select fullWidth>
-                            <MenuItem value={1}>Norte</MenuItem>
-                            <MenuItem value={2}>Leste</MenuItem>
-                            <MenuItem value={3}>Oeste</MenuItem>
-                            <MenuItem value={4}>Sul</MenuItem>
-                        </TextField>
-                    </div>
                 </div>
                 <div>
-                    <button className="btn btn-warning">Calcular</button>
+                    <button className="btn btn-warning" onClick={() => toggleKits()}>Pesquisar Kits</button>
                 </div>
             </CardBody>
         </CardContainer>
 
-        <CardContainer>
-            <CardTitle title="Escolha o Gerador" icon={<BoxSeam size="23"/>}/>
-            <CardBody>
-                <div className="row row-cols-4">
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8].map(item => (
-                        <div className="col">
-                            <CardContainer>
-                                <CardBody>
-                                    <img alt="" src="/storage/produtos/gerador_1.jpg"/>
-                                    <Typography fontWeight="bold" align="center">Gerador Solar SAJ {round(item * 1.22 + 4.3,2)} kWp 220V Colonial</Typography>
-                                    <Typography variant="body2" align="right" color="gray">ID {item * 10 + 15}</Typography>
-                                </CardBody>
-                            </CardContainer>
-                        </div>
-                    ))}
-                </div>
-            </CardBody>
-        </CardContainer>
+        {fetchKits &&
+            <CardContainer>
+                <CardTitle title="Escolha o Gerador" icon={<BoxSeam size="23"/>}/>
+                <CardBody>
+                    <div className="row row-cols-4">
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map(item => (
+                            <div className="col">
+                                <CardContainer>
+                                    <CardBody>
+                                        <img alt="" src="/storage/produtos/gerador_1.jpg"/>
+                                        <Typography fontWeight="bold" align="center">Gerador Solar SAJ {round(item * 1.22 + 4.3, 2)} kWp 220V Colonial</Typography>
+                                        <Typography variant="body2" align="right" color="gray">ID {item * 10 + 15}</Typography>
+                                        <Typography>Inversor: Growwat</Typography>
+                                        <Typography>Módulos: Jinko</Typography>
+                                        <Stack marginTop={2}>
+                                            <Typography color="green" variant="h4">R$ {convertFloatToMoney(item * 1000 + 4514 * item + 15487)}</Typography>
+                                            <button className="btn btn-warning mt-3"
+                                                    onClick={() => router.get(route('consultor.orcamentos.show', item))}>Selecionar</button>
+                                        </Stack>
+                                    </CardBody>
+                                </CardContainer>
+                            </div>
+                        ))}
+                    </div>
+                </CardBody>
+            </CardContainer>
+        }
     </Layout>)
 }
 

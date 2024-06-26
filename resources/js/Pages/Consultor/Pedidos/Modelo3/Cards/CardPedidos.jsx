@@ -36,7 +36,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                             <PersonIcon sx={{fontSize: 22}}/>
                         </div>
                         <div className="col-10 p-1 pt-1 text-truncate">
-                            <b>{dados.cliente.toUpperCase()}</b>
+                            <b>{dados.cliente?.toUpperCase()}</b>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                             <PaymentIcon className='mr-2' sx={{fontSize: 20}}/>
                         </td>
                         <td>
-                            {dados.forma_pagamento.toUpperCase()}
+                            {dados.forma_pagamento?.toUpperCase()}
                         </td>
                     </tr>
                     {dados.fornecedor &&

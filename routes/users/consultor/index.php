@@ -14,4 +14,5 @@ Route::middleware(['auth', 'auth.consultores'])
         require __DIR__ . '/relatorios.php';
         require __DIR__ . '/calendario.php';
         require __DIR__ . '/home.php';
+        require __DIR__ . '/orcamentos.php';
     });

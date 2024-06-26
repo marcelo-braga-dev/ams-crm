@@ -191,24 +191,22 @@ class Produtos extends Model
             ->delete();
     }
 
+    /**
+     * @deprecated
+     */
     public function atualizarEstoqueLocal($id, $valor)
     {
         $produto = $this->newQuery()
-            ->find($id);
-
-        $produto->update([
-            'estoque_local' => $valor
-        ]);
+            ->find($id)
+            ->increment('estoque_local', $valor);
 
         (new ProdutosHistoricos())->create($produto, (new ProdutosStatus())->local(), $valor, id_usuario_atual());
     }
 
     public function subtrairEstoque($idPedido, $idProduto, $qtd)
     {
-        $dados = $this->newQuery()->find($idProduto);
-
-        $atual = $dados->estoque_local - $qtd;
-        $dados->update(['estoque_local' => $atual]);
+        $this->newQuery()->find($idProduto)
+            ->decrement('estoque_local', $qtd);
 
         (new ProdutosEstoquesHistoricos())->createSaida($idPedido, $idProduto, $qtd);
     }
@@ -278,6 +276,6 @@ class Produtos extends Model
     {
         $this->newQuery()
             ->find($id)
-            ->update(['estoque_local' => $estoque]);
+            ->increment('estoque_local', $estoque);
     }
 }

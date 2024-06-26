@@ -52,6 +52,7 @@ class ProdutosEstoquesHistoricos extends Model
             ->leftJoin('users', 'produtos_estoques_historicos.user_id', '=', 'users.id')
             ->where('produto_id', $id)
             ->selectRaw('produtos_estoques_historicos.*, users.name AS autor, produtos.nome AS produtos_nome')
+            ->orderByDesc('id')
             ->get()
             ->transform(function ($item) {
                 $item->data = date('d/m/Y', strtotime($item->data));
