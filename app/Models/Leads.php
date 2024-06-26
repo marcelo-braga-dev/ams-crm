@@ -243,7 +243,7 @@ class Leads extends Model
     public function find($id)
     {
         return $this->newQuery()
-            ->join('enderecos', 'leads.endereco', '=', 'enderecos.id')
+            ->leftJoin('enderecos', 'leads.endereco', '=', 'enderecos.id')
             ->find($id, ['leads.*', 'enderecos.cidade AS cidade', 'enderecos.estado AS estado']);
     }
 
