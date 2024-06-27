@@ -15,8 +15,9 @@ class Produtos extends Model
     protected $fillable = [
         'fornecedor_id',
         'categoria_id',
-        'setor_id',
         'unidade_id',
+        'setor_id',
+        'sku',
         'unidade_valor',
         'status',
         'nome',
@@ -50,6 +51,7 @@ class Produtos extends Model
         return [
             'id' => $item->id,
             'nome' => $item->nome,
+            'sku' => $item->sku,
             'foto' => $item->url_foto ? asset('storage/' . $item->url_foto) : '',
             'fornecedor' => $item->fornecedor,
             'descricao' => $item->descricao,
@@ -72,15 +74,24 @@ class Produtos extends Model
         return $this->dado($item);
     }
 
-    public function produtos($fornecedor = null, $categoria = null)
+    public function produtos($filtros)
     {
-        return $this->joinsAdd($this)
-            ->where($fornecedor ? ['produtos.fornecedor_id' => $fornecedor] : null)
-            ->where($categoria ? ['produtos.categoria_id' => $categoria] : null)
-            ->get($this->colunas())
-            ->transform(function ($item) {
-                return $this->dado($item);
-            });
+        $query = $this->joinsAdd($this)
+            ->where(($filtros['fornecedor'] ?? null) ? ['produtos.fornecedor_id' => $filtros['fornecedor']] : null)
+            ->where(($filtros['categoria'] ?? null) ? ['produtos.categoria_id' => $filtros['categoria']] : null);
+
+        if (($filtros['filtro'] ?? null) && ($filtros['filtro_valor'] ?? null)) {
+            if ($filtros['filtro'] == 'id') $query->where('produtos.id', $filtros['filtro_valor']);
+            if ($filtros['filtro'] == 'nome') $query->where('produtos.nome', 'LIKE', "%{$filtros['filtro_valor']}%");
+        }
+
+        $items = $query->paginate(15, $this->colunas());
+
+        $dados = $items->transform(function ($item) {
+            return $this->dado($item);
+        });
+
+        return ['dados' => $dados, 'paginate' => ['current' => $items->currentPage(), 'last_page' => $items->lastPage(), 'total' => $items->total()]];
     }
 
     /**

@@ -85,7 +85,7 @@ const Page = () => {
                 <CardBody>
                     <Grid container spacing={5}>
                         <Grid item>
-                            <a className="btn btn-danger mb-0" href={route('consultor.orcamentos.orcamento-pdf')}>
+                            <a className="btn btn-danger mb-0" target="_blank" href={route('consultor.orcamentos.orcamento-pdf')}>
                                 <FileEarmarkPdfFill className="me-1" size={18}/>Gerar PDF Proposta
                             </a>
                         </Grid>

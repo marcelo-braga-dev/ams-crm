@@ -11,10 +11,12 @@ import {AuthProvider} from './Contexts/Context';
 
 export default function Layout({children, titlePage, voltar, menu, submenu}) {
 
-    const [toggleMenu, setToggleMenu] = useState(false)
+    const _toggleMenu = sessionStorage.getItem('_toggleMenu') === 'true';
+    const [toggleMenu, setToggleMenu] = useState(_toggleMenu)
 
     const menuToggle = (value) => {
         setToggleMenu(value)
+        sessionStorage.setItem('_toggleMenu', value);
     }
 
     return (

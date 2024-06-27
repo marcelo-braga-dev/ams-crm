@@ -5,180 +5,178 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import Avatar from "@mui/material/Avatar";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useMemo} from 'react';
 import Switch from "@/Components/Inputs/Switch";
-import { PencilSquare} from "react-bootstrap-icons";
+import {PencilSquare} from "react-bootstrap-icons";
 import ToggleMenu from "@/Components/Inputs/ToggleMenu";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";
 import LinearProgress from '@mui/material/LinearProgress';
 
-export default function Tabela({isFinanceiro, fornecedorSel, categoriaSel}) {
-    const [produtos, setProdutos] = useState([])
-    const [estoqueSelecionado, setEstoqueSelecionado] = useState()
+const EstoqueModal = ({estoque, setEstoque, atualizarEstoque}) => (
+    <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">Atualizar Estoque</h5>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form onSubmit={atualizarEstoque}>
+                    <div className="modal-body">
+                        <div className="row mb-4 pb-3 border-bottom">
+                            <div className="col">
+                                <Stack direction="row" spacing={2}>
+                                    <Avatar variant="rounded" style={{width: 60, height: 60}} src={estoque?.selecionado?.foto}/>
+                                    <Stack>
+                                        <Typography variant="body1" fontWeight="bold">
+                                            {estoque?.selecionado?.nome}
+                                        </Typography>
+                                        <Typography variant="body2">Distribuidora: {estoque?.selecionado?.fornecedor}</Typography>
+                                        <Stack direction="row" spacing={3}>
+                                            <Typography variant="body2" display="inline-block">Categoria: {estoque?.selecionado?.categoria_nome}</Typography>
+                                            <Typography variant="body2" display="inline-flex">Unidade: {estoque?.selecionado?.unidade}</Typography>
+                                        </Stack>
+                                    </Stack>
+                                </Stack>
+                            </div>
+                        </div>
 
-    const [notaEstoque, setNotaEstoque] = useState()
-    const [dataEstoque, setDataEstoque] = useState()
-    const [qtdEstoque, setQtdEstoque] = useState()
+                        <div className="row mb-4">
+                            <div className="col">
+                                <TextField label="Nº da Nota" fullWidth required value={estoque.nota ?? ''}
+                                           onChange={e => setEstoque({...estoque, nota: e.target.value})}/>
+                            </div>
+                            <div className="col">
+                                <TextField type="date" label="Data" required InputLabelProps={{shrink: true}} value={estoque.data ?? ''}
+                                           onChange={e => setEstoque({...estoque, data: e.target.value})}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <TextField label="Quantidade" required type="number" value={estoque.quantidade ?? ''}
+                                           onChange={e => setEstoque({...estoque, quantidade: e.target.value})}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary me-3" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" className="btn btn-success"
+                                data-bs-dismiss={estoque.nota && estoque.data && estoque.quantidade && "modal"}>Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>);
+
+const ProdutoRow = React.memo(({item, updateStatus, isFinanceiro, setEstoque, estoque}) => (<tr key={item.id}>
+    <td className="text-center" style={{width: 70}}>
+        <Switch onChange={value => updateStatus(item.id, value)} checked={item.status} size="small"/>
+    </td>
+    <td className="text-center" style={{padding: 0}}>
+        <Typography variant="body2">#{item.id}</Typography>
+    </td>
+    <td>
+        <Stack direction="row" spacing={2}>
+            <a href={route('admin.produtos.show', item.id)}>
+                <Avatar variant="rounded" style={{width: 60, height: 60}} src={item.foto}/>
+            </a>
+            <Stack>
+                <Typography component="a" href={route('admin.produtos.show', item.id)} variant="body1" fontWeight="bold">
+                    {item.nome}
+                </Typography>
+                <Typography variant="body2">Distribuidora: {item.fornecedor}</Typography>
+                <Stack direction="row" spacing={3}>
+                    <Typography variant="body2" display="inline-block">Categoria: {item.categoria_nome}</Typography>
+                    <Typography variant="body2" display="inline-flex">Unidade: {item.unidade}</Typography>
+                    {item.sku && <Typography variant="body2">SKU: {item.sku}</Typography>}
+                </Stack>
+            </Stack>
+        </Stack>
+    </td>
+    <td>
+        <Typography>R$ {convertFloatToMoney(item.preco)}</Typography>
+    </td>
+    {isFinanceiro && <td>
+        <Typography>R$ {convertFloatToMoney(item.preco_custo)}</Typography>
+    </td>}
+    <td className="text-center">
+        {item.estoque ?? 0} <PencilSquare cursor="pointer" color="green"
+                                          data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                          onClick={() => setEstoque({
+                                              ...estoque, selecionado: item,
+                                          })}/>
+    </td>
+    <td className="text-center">
+        <ToggleMenu>
+            <MenuItem onClick={() => router.get(route('admin.produtos.show', item.id))}>
+                Visualizar
+            </MenuItem>
+            <MenuItem onClick={() => router.get(route('admin.produtos.edit', item.id))}>
+                Editar
+            </MenuItem>
+        </ToggleMenu>
+    </td>
+</tr>));
+
+const Tabela = ({isFinanceiro, filtros}) => {
+    const [produtos, setProdutos] = useState([])
     const [carregando, setCarregando] = useState(true)
+    const [paginate, setPaginate] = useState(1)
+    const [paginateDados, setPaginateDados] = useState(true)
+    const [estoque, setEstoque] = useState({
+        nota: '', data: '', quantidade: null, selecionado: null,
+    });
+
+    const updateStatus = useCallback((id, status) => {
+        axios.post(route('admin.produtos.update-status'), {id, status}, {preserveScroll: true});
+    }, []);
+
+    const getProdutos = useCallback(() => {
+        setCarregando(true);
+        axios.get(route('admin.produtos.get-produtos', {page: paginate, filtros}))
+            .then(res => {
+                setProdutos(res.data.dados);
+                setPaginateDados(res.data.paginate);
+            }).finally(() => setCarregando(false));
+    }, [filtros, paginate]);
 
     useEffect(() => {
-        getProdutos()
-    }, [fornecedorSel, categoriaSel]);
+        getProdutos();
+    }, [getProdutos]);
 
-    function updateStatus(id, status) {
-        router.post(route('admin.produtos.update-status'), {id: id, status: status}, {preserveScroll: true})
+    const atualizarEstoque = (e) => {
+        e.preventDefault();
+        axios.post(route('admin.produtos.update-estoque'), {
+            produto_id: estoque.selecionado.id, nota: estoque.nota, data: estoque.data, qtd: estoque.quantidade
+        }).then(() => getProdutos());
     }
 
-    function getProdutos() {
-        setCarregando(true)
-        axios.get(route('admin.produtos.get-produtos', {fornecedor: fornecedorSel, categoria: categoriaSel}))
-            .then(res => {
-                setProdutos(res.data)
-                setCarregando(false)
-            })
-    }
+    return (<CardContainer>
 
-    function atualizarEstoque(e) {
-        e.preventDefault()
-        router.post(route('admin.produtos.update-estoque'),
-            {produto_id: estoqueSelecionado.id, nota: notaEstoque, data: dataEstoque, qtd: qtdEstoque}, {preserveScroll: true})
-    }
+        <CardTable title="Produtos" paginate={paginate} setPaginate={setPaginate} paginateDados={paginateDados}>
+            {!!produtos?.length && (<table className="table-1" style={{width: '100%'}}>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th className="text-center" style={{width: '5rem'}}>ID</th>
+                    <th>Produtos</th>
+                    <th>Valor</th>
+                    {isFinanceiro && <th style={{width: '10rem'}}>Custo</th>}
+                    <th className="text-center" style={{width: '10rem'}}>Estoques</th>
+                    <th style={{width: '5rem'}}></th>
+                </tr>
+                </thead>
+                <tbody>
+                {produtos.map(item => (
+                    <ProdutoRow key={item.id} item={item} updateStatus={updateStatus} isFinanceiro={isFinanceiro} setEstoque={setEstoque} estoque={estoque}/>))}
+                </tbody>
+            </table>)}
+            {carregando && <LinearProgress color="inherit"/>}
+        </CardTable>
 
-    router.on('success', () => {
-        getProdutos()
-        setNotaEstoque()
-        setDataEstoque()
-        setQtdEstoque()
-    })
-
-    return (
-        <CardContainer>
-            <CardTitle title="Produtos" subtitle={produtos?.length + ' produtos'}>
-                <a className="btn btn-primary" href={route('admin.produtos.create')}>Cadastrar</a>
-            </CardTitle>
-            <CardTable>
-                {!!produtos?.length &&
-                    <table className="table-1" style={{width: '100%'}}>
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th className="text-center">ID</th>
-                            <th>Produtos</th>
-                            <th>Preços</th>
-                            <th className="text-center">Estoques</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {produtos.map(item => {
-                            return (
-                                <tr key={item.id}>
-                                    <td className="text-center" style={{width: 70}}>
-                                        <Switch onChange={value => updateStatus(item.id, value)} checked={item.status} size="small"/>
-                                    </td>
-                                    <td className="text-center" style={{padding: 0}}>
-                                        <Typography variant="body2">#{item.id}</Typography></td>
-                                    <td>
-                                        <Stack direction="row" spacing={2}>
-                                            <a href={route('admin.produtos.show', item.id)}>
-                                                <Avatar variant="rounded" style={{width: 60, height: 60}} src={item.foto}/>
-                                            </a>
-                                            <Stack>
-                                                <Typography component="a" href={route('admin.produtos.show', item.id)} variant="body1" fontWeight="bold">
-                                                    {item.nome}
-                                                </Typography>
-                                                <Typography variant="body2">Distribuidora: {item.fornecedor}</Typography>
-                                                <Stack direction="row" spacing={3}>
-                                                    <Typography variant="body2" display="inline-block">Categoria: {item.categoria_nome}</Typography>
-                                                    <Typography variant="body2" display="inline-flex">Unidade: {item.unidade}</Typography>
-                                                </Stack>
-                                            </Stack>
-                                        </Stack>
-                                    </td>
-                                    <td>
-                                        <Typography>R$ {convertFloatToMoney(item.preco)}</Typography>
-                                        {isFinanceiro && <Typography variant="body2" marginTop={1}>R$ {convertFloatToMoney(item.preco_custo)}</Typography>}
-                                    </td>
-                                    <td className="text-center">
-                                        {item.estoque ?? 0} <PencilSquare cursor="pointer" color="green"
-                                                                          data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                          onClick={() => setEstoqueSelecionado(item)}/>
-                                    </td>
-                                    <td className="text-center">
-                                        <ToggleMenu>
-                                            <MenuItem onClick={() => router.get(route('admin.produtos.show', item.id))}>
-                                                Visualizar
-                                            </MenuItem>
-                                            <MenuItem onClick={() => router.get(route('admin.produtos.edit', item.id))}>
-                                                Editar
-                                            </MenuItem>
-                                        </ToggleMenu>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                        </tbody>
-                    </table>
-                }
-                {carregando && <LinearProgress color="inherit"/>}
-            </CardTable>
-
-            <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Atualizar Estoque</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form onSubmit={atualizarEstoque}>
-                            <div className="modal-body">
-                                <div className="row mb-4 pb-3 border-bottom">
-                                    <div className="col">
-                                        <Stack direction="row" spacing={2}>
-                                            <Avatar variant="rounded" style={{width: 60, height: 60}} src={estoqueSelecionado?.foto}/>
-                                            <Stack>
-                                                <Typography variant="body1" fontWeight="bold">
-                                                    {estoqueSelecionado?.nome}
-                                                </Typography>
-                                                <Typography variant="body2">Distribuidora: {estoqueSelecionado?.fornecedor}</Typography>
-                                                <Stack direction="row" spacing={3}>
-                                                    <Typography variant="body2" display="inline-block">Categoria: {estoqueSelecionado?.categoria_nome}</Typography>
-                                                    <Typography variant="body2" display="inline-flex">Unidade: {estoqueSelecionado?.unidade}</Typography>
-                                                </Stack>
-                                            </Stack>
-                                        </Stack>
-                                    </div>
-                                </div>
-
-                                <div className="row mb-4">
-                                    <div className="col">
-                                        <TextField label="Nº da Nota" fullWidth required value={notaEstoque ?? ''}
-                                                   onChange={e => setNotaEstoque(e.target.value)}/>
-                                    </div>
-                                    <div className="col">
-                                        <TextField type="date" label="Data" required InputLabelProps={{shrink: true}} value={dataEstoque ?? ''}
-                                                   onChange={e => setDataEstoque(e.target.value)}/>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col">
-                                        <TextField label="Quantidade" required type="number" value={qtdEstoque ?? ''}
-                                                   onChange={e => setQtdEstoque(e.target.value)}/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary me-3" data-bs-dismiss="modal">Fechar</button>
-                                <button type="submit" className="btn btn-success"
-                                        data-bs-dismiss={notaEstoque && dataEstoque && qtdEstoque && "modal"}>Salvar
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </CardContainer>
-    )
+        <EstoqueModal estoque={estoque} setEstoque={setEstoque} atualizarEstoque={atualizarEstoque}/>
+    </CardContainer>);
 }
+
+export default Tabela

@@ -11,10 +11,9 @@ const DrawerHeader = ({open}) => {
 
     return (
         // only available in paid version
-        <DrawerHeaderStyled theme={theme} open={open} className="mt-2">
+        <DrawerHeaderStyled theme={theme} open={true} className="mt-2">
             <ButtonBase disableRipple href="/">
-                <img alt="Logo" loading="lazy" style={{maxHeight: 70}}
-                     src="/storage/app/logo.png"/>
+                <img alt="Logo" style={{maxHeight: 70}} src="/storage/app/logo.png"/>
             </ButtonBase>
         </DrawerHeaderStyled>
     );

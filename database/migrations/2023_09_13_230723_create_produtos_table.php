@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('categoria_id')->nullable();
             $table->unsignedBigInteger('unidade_id')->nullable();
             $table->unsignedBigInteger('setor_id')->nullable();
+            $table->string('sku')->nullable();
             $table->boolean('status')->default(1);
             $table->string('nome');
             $table->string('descricao')->nullable();

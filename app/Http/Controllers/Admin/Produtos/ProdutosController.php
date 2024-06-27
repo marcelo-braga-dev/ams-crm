@@ -24,12 +24,12 @@ class ProdutosController extends Controller
         $isFinanceiro = is_financeiro();
 
         return Inertia::render('Admin/Produtos/Index/Index',
-            compact( 'categorias', 'fornecedores', 'isFinanceiro'));
+            compact('categorias', 'fornecedores', 'isFinanceiro'));
     }
 
     public function produtos(Request $request)
     {
-        $produtos = (new Produtos())->produtos($request->fornecedor, $request->categoria);
+        $produtos = (new Produtos())->produtos($request->filtros);
 
         return response()->json($produtos);
     }

@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import {Dot} from "react-bootstrap-icons";
 import AuthProvider from '@/Layouts/Contexts/Context'
+import {Link} from '@inertiajs/react'
 
 const SubMenu = styled.div`
     color: rgb(59, 64, 86);
@@ -79,14 +80,14 @@ export default function CollapseMenu({item}) {
                     {item?.submenu?.map((submenuItem) => (
                         (permissoes?.[submenuItem.chave] || submenuItem.chave === true) &&
                         <div key={submenuItem.id}>
-                            {toggleMenu && <a href={submenuItem.url ?? undefined}>
+                            {toggleMenu && <Link href={submenuItem.url ?? undefined}>
                                 <SubMenu>
                                     <IconButton className="m-0 p-0" disabled>
                                         {submenuItem.id === submenu && <Dot className="mb-0 p-0" color="gray" size={30}/>}
                                     </IconButton>
                                     <TextSubMenu style={{color: submenuItem.id === submenu ? 'black' : ''}}>{submenuItem.title}</TextSubMenu>
                                 </SubMenu>
-                            </a>}
+                            </Link>}
                         </div>
                     ))}
                 </div>
