@@ -26,7 +26,10 @@ const Header = ({titlePage, voltar}) => {
     const mainHeader = (
         <Toolbar style={{borderBottom: '1px solid #f4f4f4', paddingLeft: (!toggleMenu && drawerMinWidth)}}>
             <Stack direction="row" spacing={1}>
-                <IconButton disableRipple edge="start" onClick={() => menuToggle(!toggleMenu)}>
+                <IconButton disableRipple edge="start" onClick={() => {
+                    menuToggle(!toggleMenu)
+                    sessionStorage.setItem('_toggleMenu', toggleMenu);
+                }}>
                     {toggleMenu ? <TextIndentRight size="22"/> : <TextIndentLeft size="22"/>}
                 </IconButton>
                 <IconButton disableRipple edge="start" className="m-0" disabled={!!!voltar}>

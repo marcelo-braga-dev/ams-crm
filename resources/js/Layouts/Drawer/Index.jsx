@@ -7,7 +7,7 @@ import DrawerContent from './DrawerContent';
 import MiniDrawerStyled from './MiniDrawerStyled.js';
 import AuthProvider from '@/Layouts/Contexts/Context'
 
-const MainDrawer = ({window}) => {
+const MainDrawer = ({window, _toggleMenu}) => {
     const theme = useTheme();
     const {toggleMenu, menuToggle} = useContext(AuthProvider);
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
@@ -17,8 +17,30 @@ const MainDrawer = ({window}) => {
     const drawerHeader = useMemo(() => <DrawerHeader open={toggleMenu}/>, [toggleMenu]);
     const drawerContent = useMemo(() => <DrawerContent/>, []);
 
+    const [timeoutId, setTimeoutId] = useState(null);
+
+    const handleMouseEnter = () => {
+        clearTimeout(timeoutId);  // Limpa qualquer timeout anterior
+        const id = setTimeout(() => {
+            menuToggle(true);
+        }, 300);  // Atraso de 1 segundo
+        setTimeoutId(id);  // Armazena o ID do timeout
+    };
+
+    const handleMouseLeave = () => {
+        if(!_toggleMenu) return;
+        clearTimeout(timeoutId);  // Limpa qualquer timeout anterior
+        const id = setTimeout(() => {
+            menuToggle(false);
+        }, 300);  // Atraso de 1 segundo
+        setTimeoutId(id);  // Armazena o ID do timeout
+    };
+
     return (
-        <Box component="nav" sx={{flexShrink: {md: 0}, zIndex: 1300}}>
+        <Box component="nav" sx={{flexShrink: {md: 0}, zIndex: 1300}}
+             onMouseEnter={handleMouseEnter}
+             onMouseLeave={handleMouseLeave}
+        >
             {!matchDownMD ? (
                 <MiniDrawerStyled variant="permanent" open={toggleMenu}>
                     {drawerHeader}

@@ -16,7 +16,6 @@ export default function Layout({children, titlePage, voltar, menu, submenu}) {
 
     const menuToggle = (value) => {
         setToggleMenu(value)
-        sessionStorage.setItem('_toggleMenu', !value);
     }
 
     return (
@@ -25,7 +24,7 @@ export default function Layout({children, titlePage, voltar, menu, submenu}) {
             <ModalsAlerts/>
             <AuthProvider menu={menu} submenu={submenu} menuToggle={menuToggle} toggleMenu={toggleMenu}>
                 <Header titlePage={titlePage} voltar={voltar}/>
-                <Drawer/>
+                <Drawer _toggleMenu={_toggleMenu}/>
 
                 <Content open={toggleMenu}>
                     <Container maxWidth={false}>
