@@ -8,10 +8,12 @@ const Container = styled.div`
     padding-top: 20px;
 `
 
-export default function CardTable({children, title, paginateDados, paginate, setPaginate, icon}) {
+export default function CardTable({children, title, paginateDados, paginate, setPaginate, icon, btn}) {
     return (<>
             <CardTitle title={title} icon={icon}>
+                {btn}
                 {paginate && <Stack direction="row" spacing={6}>
+
                     <Stack direction="row" spacing={0}>
                         <Pagination count={paginateDados?.last_page} color="standard" page={paginate > paginateDados?.last_page ? 1 : paginate}
                                     onChange={(event, value) => setPaginate(value)}/>

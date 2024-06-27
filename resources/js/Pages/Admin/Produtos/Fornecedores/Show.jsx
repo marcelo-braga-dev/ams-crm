@@ -1,107 +1,38 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import React, {useState} from "react";
-import {router} from "@inertiajs/react";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardTitle from "@/Components/Cards/CardTitle";
+import {Truck} from "react-bootstrap-icons";
+import CardBody from "@/Components/Cards/CardBody";
+import {Typography} from "@mui/material";
+import Link from "@/Components/Link";
 
-export default function ({produtos, fornecedor}) {
-    const [idExcluir, setIdExcluir] = useState(null);
-
-    function excluir(id) {
-        setIdExcluir(id)
-    }
-
-    function deletar() {
-        router.post(route('admin.produtos-fornecedores.destroy', idExcluir), {
-            '_method': 'DELETE'
-        })
-    }
-
-    function mensagemexcluir() {
-        const nome = produtos[produtos.findIndex(i => i.id === idExcluir)]?.nome;
-        return '#' + idExcluir + ' - ' + nome
-    }
+export default function ({fornecedor}) {
 
     return (
-        <Layout container titlePage="Produtos do Fornecedor" menu="produtos" submenu="todos-produtos"
-                voltar={route('admin.produtos-fornecedores.index')}>
-
-            <div className="row justify-content-between mb-3 px-4">
-                <div className="col-auto">
-                    <span>Fornecedor:</span>
-                    <h6>{fornecedor.nome}</h6>
-                </div>
-                <div className="col-auto">
-                    <a href={route('admin.produtos-fornecedores.create', {fornecedor: fornecedor.id})}
-                       className="btn btn-warning btn-sm">Cadastrar</a>
-                </div>
-            </div>
-            <div className="table-responsive">
-                <table className="table table-sm text-sm">
-                    <thead>
-                    <tr className="text-sm">
-                        <th></th>
-                        <th>Nome</th>
-                        <th>Preços</th>
-                        <th>Categoria</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {produtos.map((dado, index) => {
-                        return (
-                            <tr key={index}>
-                                <td>
-                                    {dado.foto && <img src={dado.foto} width="80" alt="foto"/>}
-                                </td>
-                                <td className="text-wrap">
-                                    <b>{dado.nome}</b><br/>
-                                    Unidade: {dado.unidade}<br/>
-                                    <small>ID: #{dado.id}</small>
-                                </td>
-                                <td>
-                                    Venda: <b>R$ {dado.preco_venda}</b><br/>
-                                    {dado.preco_fornecedor_float > 0 && <span>Forn.: R$ {dado.preco_fornecedor}</span>}
-                                </td>
-                                <td className="text-wrap">{dado.categoria}</td>
-                                <td>
-                                    <a href={route('admin.produtos.show', dado.id)}
-                                       className="btn btn-primary btn-sm me-2">Ver</a>
-                                    <button type="button" className="btn btn-link btn-sm text-danger px-3"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modalExcluir"
-                                            onClick={() => excluir(dado.id)}>
-                                        <i className="fas fa-trash"/>
-                                    </button>
-                                </td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
-            </div>
-
-            {/*Modal*/}
-            <div className="modal fade mt-5" id="modalExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Excluir Produto</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+        <Layout container titlePage="Produtos do Fornecedor" menu="produtos" submenu="produtos-fornecedores"
+                voltar={route('admin.produtos.fornecedores.index')}>
+            <CardContainer>
+                <CardTitle icon={<Truck size={22}/>} title="Distribuidora"/>
+                <CardBody>
+                    <div className="row">
+                        <div className="col">
+                            <Typography>Empresa: {fornecedor.nome}</Typography>
+                            <Typography>CNPJ: {fornecedor.cnpj}</Typography>
+                            <Typography>Setor: {fornecedor.setor}</Typography>
                         </div>
-                        <div className="modal-body">
-                            Deseja deletar o produto?<br/>
-                            <h6>{mensagemexcluir()}</h6>
+                        <div className="col">
+                            <Typography>Atendente: {fornecedor.atendente}</Typography>
+                            <Typography>Telefone: {fornecedor.telefone}</Typography>
+                            <Typography>E-mail: {fornecedor.email}</Typography>
+                            {fornecedor.anotacoes && <Typography>Anotações: {fornecedor.anotacoes}</Typography>}
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
-                                    onClick={() => deletar()}>Deletar
-                            </button>
+                        <div className="col-auto">
+                            <Link label="Editar" href={route('admin.produtos.fornecedores.edit', fornecedor.id)}/>
                         </div>
                     </div>
-                </div>
-            </div>
+                </CardBody>
+            </CardContainer>
         </Layout>
     )
 }

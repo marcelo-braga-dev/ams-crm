@@ -278,9 +278,13 @@ class ChavesPermissoes
     {
         return '55';
     }
-
     public function chaveProdutosIntegracoes()
     {
         return '56';
+    }
+
+    public function chaveProdutosFornecedores()
+    {
+        return '57';
     }
 }

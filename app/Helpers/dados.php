@@ -72,6 +72,13 @@ if (!function_exists('converterCNPJ')) {
     }
 }
 
+if (!function_exists('converterInt')) {
+    function converterInt($dado = null)
+    {
+        return preg_replace('/[^0-9]/', '', $dado);
+    }
+}
+
 if (!function_exists('url_arquivos')) {
     function url_arquivos($dado = null)
     {

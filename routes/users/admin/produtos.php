@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Produtos\CategoriasController;
 use App\Http\Controllers\Admin\Produtos\EstoquesController;
 use App\Http\Controllers\Admin\Produtos\EstoquesProdutosController;
+use App\Http\Controllers\Admin\Produtos\FornecedoresController;
 use App\Http\Controllers\Admin\Produtos\Integracoes\Edeltec\IntegracoesController;
 use App\Http\Controllers\Admin\Produtos\ProdutosController;
 use App\Http\Controllers\Admin\Produtos\ProdutosFornecedoresController;
@@ -32,4 +33,6 @@ Route::middleware(['auth', 'auth.admins'])
         Route::post('update-status', [ProdutosController::class, 'updateStatus'])->name('update-status');
         Route::post('update-estoque', [ProdutosController::class, 'updateEstoque'])->name('update-estoque');
         Route::resource('integracoes', IntegracoesController::class);
+
+        Route::resource('fornecedores', FornecedoresController::class);
     });

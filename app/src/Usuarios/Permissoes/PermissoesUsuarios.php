@@ -44,6 +44,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveProdutosUnidades(), 'nome' => 'Unidades'],
                     ['id' => $this->chaveProdutosEstoque(), 'nome' => 'Estoque'],
                     ['id' => $this->chaveProdutosIntegracoes(), 'nome' => 'Integrações'],
+                    ['id' => $this->chaveProdutosFornecedores(), 'nome' => 'Fornecedores'],
                 ]
             ], [
                 'categoria' => 'Dashboards',

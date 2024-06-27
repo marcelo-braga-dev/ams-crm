@@ -15,7 +15,7 @@ const appBar = {
 };
 import {useContext} from 'react';
 import {Link} from "@inertiajs/react";
-import {drawerWidth, drawerMinWidth} from '@/Themes/config.js';
+import {drawerMinWidth} from '@/Themes/config.js';
 
 const Header = ({titlePage, voltar}) => {
     const {toggleMenu, menuToggle} = useContext(AuthProvider);
@@ -24,7 +24,7 @@ const Header = ({titlePage, voltar}) => {
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
 
     const mainHeader = (
-        <Toolbar style={{borderBottom: '1px solid #f4f4f4', paddingLeft: (!toggleMenu && drawerMinWidth)}}>
+        <Toolbar style={{borderBottom: '1px solid #f4f4f4', paddingLeft: (!toggleMenu && (drawerMinWidth + 7))}}>
             <Stack direction="row" spacing={1}>
                 <IconButton disableRipple edge="start" onClick={() => {
                     menuToggle(!toggleMenu)

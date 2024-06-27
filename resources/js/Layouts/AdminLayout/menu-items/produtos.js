@@ -21,10 +21,10 @@ const dashboard = {
                     url: route('admin.produtos.index'),
                 },{
                     id: 'produtos-fornecedores',
-                    chave: chaves.produtos.categorias,
+                    chave: chaves.produtos.fornecedores,
                     title: 'Fornecedores',
                     type: 'item',
-                    url: route('admin.produtos-fornecedores.index'),
+                    url: route('admin.produtos.fornecedores.index'),
                 }, {
                     id: 'produtos-integracoes',
                     chave: chaves.produtos.integracoes,
