@@ -5,6 +5,7 @@ import {drawerWidth, drawerMinWidth} from '@/Themes/config.js';
 const BoxStyled = styled(Box)(({theme, open}) => ({
     width: `calc(100% - ${drawerMinWidth}px)`,
     marginTop: '6em',
+    paddingInline: '5em',
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen

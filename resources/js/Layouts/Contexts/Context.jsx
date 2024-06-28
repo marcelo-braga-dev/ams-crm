@@ -1,4 +1,4 @@
-import React, {createContext} from 'react';
+import React, {createContext, useState} from 'react';
 import {usePage} from "@inertiajs/react";
 import menuItemsAdmin from "@/Layouts/AdminLayout/menu-items";
 import menuItemsColsultor from "@/Layouts/VendedorLayout/menu-items";
@@ -13,9 +13,10 @@ export const AuthProvider = ({children, menu, submenu, menuToggle, toggleMenu}) 
     const funcao = usePage().props.auth.user.is_admin
     let menuItems = funcao ? menuItemsAdmin : menuItemsColsultor
     if (userTipo === 'integrador') menuItems = menuItemsIntegrador
+    const [menuAberto, setMenu] = useState(menu);
 
     return (
-        <AuthContext.Provider value={{menu, submenu, userTipo, permissoes, menuToggle, toggleMenu, menuItems}}>
+        <AuthContext.Provider value={{menu, menuAberto, setMenu, submenu, userTipo, permissoes, menuToggle, toggleMenu, menuItems}}>
             {children}
         </AuthContext.Provider>
     );

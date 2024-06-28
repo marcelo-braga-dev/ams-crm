@@ -3,11 +3,11 @@ import React from 'react';
 // MoreMenu
 import {
     IconButton,
-    Link,
+    // Link,
     Menu,
     MenuItem,
 } from '@mui/material';
-
+import {Link} from "@inertiajs/react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 // MoreMenu - fim

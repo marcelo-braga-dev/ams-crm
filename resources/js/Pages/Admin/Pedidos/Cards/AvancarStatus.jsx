@@ -1,21 +1,23 @@
 import DoubleArrowIcon from "@mui/icons-material/DoubleArrowRounded";
 import DownloadIcon from "@mui/icons-material/DownloadRounded";
 import React from "react";
+import {Link} from "@inertiajs/react";
+
 
 function btnStatusPadrao(link) {
     return (
-        <a href={link}>
+        <Link href={link}>
             <DoubleArrowIcon
                 className='shadow border-2 p-0 rounded-circle'
-                color='success'
+                color="success"
                 sx={{fontSize: 32}}/>
-        </a>
+        </Link>
     )
 }
 
 function btnStatusFaturando(link, situacao) {
     return (
-        <a href={link}>
+        <Link href={link}>
             {situacao === 'novo' &&
                 <button className="btn btn-danger btn-sm p-1">
                     <DownloadIcon></DownloadIcon>
@@ -26,7 +28,7 @@ function btnStatusFaturando(link, situacao) {
                     color='success'
                     sx={{fontSize: 32}}/>
             }
-        </a>
+        </Link>
     )
 }
 
