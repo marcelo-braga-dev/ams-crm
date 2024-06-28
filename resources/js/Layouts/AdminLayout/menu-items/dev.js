@@ -12,7 +12,6 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: CodeSlash,
-            admin: true,
             submenu: [
                 {
                     id: 'dev-registros',

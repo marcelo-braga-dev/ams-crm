@@ -6,6 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import {IconButton} from "@mui/material";
+import {Images} from "react-bootstrap-icons";
 
 export default function ImagePdf({url, string, urlRaiz}) {
     const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -40,7 +41,7 @@ export default function ImagePdf({url, string, urlRaiz}) {
             <div className="row mx-auto">
                 <div className="col-auto">
                     {/*<a className="text-dark" href={urlCompleta} target="_blank">*/}
-                    <img className="img-thumbnail d-block cursor-pointer" alt="" src={urlCompleta}
+                    <img className="img-thumbnail d-block cursor-pointer" alt="" src={urlCompleta} loading="lazy"
                          onClick={() => setLightboxOpen(true)}
                          style={{maxHeight: 200}}/>
                     {/*</a>*/}

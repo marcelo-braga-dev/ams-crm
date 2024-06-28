@@ -19,7 +19,7 @@ const dashboard = {
                     title: 'Produtos',
                     type: 'item',
                     url: route('admin.produtos.index'),
-                },{
+                }, {
                     id: 'produtos-fornecedores',
                     chave: chaves.produtos.fornecedores,
                     title: 'Fornecedores',
@@ -31,20 +31,13 @@ const dashboard = {
                     title: 'Integrações',
                     type: 'item',
                     url: route('admin.produtos.integracoes.index'),
-                },
-                {
+                }, {
                     id: 'produtos-categorias',
                     chave: chaves.produtos.categorias,
                     title: 'Categorias',
                     type: 'item',
                     url: route('admin.produtos-categorias.index'),
-                },  {
-                    id: 'produtos-unidades',
-                    chave: chaves.produtos.unidades,
-                    title: 'Configurações',
-                    type: 'item',
-                    url: route('admin.produtos-unidades.index'),
-                },
+                }
             ]
         }
     ]

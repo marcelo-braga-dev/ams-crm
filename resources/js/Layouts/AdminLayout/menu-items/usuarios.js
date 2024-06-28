@@ -12,7 +12,6 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: PersonGear,
-            admin: true,
             submenu: [
                 {
                     id: 'usuarios-contas',

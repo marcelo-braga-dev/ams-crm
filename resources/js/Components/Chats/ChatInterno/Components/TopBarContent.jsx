@@ -1,4 +1,3 @@
-import {useEffect, useState} from 'react';
 import {
     Box,
     IconButton,
@@ -73,7 +72,7 @@ function TopBarContent({infoChatSelecionado}) {
                                     anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
                                     variant="dot"
                                 >
-                                    <Avatar variant="circular" sx={{width: 50, height: 50}}
+                                    <Avatar variant="circular" sx={{width: 30, height: 30}}
                                             alt={infoChatSelecionado.nome} src={infoChatSelecionado.foto}/>
                                 </StyledBadge> :
                                 <StyledBadgeOffiline
@@ -81,7 +80,7 @@ function TopBarContent({infoChatSelecionado}) {
                                     anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
                                     variant="dot"
                                 >
-                                <Avatar variant="circular" sx={{width: 50, height: 50}}
+                                <Avatar variant="circular" sx={{width: 30, height: 30}}
                                         alt={infoChatSelecionado.nome} src={infoChatSelecionado.foto}/>
                                 </StyledBadgeOffiline>
                             }

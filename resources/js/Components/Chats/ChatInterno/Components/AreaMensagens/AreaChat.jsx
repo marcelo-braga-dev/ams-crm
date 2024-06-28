@@ -26,15 +26,14 @@ const CardWrapperPrimary = styled(Card)`
 
 export default function AreaChat({item, index, infoChatSelecionado, setProgress}) {
     const {props} = usePage()
-    const [fotoUsuario, setFotoUsuario] = useState(props.foto_usuario);
+    const fotoUsuario = props.foto_usuario;
 
     return (
         infoChatSelecionado.id == item.chat_destinatario ?
             <div className="p-3">
                 {setProgress(false)}
                 <div className="text-center">
-                    {item.periodo_data ?
-                        <span className="badge bg-light text-dark m-3 px-4">{item.periodo_data}</span> : ''}
+                    {item.periodo_data ? <span className="badge bg-light text-dark m-3 px-4">{item.periodo_data}</span> : ''}
                 </div>
                 {item.is_resposta ?
                     <Box
@@ -42,11 +41,7 @@ export default function AreaChat({item, index, infoChatSelecionado, setProgress}
                         display="flex"
                         alignItems="flex-start"
                         justifyContent="flex-start">
-                        <Avatar
-                            variant="circular"
-                            sx={{width: 50, height: 50}}
-                            src={item.foto}
-                        />
+                        <Avatar variant="circular" sx={{width: 40, height: 40}} src={item.foto}/>
                         <Box
                             display="flex"
                             alignItems="flex-start"
@@ -91,12 +86,7 @@ export default function AreaChat({item, index, infoChatSelecionado, setProgress}
                                 {item.data}
                             </small>
                         </Box>
-                        <Avatar
-                            variant="circular"
-                            sx={{width: 50, height: 50}}
-                            alt="foto"
-                            src={fotoUsuario}
-                        />
+                        <Avatar variant="circular" sx={{width: 40, height: 40}} alt="foto" src={fotoUsuario}/>
                     </Box>}
             </div> : <div className="text-white">{setProgress(true)}.</div>
     )

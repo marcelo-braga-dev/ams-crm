@@ -31,8 +31,7 @@ class ChatInternoController extends Controller
 
     public function mensagens(Request $request)
     {
-        $mensagens = (new MensagensChatInternoService())
-            ->mensagens($request->usuario, $request->destinatario, $request->categoria);
+        $mensagens = (new MensagensChatInternoService())->mensagens($request->usuario, $request->destinatario, $request->categoria, $request->limit);
         $chats = (new MensagensChatInternoService())->conversas();
         $chatAlerta = (new MensagensChatInternoService())->chatAlertas();
 

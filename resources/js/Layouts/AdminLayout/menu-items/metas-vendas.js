@@ -12,7 +12,6 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: ClipboardData,
-            admin: true,
             submenu: [
                 {
                     id: 'meta-vendas',

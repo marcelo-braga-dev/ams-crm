@@ -1,5 +1,5 @@
 import ChatInterno from "@/Components/Chats/ChatInterno/ChatInterno";
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 
 export default function ({pessoas, setores}) {
     return (

@@ -1,85 +1,59 @@
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import {useForm} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardTable from "@/Components/Cards/CardTable";
+import Link from "@/Components/Link";
+import {Eye} from "react-bootstrap-icons";
 
-export default function Create({categorias, setores, setorAtual}) {
+const Page = ({categorias, setores}) => {
 
     const {data, setData, post} = useForm()
 
     const cadastrarCategoria = (e) => {
         e.preventDefault()
-        post(route('admin.produtos-categorias.store'))
-        window.location.reload()
+        router.post(route('admin.produtos-categorias.store'))
     }
 
     return (
-        <Layout container titlePage="Categorias por Fornecedores"
-                menu="produtos" submenu="produtos-categorias">
-            {/*Setores*/}
-            <div className="row">
-                <h6>Setores</h6>
-                <div className="col mb-2">
-                    <div className="btn-group" role="group" aria-label="Basic outlined example">
-                        <a type="button"
-                           href={route('admin.produtos-categorias.index')}
-                           className={(!setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
-                            Todos
-                        </a>
-                        {setores.map((setor, index) => {
+        <Layout titlePage="Categorias dos Produtos" menu="produtos" submenu="produtos-categorias">
+            <CardContainer>
+                <CardTable title="Categorias" btn={
+                    <button className="btn btn-primary mb-0" type="button" data-bs-toggle="modal" data-bs-target="#cadastrarCategoria">
+                        Cadastrar Categoria</button>}>
+                    <table className="table-1 table-hover">
+                        <thead>
+                        <tr>
+                            <th className="text-center" style={{width: 30}}>ID</th>
+                            <th>Categorias</th>
+                            <th>Setor</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {categorias.map((dados) => {
                             return (
-                                <a type="button" key={index}
-                                   href={route('admin.produtos-categorias.index', {setor: setor.id})}
-                                   className={(setor.id == setorAtual ? 'active text-white ' : '') + "btn btn-outline-dark "}>
-                                    {setor.nome}
-                                </a>
+                                <tr key={dados.id}>
+                                    <td className="text-center">
+                                        #{dados.id}
+                                    </td>
+                                    <td>
+                                        {dados.nome}
+                                    </td>
+                                    <td>
+                                        {dados.setor}
+                                    </td>
+                                    <td className="text-center">
+                                        <Link href={route('admin.produtos-categorias.show', dados.id)} icon={<Eye size="22"/>}/>
+                                    </td>
+                                </tr>
                             )
                         })}
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-auto">
-                    <button className="btn btn-warning" type="button"
-                            data-bs-toggle="modal" data-bs-target="#cadastrarCategoria">
-                        Cadastrar Categoria
-                    </button>
-                </div>
-            </div>
-
-            <div className="table-responsive">
-                <table className="table table-hover">
-                    <thead>
-                    <tr>
-                        <th className="text-center">ID</th>
-                        <th>Categorias</th>
-                        <th>Setor</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {categorias.map((dados) => {
-                        return (
-                            <tr key={dados.id}>
-                                <td className="text-center">
-                                    #{dados.id}
-                                </td>
-                                <td>
-                                    {dados.nome}
-                                </td>
-                                <td>
-                                    {dados.setor}
-                                </td>
-                                <td className="text-right">
-                                    <a href={route('admin.produtos-categorias.show', dados.id)}
-                                       className="btn btn-primary btn-sm">Ver</a>
-                                </td>
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </CardTable>
+            </CardContainer>
 
             {/*Cadastrar Categoria*/}
             <div className="modal fade mt-5" id="cadastrarCategoria" tabIndex="-1" aria-labelledby="exampleModalLabel"
@@ -127,3 +101,5 @@ export default function Create({categorias, setores, setorAtual}) {
         </Layout>
     )
 }
+
+export default Page

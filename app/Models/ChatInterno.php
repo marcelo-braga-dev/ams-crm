@@ -38,37 +38,48 @@ class ChatInterno extends Model
             ]);
     }
 
-    public function getMensagens($usuario = null, $destinatarios)
+    public function getMensagens($usuario = null, $destinatarios, $limit = 20)
     {
+        $categoria = (new Chat())->categoria();
         $usuario = $usuario ?? id_usuario_atual();
 
         $this->newQuery()
             ->where([
-                ['user_id', $destinatarios], ['contato_id', $usuario], ['categoria', (new Chat())->categoria()]
+                ['user_id', $destinatarios], ['contato_id', $usuario], ['categoria', $categoria]
             ])->update([
                 'lido' => 1
             ]);
 
         return $this->newQuery()
-            ->where([
-                ['user_id', $usuario], ['contato_id', $destinatarios]
-            ])
-            ->where('categoria', (new Chat())->categoria())
-            ->orWhere([
-                ['user_id', $destinatarios],
-                ['contato_id', $usuario],
-                ['categoria', (new Chat())->categoria()]
-            ])->get();
+            ->where(function ($query) use ($usuario, $destinatarios, $categoria) {
+                $query->where([
+                    ['user_id', $usuario],
+                    ['contato_id', $destinatarios]
+                ])->orWhere([
+                    ['user_id', $destinatarios],
+                    ['contato_id', $usuario]
+                ]);
+            })
+            ->where('categoria', $categoria)
+            ->orderBy('id')
+//            ->limit()
+            ->get();
     }
 
-    public function getDestinatarios()
+    public function getDestinatarios($usuarioAtual)
     {
-        $usuario = id_usuario_atual();
+        $categoria = (new Chat())->categoria();
 
         return $this->newQuery()
-            ->where('user_id', $usuario)
-            ->where('categoria', (new Chat())->categoria())
-            ->orWhere([['contato_id', $usuario], ['categoria', (new Chat())->categoria()]])
+            ->where(function ($query) use ($usuarioAtual, $categoria) {
+                $query->where('user_id', $usuarioAtual)
+                    ->where('categoria', $categoria);
+            })
+            ->orWhere(function ($query) use ($usuarioAtual, $categoria) {
+                $query->where('contato_id', $usuarioAtual)
+                    ->where('categoria', $categoria);
+            })
+            ->orderBy('id')
             ->get();
     }
 

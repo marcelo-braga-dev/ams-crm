@@ -11,27 +11,21 @@ use Inertia\Inertia;
 
 class ConsultoresController extends Controller
 {
-    public function index()
-    {
-        $usuarios = (new User())->usuariosComMetasVendas();
-
-        return Inertia::render('Admin/MetasVendas/Consultores/Index',
-            compact('usuarios'));
-    }
-
-    public function edit($id, Request $request)
+    public function index(Request $request)
     {
         $mes = $request->mes ?? date('n');
         $ano = $request->ano ?? date('Y');
 
-        $usuario = (new User())->get($id);
-        $meta = (new MetasVendas())->getMetaMes($id, $mes, $ano);
+        $usuarios = (new User())->usuariosComMetasVendas();
 
-        $vendasMensais = (new Pedidos())->vendasMensaisUsuario($id, $ano);
-        $metasMensais = (new MetasVendas())->metasMensais($id, $ano);
+        $usuario = $request->id ? (new User())->get($request->id) : [];
+        $meta = (new MetasVendas())->getMetaMes($request->id, $mes, $ano);
 
-        return Inertia::render('Admin/MetasVendas/Consultores/Edit',
-            compact('usuario', 'mes', 'ano', 'meta', 'vendasMensais', 'metasMensais'));
+        $vendasMensais = (new Pedidos())->vendasMensaisUsuario($request->id, $ano);
+        $metasMensais = (new MetasVendas())->metasMensais($request->id, $ano);
+
+        return Inertia::render('Admin/MetasVendas/Consultores/Index',
+            compact('usuario', 'mes', 'ano', 'meta', 'usuarios', 'vendasMensais', 'metasMensais'));
     }
 
     public function update($id, Request $request)

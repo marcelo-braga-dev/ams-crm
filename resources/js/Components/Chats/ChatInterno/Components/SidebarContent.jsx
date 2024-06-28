@@ -15,6 +15,7 @@ import DoneAllIcon from "@mui/icons-material/DoneAll";
 import ImageIcon from '@mui/icons-material/Image';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import {Bell, Chat} from "react-bootstrap-icons";
 
 const chatAtivo = {
     backgroundColor: '#222222',
@@ -74,7 +75,7 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
     return (
         <div className="scroll-y">
             <Box display="flex" alignItems="flex-start" className="p-3">
-                <QuestionAnswerIcon style={{fontSize: 50}}/>
+                <Chat style={{fontSize: 25}}/>
                 <Box sx={{ml: 1.5, flex: 1}}>
                     <Box
                         display="flex"
@@ -110,8 +111,8 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                                     style={infoChatSelecionado.categoria === 'avisos' ? chatAtivo : {}}
                                     onClick={() => selecionarChat('dados', 'avisos')}>
                         <ListItemAvatar>
-                            <Avatar sx={{width: 50, height: 50, backgroundColor: 'white'}} alt={"dados.nome"} src={""}>
-                                <NotificationsIcon style={{fontSize: 40, color: 'black'}}/>
+                            <Avatar sx={{width: 30, height: 30, backgroundColor: 'white'}} alt={"dados.nome"} src={""}>
+                                <Bell style={{fontSize: 25, color: 'black'}}/>
                             </Avatar>
                         </ListItemAvatar>
                         <div className="row d-flex w-100 m x-0 py-3">
@@ -127,10 +128,7 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                         </div>
                     </ListItemButton>
 
-                    <Box sx={{
-                        overflow: 'auto',
-                        maxHeight: '60vh',
-                    }}>
+                    <Box sx={{overflow: 'auto', maxHeight: '60vh'}}>
                         {chats.map((dados, index) => {
                             const selecionado = infoChatSelecionado.id === dados.id
                             if (selecionado) infoChatSelecionado.online = dados.online
@@ -139,7 +137,6 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                                 <ListItemButton className="border-bottom" style={selecionado ? chatAtivo : {}}
                                                 onClick={() => selecionarChat(dados, 'chat')} key={index}>
                                     <ListItemAvatar>
-
                                         {dados.online ?
                                             <StyledBadge
                                                 overlap="circular"
@@ -174,10 +171,8 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
                                                         (dados.status === 'lido' ? 'info' : 'white') :
                                                         (dados.status === 'lido' ? 'info' : 'disabled')}
                                                              style={{fontSize: 14}} className="me-1"/>
-                                                {dados.tipo === 'file' ?
-                                                    <ImageIcon style={{fontSize: 14}}/> : dados.ultima_mensagem}
-                                                <small
-                                                    className={(selecionado ? 'text-white ' : 'text-muted ') + "d-block text-end font-italic"}>
+                                                {dados.file ? <ImageIcon style={{fontSize: 14}}/> : dados.ultima_mensagem}
+                                                <small className={(selecionado ? 'text-white ' : 'text-muted ') + "d-block text-end font-italic"}>
                                                     {dados.data_mensagem}
                                                 </small>
                                             </>

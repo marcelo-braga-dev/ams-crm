@@ -11,7 +11,6 @@ const dashboard = {
             title: 'Financeiro',
             type: 'collapse',
             url: undefined,
-            admin: true,
             icon: Coin,
             submenu: [
                 {

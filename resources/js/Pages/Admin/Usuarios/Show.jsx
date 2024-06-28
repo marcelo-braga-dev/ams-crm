@@ -1,7 +1,5 @@
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 import Avatar from "@mui/material/Avatar";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import BlockIcon from "@mui/icons-material/Block";
 import * as React from "react";
 
 export default function ({usuario}) {

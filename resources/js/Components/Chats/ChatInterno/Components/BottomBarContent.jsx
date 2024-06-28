@@ -1,3 +1,4 @@
+import React, {useEffect, useState, useCallback} from "react";
 import {
     Tooltip,
     IconButton,
@@ -7,202 +8,195 @@ import {
 } from '@mui/material';
 import AttachFileTwoToneIcon from '@mui/icons-material/AttachFileTwoTone';
 import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
-import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
-import {useForm, usePage} from "@inertiajs/react";
-import React, {useEffect, useState} from "react";
-import EmojiPicker from "emoji-picker-react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import styled from 'styled-components'
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
+import EmojiPicker from "emoji-picker-react";
+import styled from 'styled-components';
+import {useForm} from "@inertiajs/react";
+import {Chat} from "react-bootstrap-icons";
 
-const MessageInputWrapper = styled(InputBase)(
-    ({theme}) => `
+const MessageInputWrapper = styled(InputBase)`
     font-size: 18px;
     padding: 1px;
     width: 100%;
-`
-);
+`;
+
 const Preview = styled.img`
     align-items: center;
     display: flex;
     justify-content: center;
-    //margin-top: 1rem;
     max-height: 16rem;
     max-width: 42rem;
-`
+`;
+
 const Container = styled.div`
-    /* Center the content */
     align-items: center;
     display: flex;
     justify-content: center;
-    /* Misc */
     height: 32rem;
     padding: 1rem 0;
-`
-
+`;
 
 function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
-    const {data, setData, post} = useForm({
-        mensagem: '', anexo: ''
+    const {data, setData, post, reset} = useForm({
+        mensagem: '',
+        anexo: ''
     });
 
-    const [abrirEmojis, setAbrirEmojis] = useState(false)
+    const [abrirEmojis, setAbrirEmojis] = useState(false);
 
     useEffect(() => {
-        setData(previousInputs => ({...previousInputs, destinatario: infoChatSelecionado.id,}))
-        setData(previousInputs => ({...previousInputs, categoria: infoChatSelecionado.categoria}))
+        setData(previousInputs => ({
+            ...previousInputs,
+            destinatario: infoChatSelecionado.id,
+            categoria: infoChatSelecionado.categoria
+        }));
     }, [infoChatSelecionado]);
 
-    function submit() {
-        // CHAT
+    const submit = useCallback(() => {
         if ((data.mensagem.trim() || data.anexo) && data.destinatario) {
-            post(urlSubmit);
+            axios.post(urlSubmit, {...data}).finally(() => limparCaixaMensagem())
         }
-        // AVISOS
         if (data.mensagem.trim() && infoChatSelecionado.categoria === 'avisos') {
-            post(urlSubmit);
+            axios.post(urlSubmit, {...data}).finally(() => limparCaixaMensagem())
         }
-        limparCaixaMensagem()
-    }
+    }, [data, infoChatSelecionado, post, urlSubmit]);
 
-    function limparCaixaMensagem() {
-        // reset variaveis
-        data.mensagem = ''
-        data.anexo = ''
-        setAbrirEmojis(false)
+    const limparCaixaMensagem = () => {
+        reset('mensagem', 'anexo')
+        setAbrirEmojis(false);
         const imageEle = document.getElementById('preview');
-        imageEle.src = "";
-        // setData('mensagem', data.mensagem.trim())
-    }
+        if (imageEle) {
+            imageEle.src = "";
+        }
+    };
 
-    function emoji(e) {
-        setData('mensagem', data.mensagem + e.emoji)
-    }
+    const handleEmojiClick = (e) => {
+        setData('mensagem', data.mensagem + e.emoji);
+    };
 
-    // Colar imagens
-    useEffect(() => {
-        document.addEventListener('paste', function (evt) {
-            // Get the data of clipboard
-            const clipboardItems = evt.clipboardData.items;
-            const items = [].slice.call(clipboardItems).filter(function (item) {
-                // Filter the image items only
-                return item.type.indexOf('image') !== -1;
-            });
-            if (items.length === 0) return;
+    const handlePaste = (evt) => {
+        const clipboardItems = evt.clipboardData.items;
+        const items = Array.from(clipboardItems).filter(item => item.type.indexOf('image') !== -1);
+        if (items.length === 0) return;
 
-            const item = items[0];
-            const blob = item.getAsFile();
-
-            const imageEle = document.getElementById('preview');
+        const item = items[0];
+        const blob = item.getAsFile();
+        const imageEle = document.getElementById('preview');
+        if (imageEle) {
             imageEle.src = URL.createObjectURL(blob);
-            let file = new File([blob], "imagem", {
-                type: "image/jpeg",
-                lastModified: new Date().getTime()
-            }, 'utf-8');
-            let container = new DataTransfer();
-            container.items.add(file);
-            document.querySelector('#file_input').files = container.files;
-
-            setData('anexo', file)
+        }
+        const file = new File([blob], "imagem", {
+            type: "image/jpeg",
+            lastModified: new Date().getTime()
         });
-    }, [data]);
+        const container = new DataTransfer();
+        container.items.add(file);
+        document.querySelector('#file_input').files = container.files;
+
+        setData('anexo', file);
+    };
 
     useEffect(() => {
-        document.addEventListener("keypress", function (e) {
+        document.addEventListener('paste', handlePaste);
+        return () => {
+            document.removeEventListener('paste', handlePaste);
+        };
+    }, [handlePaste]);
 
-            if (e.key === 'Enter' && e.ctrlKey === false) {
+    useEffect(() => {
+        const handleKeyPress = (e) => {
+            if (e.key === 'Enter' && !e.ctrlKey) {
                 const btn = document.querySelector("#btn-enviar-mensagem");
-                btn.click();
+                if (btn) {
+                    btn.click();
+                }
             }
-            if (e.key === 'Enter' && e.ctrlKey === true) {
-                const imageEle = document.getElementById('input_mensagem');
+            if (e.key === 'Enter' && e.ctrlKey) {
+                setData('mensagem', data.mensagem.trim() + "\n");
+            }
+        };
 
-                setData('mensagem', imageEle.value.trim() + "\n")
-            }
-        });
-    }, [data.mensagem])
+        document.addEventListener("keypress", handleKeyPress);
+        return () => {
+            document.removeEventListener("keypress", handleKeyPress);
+        };
+    }, [data.mensagem, setData]);
 
     return (
-        infoChatSelecionado.id || (infoChatSelecionado.categoria === 'avisos' && admin) ?
+        (infoChatSelecionado.id || (infoChatSelecionado.categoria === 'avisos' && admin)) ? (
             <>
                 <div className="bg-white">
-                    {abrirEmojis && <>
-                        <div className="text-end pe-3">
-                            <span onClick={() => setAbrirEmojis(!abrirEmojis)}>
-                                <i className="fas fa-times text-danger"></i>
-                            </span>
-                        </div>
-
-                        <EmojiPicker width="100%" theme="google" searchDisabled={true} onEmojiClick={emoji}/>
-                    </>
-                    }
-                    {
-                        data.anexo && <>
-                            <div className="my-1">
-                                <small>
-                                    <AttachFileIcon style={{fontSize: 18}}/>
-                                    <b>{data.anexo.name}</b>
-                                </small>
+                    {abrirEmojis && (
+                        <>
+                            <div className="text-end pe-3">
+                                <span onClick={() => setAbrirEmojis(!abrirEmojis)}>
+                                    <i className="fas fa-times text-danger"></i>
+                                </span>
                             </div>
+                            <EmojiPicker width="100%" theme="google" searchDisabled onEmojiClick={handleEmojiClick}/>
                         </>
-                    }
-                    <input hidden accept="image/*" type="file" id="file_input"
-                           onChange={e => console.log('INPUT')}/>
-                    <Preview id="preview"></Preview>
+                    )}
+                    {data.anexo && (
+                        <div className="my-1">
+                            <small>
+                                <AttachFileIcon style={{fontSize: 18}}/>
+                                <b>{data.anexo.name}</b>
+                            </small>
+                        </div>
+                    )}
+                    <input hidden accept="image/*" type="file" id="file_input"/>
+                    <Preview id="preview"/>
                 </div>
 
                 <Box sx={{background: 'white', display: 'flex', py: 2}}>
                     <Box flexGrow={1} display="flex" alignItems="center">
-                        {setores.length > 0 ?
-                            <TextField label="Setor" select size="small"
-                                       sx={{width: 150, marginLeft: 1}}>
-                                <MenuItem>Todos</MenuItem>
-                                {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
-                            </TextField> : ''}
-                        <QuestionAnswerIcon className="mx-3"/>
+                        {/*{setores.length > 0 && (*/}
+                        {/*    <TextField*/}
+                        {/*        label="Setor"*/}
+                        {/*        select*/}
+                        {/*        size="small"*/}
+                        {/*        sx={{width: 150, marginLeft: 1}}*/}
+                        {/*    >*/}
+                        {/*        <MenuItem>Todos</MenuItem>*/}
+                        {/*        {setores.map(item => (*/}
+                        {/*            <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>*/}
+                        {/*        ))}*/}
+                        {/*    </TextField>*/}
+                        {/*)}*/}
+                        <Chat size="22" className="mx-3"/>
                         <MessageInputWrapper
-                            value={data.mensagem.length > 1 ? data.mensagem : data.mensagem.trim()}
-                            multiline maxRows="5"
-                            autoFocus fullWidth id="input_mensagem"
+                            value={data.mensagem}
+                            multiline
+                            maxRows="3"
+                            autoFocus
+                            fullWidth
+                            id="input_mensagem"
                             placeholder="Escreva sua mensagem aqui..."
                             onChange={e => setData('mensagem', e.target.value)}
                         />
                     </Box>
                     <Box>
-                        <Tooltip arrow placement="top" title="Emojis"
-                                 onClick={() => setAbrirEmojis(!abrirEmojis)}>
+                        <Tooltip arrow placement="top" title="Emojis" onClick={() => setAbrirEmojis(!abrirEmojis)}>
                             <IconButton sx={{fontSize: '16px'}} color="primary">😀</IconButton>
                         </Tooltip>
 
-                        <input className="d-none" accept="image/*" id="messenger-upload-file" type="file"/>
                         <Tooltip arrow placement="top" title="Anexo">
                             <label htmlFor="messenger-upload-file">
                                 <IconButton sx={{mx: 1}} color="primary" aria-label="upload picture" component="label">
-                                    <input hidden accept="image/*" type="file"
+                                    <input hidden accept="image/*" id="messenger-upload-file" type="file"
                                            onChange={e => setData('anexo', e.target.files[0])}/>
                                     <AttachFileTwoToneIcon fontSize="small"/>
                                 </IconButton>
                             </label>
                         </Tooltip>
-                        <Button startIcon={<SendTwoToneIcon/>} variant="contained" id="btn-enviar-mensagem"
-                                onClick={submit}>
+                        <Button startIcon={<SendTwoToneIcon/>} variant="contained" id="btn-enviar-mensagem" onClick={submit}>
                             Enviar
                         </Button>
                     </Box>
-
-                    {/*MODAL*/}
-                    <div className="modal fade mt-5" id="modalEmoji" tabIndex="-1" aria-labelledby="modalEmojiLabel"
-                         aria-hidden="true">
-                        <div className="modal-dialog modal-sm">
-                            <div className="modal-content">
-                                {abrirEmojis && <EmojiPicker theme="google" onEmojiClick={emoji}/>}
-                            </div>
-                        </div>
-                    </div>
                 </Box>
-            </> : <Box sx={{background: 'white', p: 4}}/>
-    )
+            </>
+        ) : <Box sx={{background: 'white', p: 4}}/>
+    );
 }
 
 export default BottomBarContent;

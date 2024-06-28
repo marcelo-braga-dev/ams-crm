@@ -1,9 +1,7 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState, useRef, useMemo} from 'react';
 import {Virtuoso} from 'react-virtuoso';
 import AreaChat from "./AreaMensagens/AreaChat";
 import AreaAviso from "./AreaMensagens/AreaAviso";
-
-import {useState, useRef} from 'react'
 import axios from "axios";
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -11,54 +9,37 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
     const [idExcluirAviso, setIdExcluirAviso] = useState()
     const [progress, setProgress] = useState(false)
     const [semMensagem, setSemMensagem] = useState(false)
-
+    const virtuosoRef = useRef(null)
 
     const itemContent = useCallback((index, item) => {
         return infoChatSelecionado.categoria === 'chat' ?
-            <AreaChat item={item} index={index} infoChatSelecionado={infoChatSelecionado}
-                      setProgress={setProgress}/> :
-            <AreaAviso item={item} index={index} admin={admin}
-                       setIdExcluirAviso={setIdExcluirAviso} setProgress={setProgress}/>
+            <AreaChat item={item} index={index} infoChatSelecionado={infoChatSelecionado} setProgress={setProgress}/> :
+            <AreaAviso item={item} index={index} admin={admin} setIdExcluirAviso={setIdExcluirAviso} setProgress={setProgress}/>
     }, [infoChatSelecionado]);
-
 
     function excluirConversa() {
         axios.post(route('admin.chat-interno-excluir-aviso', {id: idExcluirAviso}))
     }
 
-    const virtuosoRef = useRef(null)
-    // useEffect(() => {
-    //     virtuosoRef.current.scrollToIndex({index: mensagens.length - 1})
-    //     if (mensagens.length === '0') setProgress(false)
-    // }, [infoChatSelecionado.id])
-
     useEffect(() => {
         setSemMensagem(false)
-        if (mensagens.length === 0) {
-            setProgress(false)
-        }
+        if (mensagens.length === 0) setProgress(false)
         if (infoChatSelecionado.id && mensagens.length === 0) setSemMensagem(true)
-    }, [mensagens])
+        if (virtuosoRef.current) virtuosoRef.current.scrollToIndex({index: mensagens.length - 1, behavior: 'auto', align: 'end'});
+    }, [])
 
+    progress && setTimeout(() => virtuosoRef.current.scrollToIndex({index: mensagens.length - 1, behavior: 'auto', align: 'end'}), 500)
 
     return (
         <>
-            {progress &&
-                <div className="text-center mt-8">
-                    <CircularProgress color="inherit"/>
-                </div>
-            }
-            {semMensagem &&
-                <div className="text-center mt-8">
-                    NÃO HÁ MENSAGENS
-                </div>
-            }
-
+            {progress && <div className="text-center mt-8"><CircularProgress color="inherit"/></div>}
+            {semMensagem && <div className="text-center mt-8">NÃO HÁ MENSAGENS</div>}
+            {progress && <div style={{height: '3000vh'}}></div>}
             <Virtuoso
-                itemContent={itemContent}
-                data={mensagens}
-                followOutput="auto"
                 ref={virtuosoRef}
+                data={mensagens}
+                itemContent={itemContent}
+                followOutput="auto"
             />
 
             <div className="modal fade mt-5" id="excluirAviso" tabIndex="-1" aria-labelledby="exampleModalLabel"

@@ -10,24 +10,27 @@ class MensagensChatInternoService
     public function conversas()
     {
         $online = $this->online();
-        $mensagens = (new ChatInterno())->getDestinatarios();
+        $usuarioAtual = id_usuario_atual();
         $nomes = (new User())->getNomes();
         $fotos = (new User())->getFotos();
-        $usuarioAtual = id_usuario_atual();
+        $mensagens = (new ChatInterno())->getDestinatarios($usuarioAtual);
 
         $users = [];
         $qtnNova = [];
+
         foreach ($mensagens as $mensagem) {
             $id = $mensagem->contato_id === $usuarioAtual ? $mensagem->user_id : $mensagem->contato_id;
 
-            if ($mensagem->contato_id === $usuarioAtual &&
-                $mensagem->status === 'novo') $qtnNova[$id][] = 'x';
+            if ($mensagem->contato_id === $usuarioAtual && $mensagem->status === 'novo') {
+                $qtnNova[$id][] = 'x';
+            }
 
             $users[$id] = [
                 'ordem' => strtotime($mensagem->created_at),
                 'id' => $id,
                 'nome' => $nomes[$id],
                 'ultima_mensagem' => $mensagem->mensagem,
+                'file' => !!$mensagem->url,
                 'data_mensagem' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
                 'status' => $mensagem->status,
                 'foto' => $fotos[$id],
@@ -35,18 +38,15 @@ class MensagensChatInternoService
             ];
         }
 
-        $dados = [];
-        foreach ($users as $item) {
-            $dados[] = array_merge($item, ['qtd_nova' => empty($qtnNova[$item['id']]) ? 0 : count($qtnNova[$item['id']])]);
-        }
+        $dados = array_map(function ($item) use ($qtnNova) {
+            return array_merge($item, ['qtd_nova' => empty($qtnNova[$item['id']]) ? 0 : count($qtnNova[$item['id']])]);
+        }, $users);
 
-        arsort($dados);
-        $res = [];
-        foreach ($dados as $item) {
-            $res[] = $item;
-        }
+        usort($dados, function ($a, $b) {
+            return $b['ordem'] - $a['ordem'];
+        });
 
-        return $res;
+        return $dados;
     }
 
     public function chatAlertas()
@@ -54,10 +54,10 @@ class MensagensChatInternoService
         return (new ChatInterno())->chatAlerta();
     }
 
-    public function mensagens($usuario, $destinatario, $categoria = 'chat')
+    public function mensagens($usuario, $destinatario, $categoria = 'chat', $limit)
     {
         $mensagens = [];
-        if ($categoria === 'chat') $mensagens = (new ChatInterno())->getMensagens($usuario, $destinatario);
+        if ($categoria === 'chat') $mensagens = (new ChatInterno())->getMensagens($usuario, $destinatario, $limit);
         if ($categoria === 'avisos') $mensagens = (new ChatInterno())->getAvisos();
 
         $usuarios = (new User())->getNomes();
@@ -93,7 +93,8 @@ class MensagensChatInternoService
 
     private function online(): array
     {
-        $dados = (new User())->usuariosOnline();
+        return [];
+        //$dados = (new User())->usuariosOnline();
 
         $item = [];
 //        foreach ($dados as $dado) {

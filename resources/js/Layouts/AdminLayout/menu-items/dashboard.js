@@ -12,7 +12,6 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: BarChartLine,
-
             submenu: [
                 {
                     id: 'dashboard-relatorios',

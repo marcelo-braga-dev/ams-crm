@@ -12,7 +12,6 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: Gear,
-            admin: true,
             submenu: [
                 {
                     id: 'config-franquias',
@@ -20,13 +19,7 @@ const dashboard = {
                     title: 'Franquias',
                     type: 'item',
                     url: route('admin.franquias.index'),
-                }, {
-                    id: 'config-fornecedores',
-                    chave: chaves.config.fornecedores,
-                    title: 'Fornecedores',
-                    type: 'item',
-                    url: route('admin.fornecedores.index'),
-                }, {
+                },  {
                     id: 'config-setores',
                     chave: chaves.config.setores,
                     title: 'Setores',
