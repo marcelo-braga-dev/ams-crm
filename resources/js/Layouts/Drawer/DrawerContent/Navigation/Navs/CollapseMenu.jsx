@@ -41,7 +41,7 @@ export default function CollapseMenu({item}) {
     };
 
     const Icon = item.icon;
-    const itemIcon = item.icon ? <Icon style={{fontSize: 20}}/> : false;
+    const itemIcon = item.icon ? <Icon style={{fontSize: 20}} color="black"/> : false;
 
     const menuStyle = {
         '&:hover, &:focus': {
@@ -82,7 +82,7 @@ export default function CollapseMenu({item}) {
                     </ListItemIcon>
 
                     <ListItemText className="overflow-hidden" primary={<TextMenu>{item.title}</TextMenu>}/>
-                    {isSelected ? <ChevronDown size={14}/> : <ChevronRight size={14}/>}
+                    {isSelected ? <ChevronDown color="black" size={13}/> : <ChevronRight color="black" size={13}/>}
                 </ListItemButton>
 
                 <div
