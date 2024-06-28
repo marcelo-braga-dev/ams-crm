@@ -100,25 +100,25 @@ export default function NotificacoesIcones({corTexto}) {
 
         <IconButton disableRipple sx={{color: corTexto, mx: 1}} href={route('admin.notificacoes.sac.index')}>
             <Badge badgeContent={qtdSac} color="error">
-                <Tags size="20"/>
+                <Tags size="20" color="black"/>
             </Badge>
         </IconButton>
 
         <IconButton disableRipple sx={{color: corTexto, mx: 1}} href={route('admin.emails.index')}>
             <Badge badgeContent={0} color="error">
-                <Envelope size="20"/>
+                <Envelope size="20" color="black"/>
             </Badge>
         </IconButton>
 
         <IconButton disableRipple sx={{color: corTexto, mx: 1}} href={route('admin.agenda.calendario.index')}>
             <Badge badgeContent={0} color="error">
-                <CalendarEvent size="18"/>
+                <CalendarEvent size="18" color="black"/>
             </Badge>
         </IconButton>
 
         <IconButton disableRipple sx={{color: corTexto, mx: 1}} onClick={handleClick2}>
             <Badge badgeContent={usuariosOnline.length} color="error">
-                <People size="22"/>
+                <People size="22" color="black"/>
             </Badge>
         </IconButton>
         <Popover
@@ -158,14 +158,14 @@ export default function NotificacoesIcones({corTexto}) {
         <IconButton disableRipple sx={{color: corTexto, mx: 1}}
                     href={route('admin.chat-interno.index')}>
             <Badge badgeContent={qtdChatInterno} color="error">
-                <Chat size="20"/>
+                <Chat size="20" color="black"/>
             </Badge>
         </IconButton>
 
         <IconButton disableRipple sx={{color: corTexto, mx: 1}}
                     href={route('admin.notificacoes.pedidos.index')}>
             <Badge badgeContent={qtdPedidos} color="error">
-                <Bell size="20"/>
+                <Bell size="20" color="black"/>
             </Badge>
         </IconButton>
     </>)

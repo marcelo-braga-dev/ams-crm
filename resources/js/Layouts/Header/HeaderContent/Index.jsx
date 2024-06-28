@@ -1,4 +1,4 @@
-import {Box, useMediaQuery} from '@mui/material';
+import {Box, Typography, useMediaQuery} from '@mui/material';
 import Profile from './Profile';
 import MobileSection from './MobileSection.jsx';
 import NotificacoesIcones from "./Icones/NotificacoesIcones";
@@ -11,8 +11,8 @@ const HeaderContent = ({titlePage}) => {
 
     return (
         <>
-            <div className="row ms-2 w-100 text-truncate">
-                {titlePage}
+            <div className="row w-100 text-truncate">
+                <Typography color="black">{titlePage}</Typography>
             </div>
 
             {userTipo !== 'integrador' && <NotificacoesIcones/>}
