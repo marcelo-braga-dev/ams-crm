@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import DataTable from "react-data-table-component";
 import React from "react";
 import {TextField} from "@mui/material";
@@ -124,7 +124,7 @@ export default function ({historicoLeads, historicoNotificacoes}) {
                 <DataTable
                     columns={columns}
                     data={filteredItems}
-                    pagination subHeader striped highlightOnHover
+                    pagination subHeader
                     paginationPerPage="20"
                     subHeaderComponent={subHeaderComponentMemo}
                 />
@@ -138,8 +138,6 @@ export default function ({historicoLeads, historicoNotificacoes}) {
                     subHeader
                     subHeaderComponent={subHeaderComponentMemoNotificacao}
                     persistTableHead
-                    striped
-                    highlightOnHover
                     selectableRowsHighlight
                 />
             </CardContainer>

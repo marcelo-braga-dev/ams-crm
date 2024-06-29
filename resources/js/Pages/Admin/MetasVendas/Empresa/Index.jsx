@@ -77,37 +77,33 @@ export default function ({meta, mes, ano, metasMensais, vendasMensais, setores, 
             </CardContainer>
 
             <form onSubmit={submit}>
-                <div className="row row-cols-1 p-3">
-                    <div className="col mb-4">
-                        <CardContainer>
-                            <CardBody>
-                                <div className="row border-bottom mb-4 pb-2">
-                                    <div className="col">
-                                        <span className="me-5"><b>Meta:</b> {converterMesCompleto(mes)}/{ano}</span>
-                                        <span> <b>Setor:</b> {(setores.find(item => item.id == setor)).nome}</span>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className='col-md-2 mb-3'>
-                                        <TextField
-                                            label="Meta" fullWidth required defaultValue={valorMeta}
-                                            InputProps={{
-                                                startAdornment: <InputAdornment
-                                                    position="start">R$</InputAdornment>
-                                            }}
-                                            onChange={e => {
-                                                setValorMeta(convertInputMoney(e))
-                                                setMostarBtn(true)
-                                            }}/>
-                                    </div>
-                                    {mostarBtn && <div className="col-auto">
-                                        <button type="submit" className="btn btn-success">Salvar</button>
-                                    </div>}
-                                </div>
-                            </CardBody>
-                        </CardContainer>
-                    </div>
-                </div>
+                <CardContainer>
+                    <CardBody>
+                        <div className="row border-bottom mb-4 pb-2">
+                            <div className="col">
+                                <span className="me-5"><b>Meta:</b> {converterMesCompleto(mes)}/{ano}</span>
+                                <span> <b>Setor:</b> {(setores.find(item => item.id == setor)).nome}</span>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className='col-md-2 mb-3'>
+                                <TextField
+                                    label="Meta" fullWidth required defaultValue={valorMeta}
+                                    InputProps={{
+                                        startAdornment: <InputAdornment
+                                            position="start">R$</InputAdornment>
+                                    }}
+                                    onChange={e => {
+                                        setValorMeta(convertInputMoney(e))
+                                        setMostarBtn(true)
+                                    }}/>
+                            </div>
+                            {mostarBtn && <div className="col-auto">
+                                <button type="submit" className="btn btn-success">Salvar</button>
+                            </div>}
+                        </div>
+                    </CardBody>
+                </CardContainer>
             </form>
 
             <CardContainer>

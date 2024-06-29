@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 import {Td, Th} from "@/Components/Kanban/styles";
 
 // CARDS
@@ -9,12 +9,10 @@ import AprovandoCard from "./Cards/AprovandoCard";
 import FinalizadosCard from "./Cards/FinalizadosCard";
 // CARDS - fim
 
-import DoubleScrollbar from 'react-double-scrollbar/dist/DoubleScrollbar';
-
 export default function Pedidos({dados}) {
 
     return (
-        <Layout titlePage="Desenvolvimento" menu="dev" submenu="registros">           
+        <Layout titlePage="Desenvolvimento" menu="dev" submenu="dev-registros">
             <table>
                 <thead>
                 <tr className="text-center text-white">

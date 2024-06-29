@@ -96,7 +96,7 @@ function ChatInterno({ pessoas, setores, getUrl, urlSubmit, Layout, admin }) {
     }, [infoChatSelecionado]);
 
     return (
-        <Layout titlePage="Chat Interno" menu="chats" submenu="mensagens">
+        <Layout titlePage="Chat Interno" menu="chats" submenu="chat-interno">
             <CardContainer>
                 <RootWrapper className="Mui-FixedWrapper">
                     <DrawerWrapperMobile

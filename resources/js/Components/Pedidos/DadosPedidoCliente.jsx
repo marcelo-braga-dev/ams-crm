@@ -5,15 +5,15 @@ import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
 export default function DadosPedidoCliente({dados}) {
     return (<>
         <CardTitleDefault title="Informações do Cliente" icon={<Person size={22}/>}/>
-        {dados.cliente.nome && <Typography><b>Cliente:</b> {dados.cliente.nome}</Typography>}
-        {dados.cliente.nascimento && <Typography><b>Data Nascimento:</b> {dados.cliente.nascimento}</Typography>}
-        {dados.cliente.rg && <Typography><b>RG:</b> {dados.cliente.rg}</Typography>}
-        {dados.cliente.cpf && <Typography><b>CPF:</b> {dados.cliente.cpf}</Typography>}
-        {dados.cliente.cnpj && <Typography><b>CNPJ:</b> {dados.cliente.cnpj}</Typography>}
+        {dados.cliente.nome && <Typography className="mb-2" fontSize={15}><b>Cliente:</b> {dados.cliente.nome}</Typography>}
+        {dados.cliente.nascimento && <Typography className="mb-2" fontSize={15}><b>Data Nascimento:</b> {dados.cliente.nascimento}</Typography>}
+        {dados.cliente.rg && <Typography className="mb-2" fontSize={15}><b>RG:</b> {dados.cliente.rg}</Typography>}
+        {dados.cliente.cpf && <Typography className="mb-2" fontSize={15}><b>CPF:</b> {dados.cliente.cpf}</Typography>}
+        {dados.cliente.cnpj && <Typography className="mb-2" fontSize={15}><b>CNPJ:</b> {dados.cliente.cnpj}</Typography>}
         {dados.cliente.inscricao_estadual &&
-            <Typography><b>Inscrição Estadual:</b> {dados.cliente.inscricao_estadual}</Typography>}
-        {dados.cliente.telefone && <Typography><b>Telefone:</b> {dados.cliente.telefone}</Typography>}
-        {dados.cliente.email && <Typography><b>Email:</b> {dados.cliente.email}</Typography>}
-        {dados.cliente.endereco && <Typography><b>Endereço:</b> {dados.cliente.endereco}</Typography>}
+            <Typography className="mb-2" fontSize={15}><b>Inscrição Estadual:</b> {dados.cliente.inscricao_estadual}</Typography>}
+        {dados.cliente.telefone && <Typography className="mb-2" fontSize={15}><b>Telefone:</b> {dados.cliente.telefone}</Typography>}
+        {dados.cliente.email && <Typography className="mb-2" fontSize={15}><b>Email:</b> {dados.cliente.email}</Typography>}
+        {dados.cliente.endereco && <Typography className="mb-2" fontSize={15}><b>Endereço:</b> {dados.cliente.endereco}</Typography>}
     </>)
 }
