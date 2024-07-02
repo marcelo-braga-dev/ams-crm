@@ -4,6 +4,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 
 import pesquisaCep from "@/Helpers/pesquisaCep";
 import MenuItem from "@mui/material/MenuItem";
+import {useEffect} from "react";
 
 const estados = [
     {id: 'AC', nome: 'Acre'},
@@ -36,7 +37,10 @@ const estados = [
 ]
 
 export default function InputsDadosLead({data, setData, required}) {
-    maskJquery()
+
+    useEffect(() => {
+        maskJquery()
+    }, []);
 
     return (
         <>
@@ -90,7 +94,8 @@ export default function InputsDadosLead({data, setData, required}) {
             </div>
             <div className="row">
                 <div className="col-md-3 mb-4">
-                    <TextField label={data?.pessoa === 'Jurídica' ? 'Data Abertura Empresa' : "Data Nascimento"} id="nascimento" required={required} defaultValue={data?.nascimento}
+                    <TextField label={data?.pessoa === 'Jurídica' ? 'Data Abertura Empresa' : "Data Nascimento"} id="nascimento" required={required}
+                               defaultValue={data?.nascimento}
                                onBlur={e => setData('nascimento', e.target.value)} type={'date'}
                                fullWidth InputLabelProps={{shrink: true}}></TextField>
                 </div>

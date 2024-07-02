@@ -8,7 +8,7 @@ import InputsDadosLead from "@/Partials/Leads/InputsDados";
 export default function Form({lead, url, urlProdutos, fornecedores, endereco, categorias, unidades, errors}) {
     const {data, setData, post, progress, processing} = useForm({
         id_lead: lead.id,
-        pessoa: lead.pessoa_juridica ? 'Jurídica' : 'Pessoa Física',
+        pessoa: lead.cnpj ? 'Jurídica' : 'Pessoa Física',
         nome: lead.nome,
         razao_social: lead.razao_social,
         nascimento: lead.data_nascimento,

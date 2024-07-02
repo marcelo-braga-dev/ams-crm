@@ -11,7 +11,7 @@ export default function Edit({dados, endereco, urlAnterior}) {
 
     const {setData, data} = useForm({
         id_lead: dados.id,
-        pessoa: dados.pessoa_juridica ? 'Jurídica' : 'Pessoa Física',
+        pessoa: dados.cnpj ? 'Jurídica' : 'Pessoa Física',
         nome: dados.nome,
         razao_social: dados.razao_social,
         nascimento: dados.data_nascimento,

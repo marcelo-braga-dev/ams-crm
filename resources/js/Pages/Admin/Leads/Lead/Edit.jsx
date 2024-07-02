@@ -8,11 +8,12 @@ import InputsDadosLead from "@/Partials/Leads/InputsDados";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
+import {Person} from "react-bootstrap-icons";
 
 export default function Edit({dados, endereco, urlAnterior}) {
     const {setData, data} = useForm({
         id_lead: dados.id,
-        pessoa: dados.pessoa_juridica ? 'Jurídica' : 'Pessoa Física',
+        pessoa: dados.cnpj ? 'Jurídica' : 'Pessoa Física',
         nome: dados.nome,
         razao_social: dados.razao_social,
         nascimento: dados.data_nascimento,
@@ -49,7 +50,7 @@ export default function Edit({dados, endereco, urlAnterior}) {
     return (
         <Layout container voltar={urlAnterior} titlePage="Editar LEAD" menu="leads" submenu="leads-cadastrados">
             <CardContainer>
-                <CardTitle title="Atualizar informações do lead"/>
+                <CardTitle title="Atualizar informações do lead" icon={<Person size={22}/>}/>
                 <CardBody>
                     <form onSubmit={submit}>
                         <InputsDadosLead data={data} setData={setData}/>
