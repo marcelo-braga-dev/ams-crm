@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import {Avatar, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";
@@ -16,7 +16,8 @@ export default function ({dados, destinatarios, status}) {
     }
 
     return (
-        <Layout titlePage="Agenda" menu="calendario-agenda" voltar={route('consultor.calendario.agenda.index')}>
+        <Layout titlePage="Agenda" menu="ferramentas" submenu="ferramentas-agenda"
+                voltar={route('consultor.calendario.agenda.index')}>
             <div className="card card-body mb-4">
                 <div className="row">
                     <div className="col">

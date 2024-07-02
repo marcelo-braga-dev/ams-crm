@@ -5,7 +5,8 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 
 export default function HistoricoLista({historicos, enviarComentario, setData, urlPedidos}) {
-    const [qtdHistorico, setQtqHistorico] = useState(historicos.length);
+
+    const qtdHistorico = historicos.length
 
     return (
         historicos?.length > 0 ?

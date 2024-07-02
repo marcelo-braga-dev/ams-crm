@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import {Grid, Stack, Typography} from "@mui/material";
@@ -25,7 +25,8 @@ const Page = () => {
     };
 
     return (
-        <Layout titlePage="Dados do Orçamento" menu="orcamentos">
+        <Layout titlePage="Dados do Orçamento" menu="orcamentos" submenu="orcamentos-solar"
+                voltar={route('consultor.orcamentos.index')}>
             <Tabs value={value} onChange={handleChange} sx={{
                 '& .MuiTabs-indicator': {
                     display: 'none'

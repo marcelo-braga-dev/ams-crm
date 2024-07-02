@@ -49,7 +49,7 @@ class LeadsController extends Controller
         $endereco = (new Enderecos())->get($dados->endereco);
         $urlAnterior = url()->previous();
 
-        return Inertia::render('Consultor/Leads/Edit', compact('dados', 'endereco', 'urlAnterior' ));
+        return Inertia::render('Consultor/Leads/Edit', compact('dados', 'endereco', 'urlAnterior'));
     }
 
     public function update($id, Request $request)
@@ -80,12 +80,11 @@ class LeadsController extends Controller
 
     public function atualizarStatus(Request $request)
     {
-        if ($request->salvar_msg) {
-            (new LeadsHistoricos())->create($request->idLead, $request, $request->status);
+        (new LeadsHistoricos())->create($request->idLead, $request, $request->status);
 
-            modalSucesso('Status atualizado!');
-            return redirect()->back();
-        }
+        modalSucesso('Status atualizado!');
+        return redirect()->back();
+
     }
 
     public function getLeads()

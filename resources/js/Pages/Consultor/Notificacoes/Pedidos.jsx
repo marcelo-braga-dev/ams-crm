@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import { router } from '@inertiajs/react'
 
 import {Typography} from "@mui/material";

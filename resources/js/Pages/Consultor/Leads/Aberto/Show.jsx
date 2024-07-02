@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import {useForm} from "@inertiajs/react";
 import {router} from '@inertiajs/react'
@@ -30,7 +30,7 @@ export default function Show({dados, historicos, status, contatos, isSdr}) {
 
     return (
         <Layout empty titlePage="Em Aberto - Lead" voltar={route('consultor.leads.main.index')}
-                menu="clientes-lista">
+                menu="leads">
 
             <div className="card card-body mb-4">
                 <LeadsDados dados={dados}/>

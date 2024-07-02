@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import SpeakerNotesOutlinedIcon from "@mui/icons-material/SpeakerNotesOutlined";
-import chaves from "./chaves";
+import chaves from "@/Layouts/Menus/chaves";
 
 const dashboard = {
     id: 'sac',

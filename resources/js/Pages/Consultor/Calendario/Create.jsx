@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
@@ -15,7 +15,7 @@ export default function ({usuarios}) {
     }
 
     return (
-        <Layout titlePage="Novo Registro de Agenda" menu="calendario-agenda"
+        <Layout titlePage="Novo Registro de Agenda" menu="ferramentas" submenu="ferramentas-agenda"
                 voltar={route('consultor.calendario.agenda.index')}>
             <form onSubmit={submit}>
                 <div className="row mb-5">

@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import React, {useCallback, useEffect, useState} from "react";
+import Layout from "@/Layouts/Layout";
 import pesquisaCards from "@/Helpers/pesquisaCards";
 
 import ConferenciaCard from './Cards/Conferencia/ConferenciaCard';
@@ -11,15 +11,11 @@ import CardEntregue from './Cards/Entregue/CardEntregue';
 import CardCancelado from './Cards/Cancelado/CardCancelado';
 
 import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-
-import Card from "@mui/material/Card";
 
 import ScrollContainer from "react-indiana-drag-scroll";
 import {TextField} from "@mui/material";
+import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
 export default function Dashboard({pedidos, coresAbas, goCard}) {
     const [qtdPedidos, setQtdPedidos] = useState(pedidos.total)
@@ -33,19 +29,21 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
         if (elemento) elemento.scrollIntoView({block: 'center', inline: 'center', behavior: 'smooth'});
     }
 
+    const totalPedidos = useCallback((status) => {
+        return convertFloatToMoney(pedidos[status].reduce((acc, produto) => acc + produto.preco, 0));
+    }, [pedidos]);
+
     return (
-        <Layout titlePage="Lista de Pedidos" menu="pedidos-lista" empty>
+        <Layout titlePage="Lista de Pedidos" menu="pedidos" submenu="pedidos-lista">
             {/*Pesquisa*/}
-            <div className="card card-body mb-4">
-                <div className="row justify-content-between">
-                    <div className="col-3 text-right">
-                        <TextField fullWidth label="Pesquisar..."
-                                   onChange={e => pesquisaCards(e.target.value)}
-                                   InputProps={{endAdornment: <InputAdornment position="start"><SearchOutlinedIcon/></InputAdornment>}}/>
-                    </div>
-                    <div className="col-auto">
-                        <small className="text-muted">Qtd. Total Pedidos: {qtdPedidos}</small>
-                    </div>
+            <div className="row justify-content-between mb-4">
+                <div className="col-3 text-right">
+                    <TextField fullWidth label="Pesquisar..."
+                               onChange={e => pesquisaCards(e.target.value)}
+                               InputProps={{endAdornment: <InputAdornment position="start"><SearchOutlinedIcon/></InputAdornment>}}/>
+                </div>
+                <div className="col-auto">
+                    <small className="text-muted">Qtd. Total Pedidos: {qtdPedidos}</small>
                 </div>
             </div>
 
@@ -60,7 +58,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                      className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-auto'>Reprovados</div>
                                     <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
-                                    <small className="d-block text-end">R$ {(pedidos.reprovado[0]?.faturamento ?? '0,00')}</small>
+                                    <small className="d-block text-end">R$ {totalPedidos('reprovado')}</small>
                                 </div>
                             </th>
                             <th id="th-2" className="sticky-top">
@@ -68,7 +66,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                      className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-auto'>Encomenda</div>
                                     <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
-                                    <small className="d-block text-end">R$ {(pedidos.encomenda[0]?.faturamento ?? '0,00')}</small>
+                                    <small className="d-block text-end">R$ {totalPedidos('encomenda')}</small>
                                 </div>
                             </th>
                             <th id="th-3" className="sticky-top">
@@ -76,7 +74,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                      className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-auto'>Conferência</div>
                                     <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
-                                    <small className="d-block text-end">R$ {(pedidos.conferencia[0]?.faturamento ?? '0,00')}</small>
+                                    <small className="d-block text-end">R$ {totalPedidos('conferencia')}</small>
                                 </div>
                             </th>
                             <th id="th-4" className="sticky-top">
@@ -84,7 +82,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                      className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-auto'>Lançado</div>
                                     <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
-                                    <small className="d-block text-end">R$ {(pedidos.lancado[0]?.faturamento ?? '0,00')}</small>
+                                    <small className="d-block text-end">R$ {totalPedidos('lancado')}</small>
                                 </div>
                             </th>
                             <th id="th-5" className="sticky-top">
@@ -92,7 +90,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                      className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-auto'>Faturado à Vista</div>
                                     <div className='col-auto'>Qdt: {pedidos.faturado_vista.length}</div>
-                                    <small className="d-block text-end">R$ {(pedidos.faturado_vista[0]?.faturamento ?? '0,00')}</small>
+                                    <small className="d-block text-end">R$ {totalPedidos('faturado_vista')}</small>
                                 </div>
                             </th>
                             <th id="th-6" className="sticky-top">
@@ -100,7 +98,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                      className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-auto'>Faturado à Prazo</div>
                                     <div className='col-auto'>Qdt: {pedidos.faturado_prazo.length}</div>
-                                    <small className="d-block text-end">R$ {(pedidos.faturado_prazo[0]?.faturamento ?? '0,00')}</small>
+                                    <small className="d-block text-end">R$ {totalPedidos('faturado_prazo')}</small>
                                 </div>
                             </th>
                             <th id="th-8" className="sticky-top">
@@ -108,8 +106,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                      className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-auto'>Entregue</div>
                                     <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
-                                    <small className="d-block text-end">TOTAL
-                                        R$ {(pedidos.entregue[0]?.faturamento ?? '0,00')}</small>
+                                    <small className="d-block text-end">R$ {totalPedidos('entregue')}</small>
                                 </div>
                             </th>
                             <th id="th-9" className="sticky-top">

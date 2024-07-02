@@ -21,8 +21,9 @@ class AtivoController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $permissaoPedido = is_emite_pedido();
         $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
+        $modeloSetor = modelo_setor($dados['infos']['setor']['id']);
 
         return Inertia::render('Consultor/Leads/Ativo/Show',
-            compact('dados', 'status', 'historicos', 'contatos', 'permissaoPedido', 'historicoPedidos'));
+            compact('dados', 'status', 'historicos', 'contatos', 'permissaoPedido', 'historicoPedidos', 'modeloSetor'));
     }
 }

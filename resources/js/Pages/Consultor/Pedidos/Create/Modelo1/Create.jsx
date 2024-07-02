@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import Form from "./Partials/Form";
 
 export default function Create({fornecedores, lead, endereco}) {

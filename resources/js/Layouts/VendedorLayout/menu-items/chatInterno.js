@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import QuestionAnswerOutlinedIcon from "@mui/icons-material/QuestionAnswerOutlined";
-import chaves from "./chaves";
+import chaves from "@/Layouts/Menus/chaves";
 
 const dashboard = {
     id: 'chat',

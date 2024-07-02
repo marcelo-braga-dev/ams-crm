@@ -1,13 +1,13 @@
 import Card from './Card'
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import {Link} from "@inertiajs/react";
 
 function btn(id) {
 
     return (
-        <a href={route('consultor.leads.pre_atendimento.show', id)}
+        <Link href={route('consultor.leads.pre_atendimento.show', id)}
            className="btn btn-warning btn-sm">
             ABRIR
-        </a>
+        </Link>
     )
 }
 

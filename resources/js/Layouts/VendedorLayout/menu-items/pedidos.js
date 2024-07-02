@@ -1,6 +1,6 @@
 import RequestPageOutlinedIcon from "@mui/icons-material/RequestPageOutlined";
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
-import chaves from "./chaves";
+import chaves from "@/Layouts/Menus/chaves";
 
 const dashboard = {
     id: 'pedidos',

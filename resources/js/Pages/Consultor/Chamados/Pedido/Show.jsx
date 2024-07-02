@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
 export default function ({sacs, pedido}) {

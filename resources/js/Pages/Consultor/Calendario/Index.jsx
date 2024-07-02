@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import {useEffect, useState} from 'react'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
@@ -106,7 +106,7 @@ export default function ({coresPedidos}) {
     }
 
     return (
-        <Layout titlePage="Agenda" menu="calendario-agenda">
+        <Layout titlePage="Agenda" menu="ferramentas" submenu="ferramentas-agenda">
 
             <div className="row mb-3">
                 <div className="col-md-3">

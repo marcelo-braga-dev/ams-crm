@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import chaves from "./chaves";
+import chaves from "@/Layouts/Menus/chaves";
 
 const dashboard = {
     id: 'calendario',

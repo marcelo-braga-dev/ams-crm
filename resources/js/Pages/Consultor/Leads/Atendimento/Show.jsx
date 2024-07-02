@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import {router, useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
@@ -44,7 +44,7 @@ export default function Show({dados, status, contatos, historicos, isSdr}) {
     router.on('success', () => window.location.reload())
 
     return (
-        <Layout empty menu="clientes-lista" voltar={route('consultor.leads.main.index')} titlePage="Lead - Em Atendimento">
+        <Layout empty menu="leads" voltar={route('consultor.leads.main.index')} titlePage="Lead - Em Atendimento">
             <div className="card mb-3">
                 <div className="card-body">
                     <LeadsDados dados={dados}/>

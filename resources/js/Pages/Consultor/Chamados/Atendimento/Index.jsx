@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import React, {useState} from "react";
 import {TextField} from "@mui/material";

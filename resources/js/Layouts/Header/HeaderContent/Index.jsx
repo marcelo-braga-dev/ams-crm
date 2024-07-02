@@ -1,13 +1,14 @@
 import {Box, Typography, useMediaQuery} from '@mui/material';
 import Profile from './Profile';
 import MobileSection from './MobileSection.jsx';
-import NotificacoesIcones from "./Icones/NotificacoesIcones";
+import NotificacoesIconesAdmin from "./Icones/NotificacoesIcones";
 import AuthProvider from '@/Layouts/Contexts/Context'
 import {useContext} from "react";
+import NotificacoesIcones from '@/Layouts/Menus/Consultor/Navbar/NotificacoesIcones'
 
 const HeaderContent = ({titlePage}) => {
     const matchesXs = useMediaQuery((theme) => theme.breakpoints.down('md'));
-    const {userTipo} = useContext(AuthProvider);
+    const {userTipo, funcaoUsuario} = useContext(AuthProvider);
 
     return (
         <>
@@ -15,7 +16,8 @@ const HeaderContent = ({titlePage}) => {
                 <Typography color="black">{titlePage}</Typography>
             </div>
 
-            {userTipo !== 'integrador' && <NotificacoesIcones/>}
+            {/*{(userTipo !== 'integrador') && <NotificacoesIconesAdmin/>}*/}
+            {funcaoUsuario ? <NotificacoesIconesAdmin/> : <NotificacoesIcones/>}
 
             {!matchesXs && <Profile/>}
             {matchesXs && <MobileSection/>}

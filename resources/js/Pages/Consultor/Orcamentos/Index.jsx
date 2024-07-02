@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import {Stack, Typography} from "@mui/material";
@@ -8,7 +8,7 @@ import {router} from "@inertiajs/react";
 
 const Index = () => {
     return (
-        <Layout>
+        <Layout menu="orcamentos" submenu="orcamentos-solar">
             <div className="mb-4">
                 <CardTitle title="Orçamentos" icon={<Folder size="22"/>}/>
             </div>

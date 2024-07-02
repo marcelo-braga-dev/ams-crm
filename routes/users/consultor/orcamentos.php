@@ -14,4 +14,5 @@ Route::name('consultor.orcamentos.')
     ->prefix('consultor/orcamento')
     ->group(function () {
         Route::get('orcamento-pdf', [OrcamentosController::class, 'orcamentoPdf'])->name('orcamento-pdf');
+        Route::get('buscar-geradores', [OrcamentosController::class, 'buscarGeradores'])->name('buscar-geradores');
     });

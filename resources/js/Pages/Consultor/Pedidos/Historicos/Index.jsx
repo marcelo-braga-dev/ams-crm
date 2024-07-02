@@ -1,7 +1,10 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
 import TextField from "@mui/material/TextField";
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
+import CardContainer from "@/Components/Cards/CardContainer";
+import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle";
 
 const FilterComponent = ({filterText, onFilter}) => (
     <TextField
@@ -84,18 +87,22 @@ export default function Filtering({pedidos}) {
 
 
     return (
-        <Layout container titlePage="Histórico de Pedidos" menu="pedidos-historico">
-            <DataTable
-                columns={columns}
-                data={filteredItems}
-                pagination
-                responsive={true}
-                paginationPerPage={25}
-                subHeader
-                subHeaderComponent={subHeaderComponentMemo}
-                striped
-                highlightOnHover
-            />
+        <Layout container titlePage="Histórico de Pedidos" menu="pedidos" submenu="pedidos-historico">
+            <CardContainer>
+                <CardBody>
+                    <DataTable
+                        columns={columns}
+                        data={filteredItems}
+                        pagination
+                        responsive={true}
+                        paginationPerPage={25}
+                        subHeader
+                        subHeaderComponent={subHeaderComponentMemo}
+                        striped
+                        highlightOnHover
+                    />
+                </CardBody>
+            </CardContainer>
         </Layout>
     );
 };

@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import Text from "@/Components/Elementos/Text";
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 
 function CustomTabPanel(props) {
     const {children, value, index, ...other} = props;

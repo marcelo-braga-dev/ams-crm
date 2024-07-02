@@ -1,8 +1,8 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 
 export default function ({fornecedores}) {
     return (
-        <Layout container titlePage="Produtos" menu="produtos-lista">
+        <Layout container titlePage="Produtos" menu="produtos" submenu="produtos-cadastrados">
             <div className="table-responsive">
                 <table className="table table-hover">
                     <thead>

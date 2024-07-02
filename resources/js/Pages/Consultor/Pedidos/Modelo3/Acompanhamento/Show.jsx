@@ -3,7 +3,7 @@ import {router, useForm} from '@inertiajs/react';
 
 //step
 import {TextField} from "@mui/material";
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
 export default function Create({pedido, historicos, infoEntrega}) {
@@ -30,7 +30,7 @@ export default function Create({pedido, historicos, infoEntrega}) {
     }
 
     return (
-        <Layout titlePage="Acompanhamento do Pedido" menu="pedidos-lista"
+        <Layout titlePage="Acompanhamento do Pedido" menu="pedidos" submenu="pedidos-lista"
                 voltar={route('consultor.pedidos.index', {id_card:  pedido.pedido.id})}>
             <div className="row mb-4">
                 <div className="col-12 mb-3">

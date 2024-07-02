@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import { router } from '@inertiajs/react'
 
 import React from 'react';
@@ -20,7 +20,7 @@ export default function Create({dados}) {
         })
     }
 
-    return (<Layout titlePage="Pedidos" menu="pedidos-lista" voltar={route('consultor.pedidos.index', {id_card:  dados.pedido.id})}>
+    return (<Layout titlePage="Pedidos" menu="pedidos" submenu="pedidos-lista"                voltar={route('consultor.pedidos.index', {id_card:  dados.pedido.id})}>
             {/*Baixar Nota*/}
             <Container fluid="lg" className="bg-white px-lg-6 py-lg-5 mb-4">
                 <div className="row mb-4">

@@ -409,7 +409,6 @@ class Pedidos extends Model
                     'setor_cor' => $pedido->setor_cor,
                     'status' => $pedido->status,
                     'forma_pagamento' => $pedido->forma_pagamento,
-                    'faturamento' => 10000000,
                     'contato' => [
 //                'telefone' => $pedido->cliente ? $this->clientes[$pedido->cliente]['telefone'] : $this->clientesPedidos[$pedido->id]['telefone'],
 //                'email' => $pedido->cliente ? $this->clientes[$pedido->cliente]['email'] : $this->clientesPedidos[$pedido->id]['email']

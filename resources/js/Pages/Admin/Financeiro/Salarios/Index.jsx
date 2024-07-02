@@ -167,20 +167,6 @@ const Page = ({usuarios, ano, mes}) => {
                                 </span>
                                     </div>
                                 </div>
-
-                                {vendasEquipe > 0 &&
-                                    <div className="px-4 row">
-                                        <div className="col">
-                                            <span><b>Meta da Equipe:</b> R$ {convertFloatToMoney(metasEquipe ?? 0)}</span>
-                                        </div>
-                                        <div className="col">
-                                            <span
-                                                className={margemAtingidaEquipe ? (margemAtingidaEquipe >= 100 ? 'text-success' : 'text-danger') : ''}>
-                                                <b>Alcançado pela Equipe:</b> R$ {convertFloatToMoney(vendasEquipe ?? 0)} {margemAtingidaEquipe ? `(${convertFloatToMoney(margemAtingidaEquipe ?? 0)}%)` : ''}
-                                            </span>
-                                        </div>
-                                    </div>
-                                }
                             </CardBody>
                         </CardContainer>
                     </div>

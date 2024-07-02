@@ -74,11 +74,6 @@ class PedidosController extends Controller
                     'Consultor/Pedidos/Create/Modelo2/Create',
                     compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades')
                 );
-            case 3:
-                return Inertia::render(
-                    'Consultor/Pedidos/Create/Modelo3/Create',
-                    compact('lead')
-                );
             default:
             {
                 modalErro('Falha no formulário de cadastro.');

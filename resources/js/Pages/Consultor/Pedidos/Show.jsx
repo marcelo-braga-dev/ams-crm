@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -43,7 +43,8 @@ export default function Pedidos({dados, produtos, historico, sacHistorico}) {
     };
 
     return (
-        <Layout empty titlePage="Pedidos" menu="pedidos-lista" voltar={route('consultor.pedidos.index', {id_card: dados.pedido.id})}>
+        <Layout empty titlePage="Pedidos" menu="pedidos" submenu="pedidos-lista"
+                voltar={route('consultor.pedidos.index', {id_card: dados.pedido.id})}>
             <Box sx={{width: '100%'}}>
                 <div className="card card-body mb-4">
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

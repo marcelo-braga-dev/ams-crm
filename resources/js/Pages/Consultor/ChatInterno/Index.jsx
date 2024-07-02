@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import ChatInterno from "@/Components/Chats/ChatInterno/ChatInterno";
 
 export default function ({pessoas, setores}) {

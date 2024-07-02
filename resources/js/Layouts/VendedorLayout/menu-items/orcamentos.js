@@ -1,4 +1,5 @@
-import chaves from "./chaves";
+// import chaves from "@/Layouts/Menus/chaves";
+import chaves from "@/Layouts/Menus/chaves";
 import {Folder} from "react-bootstrap-icons";
 
 const dashboard = {

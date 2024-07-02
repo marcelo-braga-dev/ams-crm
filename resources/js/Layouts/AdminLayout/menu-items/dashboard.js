@@ -1,4 +1,4 @@
-import chaves from "@/Layouts/VendedorLayout/menu-items/chaves";
+import chaves from "@/Layouts/Menus/chaves";
 import {BarChartLine} from "react-bootstrap-icons";
 
 const dashboard = {

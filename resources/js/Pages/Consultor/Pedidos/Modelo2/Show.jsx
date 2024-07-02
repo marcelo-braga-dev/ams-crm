@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/VendedorLayout/LayoutConsultor';
+import Layout from '@/Layouts/Layout';
 import Typography from "@mui/material/Typography";
 import * as React from 'react';
 import PropTypes from 'prop-types';
@@ -51,7 +51,7 @@ export default function Pedidos({dados, historico}) {
     };
 
     return (
-        <Layout titlePage="Pedidos" voltar={route('admin.pedidos.index', {id_card:  dados.pedido.id})} menu="pedidos-lista">
+        <Layout titlePage="Pedidos" voltar={route('admin.pedidos.index', {id_card:  dados.pedido.id})} menu="pedidos" submenu="pedidos-lista"               >
 
             <div className="container bg-white rounded">
                 <Box sx={{width: '100%'}}>

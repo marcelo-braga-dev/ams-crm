@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
-import chaves from "./chaves";
+import chaves from "@/Layouts/Menus/chaves";
 
 const dashboard = {
     id: 'produtos',

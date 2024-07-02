@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import * as React from "react";
 

@@ -1,5 +1,5 @@
 import {useForm} from '@inertiajs/react';
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";
 import {router} from '@inertiajs/react'

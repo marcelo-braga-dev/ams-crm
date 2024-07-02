@@ -1,5 +1,5 @@
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
-import chaves from "./chaves";
+import chaves from "@/Layouts/Menus/chaves";
 
 const relatorios = {
     id: 'relatorios',

@@ -10,13 +10,14 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('produtos_kits_fotovoltaicos', function (Blueprint $table) {
+        Schema::create('produtos_kits_solars', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
             $table->string('sku')->nullable();
             $table->unsignedBigInteger('inversor_id');
             $table->unsignedBigInteger('painel_id');
             $table->unsignedBigInteger('estrutura_id');
+            $table->string('tipo_produto');
             $table->integer('tensao');
             $table->float('preco_compra', 10);
             $table->float('preco_venda', 10)->nullable();
@@ -30,7 +31,7 @@ return new class extends Migration {
             $table->boolean('status');
             $table->boolean('estoque_disponivel');
             $table->boolean('hibrido')->default(false);
-            $table->date('estoque_disponivel_data')->default(true);
+            $table->date('estoque_disponivel_data')->nullable();
             $table->timestamps();
         });
     }
@@ -40,6 +41,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('produtos_kits_fotovoltaicos');
+        Schema::dropIfExists('produtos_kits_solars');
     }
 };

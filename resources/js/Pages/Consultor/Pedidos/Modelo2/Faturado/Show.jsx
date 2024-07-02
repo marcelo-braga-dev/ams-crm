@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import {router, useForm} from '@inertiajs/react'
 
 import React from 'react';
@@ -18,7 +18,7 @@ export default function Create({pedido}) {
     }
 
     return (
-        <Layout menu="pedidos-lista" voltar={route('consultor.pedidos.index', {id_card:  pedido.pedido.id})} titlePage="Pedido Faturado">
+        <Layout menu="pedidos" submenu="pedidos-lista"                voltar={route('consultor.pedidos.index', {id_card:  pedido.pedido.id})} titlePage="Pedido Faturado">
             <div className="row mb-4">
                 <div className="col mb-4">
                     <DadosPedido dados={pedido}/>

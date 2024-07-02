@@ -1,12 +1,12 @@
 import Card from './Card'
-
+import {Link} from "@inertiajs/react";
 function btn(id) {
 
     return (
-        <a href={route('consultor.leads.novo.show', id)}
+        <Link href={route('consultor.leads.novo.show', id)}
            className="btn btn-primary btn-sm">
             ABRIR
-        </a>
+        </Link>
     )
 }
 export default function NovoCard({dados}) {

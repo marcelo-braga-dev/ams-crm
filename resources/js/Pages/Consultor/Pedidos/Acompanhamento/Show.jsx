@@ -3,7 +3,7 @@ import {router, useForm} from '@inertiajs/react';
 
 //step
 import {TextField} from "@mui/material";
-import Layout from "@/Layouts/VendedorLayout/LayoutConsultor";
+import Layout from "@/Layouts/Layout";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 
 export default function Create({pedido, historicos, infoEntrega}) {
