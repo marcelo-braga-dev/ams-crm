@@ -50,23 +50,25 @@ const Page = ({usuarios, ano, mes}) => {
 
     const buscarRegistros = async () => {
         try {
-            const res = await axios.get(route('admin.financeiro.salarios.registros', {
-                user_id: usuarioSelecionado,
-                ano: anoSelecionado,
-                competencia: competenciaSelecionado,
-            }));
-            const data = res.data;
-            reset()
-            setRegistros(data.registros);
-            setVendasMes(data.vendas_mes.vendas);
-            setMetaMes(data.meta_mes);
-            setMetasEquipe(data.metas_equipe);
-            setVendasEquipe(data.vendas_equipe);
-            setVendasMensais(data.vendas_mensais);
-            setMetasMensais(data.metas_mensais);
-            setUsuario(data.usuario)
-            setMargemAtingida(data.meta_mes > 0 ? (data.vendas_mes.vendas / data.meta_mes * 100) : null);
-            setMargemAtingidaEquipe(data.metas_equipe > 0 ? (data.vendas_equipe / data.metas_equipe * 100) : null);
+            if (usuarioSelecionado) {
+                const res = await axios.get(route('admin.financeiro.salarios.registros', {
+                    user_id: usuarioSelecionado,
+                    ano: anoSelecionado,
+                    competencia: competenciaSelecionado,
+                }));
+                const data = res.data;
+                reset()
+                setRegistros(data.registros);
+                setVendasMes(data.vendas_mes.vendas);
+                setMetaMes(data.meta_mes);
+                setMetasEquipe(data.metas_equipe);
+                setVendasEquipe(data.vendas_equipe);
+                setVendasMensais(data.vendas_mensais);
+                setMetasMensais(data.metas_mensais);
+                setUsuario(data.usuario)
+                setMargemAtingida(data.meta_mes > 0 ? (data.vendas_mes.vendas / data.meta_mes * 100) : null);
+                setMargemAtingidaEquipe(data.metas_equipe > 0 ? (data.vendas_equipe / data.metas_equipe * 100) : null);
+            }
         } catch (error) {
             console.error("Erro ao buscar registros:", error);
         }
