@@ -1,13 +1,14 @@
 import {Stack, Typography} from "@mui/material";
+import Switch from "@/Components/Inputs/Switch";
 
 export default function LeadsDados({dados}) {
     return (<>
         <div className="row">
-            <div className="col"><Typography variant="h5"><b>Nome:</b> {dados.cliente.nome}</Typography></div>
+            <div className="col"><Typography variant="h5"><b>Nome/Nome Fantasia:</b> {dados.cliente.nome}</Typography></div>
             {dados.cliente.razao_social && <div className="col"><Typography variant="h5"><b>Razão Social:</b> {dados.cliente.razao_social}</Typography></div>}
         </div>
 
-        <div className="row my-2 ">{console.log(dados)}
+        <div className="row my-2 ">
             <div className="col">
                 <Stack spacing={1}>
                     <Typography><b>ID:</b> #{dados.id}</Typography>
@@ -53,11 +54,13 @@ export default function LeadsDados({dados}) {
         <Stack direction="row" spacing={2}>
             <Typography><b>Telefones:</b></Typography>
             {dados?.contato?.telefone && <Typography><b>Telefone:</b> {dados.contato.telefone}</Typography>}
-            {dados?.contato?.telefones && dados?.contato?.telefones.map(item => dados.contato.telefone !== item && <Typography>{item}</Typography>)}
+            {dados?.contato?.telefones && dados?.contato?.telefones.map(item => dados.contato.telefone !== item &&
+                <div key={item} className="p-2 px-3 border border-radius-lg">
+                    {/*<Stack direction="row" spacing={1}><Switch size="small" style={{marginTop: 3}}/>*/}
+                    <Typography display="inline" marginBottom={1}>{item}</Typography>
+                    {/*</Stack>*/}
+                </div>
+            )}
         </Stack>
-        <div className="row my-2">
-
-            <div className="col"></div>
-        </div>
     </>)
 }

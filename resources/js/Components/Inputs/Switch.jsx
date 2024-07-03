@@ -61,7 +61,7 @@ const SwitchButton = styled.span`
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.24);
 `;
 
-const Switch = ({checked, onChange, size}) => {
+const Switch = ({checked, onChange, size, ...others}) => {
     const [isChecked, isSetChecked] = useState(checked);
     const inputRef = round(Math.random() * 10000);
 
@@ -78,7 +78,7 @@ const Switch = ({checked, onChange, size}) => {
                 id={'ch' + inputRef}
                 type="checkbox"
             />
-            <SwitchLabel
+            <SwitchLabel {...others}
                 htmlFor={'ch' + inputRef}
                 isOn={isChecked} size={size}>
                 <SwitchButton isOn={isChecked}/>

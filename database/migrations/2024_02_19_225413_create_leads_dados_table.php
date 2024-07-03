@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('chave');
             $table->string('valor')->nullable();
             $table->string('nome')->nullable();
-            $table->string('status')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
 
             $table->foreign('lead_id')->references('id')->on('leads');
