@@ -126,7 +126,7 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
     }
 
     return (
-        <Layout empty titlePage="Kanban de Leads" menu="leads" submenu="leads-cards" voltar={route('admin.leads.cards-leads.index')}>
+        <Layout empty titlePage="Lista de Leads" menu="leads" submenu="leads-cards" voltar={route('admin.leads.cards-leads.index')}>
             <CardContainer>
                 <CardBody>
                     <div className="row justify-content-between">

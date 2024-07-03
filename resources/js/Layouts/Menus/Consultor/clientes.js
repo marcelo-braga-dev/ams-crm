@@ -16,7 +16,7 @@ const dashboard = {
                 {
                     id: 'leads-quadros',
                     chave: chaves.leads.quadros,
-                    title: 'Kanban de Clientes',
+                    title: 'Lista de Clientes',
                     type: 'item',
                     url: route('consultor.leads.main.index'),
                 }, {

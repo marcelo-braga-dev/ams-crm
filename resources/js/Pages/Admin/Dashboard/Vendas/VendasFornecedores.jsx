@@ -122,6 +122,7 @@ export default function ({fornecedoresVendas, setores, mes, ano, mesComp, anoCom
                         <table className="table-1">
                             <thead>
                             <tr>
+                                <th className="text-center">ID do Pedido</th>
                                 <th>Cliente</th>
                                 <th>Integrador</th>
                                 <th>Consultor(a)</th>
@@ -132,6 +133,7 @@ export default function ({fornecedoresVendas, setores, mes, ano, mesComp, anoCom
                             <tbody>
                             {vendasFornecedor.map(item => (
                                 <tr>
+                                    <td className="text-center">#{item.pedido_id}</td>
                                     <td>
                                         <Typography>{item.cliente_nome}</Typography>
                                         <Typography>{item.cliente_razao_social}</Typography>

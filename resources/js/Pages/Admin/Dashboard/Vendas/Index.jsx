@@ -294,8 +294,8 @@ const DataCard = ({color, icon, title, value, compValue, additionalText}) => (<d
                 <div>
                     <Typography variant="body2">{title}</Typography>
                     <Typography fontWeight="bold">R$ {convertFloatToMoney(value)}</Typography>
-                    {compValue && <Typography fontWeight="bold">R$ {convertFloatToMoney(compValue)}</Typography>}
-                    {additionalText && <Typography fontWeight="bold">{additionalText}</Typography>}
+                    {compValue > 0 && <Typography fontWeight="bold">R$ {convertFloatToMoney(compValue)}</Typography>}
+                    {compValue > 0 && <Typography fontWeight="bold">{additionalText}</Typography>}
                 </div>
             </Stack>
         </CardBody>

@@ -225,7 +225,7 @@ class VendasService
             ->where('pedidos.setor_id', $setor)
             ->where('pedidos.fornecedor_id', $fornecedor)
             ->select(DB::raw('
-                pedidos.preco_venda, pedidos.data_faturamento,
+                pedidos.preco_venda, pedidos.data_faturamento, pedidos.id AS pedido_id,
                 pedidos_clientes.nome AS cliente_nome, pedidos_clientes.razao_social AS cliente_razao_social,
                 produtos_fornecedores.id AS fornecedor_id,
                 produtos_fornecedores.nome AS fornecedor_nome,
@@ -235,6 +235,7 @@ class VendasService
             ->get()
             ->transform(function ($item) {
                 return [
+                    'pedido_id' => $item->pedido_id,
                     'fornecedor_id' => $item->fornecedor_id,
                     'fornecedor_nome' => $item->fornecedor_nome,
                     'cliente_nome' => $item->cliente_nome,
