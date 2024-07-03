@@ -25,10 +25,15 @@ class ImportarController extends Controller
 
     public function store(Request $request)
     {
+        try {
+            $dados = (new ImportarArquivoService())->dados($request);
+            $dadosSeparados = (new DadosImportacaoService())->executar($dados);
+            $idHistorico = (new LeadsImportarHistoricos())->create($request->setor);
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
+            return redirect()->back();
+        }
 
-        $dados = (new ImportarArquivoService())->dados($request);
-        $dadosSeparados = (new DadosImportacaoService())->executar($dados);
-        $idHistorico = (new LeadsImportarHistoricos())->create($request->setor);
 
         $qtd = 0;
         foreach ($dadosSeparados as $item) {

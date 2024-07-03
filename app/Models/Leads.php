@@ -199,7 +199,7 @@ class Leads extends Model
             }
         } catch (QueryException $exception) {
             $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
-            throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
+            if ($existCnpj->id ?? null) throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
         }
     }
 
