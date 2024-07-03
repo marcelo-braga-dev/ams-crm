@@ -144,16 +144,13 @@ class Leads extends Model
             if ($importacao) $status = (new NovoStatusLeads())->getStatus();
 
             $verificacaoCnpj = null;
-            $verificacaoTel = null;
 
             $idEndereco = (new Enderecos())->create($dados['endereco'] ?? null);
 
             $pessoa = ($dados['pessoa'] ?? null) ? !(($dados['pessoa'] ?? null) == 'Pessoa Física') : substr($cnpj, -6, 4) == '0001';
 
-            if (
-                !$verificacaoTel &&
-                (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))
-            ) {
+            if (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null)) {
+
                 $lead = $this->newQuery()
                     ->create([
                         'user_id' => $vendedor,
@@ -172,8 +169,8 @@ class Leads extends Model
                         'rg' => $dados['rg'] ?? null,
                         'cpf' => $dados['cpf'] ?? null,
                         'data_nascimento' => $dados['nascimento'] ?? null,
-                        'cidade' => $dados['cidade'] ?? $dados['endereco']['cidade'] ?? null,
-                        'estado' => $dados['estado'] ?? $dados['endereco']['estado'] ?? null,
+//                        'cidade' => $dados['cidade'] ?? $dados['endereco']['cidade'] ?? null,
+//                        'estado' => $dados['estado'] ?? $dados['endereco']['estado'] ?? null,
                         'anotacoes' => $dados['anotacoes'] ?? null,
                         'status_data' => now(),
                         'infos' => $dados['infos'] ?? null,
@@ -188,7 +185,7 @@ class Leads extends Model
                         'data_abertura' => $dados['data_abertura'] ?? null,
                     ]);
 
-                $this->cadastrarTelefone($lead->id, $dados['telefone'] ?? null);
+                $this->cadastrarTelefone($lead->id, $dados['telefones'] ?? null);
 
                 return $lead->id;
             } else {
@@ -206,15 +203,12 @@ class Leads extends Model
         }
     }
 
-    private function cadastrarTelefone($id, $telefone): void
+    private function cadastrarTelefone($id, $telefones): void
     {
-        $items = explode(',', $telefone);
-
-        foreach ($items as $item) {
+        foreach ($telefones as $item) {
+            if (!$item) return;
             $telefone = preg_replace('/[^0-9]/', '', $item);
             $telefone = trim(preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null));
-
-            $this->newQuery()->find($id)->update(['telefone' => $telefone]);
 
             $chaves = (new DadosLeads());
             (new LeadsDados())->create($id, $chaves->chaveTelefone(), $telefone, $chaves->nomeTelefone());

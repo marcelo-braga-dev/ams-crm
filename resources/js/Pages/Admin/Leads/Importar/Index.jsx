@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/Layout";
 import TextField from "@mui/material/TextField";
-import {useForm} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
 import MenuItem from "@mui/material/MenuItem";
 import React, {useState} from "react";
 import {CircularProgress, Stack, Typography} from "@mui/material";
@@ -18,6 +18,8 @@ export default function ({setores, modelo, historicos}) {
         setPregress(true)
         post(route('admin.clientes.leads.importar.store'))
     }
+
+    router.on('success', () => setPregress(false))
 
     return (
         <Layout titlePage="Importar Planilhas de Leads" menu="leads" submenu="leads-importar">

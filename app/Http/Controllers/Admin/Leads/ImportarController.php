@@ -33,16 +33,18 @@ class ImportarController extends Controller
         $qtd = 0;
         foreach ($dadosSeparados as $item) {
             try {
-                if ((new Leads())->create($item, $request->setor, null, $idHistorico)) $qtd++;
+                $qtd++;
+                (new Leads())->create($item, $request->setor, null, $idHistorico);
             } catch (\DomainException $exception) {
-                modalErro($exception->getMessage());
-                return redirect()->back();
+                $qtd--;
+//                modalErro($exception->getMessage());
+//                return redirect()->back();
             }
         }
 
         (new LeadsImportarHistoricos())->atualizar($idHistorico, $qtd);
 
         modalSucesso("Importação Realizada com sucesso!");
-        return redirect()->route('admin.clientes.leads.importar-historico.index');
+        return redirect()->route('admin.clientes.leads.importar.index');
     }
 }

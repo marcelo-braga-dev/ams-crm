@@ -9,16 +9,13 @@ export default function LeadsDados({dados}) {
                     <Typography><b>ID:</b> #{dados.id}</Typography>
                     <Typography><b>Status:</b> {dados.infos.status_nome}</Typography>
                     <Typography><b>Setor:</b> {dados?.infos?.setor?.nome}</Typography>
-                    {!dados.cliente.endereco && (dados.cliente.cidade || dados.cliente.estado) &&
-                        <Typography><b>Cidade/Estado:</b> {dados.cliente.cidade} / {dados.cliente.estado}</Typography>}
-                    {dados.infos.anotacoes && <Typography><b>Anotações:</b> {dados.infos.anotacoes}</Typography>}
-                </Stack>
-            </div>
-            <div className="col">
-                <Stack spacing={1}>
                     {dados.cliente.cnpj && <Typography><b>CNPJ:</b> {dados.cliente.cnpj}</Typography>}
                     {dados.cliente.rg && <Typography><b>RG:</b> {dados.cliente.rg}</Typography>}
                     {dados.cliente.cpf && <Typography><b>CPF:</b> {dados.cliente.cpf}</Typography>}
+                    {!dados.cliente.endereco && (dados.cliente.cidade || dados.cliente.estado) &&
+                        <Typography><b>Cidade/Estado:</b> {dados.cliente.cidade} / {dados.cliente.estado}</Typography>}
+                    {dados.infos.anotacoes && <Typography><b>Anotações:</b> {dados.infos.anotacoes}</Typography>}
+                    {dados.cliente.endereco && <Typography><b>Endereço:</b> {dados.cliente.endereco}</Typography>}
                 </Stack>
             </div>
             <div className="col">
@@ -51,8 +48,5 @@ export default function LeadsDados({dados}) {
                 </Stack>
             </div>
         </div>
-        <Stack spacing={1} className="mb-2">
-            {dados.cliente.endereco && <Typography><b>Endereço:</b> {dados.cliente.endereco}</Typography>}
-        </Stack>
     </>)
 }
