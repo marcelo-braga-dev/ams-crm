@@ -146,9 +146,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                             </td>
                             <td id="td-5" style={{minWidth: 300}}>
                                 {pedidos.faturado_vista.map((dados) => {
-                                    return (
-                                        <CardFaturado key={dados.id} dados={dados}
-                                                      cor={"rgba(59,189,13,0.6)"}/>)
+                                    return <CardFaturado key={dados.id} dados={dados} cor={"rgba(59,189,13,0.6)"}/>
                                 })}
                             </td>
                             <td id="td-6" style={{minWidth: 300}}>

@@ -71,11 +71,11 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
 
             {/* Body */}
             <div className='row justify-content-between mb-3'>
-                <div className='col-9 pt-2'>
+                <div className='col-auto pt-2'>
                     <span className="badge p-1 px-2" style={{backgroundColor: dados.setor_cor}}><small>{dados.setor_nome}</small></span>
                 </div>
                 {/* Btn Avanca Status */}
-                <div className='col-3 text-right'>
+                <div className='col-auto text-center'>
                     {btnAvancaStatus}
                 </div>
             </div>

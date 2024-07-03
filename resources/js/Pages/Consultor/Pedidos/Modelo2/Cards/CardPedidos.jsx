@@ -89,9 +89,6 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
             {/*Icons Buttons*/}
             <div className="row pt-2">
                 <div className="col">
-                    {/*<PinIcon dados={dados} />*/}
-                    {/*<TelefoneIcon dados={dados}/>*/}
-                    {/*<EmailIcon dados={dados}/>*/}
                 </div>
                 <div className="col-auto text-right">
                     <span className="text-sm text-muted">ID: #{dados.id}</span>
