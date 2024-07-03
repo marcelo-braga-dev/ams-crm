@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/Layout";
 import * as React from "react";
-import {TextField} from "@mui/material";
+import {TextField, Typography} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
 import {useState} from "react";
@@ -9,6 +9,8 @@ import DistribuidorasGrafico from "@/Pages/Admin/Dashboard/Vendas/Graficos/Distr
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
+import CardTitle from "@/Components/Cards/CardTitle";
+import CardTable from "@/Components/Cards/CardTable";
 
 export default function ({fornecedoresVendas, setores, mes, ano, mesComp, anoComp, setor}) {
     const [mesesSelecionado, setMesesSelecionado] = useState(mes);
@@ -16,16 +18,18 @@ export default function ({fornecedoresVendas, setores, mes, ano, mesComp, anoCom
     const [setorSelecionado, setSetorSelecionado] = useState(setor);
     const [mesesSelecionadoComp, setMesesSelecionadoComp] = useState(mesComp);
     const [anoSelecionadoComp, setAnoSelecionadoComp] = useState(anoComp);
-
-    let vendasTotal = 0, qtdTotal = 0, mediaTotal = 0
-    let valorTotalComp = 0, qtdTotalComp = 0, mediaTotalComp = 0
-
-    const isComparar = !!mesComp.length && anoComp
+    const [vendasFornecedor, setVendasFornecedor] = useState([]);
 
     function atualizarPeriodo() {
         router.get(route('admin.dashboard.vendas.fornecedores'),
             {mes: mesesSelecionado, ano: anoSelecionado, mesComp: mesesSelecionadoComp, anoComp: anoSelecionadoComp, setor: setorSelecionado})
     }
+
+    const fetchVendas = (fornecedor) => {
+        axios.get(route('admin.dashboard.get-vendas.fornecedores',
+                {fornecedor, mes: mesesSelecionado, ano: anoSelecionado, setor: setorSelecionado}))
+            .then(res => setVendasFornecedor(res.data));
+    };
 
     return (
         <Layout empty titlePage="Vendas por Distribuidoras" menu="dashboard" submenu="dashboard-vendas"
@@ -106,123 +110,43 @@ export default function ({fornecedoresVendas, setores, mes, ano, mesComp, anoCom
                 </div>
             </div>
 
-            {/*<div className="card card-body mb-4">*/}
-            {/*    <table className="table table-bordered">*/}
-            {/*        <thead>*/}
-            {/*        <tr>*/}
-            {/*            <th>*/}
-            {/*                <div className="row justify-content-between">*/}
-            {/*                    <div className="col">Clientes</div>*/}
-            {/*                    <div className="col-auto"><small>Qtd. {leads.length}</small></div>*/}
-            {/*                </div>*/}
-            {/*            </th>*/}
-            {/*            {isComparar && <th></th>}*/}
-            {/*            <th className="text-center col-1">Qtd. Pedidos</th>*/}
-            {/*            <th className="text-center">Valor Total</th>*/}
-            {/*            <th className="text-center">Valor Médio</th>*/}
-            {/*            <th></th>*/}
-            {/*        </tr>*/}
-            {/*        </thead>*/}
-            {/*        <tbody>*/}
-            {/*        {leads.map(item => {*/}
-            {/*            const qtd = vendasLeads?.[item.lead_id]?.qtd ?? 0*/}
-            {/*            const valor = vendasLeads?.[item.lead_id]?.valor ?? 0*/}
+            <CardContainer>
+                <CardTitle title="Vendas por Distribuidoras"/>
+                <CardBody>
+                    <TextField label="Distribuidora" select fullWidth style={{width: '15rem'}}
+                               onChange={e => fetchVendas(e.target.value)}>
+                        {fornecedoresVendas.map(item => <MenuItem key={item.fornecedor_id} value={item.fornecedor_id}>{item.fornecedor_nome}</MenuItem>)}
+                    </TextField>
 
-            {/*            qtdTotal += qtd*/}
-            {/*            vendasTotal += valor*/}
-
-            {/*            const media = valor / qtd*/}
-
-            {/*            const valorComp = vendasLeadsComp?.[item.lead_id]?.valor ?? 0*/}
-            {/*            const qtdComp = vendasLeadsComp?.[item.lead_id]?.qtd ?? 0*/}
-            {/*            const mediaComp = valorComp / (qtdComp > 0 ? qtdComp : 1)*/}
-
-            {/*            mediaTotal += media*/}
-            {/*            mediaTotalComp += mediaComp*/}
-
-            {/*            const difValor = valor - valorComp*/}
-            {/*            const difQtd = qtdComp - qtd*/}
-            {/*            const difMedia = mediaComp - media*/}
-
-            {/*            const textColor = 'd-block ' + (difValor > 0 ? 'text-success' : 'text-danger')*/}
-
-            {/*            qtdTotalComp += qtdComp*/}
-            {/*            valorTotalComp += valorComp*/}
-
-            {/*            return (*/}
-            {/*                <tr key={item.lead_id}>*/}
-            {/*                    <td className="text-wrap" style={{maxWidth: 300}}>*/}
-            {/*                        <b>{item.lead_nome}</b><br/>*/}
-            {/*                        ID: #{item.lead_id}<br/>*/}
-            {/*                        Último Pedido: {item.pedido_data}, {item.pedido_data_dif} dias atrás*/}
-            {/*                    </td>*/}
-            {/*                    {isComparar && <td>*/}
-            {/*                        Referência*/}
-            {/*                        <span className="d-block border-bottom border-top">Comparar</span>*/}
-            {/*                        <span className={textColor}>Diferença</span>*/}
-            {/*                    </td>}*/}
-            {/*                    <td className="text-center">*/}
-            {/*                        {qtd}*/}
-            {/*                        {isComparar && <>*/}
-            {/*                            <span className="d-block border-bottom border-top">{qtdComp}</span>*/}
-            {/*                            <span>{difQtd}</span>*/}
-            {/*                        </>}*/}
-            {/*                    </td>*/}
-            {/*                    <td className="text-center">*/}
-            {/*                        R$ {convertFloatToMoney(valor)}*/}
-            {/*                        {isComparar && <>*/}
-            {/*                            <span className="d-block border-bottom border-top">R$ {convertFloatToMoney(valorComp)}</span>*/}
-            {/*                            <span className={textColor}>R$ {convertFloatToMoney(difValor)}</span>*/}
-            {/*                        </>}*/}
-            {/*                    </td>*/}
-            {/*                    <td className="text-center">*/}
-            {/*                        R$ {convertFloatToMoney(media)}*/}
-            {/*                        {isComparar && <>*/}
-            {/*                            <span className="d-block border-bottom border-top"> R$ {convertFloatToMoney(mediaComp)}</span>*/}
-            {/*                            <span> R$ {convertFloatToMoney(difMedia)}</span>*/}
-            {/*                        </>}*/}
-            {/*                    </td>*/}
-            {/*                    <td className="text-center">*/}
-            {/*                        <a className="btn btn-link btn-sm p-0 m-0" href={route('admin.clientes.leads.leads-main.show', item.lead_id)}>Ver</a>*/}
-            {/*                    </td>*/}
-            {/*                </tr>*/}
-            {/*            )*/}
-            {/*        })}*/}
-            {/*        <tr className="bg-light">*/}
-            {/*            <td><b>TOTAL</b></td>*/}
-            {/*            {isComparar && <td>*/}
-            {/*                Referência*/}
-            {/*                <span className="d-block border-bottom border-top">Comparar</span>*/}
-            {/*                <span className={(valorTotalComp - vendasTotal) >= 0 ? 'text-success' : 'text-danger'}>Diferença</span>*/}
-            {/*            </td>}*/}
-            {/*            <td className="text-center">*/}
-            {/*                {qtdTotal}*/}
-            {/*                {isComparar && <>*/}
-            {/*                    <span className="d-block border-bottom border-top">{qtdTotalComp}</span>*/}
-            {/*                    <span>{qtdTotalComp - qtdTotal}</span>*/}
-            {/*                </>}*/}
-            {/*            </td>*/}
-            {/*            <td className="text-center">*/}
-            {/*                R$ {convertFloatToMoney(vendasTotal)}*/}
-            {/*                {isComparar && <>*/}
-            {/*                    <span className="d-block border-bottom border-top">R$ {convertFloatToMoney(valorTotalComp)}</span>*/}
-            {/*                    <span className={(valorTotalComp - vendasTotal) >= 0 ? 'text-success' : 'text-danger'}>*/}
-            {/*                        R$ {convertFloatToMoney(valorTotalComp - vendasTotal)}*/}
-            {/*                    </span>*/}
-            {/*                </>}*/}
-            {/*            </td>*/}
-            {/*            <td className="text-center">*/}
-            {/*                R$ {convertFloatToMoney(mediaTotal)}*/}
-            {/*                {isComparar && <>*/}
-            {/*                    <span className="d-block border-bottom border-top"> R$ {convertFloatToMoney(mediaTotalComp)}</span>*/}
-            {/*                    <span> R$ {convertFloatToMoney(mediaTotalComp - mediaTotal)}</span>*/}
-            {/*                </>}*/}
-            {/*            </td>*/}
-            {/*            <td></td>*/}
-            {/*        </tr>*/}
-            {/*        </tbody>*/}
-            {/*    </table>*/}
-            {/*</div>*/}
+                    <CardTable>
+                        <table className="table-1">
+                            <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Integrador</th>
+                                <th>Consultor(a)</th>
+                                <th>Valor</th>
+                                <th>Data</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {vendasFornecedor.map(item => (
+                                <tr>
+                                    <td>
+                                        <Typography>{item.cliente_nome}</Typography>
+                                        <Typography>{item.cliente_razao_social}</Typography>
+                                    </td>
+                                    <td>{item.lead_nome}</td>
+                                    <td>{item.consultor_nome}</td>
+                                    <td>R$ {convertFloatToMoney(item.valor)}</td>
+                                    <td>{item.data}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
+                    </CardTable>
+                </CardBody>
+            </CardContainer>
         </Layout>
     )
 }

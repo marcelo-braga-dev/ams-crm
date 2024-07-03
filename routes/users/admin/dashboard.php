@@ -22,4 +22,5 @@ Route::middleware(['auth', 'auth.admins'])
         Route::get('vendas-registros', [VendasController::class, 'registros'])->name('vendas.registros');
         Route::get('vendas-leads', [VendasController::class, 'leadsVendas'])->name('vendas.leads');
         Route::get('vendas-fornecedores', [VendasController::class, 'fornecedoresVendas'])->name('vendas.fornecedores');
+        Route::get('get-vendas-fornecedores', [VendasController::class, 'getVendasFornecedor'])->name('get-vendas.fornecedores');
     });

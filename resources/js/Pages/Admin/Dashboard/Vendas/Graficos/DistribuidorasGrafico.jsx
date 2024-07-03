@@ -44,5 +44,5 @@ export default function DistribuidorasGrafico({dados}) {
         }
     };
 
-    return <Bar options={options} data={data} height={200}/>
+    return <Bar options={options} data={data} height={150}/>
 }

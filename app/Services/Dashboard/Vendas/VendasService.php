@@ -150,7 +150,7 @@ class VendasService
         return (new Pedidos())->newQuery()
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
             ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
-            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), [...$mesComp,...$mes ])
+            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), [...$mesComp, ...$mes])
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)
             ->select(DB::raw('
@@ -209,6 +209,43 @@ class VendasService
             }
             return $res;
         }
+        return $items;
+    }
+
+    public function vendasFornecedor($fornecedor, $mes, $ano, $setor, $limit = null, $index = false)
+    {
+        $items = (new Pedidos())->newQuery()
+            ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
+            ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
+            ->leftJoin('users', 'pedidos.user_id', '=', 'users.id')
+            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+            ->whereYear('pedidos.data_faturamento', $ano)
+            ->where('pedidos.setor_id', $setor)
+            ->where('pedidos.fornecedor_id', $fornecedor)
+            ->select(DB::raw('
+                pedidos.preco_venda, pedidos.data_faturamento,
+                pedidos_clientes.nome AS cliente_nome, pedidos_clientes.razao_social AS cliente_razao_social,
+                produtos_fornecedores.id AS fornecedor_id,
+                produtos_fornecedores.nome AS fornecedor_nome,
+                users.name AS consultor_nome, leads.nome AS lead_nome
+                '))
+//            ->orderByDesc('valor')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'fornecedor_id' => $item->fornecedor_id,
+                    'fornecedor_nome' => $item->fornecedor_nome,
+                    'cliente_nome' => $item->cliente_nome,
+                    'consultor_nome' => $item->consultor_nome,
+                    'cliente_razao_social' => $item->cliente_razao_social,
+                    'cliente_id' => $item->cliente_id,
+                    'lead_nome' => $item->lead_nome,
+                    'valor' => $item->preco_venda,
+                    'data' => date('d/m/y H:i', strtotime($item->data_faturamento))
+                ];
+            });
         return $items;
     }
 }

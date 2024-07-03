@@ -112,8 +112,22 @@ class VendasController extends Controller
         $setores = (new Setores())->get();
 
         $fornecedoresVendas = (new VendasService())->vendasFornecedores($mes, $ano, $setor, null, false);
-
+//print_pre( (new VendasService())->vendasFornecedor(11, [5], $ano, $setor, null, false));
         return Inertia::render('Admin/Dashboard/Vendas/VendasFornecedores',
             compact('fornecedoresVendas', 'setores', 'mes', 'ano', 'mesComp', 'anoComp', 'setor'));
+    }
+
+    public function getVendasFornecedor(Request $request)
+    {
+        $mes = $request->mes ?? [date('n')];
+        $ano = $request->ano ?? date('Y');
+        $mesComp = $request->mesComp ?? [];
+        $anoComp = $request->anoComp ?? null;
+        $setor = $request->setor ?? 1;
+        $fornecedor = $request->fornecedor;
+
+        $vendas = (new VendasService())->vendasFornecedor($fornecedor, $mes, $ano, $setor, null, false);
+
+        return response()->json($vendas);
     }
 }
