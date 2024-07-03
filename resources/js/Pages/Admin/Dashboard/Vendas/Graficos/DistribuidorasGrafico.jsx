@@ -2,25 +2,25 @@ import React from "react";
 import {Bar} from "react-chartjs-2";
 import "chart.js/auto";
 
-export default function TopLeadsGrafico({leads, dados, vendasLeadsComp}) {
+export default function DistribuidorasGrafico({dados}) {
 
-    const nomes = leads.map(item => (item.lead_nome + ' [#' + item.lead_id + ']') ?? '?')
-    const qtdVendas = leads.map(item => dados?.[item.lead_id]?.valor ?? 0)
-    const qtdVendasComp = leads.map(item => vendasLeadsComp?.[item.lead_id]?.valor ?? 0)
+    const nomes = dados.map(item => item.fornecedor_nome ?? '')
+    const qtdVendas = dados.map(item => item.valor ?? 0)
+    // const qtdVendasComp = leads.map(item => vendasLeadsComp?.[item.lead_id]?.valor ?? 0)
 
     const colunas = [
         {
-            label: "Total vendas por Lead",
+            label: "Total vendas",
             data: qtdVendas,
-            backgroundColor: "#1128b8",
+            backgroundColor: "#29ca11",
         }
     ]
 
-    vendasLeadsComp.length !== 0 && colunas.push({
-        label: "Total vendas por Lead Comparado",
-        data: qtdVendasComp,
-        backgroundColor: "#eabe0b",
-    })
+    // vendasLeadsComp.length !== 0 && colunas.push({
+    //     label: "Total vendas por Lead Comparado",
+    //     data: qtdVendasComp,
+    //     backgroundColor: "#0d5505",
+    // })
 
     const data = {
         labels: nomes,

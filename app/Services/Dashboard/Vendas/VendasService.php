@@ -173,4 +173,42 @@ class VendasService
                 ];
             });
     }
+
+    public function vendasFornecedores($mes, $ano, $setor, $limit = null, $index = false)
+    {
+        $items = (new Pedidos())->newQuery()
+            ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+            ->whereYear('pedidos.data_faturamento', $ano)
+            ->where('pedidos.setor_id', $setor)
+            ->select(DB::raw('
+                count(pedidos.id) AS qtd,
+                produtos_fornecedores.id AS fornecedor_id,
+                produtos_fornecedores.nome AS fornecedor_nome,
+                SUM(pedidos.preco_venda) AS valor
+                '))
+            ->groupBy('pedidos.fornecedor_id')
+            ->orderByDesc('valor')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'fornecedor_id' => $item->fornecedor_id,
+                    'fornecedor_nome' => $item->fornecedor_nome,
+                    'qtd' => $item->qtd,
+                    'valor' => $item->valor,
+                    'pedido_data' => date('d/m/y', strtotime($item->pedido_data)),
+                    'pedido_data_dif' => $item->dif_data,
+                ];
+            });
+
+        if ($index) {
+            $res = [];
+            foreach ($items as $item) {
+                $res[$item['fornecedor_id']] = $item;
+            }
+            return $res;
+        }
+        return $items;
+    }
 }

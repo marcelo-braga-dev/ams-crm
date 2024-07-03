@@ -20,7 +20,7 @@ class VendasController extends Controller
         $setor = $request->setor ?? 1;
 
         $setores = (new Setores())->get();
-
+//print_pre($fornecedoresVendas = (new VendasService())->vendasFornecedores([5], $ano, $setor, null, false));
         return Inertia::render('Admin/Dashboard/Vendas/Index',
             compact('mes', 'ano', 'setores', 'setor')
         );
@@ -48,12 +48,13 @@ class VendasController extends Controller
         $metaAnualEmpresa = (new MetasVendas())->metasMensaisEmpresa($ano, $setor);
 
         $vendasEstados = (new VendasService())->vendasPorEstados($mes, $ano, $setor);
-        $vendasLeads = (new VendasService())->vendasPorLeads($mes, $ano, $setor, 15, true);
-        $leads = (new VendasService())->vendasPorLeadsIds($mes, $ano, $mesComp, $anoComp, $setor, 15);
+        $vendasLeads = (new VendasService())->vendasPorLeads($mes, $ano, $setor, 10, true);
+        $leads = (new VendasService())->vendasPorLeadsIds($mes, $ano, $mesComp, $anoComp, $setor, 10);
+        $fornecedoresVendas = (new VendasService())->vendasFornecedores($mes, $ano, $setor, null, false);
 
         if ($request->mesComp || $request->anoComp) {
             $vendasComp = (new Pedidos())->vendasPeriodo($mesComp, $anoComp, $setor, true);
-            $vendasLeadsComp = (new VendasService())->vendasPorLeads($mesComp, $anoComp, $setor, 15, true);
+            $vendasLeadsComp = (new VendasService())->vendasPorLeads($mesComp, $anoComp, $setor, 10, true);
 
             $metasUsuariosComp = (new MetasVendas())->metasMensalUsuarios($mesComp, $anoComp);
             //
@@ -70,6 +71,7 @@ class VendasController extends Controller
             'vendas_leads' => $vendasLeads,
             'vendas_leads_comp' => $vendasLeadsComp ?? [],
             'leads' => $leads,
+            'fornecedores_vendas' => $fornecedoresVendas,
 
             //
             'vedas_metas' => $metaVendas,
@@ -97,5 +99,21 @@ class VendasController extends Controller
 
         return Inertia::render('Admin/Dashboard/Vendas/VendasLeads',
             compact('leads', 'vendasLeads', 'vendasLeadsComp', 'setores', 'mes', 'ano', 'mesComp', 'anoComp', 'setor'));
+    }
+
+    public function fornecedoresVendas(Request $request)
+    {
+        $mes = $request->mes ?? [date('n')];
+        $ano = $request->ano ?? date('Y');
+        $mesComp = $request->mesComp ?? [];
+        $anoComp = $request->anoComp ?? null;
+        $setor = $request->setor ?? 1;
+
+        $setores = (new Setores())->get();
+
+        $fornecedoresVendas = (new VendasService())->vendasFornecedores($mes, $ano, $setor, null, false);
+
+        return Inertia::render('Admin/Dashboard/Vendas/VendasFornecedores',
+            compact('fornecedoresVendas', 'setores', 'mes', 'ano', 'mesComp', 'anoComp', 'setor'));
     }
 }
