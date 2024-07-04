@@ -18,7 +18,7 @@ const dashboard = {
                     chave: chaves.produtos.cadastrados,
                     title: 'Lista de Produtos',
                     type: 'item',
-                    url: route('consultor.pedidos.produtos.index'),
+                    url: route('consultor.produtos.index'),
                 },
             ]
         }

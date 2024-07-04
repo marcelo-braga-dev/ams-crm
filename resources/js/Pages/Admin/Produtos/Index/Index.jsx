@@ -21,13 +21,17 @@ export default function Index({fornecedores, categorias, isFinanceiro}) {
                 <CardBody>
                     <div className="row">
                         <div className="col-md-2">
-                            <TextField label="Distribuidora" select fullWidth onChange={e => setFiltros({...filtros, fornecedor: e.target.value})}>
+                            <TextField label="Distribuidora" select fullWidth onChange={e => {
+                                setFiltros({...filtros, fornecedor: e.target.value})
+                            }}>
                                 <MenuItem value="">Todos</MenuItem>
                                 {fornecedores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
                         <div className="col-md-2">
-                            <TextField label="Categoria" select fullWidth onChange={e => setFiltros({...filtros, categoria: e.target.value})}>
+                            <TextField label="Categoria" select fullWidth onChange={e => {
+                                setFiltros({...filtros, categoria: e.target.value})
+                            }}>
                                 <MenuItem value="">Todos</MenuItem>
                                 {categorias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
@@ -35,7 +39,9 @@ export default function Index({fornecedores, categorias, isFinanceiro}) {
                         <div className="col-md-3">
                             <Stack direction="row">
                                 <TextField label="Filtro" select fullWidth sx={{width: '10rem'}} value={filtros.filtro}
-                                           onChange={e => setFiltros({...filtros, filtro: e.target.value})}>
+                                           onChange={e => {
+                                               setFiltros({...filtros, filtro: e.target.value})
+                                           }}>
                                     <MenuItem value="id">ID</MenuItem>
                                     <MenuItem value="nome">Nome</MenuItem>
                                 </TextField>

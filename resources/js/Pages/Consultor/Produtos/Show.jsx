@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import Text from "@/Components/Elementos/Text";
 import Layout from "@/Layouts/Layout";
+import {Stack} from "@mui/material";
 
 function CustomTabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -50,7 +51,7 @@ export default function ({produto, infos}) {
     };
 
     return (
-        <Layout titlePage="Informaçoẽs do Produto" menu="produtos" >
+        <Layout titlePage="Informaçoẽs do Produto" menu="produtos" voltar={route('consultor.produtos.index')}>
             <div className="row">
                 <div className="col-auto">
                     <ImagePdf url={produto.foto}/>
@@ -58,14 +59,18 @@ export default function ({produto, infos}) {
                 <div className="col">
                     <div className="row justify-content-between">
                         <div className="col">
-                            <h5 className="d-block">{produto.nome}</h5>
-                            <small className="d-block">ID: #{produto.id}</small>
-                            <span className="d-block"><b>Preço de Venda:</b> R$ {produto.preco_venda}</span>
-                            <span className="d-block"><b>Preço do Forn.:</b> R$ {produto.preco_fornecedor}</span>
-                            <span className="d-block"><b>Unidade:</b> {produto.unidade_nome}</span>
-                            <span className="d-block"><b>Categoria:</b> {produto.categoria_nome}</span>
-                            <span className="d-block"><b>Fornecedor:</b> {produto.fornecedor_nome}</span>
-                            <span className="d-block"><b>Estoque:</b> {produto.estoque} und.</span>
+                            <Stack spacing={1}>
+                                <Typography variant="h4">{produto.nome}</Typography>
+                                <small>ID: #{produto.id}</small>
+                                <Stack direction="row" spacing={3}>
+                                    <Typography><b>Preço de Venda:</b> R$ {produto.preco_venda}</Typography>
+                                    <Typography><b>Estoque:</b> {produto.estoque} und.</Typography>
+                                </Stack>
+                                {produto.preco_fornecedor > 0 && <Typography><b>Preço do Forn.:</b> R$ {produto.preco_fornecedor}</Typography>}
+                                <Typography><b>Unidade:</b> {produto.unidade_valor} {produto.unidade_nome}</Typography>
+                                <Typography><b>Categoria:</b> {produto.categoria_nome}</Typography>
+                                <Typography><b>Fornecedor:</b> {produto.fornecedor_nome}</Typography>
+                            </Stack>
                         </div>
                     </div>
                 </div>

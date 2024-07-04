@@ -1,4 +1,3 @@
-import CardTitle from "@/Components/Cards/CardTitle";
 import CardTable from "@/Components/Cards/CardTable";
 import {Stack, TextField, Typography} from "@mui/material";
 import CardContainer from "@/Components/Cards/CardContainer";
@@ -144,6 +143,9 @@ const Tabela = ({isFinanceiro, filtros}) => {
     useEffect(() => {
         getProdutos();
     }, [getProdutos]);
+    useEffect(() => {
+        setPaginate(1);
+    }, [filtros]);
 
     const atualizarEstoque = (e) => {
         e.preventDefault();

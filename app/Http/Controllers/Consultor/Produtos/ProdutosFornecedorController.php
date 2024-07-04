@@ -9,6 +9,9 @@ use App\Services\Fornecedores\FornecedoresService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+/**
+ * @deprecated
+ */
 class ProdutosFornecedorController extends Controller
 {
     public function index(Request $request)

@@ -8,4 +8,5 @@ Route::middleware(['auth', 'auth.consultores'])
     ->prefix('consultor')
     ->group(function () {
         Route::resource('produtos', ProdutosController::class);
+        Route::get('produto/get-produtos', [ProdutosController::class, 'produtos'])->name('produtos.get-produtos');
     });

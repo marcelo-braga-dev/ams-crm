@@ -10,6 +10,18 @@ use Inertia\Inertia;
 
 class ProdutosController extends Controller
 {
+    public function index()
+    {
+        return Inertia::render('Consultor/Produtos/Index');
+    }
+
+    public function produtos(Request $request)
+    {
+        $produtos = (new Produtos())->produtos($request->filtros);
+
+        return response()->json($produtos);
+    }
+
     public function show($id)
     {
         $produto = (new Produtos())->find($id);

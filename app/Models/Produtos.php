@@ -289,4 +289,11 @@ class Produtos extends Model
             ->find($id)
             ->increment('estoque_local', $estoque);
     }
+
+    public function get($setor = null)
+    {
+        return $this->newQuery()
+            ->where($setor ? ['setor_id' => $setor] : null)
+            ->get();
+    }
 }
