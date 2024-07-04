@@ -74,11 +74,13 @@ class Produtos extends Model
         return $this->dado($item);
     }
 
-    public function produtos($filtros)
+    public function produtos($filtros, $setor = null)
     {
         $query = $this->joinsAdd($this)
             ->where(($filtros['fornecedor'] ?? null) ? ['produtos.fornecedor_id' => $filtros['fornecedor']] : null)
             ->where(($filtros['categoria'] ?? null) ? ['produtos.categoria_id' => $filtros['categoria']] : null);
+
+        if ($setor) $query->where('produtos.setor_id', $setor);
 
         if (($filtros['filtro'] ?? null) && ($filtros['filtro_valor'] ?? null)) {
             if ($filtros['filtro'] == 'id') $query->where('produtos.id', $filtros['filtro_valor']);

@@ -17,7 +17,7 @@ class ProdutosController extends Controller
 
     public function produtos(Request $request)
     {
-        $produtos = (new Produtos())->produtos($request->filtros);
+        $produtos = (new Produtos())->produtos($request->filtros, setor_usuario_atual());
 
         return response()->json($produtos);
     }
