@@ -105,7 +105,7 @@ export default function InputsDadosLead({data, setData, required}) {
                 </div>
                 <div className="col-md-3 mb-4">
                     <TextField label={'Telefone'} required={required} fullWidth className="phone" defaultValue={data?.telefone}
-                               onBlur={e => setData('telefone', e.target.value)}/>
+                               onBlur={e => setData('telefones', [e.target.value])}/>
                 </div>
                 <div className="col-md-3 mb-4">
                     <TextField label="Email" type="email" defaultValue={data?.email}

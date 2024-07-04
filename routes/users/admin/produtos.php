@@ -2,10 +2,8 @@
 
 use App\Http\Controllers\Admin\Produtos\CategoriasController;
 use App\Http\Controllers\Admin\Produtos\EstoquesController;
-use App\Http\Controllers\Admin\Produtos\EstoquesProdutosController;
 use App\Http\Controllers\Admin\Produtos\FornecedoresController;
 use App\Http\Controllers\Admin\Produtos\ProdutosController;
-use App\Http\Controllers\Admin\Produtos\ProdutosFornecedoresController;
 use App\Http\Controllers\Admin\Produtos\UnidadesController;
 use App\src\Produtos\Integracoes\Edeltec\IntegracoesController;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +15,6 @@ Route::middleware(['auth', 'auth.admins'])
     ->group(function () {
         Route::resource('produtos', ProdutosController::class);
 
-        Route::resource('produtos-fornecedores', ProdutosFornecedoresController::class);
-
-        Route::resource('estoque-local', EstoquesProdutosController::class);
         Route::resource('produtos-categorias', CategoriasController::class);
         Route::resource('produtos-unidades', UnidadesController::class);
     });

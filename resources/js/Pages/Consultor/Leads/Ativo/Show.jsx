@@ -116,7 +116,7 @@ export default function Show({dados, contatos, historicos, permissaoPedido, hist
 }
 
 const Classificacao = ({classificacao, updateClassificacao, leadId}) => (
-    <div>
+    <div className="mt-4">
         <span className="text-bold pe-2">Classificação:</span>
         {['❌', '☹️', '😐', '🙂', '😁'].map((emoji, index) => (
             <span

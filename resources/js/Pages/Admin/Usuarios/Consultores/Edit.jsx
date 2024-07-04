@@ -1,16 +1,14 @@
-import { useState } from 'react';
-import { useForm } from '@inertiajs/react';
+import {useState} from 'react';
+import {useForm} from '@inertiajs/react';
 import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
-import { TextField, MenuItem, Card, Checkbox, FormControlLabel } from "@mui/material";
-import { router } from '@inertiajs/react'
+import {TextField, MenuItem, Card} from "@mui/material";
+import {router} from '@inertiajs/react'
 
-import menuItems from '@/Layouts/VendedorLayout/menu-items';
-
-export default function Edit({ usuario, franquias, setores, superiores, menus, errors }) {
+export default function Edit({usuario, franquias, setores, errors}) {
 
     const [menuSelecionado, setMenuSelecionado] = useState([])
 
-    const { data, setData, } = useForm({
+    const {data, setData,} = useForm({
         nome: usuario.nome,
         email: usuario.email,
         status: usuario.status,
@@ -36,8 +34,8 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
 
     return (
         <Layout errors={errors} titlePage="Atualizar Dados"
-            voltar={route('admin.usuarios.consultores.show', usuario.id)}
-            menu="usuarios" submenu="contas">
+                voltar={route('admin.usuarios.consultores.show', usuario.id)}
+                menu="usuarios" submenu="contas">
 
             <form onSubmit={submit}>
                 <Card className='p-4 mb-4'>
@@ -53,18 +51,18 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
                     <div className="mt-4 mb-3 row">
                         <div className="col">
                             <TextField label="Nome" id="nome" value={data.nome} required
-                                onChange={e => setData('nome', e.target.value)} fullWidth />
+                                       onChange={e => setData('nome', e.target.value)} fullWidth/>
                         </div>
                         <div className="col">
                             <TextField label="Email" id="email" value={data.email} type={'email'} required
-                                onChange={e => setData('email', e.target.value)} fullWidth />
+                                       onChange={e => setData('email', e.target.value)} fullWidth/>
                         </div>
                     </div>
                     <div className="row">
                         <div className="mb-3 col-md-3">
                             <TextField label="Franquia" select required fullWidth
-                                defaultValue={data.franquia}
-                                onChange={e => setData('franquia', e.target.value)}>
+                                       defaultValue={data.franquia}
+                                       onChange={e => setData('franquia', e.target.value)}>
                                 {franquias.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
@@ -86,8 +84,8 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
                         <div className="mb-3 col-md-3">
                             {/*Setores*/}
                             <TextField label="Setor" select required fullWidth
-                                defaultValue={data.setor}
-                                onChange={e => setData('setor', e.target.value)}>
+                                       defaultValue={data.setor}
+                                       onChange={e => setData('setor', e.target.value)}>
                                 {setores.map((setor, index) => {
                                     return (
                                         <MenuItem key={index} value={setor.id}>{setor.nome}</MenuItem>
@@ -97,8 +95,8 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
                         </div>
                         <div className="mb-3 col-md-3">
                             <TextField label="Função" select required fullWidth
-                                defaultValue={data.funcao}
-                                onChange={e => setData('funcao', e.target.value)}>
+                                       defaultValue={data.funcao}
+                                       onChange={e => setData('funcao', e.target.value)}>
                                 <MenuItem value="consultor">Consultor</MenuItem>
                                 <MenuItem value="supervisor">Supervisor</MenuItem>
                                 <MenuItem value="admin">Admin</MenuItem>
@@ -106,8 +104,8 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
                         </div>
                         <div className="mb-3 col-md-3">
                             <TextField type="file" label="Foto"
-                                inputProps={{ accept: 'image/*' }} InputLabelProps={{ shrink: true }}
-                                onChange={e => setData('foto', e.target.files[0])} />
+                                       inputProps={{accept: 'image/*'}} InputLabelProps={{shrink: true}}
+                                       onChange={e => setData('foto', e.target.files[0])}/>
                         </div>
                     </div>
                 </Card>
@@ -169,11 +167,11 @@ export default function Edit({ usuario, franquias, setores, superiores, menus, e
                     <div className="row">
                         <div className="col">
                             <TextField label="Nova Senha" type="password" fullWidth required
-                                onChange={e => setData('nova_senha', e.target.value)} />
+                                       onChange={e => setData('nova_senha', e.target.value)}/>
                         </div>
                         <div className="col">
                             <TextField label="Confirmar Nova Senha" type="password" fullWidth required
-                                onChange={e => setData('confirmar_senha', e.target.value)} />
+                                       onChange={e => setData('confirmar_senha', e.target.value)}/>
                         </div>
                         <div className="col">
                             <button className="mt-2 btn btn-primary" type="submit">Atualizar Senha</button>

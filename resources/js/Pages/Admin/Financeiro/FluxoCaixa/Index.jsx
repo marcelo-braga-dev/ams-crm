@@ -313,7 +313,7 @@ export default function ({fornecedores, franquias, empresas}) {
 
                             {/*Salario*/}
                             {registrosSalarios?.[dia]?.map(item => {
-                                const link = () => router.get(route('admin.financeiro.salarios.edit', item.user_id), {mes: item.mes})
+                                const link = () => router.get(route('admin.financeiro.salarios.index', item.user_id), {mes: item.mes})
                                 return (
                                     <Card key={item.id} className="mb-4 shadow"
                                           style={{

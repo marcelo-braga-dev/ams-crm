@@ -25,8 +25,6 @@ export default function LeadsDados({dados}) {
             </div>
             <div className="col">
                 <Stack spacing={1}>
-                    {dados.contato.telefone && <Typography><b>Telefone:</b> {dados.contato.telefone}</Typography>}
-
                     {dados.contato.email && <Typography><b>Email:</b> {dados.contato.email}</Typography>}
                     {dados.contato.atendente &&
                         <Typography><b>Nome do Contato:</b> {dados.contato.atendente}</Typography>}
@@ -53,12 +51,12 @@ export default function LeadsDados({dados}) {
         </div>
         <Stack direction="row" spacing={2}>
             <Typography><b>Telefones:</b></Typography>
-            {dados?.contato?.telefone && <Typography><b>Telefone:</b> {dados.contato.telefone}</Typography>}
+            {dados?.contato?.telefone && <div className="p-2 px-3 border border-radius-lg">
+                <Typography display="inline" marginBottom={1}>{dados?.contato?.telefone}</Typography>
+            </div>}
             {dados?.contato?.telefones && dados?.contato?.telefones.map(item => dados.contato.telefone !== item &&
                 <div key={item} className="p-2 px-3 border border-radius-lg">
-                    {/*<Stack direction="row" spacing={1}><Switch size="small" style={{marginTop: 3}}/>*/}
                     <Typography display="inline" marginBottom={1}>{item}</Typography>
-                    {/*</Stack>*/}
                 </div>
             )}
         </Stack>

@@ -205,14 +205,15 @@ class Leads extends Model
 
     private function cadastrarTelefone($id, $telefones): void
     {
-        foreach ($telefones as $item) {
-            if (!$item) return;
-            $telefone = preg_replace('/[^0-9]/', '', $item);
-            $telefone = trim(preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null));
+        if ($telefones)
+            foreach ($telefones as $item) {
+                if (!$item) return;
+                $telefone = preg_replace('/[^0-9]/', '', $item);
+                $telefone = trim(preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null));
 
-            $chaves = (new DadosLeads());
-            (new LeadsDados())->create($id, $chaves->chaveTelefone(), $telefone, $chaves->nomeTelefone());
-        }
+                $chaves = (new DadosLeads());
+                (new LeadsDados())->create($id, $chaves->chaveTelefone(), $telefone, $chaves->nomeTelefone());
+            }
     }
 
     public function getResumido($setor, $comSdr = null, $comConsultor = null, $importacao = null)

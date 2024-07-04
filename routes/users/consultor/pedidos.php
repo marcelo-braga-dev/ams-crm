@@ -6,7 +6,6 @@ use App\Http\Controllers\Consultor\Pedidos\PedidosController;
 use App\Http\Controllers\Consultor\Pedidos\Status\AcompanhamentoController;
 use App\Http\Controllers\Consultor\Pedidos\Status\AguardandoPagamentoController;
 use App\Http\Controllers\Consultor\Pedidos\Status\RevisarController;
-use App\Http\Controllers\Consultor\Produtos\ProdutosFornecedorController;
 use Illuminate\Support\Facades\Route;
 
 // MODELO 1
@@ -32,12 +31,4 @@ Route::name('consultor.pedidos.modelo-2.')
     ->prefix('consultor/pedidos/modelo-2')
     ->group(function () {
         Route::resource('faturado', \App\Http\Controllers\Consultor\Pedidos\Modelo2\FaturadoController::class);
-    });
-
-Route::middleware(['auth', 'auth.consultores'])
-    ->name('consultor.pedidos.')
-    ->prefix('consultor/pedido')
-    ->group(function () {
-
-        Route::resource('produtos', ProdutosFornecedorController::class);
     });

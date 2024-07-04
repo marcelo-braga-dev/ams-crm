@@ -96,37 +96,6 @@ class Produtos extends Model
         return ['dados' => $dados, 'paginate' => ['current' => $items->currentPage(), 'last_page' => $items->lastPage(), 'total' => $items->total()]];
     }
 
-    /**
-     * @deprecated
-     */
-    public function getProdutos($idFornecedor)
-    {
-        $categorias = (new ProdutosCategorias())->getNomes();
-        $unidades = (new ProdutosUnidades())->getNomes();
-//        $estoqueVendedor = (new ProdutosTransito())->estoqueConsultor(id_usuario_atual());
-        $financeiro = is_financeiro();
-
-        return $this->newQuery()
-            ->where('fornecedor_id', $idFornecedor)
-            ->orderByDesc('id')
-            ->get()
-            ->transform(function ($dados) use ($categorias, $estoqueVendedor, $unidades, $financeiro) {
-                return [
-                    'id' => $dados->id,
-                    'nome' => $dados->nome,
-                    'preco_fornecedor' => $financeiro ? convert_float_money($dados->preco_fornecedor) : 0,
-                    'preco_venda' => convert_float_money($dados->preco_venda),
-                    'preco_venda_float' => $dados->preco_venda,
-                    'preco_fornecedor_float' => $financeiro ? $dados->preco_fornecedor : 0,
-                    'unidade' => $unidades[$dados->unidade_id] ?? '',
-                    'estoque' => $dados->estoque_local,
-                    'estoque_consultor' => $estoqueVendedor[$dados->id] ?? 0,
-                    'categoria' => $categorias[$dados->categoria] ?? '',
-                    'foto' => url_arquivos($dados->url_foto)
-                ];
-            });
-    }
-
     public function create($dados)
     {
         $url = (new Images())->armazenar($dados, 'foto', 'fotos_produtos');
