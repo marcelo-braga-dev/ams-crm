@@ -16,7 +16,7 @@ class Requisicao
 
         $response = Http::withToken($token)
             ->get($url, [
-                'limit' => '10000',
+                'limit' => '5000',
                 'page' => $page,
                 'tipo' => 'GERADOR FOTOVOLTAICO'
             ])->json();
@@ -33,7 +33,7 @@ class Requisicao
         $marcasNomes = (new ProdutosMarcas())->marcasId();
         $estruturasNomes = (new EstruturasGeradores())->estruturasId();
 
-        for ($i = 1; $i <= 3; $i++) {
+        for ($i = 3; $i <= 6; $i++) {
             $items = $this->requisicao($token, $i);
 
             foreach ($items as $item) {
@@ -50,7 +50,7 @@ class Requisicao
                         'potencia_kit' => $item['potenciaGerador'],
                         'potencia_inversor' => $item['potenciaInversor'],
                         'potencia_modulo' => $item['potenciaModulo'],
-                        'fase' => $item['fase'],
+                        'fase' => $this->fase($item['fase']),
                         'descricao' => $item['descricao'],
                         'status_distribuidora' => $item['ativo'],
                         'status' => $item['ativoVendedor'],
@@ -60,15 +60,18 @@ class Requisicao
                         'tipo_produto' => 'geradores',
                     ];
 
-                    ProdutosKitsSolar::updateOrCreate(
-                        ['sku' => $produtoData['sku']],
-                        $produtoData
-                    );
+                    ProdutosKitsSolar::updateOrCreate(['sku' => $produtoData['sku']], $produtoData);
                     $qtds++;
                 }
             }
         }
-
         (new ProdutosIntegracoesHistoricos())->create(1, $qtds);
+    }
+
+    private function fase($fase)
+    {
+        if ($fase == 'Monofásico') return 1;
+        if ($fase == 'Bifásico') return 2;
+        if ($fase == 'Trifásico') return 3;
     }
 }

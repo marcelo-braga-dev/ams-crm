@@ -64,30 +64,6 @@ export default function CardLeads({dados, btn}) {
                     </div>
                 }
 
-                {/*TELEFONE*/}
-                {dados.contato.telefone &&
-                    <div className="row">
-                        <div className="col-1 mb-2">
-                            <LocalPhoneOutlinedIcon sx={{fontSize: 18}}/>
-                        </div>
-                        <div className="col-10 text-dark text-truncate">
-                            {dados.contato.telefone}
-                        </div>
-                    </div>
-                }
-
-                {/*EMAIL*/}
-                {dados.contato.email &&
-                    <div className="row">
-                        <div className="col-1 mb-2">
-                            <EmailIcon sx={{fontSize: 18}}/>
-                        </div>
-                        <div className="col-10 text-dark text-truncate">
-                            {dados.contato.email}
-                        </div>
-                    </div>
-                }
-
                 {/*LOCALIZACAO*/}
                 {dados.cliente.cidade &&
                     <div className="row">

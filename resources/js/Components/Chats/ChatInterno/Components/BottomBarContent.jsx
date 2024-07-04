@@ -11,7 +11,7 @@ import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import EmojiPicker from "emoji-picker-react";
 import styled from 'styled-components';
-import {useForm} from "@inertiajs/react";
+import {router, useForm} from "@inertiajs/react";
 import {Chat} from "react-bootstrap-icons";
 
 const MessageInputWrapper = styled(InputBase)`
@@ -54,11 +54,12 @@ function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
 
     const submit = useCallback(() => {
         if ((data.mensagem.trim() || data.anexo) && data.destinatario) {
-            axios.post(urlSubmit, {...data}).finally(() => limparCaixaMensagem())
+            router.post(urlSubmit, {...data})//.finally(() => limparCaixaMensagem())
         }
         if (data.mensagem.trim() && infoChatSelecionado.categoria === 'avisos') {
-            axios.post(urlSubmit, {...data}).finally(() => limparCaixaMensagem())
+            router.post(urlSubmit, {...data})//.finally(() => limparCaixaMensagem())
         }
+        router.on('success', () => limparCaixaMensagem())
     }, [data, infoChatSelecionado, post, urlSubmit]);
 
     const limparCaixaMensagem = () => {
@@ -150,19 +151,6 @@ function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
 
                 <Box sx={{background: 'white', display: 'flex', py: 2}}>
                     <Box flexGrow={1} display="flex" alignItems="center">
-                        {/*{setores.length > 0 && (*/}
-                        {/*    <TextField*/}
-                        {/*        label="Setor"*/}
-                        {/*        select*/}
-                        {/*        size="small"*/}
-                        {/*        sx={{width: 150, marginLeft: 1}}*/}
-                        {/*    >*/}
-                        {/*        <MenuItem>Todos</MenuItem>*/}
-                        {/*        {setores.map(item => (*/}
-                        {/*            <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>*/}
-                        {/*        ))}*/}
-                        {/*    </TextField>*/}
-                        {/*)}*/}
                         <Chat size="22" className="mx-3"/>
                         <MessageInputWrapper
                             value={data.mensagem}
@@ -183,7 +171,7 @@ function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
                         <Tooltip arrow placement="top" title="Anexo">
                             <label htmlFor="messenger-upload-file">
                                 <IconButton sx={{mx: 1}} color="primary" aria-label="upload picture" component="label">
-                                    <input hidden accept="image/*" id="messenger-upload-file" type="file"
+                                    <input hidden id="messenger-upload-file" type="file"
                                            onChange={e => setData('anexo', e.target.files[0])}/>
                                     <AttachFileTwoToneIcon fontSize="small"/>
                                 </IconButton>
