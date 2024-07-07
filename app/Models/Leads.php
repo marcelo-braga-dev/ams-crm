@@ -169,8 +169,6 @@ class Leads extends Model
                         'rg' => $dados['rg'] ?? null,
                         'cpf' => $dados['cpf'] ?? null,
                         'data_nascimento' => $dados['nascimento'] ?? null,
-//                        'cidade' => $dados['cidade'] ?? $dados['endereco']['cidade'] ?? null,
-//                        'estado' => $dados['estado'] ?? $dados['endereco']['estado'] ?? null,
                         'anotacoes' => $dados['anotacoes'] ?? null,
                         'status_data' => now(),
                         'infos' => $dados['infos'] ?? null,
@@ -323,6 +321,8 @@ class Leads extends Model
                         'estado' => $dados->estado ?? $lead->cidade,
                         'data_nascimento' => $dados->nascimento,
                     ]);
+
+                $this->cadastrarTelefone($lead->id, $dados['telefones'] ?? null);
                 return 1;
             } else {
                 $msgErro = '';
@@ -951,3 +951,4 @@ class Leads extends Model
             ->update(['status' => (new AtivoStatusLeads())->getStatus()]);
     }
 }
+
