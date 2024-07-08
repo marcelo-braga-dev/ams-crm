@@ -2,6 +2,7 @@ import React from 'react'
 import {Typography} from "@mui/material";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import Chip from "@mui/material/Chip";
+import Link from "@/Components/Link.jsx";
 
 export default function CardChamados({dados}) {
 
@@ -46,13 +47,12 @@ export default function CardChamados({dados}) {
             </div>
 
             <div className="col-12">
-                <div className="row">
+                <div className="row mt-3">
                     <div className="col">
                         {!!dados.avaria && <Chip label="AVARIA" size="small"/>}
-
                     </div>
                     <div className="col-auto">
-                        <a href={url()} className="btn btn-primary btn-sm p-1 px-3">Abrir</a>
+                        <Link label="Abrir" href={url()}/>
                     </div>
                 </div>
             </div>

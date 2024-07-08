@@ -5,8 +5,8 @@ import {useState} from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import {IconButton} from "@mui/material";
-import {Images} from "react-bootstrap-icons";
+import {IconButton, Typography} from "@mui/material";
+import {FiletypePdf, Images} from "react-bootstrap-icons";
 
 export default function ImagePdf({url, string, urlRaiz}) {
     const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -19,8 +19,8 @@ export default function ImagePdf({url, string, urlRaiz}) {
 
     if (url && url.split('.').pop() === 'pdf') {
         return (
-            <a className="btn btn-danger mt-2" href={urlCompleta} target="_blank">
-                <i className="fas fa-file-pdf pe-2" style={{fontSize: 25}}></i> Abrir PDF
+            <a className="btn btn-outline-danger btn-sm mt-2 bg-white px-4" href={urlCompleta} target="_blank">
+                <FiletypePdf size={20} color="red"/> <Typography display="inline" marginTop={3}>Abrir PDF</Typography>
             </a>
         )
     }
@@ -40,11 +40,9 @@ export default function ImagePdf({url, string, urlRaiz}) {
         return (
             <div className="row mx-auto">
                 <div className="col-auto">
-                    {/*<a className="text-dark" href={urlCompleta} target="_blank">*/}
                     <img className="img-thumbnail d-block cursor-pointer" alt="" src={urlCompleta} loading="lazy"
                          onClick={() => setLightboxOpen(true)}
                          style={{maxHeight: 200}}/>
-                    {/*</a>*/}
                     {url && <div className="row justify-content-end g-2">
                         {lightboxOpen && (
                             <Lightbox imageUrl={urlCompleta} onClose={closeLightbox}/>

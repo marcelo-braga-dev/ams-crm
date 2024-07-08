@@ -1,8 +1,6 @@
 import './bootstrap';
 
-//ARGON
-// import "../argon/vendor/@fortawesome/fontawesome-free/css/all.min.css";
-// Argon - fim
+import "../argon/vendor/@fortawesome/fontawesome-free/css/all.min.css";
 
 // Nucleo Icons
 // import '../assets/argon/bootstrap5/css/nucleo-icons.css';
@@ -14,16 +12,9 @@ import '../css/style.css';
 import '../css/theme.css';
 import '../css/lightbox.css';
 
-// {/* <!--   Core JS Files   --> */}
 import '../assets/argon/bootstrap5/js/core/popper.min';
 import '../assets/argon/bootstrap5/js/core/bootstrap.min';
 import '../assets/argon/bootstrap5/js/argon-dashboard.min';
-// Bootstrap5 Argon - fim
-
-// import '@fontsource/roboto/300.css';
-// import '@fontsource/roboto/400.css';
-// import '@fontsource/roboto/500.css';
-// import '@fontsource/roboto/700.css';
 
 import ThemeCustomization from '@/Themes/index';
 
