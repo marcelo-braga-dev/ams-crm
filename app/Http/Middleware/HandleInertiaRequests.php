@@ -4,11 +4,9 @@ namespace App\Http\Middleware;
 
 use App\Models\Franquias;
 use App\Models\Setores;
-use App\Models\UsersFuncoesPermissoes;
 use App\Models\UsersPermissoes;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use Tightenco\Ziggy\Ziggy;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -22,7 +20,6 @@ class HandleInertiaRequests extends Middleware
     /**
      * Determine the current asset version.
      *
-     * @param \Illuminate\Http\Request $request
      * @return string|null
      */
     public function version(Request $request)
@@ -51,15 +48,17 @@ class HandleInertiaRequests extends Middleware
             $permissoes = (new UsersPermissoes())->permissoes($auth['id']);
         }
 
-        return array_merge(parent::share($request), [
+//        return array_merge(parent::share($request), [
+        return [
+            ...parent::share($request),
             'auth' => [
                 'user' => $auth,
             ],
-            'ziggy' => function () use ($request) {
-                return array_merge((new Ziggy)->toArray(), [
-                    'location' => $request->url(),
-                ]);
-            },
+//            'ziggy' => function () use ($request) {
+//                return array_merge((new Ziggy)->toArray(), [
+//                    'location' => $request->url(),
+//                ]);
+//            },
             'flash' => [
                 'sucesso' => session('sucesso'),
                 'erro' => session('erro'),
@@ -73,6 +72,6 @@ class HandleInertiaRequests extends Middleware
             'foto_usuario' => $auth?->foto ? asset('storage/' . $auth->foto) : null,
             '_setor' => session('sessaoSetor') ?? null,
             '_permissoesUsuario' => $permissoes
-        ]);
+        ];
     }
 }

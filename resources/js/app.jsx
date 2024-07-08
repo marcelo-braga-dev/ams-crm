@@ -1,13 +1,13 @@
 import './bootstrap';
 
 //ARGON
-import "../argon/vendor/@fortawesome/fontawesome-free/css/all.min.css";
+// import "../argon/vendor/@fortawesome/fontawesome-free/css/all.min.css";
 // Argon - fim
 
 // Nucleo Icons
-import '../assets/argon/bootstrap5/css/nucleo-icons.css';
-import '../assets/argon/bootstrap5/css/nucleo-svg.css';
-import '../assets/argon/bootstrap5/css/nucleo-icons.css';
+// import '../assets/argon/bootstrap5/css/nucleo-icons.css';
+// import '../assets/argon/bootstrap5/css/nucleo-svg.css';
+// import '../assets/argon/bootstrap5/css/nucleo-icons.css';
 import '../assets/argon/bootstrap5/css/argon-dashboard.css';
 
 import '../css/style.css';
@@ -20,10 +20,10 @@ import '../assets/argon/bootstrap5/js/core/bootstrap.min';
 import '../assets/argon/bootstrap5/js/argon-dashboard.min';
 // Bootstrap5 Argon - fim
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+// import '@fontsource/roboto/300.css';
+// import '@fontsource/roboto/400.css';
+// import '@fontsource/roboto/500.css';
+// import '@fontsource/roboto/700.css';
 
 import ThemeCustomization from '@/Themes/index';
 
@@ -31,7 +31,7 @@ import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
