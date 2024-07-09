@@ -78,7 +78,7 @@ class LeadsDados extends Model
     {
         $chaves = (new DadosLeads());
 
-        foreach ($dados as $id => $dado) {
+        if ($dados) foreach ($dados as $id => $dado) {
             $this->newQuery()
                 ->updateOrCreate(
                     ['id' => $id],
