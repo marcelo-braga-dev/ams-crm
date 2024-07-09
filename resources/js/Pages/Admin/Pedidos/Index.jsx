@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import Layout from "@/Layouts/Layout";
 
 import CardPedidos from './Cards/Card';
@@ -28,8 +28,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
     const [setorSelecionado, setSetorSelecionado] = useState()
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState()
     const [qtdPedidos, setQtdPedidos] = useState(0)
-
-    const {franquia_selecionada} = usePage().props;
+    const scrollRef = useRef(null);
 
     const modelo1 = useMemo(() => modelo === 1 || modelo === null, [modelo]);
     const modelo2 = useMemo(() => modelo === 2 || modelo === null, [modelo]);
@@ -60,7 +59,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                 setFornecedorSelecionado()
                 setQtdPedidos(res.data.pedidos.total)
             })
-    }, [franquia_selecionada])
+    }, [])
 
     useEffect(() => {
         if (pedidos && goCard) goCardPosicao()
@@ -127,7 +126,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
             {pedidos &&
                 <ScrollContainer hideScrollbars={false}>
                     <div style={{height: '80vh'}}>
-                        <table id="table-cards" className="mx-1">
+                        <table id="table-cards" className="mx-1" ref={scrollRef}>
                             <thead>
                             <tr>
                                 <th id="th-1" style={{minWidth: 300}} className="sticky-top ps-2">
@@ -332,14 +331,11 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
 
             <Fab size="small" color="default" sx={{
                 position: 'fixed',
-                bottom: 16,
-                right: 50,
+                bottom: 25,
+                right: 40,
                 zIndex: 1800
             }}
-                 onClick={() => window.scrollTo({
-                     top: (0),
-                     behavior: 'smooth'
-                 })}
+                onClick={() => scrollRef.current.scrollIntoView({behavior: 'smooth', align: 'top'})}
             >
                 <ArrowUpwardIcon/>
             </Fab>
