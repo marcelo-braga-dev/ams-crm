@@ -4,7 +4,7 @@ import "chart.js/auto";
 
 export default function TopLeadsGrafico({leads, dados, vendasLeadsComp}) {
 
-    const nomes = leads.map(item => (item.lead_nome + ' [#' + item.lead_id + ']') ?? '?')
+    const nomes = leads.map(item => `${item?.lead_nome} [#${item?.lead_id}]`)
     const qtdVendas = leads.map(item => dados?.[item.lead_id]?.valor ?? 0)
     const qtdVendasComp = leads.map(item => vendasLeadsComp?.[item.lead_id]?.valor ?? 0)
 
