@@ -125,10 +125,8 @@ export default function InputsDadosLead({data, setData, telefones, required}) {
                                            onBlur={e => setData({...data, telefones: {...data.telefones, [item.id]: e.target.value}})}/>
                             </div>
                         ))}
-                        {/*<div className="col-md-3">*/}
-                        {/*    <TextField label={'Telefone'} required={required} fullWidth className="phone" defaultValue={data?.telefone}*/}
-                        {/*               onBlur={e => setData('telefones', [e.target.value])}/>*/}
-                        {/*</div>*/}
+                        <TextField label={`Telefone`} required={required} fullWidth className="phone"
+                                   onBlur={e => setData({...data, telefones: {...data.telefones, [0]: e.target.value}})}/>
                     </div>
                 </CardBody>
             </CardContainer>

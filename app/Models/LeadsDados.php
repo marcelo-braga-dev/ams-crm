@@ -82,7 +82,7 @@ class LeadsDados extends Model
             $this->newQuery()
                 ->updateOrCreate(
                     ['id' => $id],
-                    ['lead_id' => $idLead,'chave' => $chaves->chaveTelefone(), 'valor' => $dado, 'nome' => $chaves->nomeTelefone()]
+                    ['lead_id' => $idLead, 'chave' => $chaves->chaveTelefone(), 'valor' => converterInt(converterTelefone($dado)), 'nome' => $chaves->nomeTelefone()]
                 );
         }
     }
