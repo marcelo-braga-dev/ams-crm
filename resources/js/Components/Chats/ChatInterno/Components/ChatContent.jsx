@@ -1,5 +1,4 @@
-import React, {useCallback, useEffect, useState, useRef, useMemo} from 'react';
-import {Virtuoso} from 'react-virtuoso';
+import React, {useCallback, useEffect, useState, useRef} from 'react';
 import AreaChat from "./AreaMensagens/AreaChat";
 import AreaAviso from "./AreaMensagens/AreaAviso";
 import axios from "axios";
@@ -9,38 +8,53 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
     const [idExcluirAviso, setIdExcluirAviso] = useState()
     const [progress, setProgress] = useState(false)
     const [semMensagem, setSemMensagem] = useState(false)
-    const virtuosoRef = useRef(null)
+    const scrollRef = useRef(null);
 
-    const itemContent = useCallback((index, item) => {
-        return infoChatSelecionado.categoria === 'chat' ?
-            <AreaChat item={item} index={index} infoChatSelecionado={infoChatSelecionado} setProgress={setProgress}/> :
-            <AreaAviso item={item} index={index} admin={admin} setIdExcluirAviso={setIdExcluirAviso} setProgress={setProgress}/>
-    }, [infoChatSelecionado]);
-
-    function excluirConversa() {
-        axios.post(route('admin.chat-interno-excluir-aviso', {id: idExcluirAviso}))
-    }
+    const excluirConversa = async () => {
+        await axios.post(route('admin.chat-interno-excluir-aviso', {id: idExcluirAviso}));
+    };
 
     useEffect(() => {
-        setSemMensagem(false)
+        setTimeout(() => scrollRef.current.scrollIntoView({behavior: 'auto', align: 'end'}), 300)
+    }, [infoChatSelecionado.id]);
+
+    useEffect(() => {
         if (mensagens.length === 0) setProgress(false)
         if (infoChatSelecionado.id && mensagens.length === 0) setSemMensagem(true)
-        if (virtuosoRef.current) virtuosoRef.current.scrollToIndex({index: mensagens.length - 1, behavior: 'auto', align: 'end'});
     }, [])
 
-    progress && setTimeout(() => virtuosoRef.current.scrollToIndex({index: mensagens.length - 1, behavior: 'auto', align: 'end'}), 500)
+    const renderMessage = useCallback((item, index) => (
+        infoChatSelecionado.categoria === 'chat' ? (
+            <AreaChat
+                key={item.id || index}
+                item={item}
+                index={index}
+                infoChatSelecionado={infoChatSelecionado}
+                setProgress={setProgress}
+            />
+        ) : (
+            <AreaAviso
+                key={item.id || index}
+                item={item}
+                index={index}
+                admin={admin}
+                setIdExcluirAviso={setIdExcluirAviso}
+                setProgress={setProgress}
+            />
+        )
+    ), [infoChatSelecionado, admin]);
 
     return (
-        <>
-            {progress && <div className="text-center mt-8"><CircularProgress color="inherit"/></div>}
-            {semMensagem && <div className="text-center mt-8">NÃO HÁ MENSAGENS</div>}
-            {progress && <div style={{height: '3000vh'}}></div>}
-            <Virtuoso
-                ref={virtuosoRef}
-                data={mensagens}
-                itemContent={itemContent}
-                followOutput="auto"
-            />
+        <div className="scroll-container" style={{height: '100%', overflowY: 'scroll', display: 'flex', flexDirection: 'column-reverse'}}>
+            <div className="scroll-content" style={{
+                display: 'flex',
+                flexDirection: 'column'
+            }}>
+                {progress && <div className="text-center mt-8"><CircularProgress color="inherit"/></div>}
+                {semMensagem && <div className="text-center mt-8">NÃO HÁ MENSAGENS</div>}
+                {mensagens.map(renderMessage)}
+                <div ref={scrollRef}/>
+            </div>
 
             <div className="modal fade mt-5" id="excluirAviso" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
@@ -63,6 +77,6 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

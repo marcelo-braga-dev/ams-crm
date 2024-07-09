@@ -24,7 +24,7 @@ const CardWrapperPrimary = styled(Card)`
     white-space: pre-line;
 `
 
-export default function AreaChat({item, index, infoChatSelecionado, setProgress}) {
+export default function AreaChat({item, infoChatSelecionado, setProgress}) {
     const {props} = usePage()
     const fotoUsuario = props.foto_usuario;
 
@@ -37,7 +37,6 @@ export default function AreaChat({item, index, infoChatSelecionado, setProgress}
                 </div>
                 {item.is_resposta ?
                     <Box
-                        key={index}
                         display="flex"
                         alignItems="flex-start"
                         justifyContent="flex-start">
@@ -62,7 +61,6 @@ export default function AreaChat({item, index, infoChatSelecionado, setProgress}
                         </Box>
                     </Box> :
                     <Box
-                        key={index}
                         display="flex"
                         alignItems="fle x-start"
                         justifyContent="flex-end"
