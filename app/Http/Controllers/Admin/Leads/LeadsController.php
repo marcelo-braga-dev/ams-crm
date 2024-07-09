@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Leads;
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
 use App\Models\Leads;
+use App\Models\LeadsDados;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
 use App\Models\Pedidos;
@@ -15,6 +16,7 @@ use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\Relatorios\LeadsUsuariosService;
 use App\Services\Setores\SetoresService;
 use App\Services\Leads\LeadsDadosService;
+use App\src\Leads\Dados\DadosLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\UpdateStatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
@@ -186,17 +188,20 @@ class LeadsController extends Controller
     {
         $dados = (new Leads())->find($id);
         $endereco = (new Enderecos())->get($dados->endereco);
+        $telefones = (new LeadsDados())->get((new DadosLeads())->chaveTelefone(), $id);
+//        print_pre($telefones);
 
         $urlAnterior = url()->previous();
 
         return Inertia::render('Admin/Leads/Lead/Edit',
-            compact('dados', 'endereco', 'urlAnterior'));
+            compact('dados', 'endereco', 'telefones', 'urlAnterior'));
     }
 
     public function update($id, Request $request)
     {
         try {
             (new Leads())->atualizar($id, $request);
+            (new LeadsDados())->atualizar($id, $request->telefones);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

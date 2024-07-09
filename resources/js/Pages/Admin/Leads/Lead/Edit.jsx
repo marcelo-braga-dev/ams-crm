@@ -9,8 +9,9 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import {Person} from "react-bootstrap-icons";
+import {useEffect} from "react";
 
-export default function Edit({dados, endereco, urlAnterior}) {
+export default function Edit({dados, endereco, telefones, urlAnterior}) {
     const {setData, data} = useForm({
         id_lead: dados.id,
         pessoa: dados.cnpj ? 'Jurídica' : 'Pessoa Física',
@@ -27,6 +28,7 @@ export default function Edit({dados, endereco, urlAnterior}) {
 
         cidade: dados.cidade,
         estado: dados.estado,
+        // telefones: [],
         endereco: {
             cep: endereco.cep,
             rua: endereco.rua,
@@ -45,7 +47,10 @@ export default function Edit({dados, endereco, urlAnterior}) {
         );
     }
 
-    maskJquery()
+    useEffect(() => {
+        maskJquery()
+    }, []);
+
 
     return (
         <Layout container voltar={urlAnterior} titlePage="Editar LEAD" menu="leads" submenu="leads-cadastrados">
@@ -53,7 +58,7 @@ export default function Edit({dados, endereco, urlAnterior}) {
                 <CardTitle title="Atualizar informações do lead" icon={<Person size={22}/>}/>
                 <CardBody>
                     <form onSubmit={submit}>
-                        <InputsDadosLead data={data} setData={setData}/>
+                        <InputsDadosLead data={data} setData={setData} telefones={telefones}/>
                         <button type="submit" className="btn btn-primary">Salvar</button>
                     </form>
                 </CardBody>

@@ -206,8 +206,7 @@ class Leads extends Model
         if ($telefones)
             foreach ($telefones as $item) {
                 if (!$item) return;
-                $telefone = preg_replace('/[^0-9]/', '', $item);
-                $telefone = trim(preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null));
+                $telefone = converterInt(converterTelefone($item));
 
                 $chaves = (new DadosLeads());
                 (new LeadsDados())->create($id, $chaves->chaveTelefone(), $telefone, $chaves->nomeTelefone());
@@ -321,8 +320,6 @@ class Leads extends Model
                         'estado' => $dados->estado ?? $lead->cidade,
                         'data_nascimento' => $dados->nascimento,
                     ]);
-
-                $this->cadastrarTelefone($lead->id, $dados['telefones'] ?? null);
                 return 1;
             } else {
                 $msgErro = '';

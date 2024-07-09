@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Leads\Dados\DadosLeads;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,7 +42,7 @@ class LeadsDados extends Model
 
     public function telefones($convertido = false)
     {
-        $items  = $this->newQuery()
+        $items = $this->newQuery()
             ->where('chave', 'telefone')
             ->get();
 
@@ -57,5 +58,32 @@ class LeadsDados extends Model
             $res[$item['lead_id']][] = $item['valor'];
         }
         return $res;
+    }
+
+    public function get($chave, $idLead)
+    {
+        return $this->newQuery()
+            ->where('chave', $chave)
+            ->where('lead_id', $idLead)
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'telefone' => converterTelefone($item->valor),
+                ];
+            });
+    }
+
+    public function atualizar($idLead, $dados = [])
+    {
+        $chaves = (new DadosLeads());
+
+        foreach ($dados as $id => $dado) {
+            $this->newQuery()
+                ->updateOrCreate(
+                    ['id' => $id],
+                    ['lead_id' => $idLead,'chave' => $chaves->chaveTelefone(), 'valor' => $dado, 'nome' => $chaves->nomeTelefone()]
+                );
+        }
     }
 }
