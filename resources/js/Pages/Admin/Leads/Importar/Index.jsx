@@ -8,6 +8,7 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import {Eye} from "react-bootstrap-icons";
+import Link from "@/Components/Link.jsx";
 
 export default function ({setores, modelo, historicos}) {
     const {post, setData} = useForm()
@@ -94,8 +95,7 @@ export default function ({setores, modelo, historicos}) {
                                                 <Typography variant="body1">{dado.qtd}</Typography>
                                             </td>
                                             <td>
-                                                <a href={route('admin.clientes.leads.importar-historico.show', dado.id)}>
-                                                    <Eye size="22"/></a>
+                                                <Link href={route('admin.clientes.leads.importar-historico.show', dado.id)} icon={<Eye size="22"/>}/>
                                             </td>
                                         </tr>
                                     )
