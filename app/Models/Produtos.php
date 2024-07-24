@@ -79,6 +79,7 @@ class Produtos extends Model
         $query = $this->joinsAdd($this)
             ->where(($filtros['fornecedor'] ?? null) ? ['produtos.fornecedor_id' => $filtros['fornecedor']] : null)
             ->where(($filtros['categoria'] ?? null) ? ['produtos.categoria_id' => $filtros['categoria']] : null);
+        $query->whereIn('categoria_id', (new ProdutosCategoriasUsuarios())->categorias(id_usuario_atual()));
 
         if ($setor) $query->where('produtos.setor_id', $setor);
 
@@ -199,7 +200,8 @@ class Produtos extends Model
         $fornecedores = (new ProdutosFornecedores())->getNomes();
         $unidades = (new ProdutosUnidades())->getNomes();
 
-        $query = $this->newQuery();
+        $query = $this->newQuery()
+            ->whereIn('categoria_id', (new ProdutosCategoriasUsuarios())->categorias(id_usuario_atual()));
 
         if ($request->fornecedor) $query->where('fornecedor_id', $request->fornecedor);
         if ($request->categoria) $query->where('categoria', $request->categoria);

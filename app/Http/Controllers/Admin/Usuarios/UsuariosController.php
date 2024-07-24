@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\Usuarios;
 
 use App\Http\Controllers\Controller;
 use App\Models\Franquias;
+use App\Models\ProdutosCategorias;
+use App\Models\ProdutosCategoriasUsuarios;
 use App\Models\Setores;
 use App\Models\User;
 use App\Models\UsersFuncoes;
@@ -77,19 +79,23 @@ class UsuariosController extends Controller
 
         $usuarios = (new User())->allUsers(false);
         $supervisionados = (new UsersHierarquias())->idSupervisonados($id);
+        $categorias = (new ProdutosCategorias())->categorias(null, true);
+        $categoriasUsuario = (new ProdutosCategoriasUsuarios())->categoriasId($id);
 
         return Inertia::render(
             'Admin/Usuarios/Edit',
-            compact('usuario', 'supervisionados', 'usuarios', 'funcoes', 'franquias', 'setores', 'permissoes', 'permissoesUsuario')
+            compact('usuario', 'supervisionados', 'usuarios', 'funcoes', 'franquias', 'setores', 'permissoes', 'permissoesUsuario',
+                'categorias', 'categoriasUsuario')
         );
     }
 
     public function update($id, Request $request)
     {
-        // print_pre($request->all());
+//         print_pre($request->all());
         (new User())->atualizar($id, $request);
         (new UsersPermissoes())->atualizar($id, $request->permissoes);
         (new UsersHierarquias())->atualizar($id, $request->supervisionados);
+        (new ProdutosCategoriasUsuarios())->atualizar($id, $request->categorias);
 
         modalSucesso('Dados atualizado com sucesso!');
         return redirect()->back();

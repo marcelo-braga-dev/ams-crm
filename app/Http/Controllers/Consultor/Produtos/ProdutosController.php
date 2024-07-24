@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Consultor\Produtos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Produtos;
+use App\Models\ProdutosCategorias;
 use App\Models\ProdutosDados;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -12,7 +13,9 @@ class ProdutosController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Consultor/Produtos/Index');
+        $categorias = (new ProdutosCategorias())->categorias();
+
+        return Inertia::render('Consultor/Produtos/Index', compact('categorias'));
     }
 
     public function produtos(Request $request)

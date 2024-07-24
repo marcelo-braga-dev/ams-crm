@@ -12,7 +12,7 @@ import CardBody from "@/Components/Cards/CardBody";
 import MenuItem from "@mui/material/MenuItem";
 import Link from "@/Components/Link";
 
-const Page = () => {
+const Page = ({categorias}) => {
     const [produtos, setProdutos] = useState([])
     const [paginate, setPaginate] = useState([])
     const [paginateDados, setPaginateDados] = useState(true)
@@ -35,6 +35,10 @@ const Page = () => {
         getProdutos();
     }, [getProdutos]);
 
+    useEffect(() => {
+        setPaginate(1);
+    }, [filtros]);
+
     return (
         <Layout titlePage="Produtos Cadastrados" menu="produtos" submenu="produtos-cadastrados">
             <CardContainer>
@@ -56,6 +60,14 @@ const Page = () => {
                                                setPaginate(1)
                                            }}/>
                             </Stack>
+                        </div>
+                        <div className="col-md-4">
+                            <TextField label="Categoria" select fullWidth onChange={e => {
+                                setFiltros({...filtros, categoria: e.target.value})
+                            }}>
+                                <MenuItem value="">Todos</MenuItem>
+                                {categorias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
                         </div>
                     </div>
                 </CardBody>

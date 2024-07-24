@@ -2,7 +2,7 @@ import Layout from "@/Layouts/Layout";
 import MenuItem from "@mui/material/MenuItem";
 import {router, useForm} from '@inertiajs/react';
 import {useState} from "react";
-import {Avatar, Checkbox, FormControlLabel, Stack, Switch, TextField} from "@mui/material";
+import {Avatar, Checkbox, FormControlLabel, Grid, Stack, Switch, TextField, Typography} from "@mui/material";
 import * as React from "react";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
@@ -17,7 +17,9 @@ export default function ({
                              franquias,
                              setores,
                              permissoes,
-                             permissoesUsuario
+                             permissoesUsuario,
+                             categorias,
+                             categoriasUsuario
                          }) {
     const [usuarioAtivos, setUsuarioAtivos] = useState(false)
 
@@ -34,6 +36,7 @@ export default function ({
         admin_completo: usuario.admin_completo,
         supervisionados: supervisionados,
         status: usuario.status,
+        categorias: categoriasUsuario
     });
 
     const submit = (e) => {
@@ -136,6 +139,28 @@ export default function ({
                                 })}
                             </div>
                         </div>
+                    </CardBody>
+                </CardContainer>
+
+                <CardContainer>
+                    <CardTitle title="Categorias de Produtos"/>
+                    <CardBody>
+                        <Grid container>
+                            {categorias.map(item => <Grid item md={3} marginBottom={1}>
+                                <Stack direction="row" spacing={1}>
+                                    <Switch defaultChecked={categoriasUsuario[item.id] > 0}
+                                            size="small" key={item.id}
+                                            onChange={e => setData('categorias', {
+                                                ...data.categorias,
+                                                [item.id]: e.target.checked
+                                            })}/>
+                                    <Stack direction="column" spacing={0}>
+                                        <Typography>{item.nome}</Typography>
+                                        <Typography variant="body2">{item.setor}</Typography>
+                                    </Stack>
+                                </Stack>
+                            </Grid>)}
+                        </Grid>
                     </CardBody>
                 </CardContainer>
 

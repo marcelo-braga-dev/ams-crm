@@ -43,11 +43,12 @@ class ProdutosCategorias extends Model
 
     }
 
-    public function categorias($setorAtual = null)
+    public function categorias($setorAtual = null, $all = false)
     {
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery();
+        if (!$all) $query->whereIn('id', (new ProdutosCategoriasUsuarios())->categorias(id_usuario_atual()));
 
         if ($setorAtual) $query->where('setores_id', $setorAtual);
 
