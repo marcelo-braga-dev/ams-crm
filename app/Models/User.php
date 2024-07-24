@@ -73,11 +73,11 @@ class User extends Authenticatable
                     'email' => $dados->email,
                     'password' => Hash::make($dados->senha),
                     'franquia_id' => $dados->franquia,
-                    'is_financeiro' => $dados->financeiro,
+                    'is_financeiro' => $dados->financeiro ?? 0,
                     'setor_id' => $dados->setor,
                     'funcao_id' => $dados->funcao,
-                    'is_admin' => $dados->admin,
-                    'is_sdr' => $dados->sdr,
+                    'is_admin' => $dados->admin ?? 0,
+                    'is_sdr' => $dados->sdr ?? 0,
                 ]);
             return $dados->id;
         } catch (UniqueConstraintViolationException $exception) {

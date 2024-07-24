@@ -84,6 +84,7 @@ class Pedidos extends Model
             ->join('users', 'users.id', '=', 'pedidos.user_faturamento')
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)
             ->select(DB::raw('
@@ -124,6 +125,7 @@ class Pedidos extends Model
         return $this->newQuery()
             ->whereIn(DB::raw('MONTH(data_faturamento)'), $mes)
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('data_faturamento', $ano)
             ->where('setor_id', $setor)
             ->select(DB::raw('
@@ -140,6 +142,7 @@ class Pedidos extends Model
     {
         $dados = $this->newQuery()
             ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('data_faturamento', $ano)
             ->where('setor_id', $setor)
             ->select(DB::raw('

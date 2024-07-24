@@ -20,7 +20,7 @@ class VendasController extends Controller
         $setor = $request->setor ?? 1;
 
         $setores = (new Setores())->get();
-//print_pre($fornecedoresVendas = (new VendasService())->vendasFornecedores([5], $ano, $setor, null, false));
+
         return Inertia::render('Admin/Dashboard/Vendas/Index',
             compact('mes', 'ano', 'setores', 'setor')
         );

@@ -92,6 +92,7 @@ class VendasService
             ->leftJoin('enderecos', 'leads.endereco', '=', 'enderecos.id');
 
         return $query->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)
@@ -111,6 +112,7 @@ class VendasService
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
             ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+            ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)
             ->select(DB::raw('
@@ -180,6 +182,7 @@ class VendasService
             ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
             ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+            ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)
             ->select(DB::raw('
