@@ -4,7 +4,7 @@ import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import {router, useForm} from "@inertiajs/react";
 import React, {useState} from "react";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
-import {MenuItem} from "@mui/material";
+import {MenuItem, Stack} from "@mui/material";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -15,6 +15,7 @@ import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import {Trash} from "react-bootstrap-icons";
 
 function CustomTabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -92,6 +93,10 @@ export default function ({produto, categorias, unidades, infos, setores, fornece
             )
         }
         return inputs
+    }
+
+    const excluirGaleria = (valor) => {
+        router.post(route('admin.produtos.deletar-galeria'), {valor, _method: 'DELETE'})
     }
 
     return (
@@ -216,9 +221,14 @@ export default function ({produto, categorias, unidades, infos, setores, fornece
                                         <div className="row mt-4">
                                             <div className="col">
                                                 {infos.galeria.map((item) => {
-                                                    return (
-                                                        <ImagePdf key={item?.url} url={item}/>
-                                                    )
+                                                    return <CardContainer key={item}>
+                                                        <CardBody>
+                                                            <Stack direction="row" spacing={2}>
+                                                                <ImagePdf key={item?.url} url={item}/>
+                                                                <Trash color="red" cursor="pointer" size={20} onClick={() => excluirGaleria(item)}/>
+                                                            </Stack>
+                                                        </CardBody>
+                                                    </CardContainer>
                                                 })}
                                             </div>
                                         </div>

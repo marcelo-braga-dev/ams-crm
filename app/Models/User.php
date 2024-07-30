@@ -109,9 +109,9 @@ class User extends Authenticatable
             ->leftJoin('users_funcoes', 'users.funcao_id', '=', 'users_funcoes.id')
             ->orderBy('name');
 
-        if ($ativo) $query->where('status', (new AtivoStatusUsuario())->getStatus());
+        if ($ativo) $query->where('users.status', (new AtivoStatusUsuario())->getStatus());
 
-        return $query->get(['users.id', 'name', 'status', 'funcao_id', 'foto', 'setores.nome as setor_nome', 'users_funcoes.nome as funcao_nome'])
+        return $query->get(['users.id', 'name', 'users.status', 'funcao_id', 'foto', 'setores.nome as setor_nome', 'users_funcoes.nome as funcao_nome'])
             ->transform(function ($item) {
                 return [
                     'id' => $item->id,
@@ -501,9 +501,9 @@ class User extends Authenticatable
             ->leftJoin('franquias', 'users.franquia_id', '=', 'franquias.id')
             ->leftJoin('setores', 'users.setor_id', '=', 'setores.id');
 
-        if (!$status) $query->where('status', (new AtivoStatusUsuario())->getStatus());
+        if (!$status) $query->where('users.status', (new AtivoStatusUsuario())->getStatus());
 
-        return //->where('status', (new AtivoStatusUsuario)->getStatus())
+        return
             $query->select(DB::raw('
                 users.id as id,
                 users.name as nome,

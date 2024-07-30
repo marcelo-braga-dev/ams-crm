@@ -118,4 +118,10 @@ class ProdutosController extends Controller
 
         modalSucesso('Estoque Atualizado com sucesso!');
     }
+
+    public function deletarGaleria(Request $request)
+    {
+        (new ProdutosDados())->deletarGaleria($request->valor);
+        modalSucesso('informação deletada com sucesso!');
+    }
 }

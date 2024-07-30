@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 32);
             $table->unsignedBigInteger('franquia_id');
+            $table->boolean('status')->default(true);
             $table->integer('modelo');
             $table->string('cor', 16)->nullable();
             $table->timestamps();

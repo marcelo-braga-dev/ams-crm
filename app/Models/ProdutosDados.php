@@ -57,4 +57,12 @@ class ProdutosDados extends Model
             'galeria' => $galerias,
         ];
     }
+
+    public function deletarGaleria($valor)
+    {
+        $this->newQuery()
+            ->where('nome', 'galeria')
+            ->where('valor', $valor)
+            ->delete();
+    }
 }

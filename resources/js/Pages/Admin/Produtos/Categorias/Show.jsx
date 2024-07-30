@@ -1,6 +1,7 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
-import {TextField} from "@mui/material";
+import Layout from "@/Layouts/Layout";
 import {router, useForm} from "@inertiajs/react";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
 
 export default function ({categoria}) {
     const {post, data, setData, reset} = useForm({})
@@ -15,15 +16,19 @@ export default function ({categoria}) {
         <Layout titlePage="Categoria de Produto" container menu="produtos" submenu="produtos-categorias"
                 voltar={route('admin.produtos-categorias.index')}>
 
-            <div className="row">
-                <div className="col">
-                    <b>Nome da Categoria:</b> {categoria.nome}
-                </div>
-                <div className="col-auto">
-                    <i className="fas fa-trash text-danger px-3 cursor-pointer"
-                       data-bs-toggle="modal" data-bs-target="#modalExcluir"></i>
-                </div>
-            </div>
+            <CardContainer>
+                <CardBody>
+                    <div className="row">
+                        <div className="col">
+                            <b>Nome da Categoria:</b> {categoria.nome}
+                        </div>
+                        <div className="col-auto">
+                            <i className="fas fa-trash text-danger px-3 cursor-pointer"
+                               data-bs-toggle="modal" data-bs-target="#modalExcluir"></i>
+                        </div>
+                    </div>
+                </CardBody>
+            </CardContainer>
 
             <div className="modal fade mt-5" id="modalExcluir" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">

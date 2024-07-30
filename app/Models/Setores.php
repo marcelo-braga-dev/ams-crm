@@ -13,14 +13,17 @@ class Setores extends Model
         'nome',
         'cor',
         'franquia_id',
-        'modelo'
+        'modelo',
+        'status'
     ];
 
     public function get()
     {
         $franquias = (new Franquias())->getNomes();
 
-        return $this->newQuery()->get()
+        return $this->newQuery()
+            ->where('status', 1)
+            ->get()
             ->transform(function ($item) use ($franquias) {
                 return $this->dados($item, $franquias);
             });
@@ -124,5 +127,12 @@ class Setores extends Model
             'modelo_id' => $item->modelo,
             'modelo' => $item->modelo == 1 ? 'Sem Produtos' : 'Com Produtos'
         ];
+    }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['status' => false]);
     }
 }

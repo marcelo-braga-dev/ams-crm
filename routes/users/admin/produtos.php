@@ -29,6 +29,7 @@ Route::middleware(['auth', 'auth.admins'])
         Route::post('update-estoque', [ProdutosController::class, 'updateEstoque'])->name('update-estoque');
         Route::resource('integracoes', IntegracoesController::class);
         Route::get('integrar', [IntegracoesController::class, 'integrar'])->name('integrar');
+        Route::delete('deletar-galeria', [ProdutosController::class, 'deletarGaleria'])->name('deletar-galeria');
 
         Route::resource('fornecedores', FornecedoresController::class);
     });

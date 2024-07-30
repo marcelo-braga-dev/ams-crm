@@ -54,4 +54,9 @@ class SetoresController extends Controller
         modalSucesso('Dados Atualizado com Sucesso!');
         return redirect()->route('admin.config.categorias.index');
     }
+
+    public function destroy($id)
+    {
+        (new Setores())->remover($id);
+    }
 }

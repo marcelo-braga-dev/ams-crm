@@ -61,4 +61,9 @@ class FranquiasController extends Controller
         modalSucesso('Dados atualizado com sucesso!');
         return redirect()->route('admin.franquias.show', $id);
     }
+
+    public function destroy($id)
+    {
+        (new Franquias())->remover($id);
+    }
 }

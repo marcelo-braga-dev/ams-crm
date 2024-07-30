@@ -6,11 +6,12 @@ import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
 import React, {useCallback, useEffect, useState, useMemo} from 'react';
 import Switch from "@/Components/Inputs/Switch";
-import {PencilSquare} from "react-bootstrap-icons";
+import {Box, PencilSquare} from "react-bootstrap-icons";
 import ToggleMenu from "@/Components/Inputs/ToggleMenu";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";
 import LinearProgress from '@mui/material/LinearProgress';
+import Link from "@/Components/Link.jsx";
 
 const EstoqueModal = ({estoque, setEstoque, atualizarEstoque}) => (
     <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -77,13 +78,15 @@ const ProdutoRow = React.memo(({item, updateStatus, isFinanceiro, setEstoque, es
     </td>
     <td>
         <Stack direction="row" spacing={2}>
-            <a href={route('admin.produtos.show', item.id)}>
-                <Avatar variant="rounded" style={{width: 60, height: 60}} src={item.foto}/>
-            </a>
+            <Link href={route('admin.produtos.show', item.id)}>
+                <Avatar variant="rounded" style={{width: 60, height: 60}} src={item.foto}><Box size={26}/></Avatar>
+            </Link>
             <Stack>
-                <Typography component="a" href={route('admin.produtos.show', item.id)} variant="body1" fontWeight="bold">
+                <Link href={route('admin.produtos.show', item.id)}>
+                <Typography  variant="body1" fontWeight="bold">
                     {item.nome}
                 </Typography>
+                </Link>
                 <Typography variant="body2">Distribuidora: {item.fornecedor}</Typography>
                 <Stack direction="row" spacing={3}>
                     <Typography variant="body2" display="inline-block">Categoria: {item.categoria_nome}</Typography>

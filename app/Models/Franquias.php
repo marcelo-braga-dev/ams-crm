@@ -13,11 +13,13 @@ class Franquias extends Model
         'nome',
         'cor',
         'cor_texto',
+        'status'
     ];
 
     public function get()
     {
         return $this->newQuery()
+            ->where('status', 1)
             ->get()
             ->transform(function ($item) {
                 return [
@@ -60,5 +62,12 @@ class Franquias extends Model
                 'cor' => $dados->cor,
                 'cor_texto' => $dados->cor_texto,
             ]);
+    }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['status' => false]);
     }
 }
