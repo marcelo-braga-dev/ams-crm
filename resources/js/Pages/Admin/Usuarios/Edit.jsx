@@ -7,7 +7,7 @@ import * as React from "react";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
-import {CardChecklist, People, Person} from "react-bootstrap-icons";
+import {CardChecklist, ChevronRight, People, Person} from "react-bootstrap-icons";
 
 export default function ({
                              usuario,
@@ -114,27 +114,27 @@ export default function ({
                             <div className="mb-4 col">
                                 {permissoes?.map(categorias => {
                                     return (
-                                        <div key={categorias.categoria} className="mb-2 border-bottom">
-                                            <div className="">
-                                                <small className="d-block">{categorias.categoria}</small>
-                                            </div>
-                                            <div className="row row-cols-5">
-                                                {categorias?.permissoes?.map(item => {
-                                                    return (
-                                                        <div key={item.id} className="col">
-                                                            <FormControlLabel label={<small>{item.nome}</small>} control={
-                                                                <Switch defaultChecked={permissoesUsuario[item.id] > 0}
-                                                                        size="small" key={item.id}
-                                                                        onChange={e => setData('permissoes', {
-                                                                            ...data.permissoes,
-                                                                            [item.id]: e.target.checked
-                                                                        })}/>
-                                                            }/>
-                                                        </div>
-                                                    )
-                                                })}
-                                            </div>
-                                        </div>
+                                        <CardContainer>
+                                            <CardBody key={categorias.categoria}>
+                                                <Typography><ChevronRight size={10}/> <b>{categorias.categoria}</b></Typography>
+                                                <div className="row row-cols-5">
+                                                    {categorias?.permissoes?.map(item => {
+                                                        return (
+                                                            <div key={item.id} className="col">
+                                                                <FormControlLabel label={<small>{item.nome}</small>} control={
+                                                                    <Switch defaultChecked={permissoesUsuario[item.id] > 0}
+                                                                            size="small" key={item.id}
+                                                                            onChange={e => setData('permissoes', {
+                                                                                ...data.permissoes,
+                                                                                [item.id]: e.target.checked
+                                                                            })}/>
+                                                                }/>
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                            </CardBody>
+                                        </CardContainer>
                                     )
                                 })}
                             </div>

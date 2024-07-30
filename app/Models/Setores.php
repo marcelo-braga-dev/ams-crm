@@ -94,7 +94,9 @@ class Setores extends Model
 
     public function setores()
     {
-        $items = $this->newQuery()->get();
+        $items = $this->newQuery()
+            ->where('status', 1)
+            ->get();
         $dados = [];
 
         foreach ($items as $item) {

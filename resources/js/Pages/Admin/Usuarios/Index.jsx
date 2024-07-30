@@ -8,6 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import Link from "@/Components/Link.jsx";
 
 export default function Index({contas, status}) {
 
@@ -24,7 +25,7 @@ export default function Index({contas, status}) {
         <Layout container titlePage="Usuários" menu="usuarios" submenu="usuarios-contas">
             <div className='row justify-content-between'>
                 <div className='col-auto'>
-                    <a className='btn btn-primary' href={route('admin.usuarios.usuario.create')}>Cadastrar Usuário</a>
+                    <Link label="Cadastrar Usuário" href={route('admin.usuarios.usuario.create')}/>
                 </div>
                 <div className="col-auto">
                     <FormControlLabel control={
