@@ -42,6 +42,7 @@ const Page = ({vendas, usuario, planilhasGeradas, usuarios, mes, ano}) => {
                         <div className="col-3">
                             <TextField label="Consultor" select fullWidth defaultValue={usuarioSelecionado}
                                        onChange={e => setusuarioSelecionado(e.target.value)}>
+                                <MenuItem value="">TODOS</MenuItem>
                                 {usuarios.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
