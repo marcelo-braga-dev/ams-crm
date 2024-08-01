@@ -1,13 +1,8 @@
 import Card from './Card'
+import Link from "@/Components/Link.jsx";
 
 function btn(id) {
-
-    return (
-        <a href={route('admin.leads.cards-finalizado.show', id)}
-           className="btn btn-dark btn-sm">
-            ABRIR
-        </a>
-    )
+    return <Link label="ABRIR" href={route('admin.leads.cards-finalizado.show', id)}/>
 }
 export default function FinalizadoCard({dados, leadsSelecionados}) {
 

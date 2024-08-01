@@ -1,10 +1,9 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import TextField from "@mui/material/TextField";
 import {useForm} from "@inertiajs/react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
-import MenuItem from "@mui/material/MenuItem";
 import {IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 

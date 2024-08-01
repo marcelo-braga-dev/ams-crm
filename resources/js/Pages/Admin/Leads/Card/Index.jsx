@@ -4,6 +4,7 @@ import {router} from "@inertiajs/react";
 import Avatar from "@mui/material/Avatar";
 import {Stack} from "@mui/material";
 import CardContainer from "@/Components/Cards/CardContainer";
+import Link from "@/Components/Link.jsx";
 
 
 export default function ({statusLeads}) {
@@ -46,7 +47,7 @@ export default function ({statusLeads}) {
                             totalFinalizado += dado.status.finalizado ?? 0
 
                             return (
-                                <tr key={index} className="cursor-pointer" onClick={() => router.get(route('admin.leads.consultores-cards.index', {id: dado.id}))}>
+                                <tr key={index}>
                                     <td className="text-wrap text-start">
                                         <Stack direction="row">
                                             <span className="me-2"><Avatar src={dado.nome.foto} sx={{width: 25, height: 25}}/></span>
@@ -61,7 +62,7 @@ export default function ({statusLeads}) {
                                     <td>{dado.status.finalizado ?? 0}</td>
                                     <td>{total}</td>
                                     <td>
-                                        <button className="px-3 py-1 mb-0 btn btn-primary btn-sm" href='#'>Ver Kanban</button>
+                                        <Link label="Ver Kanban" href={route('admin.leads.consultores-cards.index', {id: dado.id})}/>
                                     </td>
                                 </tr>
                             )

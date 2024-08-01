@@ -130,7 +130,7 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
 
 
                 {/*BOTAO*/}
-                {btn && <div className="row justify-content-end mt-3">
+                {btn && <div className="row justify-content-end my-3">
                     <div className="col-auto">
                         {btn}
                     </div>

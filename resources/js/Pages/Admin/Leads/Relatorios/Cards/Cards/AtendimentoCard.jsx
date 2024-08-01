@@ -1,14 +1,9 @@
 import Card from './Card'
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Link from "@/Components/Link.jsx";
 
 function btn(id) {
-
-    return (
-        <a href={route('admin.leads.cards-atendimento.show', id)}
-           className="btn btn-warning btn-sm">
-            ABRIR
-        </a>
-    )
+    return <Link label="ABRIR" href={route('admin.leads.cards-atendimento.show', id)}/>
 }
 
 export default function AtendimentoCard({dados, leadsSelecionados}) {

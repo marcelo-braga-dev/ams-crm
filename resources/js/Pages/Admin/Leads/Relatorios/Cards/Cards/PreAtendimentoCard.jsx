@@ -1,13 +1,8 @@
 import Card from './Card'
+import Link from "@/Components/Link.jsx";
 
 function btn(id) {
-
-    return (
-        <a href={route('admin.leads.cards-pre_atendimento.show', id)}
-           className="btn btn-warning btn-sm">
-            ABRIR
-        </a>
-    )
+    return <Link label="ABRIR" href={route('admin.leads.cards-pre_atendimento.show', id)}/>
 }
 
 export default function PreAtendimentoCard({dados, leadsSelecionados}) {

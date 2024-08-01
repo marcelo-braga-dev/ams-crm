@@ -1,10 +1,8 @@
 import Card from './Card'
+import Link from "@/Components/Link.jsx";
 
 function btn(id) {
-
-    return (
-        <a href={route('admin.leads.cards-novo.show', [id])} className="btn btn-primary btn-sm">ABRIR</a>
-    )
+    return <Link label="ABRIR" href={route('admin.leads.cards-novo.show', [id])}/>
 }
 
 export default function NovoCard({dados, leadsSelecionados}) {

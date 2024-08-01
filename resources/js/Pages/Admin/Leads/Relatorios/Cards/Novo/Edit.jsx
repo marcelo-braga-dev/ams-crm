@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import LeadsDados from "@/Components/Leads/LeadsDados";
 import {router, useForm} from "@inertiajs/react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
