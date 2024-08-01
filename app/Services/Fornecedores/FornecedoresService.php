@@ -17,7 +17,7 @@ class FornecedoresService
 
     public function fornecedores(?int $setor = null)
     {
-        return (new ProdutosFornecedores())->fornecedores($setor);
+        return (new ProdutosFornecedores())->get($setor);
     }
 
     private function dados($item)

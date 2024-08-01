@@ -21,7 +21,7 @@ class PedidosController extends Controller
     public function index(Request $request)
     {
         $setores = (new Setores())->get();
-        $fornecedores = (new ProdutosFornecedores())->fornecedores();
+        $fornecedores = (new ProdutosFornecedores())->get();
         $coresAbas = (new ConfigCores())->getPedidos();
         $goCard = $request->id_card;
 

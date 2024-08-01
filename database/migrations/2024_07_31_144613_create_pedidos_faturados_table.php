@@ -12,16 +12,15 @@ return new class extends Migration {
     {
         Schema::create('pedidos_faturados', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('pedido_id')->nullable();
-            $table->unsignedBigInteger('exportacao_id')->nullable();
-            $table->string('n_nota')->nullable();
-            $table->string('data_nota')->nullable();
-            $table->boolean('status')->default(false);
-            $table->string('status_data')->nullable();
+            $table->unsignedBigInteger('pedido_id');
+            $table->unsignedBigInteger('empresa_id')->nullable();
+            $table->string('nota_numero')->nullable();
+            $table->string('nota_distribuidora_numero')->nullable();
+            $table->date('nota_data')->nullable();
             $table->timestamps();
 
             $table->foreign('pedido_id')->references('id')->on('pedidos');
-            $table->foreign('exportacao_id')->references('id')->on('pedidos_faturados_planilhas');
+            $table->foreign('empresa_id')->references('id')->on('financeiros_empresas');
         });
     }
 

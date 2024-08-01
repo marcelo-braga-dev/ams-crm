@@ -8,9 +8,9 @@ const Container = styled.div`
     padding-top: 20px;
 `
 
-export default function CardTable({children, title, paginateDados, paginate, setPaginate, icon, btn}) {
+export default function CardTable({children, title, paginateDados, paginate, setPaginate, icon, btn, subtitle}) {
     return (<>
-            <CardTitle title={title} icon={icon}>
+            <CardTitle title={title} icon={icon} subtitle={subtitle}>
                 {btn}
                 {paginate && <Stack direction="row" spacing={6}>
 

@@ -96,7 +96,7 @@ export default function FinancialConfig() {
     const handleChangeTabs = useCallback((newValue) => {
         setValue(newValue);
     }, []);
-
+    console.log(empresas)
     return (
         <Layout titlePage="Configurações do Financeiro" menu="financeiro" submenu="financeiro-config">
             <Box sx={{width: '100%'}}>
@@ -237,20 +237,24 @@ export default function FinancialConfig() {
                                         {empresas.map(item =>
                                             <div className="p-3 mb-1 row border-bottom" key={item.id}>
                                                 <div className="col">
-                                                    <TextField label="Nome da Empresa" defaultValue={item.valor} fullWidth
+                                                    <TextField label="Nome da Empresa" defaultValue={item.nome} fullWidth
                                                                onChange={e => setEditarValor({
+                                                                   cnpj: item.cnpj,
                                                                    ...editarValor,
                                                                    id: item.id,
-                                                                   nome: e.target.value
+                                                                   nome: e.target.value,
+                                                                   chave: 'empresas'
                                                                })}
                                                     />
                                                 </div>
                                                 <div className="col">
                                                     <TextField label="CNPJ da Empresa" defaultValue={item.cnpj} fullWidth
                                                                onChange={e => setEditarValor({
+                                                                   nome: item.nome,
                                                                    ...editarValor,
                                                                    id: item.id,
-                                                                   cnpj: e.target.value
+                                                                   cnpj: e.target.value,
+                                                                   chave: 'empresas'
                                                                })}
                                                     />
                                                 </div>

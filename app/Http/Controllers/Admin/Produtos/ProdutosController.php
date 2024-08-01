@@ -20,7 +20,7 @@ class ProdutosController extends Controller
     public function index(Request $request)
     {
         $categorias = (new ProdutosCategorias())->categorias();
-        $fornecedores = (new ProdutosFornecedores())->fornecedores();
+        $fornecedores = (new ProdutosFornecedores())->get();
         $isFinanceiro = is_financeiro();
 
         return Inertia::render('Admin/Produtos/Index/Index',
@@ -46,7 +46,7 @@ class ProdutosController extends Controller
 
     public function create()
     {
-        $fornecedores = (new ProdutosFornecedores())->fornecedores();
+        $fornecedores = (new ProdutosFornecedores())->get();
         $setores = (new Setores())->get();
         $categorias = (new ProdutosCategorias())->categorias();
         $unidades = (new ProdutosUnidades())->get();
@@ -80,7 +80,7 @@ class ProdutosController extends Controller
         $unidades = (new ProdutosUnidades())->get();
         $infos = (new ProdutosDados())->get($id);
 
-        $fornecedores = (new ProdutosFornecedores())->fornecedores();
+        $fornecedores = (new ProdutosFornecedores())->get();
         $setores = (new Setores())->get();
 
         return Inertia::render(

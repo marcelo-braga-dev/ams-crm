@@ -12,8 +12,14 @@ return new class extends Migration {
     {
         Schema::create('pedidos_faturados_planilhas', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('empresa_id');
+            $table->unsignedBigInteger('fornecedor_id')->nullable();
+            $table->string('nota_distribuidora')->nullable();
             $table->string('url');
             $table->timestamps();
+
+            $table->foreign('empresa_id')->references('id')->on('financeiros_empresas');
+            $table->foreign('fornecedor_id')->references('id')->on('produtos_fornecedores');
         });
     }
 

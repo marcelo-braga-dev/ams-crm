@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Financeiro;
 
 use App\Http\Controllers\Controller;
+use App\Models\FinanceirosEmpresas;
 use App\Models\FluxoCaixasConfig;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +18,8 @@ class FluxoCaixaConfigController extends Controller
     public function store(Request $request)
     {
         try {
-            (new FluxoCaixasConfig())->create($request);
+            if ($request->chave == 'empresas') (new FinanceirosEmpresas())->create($request);
+            if ($request->chave != 'empresas') (new FluxoCaixasConfig())->create($request);
 
             modalSucesso('Dados atualizados com sucesso!');
         } catch (\DomainException $exception) {
@@ -29,7 +31,8 @@ class FluxoCaixaConfigController extends Controller
     public function update($id, Request $request)
     {
         try {
-            (new FluxoCaixasConfig())->atualizar($request->id, $request);
+            if ($request->chave == 'empresas') (new FinanceirosEmpresas())->atualizar($request);
+            if ($request->chave != 'empresas') (new FluxoCaixasConfig())->atualizar($request->id, $request);
 
             modalSucesso('Dados atualizado com sucesso!');
         } catch (\DomainException $exception) {
@@ -53,7 +56,7 @@ class FluxoCaixaConfigController extends Controller
     public function registros()
     {
         $bancos = (new FluxoCaixasConfig())->getBancos();
-        $empresas = (new FluxoCaixasConfig())->getEmpresas();
+        $empresas = (new FinanceirosEmpresas())->get();
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
 
         return response()->json(compact('bancos', 'empresas', 'fornecedores'));

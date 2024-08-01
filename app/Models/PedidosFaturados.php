@@ -11,11 +11,10 @@ class PedidosFaturados extends Model
 
     protected $fillable = [
         'pedido_id',
-        'exportacao_id',
-        'n_nota',
-        'data_nota',
-        'status',
-        'status_data'
+        'empresa_id',
+        'nota_numero',
+        'nota_distribuidora_numero',
+        'nota_data'
     ];
 
     public function create($id, $dados)
@@ -23,19 +22,21 @@ class PedidosFaturados extends Model
         $this->newQuery()
             ->create([
                 'pedido_id' => $id,
-                'n_nota' => $dados->n_nota,
-                'data_nota' => $dados->nota_data,
+                'nota_numero' => $dados->n_nota,
+                'nota_data' => $dados->nota_data,
             ]);
     }
 
-    public function createPlanilha($idExportacao, $vendas)
+    public function updateNotaDistribuidora($vendas, $pedidos, $notaDistribuidora, $empresa)
     {
         foreach ($vendas as $venda) {
-            $this->newQuery()
-                ->updateOrCreate(
-                    ['pedido_id' => $venda['id']],
-                    ['exportacao_id' => $idExportacao,]
-                );
+            if (in_array($venda['id'], $pedidos)) {
+                $this->newQuery()
+                    ->updateOrCreate(
+                        ['pedido_id' => $venda['id']],
+                        ['nota_distribuidora_numero' => $notaDistribuidora, 'empresa_id' => $empresa]
+                    );
+            }
         }
 
     }

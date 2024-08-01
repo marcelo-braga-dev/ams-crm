@@ -11,39 +11,92 @@ import * as React from "react";
 import {useState} from "react";
 import {sum} from "lodash";
 import {router} from "@inertiajs/react";
-import Checkbox from "@mui/material/Checkbox";
 import {Check, Download, Eye} from "react-bootstrap-icons";
 import Link from "@/Components/Link.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import Checkbox from "@mui/material/Checkbox";
+import Switch from "@mui/material/Switch";
 
-const Page = ({vendas, usuario, planilhasGeradas, usuarios, mes, ano}) => {
-    const [usuarioSelecionado, setusuarioSelecionado] = useState(usuario?.id)
+const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, distribuidoras, distribuidora, isFaturado}) => {
     const [mesesSelecionado, setMesesSelecionado] = useState(mes)
     const [anoSelecionado, setAnoSelecionado] = useState(ano)
+    const [setorSelecionado, setSetorSelecionado] = useState(setor)
+    const [distribuidoraSelecionado, setDistribuidoraSelecionado] = useState(distribuidora)
+    const [pedidosSelecionado, setPedidosSelecionados] = useState([])
+    const [nota, setNota] = useState()
+    const [empresa, setEmpresa] = useState()
 
     const total = sum(vendas.map(item => item.valor))
     const [carregando, setCarregando] = useState(false)
+    const [filtroFaturados, setFiltroFaturados] = useState(isFaturado >= 1)
 
     function pesquisar() {
         setCarregando(true)
         router.get(route('admin.financeiro.faturamento.index',
-            {id: usuarioSelecionado, mes: mesesSelecionado, ano: anoSelecionado}))
+            {
+                mes: mesesSelecionado, ano: anoSelecionado, setor: setorSelecionado, distribuidora: distribuidoraSelecionado,
+                faturados: filtroFaturados
+            }))
     }
 
-    const gerarPlanilha = () => {
-        router.post(route('admin.financeiro.faturamento.planilha'), {vendas: vendas})
+    const gerarPlanilha = (e) => {
+        e.preventDefault()
+        router.post(route('admin.financeiro.faturamento.planilha'),
+            {pedidos: pedidosSelecionado, nota, empresa, vendas: vendas, distribuidora: distribuidoraSelecionado})
     }
+
+    const handleSetor = (setor) => {
+        setSetorSelecionado(setor)
+    }
+
+    const handleDistribuidora = (id) => {
+        setDistribuidoraSelecionado(id)
+    }
+
+    const handleCheckboxChange = (id) => {
+        setPedidosSelecionados(prevState => {
+            if (prevState.includes(id)) {
+                return prevState.filter(pedidoId => pedidoId !== id);
+            } else {
+                return [...prevState, id];
+            }
+        });
+    };
+
+    const handleSelectAll = (event) => {
+        if (event.target.checked) {
+            setPedidosSelecionados(vendas.map(item => item.id));
+        } else {
+            setPedidosSelecionados([]);
+        }
+    };
+
+    const allChecked = pedidosSelecionado.length === vendas.length;
+
+    router.on('success', () => setPedidosSelecionados([]))
 
     return (
         <Layout titlePage="Faturamento de Pedidos" menu="financeiro" submenu="financeiro-faturamento">
             <CardContainer>
                 <CardBody>
                     <div className="row">
-                        <div className="col-3">
-                            <TextField label="Consultor" select fullWidth defaultValue={usuarioSelecionado}
-                                       onChange={e => setusuarioSelecionado(e.target.value)}>
+                        <div className="col-md-2">
+                            <TextField
+                                label="Setor" value={setorSelecionado}
+                                select
+                                fullWidth
+                                onChange={(e) => handleSetor(e.target.value)}
+                            >
                                 <MenuItem value="">TODOS</MenuItem>
-                                {usuarios.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                                {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
+                        </div>
+                        <div className="col-md-2">
+                            <TextField
+                                label="Distribuidora" defaultValue={distribuidoraSelecionado} select fullWidth
+                                onChange={(e) => handleDistribuidora(e.target.value)}>
+                                <MenuItem value="">TODOS</MenuItem>
+                                {distribuidoras.map(item => (<MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>))}
                             </TextField>
                         </div>
                         <div className="col-2">
@@ -56,21 +109,11 @@ const Page = ({vendas, usuario, planilhasGeradas, usuarios, mes, ano}) => {
                                 <MenuItem value="2024">2024</MenuItem>
                             </TextField>
                         </div>
-                        <div className="col-2">
-                            <button className="btn btn-primary" onClick={() => pesquisar()}>Pesquisar</button>
+                        <div className="col-auto">
+                            <Switch checked={filtroFaturados} onChange={e => setFiltroFaturados(e.target.checked)}/> Não Faturados
                         </div>
-                    </div>
-                </CardBody>
-            </CardContainer>
-
-            <CardContainer>
-                <CardBody>
-                    <div className="row">
-                        <div className="col">
-                            <h6 className="d-block">Total: R$ {convertFloatToMoney(total)}</h6>
-                        </div>
-                        <div className="col">
-                            <span className="d-block">Qtd. Pedidos: {vendas?.length}</span>
+                        <div className="col-2 mt-2">
+                            <button className="btn btn-primary btn-sm" onClick={() => pesquisar()}>Pesquisar</button>
                         </div>
                     </div>
                 </CardBody>
@@ -81,12 +124,23 @@ const Page = ({vendas, usuario, planilhasGeradas, usuarios, mes, ano}) => {
                     {carregando && <LinearProgress/>}
                     {!carregando &&
                         <CardContainer>
-                            <CardTable title="Pedidos" btn={<Typography>Quantidade: {vendas.length}</Typography>}>
+                            <CardTable title="Pedidos"
+                                       subtitle={<Typography>{pedidosSelecionado.length} Selecionados</Typography>}
+                                       btn={
+                                           <Stack>
+                                               <Typography>Quantidade: {vendas.length}</Typography>
+                                               <Typography>Total: R$ {convertFloatToMoney(total)}</Typography>
+                                           </Stack>
+                                       }>
                                 <table className="table-1 table-hover">
                                     <thead>
                                     <tr>
-                                        {/*<th style={{width: 20}}></th>*/}
-                                        <th style={{width: 10}}>Exportação</th>
+                                        <th style={{width: 20}}>
+                                            <Checkbox size="small"
+                                                      checked={allChecked}
+                                                      onChange={handleSelectAll}/>
+                                        </th>
+                                        <th>Nota Distribuidora</th>
                                         <th>Pedido</th>
                                         <th></th>
                                         <th></th>
@@ -96,21 +150,29 @@ const Page = ({vendas, usuario, planilhasGeradas, usuarios, mes, ano}) => {
                                     {vendas.map(item => {
                                         return (
                                             <tr key={item.id}>
-                                                {/*<td className="text-center">*/}
-                                                {/*    <Checkbox size="small"/>*/}
-                                                {/*</td>*/}
                                                 <td className="text-center">
-                                                    {item.exportacao_id ? <Typography>#{item.exportacao_id}</Typography> : '-'}
+                                                    <Checkbox size="small"
+                                                              checked={pedidosSelecionado.includes(item.id)}
+                                                              onChange={() => handleCheckboxChange(item.id)}
+                                                    />
+                                                </td>
+                                                <td>{item.nota_distribuidora}</td>
+                                                <td>
+                                                    <Stack spacing={1}>
+                                                        <Typography>#{item.id}</Typography>
+                                                        <Typography>{item.status}</Typography>
+                                                        <Typography>NOTA: {item.nota_faturamento ?? '-'}</Typography>
+                                                        <Typography variant="body2">{item.data}</Typography>
+                                                    </Stack>
                                                 </td>
                                                 <td>
-                                                    <Typography>{item.status}</Typography>
-                                                    <Typography>#{item.id}</Typography>
-                                                    <Typography variant="body2">{item.data}</Typography>
-                                                </td>
-                                                <td>
-                                                    <Typography><b>Cliente:</b> {item.cliente}</Typography>
-                                                    <Typography><b>Integrador:</b> {item.lead}</Typography>
-                                                    <Typography><b>Valor:</b> R$ {convertFloatToMoney(item.valor)}</Typography>
+                                                    <Stack spacing={1}>
+                                                        <Typography><b>Cliente:</b> {item.cliente_nome ?? item.lead_nome}</Typography>
+                                                        <Typography><b>Documento:</b> {item.cliente_documento}</Typography>
+                                                        <Typography><b>Setor:</b> {item.setor_nome}</Typography>
+                                                        <Typography><b>Distribuidora:</b> {item.fornecedor_nome}</Typography>
+                                                        <Typography><b>Valor:</b> R$ {convertFloatToMoney(item.valor)}</Typography>
+                                                    </Stack>
                                                 </td>
                                                 <td className="text-center">
                                                     <Link icon={<Eye size={22}/>} href={route('admin.pedidos.show', item.id)}></Link>
@@ -127,19 +189,43 @@ const Page = ({vendas, usuario, planilhasGeradas, usuarios, mes, ano}) => {
                 </div>
                 <div className="col">
                     <CardContainer>
-                        <CardTitle title="Planilhas Geradas"
-                                   children={<button className="btn btn-success d-block mb-0 btn-sm" onClick={() => gerarPlanilha()}>Gerar Planilha</button>}/>
+                        <CardTitle title="Gerar Planilha"/>
+                        <CardBody>
+                            <form onSubmit={gerarPlanilha}>
+                                <div className="row mb-3">
+                                    <div className="col">
+                                        <TextField label="N. Nota Distribuidora" fullWidth required
+                                                   onChange={e => setNota(e.target.value)}/>
+                                    </div>
+                                    <div className="col">
+                                        <TextField label="Empresa" fullWidth required select
+                                                   onChange={e => setEmpresa(e.target.value)}>
+                                            {empresas.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                                        </TextField>
+                                    </div>
+                                </div>
+                                <button className="btn btn-success d-block mb-0 btn-sm">Gerar Planilha</button>
+                            </form>
+                        </CardBody>
+                    </CardContainer>
+                    <CardContainer>
+                        <CardTitle title="Planilhas Geradas"/>
                         <CardBody>
                             {planilhasGeradas.map(item =>
-                                <CardContainer>
+                                <CardContainer key={item.id}>
                                     <CardBody>
                                         <div className="row">
-                                            <div className="col-auto">#{item.id}</div>
-                                            <div className="col"><Typography>{item.data}</Typography></div>
+                                            <div className="col-auto"><Typography variant="body2">#{item.id}</Typography></div>
+                                            <div className="col">
+                                                <Stack>
+                                                    <Typography variant="body2"><b>NOTA DIST.:</b> {item.nota_distribuidora}</Typography>
+                                                    <Typography variant="body2"><b>EMPRESA:</b> {item.empresa_nome}</Typography>
+                                                    {item.distribuidora_nome && <Typography variant="body2"><b>DISTRIB.:</b> {item.distribuidora_nome}</Typography>}
+                                                    <Typography variant="body2">{item.data}</Typography>
+                                                </Stack>
+                                            </div>
                                             <div className="col-auto">
-                                                <a href={item.url}>
-                                                    <Download size={20}/>
-                                                </a>
+                                                <a href={item.url}><Download size={20}/></a>
                                             </div>
                                         </div>
                                     </CardBody>

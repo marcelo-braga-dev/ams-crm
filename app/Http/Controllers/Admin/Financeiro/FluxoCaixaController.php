@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Financeiro;
 
 use App\Http\Controllers\Controller;
+use App\Models\FinanceirosEmpresas;
 use App\Models\FinanceirosSalarios;
 use App\Models\FluxoCaixa;
 use App\Models\FluxoCaixasConfig;
@@ -25,7 +26,7 @@ class FluxoCaixaController extends Controller
     public function create()
     {
         $dados = [
-            'empresas' => (new FluxoCaixasConfig())->getEmpresas(),
+            'empresas' => (new FinanceirosEmpresas())->get(),
             'fornecedores' => (new FluxoCaixasConfig())->getFornecedores(),
             'bancos' => (new FluxoCaixasConfig())->getBancos(),
             'franquias' => (new Franquias())->get(),

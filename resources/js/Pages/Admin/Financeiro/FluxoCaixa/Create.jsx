@@ -1,10 +1,12 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import React, {useState} from "react";
 import TextFieldMoney, {TextFieldMoney2} from "@/Components/Inputs/TextFieldMoney";
 import MenuItem from "@mui/material/MenuItem";
 import {router, useForm} from "@inertiajs/react";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
 
 export default function ({dados}) {
 
@@ -84,109 +86,118 @@ export default function ({dados}) {
     return (
         <Layout titlePage="Inserir Informações" menu="financeiro" submenu="fluxo-caixa"
                 voltar={route('admin.financeiro.fluxo-caixa.index')}>
-            <div className="row justify-content-between">
-                <div className="col">
-                    Tipo de Entrada<br/>
-                    <FormControl>
-                        <RadioGroup
-                            row aria-labelledby="pessoa"
-                            name="row-radio-buttons-group" onChange={e => setTipo(e.target.value)}>
-                            {dados.permissaoEntradas && <FormControlLabel value="entrada" control={<Radio/>} label="Entrada"/>}
-                            {dados.permissaoSaidas && <FormControlLabel value="saida" control={<Radio/>} label="Saída"/>}
-                        </RadioGroup>
-                    </FormControl>
-                </div>
-                <div className="col">
-                    {!dados.permissaoEntradas && <small className="d-block">Você não tem permissão para cadastros de entradas.</small>}
-                    {!dados.permissaoSaidas && <small>Você não tem permissão para cadastros de saídas.</small>}
-                </div>
-            </div>
+            <CardContainer>
+                <CardBody>
+                    <div className="row justify-content-between">
+                        <div className="col">
+                            Tipo de Entrada<br/>
+                            <FormControl>
+                                <RadioGroup
+                                    row aria-labelledby="pessoa"
+                                    name="row-radio-buttons-group" onChange={e => setTipo(e.target.value)}>
+                                    {dados.permissaoEntradas && <FormControlLabel value="entrada" control={<Radio/>} label="Entrada"/>}
+                                    {dados.permissaoSaidas && <FormControlLabel value="saida" control={<Radio/>} label="Saída"/>}
+                                </RadioGroup>
+                            </FormControl>
+                        </div>
+                        <div className="col">
+                            {!dados.permissaoEntradas && <small className="d-block">Você não tem permissão para cadastros de entradas.</small>}
+                            {!dados.permissaoSaidas && <small>Você não tem permissão para cadastros de saídas.</small>}
+                        </div>
+                    </div>
+                </CardBody>
+            </CardContainer>
+
 
             {tipo &&
                 <form onSubmit={submit}>
-                    <div className="card card-body mb-4">
-                        <div className="row">
-                            <div className="col mb-4">
-                                <TextField type="date" required
-                                           onChange={e => setData('data', e.target.value)}/>
+                    <CardContainer>
+                        <CardBody>
+                            <div className="row">
+                                <div className="col mb-4">
+                                    <TextField type="date" required
+                                               onChange={e => setData('data', e.target.value)}/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="row">
-                            <div className="col mb-4">
-                                <TextField select label="Empresa" fullWidth required
-                                           onChange={e => setData('empresa', e.target.value)}>
-                                    {dados.empresas.map(item =>
-                                        <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>
-                                    )}
-                                </TextField>
+                            <div className="row">
+                                <div className="col mb-4">
+                                    <TextField select label="Empresa" fullWidth required
+                                               onChange={e => setData('empresa', e.target.value)}>
+                                        {dados.empresas.map(item =>
+                                            <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
+                                        )}
+                                    </TextField>
+                                </div>
+                                <div className="col mb-4">
+                                    <TextField select label="Franquia" fullWidth required
+                                               onChange={e => setData('franquia', e.target.value)}>
+                                        {dados.franquias.map(item =>
+                                            <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
+                                        )}
+                                    </TextField>
+                                </div>
+                                <div className="col mb-4">
+                                    <TextField select label="Fornecedores" fullWidth required
+                                               onChange={e => setData('fornecedores', e.target.value)}>
+                                        {dados.fornecedores.map(item => <MenuItem key={item.id}
+                                                                                  value={item.id}>{item.valor}</MenuItem>)}
+                                    </TextField>
+                                </div>
                             </div>
-                            <div className="col mb-4">
-                                <TextField select label="Franquia" fullWidth required
-                                           onChange={e => setData('franquia', e.target.value)}>
-                                    {dados.franquias.map(item =>
-                                        <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>
-                                    )}
-                                </TextField>
+                            <div className="row">
+                                <div className="col mb-4">
+                                    <TextField fullWidth label="N° NF"
+                                               onChange={e => setData('nota_fiscal', e.target.value)}/>
+                                </div>
+                                <div className="col mb-4">
+                                    <TextField select label="Banco" fullWidth
+                                               onChange={e => setData('banco', e.target.value)}>
+                                        {dados.bancos.map(item => <MenuItem key={item.id}
+                                                                            value={item.id}>{item.valor}</MenuItem>)}
+                                    </TextField>
+                                </div>
+                                <div className="col mb-4">
+                                    <TextField select label="Status" fullWidth required
+                                               onChange={e => setData('status', e.target.value)}>
+                                        <MenuItem value="aberto">Aberto</MenuItem>
+                                        <MenuItem value="pago">Pago</MenuItem>
+                                    </TextField>
+                                </div>
                             </div>
-                            <div className="col mb-4">
-                                <TextField select label="Fornecedores" fullWidth required
-                                           onChange={e => setData('fornecedores', e.target.value)}>
-                                    {dados.fornecedores.map(item => <MenuItem key={item.id}
-                                                                              value={item.id}>{item.valor}</MenuItem>)}
-                                </TextField>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col mb-4">
-                                <TextField fullWidth label="N° NF"
-                                           onChange={e => setData('nota_fiscal', e.target.value)}/>
-                            </div>
-                            <div className="col mb-4">
-                                <TextField select label="Banco" fullWidth
-                                           onChange={e => setData('banco', e.target.value)}>
-                                    {dados.bancos.map(item => <MenuItem key={item.id}
-                                                                        value={item.id}>{item.valor}</MenuItem>)}
-                                </TextField>
-                            </div>
-                            <div className="col mb-4">
-                                <TextField select label="Status" fullWidth required
-                                           onChange={e => setData('status', e.target.value)}>
-                                    <MenuItem value="aberto">Aberto</MenuItem>
-                                    <MenuItem value="pago">Pago</MenuItem>
-                                </TextField>
-                            </div>
-                        </div>
-                    </div>
+                        </CardBody>
+                    </CardContainer>
 
-                    <div className="card card-body mb-4">
-                        <div className="row border-bottom mb-4">
-                            <div className="col-md-2 mb-3">
-                                <TextField label="Qtd de Pagamentos" type="number" value={data.qtd_pagamentos} required
-                                           fullWidth
-                                           onChange={e => setData('qtd_pagamentos', e.target.value)}/>
+                    <CardContainer>
+                        <CardBody>
+                            <div className="row border-bottom mb-4">
+                                <div className="col-md-2 mb-3">
+                                    <TextField label="Qtd de Pagamentos" type="number" value={data.qtd_pagamentos} required
+                                               fullWidth
+                                               onChange={e => setData('qtd_pagamentos', e.target.value)}/>
+                                </div>
                             </div>
-                        </div>
 
-                        {qtdPagamentos()}
-                    </div>
+                            {qtdPagamentos()}
+                        </CardBody>
+                    </CardContainer>
 
-                    <div className="card card-body mb-4">
-                        <div className="row justify-content-center">
-                            <div className="col mb-4">
-                                <TextField label="Descrição" multiline rows="3" fullWidth required
-                                           onChange={e => setData('descricao', e.target.value)}/>
+                    <CardContainer>
+                        <CardBody>
+                            <div className="row justify-content-center">
+                                <div className="col mb-4">
+                                    <TextField label="Descrição" multiline rows="3" fullWidth required
+                                               onChange={e => setData('descricao', e.target.value)}/>
+                                </div>
                             </div>
-                        </div>
-                        <div className="row justify-content-center">
-                            <div className="col-auto">
-                                <button className="btn btn-primary">Salvar</button>
+                            <div className="row justify-content-center">
+                                <div className="col-auto">
+                                    <button className="btn btn-primary">Salvar</button>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </CardBody>
+                    </CardContainer>
                 </form>
-
-
             }
         </Layout>
     )

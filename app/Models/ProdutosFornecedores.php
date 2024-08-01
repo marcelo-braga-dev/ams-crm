@@ -62,7 +62,7 @@ class ProdutosFornecedores extends Model
         return null;
     }
 
-    public function fornecedores()
+    public function get()
     {
         return $this->newQuery()
             ->leftJoin('setores', 'produtos_fornecedores.setor_id', '=', 'setores.id')

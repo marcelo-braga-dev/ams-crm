@@ -106,7 +106,7 @@ const Page = ({usuarios, ano, mes}) => {
     ]
 
     return (
-        <Layout titlePage="Salários" menu="financeiro" submenu="financeiro-salarios" voltar={route('admin.financeiro.salarios.index')}>
+        <Layout titlePage="Salários" menu="financeiro" submenu="financeiro-salarios">
             <CardContainer>
                 <CardBody>
                     <div className="row">

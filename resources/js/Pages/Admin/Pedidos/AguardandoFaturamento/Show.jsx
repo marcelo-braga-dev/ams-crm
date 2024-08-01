@@ -13,10 +13,19 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 
 export default function Create({pedido}) {
+    const getCurrentDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // Meses são de 0-11
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
     const {data, setData, progress} = useForm({
         file_nota_fiscal: '',
-        prazo: ''
+        prazo: '',
+        nota_numero: '',
+        nota_data: getCurrentDate()
     });
 
     function submit(e) {
@@ -55,23 +64,30 @@ export default function Create({pedido}) {
                 <CardBody>
                     <form onSubmit={submit}>
                         <Typography variant="h6">Enviar Nota Fiscal do Pedido</Typography>
-                        <Row className={"mt-3"}>
-                            <Col className={"mb-4"} lg={"6"}>
+                        <div className="row">
+                            <div className="col-md-2">
+                                <TextField label="N. Nota" fullWidth required
+                                           onChange={e => setData('n_nota', e.target.value)}/>
+                            </div>
+                            <div className="col-md-2">
+                                <TextField type="date" label="Data da Nota" fullWidth required InputLabelProps={{shrink: true}}
+                                           defaultValue={data.nota_data}
+                                           onChange={e => setData('nota_data', e.target.value)}/>
+                            </div>
+                            <div className="col-md-2">
                                 <TextField
                                     label="Nota Fiscal" focused
                                     fullWidth required type="file"
                                     onChange={e => setData('file_nota_fiscal', e.target.files[0])}>
                                 </TextField>
-                            </Col>
-                        </Row>
-                        <Row className={"mt-2"}>
-                            <Col className={"mb-3"} lg={"6"}>
+                            </div>
+                            <div className="col-md-2">
                                 <TextField label="Prazo Entrega" type="number" required
                                            onChange={e => setData('prazo', e.target.value)}></TextField>
-                            </Col>
-                        </Row>
+                            </div>
+                        </div>
 
-                        <button className="btn btn-primary" type='submit' color="primary">
+                        <button className="btn btn-primary mt-4" type='submit' color="primary">
                             Enviar
                         </button>
                     </form>

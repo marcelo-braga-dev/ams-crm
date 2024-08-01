@@ -38,6 +38,7 @@ class PedidoUpdateStatus
 
     public function setFaturado($id, $request): void
     {
+        (new PedidosFaturados())->create($id, $request);
         (new PedidosImagens())->updateNotaFiscal($id, $request);
         (new FaturadoStatus())->updateStatus($id, null, $request->prazo);
         (new Pedidos())->updatePrazo($id, $request->prazo);
@@ -94,7 +95,6 @@ class PedidoUpdateStatus
 
     public function aguardandoBoleto($id, $request)
     {
-        (new PedidosFaturados())->create($id, $request);
         (new AguardandoPagamentoStatus())->insertDadosStatus($id, $request);
         (new AguardandoPagamentoStatus())->updateStatus($id);
     }

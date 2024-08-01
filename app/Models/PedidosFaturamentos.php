@@ -59,50 +59,64 @@ class PedidosFaturamentos extends Model
         }
     }
 
-    public function faturadosPeriodo($id, array $mes, $ano)
+    public function faturadosPeriodo($id, array $mes, $ano, $setor = null, $distribuidora = null, $isFaturado = null)
     {
         $nomeLeads = (new Leads())->getNomes();
-        $nomeClientes = (new PedidosClientes())->getNomes();
         $statusNome = (new StatusPedidos())->getStatus();
 
-        $query = (new Pedidos())->newQuery()
+        $query = Pedidos::query()
             ->leftJoin('pedidos_faturados', 'pedidos.id', '=', 'pedidos_faturados.pedido_id')
             ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
-            ->leftJoin('users', 'pedidos.user_faturamento', '=', 'users.id');
+            ->leftJoin('users', 'pedidos.user_faturamento', '=', 'users.id')
+            ->leftJoin('setores', 'pedidos.setor_id', '=', 'setores.id')
+            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
+            ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
+            ->select([
+                'pedidos.*',
+                'leads.nome AS lead_nome', 'leads.cnpj AS lead_cnpj',
+                'users.name AS consultor_nome',
+                'pedidos_faturados.nota_numero AS nota_faturamento','pedidos_faturados.nota_distribuidora_numero AS nota_distribuidora',
+                'pedidos_clientes.nome AS cliente_nome', 'pedidos_clientes.razao_social AS cliente_razao_social',
+                'pedidos_clientes.cpf AS cliente_cpf', 'pedidos_clientes.cnpj AS cliente_cnpj',
+                'setores.nome AS setor_nome',
+                'produtos_fornecedores.nome AS fornecedor_nome',
+            ]);
 
         if ($id) $query->where('pedidos.user_faturamento', $id);
+        if ($setor) $query->where('pedidos.setor_id', $setor);
+        if ($distribuidora) $query->where('pedidos.fornecedor_id', $distribuidora);
+        if ($isFaturado) $query->whereNull('pedidos_faturados.nota_distribuidora_numero');
 
         return $query->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereYear('pedidos.data_faturamento', $ano)
             ->orderByDesc('pedidos.data_faturamento')
-            ->selectRaw('
-                pedidos.*,
-                users.name AS consultor_nome,
-                pedidos_faturados.exportacao_id AS exportacao_id, pedidos_faturados.status AS faturado_status, pedidos_faturados.status AS faturado_status,
-                pedidos_clientes.nome AS cliente_nome, pedidos_clientes.razao_social AS cliente_razao_social,
-                pedidos_clientes.cpf AS cliente_cpf, pedidos_clientes.cnpj AS cliente_cnpj
-            ')
+
+            ->groupBy('pedidos.id')
             ->get()
-            ->transform(function ($item) use ($nomeLeads, $nomeClientes, $statusNome) {
+            ->transform(function ($item) use ($nomeLeads, $statusNome) {
                 return [
                     'id' => $item->id,
                     'lead' => $nomeLeads[$item->lead_id] ?? '',
-                    'cliente' => $nomeClientes[$item->id] ?? '',
                     'valor' => $item->preco_venda,
                     'status' => $statusNome[$item->status] ?? '',
                     'data' => date('d/m/y H:i', strtotime($item->data_faturamento)),
-                    'faturado_status' => $item->faturado_status,
+                    'nota_faturamento' => $item->nota_faturamento,
 
+                    'lead_nome' => $item->lead_nome,
                     'valor_nota' => $item->preco_venda + $item->repasse,
                     'lucro' => $item->preco_venda - $item->preco_custo,
                     'repasse' => $item->repasse,
                     'imposto' => $item->imposto,
                     'preco_custo' => $item->preco_custo,
                     'cliente_nome' => $item->cliente_nome ?? $item->cliente_razao_social,
-                    'cliente_documento' => $item->cliente_cnpj ?? $item->cliente_cpf,
+                    'cliente' => $item->cliente_nome ?? $item->cliente_razao_social,
+                    'cliente_documento' => $item->cliente_cnpj ?? $item->cliente_cpf ?? converterCNPJ($item->lead_cnpj),
                     'consultor_nome' => $item->consultor_nome,
-                    'exportacao_id' => $item->exportacao_id
+                    'exportacao_id' => $item->exportacao_id,
+                    'setor_nome' => $item->setor_nome,
+                    'nota_distribuidora' => $item->nota_distribuidora,
+                    'fornecedor_nome' => $item->fornecedor_nome
                 ];
             });
     }
