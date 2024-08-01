@@ -67,6 +67,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveFinanceiroFluxoCaixaEntrada(), 'nome' => 'Fluxo Caixa: Entradas'],
                     ['id' => $this->chaveFinanceiroFluxoCaixaSaida(), 'nome' => 'Fluxo Caixa: Saídas'],
                     ['id' => $this->chaveFinanceiroSalario(), 'nome' => 'Salários'],
+                    ['id' => $this->chaveFinanceiroFaturamento(), 'nome' => 'Faturamento'],
                     ['id' => $this->chaveFinanceiroCadastrosBancos(), 'nome' => 'Cadastros: Bancos'],
                     ['id' => $this->chaveFinanceiroCadastrosEmpresas(), 'nome' => 'Cadastros: Empresas'],
                     ['id' => $this->chaveFinanceiroCadastrosFornecedores(), 'nome' => 'Cadastros: Fornecedores'],

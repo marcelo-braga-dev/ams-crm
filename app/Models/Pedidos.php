@@ -475,9 +475,8 @@ class Pedidos extends Model
             $cliente = (new Leads())->find($pedido->lead_id);
         }
 
-        $precoCusto = is_financeiro()
-            ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null)
-            : null;
+        $isFinanceiro = is_financeiro();
+        $precoCusto = $isFinanceiro ? ($pedido->preco_custo ? convert_float_money($pedido->preco_custo) : null) : null;
 
         return [
             'id' => $pedido->id,
@@ -504,7 +503,8 @@ class Pedidos extends Model
                 'preco_float' => $pedido->preco_venda,
                 'preco' => convert_float_money($pedido->preco_venda),
                 'preco_custo' => $precoCusto,
-                'lucro' => convert_float_money($pedido->preco_venda - $pedido->preco_custo),
+                'imposto' => $isFinanceiro ? $pedido->imposto : null,
+                'lucro' => $isFinanceiro ? convert_float_money($pedido->preco_venda - $pedido->preco_custo) : null,
                 'repasse_float' => $pedido->repasse,
                 'repasse' => convert_float_money($pedido->repasse),
                 'valor_nota' => convert_float_money($pedido->preco_venda + $pedido->repasse),

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Financeiro\FaturamentoController;
 use App\Http\Controllers\Admin\Financeiro\FluxoCaixaConfigController;
 use App\Http\Controllers\Admin\Financeiro\FluxoCaixaController;
 use App\Http\Controllers\Admin\Financeiro\SalariosController;
@@ -9,6 +10,7 @@ Route::name('admin.financeiro.')
     ->prefix('admin/financeiro')
     ->group(function () {
         Route::resource('fluxo-caixa', FluxoCaixaController::class);
+        Route::resource('faturamento', FaturamentoController::class);
         Route::post('fluxo-caixa-alterar-status', [FluxoCaixaController::class, 'alterarStatus'])
             ->name('fluxo-caixa.alterar-status');
         Route::put('fluxo-caixa-alterar-baixa/{id}', [FluxoCaixaController::class, 'alterarBaixa'])
@@ -20,4 +22,6 @@ Route::name('admin.financeiro.')
 
         Route::resource('salarios', SalariosController::class);
         Route::get('salarios-registros', [SalariosController::class, 'registros'])->name('salarios.registros');
+
+        Route::post('faturamento_planilha', [FaturamentoController::class, 'planilha'])->name('faturamento.planilha');
     });

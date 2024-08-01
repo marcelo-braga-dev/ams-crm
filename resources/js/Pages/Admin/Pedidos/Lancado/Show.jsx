@@ -94,7 +94,7 @@ export default function Pedidos({dados}) {
                             }
                             <div className="row mb-4">
                                 <div className="col-auto">
-                                    <span>Preço Bruto: R$ {precoBruto(dados.preco.preco_float)}</span>
+                                    <span>Lucro Bruto: R$ {precoBruto(dados.preco.preco_float)}</span>
                                 </div>
                                 <div className="col-auto">
                                     <span><b>VALOR NOTA: R$ {valorNota(dados.preco.preco_float, dados.financeiro.repasse_float)}</b></span>

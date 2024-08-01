@@ -6,6 +6,7 @@ use App\Models\Comissoes;
 use App\Models\MetasVendas;
 use App\Models\Pedidos;
 use App\Models\PedidosArquivos;
+use App\Models\PedidosFaturados;
 use App\Models\PedidosFaturamentos;
 use App\Models\PedidosImagens;
 use App\src\Pedidos\Arquivos\ArquivosPedido;
@@ -93,6 +94,7 @@ class PedidoUpdateStatus
 
     public function aguardandoBoleto($id, $request)
     {
+        (new PedidosFaturados())->create($id, $request);
         (new AguardandoPagamentoStatus())->insertDadosStatus($id, $request);
         (new AguardandoPagamentoStatus())->updateStatus($id);
     }

@@ -94,6 +94,7 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
 
                             <DadosPedidoClienteFiles dados={pedido}/>
                         </TabPanel>
+                        {/*Financeiro*/}
                         <TabPanel value={value} index={2}>
                             <div className="row">
                                 <div className="mb-4 col">

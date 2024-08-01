@@ -26,6 +26,12 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.financeiro.salarios.index'),
                 }, {
+                    id: 'financeiro-faturamento',
+                    chave: chaves.financeiro.faturamento,
+                    title: 'Faturamento',
+                    type: 'item',
+                    url: route('admin.financeiro.faturamento.index'),
+                }, {
                     id: 'financeiro-config',
                     chave: chaves.financeiro.cadastros,
                     title: 'Configurações',

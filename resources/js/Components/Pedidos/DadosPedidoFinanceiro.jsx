@@ -8,6 +8,7 @@ export default function DadosPedidoFinanceiro({dados}) {
 
             {dados.financeiro.preco && <Typography className="mb-2" fontSize={15}><b>Valor Total:</b> R$ {dados.financeiro.preco}</Typography>}
             {dados.financeiro.repasse_float > 0 && <Typography className="mb-2" fontSize={15}><b>Repasse:</b> R$ {dados.financeiro.repasse}</Typography>}
+            {dados.financeiro.imposto > 0 && <Typography className="mb-2" fontSize={15}><b>Imposto Distribuidora:</b> {dados.financeiro.imposto}%</Typography>}
             {dados.financeiro.preco_custo &&
                 <Typography className="mb-2" fontSize={15}><b>Preço de Custo:</b> R$ {dados.financeiro.preco_custo}</Typography>}
             {dados.financeiro.forma_pagamento &&

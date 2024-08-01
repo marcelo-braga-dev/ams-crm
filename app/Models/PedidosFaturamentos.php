@@ -65,12 +65,24 @@ class PedidosFaturamentos extends Model
         $nomeClientes = (new PedidosClientes())->getNomes();
         $statusNome = (new StatusPedidos())->getStatus();
 
-        return (new Pedidos())->newQuery()
-            ->where('user_faturamento', $id)
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
-            ->whereIn(DB::raw('MONTH(data_faturamento)'), $mes)
-            ->whereYear('data_faturamento', $ano)
-            ->orderByDesc('data_faturamento')
+        $query = (new Pedidos())->newQuery()
+            ->leftJoin('pedidos_faturados', 'pedidos.id', '=', 'pedidos_faturados.pedido_id')
+            ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
+            ->leftJoin('users', 'pedidos.user_faturamento', '=', 'users.id');
+
+        if ($id) $query->where('pedidos.user_faturamento', $id);
+
+        return $query->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+            ->whereYear('pedidos.data_faturamento', $ano)
+            ->orderByDesc('pedidos.data_faturamento')
+            ->selectRaw('
+                pedidos.*,
+                users.name AS consultor_nome,
+                pedidos_faturados.exportacao_id AS exportacao_id, pedidos_faturados.status AS faturado_status, pedidos_faturados.status AS faturado_status,
+                pedidos_clientes.nome AS cliente_nome, pedidos_clientes.razao_social AS cliente_razao_social,
+                pedidos_clientes.cpf AS cliente_cpf, pedidos_clientes.cnpj AS cliente_cnpj
+            ')
             ->get()
             ->transform(function ($item) use ($nomeLeads, $nomeClientes, $statusNome) {
                 return [
@@ -80,6 +92,17 @@ class PedidosFaturamentos extends Model
                     'valor' => $item->preco_venda,
                     'status' => $statusNome[$item->status] ?? '',
                     'data' => date('d/m/y H:i', strtotime($item->data_faturamento)),
+                    'faturado_status' => $item->faturado_status,
+
+                    'valor_nota' => $item->preco_venda + $item->repasse,
+                    'lucro' => $item->preco_venda - $item->preco_custo,
+                    'repasse' => $item->repasse,
+                    'imposto' => $item->imposto,
+                    'preco_custo' => $item->preco_custo,
+                    'cliente_nome' => $item->cliente_nome ?? $item->cliente_razao_social,
+                    'cliente_documento' => $item->cliente_cnpj ?? $item->cliente_cpf,
+                    'consultor_nome' => $item->consultor_nome,
+                    'exportacao_id' => $item->exportacao_id
                 ];
             });
     }

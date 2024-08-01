@@ -287,4 +287,9 @@ class ChavesPermissoes
     {
         return '57';
     }
+
+    public function chaveFinanceiroFaturamento()
+    {
+        return '58';
+    }
 }
