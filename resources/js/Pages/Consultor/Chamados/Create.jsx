@@ -14,7 +14,7 @@ import CardBody from "@/Components/Cards/CardBody";
 export default function ({pedido}) {
     const [qtdAnexos, setQtdAnexos] = useState(2)
 
-    const [avaria, setAraria] = useState(false)
+    const [avaria, setAraria] = useState(true)
 
     const {data, setData} = useForm({
         pedido_id: pedido
@@ -60,12 +60,12 @@ export default function ({pedido}) {
 
                 <CardContainer>
                     <CardBody>
-                        <Grid container spacing={3}>
-                            <Grid item md={3} marginBottom={2}>
-                                <FormControlLabel label="Avarias?" control={
-                                    <Switch checked={avaria} onChange={e => setAraria(e.target.checked)}/>}/>
-                            </Grid>
-                        </Grid>
+                        {/*<Grid container spacing={3}>*/}
+                        {/*    <Grid item md={3} marginBottom={2}>*/}
+                        {/*        <FormControlLabel label="Avarias?" control={*/}
+                        {/*            <Switch checked={avaria} onChange={e => setAraria(e.target.checked)}/>}/>*/}
+                        {/*    </Grid>*/}
+                        {/*</Grid>*/}
 
                         {avaria && <>
                             <Grid container spacing={3}>

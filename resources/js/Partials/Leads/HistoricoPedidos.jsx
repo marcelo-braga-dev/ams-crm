@@ -12,15 +12,13 @@ export default function HistoricoPedidos({historicos}) {
                     <CardBody>
                         <div className="row justify-content-between cursor-pointer"
                              onClick={() => router.get(route('admin.pedidos.show', item.id))}>
-                            <Stack direction="row" spacing={2}>
+                            <Stack spacing={1}>
                                 <Typography variant="body1"><b>ID do Pedido:</b> #{item.id}</Typography>
                                 <Typography variant="body1"><b>Status:</b> {item.status}</Typography>
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
                                 <Typography variant="body1"><b>Valor:</b> R$ {item.valor}</Typography>
+                                <Typography variant="body1"><b>Consultor(a):</b> {item.consultor}</Typography>
+                                <Typography variant="body1"><b>Data do Pedido:</b> {item.data_criacao}</Typography>
                             </Stack>
-                            <Typography variant="body1"><b>Consultor(a):</b> {item.consultor}</Typography>
-                            <Typography variant="body1"><b>Data do Pedido:</b> {item.data_criacao}</Typography>
                         </div>
                     </CardBody>
                 </CardContainer>

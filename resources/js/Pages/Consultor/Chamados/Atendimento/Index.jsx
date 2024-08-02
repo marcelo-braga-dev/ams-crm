@@ -96,7 +96,7 @@ export default function Create({sac, pedido}) {
                         <h6>Adicionar Mensagem</h6>
                         <div className="row mb-4">
                             <div className="col">
-                                <TextField label="Mensagem" multiline rows="4" fullWidth required
+                                <TextField label="IMPORTANTE: Escreva aqui detalhadamente as informações do SAC" multiline rows="4" fullWidth required
                                            onChange={e => setData('msg', e.target.value)}/>
                             </div>
                         </div>

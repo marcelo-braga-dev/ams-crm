@@ -11,7 +11,7 @@ import * as React from "react";
 import {useState} from "react";
 import {sum} from "lodash";
 import {router} from "@inertiajs/react";
-import {Check, Download, Eye} from "react-bootstrap-icons";
+import {Check, Download, Eye, Trash} from "react-bootstrap-icons";
 import Link from "@/Components/Link.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
 import Checkbox from "@mui/material/Checkbox";
@@ -156,7 +156,12 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                                               onChange={() => handleCheckboxChange(item.id)}
                                                     />
                                                 </td>
-                                                <td>{item.nota_distribuidora}</td>
+                                                <td>
+                                                    <Stack direction="row" spacing={2} alignItems="center">
+                                                        <Typography>{item.nota_distribuidora}</Typography>
+                                                        <Trash size={13} color="red" cursor="pointer"/>
+                                                    </Stack>
+                                                </td>
                                                 <td>
                                                     <Stack spacing={1}>
                                                         <Typography>#{item.id}</Typography>

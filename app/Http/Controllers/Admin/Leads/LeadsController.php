@@ -8,6 +8,7 @@ use App\Models\Leads;
 use App\Models\LeadsDados;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
+use App\Models\LeadsStatusHistoricos;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
@@ -173,6 +174,7 @@ class LeadsController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
         $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
+        $historicoStatus = (new LeadsStatusHistoricos())->getId($id);
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar($idUsuario);
         $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar($idUsuario);
         $isEditar = (new UsersPermissoes())->isLeadsEditar($idUsuario);
@@ -180,7 +182,7 @@ class LeadsController extends Controller
         $isInativar = (new UsersPermissoes())->isLeadsInativar($idUsuario);
 
         return Inertia::render('Admin/Leads/Lead/Show',
-            compact('dados', 'historicos', 'usuarios', 'historicoPedidos',
+            compact('dados', 'historicos', 'usuarios', 'historicoPedidos', 'historicoStatus',
                 'isLeadsEncaminhar', 'isLeadsLimpar', 'isEditar', 'isExcluir', 'isInativar'));
     }
 

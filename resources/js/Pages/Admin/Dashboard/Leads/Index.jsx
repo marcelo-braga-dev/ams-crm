@@ -1,18 +1,18 @@
+import React, { useEffect, useState } from "react";
 import Layout from "@/Layouts/Layout";
 import "chart.js/auto";
-import {Stack, TextField, Typography} from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import Status from "./Graficos/Status";
-import {useEffect, useState} from "react";
+import { Stack, TextField, Typography, MenuItem, Avatar, LinearProgress } from "@mui/material";
+import { round } from "lodash";
+import { Eye } from "react-bootstrap-icons";
+import axios from "axios";
+
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import {round} from "lodash";
-import LinearProgress from "@mui/material/LinearProgress";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import CardTable from "@/Components/Cards/CardTable";
+import Link from "@/Components/Link.jsx";
+import Status from "./Graficos/Status";
 
 export default function ({mes, ano, setores}) {
 
@@ -99,6 +99,7 @@ export default function ({mes, ano, setores}) {
                                 <th className="text-center">Ativados</th>
                                 <th className="text-center">Finalizados</th>
                                 <th className="text-center bg-light">Total</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -131,6 +132,7 @@ export default function ({mes, ano, setores}) {
                                         <td className="text-center">{registrosQtds.ativos?.[item.id] ?? 0}</td>
                                         <td className="text-center">{registrosQtds.finalizados?.[item.id] ?? 0}</td>
                                         <td className="text-center bg-light">{totalUsuario}</td>
+                                        <th className="text-center bg-light"><Eye size="20"/></th>
                                     </tr>
                                 )
                             })}
@@ -159,6 +161,7 @@ export default function ({mes, ano, setores}) {
                                 <th className="text-center">Ativo</th>
                                 <th className="text-center">Finalizados</th>
                                 <th className="text-center bg-light">TOTAL</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -191,6 +194,7 @@ export default function ({mes, ano, setores}) {
                                         <td>{statusQtd?.[item.id]?.ativo ?? 0}</td>
                                         <td>{statusQtd?.[item.id]?.finalizado ?? 0}</td>
                                         <td className="bg-light">{totalConsultor}</td>
+                                        <td className="text-center"><Link icon={<Eye size="20"/>}/></td>
                                     </tr>
                                 )
                             })}

@@ -6,19 +6,20 @@ import * as React from "react";
 import {useState} from "react";
 import {router} from "@inertiajs/react";
 import EditIcon from '@mui/icons-material/Edit';
-import {IconButton} from "@mui/material";
+import {IconButton, Stack, Typography} from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import HistoricoAtendimento from "@/Partials/Leads/HistoricoAtendimento";
 import HistoricoPedidos from "@/Partials/Leads/HistoricoPedidos";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
-import {BoxSeam, ListUl, Person, PersonBoundingBox} from "react-bootstrap-icons";
+import {BoxSeam, List, ListUl, Person, PersonBoundingBox} from "react-bootstrap-icons";
 
 export default function Show({
                                  dados,
                                  historicos,
                                  usuarios,
+                                 historicoStatus,
                                  historicoPedidos,
                                  isLeadsEncaminhar,
                                  isLeadsLimpar,
@@ -130,8 +131,7 @@ export default function Show({
                                         </TextField>
                                     </div>
                                     <div className="col-2">
-                                        <button type="button" className="btn btn-dark" data-bs-toggle="modal"
-                                                data-bs-target="#modalEnviar">
+                                        <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEnviar">
                                             ENVIAR
                                         </button>
                                     </div>
@@ -161,7 +161,7 @@ export default function Show({
             }
 
             <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-5">
                     <CardContainer>
                         <CardTitle title="Histórico de Atendimento" icon={<ListUl size={24}/>}/>
                         <CardBody>
@@ -169,7 +169,7 @@ export default function Show({
                         </CardBody>
                     </CardContainer>
                 </div>
-                <div className="col">
+                <div className="col-md-4">
                     <CardContainer>
                         <CardTitle title="Histórico de Pedidos" icon={<BoxSeam size="22"/> }/>
                         <CardBody>
@@ -177,8 +177,24 @@ export default function Show({
                         </CardBody>
                     </CardContainer>
                 </div>
+                <div className="col-md-3">
+                    <CardContainer>
+                        <CardTitle title="Histórico dos Status" icon={<List size="22"/> }/>
+                        <CardBody>
+                            {historicoStatus.map(item => <CardContainer>
+                                <CardBody>
+                                    <Stack spacing={1}>
+                                        <Typography>Status: {item.status}</Typography>
+                                        <Typography>Resp.: {item.nome}</Typography>
+                                        <Typography>Data: {item.data}</Typography>
+                                    </Stack>
+                                </CardBody>
+                            </CardContainer>)}
+                            {historicoStatus.length < 1 ? 'Não há histórico de Status' : ''}
+                        </CardBody>
+                    </CardContainer>
+                </div>
             </div>
-
 
             {/*MODAL ENVIAR*/}
             <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\src\Leads\Status\StatusLeads;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +50,6 @@ class LeadsStatusHistoricos extends Model
     }
 
 
-
     public function qtdUsuarios(array $mes, int $ano)
     {
         $items = $this->newQuery()
@@ -65,5 +65,20 @@ class LeadsStatusHistoricos extends Model
         }
 
         return $res;
+    }
+
+    public function getId($id)
+    {
+        $statusNome = (new StatusLeads())->nomesStatus();
+        return $this->newQuery()
+            ->join('users', 'leads_status_historicos.user_id', '=', 'users.id')
+            ->where('lead_id', $id)
+            ->orderByDesc('id')
+            ->get(['leads_status_historicos.*', 'users.name AS nome'])
+            ->each(function ($item) use ($statusNome) {
+                $item->status = $statusNome[$item->status] ?? '';
+                $item->data = date('d/m/y H:i', strtotime($item->created_at));
+            });
+
     }
 }
