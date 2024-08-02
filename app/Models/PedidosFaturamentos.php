@@ -59,7 +59,7 @@ class PedidosFaturamentos extends Model
         }
     }
 
-    public function faturadosPeriodo($id, array $mes, $ano, $setor = null, $distribuidora = null, $isFaturado = null)
+    public function faturadosPeriodo($id, array $mes, $ano, $setor = null, $distribuidora = null, $isFaturado = null, $statusFaturado = false)
     {
         $nomeLeads = (new Leads())->getNomes();
         $statusNome = (new StatusPedidos())->getStatus();
@@ -75,7 +75,7 @@ class PedidosFaturamentos extends Model
                 'pedidos.*',
                 'leads.nome AS lead_nome', 'leads.cnpj AS lead_cnpj',
                 'users.name AS consultor_nome',
-                'pedidos_faturados.nota_numero AS nota_faturamento','pedidos_faturados.nota_distribuidora_numero AS nota_distribuidora',
+                'pedidos_faturados.nota_numero AS nota_faturamento', 'pedidos_faturados.nota_distribuidora_numero AS nota_distribuidora',
                 'pedidos_clientes.nome AS cliente_nome', 'pedidos_clientes.razao_social AS cliente_razao_social',
                 'pedidos_clientes.cpf AS cliente_cpf', 'pedidos_clientes.cnpj AS cliente_cnpj',
                 'setores.nome AS setor_nome',
@@ -87,11 +87,12 @@ class PedidosFaturamentos extends Model
         if ($distribuidora) $query->where('pedidos.fornecedor_id', $distribuidora);
         if ($isFaturado) $query->whereNull('pedidos_faturados.nota_distribuidora_numero');
 
-        return $query->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+        return $query->whereIn('pedidos.status', $statusFaturado
+            ? (new StatusPedidosServices())->statusFaturados()
+            : (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereYear('pedidos.data_faturamento', $ano)
             ->orderByDesc('pedidos.data_faturamento')
-
             ->groupBy('pedidos.id')
             ->get()
             ->transform(function ($item) use ($nomeLeads, $statusNome) {

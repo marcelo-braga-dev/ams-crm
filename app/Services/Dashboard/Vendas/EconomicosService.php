@@ -18,7 +18,7 @@ class EconomicosService
         $nomes = (new User())->getNomes();
 
         $vendas = (new Pedidos())->newQuery()
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereYear('created_at', $ano)
             ->select(
                 'user_id',

@@ -65,7 +65,7 @@ class Pedidos extends Model
     {
         return (new Pedidos())->newQuery()
             ->where('user_faturamento', $id)
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereMonth('data_faturamento', $mes)
             ->whereYear('data_faturamento', $ano)
             ->select(DB::raw('
@@ -83,7 +83,7 @@ class Pedidos extends Model
         $items = $this->newQuery()
             ->join('users', 'users.id', '=', 'pedidos.user_faturamento')
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
-            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)
@@ -124,7 +124,7 @@ class Pedidos extends Model
     {
         return $this->newQuery()
             ->whereIn(DB::raw('MONTH(data_faturamento)'), $mes)
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('data_faturamento', $ano)
             ->where('setor_id', $setor)
@@ -141,7 +141,7 @@ class Pedidos extends Model
     public function vendasAnualEmpresa($ano, $setor)
     {
         $dados = $this->newQuery()
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('data_faturamento', $ano)
             ->where('setor_id', $setor)
@@ -688,7 +688,7 @@ class Pedidos extends Model
         return (new Pedidos())->newQuery()
             ->where('user_faturamento', '>=', 1)
             ->where('setor_id', $setor)
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereMonth('data_faturamento', $mes)
             ->whereYear('data_faturamento', $ano)
             ->select(DB::raw('

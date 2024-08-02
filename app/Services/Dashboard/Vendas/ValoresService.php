@@ -26,7 +26,7 @@ class ValoresService
     private function vendas($mes, $ano, $setor)
     {
         return (new Pedidos())->newQuery()
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->where('setor_id', $setor)
             ->whereMonth('created_at', $mes)
             ->whereYear('created_at', $ano)

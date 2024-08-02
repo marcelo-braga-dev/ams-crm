@@ -91,7 +91,7 @@ class VendasService
         else $query->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
             ->leftJoin('enderecos', 'leads.endereco', '=', 'enderecos.id');
 
-        return $query->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+        return $query->whereIn('pedidos.status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereYear('pedidos.data_faturamento', $ano)
@@ -110,7 +110,7 @@ class VendasService
     {
         $items = (new Pedidos())->newQuery()
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
-            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('pedidos.data_faturamento', $ano)
@@ -151,7 +151,7 @@ class VendasService
     {
         return (new Pedidos())->newQuery()
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
-            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), [...$mesComp, ...$mes])
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)
@@ -180,7 +180,7 @@ class VendasService
     {
         $items = (new Pedidos())->newQuery()
             ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
-            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
             ->whereYear('pedidos.data_faturamento', $ano)
@@ -222,7 +222,7 @@ class VendasService
             ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
             ->leftJoin('users', 'pedidos.user_id', '=', 'users.id')
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
-            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
             ->whereYear('pedidos.data_faturamento', $ano)
             ->where('pedidos.setor_id', $setor)

@@ -26,7 +26,7 @@ class FinanceirosService
             DB::raw('MONTH(status_data) as mes'),
             DB::raw('SUM(preco_venda) as vendas')
         )
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereYear('created_at', $ano)
             ->groupBy(DB::raw('MONTH(status_data)'))
             ->get();

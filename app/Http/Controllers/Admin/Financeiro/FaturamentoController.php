@@ -29,7 +29,7 @@ class FaturamentoController extends Controller
         $setores = (new Setores)->get();
         $empresas = (new FinanceirosEmpresas())->get();
 
-        $vendas = (new PedidosFaturamentos())->faturadosPeriodo($request->id, $mes, $ano, $setor, $distribuidora, $isFaturado);
+        $vendas = (new PedidosFaturamentos())->faturadosPeriodo($request->id, $mes, $ano, $setor, $distribuidora, $isFaturado, true);
         $planilhasGeradas = (new PedidosFaturadosPlanilhas())->planilhas();
 
         $distribuidoras = (new ProdutosFornecedores())->get();

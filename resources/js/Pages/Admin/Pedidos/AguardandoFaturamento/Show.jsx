@@ -64,29 +64,34 @@ export default function Create({pedido}) {
                 <CardBody>
                     <form onSubmit={submit}>
                         <Typography variant="h6">Enviar Nota Fiscal do Pedido</Typography>
-                        <div className="row">
-                            <div className="col-md-2">
+                        <div className="row mb-4">
+                            <div className="col-md-6">
                                 <TextField label="N. Nota" fullWidth required
                                            onChange={e => setData('n_nota', e.target.value)}/>
                             </div>
-                            <div className="col-md-2">
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col-md-6">
                                 <TextField type="date" label="Data da Nota" fullWidth required InputLabelProps={{shrink: true}}
                                            defaultValue={data.nota_data}
                                            onChange={e => setData('nota_data', e.target.value)}/>
                             </div>
-                            <div className="col-md-2">
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col-md-6">
                                 <TextField
                                     label="Nota Fiscal" focused
                                     fullWidth required type="file"
                                     onChange={e => setData('file_nota_fiscal', e.target.files[0])}>
                                 </TextField>
                             </div>
-                            <div className="col-md-2">
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col-md-6">
                                 <TextField label="Prazo Entrega" type="number" required
                                            onChange={e => setData('prazo', e.target.value)}></TextField>
                             </div>
                         </div>
-
                         <button className="btn btn-primary mt-4" type='submit' color="primary">
                             Enviar
                         </button>

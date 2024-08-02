@@ -16,7 +16,7 @@ class TopVendasService
         $nomes = (new User())->getNomes();
 
         return (new Pedidos())->newQuery()
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereMonth('created_at', $mes)
             ->whereYear('created_at', $ano)
             ->select('user_id', DB::raw('SUM(preco_venda) as vendas'))
@@ -37,7 +37,7 @@ class TopVendasService
         $nomes = (new Leads())->getNomes();
 
         return (new Pedidos())->newQuery()
-            ->whereIn('status', (new StatusPedidosServices())->statusFaturados())
+            ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
             ->whereMonth('created_at', $mes)
             ->whereYear('created_at', $ano)
             ->select('user_id', 'lead_id', DB::raw('SUM(preco_venda) as vendas'))

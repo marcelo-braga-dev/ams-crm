@@ -11,10 +11,21 @@ use App\src\Pedidos\Status\FaturadoVistaStatus;
 
 class StatusPedidosServices
 {
-    public function statusFaturados()
+    public function statusAguardandoFaturamendo()
     {
         return [
             (new AguardandoFaturamentoStatus())->getStatus(),
+            (new FaturadoStatus())->getStatus(),
+            (new FaturadoVistaStatus())->getStatus(),
+            (new FaturadoPrazoStatus())->getStatus(),
+            (new AcompanhamentoStatus())->getStatus(),
+            (new EntregueStatus())->getStatus(),
+        ];
+    }
+
+    public function statusFaturados()
+    {
+        return [
             (new FaturadoStatus())->getStatus(),
             (new FaturadoVistaStatus())->getStatus(),
             (new FaturadoPrazoStatus())->getStatus(),
