@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Leads\Consultores;
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
+use App\Models\LeadsStatusHistoricos;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
 use App\Services\Leads\LeadsDadosService;
@@ -20,11 +21,12 @@ class AbertoController extends Controller
         $dados = (new Leads())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getUsuarios($dados['infos']['setor']);
+        $historicoStatus = (new LeadsStatusHistoricos())->getId($id);
         $isSdr = is_sdr();
         $idUsuarioCard = $id;
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Aberto/Show',
-            compact('dados', 'historicos', 'consultores', 'isSdr', 'idUsuarioCard'));
+            compact('dados', 'historicos', 'consultores', 'isSdr', 'historicoStatus', 'idUsuarioCard'));
     }
 
     public function update($id)

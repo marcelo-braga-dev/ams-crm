@@ -5,8 +5,13 @@ import {useForm} from "@inertiajs/react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
 import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import {List} from "react-bootstrap-icons";
+import HistoricoStatus from "@/Partials/Leads/HistoricoStatus.jsx";
 
-export default function Show({dados, historicos, consultores, isSdr, idUsuarioCard, status, contatos}) {
+export default function Show({dados, historicos, consultores, historicoStatus, isSdr, idUsuarioCard, status, contatos}) {
 
     const {data, setData, post} = useForm({
         lead: dados.id,
@@ -117,15 +122,25 @@ export default function Show({dados, historicos, consultores, isSdr, idUsuarioCa
                 </form>
             </div>
 
-            <div className="card card-body mb-4">
-                <div className="mb-4 border-bottom">
-                    <div className="mt-4">
-                        <h6 className="mb-3">Histórico de Atendimento</h6>
-                        <HistoricoLista
-                            historicos={historicos} enviarComentario={enviarComentario}
-                            setData={setData} urlPedidos="admin.pedidos.show"
-                        />
-                    </div>
+            <div className="row">
+                <div className="col">
+                    <CardContainer>
+                        <CardTitle title="Histórico de Atendimento"/>
+                        <CardBody>
+                            <HistoricoLista
+                                historicos={historicos} enviarComentario={enviarComentario}
+                                setData={setData} urlPedidos="admin.pedidos.show"
+                            />
+                        </CardBody>
+                    </CardContainer>
+                </div>
+                <div className="col-md-3">
+                    <CardContainer>
+                        <CardTitle title="Histórico dos Status" icon={<List size="22"/>}/>
+                        <CardBody>
+                            <HistoricoStatus dados={historicoStatus}/>
+                        </CardBody>
+                    </CardContainer>
                 </div>
             </div>
 

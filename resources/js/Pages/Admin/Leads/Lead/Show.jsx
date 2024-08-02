@@ -14,6 +14,7 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import {BoxSeam, List, ListUl, Person, PersonBoundingBox} from "react-bootstrap-icons";
+import HistoricoStatus from "@/Partials/Leads/HistoricoStatus.jsx";
 
 export default function Show({
                                  dados,
@@ -181,16 +182,7 @@ export default function Show({
                     <CardContainer>
                         <CardTitle title="Histórico dos Status" icon={<List size="22"/> }/>
                         <CardBody>
-                            {historicoStatus.map(item => <CardContainer>
-                                <CardBody>
-                                    <Stack spacing={1}>
-                                        <Typography>Status: {item.status}</Typography>
-                                        <Typography>Resp.: {item.nome}</Typography>
-                                        <Typography>Data: {item.data}</Typography>
-                                    </Stack>
-                                </CardBody>
-                            </CardContainer>)}
-                            {historicoStatus.length < 1 ? 'Não há histórico de Status' : ''}
+                            <HistoricoStatus dados={historicoStatus}/>
                         </CardBody>
                     </CardContainer>
                 </div>

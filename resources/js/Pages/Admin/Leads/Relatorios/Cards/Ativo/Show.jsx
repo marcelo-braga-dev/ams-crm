@@ -11,8 +11,10 @@ import HistoricoPedidos from "@/Partials/Leads/HistoricoPedidos";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
+import {List} from "react-bootstrap-icons";
+import HistoricoStatus from "@/Partials/Leads/HistoricoStatus.jsx";
 
-export default function Show({dados, consultores, historicos, historicoPedidos, isSdr, isInativar, emitePedido, cardEmitePedido, isEditar, contatos}) {
+export default function Show({dados, consultores, historicos, historicoPedidos,historicoStatus, isSdr, isInativar, emitePedido, cardEmitePedido, isEditar, contatos}) {
     const {data, setData, post} = useForm({
         lead: dados.id,
         consultor: dados.consultor.id
@@ -149,7 +151,7 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
             </CardContainer>
 
             <div className="row">
-                <div className="col-8">
+                <div className="col-md-5">
                     <CardContainer>
                         <CardTitle title="Histórico de Atendimento"/>
                         <CardBody>
@@ -160,11 +162,19 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                         </CardBody>
                     </CardContainer>
                 </div>
-                <div className="col">
+                <div className="col-md-4">
                     <CardContainer>
                         <CardTitle title="Histórico de Pedidos"/>
                         <CardBody>
                             <HistoricoPedidos historicos={historicoPedidos}/>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+                <div className="col-md-3">
+                    <CardContainer>
+                        <CardTitle title="Histórico dos Status" icon={<List size="22"/>}/>
+                        <CardBody>
+                            <HistoricoStatus dados={historicoStatus}/>
                         </CardBody>
                     </CardContainer>
                 </div>
@@ -176,7 +186,7 @@ export default function Show({dados, consultores, historicos, historicoPedidos, 
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="limparLeadLabel">Inativar LEAD</h5>
+                        <h5 className="modal-title" id="limparLeadLabel">Inativar LEAD</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">

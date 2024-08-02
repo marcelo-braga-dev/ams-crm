@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
+use App\Models\LeadsStatusHistoricos;
 use App\Models\Pedidos;
 use App\Models\User;
 use App\Models\UsersPermissoes;
@@ -34,9 +35,10 @@ class AtivoController extends Controller
         $isEditar = (new UsersPermissoes())->isLeadsEditar(id_usuario_atual());
         $isInativar = (new UsersPermissoes())->isLeadsInativar(id_usuario_atual());
         $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
+        $historicoStatus = (new LeadsStatusHistoricos())->getId($id);
 
         return Inertia::render('Admin/Leads/Relatorios/Cards/Ativo/Show',
-            compact('dados', 'status', 'historicoPedidos', 'isSdr', 'isInativar', 'emitePedido',
+            compact('dados', 'status', 'historicoPedidos', 'isSdr', 'isInativar', 'emitePedido','historicoStatus',
                 'cardEmitePedido', 'historicos', 'contatos', 'consultores', 'isEditar'));
     }
 

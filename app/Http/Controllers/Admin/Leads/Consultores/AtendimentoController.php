@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
+use App\Models\LeadsStatusHistoricos;
 use App\Models\User;
 use App\Models\UsersPermissoes;
 use App\Services\Leads\HistoricoDadosService;
@@ -28,10 +29,11 @@ class AtendimentoController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getUsuarios($dados['infos']['setor']);
         $isEditar = (new UsersPermissoes())->isLeadsEditar(id_usuario_atual());
+        $historicoStatus = (new LeadsStatusHistoricos())->getId($id);
 
         return Inertia::render(
             'Admin/Leads/Relatorios/Cards/Atendimento/Show',
-            compact('dados', 'status', 'historicos', 'contatos', 'consultores', 'isEditar')
+            compact('dados', 'status', 'historicos', 'contatos', 'historicoStatus', 'consultores', 'isEditar')
         );
     }
 
