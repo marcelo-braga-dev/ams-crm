@@ -81,4 +81,41 @@ class LeadsStatusHistoricos extends Model
             });
 
     }
+
+    public function relatorioDashboard($id, array $mes, $ano)
+    {
+        return $this->newQuery()
+            ->leftJoin('leads', 'leads_status_historicos.lead_id', '=', 'leads.id')
+            ->where('leads_status_historicos.user_id', $id)
+            ->whereIn(DB::raw('MONTH(leads_status_historicos.created_at)'), $mes)
+            ->whereYear('leads_status_historicos.created_at', $ano)
+            ->select([
+                'leads_status_historicos.*',
+                'leads_status_historicos.status AS status',
+                'leads_status_historicos.created_at AS created_at',
+                'leads.id AS lead_id',
+                'leads.nome AS lead_nome',
+                'leads.razao_social AS lead_razao_social',
+                'leads.cnpj AS lead_cnpj',
+            ])
+            ->get()
+            ->groupBy('lead_id')
+            ->map(function ($items) {
+                $lead = $items->first();
+                $statuses = $items->map(function ($item) {
+                    return [
+                        'status' => $item->status,
+                        'status_data' => date('d/m/y H:i', strtotime($item->created_at)),
+                    ];
+                })->toArray();
+
+                return [
+                    'lead_id' => $lead->lead_id,
+                    'lead_nome' => $lead->lead_nome,
+                    'lead_razao_social' => $lead->lead_razao_social ?? $lead->lead_nome,
+                    'status' => $statuses,
+                ];
+            })
+            ->values();
+    }
 }

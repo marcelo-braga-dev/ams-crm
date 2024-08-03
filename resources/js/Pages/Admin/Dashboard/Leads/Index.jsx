@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Layout from "@/Layouts/Layout";
 import "chart.js/auto";
-import { Stack, TextField, Typography, MenuItem, Avatar, LinearProgress } from "@mui/material";
-import { round } from "lodash";
-import { Eye } from "react-bootstrap-icons";
+import {Stack, TextField, Typography, MenuItem, Avatar, LinearProgress} from "@mui/material";
+import {round} from "lodash";
+import {Eye} from "react-bootstrap-icons";
 import axios from "axios";
 
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples";
@@ -54,13 +54,6 @@ export default function ({mes, ano, setores}) {
 
     return (
         <Layout empty titlePage="Indicadores de Leads" menu="dashboard" submenu="dashboard-leads">
-            {/*<CardContainer>*/}
-            {/*    <CardTitle title={} icon={}/>*/}
-            {/*    <CardBody>*/}
-            {/*        */}
-            {/*    </CardBody>*/}
-            {/*</CardContainer>*/}
-
             <CardContainer>
                 <CardBody>
                     <div className="row">
@@ -194,7 +187,10 @@ export default function ({mes, ano, setores}) {
                                         <td>{statusQtd?.[item.id]?.ativo ?? 0}</td>
                                         <td>{statusQtd?.[item.id]?.finalizado ?? 0}</td>
                                         <td className="bg-light">{totalConsultor}</td>
-                                        <td className="text-center"><Link icon={<Eye size="20"/>}/></td>
+                                        <td className="text-center">
+                                            <Link href={route('admin.dashboard.relatorios-leads.index',
+                                                {id: item.id, mes: mesesSelecionado})} icon={<Eye size="20"/>}/>
+                                        </td>
                                     </tr>
                                 )
                             })}
