@@ -165,7 +165,7 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                                 <td>
                                                     <Stack spacing={1}>
                                                         <Typography>#{item.id}</Typography>
-                                                        <Typography>{item.status}</Typography>
+                                                        <Typography><b>{item.status}</b></Typography>
                                                         <Typography>NOTA: {item.nota_faturamento ?? '-'}</Typography>
                                                         <Typography variant="body2">{item.data}</Typography>
                                                     </Stack>
@@ -176,7 +176,11 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                                         <Typography><b>Documento:</b> {item.cliente_documento}</Typography>
                                                         <Typography><b>Setor:</b> {item.setor_nome}</Typography>
                                                         <Typography><b>Distribuidora:</b> {item.fornecedor_nome}</Typography>
-                                                        <Typography><b>Valor:</b> R$ {convertFloatToMoney(item.valor)}</Typography>
+                                                        <Stack direction="row" spacing={2}>
+                                                            <Typography><b>Valor Pedido:</b> R$ {convertFloatToMoney(item.valor)}</Typography>
+                                                            <Typography><b>Repasse:</b> R$ {convertFloatToMoney(item.repasse)}</Typography>
+                                                        </Stack>
+                                                        <Typography><b>Valor Nota:</b> R$ {convertFloatToMoney(item.valor_nota)}</Typography>
                                                     </Stack>
                                                 </td>
                                                 <td className="text-center">

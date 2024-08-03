@@ -77,6 +77,11 @@ class PedidoUpdateStatus
         (new AguardandoFaturamentoStatus())->updateStatus($id);
     }
 
+    public function setAcompanhamento($id, $msg = null)
+    {
+        (new AcompanhamentoStatus())->updateStatus($id, $msg);
+    }
+
     public function conferencia(int $id): void
     {
         (new LancadoStatus())->updateStatus($id);

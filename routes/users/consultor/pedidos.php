@@ -22,6 +22,7 @@ Route::middleware(['auth', 'auth.consultores'])
 
         Route::resource('historicos', HistoricoController::class);
 
+        Route::post('faturado-atualizar-status', [FaturadoController::class, 'atualizarStatus'])->name('pedidos.atualizar-status');
         Route::post('buscar-produtos-fornecedor', [PedidosController::class, 'buscarProdutosFornecedor'])
             ->name('pedidos.buscar-produtos-fornecedor');
     });

@@ -2,9 +2,14 @@ import React from 'react';
 import {router, useForm} from '@inertiajs/react';
 
 //step
-import {TextField} from "@mui/material";
+import {TextField, Typography} from "@mui/material";
 import Layout from "@/Layouts/Layout";
 import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
+import ImagePdf from "@/Components/Elementos/ImagePdf.jsx";
+import DadosPedido from "@/Components/Pedidos/DadosPedido.jsx";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
 
 export default function Create({pedido, historicos, infoEntrega}) {
 
@@ -31,37 +36,52 @@ export default function Create({pedido, historicos, infoEntrega}) {
 
     return (
         <Layout container titlePage="Acompanhamento do Pedido" menu="pedidos" submenu="pedidos-lista"
-                voltar={route('consultor.pedidos.index', {id_card:  pedido.pedido.id})}>
-            <div className="row mb-4">
-                <div className="col-12 mb-3">
-                    <DadosPedidoMinimo dados={pedido}/>
-                </div>
-                <div className="col-12">
-                    <span><b>Informações de Entrega:</b> {infoEntrega}</span>
-                </div>
-            </div>
-            <div className="row justify-content-center">
-                <div className="col-auto">
-                    <button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAvancarStatus">
-                        Alterar para Entregue
-                    </button>
-                </div>
-            </div>
-
-            <h6>Anotações</h6>
-            <div className="row">
-                <div className="col-12 shadow p-2 mb-3">
-                    <b>Mensagem:</b> {infoEntrega}
-                </div>
-                {historicos.map((item, index) => {
-                    return (
-                        <div key={index} className="col-12 shadow p-2 mb-3">
-                            <b>Nome:</b> {item.nome}<br/>
-                            <b>Mensagem:</b> {item.msg}
+                voltar={route('consultor.pedidos.index', {id_card: pedido.pedido.id})}>
+            <CardContainer>
+                <CardBody>
+                    <div className="row mb-4">
+                        <div className="col">
+                            <DadosPedido dados={pedido}/>
                         </div>
-                    )
-                })}
-            </div>
+                        <div className="col-auto">
+                            <h6>Baixar Nota/Boleto</h6>
+                            <ImagePdf url={pedido.pedido_files.nota_fiscal}/>
+                        </div>
+                    </div>
+                    <div className="col-12">
+                        <span><b>Informações de Entrega:</b> {infoEntrega}</span>
+                    </div>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardBody>
+                    <div className="row justify-content-center">
+                        <div className="col-auto">
+                            <button className="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAvancarStatus">
+                                Alterar para Entregue
+                            </button>
+                        </div>
+                    </div>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardTitle title="Anotações"/>
+                <CardBody>
+                    {historicos.map((item, index) => {
+                        return (
+                            <CardContainer key={index}>
+                                <CardBody>
+                                    <Typography><b>Nome:</b> {item.nome}</Typography>
+                                    <Typography><b>Mensagem:</b> {item.msg}</Typography>
+                                </CardBody>
+                            </CardContainer>
+                        )
+                    })}
+                    {historicos.length === 0 ? 'Não há registros.' : ''}
+                </CardBody>
+            </CardContainer>
 
             {/*Modal*/}
             <div className="modal fade mt-5" id="modalAvancarStatus" tabIndex="-1" aria-labelledby="exampleModalLabel"

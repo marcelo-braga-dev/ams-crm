@@ -41,7 +41,7 @@ class FinanceiroFaturamento
         $this->sheet->setCellValue('A1', 'ID PEDIDO');
         $this->sheet->setCellValue('B1', 'CLIENTE');
         $this->sheet->setCellValue('C1', 'DOCUMENTO');
-        $this->sheet->setCellValue('D1', 'PRECO');
+        $this->sheet->setCellValue('D1', 'VALOR PEDIDO');
         $this->sheet->setCellValue('E1', 'PRECO CUSTO');
         $this->sheet->setCellValue('F1', 'IMPOSTO');
         $this->sheet->setCellValue('G1', 'COMISSAO');

@@ -106,7 +106,7 @@ class PedidosFaturamentos extends Model
 
                     'lead_nome' => $item->lead_nome,
                     'valor_nota' => $item->preco_venda + $item->repasse,
-                    'lucro' => $item->preco_venda - $item->preco_custo,
+                    'lucro' => ($item->preco_venda - $item->preco_custo) * (1 - ($item->imposto / 100)),
                     'repasse' => $item->repasse,
                     'imposto' => $item->imposto,
                     'preco_custo' => $item->preco_custo,

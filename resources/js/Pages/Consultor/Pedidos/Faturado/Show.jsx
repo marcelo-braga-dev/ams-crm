@@ -9,6 +9,10 @@ import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 
 export default function Create({pedido}) {
 
+    const atualizarStatus = () => {
+        router.post(route('consultor.pedidos.atualizar-status'), {id: pedido.id})
+    }
+
     return (
         <Layout container voltar={route('consultor.pedidos.index', {id_card:  pedido.pedido.id})} titlePage="Pedido Faturado" >
             <div className="row mb-4">
@@ -22,7 +26,9 @@ export default function Create({pedido}) {
             <div className="row">
                 <div className="col mb-4">
                     <h6>Baixar Nota/Boleto</h6>
-                    <ImagePdf url={pedido.pedido_files.nota_fiscal}/>
+                    <div onClick={atualizarStatus}>
+                        <ImagePdf url={pedido.pedido_files.nota_fiscal}/>
+                    </div>
                 </div>
             </div>
         </Layout>
