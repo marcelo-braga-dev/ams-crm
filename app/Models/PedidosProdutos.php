@@ -26,20 +26,22 @@ class PedidosProdutos extends Model
     {
         foreach ($dados->produtos as $item) {
             if ($item['qtd'] ?? null) {
+                $produto = (new Produtos())->newQuery()->find($item['id']);
+
                 (new Produtos())->subtrairEstoque($idPedido, $item['id'], $item['qtd']);
 
                 $this->newQuery()
                     ->create([
                         'pedido_id' => $idPedido,
-                        'fornecedores_id' => $item['fornecedor_id'],
-                        'produtos_id' => $item['id'],
-                        'nome' => $item['nome'],
+                        'fornecedores_id' => $produto->fornecedor_id,
+                        'produtos_id' => $produto->id,
+                        'nome' => $produto->nome,
                         'desconto' => $item['desconto'] ?? '',
-                        'preco_venda' => $item['preco_venda_float'],
-                        'preco_fornecedor' => $item['preco_fornecedor_float'] ?? '',
+                        'preco_venda' => $produto->preco_venda,
+                        'preco_fornecedor' => $produto->preco_fornecedor,
                         'quantidade' => $item['qtd'],
                         'unidade' => $item['und'] ?? '',
-                        'url_foto' => $item['foto'] ?? '',
+                        'url_foto' => $produto->url_foto,
                     ]);
             }
         }
@@ -47,24 +49,30 @@ class PedidosProdutos extends Model
 
     public function getProdutosPedido($id)
     {
-        $isAdmin = is_admin();
+        $isFinanceiro = is_financeiro();
         return $this->newQuery()
+            ->leftJoin('produtos_fornecedores', 'pedidos_produtos.fornecedores_id', '=', 'produtos_fornecedores.id')
             ->where('pedido_id', $id)
+            ->select([
+                'pedidos_produtos.*',
+                'produtos_fornecedores.nome AS fornecedor_nome'
+            ])
             ->get()
-            ->transform(function ($item) use ($isAdmin) {
+            ->transform(function ($item) use ($isFinanceiro) {
                 return [
                     'id_pedido' => $item->pedidos_id,
                     'id_produto' => $item->produtos_id,
-                    'fornecedores_id' => $item->fornecedores_id,
+                    'fornecedor_id' => $item->fornecedores_id,
                     'nome' => $item->nome,
-                    'preco_fornecedor' => $isAdmin ? convert_float_money($item->preco_fornecedor) : 0,
-                    'preco_fornecedor_float' => $isAdmin ? $item->preco_fornecedor : 0,
-                    'preco_venda' => convert_float_money($item->preco_venda),
-                    'preco_venda_float' => $item->preco_venda,
+                    'preco_fornecedor' => $isFinanceiro ? $item->preco_fornecedor : 0,
+                    'preco_venda' => $item->preco_venda,
+                    'preco_liquido' => $item->preco_venda - $item->desconto,
+                    'lucro' => $isFinanceiro ? ($item->preco_venda - $item->preco_fornecedor - $item->desconto) : 0,
                     'qtd' => $item->quantidade,
                     'unidade' => $item->unidade,
                     'desconto' => $item->desconto,
-                    'foto' => $item->url_foto,
+                    'foto' => url_arquivos($item->url_foto),
+                    'fornecedor_nome' => $item->fornecedor_nome,
                 ];
             });
     }
@@ -81,5 +89,15 @@ class PedidosProdutos extends Model
                     'preco' => $item->preco_venda,
                 ];
             });
+    }
+
+    public function setPrecoCustoPedido($id)
+    {
+        $valor =  $this->newQuery()
+            ->where('pedido_id', $id)
+            ->selectRaw('SUM(preco_fornecedor * quantidade) AS total_custo')
+            ->value('total_custo');
+
+        (new Pedidos())->insertPrecoCusto($id, $valor);
     }
 }

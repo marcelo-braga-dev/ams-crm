@@ -1,9 +1,17 @@
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import * as React from "react";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
+import {Typography} from "@mui/material";
 
 export default function DadosPedidoFinanceiroFiles({dados}) {
     return (
         <>
+            {dados.pedido_files.planilha_pedido &&
+                <div className="col mb-4">
+                    <Typography className="d-block">Via do Pedido</Typography>
+                    <ImagePdf url={dados.pedido_files.planilha_pedido}/>
+                </div>}
             {dados.pedido_files.nota_fiscal &&
                 <div className="col mb-4">
                     <div className="card card-body">

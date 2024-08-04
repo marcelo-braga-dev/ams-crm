@@ -4,6 +4,10 @@ import Pedidos from "@/Pages/Consultor/Pedidos/Create/Modelo2/Partials/Pedido";
 import {useForm} from "@inertiajs/react";
 import {useState} from "react";
 import InputsDadosLead from "@/Partials/Leads/InputsDados";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import {Person} from "react-bootstrap-icons";
 
 export default function Form({lead, url, urlProdutos, fornecedores, endereco, categorias, unidades, errors}) {
     const {data, setData, post, progress, processing} = useForm({
@@ -47,28 +51,32 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
         <form onSubmit={submit}>
             <div className="">
                 <AlertDanger errors={errors}/>
-
-                <div className="card card-body mb-4">
-                    <InputsDadosLead data={data} setData={setData} required/>
-                </div>
+                <CardContainer>
+                    <CardTitle title="Dados do Cliente" icon={<Person size={20}/>}/>
+                    <CardBody>
+                        <InputsDadosLead data={data} setData={setData} required/>
+                    </CardBody>
+                </CardContainer>
 
                 <Pedidos fornecedores={fornecedores} setData={setData} data={data}
                          categorias={categorias} unidades={unidades} urlProdutos={urlProdutos}/>
 
-                <div className="card card-body mb-4">
-                    <div className="row text-center mb-3">
-                        <div className="col">
-                            {progress && <progress value={progress.percentage} max="100">{progress.percentage}%</progress>}
+                <CardContainer>
+                    <CardBody>
+                        <div className="row text-center mb-3">
+                            <div className="col">
+                                {progress && <progress value={progress.percentage} max="100">{progress.percentage}%</progress>}
+                            </div>
                         </div>
-                    </div>
-                    <div className="row text-center">
-                        <div className="col">
-                            {alerta && <div className="alert alert-danger text-white">Selecione os Produtos do pedido.</div>}
+                        <div className="row text-center">
+                            <div className="col">
+                                {alerta && <div className="alert alert-danger text-white">Selecione os Produtos do pedido.</div>}
 
-                            <button type="submit" className="btn btn-success">Cadastrar Pedido</button>
+                                <button type="submit" className="btn btn-success">Cadastrar Pedido</button>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    </CardBody>
+                </CardContainer>
             </div>
         </form>
     )

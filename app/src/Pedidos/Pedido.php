@@ -20,8 +20,8 @@ class Pedido
 {
     public function salvar($request)
     {
-
         $idPedido = null;
+
         switch (modelo_usuario()) {
             case (new CompletoModelo())->modelo(): {
                     DB::beginTransaction();
@@ -46,6 +46,7 @@ class Pedido
                         $idPedido = (new Pedidos())->create($request);
 
                         (new PedidosProdutos())->create($idPedido, $request);
+                        (new PedidosProdutos())->setPrecoCustoPedido($idPedido);
 
                         (new ArquivosPedido())->comprovantePix($idPedido, $request);
                         (new ArquivosPedido())->cheques($idPedido, $request);

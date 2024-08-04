@@ -8,10 +8,10 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
-import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
+import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta.jsx";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -69,7 +69,7 @@ export default function Pedidos({dados, produtos, historico, sacHistorico}) {
                         <div className="card card-body mb-4">
                             <div className="row">
                                 <div className="col">
-                                    <DadosProdutos dados={produtos}/>
+                                    <DadosProdutosCompleta dados={produtos}/>
                                 </div>
                             </div>
                         </div>

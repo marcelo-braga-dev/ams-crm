@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 import {router} from '@inertiajs/react'
 import * as React from 'react';
 
@@ -6,7 +6,6 @@ import {useForm} from '@inertiajs/react';
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import {Radio, RadioGroup, TextField} from "@mui/material";
-import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 import FormControl from '@mui/material/FormControl';
@@ -15,6 +14,11 @@ import {useState} from "react";
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
+import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta.jsx";
+import CardTable from "@/Components/Cards/CardTable.jsx";
+import {Box} from "react-bootstrap-icons";
 
 export default function Pedidos({dados, produtos}) {
 
@@ -82,100 +86,112 @@ export default function Pedidos({dados, produtos}) {
     }
 
     return (
-        <Layout container voltar={route('admin.pedidos.index', {id_card:  dados.pedido.id})} titlePage="Pedido Lançado"
+        <Layout container voltar={route('admin.pedidos.index', {id_card: dados.pedido.id})} titlePage="Pedido Lançado"
                 menu="pedidos" submenu="pedidos-lista">
 
-            <div className="row mb-4 shadow p-2">
-                <div className="col">
-                    <DadosPedido dados={dados}/>
-                </div>
-                <div className="col">
-                    <DadosPedidoCliente dados={dados}/>
-                </div>
-            </div>
             <div className="row">
                 <div className="col">
-                    <DadosProdutos dados={produtos}/>
+                    <CardContainer>
+                        <CardBody>
+                            <DadosPedido dados={dados}/>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+                <div className="col">
+                    <CardContainer>
+                        <CardBody>
+                            <DadosPedidoCliente dados={dados}/>
+                        </CardBody>
+                    </CardContainer>
                 </div>
             </div>
 
+            <CardContainer>
+                <CardTable title="Produdos do Pedido" icon={<Box size={20}/>}>
+                    <DadosProdutosCompleta dados={produtos} isFinanceiro={dados.financeiro.is_financeiro}/>
+                </CardTable>
+            </CardContainer>
+
+
             <form onSubmit={submit}>
-                <div className="row shadow p-2">
-                    <div className="row mb-4">
-                        <DadosPedidoFinanceiro dados={dados}/>
-                    </div>
-
-                    <div className="row">
-                        <div className="col mb-4">
-                            <FormControl>
-                                <h6>Método Pagamento</h6>
-                                <RadioGroup row name="row-radio-buttons-group">
-                                    <FormControlLabel value="vista" required control={<Radio/>} label="À Vista"
-                                                      onChange={() => setData('forma_pagamento', 'vista')}/>
-                                    <FormControlLabel value="prazo" required control={<Radio/>} label="À Prazo"
-                                                      onChange={() => setData('forma_pagamento', 'prazo')}/>
-                                </RadioGroup>
-                            </FormControl>
+                <CardContainer>
+                    <CardBody>
+                        <div className="row mb-4">
+                            <DadosPedidoFinanceiro dados={dados}/>
                         </div>
-                    </div>
 
-                    <h6>Nota Fiscal</h6>
-                    <div className="row mt-2 mb-4">
-                        <div className="col-md-6 mb-4">
-                            <TextField
-                                label="Nota Fiscal" required fullWidth type="file" InputLabelProps={{shrink: true}}
-                                onChange={e => setData('file_nota_fiscal', e.target.files[0])}>
-                            </TextField>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col mb-4">
-                            <FormControl>
-                                <h6>Inserir Anexos</h6>
-                                <RadioGroup row name="forma-pagamento">
-                                    <FormControlLabel value="vista" control={<Radio/>} label="Boletos" required
-                                                      onChange={() => setFormaPagamento('boleto')}/>
-                                    <FormControlLabel value="prazo" label="Link de Pagamento"
-                                                      required control={<Radio/>}
-                                                      onChange={() => setFormaPagamento('link')}/>
-                                    <FormControlLabel value="" control={<Radio/>} label="Nenhum" required
-                                                      onChange={() => setFormaPagamento('')}/>
-                                </RadioGroup>
-                            </FormControl>
-                        </div>
-                    </div>
-
-                    {formaPagamento === 'boleto' && <>
-                        <h6>Boletos</h6>
-                        {boletos()}
-                        <div className="row row-cols-3 mb-4">
-                            <div className="col">
-                                <button type="button" className="btn btn-success btn-sm btn-rounded px-3"
-                                        onClick={() => setQtdBoletos(qtsBoletos + 1)}>
-                                    <AddIcon/> Adicionar campo
-                                </button>
+                        <div className="row">
+                            <div className="col mb-4">
+                                <FormControl>
+                                    <h6>Método Pagamento</h6>
+                                    <RadioGroup row name="row-radio-buttons-group">
+                                        <FormControlLabel value="vista" required control={<Radio/>} label="À Vista"
+                                                          onChange={() => setData('forma_pagamento', 'vista')}/>
+                                        <FormControlLabel value="prazo" required control={<Radio/>} label="À Prazo"
+                                                          onChange={() => setData('forma_pagamento', 'prazo')}/>
+                                    </RadioGroup>
+                                </FormControl>
                             </div>
                         </div>
-                    </>}
 
-                    {formaPagamento === 'link' && <>
-                        <h6>Link de Pagamento</h6>
-                        <div className="row mb-4">
-                            <div className="col mb-">
+                        <h6>Nota Fiscal</h6>
+                        <div className="row mt-2 mb-4">
+                            <div className="col-md-6 mb-4">
                                 <TextField
-                                    label="Link de Pagamento" fullWidth required
-                                    onChange={e => setData('url_pagamento', e.target.value)}>
+                                    label="Nota Fiscal" required fullWidth type="file" InputLabelProps={{shrink: true}}
+                                    onChange={e => setData('file_nota_fiscal', e.target.files[0])}>
                                 </TextField>
                             </div>
                         </div>
-                    </>}
-                    <div className="row text-center">
-                        <div className="mb-3">
-                            <button className="btn btn-primary">Salvar</button>
+
+                        <div className="row">
+                            <div className="col mb-4">
+                                <FormControl>
+                                    <h6>Inserir Anexos</h6>
+                                    <RadioGroup row name="forma-pagamento">
+                                        <FormControlLabel value="vista" control={<Radio/>} label="Boletos" required
+                                                          onChange={() => setFormaPagamento('boleto')}/>
+                                        <FormControlLabel value="prazo" label="Link de Pagamento"
+                                                          required control={<Radio/>}
+                                                          onChange={() => setFormaPagamento('link')}/>
+                                        <FormControlLabel value="" control={<Radio/>} label="Nenhum" required
+                                                          onChange={() => setFormaPagamento('')}/>
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
                         </div>
-                    </div>
-                </div>
+
+                        {formaPagamento === 'boleto' && <>
+                            <h6>Boletos</h6>
+                            {boletos()}
+                            <div className="row row-cols-3 mb-4">
+                                <div className="col">
+                                    <button type="button" className="btn btn-success btn-sm btn-rounded px-3"
+                                            onClick={() => setQtdBoletos(qtsBoletos + 1)}>
+                                        <AddIcon/> Adicionar campo
+                                    </button>
+                                </div>
+                            </div>
+                        </>}
+
+                        {formaPagamento === 'link' && <>
+                            <h6>Link de Pagamento</h6>
+                            <div className="row mb-4">
+                                <div className="col mb-">
+                                    <TextField
+                                        label="Link de Pagamento" fullWidth required
+                                        onChange={e => setData('url_pagamento', e.target.value)}>
+                                    </TextField>
+                                </div>
+                            </div>
+                        </>}
+                        <div className="row text-center">
+                            <div className="mb-3">
+                                <button className="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+                    </CardBody>
+                </CardContainer>
             </form>
         </Layout>
     )

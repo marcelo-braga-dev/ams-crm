@@ -9,6 +9,7 @@ use App\Models\PedidosArquivos;
 use App\Models\PedidosFaturados;
 use App\Models\PedidosFaturamentos;
 use App\Models\PedidosImagens;
+use App\Models\PedidosProdutos;
 use App\src\Pedidos\Arquivos\ArquivosPedido;
 use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
@@ -50,6 +51,7 @@ class PedidoUpdateStatus
     {
         (new FaturadoVistaStatus())->updateStatus($id, null, 0);
         (new Pedidos())->dataPagamento($id);
+
         (new PedidosFaturamentos())->create($id);
     }
 

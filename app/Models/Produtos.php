@@ -220,7 +220,7 @@ class Produtos extends Model
                     'preco_venda' => convert_float_money($dados->preco_venda),
                     'preco_venda_float' => $dados->preco_venda,
                     'preco_fornecedor_float' => $financeiro ? $dados->preco_fornecedor : 0,
-                    'unidade' => $unidades[$dados->unidade_id] ?? '',
+                    'unidade' => $dados->unidade_valor . $unidades[$dados->unidade_id],
                     'estoque' => $dados->estoque_local,
                     'estoque_consultor' => 0,
                     'categoria' => $categorias[$dados->categoria] ?? '',

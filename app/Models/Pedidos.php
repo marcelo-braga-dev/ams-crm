@@ -303,7 +303,7 @@ class Pedidos extends Model
             ]);
     }
 
-    public function insertPrecoCusto(int $id, float $precoCusto, $imposto)
+    public function insertPrecoCusto(int $id, float $precoCusto, $imposto = null)
     {
         try {
             $this->newQuery()
@@ -500,6 +500,7 @@ class Pedidos extends Model
                 'nome' => $consultor['nome'],
             ],
             'financeiro' => [
+                'is_financeiro' => $isFinanceiro,
                 'preco_float' => $pedido->preco_venda,
                 'preco' => convert_float_money($pedido->preco_venda),
                 'preco_custo' => $precoCusto,

@@ -8,18 +8,15 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
-import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
-import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 import {router, usePage} from "@inertiajs/react";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTable from "@/Components/Cards/CardTable";
 import {ListCheck, Paperclip, Tags} from "react-bootstrap-icons";
 import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
-import {List} from "@mui/material";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -83,9 +80,7 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
 
                             {produtos.length > 0 &&
                                 <div className="mt-4">
-                                    {funcaoUsuario ?
-                                        <DadosProdutosCompleta dados={produtos}/> :
-                                        <DadosProdutos dados={produtos}/>}
+                                    <DadosProdutosCompleta dados={produtos} isFinanceiro={pedido.financeiro.is_financeiro}/>
                                 </div>
                             }
                         </TabPanel>
@@ -103,14 +98,6 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                             </div>
 
                             <div className="row row-cols-4">
-                                {pedido.pedido_files.planilha_pedido &&
-                                    <div className="col">
-                                        <div className="card card-body">
-                                            <label>Imagem da Planilha de Pedidos</label>
-                                            <ImagePdf url={pedido.pedido_files.planilha_pedido}/>
-                                        </div>
-                                    </div>
-                                }
                                 <DadosPedidoFinanceiroFiles dados={pedido}/>
                             </div>
 

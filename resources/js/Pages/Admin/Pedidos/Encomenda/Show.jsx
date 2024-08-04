@@ -5,7 +5,7 @@ import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
 import {useForm} from '@inertiajs/react'
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
-import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
+import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta.jsx";
 
 export default function Pedidos({pedido, produtos}) {
 
@@ -32,7 +32,7 @@ export default function Pedidos({pedido, produtos}) {
             </div>
             <div className="row">
                 <div className="col">
-                    <DadosProdutos dados={produtos}/>
+                    <DadosProdutosCompleta dados={produtos} isFinanceiro={pedido.financeiro.is_financeiro}/>
                 </div>
             </div>
 

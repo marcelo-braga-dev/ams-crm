@@ -24,8 +24,7 @@ class LancadoController extends Controller
             if ($request->file_boletos)
                 foreach ($request->file_boletos as $index => $files) {
                     $url = (new ArquivosPedido())->inserirAquivo($files['file'], 'pedidos/' . $id);
-                    (new PedidosArquivos())
-                        ->insert($id, (new ChavesArquivosPedidos())->boleto(), $url, $index, $files['vencimento']);
+                    (new PedidosArquivos())->insert($id, (new ChavesArquivosPedidos())->boleto(), $url, $index, $files['vencimento']);
                 }
 
             (new PedidosImagens())->updateNotaFiscal($id, $request);

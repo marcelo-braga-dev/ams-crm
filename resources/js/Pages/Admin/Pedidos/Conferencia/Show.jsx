@@ -1,21 +1,21 @@
 import * as React from 'react';
 import {router} from '@inertiajs/react'
 import Layout from '@/Layouts/Layout';
-import {Button, Card, Col, Container, Row} from "reactstrap";
 import Typography from "@mui/material/Typography";
 
 import {useForm} from '@inertiajs/react'
 import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
 import {Alert, InputAdornment, TextField} from "@mui/material";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoClienteFiles from "@/Components/Pedidos/DadosPedidoClienteFiles";
 import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
-import BoxShadow from "@/Components/Layout/BoxShadow";
-import DadosProdutos from "@/Components/Pedidos/DadosProdutos";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta.jsx";
+import CardTable from "@/Components/Cards/CardTable.jsx";
+import {Box} from "react-bootstrap-icons";
+import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles.jsx";
 
 export default function Pedidos({pedido, produtos}) {
 
@@ -51,32 +51,33 @@ export default function Pedidos({pedido, produtos}) {
     return (
         <Layout container voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}
                 titlePage="Pedido em Conferência" menu="pedidos" submenu="pedidos-lista">
-            <CardContainer>
-                <CardBody>
-                    {pedido.pedido.alerta && <Alert severity="info">
-                        <b>PEDIDO PASSOU POR REVISÃO</b><br/>
-                        {pedido.pedido.alerta}
-                    </Alert>}
-                    <Row>
-                        <Col className={"mb-3"}>
+
+            {pedido.pedido.alerta && <Alert severity="info">
+                <b>PEDIDO PASSOU POR REVISÃO</b><br/>
+                {pedido.pedido.alerta}
+            </Alert>}
+            <div className="row">
+                <div className="col">
+                    <CardContainer>
+                        <CardBody>
                             <DadosPedido dados={pedido}/>
-                        </Col>
-                        <Col className={"mb-3"}>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+                <div className="col">
+                    <CardContainer>
+                        <CardBody>
                             <DadosPedidoCliente dados={pedido}/>
-                        </Col>
-                    </Row>
-                </CardBody>
-            </CardContainer>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+            </div>
 
             {!!produtos.length &&
                 <CardContainer>
-                    <CardBody>
-                        <div className="row">
-                            <div className="col">
-                                <DadosProdutos dados={produtos}/>
-                            </div>
-                        </div>
-                    </CardBody>
+                    <CardTable title="Produtos do Pedido" icon={<Box size={20}/>}>
+                        <DadosProdutosCompleta dados={produtos} isFinanceiro={pedido.financeiro.is_financeiro}/>
+                    </CardTable>
                 </CardContainer>
             }
 
@@ -91,10 +92,10 @@ export default function Pedidos({pedido, produtos}) {
                                 </button>
                             </div>
                             <div className="col">
-                                <Button color={"success"} component={"button"} type={"submit"}>Aprovar Pedido</Button>
+                                <button className="btn btn-success" type="submit">Aprovar Pedido</button>
                             </div>
                             <div className="col">
-                                <Button color="danger" onClick={handleOpen}>Reprovar Pedido</Button>
+                                <button className="btn btn-danger" type="button" onClick={handleOpen}>Reprovar Pedido</button>
                             </div>
                         </div>
                     </form>
@@ -103,17 +104,14 @@ export default function Pedidos({pedido, produtos}) {
 
             <CardContainer>
                 <CardBody>
-                    <Row>
-                        <Col className={"mb-3"}>
-                            <Typography variant={"h6"}>Documentos:</Typography>
-                        </Col>
-                    </Row>
                     <DadosPedidoFiles dados={pedido}/>
+                    <DadosPedidoFinanceiroFiles dados={pedido}/>
                     <DadosPedidoClienteFiles dados={pedido}/>
                 </CardBody>
             </CardContainer>
 
-            {/*MODAL*/}
+            {/*MODAL*/
+            }
             <Modal
                 open={open}
                 onClose={handleClose}>
@@ -128,7 +126,7 @@ export default function Pedidos({pedido, produtos}) {
                             multiline fullWidth rows={6} required
                             onChange={event => setData('reprovado', event.target.value)}/>
                         <div className="text-center">
-                            <Button type="submit" color="primary">Salvar</Button>
+                            <button className="btn btn-primary" type="submit">Salvar</button>
                         </div>
                     </form>
                 </Box>

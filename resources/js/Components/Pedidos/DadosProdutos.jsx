@@ -9,7 +9,7 @@ export default function DadosProdutos({dados}) {
                 <div className="col">
                     <h6>Produtos do Pedido</h6>
                     <div className="table-responsive">
-                        <table className="table table-sm text-sm">
+                        <table className="table-1 table-sm text-sm">
                             <thead>
                             <tr>
                                 <th></th>
