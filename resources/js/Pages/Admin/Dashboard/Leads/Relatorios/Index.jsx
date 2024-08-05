@@ -6,6 +6,8 @@ import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import React, {useState} from "react";
 import CardTable from "@/Components/Cards/CardTable.jsx";
 import {router} from "@inertiajs/react";
+import {Eye} from "react-bootstrap-icons";
+import Link from "@/Components/Link.jsx";
 
 const Page = ({registros, mes, ano, setores, usuarios, usuario}) => {
     const [setorSelecionado, setSetorSelecionado] = useState(1);
@@ -31,7 +33,7 @@ const Page = ({registros, mes, ano, setores, usuarios, usuario}) => {
     }, {});
 
     registros.forEach(lead => {
-        lead.status.forEach(({ status }) => {
+        lead.status.forEach(({status}) => {
             if (statusTotais[status] !== undefined) {
                 statusTotais[status]++;
             }
@@ -93,6 +95,7 @@ const Page = ({registros, mes, ano, setores, usuarios, usuario}) => {
                             <th>ATENDIMENTO</th>
                             <th>ATIVO</th>
                             <th>FINALIZADO</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -105,6 +108,9 @@ const Page = ({registros, mes, ano, setores, usuarios, usuario}) => {
                                 {statusNomes.map(valor => {
                                     return getStatusData(item.status, valor)
                                 })}
+                                <td>
+                                    <Link href={route('admin.clientes.leads.leads-main.show', item.lead_id)} icon={<Eye size={22}/>}/>
+                                </td>
                             </tr>
                         ))}
                         </tbody>

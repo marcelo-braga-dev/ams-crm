@@ -4,11 +4,11 @@ import React from 'react';
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
-import { router, usePage } from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 
-export default function Create({ pedido }) {
+export default function Create({pedido}) {
     const funcaoUsuario = usePage().props.auth.user.is_financeiro == 1
     const avancarStatus = () => {
         router.post(route('admin.modelo-2.pedidos.faturado.update', pedido.id), {
@@ -17,18 +17,41 @@ export default function Create({ pedido }) {
     }
 
     return (
-        <Layout titlePage="Pedido Faturado" menu="pedidos" submenu="pedidos-lista"
-            voltar={route('admin.pedidos.index', { id_card: pedido.pedido.id })}>
+        <Layout titlePage="Pedido FaturadoX" menu="pedidos" submenu="pedidos-lista"
+                voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}>
+
+            <div className="row">
+                <div className="col">
+                    <CardContainer>
+                        <CardBody>
+                            <DadosPedido dados={pedido}/>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+                <div className="col">
+                    <CardContainer>
+                        <CardBody>
+                            <DadosPedidoCliente dados={pedido}/>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+            </div>
+
             <CardContainer>
                 <CardBody>
-                    <div className="row">
-                        <div className="col mb-4">
-                            <DadosPedido dados={pedido} />
-                        </div>
-                        <div className="col mb-4">
-                            <DadosPedidoCliente dados={pedido} />
-                        </div>
-                    </div>
+                    {funcaoUsuario &&
+                        <div className="row justify-content-center">
+                            <div className="col-auto">
+                                <button className="btn btn-warning" onClick={() => avancarStatus()}>
+                                    Marcar como Entregue
+                                </button>
+                            </div>
+                        </div>}
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardBody>
                     {pedido.pedido_files.link_pagamento &&
                         <div className="row">
                             <div className="col mb-4">
@@ -39,19 +62,11 @@ export default function Create({ pedido }) {
                     }
 
                     <div className="row row-cols-4">
-                        <DadosPedidoFinanceiroFiles dados={pedido} />
+                        <DadosPedidoFinanceiroFiles dados={pedido}/>
                     </div>
-
-                    {funcaoUsuario &&
-                        <div className="row justify-content-center mt-4">
-                            <div className="col-auto">
-                                <button className="btn btn-warning" onClick={() => avancarStatus()}>
-                                    Marcar como Entregue
-                                </button>
-                            </div>
-                        </div>}
                 </CardBody>
             </CardContainer>
+
         </Layout>
     )
 }

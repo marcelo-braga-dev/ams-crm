@@ -42,8 +42,6 @@ class ImportarController extends Controller
                 (new Leads())->create($item, $request->setor, null, $idHistorico);
             } catch (\DomainException $exception) {
                 $qtd--;
-//                modalErro($exception->getMessage());
-//                return redirect()->back();
             }
         }
 

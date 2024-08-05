@@ -22,7 +22,7 @@ class ImportarArquivoService
 
         $linhas = [];
         $i = 0;
-        while (($data = fgetcsv($file, null, ';')) !== FALSE) {
+        while (($data = fgetcsv($file, null, ',')) !== FALSE) {
             $i++;
             if ($i > 1) $linhas[] = $data;
         }
