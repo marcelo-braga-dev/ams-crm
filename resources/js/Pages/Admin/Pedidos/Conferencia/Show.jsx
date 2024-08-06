@@ -19,26 +19,9 @@ import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinancei
 
 export default function Pedidos({pedido, produtos}) {
 
-    const {data, put, setData} = useForm({
+    const {data, setData} = useForm({
         'reprovado': ''
     })
-
-    // Modal
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 600,
-        bgcolor: 'background.paper',
-        boxShadow: 24,
-        p: 4,
-    };
-
-// Modal -fim
 
     function submit(e) {
         e.preventDefault()
@@ -95,7 +78,9 @@ export default function Pedidos({pedido, produtos}) {
                                 <button className="btn btn-success" type="submit">Aprovar Pedido</button>
                             </div>
                             <div className="col">
-                                <button className="btn btn-danger" type="button" onClick={handleOpen}>Reprovar Pedido</button>
+                                <button className="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Reprovar Pedido
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -110,27 +95,30 @@ export default function Pedidos({pedido, produtos}) {
                 </CardBody>
             </CardContainer>
 
-            {/*MODAL*/
-            }
-            <Modal
-                open={open}
-                onClose={handleClose}>
-                <Box sx={style} className="rounded">
-                    <Typography className="mb-4" id="modal-modal-title" variant="h6" component="h2">
-                        Reprovar Pedido
-                    </Typography>
-                    <form onSubmit={submit}>
-                        <TextField
-                            className="mb-4"
-                            label="Motivos da reprovação"
-                            multiline fullWidth rows={6} required
-                            onChange={event => setData('reprovado', event.target.value)}/>
-                        <div className="text-center">
-                            <button className="btn btn-primary" type="submit">Salvar</button>
+            {/*MODAL*/}
+            <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Reprovar Pedido</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    </form>
-                </Box>
-            </Modal>
+                        <form onSubmit={submit}>
+                            <div className="modal-body">
+                                <TextField
+                                    className="mb-4"
+                                    label="Motivos da reprovação"
+                                    multiline fullWidth rows={6} required
+                                    onChange={event => setData('reprovado', event.target.value)}/>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" className="btn btn-danger" data-bs-dismiss="modal">Reprovar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <div className="modal fade mt-5" id="modalEncomenda" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
@@ -138,8 +126,7 @@ export default function Pedidos({pedido, produtos}) {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">Encomenda</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
                         <form onSubmit={submit}>
@@ -170,8 +157,5 @@ export default function Pedidos({pedido, produtos}) {
                     </div>
                 </div>
             </div>
-            {/*MODAL - fim*/
-            }
         </Layout>)
-        ;
 }
