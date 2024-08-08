@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('texto', 512);
             $table->timestamps();
 
-            $table->foreign('tarefa_id')->references('id')->on('ferramentas_tarefas');
+            $table->foreign('tarefa_id')->references('id')->on('ferramentas_tarefas')->onDelete('cascade');
         });
     }
 

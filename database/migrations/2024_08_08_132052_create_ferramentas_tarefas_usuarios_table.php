@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('tarefa_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('tarefa_id')->references('id')->on('ferramentas_tarefas');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('tarefa_id')->references('id')->on('ferramentas_tarefas')->onDelete('cascade');
         });
     }
 

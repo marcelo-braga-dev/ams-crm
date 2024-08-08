@@ -102,4 +102,11 @@ class FerramentasTarefas extends Model
             ->find($id)
             ->update(['status' => $status]);
     }
+
+    public function remove($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->delete();
+    }
 }

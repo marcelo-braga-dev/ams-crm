@@ -43,4 +43,12 @@ class TaferasController extends Controller
 
         modalSucesso('Status alterado com sucesso!');
     }
+
+    public function destroy($id)
+    {
+        (new FerramentasTarefas())->remove($id);
+
+        modalSucesso('Tarefa removida com sucesso!');
+        return redirect()->route('admin.ferramentas.tarefas.index');
+    }
 }
