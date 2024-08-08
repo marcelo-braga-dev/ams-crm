@@ -20,6 +20,12 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.agenda.calendario.index'),
                 }, {
+                    id: 'ferramentas-tarefas',
+                    chave: chaves.ferramentas.tarefas,
+                    title: 'Tarefas',
+                    type: 'item',
+                    url: route('admin.ferramentas.tarefas.index'),
+                }, {
                     id: 'ferramentas-email',
                     chave: chaves.ferramentas.email,
                     title: 'E-mail',

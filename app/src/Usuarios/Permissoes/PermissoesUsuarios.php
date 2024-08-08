@@ -84,6 +84,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                 'permissoes' => [
                     ['id' => $this->chaveFerramentasAgenda(), 'nome' => 'Agenda'],
                     ['id' => $this->chaveFerramentasEmail(), 'nome' => 'E-mail'],
+                    ['id' => $this->chaveFerramentasTarefas(), 'nome' => 'Tarefas'],
                 ]
             ], [
                 'categoria' => 'Usuários',

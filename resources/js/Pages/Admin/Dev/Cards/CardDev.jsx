@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default function CardDev({dados, btn}) {
-    console.log(dados)
+
     return (
         <div className="row bg-white shadow p-1 m-1" style={{width: 300}}>
             <div className="col-12">

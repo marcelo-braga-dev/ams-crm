@@ -292,4 +292,9 @@ class ChavesPermissoes
     {
         return '58';
     }
+
+    public function chaveFerramentasTarefas()
+    {
+        return '59';
+    }
 }
