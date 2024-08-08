@@ -29,7 +29,9 @@ class FerramentasTarefas extends Model
     public function getStatus()
     {
         return $this->newQuery()
-            ->get()
+            ->leftJoin('ferramentas_tarefas_usuarios', 'ferramentas_tarefas.id', '=', 'ferramentas_tarefas_usuarios.tarefa_id')
+            ->where('ferramentas_tarefas_usuarios.user_id', '=', id_usuario_atual())
+            ->get(['ferramentas_tarefas.*'])
             ->groupBy('status')
             ->map(function ($items) {
                 return $items->map(function ($item) {
@@ -55,6 +57,7 @@ class FerramentasTarefas extends Model
     {
         $item = $this->newQuery()
             ->create([
+                'user_id' => id_usuario_atual(),
                 'status' => 'aberto',
                 'data_prazo_inicial' => $dados->prazo,
                 'descricao' => $dados->descricao,
@@ -64,13 +67,14 @@ class FerramentasTarefas extends Model
                 'prioridade' => $dados->prioridade,
             ]);
 
+        (new FerramentasTarefasUsuarios())->create($item->id, $dados->usuarios);
         (new FerramentasTarefasItens())->create($item->id, $dados->tarefas);
     }
 
     public function find($id)
     {
-        $dado = $this->newQuery()
-            ->find($id);
+        $dado = $this->newQuery()->find($id);
+        $participantes = (new FerramentasTarefasUsuarios())->tarefa($id);
 
         return [
             'id' => $dado->id,
@@ -88,6 +92,7 @@ class FerramentasTarefas extends Model
             'data_final' => date('d/m/Y', strtotime($dado->data_prazo_final)),
             'sequencia' => $dado->sequencia,
             'status_pagamento' => $dado->status_pagamento,
+            'participantes' => $participantes
         ];
     }
 

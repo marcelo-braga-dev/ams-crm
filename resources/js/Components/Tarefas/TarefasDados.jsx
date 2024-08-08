@@ -16,7 +16,6 @@ export default function TarefasDados({dados}) {
                     "Normal"}</span>
             </div>
             <div className="col">
-                <Typography><b>Setor:</b> {dados.setor}</Typography>
                 <Typography><b>Valor Inicial:</b> R$ {dados.valor_inicial}</Typography>
                 <Typography><b>Valor Final:</b> R$ {dados.valor_final}</Typography>
                 <Typography><b>Prazo Inicial:</b> {dados.data_inicial}</Typography>

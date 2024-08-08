@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Layout from '@/Layouts/Layout';
-import {TextField} from "@mui/material";
+import {Stack, TextField, Typography} from "@mui/material";
 import {router, useForm} from "@inertiajs/react";
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -8,19 +8,23 @@ import MenuItem from "@mui/material/MenuItem";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import Avatar from "@mui/material/Avatar";
+import CheckboxSelected from "@/Components/Inputs/CheckboxSelected.jsx";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import {List, People} from "react-bootstrap-icons";
 
-const Page = ({dataAtual, setores}) => {
+const Page = ({usuarios, usuarioAtual}) => {
     const [qtdTarefas, setQtdTarefas] = useState(3);
+    const [usuariosSelecionados, setUsuariosSelecionados] = useState([usuarioAtual]);
 
     const {data, setData, post} = useForm({
-        prazo: dataAtual,
         descricao: '',
         tarefas: ''
     })
 
     function submit(e) {
         e.preventDefault();
-        router.post(route('admin.ferramentas.tarefas.store'), {...data})
+        router.post(route('admin.ferramentas.tarefas.store'), {...data, usuarios: usuariosSelecionados})
     }
 
     let rows = [];
@@ -38,9 +42,10 @@ const Page = ({dataAtual, setores}) => {
     return (
         <Layout container titlePage="Cadastrar Tarefa" menu="ferramentas" submenu="ferramentas-tarefas"
                 voltar={route('admin.ferramentas.tarefas.index')}>
-            <CardContainer>
-                <CardBody>
-                    <form onSubmit={submit}>
+            <form onSubmit={submit}>
+                <CardContainer>
+                    <CardTitle title="Informações" icon={<List size={22}/>}/>
+                    <CardBody>
                         <div className="row">
                             <div className="col mb-4">
                                 <TextField label="Título" fullWidth required
@@ -59,14 +64,8 @@ const Page = ({dataAtual, setores}) => {
                                     <MenuItem value="Contas Usuários">Contas Usuários</MenuItem>
                                     <MenuItem value="SAC">SAC</MenuItem>
                                     <MenuItem value="Fornecedores">Fornecedores</MenuItem>
+                                    <MenuItem value="Marketing">Marketing</MenuItem>
                                     <MenuItem value="Outros">Outros</MenuItem>
-                                </TextField>
-                            </div>
-                            <div className="col-md-3 mb-4">
-                                <TextField label="Setor" select fullWidth defaultValue=""
-                                           onChange={e => setData('setor', e.target.value)}>
-                                    <MenuItem value="">Todos</MenuItem>
-                                    {setores.map((item, index) => <MenuItem key={index} value={item.id}>{item.nome}</MenuItem>)}
                                 </TextField>
                             </div>
                             <div className="col-md-3 mb-4">
@@ -89,6 +88,36 @@ const Page = ({dataAtual, setores}) => {
                                     {data.descricao.length}/500</small>
                             </div>
                         </div>
+                    </CardBody>
+                </CardContainer>
+
+                <CardContainer>
+                    <CardTitle title="Participantes" icon={<People size={22}/>}/>
+                    <CardBody>
+                        <div className="row row-cols-4">
+                            {usuarios.map(item => (
+                                <div className="col">
+                                    <CardContainer>
+                                        <CardBody>
+                                            <Stack direction="row" spacing={1} alignItems="center">
+                                                <CheckboxSelected id={item.id} setSelected={setUsuariosSelecionados} checkeds={usuariosSelecionados}/>
+
+                                                <Avatar src={item.foto}/>
+                                                <Stack spacing={0}>
+                                                    <Typography fontWeight="bold">{item.nome}</Typography>
+                                                    <Typography variant="body2">{item.setor_nome}</Typography>
+                                                </Stack>
+                                            </Stack>
+                                        </CardBody>
+                                    </CardContainer>
+                                </div>
+                            ))}
+                        </div>
+                    </CardBody>
+                </CardContainer>
+
+                <CardContainer>
+                    <CardBody>
                         <div className="row">
                             <div className="col-auto"><h5>Tarefas</h5></div>
                             <div className="col-auto">
@@ -105,19 +134,19 @@ const Page = ({dataAtual, setores}) => {
                                 <TextFieldMoney label="Valor do Serviço" value={data.valor_servico} setData={setData} index="valor_servico"/>
                             </div>
                             <div className="col-md-4 mb-4 mt-4">
-                                <TextField type="datetime-local" label="Prazo" fullWidth required
+                                <TextField type="datetime-local" label="Prazo" fullWidth
                                            defaultValue={data.prazo} onChange={e => setData('prazo', e.target.value)}/>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-auto mx-auto">
-                                <button className="btn btn-primary" type="submit">Enviar</button>
+                                <button className="btn btn-primary" type="submit">Salvar</button>
                             </div>
                         </div>
-                    </form>
-                </CardBody>
-            </CardContainer>
+                    </CardBody>
+                </CardContainer>
+            </form>
         </Layout>
-    );
+    )
 }
 export default Page

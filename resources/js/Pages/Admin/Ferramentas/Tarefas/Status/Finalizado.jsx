@@ -1,10 +1,13 @@
 import Layout from "@/Layouts/Layout.jsx";
 import {Stack, Typography} from "@mui/material";
-import {Check2Circle, Hourglass} from "react-bootstrap-icons";
+import {Check2Circle, Hourglass, People} from "react-bootstrap-icons";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import TarefasDados from "@/Components/Tarefas/TarefasDados.jsx";
 import {router} from "@inertiajs/react";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import TarefasParticipantes from "@/Components/Tarefas/TarefasParticipantes.jsx";
+import React from "react";
 
 const Page = ({dados, tarefas}) => {
     const avancarStatus = () => {
@@ -18,6 +21,13 @@ const Page = ({dados, tarefas}) => {
             <CardContainer>
                 <CardBody>
                     <TarefasDados dados={dados}/>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardTitle title="Participantes" icon={<People size={22}/>}/>
+                <CardBody>
+                    <TarefasParticipantes dados={dados}/>
                 </CardBody>
             </CardContainer>
 

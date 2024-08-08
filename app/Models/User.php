@@ -161,7 +161,8 @@ class User extends Authenticatable
         if ($franquia && franquia_selecionada()) $query->where('franquia_id', franquia_selecionada());
         if ($ativos) $query->where('status', (new AtivoStatusUsuario())->getStatus());
 
-        return $query->orderByDesc('id')
+        return $query
+            ->orderBy('name')
             ->get()
             ->transform(function ($item) use ($setores, $franquias) {
                 return [
@@ -172,7 +173,6 @@ class User extends Authenticatable
                     'setor' => $setores[$item->setor_id] ?? '',
                     'setor_nome' => $setores[$item->setor_id]['nome'] ?? null,
                     'email' => $item->email,
-                    'funcao_id' => $item->funcao_id,
                     'funcao_id' => $item->funcao_id,
                     'status' => $item->status,
                     'foto' => $item->foto ? asset('storage/' . $item->foto) : null,

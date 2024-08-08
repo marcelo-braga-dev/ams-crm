@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\FerramentasTarefas;
 use App\Models\FerramentasTarefasItens;
 use App\Models\Setores;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -20,10 +21,10 @@ class TaferasController extends Controller
 
     public function create()
     {
-        $setores = (new Setores())->get();
-        $dataAtual = (new \DateTime())->format('Y-m-d H:i:s');
+        $usuarios = (new User())->usuarios(true);
+        $usuarioAtual = id_usuario_atual();
 
-        return Inertia::render('Consultor/Ferramentas/Tarefas/Create', compact('dataAtual', 'setores'));
+        return Inertia::render('Consultor/Ferramentas/Tarefas/Create', compact('usuarios', 'usuarioAtual'));
     }
 
     public function store(Request $request)
