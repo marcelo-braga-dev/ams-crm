@@ -20,6 +20,13 @@ const dashboard = {
                     type: 'item',
                     url: route('consultor.calendario.agenda.index'),
                 },
+                {
+                    id: 'ferramentas-tarefas',
+                    chave: chaves.ferramentas.tarefas,
+                    title: 'Tarefas',
+                    type: 'item',
+                    url: route('consultor.ferramentas.tarefas.index'),
+                },
             ]
         }
     ]
