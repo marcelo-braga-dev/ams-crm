@@ -40,6 +40,8 @@ export default function DadosPedido({dados}) {
                         {dados.frete.preco && <Typography style={text}><span style={textBold}>Frete:</span> R$ {dados.frete.preco}</Typography>}
                         {dados.financeiro.valor_nota &&
                             <Typography style={text}><span style={textBold}>Valor da Nota:</span> R$ {dados.financeiro.valor_nota}</Typography>}
+                        {dados.financeiro.nota_numero &&
+                            <Typography style={text}><span style={textBold}>N. da Nota:</span> {dados.financeiro.nota_numero}</Typography>}
                         {dados.financeiro.repasse_float > 0 && <Typography style={text}><span style={textBold}>Repasse:</span> R$ {dados.financeiro.repasse}</Typography>}
                         {isAdmin && dados.financeiro.preco_custo &&
                             <Typography style={text}><span style={textBold}>Preço Custo:</span> R$ {dados.financeiro.preco_custo}</Typography>}

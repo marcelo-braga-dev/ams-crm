@@ -13,6 +13,7 @@ export default function DadosPedidoFinanceiro({dados}) {
                 <Typography className="mb-2" fontSize={15}><b>Preço de Custo:</b> R$ {dados.financeiro.preco_custo}</Typography>}
             {dados.financeiro.forma_pagamento &&
                 <Typography className="mb-2" fontSize={15}><b>Forma de Pagamento:</b> {dados.financeiro.forma_pagamento}</Typography>}
+            {dados.financeiro.nota_numero && <Typography fontSize={15}><b>N. da Nota:</b> {dados.financeiro.nota_numero}</Typography>}
             {dados.financeiro.link_pagamento &&
                 <div className="mt-3">
                     <Typography className="mb-2" fontSize={15}><b>Link de Pagamento:</b> {dados.financeiro.link_pagamento}</Typography>

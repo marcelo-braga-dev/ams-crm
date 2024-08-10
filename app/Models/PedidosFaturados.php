@@ -27,6 +27,13 @@ class PedidosFaturados extends Model
             ]);
     }
 
+    public function pedido($id)
+    {
+        return $this->newQuery()
+            ->where('pedido_id', $id)
+            ->first();
+    }
+
     public function updateNotaDistribuidora($vendas, $pedidos, $notaDistribuidora, $empresa)
     {
         foreach ($vendas as $venda) {
@@ -38,7 +45,15 @@ class PedidosFaturados extends Model
                     );
             }
         }
+    }
 
+    public function updateNotaPedido($idPedido, $notaPedido)
+    {
+        $this->newQuery()
+            ->updateOrCreate(
+                ['pedido_id' => $idPedido],
+                ['nota_numero' => $notaPedido]
+            );
     }
 
     public function remover($id)

@@ -16,6 +16,7 @@ export default function ({pedido, usuarios}) {
     const [repasse, setRepasse] = useState(pedido.financeiro.repasse)
     const [userFaturado, setUserFaturado] = useState(pedido.pedido.user_faturamento)
     const [dataFaturamento, setDataFaturamento] = useState(pedido.financeiro.data_faturamento)
+    const [notaPedido, setNotaPedido] = useState(pedido.financeiro.nota_numero)
 
     const isAdmin = usePage().props.auth.user.is_financeiro == 1
 
@@ -28,6 +29,7 @@ export default function ({pedido, usuarios}) {
             repasse: repasse,
             usuario_faturado: userFaturado,
             data_faturamento: dataFaturamento,
+            nota_pedido: notaPedido,
         })
     }
 
@@ -69,6 +71,12 @@ export default function ({pedido, usuarios}) {
                             {isAdmin &&
                                 <div className="col-md-2">
                                     <TextFieldMoney label="Repasse" set={setRepasse} defaultValue={repasse}/>
+                                </div>
+                            }
+                            {isAdmin &&
+                                <div className="col-md-2">
+                                    <TextField label="N. Nota Pedido" fullWidth value={notaPedido}
+                                               onChange={e => setNotaPedido(e.target.value)}/>
                                 </div>
                             }
                             <div className="col-md-2">

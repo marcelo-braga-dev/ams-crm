@@ -468,6 +468,7 @@ class Pedidos extends Model
         $files = (new PedidosImagens())->getImagens($pedido->id);
         $setores = (new Setores())->getNomes();
         $frete = (new PedidosFretes())->pedido($pedido->id);
+        $faturado = (new PedidosFaturados())->pedido($pedido->id);
 
         if ($pedido->modelo === 1) {
             $cliente = (new PedidosClientes())->find($pedido->id);
@@ -515,7 +516,8 @@ class Pedidos extends Model
                 'cheques' => (new PedidosArquivos())->getCheques($pedido->id),
                 'pix' => (new PedidosArquivos())->getPix($pedido->id),
                 'link_pagamento' => $files->url_pagamento ?? null,
-                'data_faturamento' => $pedido->data_faturamento
+                'data_faturamento' => $pedido->data_faturamento,
+                'nota_numero' => $faturado['nota_numero'] ?? null
             ],
             'frete' => [
                 'preco' => $frete->valor_frete ?? null,
@@ -747,6 +749,7 @@ class Pedidos extends Model
         if ($dados['repasse']) $query->update(['repasse' => convert_money_float($dados['repasse'])]);
         if ($dados['usuario_faturado']) $query->update(['user_faturamento' => $dados['usuario_faturado']]);
         if ($dados['data_faturamento']) $query->update(['data_faturamento' => $dados['data_faturamento']]);
+        if ($dados['nota_pedido']) (new PedidosFaturados())->updateNotaPedido($id, $dados['nota_pedido']);
     }
 
     public function setSac($id)
