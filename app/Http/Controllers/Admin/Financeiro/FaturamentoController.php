@@ -39,6 +39,14 @@ class FaturamentoController extends Controller
                 'setor', 'planilhasGeradas', 'mes', 'ano', 'isFaturado'));
     }
 
+    public function removerNotaDistribuidora(Request $request)
+    {
+        (new PedidosFaturados())->remover($request->id);
+
+        modalSucesso('Nota Distribuidora removida com sucesso');
+        return redirect()->back();
+    }
+
     public function planilha(Request $request)
     {
         $path = (new FinanceiroFaturamento())->gerar($request->vendas, $request->pedidos);

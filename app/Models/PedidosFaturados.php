@@ -40,4 +40,11 @@ class PedidosFaturados extends Model
         }
 
     }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->where('pedido_id', $id)
+            ->delete();
+    }
 }

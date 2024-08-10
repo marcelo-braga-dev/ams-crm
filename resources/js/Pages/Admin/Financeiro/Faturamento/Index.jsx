@@ -71,9 +71,16 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
         }
     };
 
+    const removerNotaDistribuidora = (id) => {
+        router.post(route('admin.financeiro.faturamento.remover-distribuidora'), {id}, {preserveScroll: true})
+    }
+
     const allChecked = pedidosSelecionado.length === vendas.length;
 
-    router.on('success', () => setPedidosSelecionados([]))
+    router.on('success', () => {
+        setPedidosSelecionados([])
+        setNota('')
+    })
 
     return (
         <Layout titlePage="Faturamento de Pedidos" menu="financeiro" submenu="financeiro-faturamento">
@@ -120,7 +127,7 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
             </CardContainer>
 
             <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-9">
                     {carregando && <LinearProgress/>}
                     {!carregando &&
                         <CardContainer>
@@ -136,11 +143,9 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                     <thead>
                                     <tr>
                                         <th style={{width: 20}}>
-                                            <Checkbox size="small"
-                                                      checked={allChecked}
-                                                      onChange={handleSelectAll}/>
+                                            <Checkbox size="small" checked={allChecked} onChange={handleSelectAll}/>
                                         </th>
-                                        <th>Nota Distribuidora</th>
+                                        <th className="col-1">Nota Distribuidora</th>
                                         <th>Pedido</th>
                                         <th></th>
                                         <th></th>
@@ -159,14 +164,15 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                                 <td>
                                                     <Stack direction="row" spacing={2} alignItems="center">
                                                         <Typography>{item.nota_distribuidora}</Typography>
-                                                        <Trash size={13} color="red" cursor="pointer"/>
+                                                        {item.nota_distribuidora && <Trash size={13} color="red" cursor="pointer"
+                                                                                           onClick={() => removerNotaDistribuidora(item.id)}/>}
                                                     </Stack>
                                                 </td>
                                                 <td>
                                                     <Stack spacing={1}>
                                                         <Typography>#{item.id}</Typography>
                                                         <Typography><b>{item.status}</b></Typography>
-                                                        <Typography>NOTA: {item.nota_faturamento ?? '-'}</Typography>
+                                                        <Typography><b>NOTA:</b> {item.nota_faturamento ?? '-'}</Typography>
                                                         <Typography variant="body2">{item.data}</Typography>
                                                     </Stack>
                                                 </td>
@@ -180,7 +186,10 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                                             <Typography><b>Valor Pedido:</b> R$ {convertFloatToMoney(item.valor)}</Typography>
                                                             <Typography><b>Repasse:</b> R$ {convertFloatToMoney(item.repasse)}</Typography>
                                                         </Stack>
-                                                        <Typography><b>Valor Nota:</b> R$ {convertFloatToMoney(item.valor_nota)}</Typography>
+                                                        <Stack direction="row" spacing={2}>
+                                                            <Typography><b>Comissão:</b> R$ {convertFloatToMoney(item.lucro)}</Typography>
+                                                            <Typography><b>Valor Nota:</b> R$ {convertFloatToMoney(item.valor_nota)}</Typography>
+                                                        </Stack>
                                                     </Stack>
                                                 </td>
                                                 <td className="text-center">
@@ -203,11 +212,11 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                             <form onSubmit={gerarPlanilha}>
                                 <div className="row mb-3">
                                     <div className="col">
-                                        <TextField label="N. Nota Distribuidora" fullWidth required
+                                        <TextField label="N. Nota Distribuidora" fullWidth required value={nota}
                                                    onChange={e => setNota(e.target.value)}/>
                                     </div>
                                     <div className="col">
-                                        <TextField label="Empresa" fullWidth required select
+                                        <TextField label="Empresa" fullWidth required select value={empresa}
                                                    onChange={e => setEmpresa(e.target.value)}>
                                             {empresas.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                                         </TextField>
