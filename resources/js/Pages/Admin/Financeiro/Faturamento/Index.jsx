@@ -22,9 +22,11 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
     const [anoSelecionado, setAnoSelecionado] = useState(ano)
     const [setorSelecionado, setSetorSelecionado] = useState(setor)
     const [distribuidoraSelecionado, setDistribuidoraSelecionado] = useState(distribuidora)
+
     const [pedidosSelecionado, setPedidosSelecionados] = useState([])
     const [nota, setNota] = useState()
     const [empresa, setEmpresa] = useState()
+    const [distribuidoraPlanilha, setDistribuidora] = useState()
 
     const total = sum(vendas.map(item => item.valor))
     const [carregando, setCarregando] = useState(false)
@@ -42,7 +44,7 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
     const gerarPlanilha = (e) => {
         e.preventDefault()
         router.post(route('admin.financeiro.faturamento.planilha'),
-            {pedidos: pedidosSelecionado, nota, empresa, vendas: vendas, distribuidora: distribuidoraSelecionado})
+            {pedidos: pedidosSelecionado, nota, empresa, vendas: vendas, distribuidora: distribuidoraPlanilha})
     }
 
     const handleSetor = (setor) => {
@@ -51,6 +53,10 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
 
     const handleDistribuidora = (id) => {
         setDistribuidoraSelecionado(id)
+    }
+
+    const planilhaDistribuidora = (id) => {
+        setDistribuidora(id)
     }
 
     const handleCheckboxChange = (id) => {
@@ -210,19 +216,21 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                         <CardTitle title="Gerar Planilha"/>
                         <CardBody>
                             <form onSubmit={gerarPlanilha}>
-                                <div className="row mb-3">
-                                    <div className="col">
-                                        <TextField label="N. Nota Distribuidora" fullWidth required value={nota}
-                                                   onChange={e => setNota(e.target.value)}/>
-                                    </div>
-                                    <div className="col">
-                                        <TextField label="Empresa" fullWidth required select value={empresa}
-                                                   onChange={e => setEmpresa(e.target.value)}>
-                                            {empresas.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
-                                        </TextField>
-                                    </div>
-                                </div>
-                                <button className="btn btn-success d-block mb-0 btn-sm">Gerar Planilha</button>
+                                <Stack spacing={3}>
+                                    <TextField label="N. Nota Distribuidora" fullWidth required value={nota}
+                                               onChange={e => setNota(e.target.value)}/>
+                                    <TextField label="Empresa" fullWidth required select value={empresa}
+                                               onChange={e => setEmpresa(e.target.value)}>
+                                        {empresas.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                                    </TextField>
+                                    <TextField
+                                        label="Distribuidora" select fullWidth
+                                        onChange={(e) => planilhaDistribuidora(e.target.value)}>
+                                        <MenuItem value="">TODOS</MenuItem>
+                                        {distribuidoras.map(item => (<MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>))}
+                                    </TextField>
+                                    <button className="btn btn-success d-block mb-0 btn-sm">Gerar Planilha</button>
+                                </Stack>
                             </form>
                         </CardBody>
                     </CardContainer>
