@@ -1,6 +1,6 @@
 const chavesPermissoes = {
     pedidos: {
-        emitir: 1, config: 2, quadros: 32, historico: 33, relatorio: 34
+        emitir: 1, config: 2, quadros: 32, historico: 33, relatorio: 34, fretes: 60
     },
     leads: {
         cadastrar: 3, encaminhar: 4, importar: 5, cadastrados: 35, quadros: 36, historico: 37,

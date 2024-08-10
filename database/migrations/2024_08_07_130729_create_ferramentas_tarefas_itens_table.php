@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('tarefa_id');
             $table->string('status', 32);
-            $table->string('texto', 512);
+            $table->text('texto', 512);
+            $table->timestamp('data_final')->nullable();
             $table->timestamps();
 
             $table->foreign('tarefa_id')->references('id')->on('ferramentas_tarefas')->onDelete('cascade');

@@ -25,6 +25,12 @@ const dashboard = {
                     title: 'Emitir Pedido',
                     type: 'item',
                     url: route('admin.pedidos.emitir.index'),
+                },  {
+                    id: 'pedidos-fretes',
+                    chave: chaves.pedidos.fretes,
+                    title: 'Fretes',
+                    type: 'item',
+                    url: route('admin.pedidos.fretes.index'),
                 }, {
                     id: 'pedidos-historico',
                     chave: chaves.pedidos.historico,

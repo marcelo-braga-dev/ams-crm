@@ -21,10 +21,11 @@ class ProdutosController extends Controller
     {
         $categorias = (new ProdutosCategorias())->categorias();
         $fornecedores = (new ProdutosFornecedores())->get();
+        $setores = (new Setores())->get();
         $isFinanceiro = is_financeiro();
 
         return Inertia::render('Admin/Produtos/Index/Index',
-            compact('categorias', 'fornecedores', 'isFinanceiro'));
+            compact('categorias', 'fornecedores', 'setores', 'isFinanceiro'));
     }
 
     public function produtos(Request $request)

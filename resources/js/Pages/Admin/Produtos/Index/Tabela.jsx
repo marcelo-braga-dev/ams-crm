@@ -6,7 +6,7 @@ import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
 import React, {useCallback, useEffect, useState, useMemo} from 'react';
 import Switch from "@/Components/Inputs/Switch";
-import {Box, PencilSquare} from "react-bootstrap-icons";
+import {Box, BoxSeam, PencilSquare} from "react-bootstrap-icons";
 import ToggleMenu from "@/Components/Inputs/ToggleMenu";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";
@@ -83,9 +83,9 @@ const ProdutoRow = React.memo(({item, updateStatus, isFinanceiro, setEstoque, es
             </Link>
             <Stack>
                 <Link href={route('admin.produtos.show', item.id)}>
-                <Typography  variant="body1" fontWeight="bold">
-                    {item.nome}
-                </Typography>
+                    <Typography variant="body1" fontWeight="bold">
+                        {item.nome}
+                    </Typography>
                 </Link>
                 <Typography variant="body2">Distribuidora: {item.fornecedor}</Typography>
                 <Stack direction="row" spacing={3}>
@@ -159,7 +159,7 @@ const Tabela = ({isFinanceiro, filtros}) => {
 
     return (<CardContainer>
 
-        <CardTable title="Produtos" paginate={paginate} setPaginate={setPaginate} paginateDados={paginateDados}>
+        <CardTable title="Produtos" icon={<BoxSeam size={22}/>} paginate={paginate} setPaginate={setPaginate} paginateDados={paginateDados}>
             {!!produtos?.length && (<table className="table-1" style={{width: '100%'}}>
                 <thead>
                 <tr>

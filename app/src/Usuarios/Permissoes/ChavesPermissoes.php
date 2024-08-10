@@ -297,4 +297,9 @@ class ChavesPermissoes
     {
         return '59';
     }
+
+    public function chavePedidosFretes()
+    {
+        return '60';
+    }
 }

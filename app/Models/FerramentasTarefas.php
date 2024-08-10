@@ -109,4 +109,16 @@ class FerramentasTarefas extends Model
             ->find($id)
             ->delete();
     }
+
+    public function atualizar($id, $dados)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'titulo' => $dados->titulo,
+                'area' => $dados->area,
+                'prioridade' => $dados->prioridade,
+                'descricao' => $dados->descricao
+            ]);
+    }
 }

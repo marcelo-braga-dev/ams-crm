@@ -12,18 +12,21 @@ class FerramentasTarefasItens extends Model
     protected $fillable = [
         'tarefa_id',
         'status',
-        'texto'
+        'texto',
+        'data_final',
     ];
 
-    public function create($id, $msgs)
+    public function create($id, $tarefas)
     {
-        foreach ($msgs ?? [] as $msg) {
-            $this->newQuery()
-                ->create([
-                    'tarefa_id' => $id,
-                    'status' => 0,
-                    'texto' => $msg
-                ]);
+        foreach ($tarefas ?? [] as $tarefa) {
+            if ($tarefa['tarefa'] ?? null)
+                $this->newQuery()
+                    ->create([
+                        'tarefa_id' => $id,
+                        'status' => 0,
+                        'texto' => $tarefa['tarefa'],
+                        'data_final' => $tarefa['data'] ?? null
+                    ]);
         }
     }
 
@@ -39,5 +42,30 @@ class FerramentasTarefasItens extends Model
         $this->newQuery()
             ->find($id)
             ->update(['status' => $status]);
+    }
+
+    public function atualizar($id, $dados)
+    {
+        foreach ($dados ?? [] as $dado) {
+            if ($dado['id'] ?? null) {
+                $query = $this->newQuery()->find($dado['id']);
+
+                if ($dado['tarefa'] ?? null) $query->update(['texto' => $dado['tarefa']]);
+                if ($dado['data'] ?? null) $query->update(['data_final' => $dado['data']]);
+            } else $this->newQuery()
+                ->create([
+                    'tarefa_id' => $id,
+                    'status' => 0,
+                    'texto' => $dado['tarefa'],
+                    'data_final' => $dado['data'] ?? null
+                ]);;
+        }
+    }
+
+    public function remove($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->delete();
     }
 }

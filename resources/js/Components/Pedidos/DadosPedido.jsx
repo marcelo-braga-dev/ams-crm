@@ -37,6 +37,7 @@ export default function DadosPedido({dados}) {
                 <Grid item>
                     <Stack spacing={1}>
                         {dados.financeiro.preco && <Typography style={text}><span style={textBold}>Valor do Pedido:</span> R$ {dados.financeiro.preco}</Typography>}
+                        {dados.frete.preco && <Typography style={text}><span style={textBold}>Frete:</span> R$ {dados.frete.preco}</Typography>}
                         {dados.financeiro.valor_nota &&
                             <Typography style={text}><span style={textBold}>Valor da Nota:</span> R$ {dados.financeiro.valor_nota}</Typography>}
                         {dados.financeiro.repasse_float > 0 && <Typography style={text}><span style={textBold}>Repasse:</span> R$ {dados.financeiro.repasse}</Typography>}

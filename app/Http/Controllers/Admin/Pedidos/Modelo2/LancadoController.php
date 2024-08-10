@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Pedidos\Modelo2;
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
 use App\Models\PedidosArquivos;
+use App\Models\PedidosFretes;
 use App\Models\PedidosImagens;
 use App\Models\PedidosProdutos;
 use App\Models\Produtos;
@@ -29,6 +30,10 @@ class LancadoController extends Controller
 
             (new PedidosImagens())->updateNotaFiscal($id, $request);
             (new PedidosImagens())->updateLinkPagamento($id, $request);
+
+            if ($request->frete) {
+                (new PedidosFretes())->create($id, $request);
+            }
 
             if ($request->forma_pagamento == 'vista') (new PedidoUpdateStatus())->setFaturadoVista($id);
             if ($request->forma_pagamento == 'prazo') (new PedidoUpdateStatus())->setFaturadoPrazo($id);

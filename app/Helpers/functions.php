@@ -35,6 +35,7 @@ if (!function_exists('convert_money_float')) {
 if (!function_exists('convert_float_money')) {
     function convert_float_money($arg, $decimais = 2)
     {
+        if ($arg === null) return;
         if (is_numeric($arg)) {
             $arg = number_format($arg, $decimais, ',', '.');
         }

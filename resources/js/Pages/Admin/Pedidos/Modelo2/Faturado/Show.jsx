@@ -17,7 +17,7 @@ export default function Create({pedido}) {
     }
 
     return (
-        <Layout titlePage="Pedido FaturadoX" menu="pedidos" submenu="pedidos-lista"
+        <Layout titlePage="Pedido Faturado" menu="pedidos" submenu="pedidos-lista"
                 voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}>
 
             <div className="row">

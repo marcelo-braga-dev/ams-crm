@@ -22,5 +22,6 @@ Route::middleware(['auth', 'auth.admins'])
                 Route::resource('finalizado', FinalizadoController::class);
 
                 Route::put('alterar-status-item', [TaferasController::class, 'alterarStatusItem'])->name('alterar-status-item');
+                Route::delete('excluir-item/{id}', [TaferasController::class, 'excluirItem'])->name('excluir-item');
             });
     });

@@ -15,6 +15,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chavePedidosConfig(), 'nome' => 'Configuracoes'],
                     ['id' => $this->chavePedidosHistorico(), 'nome' => 'Histórico'],
                     ['id' => $this->chavePedidosRelatorio(), 'nome' => 'Relatório'],
+                    ['id' => $this->chavePedidosFretes(), 'nome' => 'Fretes'],
                 ]
             ], [
                 'categoria' => 'Leads',

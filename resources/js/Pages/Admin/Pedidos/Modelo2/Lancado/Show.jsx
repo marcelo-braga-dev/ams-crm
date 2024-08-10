@@ -5,7 +5,7 @@ import * as React from 'react';
 import {useForm} from '@inertiajs/react';
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
-import {Radio, RadioGroup, TextField} from "@mui/material";
+import {Radio, RadioGroup, Stack, TextField, Typography} from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 import FormControl from '@mui/material/FormControl';
@@ -19,11 +19,15 @@ import CardBody from "@/Components/Cards/CardBody.jsx";
 import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta.jsx";
 import CardTable from "@/Components/Cards/CardTable.jsx";
 import {Box} from "react-bootstrap-icons";
+import Switch from "@mui/material/Switch";
+import TextFieldMoney from "@/Components/Inputs/TextFieldMoney3.jsx";
+import MenuItem from "@mui/material/MenuItem";
 
-export default function Pedidos({dados, produtos}) {
+export default function Pedidos({dados, produtos, transportadoras}) {
+
+    const [frete, setFrete] = useState(false)
 
     const qtdParcelas = parseInt(dados.financeiro.forma_pagamento.replace(/[^0-9]/g, ''))
-
     const {data, put, setData} = useForm({
         consultor: dados.consultor.id
     })
@@ -34,7 +38,7 @@ export default function Pedidos({dados, produtos}) {
         e.preventDefault()
         router.post(route('admin.modelo-2.pedidos.lancado.update', dados.pedido.id), {
             _method: 'put',
-            ...data
+            ...data, frete
         })
     }
 
@@ -106,92 +110,114 @@ export default function Pedidos({dados, produtos}) {
                 </div>
             </div>
 
-            <CardContainer>
-                <CardTable title="Produdos do Pedido" icon={<Box size={20}/>}>
-                    <DadosProdutosCompleta dados={produtos} isFinanceiro={dados.financeiro.is_financeiro}/>
-                </CardTable>
-            </CardContainer>
-
+            <DadosProdutosCompleta dados={produtos} isFinanceiro={dados.financeiro.is_financeiro}/>
 
             <form onSubmit={submit}>
+
                 <CardContainer>
                     <CardBody>
-                        <div className="row mb-4">
-                            <DadosPedidoFinanceiro dados={dados}/>
-                        </div>
+                        <DadosPedidoFinanceiro dados={dados}/>
+                    </CardBody>
+                </CardContainer>
 
-                        <div className="row">
-                            <div className="col mb-4">
-                                <FormControl>
-                                    <h6>Método Pagamento</h6>
-                                    <RadioGroup row name="row-radio-buttons-group">
-                                        <FormControlLabel value="vista" required control={<Radio/>} label="À Vista"
-                                                          onChange={() => setData('forma_pagamento', 'vista')}/>
-                                        <FormControlLabel value="prazo" required control={<Radio/>} label="À Prazo"
-                                                          onChange={() => setData('forma_pagamento', 'prazo')}/>
-                                    </RadioGroup>
-                                </FormControl>
+                <CardContainer>
+                    <CardBody>
+                        <Stack direction="row" alignItems="center" marginBottom={2}>
+                            <Switch checked={frete} onChange={e => setFrete(e.target.checked)}/>
+                            <Typography>Incluir Frete</Typography>
+                        </Stack>
+                        {frete && <div className="row">
+                            <div className="col-md-3">
+                                <TextFieldMoney label="Valor do Frete" set={setData} index="frete_valor"/>
                             </div>
-                        </div>
+                            <div className="col-md-3">
+                                <TextField label="Transportadora" select fullWidth
+                                           onChange={e => setData('frete_transportadora', e.target.value)}>
+                                    {transportadoras.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                                </TextField>
+                            </div>
+                            <div className="col-md-3">
+                                <TextField label="Código Rastreio" fullWidth onChange={e => setData('frete_rastreio', e.target.value)}/>
 
-                        <h6>Nota Fiscal</h6>
-                        <div className="row mt-2 mb-4">
-                            <div className="col-md-6 mb-4">
+                            </div>
+                        </div>}
+                    </CardBody>
+                </CardContainer>
+
+                <CardContainer>
+                    <CardBody>
+                        <FormControl>
+                            <Typography fontWeight="bold">Método Pagamento</Typography>
+                            <RadioGroup row name="row-radio-buttons-group">
+                                <FormControlLabel value="vista" required control={<Radio/>} label="À Vista"
+                                                  onChange={() => setData('forma_pagamento', 'vista')}/>
+                                <FormControlLabel value="prazo" required control={<Radio/>} label="À Prazo"
+                                                  onChange={() => setData('forma_pagamento', 'prazo')}/>
+                            </RadioGroup>
+                        </FormControl>
+                    </CardBody>
+                </CardContainer>
+
+                <CardContainer>
+                    <CardBody>
+                        <div className="row">
+                            <div className="col-md-6">
                                 <TextField
                                     label="Nota Fiscal" required fullWidth type="file" InputLabelProps={{shrink: true}}
                                     onChange={e => setData('file_nota_fiscal', e.target.files[0])}>
                                 </TextField>
                             </div>
                         </div>
-
-                        <div className="row">
-                            <div className="col mb-4">
-                                <FormControl>
-                                    <h6>Inserir Anexos</h6>
-                                    <RadioGroup row name="forma-pagamento">
-                                        <FormControlLabel value="vista" control={<Radio/>} label="Boletos" required
-                                                          onChange={() => setFormaPagamento('boleto')}/>
-                                        <FormControlLabel value="prazo" label="Link de Pagamento"
-                                                          required control={<Radio/>}
-                                                          onChange={() => setFormaPagamento('link')}/>
-                                        <FormControlLabel value="" control={<Radio/>} label="Nenhum" required
-                                                          onChange={() => setFormaPagamento('')}/>
-                                    </RadioGroup>
-                                </FormControl>
-                            </div>
-                        </div>
-
-                        {formaPagamento === 'boleto' && <>
-                            <h6>Boletos</h6>
-                            {boletos()}
-                            <div className="row row-cols-3 mb-4">
-                                <div className="col">
-                                    <button type="button" className="btn btn-success btn-sm btn-rounded px-3"
-                                            onClick={() => setQtdBoletos(qtsBoletos + 1)}>
-                                        <AddIcon/> Adicionar campo
-                                    </button>
-                                </div>
-                            </div>
-                        </>}
-
-                        {formaPagamento === 'link' && <>
-                            <h6>Link de Pagamento</h6>
-                            <div className="row mb-4">
-                                <div className="col mb-">
-                                    <TextField
-                                        label="Link de Pagamento" fullWidth required
-                                        onChange={e => setData('url_pagamento', e.target.value)}>
-                                    </TextField>
-                                </div>
-                            </div>
-                        </>}
-                        <div className="row text-center">
-                            <div className="mb-3">
-                                <button className="btn btn-primary">Salvar</button>
-                            </div>
-                        </div>
                     </CardBody>
                 </CardContainer>
+
+                <CardContainer>
+                    <CardBody>
+                        <FormControl>
+                            <Typography fontWeight="bold">Inserir Anexos</Typography>
+                            <RadioGroup row name="forma-pagamento">
+                                <FormControlLabel value="vista" control={<Radio/>} label="Boletos" required
+                                                  onChange={() => setFormaPagamento('boleto')}/>
+                                <FormControlLabel value="prazo" label="Link de Pagamento"
+                                                  required control={<Radio/>}
+                                                  onChange={() => setFormaPagamento('link')}/>
+                                <FormControlLabel value="" control={<Radio/>} label="Nenhum" required
+                                                  onChange={() => setFormaPagamento('')}/>
+                            </RadioGroup>
+                        </FormControl>
+                    </CardBody>
+                </CardContainer>
+
+                {formaPagamento === 'boleto' && <>
+                    <h6>Boletos</h6>
+                    {boletos()}
+                    <div className="row row-cols-3 mb-4">
+                        <div className="col">
+                            <button type="button" className="btn btn-success btn-sm btn-rounded px-3"
+                                    onClick={() => setQtdBoletos(qtsBoletos + 1)}>
+                                <AddIcon/> Adicionar campo
+                            </button>
+                        </div>
+                    </div>
+                </>}
+
+                {formaPagamento === 'link' && <>
+                    <h6>Link de Pagamento</h6>
+                    <div className="row mb-4">
+                        <div className="col mb-">
+                            <TextField
+                                label="Link de Pagamento" fullWidth required
+                                onChange={e => setData('url_pagamento', e.target.value)}>
+                            </TextField>
+                        </div>
+                    </div>
+                </>}
+                <div className="row text-center">
+                    <div className="mb-3">
+                        <button className="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+
             </form>
         </Layout>
     )

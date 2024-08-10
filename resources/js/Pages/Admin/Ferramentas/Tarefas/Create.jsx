@@ -30,10 +30,17 @@ const Page = ({usuarios, usuarioAtual}) => {
     let rows = [];
     for (let i = 1; i <= qtdTarefas; i++) {
         rows.push(
-            <div key={i} className="row mt-3">
+            <div key={i} className="row mt-4 align-items-center">
+                <div className="col-auto">
+                    <Typography>{i}.</Typography>
+                </div>
                 <div className="col">
-                    <TextField fullWidth
-                               onChange={e => setData('tarefas', {...data.tarefas, [i]: e.target.value})}/>
+                    <TextField fullWidth onChange={e =>
+                        setData('tarefas', {...data.tarefas, [i]: {...data.tarefas[i], tarefa: e.target.value}})}/>
+                </div>
+                <div className="col-auto">
+                    <TextField label="Prazo" type="datetime-local" InputLabelProps={{shrink: true}}
+                               onChange={e => setData('tarefas', {...data.tarefas, [i]: {...data.tarefas[i], data: e.target.value}})}/>
                 </div>
             </div>
         )
@@ -119,25 +126,22 @@ const Page = ({usuarios, usuarioAtual}) => {
                 <CardContainer>
                     <CardBody>
                         <div className="row">
-                            <div className="col-auto"><h5>Tarefas</h5></div>
+                            <div className="col-auto"><Typography fontWeight="bold" fontSize={16}>Tarefas</Typography></div>
                             <div className="col-auto">
-                                <ChevronLeftIcon onClick={() => setQtdTarefas(qtdTarefas - 1)}/>
-                                {qtdTarefas}
-                                <ChevronRightIcon onClick={() => setQtdTarefas(qtdTarefas + 1)}/>
+                                <Stack direction="row" spacing={1}>
+                                    <ChevronLeftIcon onClick={() => setQtdTarefas(qtdTarefas - 1)}/>
+                                    <Typography>{qtdTarefas}</Typography>
+                                    <ChevronRightIcon onClick={() => setQtdTarefas(qtdTarefas + 1)}/>
+                                </Stack>
                             </div>
                         </div>
 
                         {rows}
 
-                        <div className="row mt-4">
-                            <div className="col-md-3 mb-4 mt-4">
-                                <TextFieldMoney label="Valor do Serviço" value={data.valor_servico} setData={setData} index="valor_servico"/>
-                            </div>
-                            <div className="col-md-4 mb-4 mt-4">
-                                <TextField type="datetime-local" label="Prazo" fullWidth
-                                           defaultValue={data.prazo} onChange={e => setData('prazo', e.target.value)}/>
-                            </div>
-                        </div>
+                    </CardBody>
+                </CardContainer>
+                <CardContainer>
+                    <CardBody>
                         <div className="row">
                             <div className="col-auto mx-auto">
                                 <button className="btn btn-primary" type="submit">Salvar</button>

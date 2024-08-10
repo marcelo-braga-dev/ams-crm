@@ -8,67 +8,92 @@ export default function DadosPedidoFinanceiroFiles({dados}) {
     return (
         <>
             {dados.pedido_files.planilha_pedido &&
-                <div className="col mb-4">
-                    <Typography className="d-block">Via do Pedido</Typography>
-                    <ImagePdf url={dados.pedido_files.planilha_pedido}/>
+                <div className="col">
+                    <CardContainer>
+                        <CardBody>
+                            <Typography fontWeight="bold">Via do Pedido</Typography>
+                            <ImagePdf url={dados.pedido_files.planilha_pedido}/>
+                        </CardBody>
+                    </CardContainer>
                 </div>}
             {dados.pedido_files.nota_fiscal &&
-                <div className="col mb-4">
-                    <div className="card card-body">
-                        <span className="d-block"><b>Nota Fiscal</b></span>
-                        <ImagePdf url={dados.pedido_files.nota_fiscal}/>
-                    </div>
+                <div className="col">
+                    <CardContainer>
+                        <CardBody>
+                            <Typography fontWeight="bold">Nota Fiscal</Typography>
+                            <ImagePdf url={dados.pedido_files.nota_fiscal}/>
+                        </CardBody>
+                    </CardContainer>
                 </div>}
 
-            {dados.financeiro.boletos.map((item, index) => {
-                return (
-                    <div key={index} className="col mb-4">
-                        <div className="card card-body">
-                            <span className="d-block"><b>{item.indice}° Boleto</b></span>
-                            <span>Vencimento: {item.data}</span>
-                            <ImagePdf url={item.url}/>
+            {
+                dados.financeiro.boletos.map((item, index) => {
+                    return (
+                        <div key={index} className="col mb-4">
+                            <CardContainer>
+                                <CardBody>
+                                    <Typography fontWeight="bold">{item.indice}° Boleto</Typography>
+                                    <Typography fontWeight="bold">Vencimento: {item.data}</Typography>
+                                    <ImagePdf url={item.url}/>
+                                </CardBody>
+                            </CardContainer>
                         </div>
-                    </div>
-                )
-            })}
+                    )
+                })
+            }
 
-            {dados.financeiro.pix.map((item, index) => {
-                return (
-                    <div key={index} className="col mb-4">
-                        <div className="card card-body">
-                            <span className="d-block"><b>Comprovante do PIX</b></span>
-                            {/*<span>Vencimento: {item.data}</span>*/}
-                            <ImagePdf url={item.url}/>
+            {
+                dados.financeiro.pix.map((item, index) => {
+                    return (
+                        <div key={index} className="col">
+                            <CardContainer>
+                                <CardBody>
+                                    <Typography fontWeight="bold">Comprovante do PIX</Typography>
+                                    <ImagePdf url={item.url}/>
+                                </CardBody>
+                            </CardContainer>
                         </div>
-                    </div>
-                )
-            })}
+                    )
+                })
+            }
 
-            {dados.financeiro.cheques.map((item, index) => {
-                return (
-                    <div key={index} className="col mb-4">
-                        <div className="card card-body">
-                            <span className="d-block"><b>{item.indice}° Cheque</b></span>
-                            <span>Vencimento: {item.data}</span>
-                            <ImagePdf url={item.url}/>
+            {
+                dados.financeiro.cheques.map((item, index) => {
+                    return (
+                        <div key={index} className="col">
+                            <CardContainer>
+                                <CardBody>
+                                    <Typography fontWeight="bold">{item.indice}° Cheque</Typography>
+                                    <Typography>Vencimento: {item.data}</Typography>
+                                    <ImagePdf url={item.url}/>
+                                </CardBody>
+                            </CardContainer>
                         </div>
-                    </div>
-                )
-            })}
+                    )
+                })
+            }
 
-            {dados.pedido_files.boleto && <div className="col">
-                <div className="card card-body">
-                    <span className="d-block"><b>1° Boleto/Nota</b></span>
-                    <ImagePdf url={dados.pedido_files.boleto}/>
+            {
+                dados.pedido_files.boleto && <div className="col">
+                    <CardContainer>
+                        <CardBody>
+                            <Typography fontWeight="bold">1° Boleto/Nota</Typography>
+                            <ImagePdf url={dados.pedido_files.boleto}/>
+                        </CardBody>
+                    </CardContainer>
                 </div>
-            </div>}
+            }
 
-            {dados.pedido_files.boleto_2 && <div className="col">
-                <div className="card card-body">
-                    <span className="d-block"><b>2° Boleto/Nota</b></span>
-                    <ImagePdf url={dados.pedido_files.boleto_2}/>
+            {
+                dados.pedido_files.boleto_2 && <div className="col">
+                    <CardContainer>
+                        <CardBody>
+                            <Typography fontWeight="bold">2° Boleto/Nota</Typography>
+                            <ImagePdf url={dados.pedido_files.boleto_2}/>
+                        </CardBody>
+                    </CardContainer>
                 </div>
-            </div>}
+            }
         </>
     )
 }

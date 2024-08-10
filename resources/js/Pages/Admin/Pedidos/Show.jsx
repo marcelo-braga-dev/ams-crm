@@ -11,12 +11,18 @@ import DadosPedidoFiles from "@/Components/Pedidos/DadosPedidoFiles";
 import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
-import {router, usePage} from "@inertiajs/react";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTable from "@/Components/Cards/CardTable";
-import {ListCheck, Paperclip, Tags} from "react-bootstrap-icons";
-import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
+import {ListCheck, Tags, Truck} from "react-bootstrap-icons";
+import {Stack, TextField, Typography} from "@mui/material";
+import Link from "@/Components/Link.jsx";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import DadosPedidoFrete from "@/Components/Pedidos/DadosPedidoFrete.jsx";
+import TextFieldMoney from "@/Components/Inputs/TextFieldMoney3.jsx";
+import MenuItem from "@mui/material/MenuItem";
+import {useState} from "react";
+import {router} from "@inertiajs/react";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -44,13 +50,23 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({pedido, produtos, historico, historicoAcompanhamento, sacHistorico, urlPrevious}) {
+export default function Pedidos({pedido, produtos, historico, transportadoras, historicoAcompanhamento, sacHistorico, urlPrevious}) {
     const [value, setValue] = React.useState(0);
-    const funcaoUsuario = usePage().props.auth.user.is_financeiro == 1
+
+    const [frete, setFrete] = React.useState(false);
+    const [freteValor, setFreteValor] = useState(pedido.frete.preco);
+    const [freteTransportadora, setFreteTransportadora] = useState(pedido.frete.transportadora_id);
+    const [freteRastreio, setFreteRastreio] = useState(pedido.frete.rastreio);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const atualizarFrete = () => {
+        router.post(route('admin.pedidos.fretes.update', pedido.id),
+            {frete_transportadora: freteTransportadora, frete_valor: freteValor, frete_rastreio: freteRastreio, _method: 'PUT'})
+        setFrete(false)
+    }
 
     return (
         <Layout empty titlePage="Informações do Pedido" menu="pedidos" submenu="pedidos-lista" voltar={urlPrevious}>
@@ -61,162 +77,207 @@ export default function Pedidos({pedido, produtos, historico, historicoAcompanha
                         <Tab label="Pedido" {...a11yProps(0)} />
                         <Tab label="Cliente" {...a11yProps(1)} />
                         <Tab label="Financeiro" {...a11yProps(2)} />
-                        <Tab label="Anexos" {...a11yProps(3)} />
-                        <Tab label="Histórico" {...a11yProps(4)} />
-                        <Tab label="SAC" {...a11yProps(5)} />
+                        <Tab label="Frete" {...a11yProps(3)} />
+                        <Tab label="Anexos" {...a11yProps(4)} />
+                        <Tab label="Histórico" {...a11yProps(5)} />
+                        <Tab label="SAC" {...a11yProps(6)} />
                     </Tabs>
                 </div>
                 <div className="col-auto m-0">
-                    <a className="btn btn-primary btn-sm"
-                       href={route('admin.pedidos.edit', pedido.id)}>Editar</a>
+                    <Link label="Editar" href={route('admin.pedidos.edit', pedido.id)}/>
                 </div>
             </div>
 
-            <CardContainer>
-                <CardBody>
-                    <Box sx={{width: '100%'}}>
-                        <TabPanel value={value} index={0}>
+            <Box sx={{width: '100%'}}>
+                {/*Pedido*/}
+                <TabPanel value={value} index={0}>
+                    <CardContainer>
+                        <CardBody>
                             <DadosPedido dados={pedido}/>
+                        </CardBody>
+                    </CardContainer>
 
-                            {produtos.length > 0 &&
-                                <div className="mt-4">
-                                    <DadosProdutosCompleta dados={produtos} isFinanceiro={pedido.financeiro.is_financeiro}/>
-                                </div>
-                            }
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
+                    {produtos.length > 0 && <DadosProdutosCompleta dados={produtos} valorFrete={pedido.frete.preco} isFinanceiro={pedido.financeiro.is_financeiro}/>}
+
+                </TabPanel>
+
+                {/*Cliente*/}
+                <TabPanel value={value} index={1}>
+                    <CardContainer>
+                        <CardBody>
                             <DadosPedidoCliente dados={pedido}/>
+                        </CardBody>
+                    </CardContainer>
 
-                            <DadosPedidoClienteFiles dados={pedido}/>
-                        </TabPanel>
-                        {/*Financeiro*/}
-                        <TabPanel value={value} index={2}>
-                            <div className="row">
-                                <div className="mb-4 col">
-                                    <DadosPedidoFinanceiro dados={pedido}/>
+                    <DadosPedidoClienteFiles dados={pedido}/>
+                </TabPanel>
+
+                {/*Financeiro*/}
+                <TabPanel value={value} index={2}>
+                    <CardContainer>
+                        <CardBody>
+                            <DadosPedidoFinanceiro dados={pedido}/>
+                        </CardBody>
+                    </CardContainer>
+
+                    <DadosPedidoFinanceiroFiles dados={pedido}/>
+                </TabPanel>
+
+                {/*Frete*/}
+                <TabPanel value={value} index={3}>
+                    <CardContainer>
+                        <CardTitle title="Frete" icon={<Truck size={22}/>}/>
+                        <CardBody>
+                            <DadosPedidoFrete dados={pedido}/>
+                        </CardBody>
+                    </CardContainer>
+                    <CardContainer>
+                        <CardBody>
+                            {!frete && <button className="btn btn-primary" onClick={() => setFrete(true)}>
+                                {pedido.frete.transportadora_id ? 'Editar Frete' : 'Adicionar Frete'}
+                            </button>}
+                            {frete && <div className="row">
+                                <div className="col-md-3">
+                                    <TextFieldMoney label="Valor do Frete" defaultValue={freteValor} set={setFreteValor}/>
                                 </div>
-                            </div>
+                                <div className="col-md-3">
+                                    <TextField label="Transportadora" select fullWidth defaultValue={freteTransportadora}
+                                               onChange={e => setFreteTransportadora(e.target.value)}>
+                                        {transportadoras.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                                    </TextField>
+                                </div>
+                                <div className="col-md-3">
+                                    <TextField label="Código Rastreio" fullWidth defaultValue={freteRastreio}
+                                               onChange={e => setFreteRastreio(e.target.value)}/>
+                                </div>
+                                <div className="col-md-3">
+                                    <button className="btn btn-primary" onClick={atualizarFrete}>Salvar</button>
+                                </div>
+                            </div>}
+                        </CardBody>
+                    </CardContainer>
+                </TabPanel>
 
-                            <div className="row row-cols-4">
-                                <DadosPedidoFinanceiroFiles dados={pedido}/>
-                            </div>
-
-                        </TabPanel>
-                        {/*Anexos*/}
-                        <TabPanel value={value} index={3}>
+                {/*Anexos*/}
+                <TabPanel value={value} index={4}>
+                    <CardContainer>
+                        <CardBody>
                             <DadosPedidoFiles dados={pedido}/>
-                        </TabPanel>
-                        {/*Historico*/}
-                        <TabPanel value={value} index={4}>
-                            <CardTitleDefault title="Histórico dos Status" icon={<ListCheck size="23"/>}/>
+                        </CardBody>
+                    </CardContainer>
+                </TabPanel>
+
+                {/*Historico*/}
+                <TabPanel value={value} index={5}>
+                    <CardContainer>
+                        <CardTable title="Histórico dos Status" icon={<ListCheck size="23"/>}>
+                            <table className="table-1">
+                                <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Prazo</th>
+                                    <th>Responsável</th>
+                                    <th>Status</th>
+                                    <th>Anotações</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {historico.map((dado, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td scope="row">
+                                                {dado.data}
+                                            </td>
+                                            <td className="col-1">
+                                                {dado.prazo} dias
+                                            </td>
+                                            <td>
+                                                {dado.usuario}
+                                            </td>
+                                            <td>
+                                                {dado.status}
+                                            </td>
+                                            <td>
+                                                {dado.obs}
+                                            </td>
+                                        </tr>)
+                                })}
+                                </tbody>
+                            </table>
+                        </CardTable>
+                    </CardContainer>
+
+                    {/*Historico Acompanhamento*/}
+                    {historicoAcompanhamento.length > 0 &&
+                        <CardContainer>
                             <CardTable>
-                                <table className="table-1">
+                                <span><b>Histórico de Acompanhamento do Pedido</b></span>
+                                <table className="table">
                                     <thead>
                                     <tr>
                                         <th>Data</th>
-                                        <th>Prazo</th>
-                                        <th>Responsável</th>
-                                        <th>Status</th>
-                                        <th>Anotações</th>
+                                        <th>Autor</th>
+                                        <th>Mensagem</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {historico.map((dado, index) => {
+                                    {historicoAcompanhamento.map((dado, index) => {
                                         return (
                                             <tr key={index}>
-                                                <td scope="row">
+                                                <th scope="row" className="col-2">
                                                     {dado.data}
-                                                </td>
-                                                <td className="col-1">
-                                                    {dado.prazo} dias
+                                                </th>
+                                                <td>
+                                                    {dado.nome}
                                                 </td>
                                                 <td>
-                                                    {dado.usuario}
-                                                </td>
-                                                <td>
-                                                    {dado.status}
-                                                </td>
-                                                <td>
-                                                    {dado.obs}
+                                                    {dado.msg}
                                                 </td>
                                             </tr>)
                                     })}
                                     </tbody>
                                 </table>
                             </CardTable>
-
-                            {/*Historico Acompanhamento*/}
-                            {historicoAcompanhamento.length > 0 &&
-                                <CardTable>
-                                    <span><b>Histórico de Acompanhamento do Pedido</b></span>
-                                    <table className="table">
-                                        <thead>
+                        </CardContainer>
+                    }
+                </TabPanel>
+                <TabPanel value={value} index={6}>
+                    <CardContainer>
+                        <CardTable title="SAC" icon={<Tags size="23"/>}>
+                            {!!sacHistorico.length &&
+                                <table className="table-1">
+                                    <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Status</th>
+                                        <th>Autor</th>
+                                        <th>Título</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {sacHistorico.map(item => (
                                         <tr>
-                                            <th>Data</th>
-                                            <th>Autor</th>
-                                            <th>Mensagem</th>
+                                            <td className="col-1">{item.data}</td>
+                                            <td className="col-1">{item.status}</td>
+                                            <td className="col-1">{item.autor}</td>
+                                            <td>{item.titulo}</td>
+                                            <td><a className="btn btn-primary btn-sm" href={route('admin.chamados.show', item.id)}>Abrir</a></td>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                        {historicoAcompanhamento.map((dado, index) => {
-                                            return (
-                                                <tr key={index}>
-                                                    <th scope="row" className="col-2">
-                                                        {dado.data}
-                                                    </th>
-                                                    <td>
-                                                        {dado.nome}
-                                                    </td>
-                                                    <td>
-                                                        {dado.msg}
-                                                    </td>
-                                                </tr>)
-                                        })}
-                                        </tbody>
-                                    </table>
-                                </CardTable>
+                                    ))}
+                                    </tbody>
+                                </table>
                             }
-                        </TabPanel>
-                        <TabPanel value={value} index={5}>
-                            <CardTitleDefault title="SAC" icon={<Tags size="23"/>}/>
-                            <CardTable>
-                                {!!sacHistorico.length &&
-                                    <table className="table">
-                                        <thead>
-                                        <tr>
-                                            <th>Data</th>
-                                            <th>Status</th>
-                                            <th>Autor</th>
-                                            <th>Título</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {sacHistorico.map(item => (
-                                            <tr>
-                                                <td className="col-1">{item.data}</td>
-                                                <td className="col-1">{item.status}</td>
-                                                <td className="col-1">{item.autor}</td>
-                                                <td>{item.titulo}</td>
-                                                <td><a className="btn btn-primary btn-sm" href={route('admin.chamados.show', item.id)}>Abrir</a></td>
-                                            </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
-                                }
-
-                                {!!!sacHistorico.length && 'Não há registros de SAC.'}
-
-                                <div className="col mt-4">
-                                    <a className="btn btn-primary" href={route('admin.chamados.create', {pedido_id: pedido.pedido.id})}>
-                                        Abrir SAC
-                                    </a>
-                                </div>
-                            </CardTable>
-                        </TabPanel>
-                    </Box>
-                </CardBody>
-            </CardContainer>
+                        </CardTable>
+                        <CardBody>
+                            {!!!sacHistorico.length && <Typography marginBottom={3}>Não há registros de SAC.</Typography>}
+                            <a className="btn btn-primary" href={route('admin.chamados.create', {pedido_id: pedido.pedido.id})}>
+                                Abrir SAC
+                            </a>
+                        </CardBody>
+                    </CardContainer>
+                </TabPanel>
+            </Box>
         </Layout>
     )
 }

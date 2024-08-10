@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Pedidos\ConfigController;
 use App\Http\Controllers\Admin\Pedidos\EmitirPedidosController;
+use App\Http\Controllers\Admin\Pedidos\Fretes\FretesController;
 use App\Http\Controllers\Admin\Pedidos\HistoricoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\AcompanhamentoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoFaturamentoController;
@@ -60,6 +61,7 @@ Route::name('admin.pedidos.')
     ->prefix('admin/pedidos')
     ->group(function () {
         Route::resource('quadros', PedidosQuadrosController::class);
+        Route::resource('fretes', FretesController::class);
         Route::resource('emitir', EmitirPedidosController::class);
         Route::post('buscar-produtos-fornecedor', [EmitirPedidosController::class, 'buscarProdutosFornecedor'])
             ->name('pedidos.buscar-produtos-fornecedor');

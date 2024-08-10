@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pedidos\Modelo1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
+use App\Models\PedidosFretesTransportadoras;
 use App\Models\PedidosProdutos;
 use App\src\Pedidos\PedidoUpdateStatus;
 use Illuminate\Http\Request;
@@ -19,9 +20,10 @@ class LancadoController extends Controller
             compact('dados'));
 
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
+        $transportadoras = (new PedidosFretesTransportadoras())->get();
 
         return Inertia::render('Admin/Pedidos/Modelo2/Lancado/Show',
-            compact('dados', 'produtos'));
+            compact('dados', 'produtos', 'transportadoras'));
     }
 
     public function update($id, Request $request)

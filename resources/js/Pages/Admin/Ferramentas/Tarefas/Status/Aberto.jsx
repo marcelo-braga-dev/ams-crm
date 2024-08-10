@@ -1,6 +1,6 @@
 import Layout from "@/Layouts/Layout.jsx";
 import {Stack, Typography} from "@mui/material";
-import {Check2Circle, Hourglass, List, People, Trash} from "react-bootstrap-icons";
+import {Check2Circle, Hourglass, List, PencilSquare, People, Trash} from "react-bootstrap-icons";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import TarefasDados from "@/Components/Tarefas/TarefasDados.jsx";
@@ -10,6 +10,7 @@ import CheckboxSelected from "@/Components/Inputs/CheckboxSelected.jsx";
 import Avatar from "@mui/material/Avatar";
 import React from "react";
 import TarefasParticipantes from "@/Components/Tarefas/TarefasParticipantes.jsx";
+import Link from "@/Components/Link.jsx";
 
 const Page = ({dados, tarefas}) => {
     const avancarStatus = () => {
@@ -40,7 +41,10 @@ const Page = ({dados, tarefas}) => {
                             </button>
                         </div>
                         <div className="col-auto">
-                            <Trash size={22} color="red" cursor="pointer" data-bs-toggle="modal" data-bs-target="#excluirModal"/>
+                            <Stack direction="row" spacing={3}>
+                                <Link href={route('admin.ferramentas.tarefas.edit', dados.id)} icon={<PencilSquare size={22} color="green"/>}/>
+                                <Trash size={22} color="red" cursor="pointer" data-bs-toggle="modal" data-bs-target="#excluirModal"/>
+                            </Stack>
                         </div>
                     </div>
                 </CardBody>
@@ -67,6 +71,7 @@ const Page = ({dados, tarefas}) => {
                 })}
             </ul>
 
+            {/*Excluir*/}
             <div className="modal fade mt-6" id="excluirModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
@@ -85,6 +90,7 @@ const Page = ({dados, tarefas}) => {
                 </div>
             </div>
 
+            {/*Avancar Status*/}
             <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">

@@ -1,7 +1,7 @@
 import {InputAdornment, TextField} from "@mui/material";
 import {useState} from "react";
 
-export default function TextFieldMoney({label, set, defaultValue, required}) {
+export default function TextFieldMoney({label, set, index, defaultValue, required}) {
 
     function mascaraMoeda(valor, dig = 2) {
         let valorAlterado = valor.target.value;
@@ -12,7 +12,9 @@ export default function TextFieldMoney({label, set, defaultValue, required}) {
         )
 
         valor.target.value = valorAlterado;
-        set(valorAlterado)
+        if (index) set(index, valorAlterado)
+        else set(valorAlterado)
+
         return valorAlterado;
     }
 

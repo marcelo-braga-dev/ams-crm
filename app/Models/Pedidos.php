@@ -467,6 +467,7 @@ class Pedidos extends Model
         $integrador = $pedido->lead_id ? (new Leads())->getDados($pedido->lead_id) : '';
         $files = (new PedidosImagens())->getImagens($pedido->id);
         $setores = (new Setores())->getNomes();
+        $frete = (new PedidosFretes())->pedido($pedido->id);
 
         if ($pedido->modelo === 1) {
             $cliente = (new PedidosClientes())->find($pedido->id);
@@ -505,7 +506,7 @@ class Pedidos extends Model
                 'preco' => convert_float_money($pedido->preco_venda),
                 'preco_custo' => $precoCusto,
                 'imposto' => $isFinanceiro ? $pedido->imposto : null,
-                'lucro' => $isFinanceiro ? convert_float_money($pedido->preco_venda - $pedido->preco_custo) : null,
+                'lucro' => $isFinanceiro ? convert_float_money($pedido->preco_venda - $pedido->preco_custo - ($frete->valor_frete ?? 0)) : null,
                 'repasse_float' => $pedido->repasse,
                 'repasse' => convert_float_money($pedido->repasse),
                 'valor_nota' => convert_float_money($pedido->preco_venda + $pedido->repasse),
@@ -515,6 +516,12 @@ class Pedidos extends Model
                 'pix' => (new PedidosArquivos())->getPix($pedido->id),
                 'link_pagamento' => $files->url_pagamento ?? null,
                 'data_faturamento' => $pedido->data_faturamento
+            ],
+            'frete' => [
+                'preco' => $frete->valor_frete ?? null,
+                'transportadora_nome' => $frete->transportadora_nome ?? null,
+                'transportadora_id' => $frete->transportadora_id ?? null,
+                'rastreio' => $frete->rastreio ?? null,
             ],
             'prazos' => [
                 'prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),

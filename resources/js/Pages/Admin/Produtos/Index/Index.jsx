@@ -7,7 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import React, {useState} from "react";
 import Link from "@/Components/Link";
 
-export default function Index({fornecedores, categorias, isFinanceiro}) {
+export default function Index({fornecedores, categorias, setores, isFinanceiro}) {
     const [filtros, setFiltros] = useState({
         filtro: 'nome',
         filtro_valor: null,
@@ -29,11 +29,15 @@ export default function Index({fornecedores, categorias, isFinanceiro}) {
                             </TextField>
                         </div>
                         <div className="col-md-2">
-                            <TextField label="Categoria" select fullWidth onChange={e => {
-                                setFiltros({...filtros, categoria: e.target.value})
-                            }}>
+                            <TextField label="Categoria" select fullWidth onChange={e => setFiltros({...filtros, categoria: e.target.value})}>
                                 <MenuItem value="">Todos</MenuItem>
                                 {categorias.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
+                        </div>
+                        <div className="col-md-2">
+                            <TextField label="Setor" select fullWidth onChange={e => setFiltros({...filtros, setor: e.target.value})}>
+                                <MenuItem value="">Todos</MenuItem>
+                                {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
                         <div className="col-md-3">

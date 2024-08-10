@@ -41,4 +41,19 @@ class FerramentasTarefasUsuarios extends Model
                 ];
             });
     }
+
+    public function atualizar($id, $dados)
+    {
+        $this->newQuery()
+            ->where('tarefa_id', $id)
+            ->whereNotIn('user_id', $dados)
+            ->delete();
+
+        foreach ($dados ?? [] as $usuario) {
+            $this->newQuery()
+                ->updateOrCreate(
+                    ['tarefa_id' => $id, 'user_id' => $usuario]
+                );
+        }
+    }
 }
