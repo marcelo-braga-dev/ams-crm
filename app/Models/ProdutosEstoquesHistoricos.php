@@ -45,6 +45,19 @@ class ProdutosEstoquesHistoricos extends Model
             ]);
     }
 
+    public function createEstorno($pedidoId, $produtoId, $qtd)
+    {
+        $this->newQuery()
+            ->create([
+                'user_id' => id_usuario_atual(),
+                'pedido_id' => $pedidoId,
+                'produto_id' => $produtoId,
+                'tipo' => 'estorno',
+                'data' => now(),
+                'qtd' => $qtd,
+            ]);
+    }
+
     public function gets($id)
     {
         return $this->newQuery()
@@ -58,5 +71,17 @@ class ProdutosEstoquesHistoricos extends Model
                 $item->data = date('d/m/Y', strtotime($item->data));
                 return $item;
             });
+    }
+
+    public function createRecontagem($produtoId, $qtd)
+    {
+        $this->newQuery()
+            ->create([
+                'user_id' => id_usuario_atual(),
+                'produto_id' => $produtoId,
+                'tipo' => 'recontagem',
+                'data' => now(),
+                'qtd' => $qtd,
+            ]);
     }
 }

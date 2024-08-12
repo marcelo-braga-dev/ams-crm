@@ -5,15 +5,16 @@ import Avatar from "@mui/material/Avatar";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
 import React, {useCallback, useEffect, useState, useMemo} from 'react';
-import Switch from "@/Components/Inputs/Switch";
 import {Box, BoxSeam, PencilSquare} from "react-bootstrap-icons";
 import ToggleMenu from "@/Components/Inputs/ToggleMenu";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";
 import LinearProgress from '@mui/material/LinearProgress';
 import Link from "@/Components/Link.jsx";
+import {Switch as SwitchMui} from "@mui/material";
+import Switch from "@/Components/Inputs/Switch.jsx";
 
-const EstoqueModal = ({estoque, setEstoque, atualizarEstoque}) => (
+const EstoqueModal = ({estoque, setEstoque, atualizarEstoque, recontagem, setRecontagem, incrementarQtd, setIncrementarQtd}) => (
     <div className="modal fade mt-6" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog">
             <div className="modal-content">
@@ -41,7 +42,12 @@ const EstoqueModal = ({estoque, setEstoque, atualizarEstoque}) => (
                             </div>
                         </div>
 
-                        <div className="row mb-4">
+                        <Stack direction="row" spacing={1} alignItems="center" alignContent="center" marginBottom={3}>
+                            <SwitchMui size="small" onChange={e => setRecontagem(e.target.checked)}/>
+                            <Typography>Recontagem de Estoque</Typography>
+                        </Stack>
+
+                        {!recontagem && <div className="row mb-4">
                             <div className="col">
                                 <TextField label="Nº da Nota" fullWidth required value={estoque.nota ?? ''}
                                            onChange={e => setEstoque({...estoque, nota: e.target.value})}/>
@@ -50,18 +56,24 @@ const EstoqueModal = ({estoque, setEstoque, atualizarEstoque}) => (
                                 <TextField type="date" label="Data" required InputLabelProps={{shrink: true}} value={estoque.data ?? ''}
                                            onChange={e => setEstoque({...estoque, data: e.target.value})}/>
                             </div>
-                        </div>
+                        </div>}
                         <div className="row">
-                            <div className="col">
+                            <div className="col-md-4">
                                 <TextField label="Quantidade" required type="number" value={estoque.quantidade ?? ''}
                                            onChange={e => setEstoque({...estoque, quantidade: e.target.value})}/>
                             </div>
+                            {/*{recontagem && <div className="col pt-2">*/}
+                            {/*    <Stack direction="row" spacing={1} alignItems="center" alignContent="center" marginBottom={2}>*/}
+                            {/*        <SwitchMui checked={incrementarQtd} size="small" onChange={e => setIncrementarQtd(e.target.checked)}/>*/}
+                            {/*        <Typography>{incrementarQtd ? 'Adicionar' : 'Diminuir'}</Typography>*/}
+                            {/*    </Stack>*/}
+                            {/*</div>}*/}
                         </div>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary me-3" data-bs-dismiss="modal">Fechar</button>
                         <button type="submit" className="btn btn-success"
-                                data-bs-dismiss={estoque.nota && estoque.data && estoque.quantidade && "modal"}>Salvar
+                                data-bs-dismiss={((estoque.nota && estoque.data && estoque.quantidade) || (estoque.quantidade && recontagem)) && "modal"}>Salvar
                         </button>
                     </div>
                 </form>
@@ -126,6 +138,8 @@ const Tabela = ({isFinanceiro, filtros}) => {
     const [carregando, setCarregando] = useState(true)
     const [paginate, setPaginate] = useState(1)
     const [paginateDados, setPaginateDados] = useState(true)
+    const [recontagem, setRecontagem] = useState(false)
+    const [incrementarQtd, setIncrementarQtd] = useState(true)
     const [estoque, setEstoque] = useState({
         nota: '', data: '', quantidade: null, selecionado: null,
     });
@@ -153,35 +167,40 @@ const Tabela = ({isFinanceiro, filtros}) => {
     const atualizarEstoque = (e) => {
         e.preventDefault();
         axios.post(route('admin.produtos.update-estoque'), {
-            produto_id: estoque.selecionado.id, nota: estoque.nota, data: estoque.data, qtd: estoque.quantidade
-        }).then(() => getProdutos());
+            produto_id: estoque.selecionado.id, nota: estoque.nota, data: estoque.data, qtd: estoque.quantidade, recontagem
+        }).then(() => {
+            getProdutos()
+            setRecontagem(false)
+        });
     }
 
-    return (<CardContainer>
+    return (
+        <CardContainer>
+            <CardTable title="Produtos" icon={<BoxSeam size={22}/>} paginate={paginate} setPaginate={setPaginate} paginateDados={paginateDados}>
+                {!!produtos?.length && (<table className="table-1" style={{width: '100%'}}>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th className="text-center" style={{width: '5rem'}}>ID</th>
+                        <th>Produtos</th>
+                        <th>Valor</th>
+                        {isFinanceiro && <th style={{width: '10rem'}}>Custo</th>}
+                        <th className="text-center" style={{width: '10rem'}}>Estoques</th>
+                        <th style={{width: '5rem'}}></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {produtos.map(item => (
+                        <ProdutoRow key={item.id} item={item} updateStatus={updateStatus} isFinanceiro={isFinanceiro} setEstoque={setEstoque} estoque={estoque}/>))}
+                    </tbody>
+                </table>)}
+                {carregando && <LinearProgress color="inherit"/>}
+            </CardTable>
 
-        <CardTable title="Produtos" icon={<BoxSeam size={22}/>} paginate={paginate} setPaginate={setPaginate} paginateDados={paginateDados}>
-            {!!produtos?.length && (<table className="table-1" style={{width: '100%'}}>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th className="text-center" style={{width: '5rem'}}>ID</th>
-                    <th>Produtos</th>
-                    <th>Valor</th>
-                    {isFinanceiro && <th style={{width: '10rem'}}>Custo</th>}
-                    <th className="text-center" style={{width: '10rem'}}>Estoques</th>
-                    <th style={{width: '5rem'}}></th>
-                </tr>
-                </thead>
-                <tbody>
-                {produtos.map(item => (
-                    <ProdutoRow key={item.id} item={item} updateStatus={updateStatus} isFinanceiro={isFinanceiro} setEstoque={setEstoque} estoque={estoque}/>))}
-                </tbody>
-            </table>)}
-            {carregando && <LinearProgress color="inherit"/>}
-        </CardTable>
-
-        <EstoqueModal estoque={estoque} setEstoque={setEstoque} atualizarEstoque={atualizarEstoque}/>
-    </CardContainer>);
+            <EstoqueModal estoque={estoque} setEstoque={setEstoque} atualizarEstoque={atualizarEstoque} recontagem={recontagem} setRecontagem={setRecontagem}
+                          incrementarQtd={incrementarQtd} setIncrementarQtd={setIncrementarQtd}/>
+        </CardContainer>
+    );
 }
 
 export default Tabela

@@ -114,7 +114,12 @@ class ProdutosController extends Controller
 
     public function updateEstoque(Request $request)
     {
-        (new ProdutosEstoquesHistoricos())->createEntrada($request);
+        if ($request->recontagem) {
+            (new ProdutosEstoquesHistoricos())->createRecontagem($request->produto_id, $request->qtd);
+        } else {
+            (new ProdutosEstoquesHistoricos())->createEntrada($request);
+        }
+
         (new Produtos())->updateEstoque($request->produto_id, $request->qtd);
 
         modalSucesso('Estoque Atualizado com sucesso!');

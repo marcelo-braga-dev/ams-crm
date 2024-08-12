@@ -11,7 +11,9 @@ import ProdutosDados from "@/Components/Produtos/ProdutosDados";
 import Avatar from "@mui/material/Avatar";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
-import {ArrowDown, ArrowDownShort, ArrowUp, ArrowUpShort} from "react-bootstrap-icons";
+import {ArrowDown, ArrowDownShort, ArrowUp, ArrowUpShort, Eye, Pencil, Repeat} from "react-bootstrap-icons";
+import {Stack} from "@mui/material";
+import Link from "@/Components/Link.jsx";
 
 function CustomTabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -113,6 +115,7 @@ export default function ({produto, infos, estoqueHistorico}) {
                                             <th className="text-center"></th>
                                             <th className="text-center">Qtd</th>
                                             <th>Autor</th>
+                                            <th>Tipo</th>
                                             <th>Informações</th>
                                             <th>Data</th>
                                         </tr>
@@ -121,13 +124,25 @@ export default function ({produto, infos, estoqueHistorico}) {
                                         {estoqueHistorico.map(item => (
                                             <tr>
                                                 <td className="text-center" style={{width: '3rem'}}>
-                                                    {item.tipo === 'entrada' ? <ArrowUpShort size="25" color="green"/> : <ArrowDownShort size="25" color="red"/>}
+                                                    {item.tipo === 'entrada' ? <ArrowUpShort size="25" color="green"/> : ''}
+                                                    {item.tipo === 'saida' ? <ArrowDownShort size="25" color="red"/> : ''}
+                                                    {item.tipo === 'estorno' ? <Repeat size="16" color="black"/> : ''}
+                                                    {item.tipo === 'recontagem' ? <Pencil size="16" color="black"/> : ''}
                                                 </td>
-                                                <td className="text-center">{item.qtd}</td>
-                                                <td>{item.autor}</td>
+                                                <td className="text-center"><Typography>{item.qtd}</Typography></td>
+                                                <td><Typography>{item.autor}</Typography></td>
+                                                <td>
+                                                    {item.tipo === 'entrada' ? <Typography>Entrada</Typography> : ''}
+                                                    {item.tipo === 'saida' ? <Typography>Saída</Typography> : ''}
+                                                    {item.tipo === 'estorno' ? <Typography>Estorno</Typography> : ''}
+                                                    {item.tipo === 'recontagem' ? <Typography>Recontagem de Estoque</Typography> : ''}
+                                                </td>
                                                 <td>
                                                     {item.nota && <Typography>Nota: {item.nota}</Typography>}
-                                                    {item.pedido_id && <Typography>Pedido: #{item.pedido_id}</Typography>}
+                                                    {item.pedido_id && <Stack direction="row" spacing={1} alignItems="center">
+                                                        <Typography>Pedido: #{item.pedido_id}</Typography>
+                                                        <Link icon={<Eye size={16}/>} href={route('admin.pedidos.show', item.pedido_id)}/>
+                                                    </Stack>}
                                                 </td>
                                                 <td>{item.data}</td>
                                             </tr>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\Pedidos\StatusPedidosServices;
+use App\src\Pedidos\PedidoUpdateStatus;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\StatusPedidos;
@@ -163,6 +164,11 @@ class Pedidos extends Model
 
         return $res;
 
+    }
+
+    public function estornarProdutos($id)
+    {
+        (new PedidosProdutos())->estornar($id);
     }
 
     private function franquia(): void

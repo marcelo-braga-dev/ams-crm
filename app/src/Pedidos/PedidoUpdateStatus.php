@@ -126,6 +126,8 @@ class PedidoUpdateStatus
 
     public function cancelado($id, $request)
     {
+        (new Pedidos)->estornarProdutos($id);
+
         (new CanceladoStatus())->updateStatus($id, $request->motivo);
     }
 

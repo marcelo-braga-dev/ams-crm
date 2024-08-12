@@ -93,11 +93,26 @@ class PedidosProdutos extends Model
 
     public function setPrecoCustoPedido($id)
     {
-        $valor =  $this->newQuery()
+        $valor = $this->newQuery()
             ->where('pedido_id', $id)
             ->selectRaw('SUM(preco_fornecedor * quantidade) AS total_custo')
             ->value('total_custo');
 
         (new Pedidos())->insertPrecoCusto($id, $valor);
+    }
+
+    public function estornar($id)
+    {
+        $dados = $this->newQuery()
+            ->where('pedido_id', $id)
+            ->get(['produtos_id', 'quantidade']);
+
+        foreach ($dados ?? [] as $dado) {
+            (new Produtos())->newQuery()
+                ->find($dado['produtos_id'])
+                ->increment('estoque_local', $dado['quantidade']);
+
+            (new ProdutosEstoquesHistoricos())->createEstorno($id, $dado['produtos_id'], $dado['quantidade']);
+        }
     }
 }
