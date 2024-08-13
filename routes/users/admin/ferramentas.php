@@ -23,5 +23,6 @@ Route::middleware(['auth', 'auth.admins'])
 
                 Route::put('alterar-status-item', [TaferasController::class, 'alterarStatusItem'])->name('alterar-status-item');
                 Route::delete('excluir-item/{id}', [TaferasController::class, 'excluirItem'])->name('excluir-item');
+                Route::post('adicionar-mensagem', [TaferasController::class, 'adicionarMensagem'])->name('adicionar-mensagem');
             });
     });

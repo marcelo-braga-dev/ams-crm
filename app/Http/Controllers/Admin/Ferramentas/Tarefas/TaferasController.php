@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Ferramentas\Tarefas;
 use App\Http\Controllers\Controller;
 use App\Models\FerramentasTarefas;
 use App\Models\FerramentasTarefasItens;
+use App\Models\FerramentasTarefasMensagens;
 use App\Models\FerramentasTarefasUsuarios;
 use App\Models\Setores;
 use App\Models\User;
@@ -80,6 +81,14 @@ class TaferasController extends Controller
         (new FerramentasTarefasItens())->remove($id);
 
         modalSucesso('Item removida com sucesso!');
+        return redirect()->back();
+    }
+
+    public function adicionarMensagem(Request $request)
+    {
+        (new FerramentasTarefasMensagens())->create($request->mensagemId, $request->mensagem);
+
+        modalSucesso('Mensagem adicionada com sucesso!');
         return redirect()->back();
     }
 }

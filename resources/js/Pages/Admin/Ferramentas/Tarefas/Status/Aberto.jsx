@@ -1,16 +1,15 @@
 import Layout from "@/Layouts/Layout.jsx";
-import {Stack, Typography} from "@mui/material";
-import {Check2Circle, Hourglass, List, PencilSquare, People, Trash} from "react-bootstrap-icons";
+import {Stack} from "@mui/material";
+import {List, ListCheck, PencilSquare, People, Trash} from "react-bootstrap-icons";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import TarefasDados from "@/Components/Tarefas/TarefasDados.jsx";
 import {router} from "@inertiajs/react";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
-import CheckboxSelected from "@/Components/Inputs/CheckboxSelected.jsx";
-import Avatar from "@mui/material/Avatar";
 import React from "react";
 import TarefasParticipantes from "@/Components/Tarefas/TarefasParticipantes.jsx";
 import Link from "@/Components/Link.jsx";
+import TarefasItems from "@/Components/Tarefas/TarefasItems.jsx";
 
 const Page = ({dados, tarefas}) => {
     const avancarStatus = () => {
@@ -57,19 +56,12 @@ const Page = ({dados, tarefas}) => {
                 </CardBody>
             </CardContainer>
 
-            <Typography>Tarefas:</Typography>
-            <ul className="list-group">
-                {tarefas.map((dados, index) => {
-                    return (
-                        <li key={index} className="list-group-item">
-                            <Stack direction="row" spacing={2}>
-                                {dados.status === 'novo' ? <Hourglass size={20}/> : <Check2Circle size={22} color="green"/>}
-                                <Typography>{dados.texto}</Typography>
-                            </Stack>
-                        </li>
-                    )
-                })}
-            </ul>
+            <CardContainer>
+                <CardTitle title="Tarefas" icon={<ListCheck size={22}/>}/>
+                <CardBody>
+                    <TarefasItems dados={tarefas}/>
+                </CardBody>
+            </CardContainer>
 
             {/*Excluir*/}
             <div className="modal fade mt-6" id="excluirModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

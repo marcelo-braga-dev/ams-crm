@@ -30,11 +30,19 @@ class FerramentasTarefasItens extends Model
         }
     }
 
+    public function mensagens()
+    {
+        return $this->hasMany(FerramentasTarefasMensagens::class, 'tarefa_item_id');
+    }
+
     public function get($id)
     {
         return $this->newQuery()
+            ->with(['mensagens.autor' => function ($query) {
+                $query->select('id', 'name as nome');
+            }])
             ->where('tarefa_id', $id)
-            ->get();
+            ->get()->toArray();
     }
 
     public function alterarStatus($id, $status)
