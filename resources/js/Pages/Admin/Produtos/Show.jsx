@@ -82,7 +82,7 @@ export default function ({produto, infos, estoqueHistorico}) {
                                         <Tab label="Vantagens" {...a11yProps(3)} />
                                         <Tab label="Dúvidas" {...a11yProps(4)} />
                                         <Tab label="Galerias" {...a11yProps(5)} />
-                                        <Tab label="Estoque" {...a11yProps(6)} />
+                                        <Tab label="Histórico de Estoque" {...a11yProps(6)} />
                                     </Tabs>
                                 </Box>
                                 <CustomTabPanel value={value} index={0}>
