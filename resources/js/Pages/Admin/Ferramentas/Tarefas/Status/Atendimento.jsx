@@ -48,7 +48,7 @@ const Page = ({dados, tarefas}) => {
             <CardContainer>
                 <CardTitle title="Tarefas" icon={<ListCheck size={22}/>}/>
                 <CardBody>
-                    <TarefasItems dados={tarefas} alterarStatus/>
+                    <TarefasItems dados={tarefas} alterarStatus criarMensagem/>
                 </CardBody>
             </CardContainer>
 

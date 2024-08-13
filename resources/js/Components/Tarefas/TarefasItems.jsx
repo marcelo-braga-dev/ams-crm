@@ -1,13 +1,13 @@
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import {Stack, Typography} from "@mui/material";
-import {ChatLeft, ChatLeftText, Check2Circle, Hourglass, Person} from "react-bootstrap-icons";
+import {ChatLeft, ChatLeftText, Check2Circle, Hourglass, Person, PlusCircle} from "react-bootstrap-icons";
 import React, {useState} from "react";
 import TextField from "@mui/material/TextField";
 import {router} from "@inertiajs/react";
 import Switch from "@mui/material/Switch";
 
-const TarefasItems = ({dados, alterarStatus}) => {
+const TarefasItems = ({dados, alterarStatus, criarMensagem}) => {
 
     const [mensagemId, setMensagemId] = useState()
     const [mensagem, setMensagem] = useState()
@@ -37,7 +37,7 @@ const TarefasItems = ({dados, alterarStatus}) => {
                         }
                         <Stack spacing={0} style={{width: '100%'}}>
                             <Typography fontWeight="bold">{item.texto}</Typography>
-                            <Typography variant="body2">Previsão de Término: {item.texto}</Typography>
+                            <Typography variant="body2">Previsão de Término: {item.data_final}</Typography>
 
                             {item.mensagens.map(mensagem => (
                                 <div className="row pt-2">
@@ -54,9 +54,14 @@ const TarefasItems = ({dados, alterarStatus}) => {
                                 </div>
                             ))}
 
-                            <Typography className="cursor-pointer" marginTop={2} onClick={() => setMensagemId(item.id)}>+ Mensagem</Typography>
+                            {criarMensagem && <Stack className="cursor-pointer" direction="row" alignItems="center" spacing={1} marginTop={2}
+                                    onClick={() => setMensagemId(item.id)}>
+                                <PlusCircle color="green" size={18}/>
+                                <Typography>Mensagem</Typography>
+                            </Stack>}
+
                             {mensagemId === item.id &&
-                                <div className="row">
+                                <div className="row mt-2">
                                     <div className="col">
                                         <TextField fullWidth onChange={e => setMensagem(e.target.value)}/>
                                     </div>

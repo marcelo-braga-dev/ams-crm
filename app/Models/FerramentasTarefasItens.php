@@ -42,7 +42,11 @@ class FerramentasTarefasItens extends Model
                 $query->select('id', 'name as nome');
             }])
             ->where('tarefa_id', $id)
-            ->get()->toArray();
+            ->get()
+            ->each(function ($item) {
+                $item->data_final = date('d/m/y H:i', strtotime($item->data_final));
+                return $item;
+            });
     }
 
     public function alterarStatus($id, $status)
