@@ -37,7 +37,7 @@ const TarefasItems = ({dados, alterarStatus, criarMensagem}) => {
                         }
                         <Stack spacing={0} style={{width: '100%'}}>
                             <Typography fontWeight="bold">{item.texto}</Typography>
-                            <Typography variant="body2">Previsão de Término: {item.data_final}</Typography>
+                            {item.data_final && <Typography variant="body2">Previsão de Término: {item.data_final}</Typography>}
 
                             {item.mensagens.map(mensagem => (
                                 <div className="row pt-2">

@@ -44,7 +44,7 @@ class FerramentasTarefasItens extends Model
             ->where('tarefa_id', $id)
             ->get()
             ->each(function ($item) {
-                $item->data_final = date('d/m/y H:i', strtotime($item->data_final));
+                $item->data_final = $item->data_final ? date('d/m/y H:i', strtotime($item->data_final)) : null;
                 return $item;
             });
     }
