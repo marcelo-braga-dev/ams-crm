@@ -30,7 +30,7 @@ class DadosImportacaoService
             'porte' => $dado[6] ?? null,
             'atividade_principal' => $dado[7] ?? null,
             'natureza_juridica' => $dado[8] ?? null,
-            'quadro_societario' => $dado[9] ?? null,
+            'quadro_societario' => ($dado[9] ?? null) . (($dado[26] ?? null) ? ( ' & ' . $dado[26]) : '') . (($dado[27] ?? null) ? ( ' & ' . $dado[27]) : '') . (($dado[28] ?? null) ? ( ' & ' . $dado[28]) : ''),
             'data_situacao' => $dado[10] ?? null,
             'data_abertura' => $dado[11] ?? null,
             'endereco' => [
@@ -49,6 +49,7 @@ class DadosImportacaoService
                 $dado[22],
                 $dado[23],
                 $dado[24],
+                $dado[25],
             ],
         ];
     }
