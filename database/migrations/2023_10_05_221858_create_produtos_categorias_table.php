@@ -19,6 +19,10 @@ return new class extends Migration
             $table->string('nome');
             $table->timestamps();
         });
+
+        Schema::table('produtos', function (Blueprint $table) {
+            $table->foreign('categoria_id')->references('id')->on('produtos_categorias');
+        });
     }
 
     /**

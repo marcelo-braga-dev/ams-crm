@@ -23,6 +23,10 @@ return new class extends Migration
             $table->string('anotacoes')->nullable();
             $table->timestamps();
         });
+
+        Schema::table('produtos', function (Blueprint $table) {
+            $table->foreign('fornecedor_id')->references('id')->on('produtos_fornecedores');
+        });
     }
 
     /**

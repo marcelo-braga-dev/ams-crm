@@ -32,9 +32,6 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->foreign('setor_id')->references('id')->on('setores');
-            $table->foreign('fornecedor_id')->references('id')->on('produtos_fornecedores');
-            $table->foreign('categoria_id')->references('id')->on('produtos_categorias');
-            $table->foreign('unidade_id')->references('id')->on('produtos_unidades');
         });
     }
 

@@ -27,9 +27,6 @@ return new class extends Migration {
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->index('user_id');
-
-            $table->index('ano');
-            $table->index('mes');
         });
     }
 
