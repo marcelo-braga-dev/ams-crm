@@ -1,11 +1,10 @@
 import useSound from "use-sound";
-import boopSfx from "../../../../../../assets/sounds/2.wav";
+import boopSfx from "@/../assets/sounds/2.wav";
 import React, {useEffect} from "react";
-import NavMenuToglle from "../../../../../../assets/argon/bootstrap5/js/nav-menu-toglle";
 import Snackbar from "@mui/material/Snackbar";
 import {Alert} from "@mui/material";
 
-export default function RequestNotificacoes({url, urlPageChat, setQtdPedidos, setChatInterno, setQtdLeads, setQtdSac}) {
+export default function ConsultorRequestNotificacoes({url, urlPageChat, setQtdPedidos, setChatInterno, setQtdLeads, setQtdSac}) {
     let qtdNotifiChatInterno;
     const [play] = useSound(boopSfx);
 
@@ -20,16 +19,14 @@ export default function RequestNotificacoes({url, urlPageChat, setQtdPedidos, se
                 play()
             }
             qtdNotifiChatInterno = res.data.chat_interno;
-        }).catch(function () {
         })
-
         setTimeout(function () {
             buscaQtnNotificacoes();
-        }, 10000)
+        }, 60000)
     }
 
     useEffect(() => {
-        NavMenuToglle();
+
         buscaQtnNotificacoes();
     }, []);
 // NOTIFICACAO

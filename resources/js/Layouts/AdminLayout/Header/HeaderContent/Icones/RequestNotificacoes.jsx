@@ -7,6 +7,7 @@ import {Alert} from "@mui/material";
 
 export default function RequestNotificacoes({url, urlPageChat, setQtdPedidos, setChatInterno, setQtdLeads, setQtdSac}) {
     let qtdNotifiChatInterno;
+
     const [play] = useSound(boopSfx);
 
     async function buscaQtnNotificacoes() {

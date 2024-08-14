@@ -29,20 +29,21 @@ class UsersOnlineHistorico extends Model
     {
         $intervalo = date('Y-m-d H:i:s', (strtotime(now()) - 60));
 
-        $items = (new User())->usuarios(false, false);
-
-        $usuarios = [];
-        foreach ($items as $item) {
-            $usuarios[$item['id']] = $item;
-        }
-
         return $this->newQuery()
-            ->where('data', '>=', $intervalo)
-            ->groupBy('user_id')
-            ->orderBy('id')
+            ->leftJoin('users', 'users_online_historicos.user_id', '=', 'users.id')
+            ->leftJoin('setores', 'users.setor_id', '=', 'setores.id')
+            ->where('users_online_historicos.data', '>=', $intervalo)
+            ->groupBy('users_online_historicos.user_id')
+            ->orderBy('users_online_historicos.data')
+            ->select(['users.foto as foto', 'users.name as nome', 'users.id as id', 'setores.nome as setor_nome'])
             ->get()
-            ->transform(function ($item) use ($usuarios) {
-                return array_merge($usuarios[$item->user_id], ['ultimo_login' => date('d/m/y H:i', strtotime($item->data))]);
+            ->transform(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->nome,
+                    'setor_nome' => $item->setor_nome,
+                    'foto' => $item->foto ? asset('storage/' . $item->foto) : null,
+                ];
             });
     }
 
@@ -61,20 +62,18 @@ class UsersOnlineHistorico extends Model
                     'id' => $item->user_id,
                     'nome' => $nomes[$item->user_id] ?? '',
                     'qtd' => $item->qtd,
-                    'min' => ($item->qtd / 2),
-                    'horas' => ($item->qtd / 2) / 60,
+                    'min' => ($item->qtd),
+                    'horas' => ($item->qtd) / 60,
                     'dia' => $item->dia,
                     'mes' => $item->mes,
                 ];
             });
 
-
-        // print_pre($items);
         $res = [];
         foreach ($items as $item) {
             $res[$item['id']][] = $item;
         }
-        // print_pre($res);
+
         return [...$res];
     }
 }

@@ -11,42 +11,33 @@ class MensagensChatInternoService
     {
         $online = $this->online();
         $usuarioAtual = id_usuario_atual();
-        $nomes = (new User())->getNomes();
-        $fotos = (new User())->getFotos();
+        $nomeAvatar = (new User())->getNomesAvatar();
+
         $mensagens = (new ChatInterno())->getDestinatarios($usuarioAtual);
 
         $users = [];
-        $qtnNova = [];
+        $qtnNova2 = [];
 
         foreach ($mensagens as $mensagem) {
             $id = $mensagem->contato_id === $usuarioAtual ? $mensagem->user_id : $mensagem->contato_id;
 
-            if ($mensagem->contato_id === $usuarioAtual && $mensagem->status === 'novo') {
-                $qtnNova[$id][] = 'x';
-            }
+            if ($mensagem->lido == '0' && $mensagem->contato_id == $usuarioAtual) $qtnNova2[$id][] = 1;
 
             $users[$id] = [
                 'ordem' => strtotime($mensagem->created_at),
                 'id' => $id,
-                'nome' => $nomes[$id],
+                'nome' => $nomeAvatar[$id]['nome'],
                 'ultima_mensagem' => $mensagem->mensagem,
                 'file' => !!$mensagem->url,
                 'data_mensagem' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
                 'status' => $mensagem->status,
-                'foto' => $fotos[$id],
+                'foto' => $nomeAvatar[$id]['foto'],
                 'online' => $online[$id] ?? false,
+                'qtd_nova' => ($qtnNova2[$id] ?? null) ? count($qtnNova2[$id]) : 0
             ];
         }
 
-        $dados = array_map(function ($item) use ($qtnNova) {
-            return array_merge($item, ['qtd_nova' => empty($qtnNova[$item['id']]) ? 0 : count($qtnNova[$item['id']])]);
-        }, $users);
-
-        usort($dados, function ($a, $b) {
-            return $b['ordem'] - $a['ordem'];
-        });
-
-        return $dados;
+        return [...$users];
     }
 
     public function chatAlertas()

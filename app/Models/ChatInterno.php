@@ -136,4 +136,12 @@ class ChatInterno extends Model
             ->where('token', $msg->token)
             ->delete();
     }
+
+    public function qtdNovas()
+    {
+        return $this->newQuery()
+            ->where('contato_id', id_usuario_atual())
+            ->where('lido', 0)
+            ->count();
+    }
 }

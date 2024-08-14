@@ -64,6 +64,7 @@ if (!function_exists('converterCNPJ')) {
             $res = substr_replace($res, '.', -11, 0);
             $res = substr_replace($res, '.', -15, 0);
 
+            if ($qtd == 12) $res = '00' . $res;
             if ($qtd == 13) $res = '0' . $res;
 
             return $res;

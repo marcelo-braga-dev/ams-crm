@@ -23,25 +23,25 @@ export default function NotificacoesIcones() {
             setQtdPedidos={setQtdPedidos} setChatInterno={setChatInterno} setQtdLeads={setQtdLeads} setQtdSac={setQtdSac}
         />
 
-        <IconButton disableRipple sx={{color: 'black', mx: 1}} href={route('consultor.notificacoes.sac.index')}>
-            <Badge badgeContent={qtdSac} color="error">
-                <HeadsetMicOutlinedIcon/>
-            </Badge>
-        </IconButton>
+        {/*<IconButton disableRipple sx={{color: 'black', mx: 1}} href={route('consultor.notificacoes.sac.index')}>*/}
+        {/*    <Badge badgeContent={qtdSac} color="error">*/}
+        {/*        <HeadsetMicOutlinedIcon/>*/}
+        {/*    </Badge>*/}
+        {/*</IconButton>*/}
 
-        <IconButton disableRipple sx={{color: 'black', mx: 1}}
-                    href={route('consultor.chat-interno.index')}>
-            <Badge badgeContent={qtdChatInterno} color="error">
-                <ForumOutlinedIcon/>
-            </Badge>
-        </IconButton>
+        {/*<IconButton disableRipple sx={{color: 'black', mx: 1}}*/}
+        {/*            href={route('consultor.chat-interno.index')}>*/}
+        {/*    <Badge badgeContent={qtdChatInterno} color="error">*/}
+        {/*        <ForumOutlinedIcon/>*/}
+        {/*    </Badge>*/}
+        {/*</IconButton>*/}
 
-        <IconButton disableRipple sx={{color: 'black', mx: 1}}
-                    href={route('consultor.notificacoes.leads.index')}>
-            <Badge badgeContent={qtdLeads} color="error">
-                <PeopleAltOutlinedIcon/>
-            </Badge>
-        </IconButton>
+        {/*<IconButton disableRipple sx={{color: 'black', mx: 1}}*/}
+        {/*            href={route('consultor.notificacoes.leads.index')}>*/}
+        {/*    <Badge badgeContent={qtdLeads} color="error">*/}
+        {/*        <PeopleAltOutlinedIcon/>*/}
+        {/*    </Badge>*/}
+        {/*</IconButton>*/}
 
         <IconButton disableRipple sx={{color: 'black', mx: 1}}
                     href={route('consultor.notificacoes.pedidos.index')}>

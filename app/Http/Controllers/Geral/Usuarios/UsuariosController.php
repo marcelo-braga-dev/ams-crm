@@ -14,9 +14,4 @@ class UsuariosController extends Controller
     {
         (new UsersOnlineHistorico())->create();
     }
-
-    public function usuariosOnline()
-    {
-        return response()->json((new UsersOnlineHistorico())->usuariosOnline());
-    }
 }

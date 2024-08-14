@@ -20,7 +20,6 @@ class SacNotificacoesController extends Controller
     public function show()
     {
         // Retorna quantidade de notificoes ativas
-        return ((new Notificacoes())->countNotificacoes());
     }
 
     public function update($id, Request $request)

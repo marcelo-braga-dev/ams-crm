@@ -3,50 +3,25 @@ import Snackbar from '@mui/material/Snackbar';
 import {Alert} from "@mui/material";
 import {usePage} from "@inertiajs/react";
 import {useEffect} from "react";
+import {toast, ToastContainer} from "react-toastify";
 
 export default function ModalsAllerts() {
     const {flash} = usePage().props
 
-    const [state, setState] = React.useState({
-        open: false,
-    });
-
-    const {open, msg, alert} = state;
-
-    const handleClose = () => {
-        setState({...state, open: false});
-    };
-
     if (flash.sucesso) {
-        setState({
-            open: true,
-            msg: flash.sucesso,
-            alert: 'success'
+        toast.success(flash.sucesso, {
+            toastId: flash.sucesso, autoClose: 3000
         });
         flash.sucesso = null
     }
 
     if (flash.erro) {
-        setState({
-            open: true,
-            msg: flash.erro,
-            alert: 'error'
+        toast.error(flash.error, {
+            toastId: flash.error, autoClose: false
         });
         flash.erro = null
     }
 
-    return (
-        <div>
-            <Snackbar
-                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                open={open}
-                onClose={handleClose}
-                autoHideDuration={5000}>
-                <Alert onClose={handleClose} severity={alert} sx={{width: '100%'}}>
-                    {msg}
-                </Alert>
-            </Snackbar>
-        </div>
-    );
+    return <ToastContainer limit={2}/>
 }
 

@@ -8,7 +8,4 @@ Route::name('geral.usuarios.')
     ->group(function () {
         Route::post('set-ultimo-login', [UsuariosController::class, 'setUltimoLogin'])
             ->name('set-ultimo-login');
-
-        Route::post('usuarios-online', [UsuariosController::class, 'usuariosOnline'])
-            ->name('usuarios-online');
     });

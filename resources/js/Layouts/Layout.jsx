@@ -8,6 +8,7 @@ import Content from './Content/Box'
 import ModalsAlerts from "@/Components/Modals/AlertsModals";
 
 import {AuthProvider} from './Contexts/Context';
+import ChatNotificacoes from "@/Components/Alerts/ChatNotificacoes.jsx";
 
 export default function Layout({children, titlePage, voltar, menu, submenu}) {
 
@@ -23,6 +24,7 @@ export default function Layout({children, titlePage, voltar, menu, submenu}) {
             <Head title={titlePage}/>
             <ModalsAlerts/>
             <AuthProvider menu={menu} submenu={submenu} menuToggle={menuToggle} toggleMenu={toggleMenu}>
+                <ChatNotificacoes/>
                 <Header titlePage={titlePage} voltar={voltar}/>
                 <Drawer _toggleMenu={_toggleMenu}/>
 

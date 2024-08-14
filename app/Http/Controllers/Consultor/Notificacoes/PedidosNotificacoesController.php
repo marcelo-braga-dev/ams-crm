@@ -19,8 +19,7 @@ class PedidosNotificacoesController extends Controller
 
     public function show()
     {
-        return response()->json((new Notificacoes())->countNotificacoes())
-            ->header('x-inertia', true);
+
     }
 
     public function update($id, Request $request)

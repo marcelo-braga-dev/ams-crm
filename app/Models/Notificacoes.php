@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\ChatInterno\NotificacoesChatInterno;
-use App\src\Pedidos\Notificacoes\NotificacoesCategorias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -75,38 +73,6 @@ class Notificacoes extends Model
             });
     }
 
-    public function countNotificacoes(): array
-    {
-        $idUsuario = id_usuario_atual();
-
-        $qtdPedidos = $this->newQuery()
-            ->where('user_id', $idUsuario)
-            ->where('categoria', (new NotificacoesCategorias())->pedidos())
-            ->where('notificar', 1)
-            ->count();
-
-        $qtdLeads = $this->newQuery()
-            ->where('user_id', $idUsuario)
-            ->where('categoria', (new NotificacoesCategorias())->leads())
-            ->where('notificar', 1)
-            ->count();
-
-        $qtdSac = $this->newQuery()
-            ->where('user_id', $idUsuario)
-            ->where('categoria', (new NotificacoesCategorias())->sac())
-            ->where('notificar', 1)
-            ->count();
-
-        $qtsChatInterno = (new NotificacoesChatInterno())->qtdNovas();
-
-        return [
-            'pedidos' => $qtdPedidos,
-            'leads' => $qtdLeads,
-            'chat_interno' => $qtsChatInterno,
-            'sac' => $qtdSac
-        ];
-    }
-
     public function alterarAlerta(int $id, $valor)
     {
         $this->newQuery()
@@ -151,5 +117,16 @@ class Notificacoes extends Model
     public function countLeads(int $id)
     {
         return 28;
+    }
+
+    public function count()
+    {
+        // pedidos, leads, sac
+        return $this->newQuery()
+            ->where('user_id', id_usuario_atual())
+            ->where('notificar', 1)
+            ->groupBy('categoria')
+            ->selectRaw('COUNT(id) AS total, categoria')
+            ->pluck('total', 'categoria');
     }
 }

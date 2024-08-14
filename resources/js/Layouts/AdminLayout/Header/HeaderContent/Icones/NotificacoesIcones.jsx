@@ -55,18 +55,6 @@ export default function NotificacoesIcones({corTexto}) {
 
     setUltimoLoginUsuario()
 
-    // Online
-    function getUsuariosOnline() {
-        axios.post(route('geral.usuarios.usuarios-online'))
-            .then(response => {
-                setUsuariosOnline(response.data)
-            })
-
-        setTimeout(function () {
-            getUsuariosOnline();
-        }, 60000)
-    }
-
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handlePopoverOpen = (event) => {
@@ -79,9 +67,7 @@ export default function NotificacoesIcones({corTexto}) {
 
     const open = Boolean(anchorEl);
 
-    useEffect(function () {
-        getUsuariosOnline()
-    }, [])
+
 
     const [anchorEl2, setAnchorEl2] = React.useState(null);
 

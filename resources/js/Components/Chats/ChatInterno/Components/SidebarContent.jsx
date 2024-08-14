@@ -130,7 +130,7 @@ function SidebarContent({chats, infoChatSelecionado, pessoas, setInfoChatSelecio
 
                     <Box sx={{overflow: 'auto', maxHeight: '60vh'}}>
                         {chats.map((dados, index) => {
-                            const selecionado = infoChatSelecionado.id === dados.id
+                            const selecionado = infoChatSelecionado.id == dados.id
                             if (selecionado) infoChatSelecionado.online = dados.online
 
                             return (

@@ -12,14 +12,13 @@ use Inertia\Inertia;
 
 class ChatInternoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $conversas = (new MensagensChatInternoService())->conversas();
         $pessoas = (new UsuariosService())->ativos(id_usuario_atual(), null, true);
-        $setores = [];
+        $chatId = $request->input('chat_id');
 
         return Inertia::render('Consultor/ChatInterno/Index',
-            compact('conversas', 'pessoas', 'setores'));
+            compact('pessoas', 'chatId'));
     }
 
     public function store(Request $request)

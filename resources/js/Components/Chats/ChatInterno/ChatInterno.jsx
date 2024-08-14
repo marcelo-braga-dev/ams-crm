@@ -51,17 +51,17 @@ const DrawerWrapperMobile = styled(Drawer)(() => `
     }
 `);
 
-function ChatInterno({ pessoas, setores, getUrl, urlSubmit, Layout, admin }) {
+function ChatInterno({ pessoas, setores, chatId, getUrl, urlSubmit, Layout, admin }) {
     const [mensagens, setMensagens] = useState([]);
     const [chats, setChats] = useState([]);
     const [qtdAlertas, setQtdAlertas] = useState();
     const [mostrarMensagem, setMostrarMensagem] = useState('MENSAGEM');
     const [infoChatSelecionado, setInfoChatSelecionado] = useState({
-        id: 0,
+        id: chatId,
         nome: '',
         foto: '',
         online: 0,
-        categoria: ''
+        categoria: 'chat'
     });
 
     const theme = useTheme();

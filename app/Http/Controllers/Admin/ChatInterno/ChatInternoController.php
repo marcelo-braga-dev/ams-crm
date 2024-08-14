@@ -13,13 +13,14 @@ use Inertia\Inertia;
 
 class ChatInternoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $pessoas = (new User())->chatInterno();
         $setores = (new Setores())->get();
+        $chatId = $request->input('chat_id');
 
         return Inertia::render('Admin/ChatInterno/Index',
-            compact('pessoas', 'setores'));
+            compact('pessoas', 'setores', 'chatId'));
     }
 
     public function store(Request $request)
