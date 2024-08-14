@@ -201,14 +201,14 @@ class Leads extends Model
 
     private function cadastrarTelefone($id, $telefones): void
     {
-        if ($telefones)
-            foreach ($telefones as $item) {
-                if (!$item) return;
+        foreach ($telefones ?? [] as $item) {
+            if ($item) {
                 $telefone = converterInt(converterTelefone($item));
 
                 $chaves = (new DadosLeads());
                 (new LeadsDados())->create($id, $chaves->chaveTelefone(), $telefone, $chaves->nomeTelefone());
             }
+        }
     }
 
     public function getResumido($setor, $comSdr = null, $comConsultor = null, $importacao = null)
@@ -928,6 +928,8 @@ class Leads extends Model
         $this->newQuery()
             ->where('importacao_id', $id)
             ->delete();
+
+        (new LeadsImportarHistoricos())->newQuery()->find($id)->delete();
     }
 
     public function inativar($id)

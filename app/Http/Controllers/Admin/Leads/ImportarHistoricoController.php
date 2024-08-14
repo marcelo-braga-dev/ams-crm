@@ -34,6 +34,6 @@ class ImportarHistoricoController extends Controller
         (new Leads)->removerImportacao($id);
 
         modalSucesso('Leads deletados com sucesso!');
-        return redirect()->back();
+        return redirect()->route('admin.clientes.leads.importar.index');
     }
 }
