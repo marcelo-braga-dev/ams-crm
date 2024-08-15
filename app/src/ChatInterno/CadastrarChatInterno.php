@@ -13,7 +13,7 @@ class CadastrarChatInterno
 {
     public function salvar($dados)
     {
-//        event(new ChatInternoNovaMensagemRecebida($dados->destinatario, $dados->mensagem));
+        event(new ChatInternoNovaMensagemRecebida($dados->destinatario, $dados->mensagem));
 
         $dadosAnexo = (new Images())->armazenarComMime($dados, 'anexo', 'chat-interno');
 
