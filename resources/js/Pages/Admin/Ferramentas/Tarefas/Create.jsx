@@ -104,19 +104,21 @@ const Page = ({usuarios, usuarioAtual}) => {
                         <div className="row row-cols-4">
                             {usuarios.map(item => (
                                 <div className="col">
-                                    <CardContainer>
-                                        <CardBody>
-                                            <Stack direction="row" spacing={1} alignItems="center">
-                                                <CheckboxSelected id={item.id} setSelected={setUsuariosSelecionados} checkeds={usuariosSelecionados}/>
+                                    {/*<CardContainer>*/}
+                                    {/*    <CardBody>*/}
+                                    <div className="border m-1 border-radius-xs">
+                                        <Stack direction="row" spacing={1} alignItems="center">
+                                            <CheckboxSelected id={item.id} setSelected={setUsuariosSelecionados} checkeds={usuariosSelecionados}/>
 
-                                                <Avatar src={item.foto}/>
-                                                <Stack spacing={0}>
-                                                    <Typography fontWeight="bold">{item.nome}</Typography>
-                                                    <Typography variant="body2">{item.setor_nome}</Typography>
-                                                </Stack>
+                                            <Avatar src={item.foto} style={{width: 30, height: 30}}/>
+                                            <Stack spacing={0}>
+                                                <Typography fontWeight="bold">{item.nome}</Typography>
+                                                <Typography variant="body2">{item.setor_nome}</Typography>
                                             </Stack>
-                                        </CardBody>
-                                    </CardContainer>
+                                        </Stack>
+                                    </div>
+                                    {/*    </CardBody>*/}
+                                    {/*</CardContainer>*/}
                                 </div>
                             ))}
                         </div>
