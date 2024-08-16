@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Services\Images;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Inertia\Inertia;
 
 class PlataformasDados extends Model
 {

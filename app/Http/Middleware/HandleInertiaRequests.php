@@ -7,6 +7,7 @@ use App\Models\PlataformasDados;
 use App\Models\Setores;
 use App\Models\UsersPermissoes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -54,7 +55,7 @@ class HandleInertiaRequests extends Middleware
             'card_bgcolor' => $settings->card_bgcolor ?? null,
         ]];
 
-//        Config::set('app.name', $settings->app_name);
+        Config::set('app.name', $settings->app_name);
 
         if ($auth) {
             $setorUsuario = (new Setores())->find($auth['setor_id']);
