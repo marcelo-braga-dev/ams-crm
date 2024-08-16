@@ -45,7 +45,7 @@ class HandleInertiaRequests extends Middleware
         $appSettings = ['app_settings' => [
             'app_name' => $settings->app_name ?? 'x',
             'logo' => ($settings->logo ?? null) ? url_arquivos($settings->logo) : null,
-            'favicon' => $settings->favicon ? url_arquivos($settings->favicon) : null,
+            'favicon' => ($settings->favicon ?? null) ? url_arquivos($settings->favicon) : null,
             'bg_color' => $settings->bg_color ?? null,
             'primary_color' => $settings->primary_color ?? null,
             'secundary_color' => $settings->secundary_color ?? null,
