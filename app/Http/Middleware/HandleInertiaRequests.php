@@ -51,6 +51,7 @@ class HandleInertiaRequests extends Middleware
             'secundary_color' => $settings->secundary_color ?? null,
             'header_bgcolor' => $settings->header_bgcolor ?? null,
             'navbar_bgcolor' => $settings->nav_bgcolor ?? null,
+            'card_bgcolor' => $settings->card_bgcolor ?? null,
         ]];
 
 //        Config::set('app.name', $settings->app_name);

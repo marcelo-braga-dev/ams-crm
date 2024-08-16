@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('secundary_color', 32)->default('#000')->nullable();
             $table->string('header_bgcolor', 32)->default('#ffffff')->nullable();
             $table->string('nav_bgcolor', 32)->default('#ffffff')->nullable();
+            $table->string('card_bgcolor', 32)->default('#ffffff')->nullable();
             $table->timestamps();
         });
     }

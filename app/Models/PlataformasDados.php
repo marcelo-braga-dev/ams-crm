@@ -20,6 +20,7 @@ class PlataformasDados extends Model
         'secundary_color',
         'header_bgcolor',
         'nav_bgcolor',
+        'card_bgcolor',
     ];
 
     public function atualizar($dados)
@@ -44,7 +45,6 @@ class PlataformasDados extends Model
                 ]);
         }
 
-
         $this->newQuery()
             ->updateOrCreate(
                 ['id' => 1], [
@@ -54,12 +54,12 @@ class PlataformasDados extends Model
                 'secundary_color' => $dados->secundary_color,
                 'header_bgcolor' => $dados->header_bgcolor,
                 'nav_bgcolor' => $dados->nav_bgcolor,
+                'card_bgcolor' => $dados->card_bgcolor,
             ]);
     }
 
     public function get()
     {
-        return $this->newQuery()
-            ->get();
+        return $this->newQuery()->first();
     }
 }
