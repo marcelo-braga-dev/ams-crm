@@ -1,11 +1,7 @@
 import './bootstrap';
 
-import "../argon/vendor/@fortawesome/fontawesome-free/css/all.min.css";
+// import "../argon/vendor/@fortawesome/fontawesome-free/css/all.min.css";
 
-// Nucleo Icons
-// import '../assets/argon/bootstrap5/css/nucleo-icons.css';
-// import '../assets/argon/bootstrap5/css/nucleo-svg.css';
-// import '../assets/argon/bootstrap5/css/nucleo-icons.css';
 import '../assets/argon/bootstrap5/css/argon-dashboard.css';
 
 import '../css/style.css';
