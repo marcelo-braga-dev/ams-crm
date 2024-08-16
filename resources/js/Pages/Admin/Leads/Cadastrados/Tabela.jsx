@@ -30,7 +30,11 @@ export default function Tabela({
             estado: items.cliente.estado,
             pedido_emitido: items.infos.pedido_emitido,
             data_encaminhado: items.infos.encaminhado_data,
-            setor: items.infos.setor
+            setor: items.infos.setor,
+            classificacao: items.cliente.classificacao,
+            status_periodo: items.infos.status_periodo,
+            pedido_data: items.infos.pedido_data,
+            pedido_periodo: items.infos.pedido_periodo,
         }
     });
 
@@ -96,6 +100,7 @@ export default function Tabela({
                                 {(item.nome !== item.razao_social) && <Typography variant="body2">{item.razao_social}</Typography>}
                                 <Stack direction="row" spacing={2} className="mb-2">
                                     <Typography variant="body2">#{item.id}</Typography>
+                                    <Typography variant="body2">{item.classificacao}</Typography>
                                     <Typography variant="body2">Cadastrado: {item.data_criacao}</Typography>
                                     <Typography variant="body2">Setor: {item.setor}</Typography>
                                 </Stack>
@@ -115,8 +120,9 @@ export default function Tabela({
                             </td>
                             <td style={{width: '15%'}}>
                                 <Chip className="mb-3" label={item.status_nome.nome} sx={{bgcolor: item.status_nome.cor, color: '#fff'}} size="small"/>
-                                {!!item.status_data && <Typography variant="body2">Status: {item.status_data}</Typography>}
+                                {!!item.status_data && <Typography variant="body2">Status: {item.status_data} há {item.status_periodo} dias</Typography>}
                                 {!!item.data_encaminhado && <Typography variant="body2">Encaminhado: {item.data_encaminhado}</Typography>}
+                                {!!item.pedido_data && <Typography variant="body2">Último Pedido: {item.pedido_data} há {item.pedido_periodo}</Typography>}
                             </td>
                             <td style={{width: '5%'}} className="text-center">
                                 <a href={route('admin.clientes.leads.leads-main.show', item.id)}><Eye size={20}/></a>

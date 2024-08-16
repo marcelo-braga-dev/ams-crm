@@ -12,6 +12,7 @@ use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\StatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
+use DateTime;
 use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -567,9 +568,10 @@ class Leads extends Model
             ->orderByDesc('pin')
             ->orderByDesc('pedido_dias')
             ->orderByDesc('status_data')
-            ->get(['leads.id', 'status', 'leads.user_id', 'sdr_id', 'nome', 'razao_social', 'cnpj', 'cnpj', 'telefone', 'status_data',
+            ->get(['leads.id', 'status', 'leads.user_id', 'sdr_id', 'nome', 'razao_social', 'cnpj', 'cnpj', 'telefone', 'status_data', 'classificacao',
                 DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin'),
-                DB::raw('DATEDIFF(CURDATE(), leads.ultimo_pedido_data) as pedido_dias')])
+                DB::raw('DATEDIFF(CURDATE(), leads.ultimo_pedido_data) as pedido_dias'),
+                DB::raw('DATEDIFF(CURDATE(), leads.status_data) as status_dias')])
             ->transform(function ($item) use ($nomes) {
                 return [
                     'pin' => !!$item->pin,
@@ -582,6 +584,7 @@ class Leads extends Model
                         'cnpj' => converterCNPJ($item->cnpj),
                         'cidade' => $item->cidade,
                         'estado' => $item->estado,
+                        'classificacao' => $item->classificacao,
                     ],
                     'contato' => [
                         'email' => $item->email,
@@ -589,7 +592,8 @@ class Leads extends Model
                     ],
                     'infos' => [
                         'status_data' => date('d/m/y H:i', strtotime($item->status_data)),
-                        'pedido_dias' => $item->pedido_dias
+                        'pedido_dias' => $item->pedido_dias,
+                        'status_dias' => $item->status_dias,
                     ],
                 ];
             });
@@ -822,6 +826,7 @@ class Leads extends Model
         if ($filtros['consultor'] ?? null) $query->whereNull('user_id');
         if ($filtros['importacao'] ?? null) $query->where('importacao_id', $filtros['importacao']);
         if ($filtros['status'] ?? null) $query->where('status', $filtros['status']);
+        if ($filtros['classificacao'] ?? null) $query->where('classificacao', $filtros['classificacao']);
         if ($filtros['leads'] ?? null) {
             if ($filtros['leads'] == 'novos') $query->whereNull('data_encaminhado');
             if ($filtros['leads'] == 'atendidos') $query->whereNotNull('data_encaminhado');
@@ -864,11 +869,21 @@ class Leads extends Model
                     'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
                     'pedido_emitido' => $item->pedido_emitido,
                     'encaminhado_data' => $item->data_encaminhado ? date('d/m/y H:i', strtotime($item->data_encaminhado)) : null,
+                    'status_periodo' => $this->difData($item->status_data),
+                    'pedido_data' => $item->ultimo_pedido_data ? date('d/m/y H:i', strtotime($item->ultimo_pedido_data)): null,
+                    'pedido_periodo' => $this->difData($item->ultimo_pedido_data)
                 ]
             ];
         });
 
         return ['dados' => $dados, 'paginate' => ['current' => $items->currentPage(), 'last_page' => $items->lastPage(), 'total' => $items->total()]];
+    }
+
+    private function difData($data)
+    {
+        $dataInicio = new DateTime($data);
+        $dataAtual = new DateTime();
+        return $dataInicio->diff($dataAtual)->days;
     }
 
     public function limparStatus(int $id, string $status)

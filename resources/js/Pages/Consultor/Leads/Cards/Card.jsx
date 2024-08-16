@@ -8,6 +8,8 @@ import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin';
+import {ArrowUpShort} from "react-bootstrap-icons";
+import {Typography} from "@mui/material";
 
 export default function CardLeads({dados, btn}) {
     const [pin, setPin] = useState(dados.pin)
@@ -24,7 +26,7 @@ export default function CardLeads({dados, btn}) {
                         <PersonIcon sx={{fontSize: 22}}/>
                     </div>
                     <div className="col-9 text-dark text-truncate m-0">
-                        <b>{dados.cliente.nome.toUpperCase()}</b>
+                        {dados.cliente.classificacao} <b>{dados.cliente.nome.toUpperCase()}</b>
                     </div>
                     <div className="col-auto p-0 m-0 cursor-pointer">
                         {pin ?
@@ -38,7 +40,18 @@ export default function CardLeads({dados, btn}) {
                             }}/>}
                     </div>
                 </div>
-                {dados.cliente.classificacao && <><small>Classificação: </small>{dados.cliente.classificacao}</>}
+
+                {/*Status Periodo*/}
+                {dados.infos.status_dias &&
+                    <div className="row">
+                        <div className="col-1 text-center">
+                            <ArrowUpShort size="25"/>
+                        </div>
+                        <div className="col-10 text-dark text-truncate">
+                            <Typography variant="body1">{dados.infos.status_data} há {dados.infos.status_dias}</Typography>
+                        </div>
+                    </div>
+                }
 
                 {/*VENDEDOR*/}
                 {dados.consultor &&

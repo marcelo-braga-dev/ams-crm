@@ -22,7 +22,8 @@ const FilterSection = ({
                            carregando,
                            setComSdr,
                            setComConsultor,
-                           setFiltroLeads
+                           setFiltroLeads,
+                           setFiltroClassificacao
                        }) => (<>
         <div className="row justify-content-between">
             <div className="col-md-2">
@@ -59,7 +60,7 @@ const FilterSection = ({
                     <MenuItem value="ativados">Ativados</MenuItem>
                 </TextField>
             </div>
-            <div className="col-md-4">
+            <div className="col-md-3">
                 <Stack direction="row">
                     <TextField label="Filtro" select defaultValue="id" size="small" fullWidth sx={{width: '10rem'}}
                                onChange={event => setFiltro(event.target.value)}>
@@ -73,6 +74,16 @@ const FilterSection = ({
                     <TextField placeholder="Pesquisar..." fullWidth
                                onChange={e => setFiltroValor(e.target.value)} size="small"/>
                 </Stack>
+            </div>
+            <div className="col-auto">
+                <TextField select size="small" style={{width: 60}} onChange={event => setFiltroClassificacao(event.target.value)}>
+                    <MenuItem value="" style={{height: 30}}></MenuItem>
+                    <MenuItem value="😁">😁</MenuItem>
+                    <MenuItem value="🙂">🙂</MenuItem>
+                    <MenuItem value="😐">😐</MenuItem>
+                    <MenuItem value="☹️">☹️</MenuItem>
+                    <MenuItem value="❌">❌</MenuItem>
+                </TextField>
             </div>
         </div>
         <div className="row justify-content-between">
@@ -114,6 +125,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
     const [filtroSdr, setFiltroSdr] = useState(false);
     const [filtroConsultor, setFiltroConsultor] = useState(false);
     const [filtroLeads, setFiltroLeads] = useState(false);
+    const [filtroClassificacao, setFiltroClassificacao] = useState(false);
     const [filtroOrdenar, setFiltroFiltroOrdenar] = useState('');
     const [filtroOrdenarBy, setFiltroFiltroOrdenarBy] = useState('');
     const [filtroQtdPagina, setFiltroQtdPagina] = useState(50);
@@ -134,6 +146,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                 ordenar: filtroOrdenar,
                 ordenar_by: filtroOrdenarBy,
                 page_qtd: filtroQtdPagina,
+                classificacao: filtroClassificacao
             },
         })).then(res => {
             setLeads(res.data.leads.dados);
@@ -149,7 +162,8 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
     useEffect(() => {
         setPaginate(1)
         getLeads()
-    }, [filtroSetor, filtroImportacao, filtroStatus, filtroSdr, filtroConsultor, enviarLead, filtroValor, filtroLeads, filtroOrdenar, filtroOrdenarBy, filtroQtdPagina]);
+    }, [filtroSetor, filtroImportacao, filtroStatus, filtroSdr, filtroConsultor, enviarLead, filtroValor,
+        filtroLeads, filtroOrdenar, filtroOrdenarBy, filtroQtdPagina, filtroClassificacao]);
 
     useEffect(() => {
         if (isFirstRender.current) {
@@ -237,6 +251,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                         setComSdr={setFiltroSdr}
                         setComConsultor={setFiltroConsultor}
                         setFiltroLeads={setFiltroLeads}
+                        setFiltroClassificacao={setFiltroClassificacao}
                     />
                 </CardBody>
             </CardContainer>

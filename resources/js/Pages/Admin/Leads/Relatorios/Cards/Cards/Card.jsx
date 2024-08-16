@@ -3,7 +3,7 @@ import PinDropIcon from '@mui/icons-material/PinDrop';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EmailIcon from '@mui/icons-material/Email';
 import Checkbox from '@mui/material/Checkbox';
-import {CardList, Headset, Pen, PersonFill, PinAngle, PinAngleFill, Telephone} from "react-bootstrap-icons";
+import {ArrowUpShort, CardList, Headset, Pen, PersonFill, PinAngle, PinAngleFill, Telephone} from "react-bootstrap-icons";
 import {Typography} from "@mui/material";
 
 export default function CardLeads({dados, btn, leadsSelecionados}) {
@@ -39,11 +39,9 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                         <PersonFill size="18"/>
                     </div>
                     <div className="col-9 text-dark text-truncate">
-                        <Typography variant="body1" fontWeight="bold">{dados.cliente.nome.toUpperCase()}</Typography>
+                        {dados.cliente.classificacao} <Typography variant="body1" fontWeight="bold">{dados.cliente.nome.toUpperCase()}</Typography>
                     </div>
                 </div>
-
-                {dados.cliente.classificacao && <><small>Classificação: </small>{dados.cliente.classificacao}</>}
 
                 <div className="row border-bottom mb-2">
                     {/*VENDEDOR*/}
@@ -70,6 +68,18 @@ export default function CardLeads({dados, btn, leadsSelecionados}) {
                         </div>
                     }
                 </div>
+
+                {/*Status Periodo*/}
+                {dados.infos.status_dias &&
+                    <div className="row">
+                        <div className="col-1 text-center">
+                            <ArrowUpShort size="25"/>
+                        </div>
+                        <div className="col-10 text-dark text-truncate">
+                            <Typography variant="body1">{dados.infos.status_data} há {dados.infos.status_dias}</Typography>
+                        </div>
+                    </div>
+                }
 
                 {/*CNPJ*/}
                 {dados.cliente.cnpj &&
