@@ -14,6 +14,7 @@ class DadosImportacaoService
                 throw new \DomainException('Falha na leitura do arquivo!');
             }
         }
+
         return $items;
     }
 
@@ -21,36 +22,39 @@ class DadosImportacaoService
     {
         return [
             'cnpj' => $dado[0] ?? null,
-            'razao_social' => $dado[1] ?? null,
-            'nome' => $dado[2] ?? null,
-            'inscricao_estadual' => $dado[3] ?? null,
-
-            'capital_social' => $dado[4] ?? null,
-            'tipo' => $dado[5] ?? null,
-            'porte' => $dado[6] ?? null,
-            'atividade_principal' => $dado[7] ?? null,
-            'natureza_juridica' => $dado[8] ?? null,
-            'quadro_societario' => ($dado[9] ?? null) . (($dado[26] ?? null) ? ( ' & ' . $dado[26]) : '') . (($dado[27] ?? null) ? ( ' & ' . $dado[27]) : '') . (($dado[28] ?? null) ? ( ' & ' . $dado[28]) : ''),
-            'data_situacao' => $dado[10] ?? null,
-            'data_abertura' => $dado[11] ?? null,
+            'tipo' => $dado[1] ?? null,
+            'razao_social' => $dado[2] ?? null,
+            'nome' => $dado[3] ?? null,
+            'data_abertura' => $dado[4] ?? null,
+            'natureza_juridica' => $dado[5] ?? null,
+            'data_situacao' => $dado[6] ?? null,
+            'atividade_principal' => $dado[8] ?? null,
+            'porte' => $dado[12] ?? null,
+            'email' => $dado[13] ?? null,
             'endereco' => [
-                'rua' => $dado[12] ?? null,
-                'numero' => $dado[13] ?? null,
-                'complemento' => $dado[14] ?? null,
-                'bairro' => $dado[15] ?? null,
-                'cidade' => $dado[16] ?? null,
-                'estado' => $dado[17] ?? null,
-                'cep' => $dado[18] ?? null,
+                'rua' => $dado[16] ?? null,
+                'numero' => $dado[17] ?? null,
+                'complemento' => $dado[18] ?? null,
+                'bairro' => $dado[19] ?? null,
+                'cidade' => $dado[20] ?? null,
+                'estado' => $dado[21] ?? null,
+                'cep' => $dado[22] ?? null,
             ],
-            'email' => $dado[19] ?? null,
             'telefones' => [
-                $dado[20],
-                $dado[21],
-                $dado[22],
-                $dado[23],
-                $dado[24],
-                $dado[25],
+                $dado[27] ?? null,//cel
+                $dado[28] ?? null,
+                $dado[23] ?? null,
+                $dado[24] ?? null,
+                $dado[25] ?? null,
+                $dado[26] ?? null,
             ],
+            'quadro_societario' => (($dado[30] ?? null) . ' ' . ($dado[29] ?? null)) .
+                (($dado[32] ?? null) ? (' & ' . $dado[32] . ' ' . ($dado[31] ?? null)) : '') .
+                (($dado[34] ?? null) ? (' & ' . $dado[34] . ' ' . ($dado[33] ?? null)) : '') .
+                (($dado[36] ?? null) ? (' & ' . $dado[36] . ' ' . ($dado[35] ?? null)) : ''),
+//            'inscricao_estadual' => $dado[3] ?? null,
+
+//            'capital_social' => $dado[4] ?? null,
         ];
     }
 }
