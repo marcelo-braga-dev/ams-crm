@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Alert} from "@mui/material";
 import Snackbar from "@mui/material/Snackbar";
-import NavMenuToglle from "../../../assets/argon/bootstrap5/js/nav-menu-toglle";
+
 
 import useSound from 'use-sound';
 import boopSfx from '../../../assets/sounds/2.wav';
@@ -32,7 +32,6 @@ export default function NotificacoesNav({url, urlPageChat, setQtdPedidos, setCha
     }
 
     useEffect(() => {
-        NavMenuToglle();
         buscaQtnNotificacoes();
     }, []);
 // NOTIFICACAO
