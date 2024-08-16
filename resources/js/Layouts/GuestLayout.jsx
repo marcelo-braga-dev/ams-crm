@@ -9,7 +9,6 @@ export default function Guest({ children }) {
             <div className="p-3 pt-6 text-center">
                 <Link href="/">
                     <img src={app_settings.logo} style={{maxWidth: 200}}></img>
-                    {/*<ApplicationLogo className="w-20 h-20 fill-current text-gray-500"/>*/}
                 </Link>
             </div>
 

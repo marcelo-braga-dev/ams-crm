@@ -5,9 +5,16 @@ export default function TextField(theme) {
         MuiTextField: {
             styleOverrides: {
                 root: {
-                    color: theme.palette.secondary[700],
-                }
-            }
-        }
+                    backgroundColor: '#FFFFFF',
+                    borderRadius: '4px',
+                    '& .MuiInputBase-root': {
+                        backgroundColor: '#FFFFFF',
+                    },
+                    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#FFFFFF',
+                    },
+                },
+            },
+        },
     };
 }
