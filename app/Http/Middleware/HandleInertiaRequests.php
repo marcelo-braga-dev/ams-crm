@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Franquias;
+use App\Models\PlataformasDados;
 use App\Models\Setores;
 use App\Models\UsersPermissoes;
 use Illuminate\Http\Request;
@@ -40,6 +41,20 @@ class HandleInertiaRequests extends Middleware
         $permissoes = [];
         $auth = $request->user();
 
+        $settings = PlataformasDados::first();
+        $appSettings = ['app_settings' => [
+            'app_name' => $settings->app_name ?? 'x',
+            'logo' => $settings->logo ? url_arquivos($settings->logo) : null,
+            'favicon' => $settings->favicon ? url_arquivos($settings->favicon) : null,
+            'bg_color' => $settings->bg_color ?? null,
+            'primary_color' => $settings->primary_color ?? null,
+            'secundary_color' => $settings->secundary_color ?? null,
+            'header_bgcolor' => $settings->header_bgcolor ?? null,
+            'navbar_bgcolor' => $settings->nav_bgcolor ?? null,
+        ]];
+
+//        Config::set('app.name', $settings->app_name);
+
         if ($auth) {
             $setorUsuario = (new Setores())->find($auth['setor_id']);
             $setorNome = $setorUsuario->nome ?? '';
@@ -48,17 +63,12 @@ class HandleInertiaRequests extends Middleware
             $permissoes = (new UsersPermissoes())->permissoes($auth['id']);
         }
 
-//        return array_merge(parent::share($request), [
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $auth,
             ],
-//            'ziggy' => function () use ($request) {
-//                return array_merge((new Ziggy)->toArray(), [
-//                    'location' => $request->url(),
-//                ]);
-//            },
+            ...$appSettings,
             'flash' => [
                 'sucesso' => session('sucesso'),
                 'erro' => session('erro'),

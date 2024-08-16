@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Config\PlataformaController;
 use App\Http\Controllers\Admin\Config\SetoresController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,6 +10,7 @@ Route::middleware(['auth', 'auth.admins'])
     ->prefix('admin')
     ->group(function () {
         Route::resources([
-            'categorias' => SetoresController::class
+            'categorias' => SetoresController::class,
+            'plataforma' => PlataformaController::class
         ]);
     });

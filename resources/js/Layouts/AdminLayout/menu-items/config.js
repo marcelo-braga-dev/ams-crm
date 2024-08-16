@@ -26,14 +26,14 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.config.categorias.index'),
                 },
-                // {
-                //     id: 'config-leads',
-                //     chave: chaves.config.leads,
-                //     title: 'Leads',
-                //     type: 'item',
-                //     admin: true,
-                //     url: route('admin.clientes.leads.status.index'),
-                // },
+                {
+                    id: 'config-plataforma',
+                    chave: chaves.config.plataforma,
+                    title: 'Plataforma',
+                    type: 'item',
+                    admin: true,
+                    url: route('admin.config.plataforma.index'),
+                },
             ]
         }
     ]

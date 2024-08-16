@@ -18,13 +18,17 @@ import {Link} from "@inertiajs/react";
 import {drawerMinWidth} from '@/Themes/config.js';
 
 const Header = ({titlePage, voltar}) => {
-    const {toggleMenu, menuToggle} = useContext(AuthProvider);
+    const {toggleMenu, menuToggle, app_settings} = useContext(AuthProvider);
 
     const theme = useTheme();
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
 
+    const handleVoltar = () => {
+        window.history.back();
+    };
+
     const mainHeader = (
-        <Toolbar style={{borderBottom: '1px solid #f4f4f4', paddingLeft: (!toggleMenu && (drawerMinWidth + 7))}}>
+        <Toolbar style={{borderBottom: '1px solid #f4f4f4', paddingLeft: (!toggleMenu && (drawerMinWidth + 7)), backgroundColor: app_settings.header_bgcolor}}>
             <Stack direction="row" spacing={1}>
                 <IconButton disableRipple edge="start" onClick={() => {
                     menuToggle(!toggleMenu)

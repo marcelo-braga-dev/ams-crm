@@ -7,6 +7,7 @@ import menuItemsColsultor from '@/Layouts/Menus/Consultor'
 const AuthContext = createContext();
 
 export const AuthProvider = ({children, menu, submenu, menuToggle, toggleMenu}) => {
+    const {app_settings} = usePage().props;
     const userTipo = usePage().props.auth.user.tipo
     const permissoes = usePage().props._permissoesUsuario
 
@@ -15,8 +16,10 @@ export const AuthProvider = ({children, menu, submenu, menuToggle, toggleMenu}) 
     if (userTipo === 'integrador') menuItems = menuItemsIntegrador
     const [menuAberto, setMenu] = useState(menu);
 
+    const variaveis = {menu, menuAberto, setMenu, submenu, userTipo, permissoes, menuToggle, toggleMenu, menuItems, funcaoUsuario, app_settings}
+
     return (
-        <AuthContext.Provider value={{menu, menuAberto, setMenu, submenu, userTipo, permissoes, menuToggle, toggleMenu, menuItems, funcaoUsuario}}>
+        <AuthContext.Provider value={variaveis}>
             {children}
         </AuthContext.Provider>
     );

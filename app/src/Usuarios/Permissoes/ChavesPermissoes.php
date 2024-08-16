@@ -278,6 +278,7 @@ class ChavesPermissoes
     {
         return '55';
     }
+
     public function chaveProdutosIntegracoes()
     {
         return '56';
@@ -301,5 +302,10 @@ class ChavesPermissoes
     public function chavePedidosFretes()
     {
         return '60';
+    }
+
+    public function chaveConfiguracoesPlataforma()
+    {
+        return '61';
     }
 }

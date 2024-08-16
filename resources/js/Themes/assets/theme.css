@@ -1,0 +1,34 @@
+:root {
+    --main-color: #3d3d3d;
+    --main-text-color: #fff;
+    --secundary-color: #11ff00;
+
+    --text-main-color: #de741b;
+    --text-secundary-color: #232323;
+
+    --menu-main-color: #4f4e4e;
+    --menu-main-color-hover: #000000;
+    /*--menu-main-bg: '';*/
+    --menu-main-bg-hover: rgb(56, 56, 56, 0.05);
+    --menu-secundary-color: #262626;
+    /*--menu-secundary-color-hover: #e80808;*/
+    --menu-secundary-bg: rgba(59, 59, 59, 0.1);
+    --menu-secundary-bg-hover: rgba(37, 54, 238, 0.31);
+
+    --btn-primary-bg: #424242;
+    --btn-primary-color: #ffffff;
+    --btn-primary-bg-hover: #282828;
+    --btn-primary-color-hover: #ffffff;
+}
+
+.modal-primary {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    box-shadow: 5px 5px 20px black;
+    border-radius: 5px;
+    padding: 20px;
+}

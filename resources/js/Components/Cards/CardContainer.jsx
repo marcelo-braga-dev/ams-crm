@@ -5,6 +5,7 @@ const Card = styled.div`
     border-radius: 10px;
     overflow-wrap: break-word;
     margin-bottom: 2rem;
+    background-color: #ffffff;
 `
 
 export default function CardContainer({children, className}) {

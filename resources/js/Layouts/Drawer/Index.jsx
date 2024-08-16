@@ -9,8 +9,8 @@ import AuthProvider from '@/Layouts/Contexts/Context'
 
 const MainDrawer = ({window, _toggleMenu}) => {
     const theme = useTheme();
-    const {toggleMenu, menuToggle} = useContext(AuthProvider);
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
+    const {toggleMenu, menuToggle, app_settings} = useContext(AuthProvider);
     const container = window !== undefined ? () => window().document.body : undefined;
 
     // header content
@@ -28,7 +28,7 @@ const MainDrawer = ({window, _toggleMenu}) => {
     };
 
     const handleMouseLeave = () => {
-        if(!_toggleMenu) return;
+        if (!_toggleMenu) return;
         clearTimeout(timeoutId);  // Limpa qualquer timeout anterior
         const id = setTimeout(() => {
             menuToggle(false);
@@ -37,12 +37,12 @@ const MainDrawer = ({window, _toggleMenu}) => {
     };
 
     return (
-        <Box component="nav" sx={{flexShrink: {md: 0}, zIndex: 1300}}
+        <Box component="nav" sx={{flexShrink: {md: 0}, zIndex: 1300,}}
              onMouseEnter={handleMouseEnter}
              onMouseLeave={handleMouseLeave}
         >
             {!matchDownMD ? (
-                <MiniDrawerStyled variant="permanent" open={toggleMenu}>
+                <MiniDrawerStyled variant="permanent" open={toggleMenu} settings={app_settings}>
                     {drawerHeader}
                     {drawerContent}
                 </MiniDrawerStyled>

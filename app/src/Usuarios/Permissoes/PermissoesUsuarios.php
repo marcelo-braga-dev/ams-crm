@@ -107,6 +107,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveConfiguracoesFornecedores(), 'nome' => 'Fornecedores'],
                     ['id' => $this->chaveConfiguracoesSetores(), 'nome' => 'Setores'],
                     ['id' => $this->chaveConfiguracoesLeads(), 'nome' => 'Leads'],
+                    ['id' => $this->chaveConfiguracoesPlataforma(), 'nome' => 'Plataforma'],
                 ]
             ], [
                 'categoria' => 'Desenvolvimento',

@@ -31,6 +31,7 @@ const chavesPermissoes = {
         fornecedores: 24,
         setores: 25,
         leads: 26,
+        plataforma: 61
     },
     dev: {chamados: 27},
 }

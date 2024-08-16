@@ -17,8 +17,4 @@ export default function AdminNotificacoesRequest({url, setNotificacoes}) {
     useEffect(() => {
         setTimeout(() => buscaQtnNotificacoes(), 500);
     }, []);
-
-    // const handleVoltar = () => {
-    //     window.history.back();
-    // };
 }

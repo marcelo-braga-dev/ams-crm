@@ -6,7 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 import EmailIcon from '@mui/icons-material/Email';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-import JoditEditor from "jodit-react";
+// import JoditEditor from "jodit-react";
 import React, {useState, useRef} from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
@@ -78,14 +78,14 @@ export default function Create({email, emailUsuario}) {
                 </div>
             </form>
 
-            <JoditEditor
-                ref={editor}
-                value={data.mensagem}
-                config={config}
-                onBlur={(newContent) => setData('mensagem', newContent)}
-                onChange={(newContent) => {
-                }}
-            />
+            {/*<JoditEditor*/}
+            {/*    ref={editor}*/}
+            {/*    value={data.mensagem}*/}
+            {/*    config={config}*/}
+            {/*    onBlur={(newContent) => setData('mensagem', newContent)}*/}
+            {/*    onChange={(newContent) => {*/}
+            {/*    }}*/}
+            {/*/>*/}
 
             {email?.id &&
                 <div className="mt-4"><h6>Mensagens Anteriores</h6></div>
