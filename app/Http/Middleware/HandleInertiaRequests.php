@@ -44,7 +44,7 @@ class HandleInertiaRequests extends Middleware
         $settings = PlataformasDados::first();
         $appSettings = ['app_settings' => [
             'app_name' => $settings->app_name ?? 'x',
-            'logo' => $settings->logo ? url_arquivos($settings->logo) : null,
+            'logo' => ($settings->logo ?? null) ? url_arquivos($settings->logo) : null,
             'favicon' => $settings->favicon ? url_arquivos($settings->favicon) : null,
             'bg_color' => $settings->bg_color ?? null,
             'primary_color' => $settings->primary_color ?? null,
