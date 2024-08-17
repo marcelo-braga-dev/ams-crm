@@ -11,7 +11,7 @@ import * as React from "react";
 import {useState} from "react";
 import {sum} from "lodash";
 import {router} from "@inertiajs/react";
-import {Check, Download, Eye, Trash} from "react-bootstrap-icons";
+import {Check, Download, Eye, PencilSquare, Trash} from "react-bootstrap-icons";
 import Link from "@/Components/Link.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
 import Checkbox from "@mui/material/Checkbox";
@@ -26,6 +26,9 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
     const [pedidosSelecionado, setPedidosSelecionados] = useState([])
     const [nota, setNota] = useState()
     const [empresa, setEmpresa] = useState()
+    const [anotacoes, setAnotacoes] = useState()
+    const [addAnotacoesBtn, setAddAnotacoesBtn] = useState(false)
+    const [addNovaAnotacao, setAddNovaAnotacao] = useState('')
     const [distribuidoraPlanilha, setDistribuidora] = useState()
 
     const total = sum(vendas.map(item => item.valor))
@@ -44,7 +47,7 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
     const gerarPlanilha = (e) => {
         e.preventDefault()
         router.post(route('admin.financeiro.faturamento.planilha'),
-            {pedidos: pedidosSelecionado, nota, empresa, vendas: vendas, distribuidora: distribuidoraPlanilha})
+            {pedidos: pedidosSelecionado, nota, empresa, anotacoes, vendas: vendas, distribuidora: distribuidoraPlanilha})
     }
 
     const handleSetor = (setor) => {
@@ -54,9 +57,20 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
     const handleDistribuidora = (id) => {
         setDistribuidoraSelecionado(id)
     }
+    const handleAddAnotacaoes = (id) => {
+        setAddAnotacoesBtn(id)
+        setAddNovaAnotacao('')
+    }
 
     const planilhaDistribuidora = (id) => {
         setDistribuidora(id)
+    }
+
+    const atualizarAnotacoes = (id) => {
+        router.post(route('admin.financeiro.faturamento.atualizar-anotacao', {id, anotacao: addNovaAnotacao}), {}, {preserveScroll: true})
+        setAddAnotacoesBtn()
+        setAddNovaAnotacao('')
+
     }
 
     const handleCheckboxChange = (id) => {
@@ -86,6 +100,8 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
     router.on('success', () => {
         setPedidosSelecionados([])
         setNota('')
+        setAnotacoes('')
+        setAddNovaAnotacao('')
     })
 
     return (
@@ -229,6 +245,7 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                         <MenuItem value="">TODOS</MenuItem>
                                         {distribuidoras.map(item => (<MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>))}
                                     </TextField>
+                                    <TextField label="Anotações" value={anotacoes} onChange={e => setAnotacoes(e.target.value)} fullWidth/>
                                     <button className="btn btn-success d-block mb-0 btn-sm">Gerar Planilha</button>
                                 </Stack>
                             </form>
@@ -248,12 +265,22 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                                     <Typography variant="body2"><b>EMPRESA:</b> {item.empresa_nome}</Typography>
                                                     {item.distribuidora_nome && <Typography variant="body2"><b>DISTRIB.:</b> {item.distribuidora_nome}</Typography>}
                                                     <Typography variant="body2">{item.data}</Typography>
+                                                    {item.anotacoes && <Typography marginTop={1} variant="body2"><b>ANOT.:</b>{item.anotacoes}</Typography>}
+                                                    {addAnotacoesBtn !== item.id &&
+                                                        <Stack marginTop={1} onClick={() => handleAddAnotacaoes(item.id)} className="cursor-pointer">
+                                                            <Typography variant="body2"><PencilSquare/> Anotações</Typography>
+                                                        </Stack>}
                                                 </Stack>
                                             </div>
                                             <div className="col-auto">
                                                 <a href={item.url}><Download size={20}/></a>
                                             </div>
                                         </div>
+                                        {addAnotacoesBtn === item.id && <Stack direction="row" spacing={1} marginTop={2}>
+                                            <TextField size="small" value={addNovaAnotacao}
+                                                       onChange={e => setAddNovaAnotacao(e.target.value)} fullWidth/>
+                                            <Check color="green" cursor="pointer" size={30} onClick={() => atualizarAnotacoes(item.id)}/>
+                                        </Stack>}
                                     </CardBody>
                                 </CardContainer>
                             )}

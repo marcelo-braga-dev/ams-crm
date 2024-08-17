@@ -27,4 +27,5 @@ Route::name('admin.financeiro.')
         Route::get('salarios-registros', [SalariosController::class, 'registros'])->name('salarios.registros');
 
         Route::post('faturamento_planilha', [FaturamentoController::class, 'planilha'])->name('faturamento.planilha');
+        Route::post('atualizar-anotacao', [FaturamentoController::class, 'atualizarAnotacao'])->name('faturamento.atualizar-anotacao');
     });

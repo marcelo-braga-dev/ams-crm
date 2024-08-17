@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('fornecedor_id')->nullable();
             $table->string('nota_distribuidora')->nullable();
             $table->string('url');
+            $table->string('anotacoes')->nullable();
             $table->timestamps();
 
             $table->foreign('empresa_id')->references('id')->on('financeiros_empresas');

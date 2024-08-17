@@ -13,17 +13,19 @@ class PedidosFaturadosPlanilhas extends Model
         'url',
         'nota_distribuidora',
         'empresa_id',
-        'fornecedor_id'
+        'fornecedor_id',
+        'anotacoes'
     ];
 
-    public function create($file, $nota, $empresa, $distribuidora = null)
+    public function create($file, $nota, $empresa, $distribuidora = null, $anotacoes = null)
     {
         $this->newQuery()
             ->create([
                 'empresa_id' => $empresa,
                 'nota_distribuidora' => $nota,
                 'url' => $file,
-                'fornecedor_id' => $distribuidora
+                'fornecedor_id' => $distribuidora,
+                'anotacoes' => $anotacoes,
             ]);
     }
 
@@ -44,10 +46,18 @@ class PedidosFaturadosPlanilhas extends Model
                     'id' => $item->id,
                     'nota_distribuidora' => $item->nota_distribuidora,
                     'empresa_nome' => $item->empresa_nome,
+                    'anotacoes' => $item->anotacoes,
                     'distribuidora_nome' => $item->distribuidora_nome,
                     'url' => asset($item->url),
                     'data' => date('d/m/y H:i', strtotime($item->created_at))
                 ];
             });
+    }
+
+    public function atualizarAnotacao($id, $anotacao)
+    {
+        $this->newQuery()
+            ->where('id', $id)
+            ->update(['anotacoes' => $anotacao]);
     }
 }

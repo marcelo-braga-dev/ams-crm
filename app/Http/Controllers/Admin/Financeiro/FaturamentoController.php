@@ -51,9 +51,17 @@ class FaturamentoController extends Controller
     {
         $path = (new FinanceiroFaturamento())->gerar($request->vendas, $request->pedidos);
 
-        (new PedidosFaturadosPlanilhas())->create($path, $request->nota, $request->empresa, $request->distribuidora);
+        (new PedidosFaturadosPlanilhas())->create($path, $request->nota, $request->empresa, $request->distribuidora, $request->anotacoes);
         (new PedidosFaturados())->updateNotaDistribuidora($request->vendas, $request->pedidos, $request->nota, $request->empresa);
 
         modalSucesso('Planilha gerada com sucesso!');
+    }
+
+    public function atualizarAnotacao(Request $request)
+    {
+        (new PedidosFaturadosPlanilhas())->atualizarAnotacao($request->id, $request->anotacao);
+
+        modalSucesso('Anotacao atualizada com sucesso!');
+        return redirect()->back();
     }
 }
