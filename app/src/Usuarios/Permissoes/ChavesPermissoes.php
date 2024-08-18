@@ -308,4 +308,9 @@ class ChavesPermissoes
     {
         return '61';
     }
+
+    public function chaveFerramentasBiblioteca()
+    {
+        return '62';
+    }
 }

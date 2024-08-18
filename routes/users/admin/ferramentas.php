@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Ferramentas\Biblioteca\BibliotecaController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\AprovacaoController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\AtendimentoController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\FinalizadoController;
@@ -12,6 +13,7 @@ Route::middleware(['auth', 'auth.admins'])
     ->prefix('admin/ferramentas')
     ->group(function () {
         Route::resource('tarefas', TaferasController::class);
+        Route::resource('bibliotecas', BibliotecaController::class);
 
         Route::name('tarefas.')
             ->prefix('tarefas/status')

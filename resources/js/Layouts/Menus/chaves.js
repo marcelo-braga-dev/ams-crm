@@ -20,7 +20,7 @@ const chavesPermissoes = {
     },
     metas_vendas: {editar: 16, empresa: 50},
     ferramentas: {
-        agenda: 17, email: 28, tarefas: 59
+        agenda: 17, email: 28, tarefas: 59, bibliotecas: 62
     },
     usuarios: {
         contas: 18, funcoes: 19, online: 20, migrar: 21

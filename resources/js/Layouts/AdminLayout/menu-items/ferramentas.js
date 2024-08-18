@@ -26,6 +26,12 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.ferramentas.tarefas.index'),
                 }, {
+                    id: 'ferramentas-bibliotecas',
+                    chave: chaves.ferramentas.bibliotecas,
+                    title: 'Bibliotecas',
+                    type: 'item',
+                    url: route('admin.ferramentas.bibliotecas.index'),
+                }, {
                     id: 'ferramentas-email',
                     chave: chaves.ferramentas.email,
                     title: 'E-mail',
