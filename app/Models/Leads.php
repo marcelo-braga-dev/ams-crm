@@ -772,12 +772,20 @@ class Leads extends Model
             });
     }
 
+    public function telefones()
+    {
+        return $this->hasMany(LeadsDados::class, 'lead_id');
+    }
+
     public function getDadosMinimoPaginate($setor, $filtros)
     {
         $nomeConsultores = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
 
-        $query = $this->newQuery()->where('setor_id', $setor);
+        $query = $this->newQuery()->with(['telefones' => function ($query) {
+            $query->where('chave', 'telefone');
+        }])
+            ->where('setor_id', $setor);
 
         $orderBy = $filtros['ordenar_by'] ?? 'ASC';
         switch ($filtros['ordenar'] ?? null) {
@@ -824,6 +832,12 @@ class Leads extends Model
                 ],
                 'cliente' => [
                     'nome' => $item->nome,
+                    'telefones' => $item->telefones->transform(function ($item) {
+                        return [
+                            'id' => $item->id,
+                            'telefone' => converterTelefone($item->valor),
+                        ];
+                    }),
                     'razao_social' => $item->razao_social,
                     'cnpj' => converterCNPJ($item->cnpj),
                     'rg' => $item->rg,

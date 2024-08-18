@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Checkbox from "@mui/material/Checkbox";
-import {Box, Stack, TextField, Typography} from "@mui/material";
+import {Badge, Box, Stack, TextField, Typography} from "@mui/material";
 import CardContainer from "@/Components/Cards/CardContainer";
 import Chip from "@mui/material/Chip";
 import {Eye, People, Trash} from "react-bootstrap-icons";
@@ -35,6 +35,7 @@ export default function Tabela({
             status_periodo: items.infos.status_periodo,
             pedido_data: items.infos.pedido_data,
             pedido_periodo: items.infos.pedido_periodo,
+            telefones: items.cliente.telefones,
         }
     });
 
@@ -50,7 +51,7 @@ export default function Tabela({
 
     return (
         <CardContainer>
-            <CardTable title="Leads" icon={<People size="23"/>}  paginate={paginate} paginateDados={paginateDados} setPaginate={setPaginate}>
+            <CardTable title="Leads" icon={<People size="23"/>} paginate={paginate} paginateDados={paginateDados} setPaginate={setPaginate}>
                 <table className="table-1">
                     <thead>
                     <tr>
@@ -96,19 +97,22 @@ export default function Tabela({
                             </td>
                             <td style={{width: '40%'}}>
                                 <Typography variant="body1" className="cursor-pointer" fontWeight="bold"
-                                    onClick={() => router.get(route('admin.clientes.leads.leads-main.show', item.id))}>{item.nome}</Typography>
+                                            onClick={() => router.get(route('admin.clientes.leads.leads-main.show', item.id))}>{item.nome}</Typography>
                                 {(item.nome !== item.razao_social) && <Typography variant="body2">{item.razao_social}</Typography>}
-                                <Stack direction="row" spacing={2} className="mb-2">
+                                <Stack direction="row" spacing={2} marginBottom={1}>
                                     <Typography variant="body2">#{item.id}</Typography>
                                     <Typography variant="body2">{item.classificacao}</Typography>
-                                    <Typography variant="body2">Cadastrado: {item.data_criacao}</Typography>
-                                    <Typography variant="body2">Setor: {item.setor}</Typography>
+                                    <Typography variant="body2"><b>Cadastrado:</b> {item.data_criacao}</Typography>
+                                    <Typography variant="body2"><b>Setor:</b> {item.setor}</Typography>
                                 </Stack>
                                 <Stack direction="row" spacing={3}>
-                                    <Typography variant="body2">CNPJ: {item.cnpj}</Typography>
-                                    <Typography variant="body2">Tel.: {item.telefone}</Typography>
+                                    <Typography variant="body2"><b>CNPJ:</b> {item.cnpj}</Typography>
                                 </Stack>
-                                <Typography variant="body2">Localidade: {item.cidade}/{item.estado}</Typography>
+                                <Typography variant="body2">
+                                    <b>Tel.:</b> {item.telefones.map((tel, index) =>
+                                    <Chip label={tel.telefone} variant="outlined" size="small" className="me-2 mb-1"/>)}
+                                </Typography>
+                                <Typography variant="body2"><b>Localidade:</b> {item.cidade}/{item.estado}</Typography>
                             </td>
                             <td className="align-top">
                                 <Typography variant="body2"><b>SDR:</b> {item.sdr}</Typography>

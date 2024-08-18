@@ -28,6 +28,7 @@ class LeadsController extends Controller
 {
     public function cadastrados(Request $request)
     {
+//        print_pre((new Leads())->getDadosMinimoPaginate(1, null));
         $categorias = (new SetoresService())->setores();
         $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
