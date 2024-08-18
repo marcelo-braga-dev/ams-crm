@@ -6,9 +6,7 @@ import {router} from "@inertiajs/react";
 import maskJquery from "@/Helpers/maskJquery";
 import InputsDadosLead from "@/Partials/Leads/InputsDados";
 
-export default function Edit({dados, endereco, urlAnterior}) {
-    maskJquery()
-
+export default function Edit({dados, telefones, endereco}) {
     const {setData, data} = useForm({
         id_lead: dados.id,
         pessoa: dados.cnpj ? 'Jurídica' : 'Pessoa Física',
@@ -39,15 +37,14 @@ export default function Edit({dados, endereco, urlAnterior}) {
     function submit(e) {
         e.preventDefault();
         router.post(route('consultor.leads.main.update', dados.id),
-            {_method: 'put', ...data, urlAnterior}
+            {_method: 'put', ...data, urlAnterior: document.referrer}
         );
     }
 
     return (
-        <Layout container titlePage="Editar LEAD" menu="leads" voltar={urlAnterior} >
+        <Layout container titlePage="Editar LEAD" menu="leads" voltar={document.referrer}>
             <form onSubmit={submit}>
-                <span className="h6">Atualizar informações</span>
-                <InputsDadosLead data={data} setData={setData}/>
+                <InputsDadosLead data={data} setData={setData} telefones={telefones}/>
                 <button type="submit" className="btn btn-primary">Salvar</button>
             </form>
         </Layout>

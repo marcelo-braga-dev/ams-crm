@@ -283,61 +283,35 @@ class Leads extends Model
     public function atualizar($id, $dados)
     {
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
+
         try {
-            $verificacaoCnpj = null;
-            $verificacaoTel = null;
+            $lead = $this->newQuery()->find($id);
+            $idEndereco = $lead->endereco ? (new Enderecos())->updateDados($lead->endereco, $dados->get('endereco')) : (new Enderecos())->create($dados->get('endereco'));
 
-            $telefone = preg_replace('/[^0-9]/', '', $dados['telefone'] ?? null);
-            $telefone = preg_replace('/[^0-9]/', '', converterTelefone($telefone) ?? null);
+            $this->newQuery()
+                ->find($id)
+                ->update([
+                    'nome' => $dados->nome,
+                    'atendente' => $dados->atendente,
+                    'razao_social' => $dados->razao_social,
+                    'inscricao_estadual' => $dados->inscricao_estadual,
+                    'cnpj' => $cnpj ?: null,
+                    'rg' => $dados->rg,
+                    'cpf' => $dados->cpf,
+                    'email' => $dados->email,
+                    'endereco' => $idEndereco,
+                    'cidade' => $dados->cidade ?? $lead->cidade,
+                    'estado' => $dados->estado ?? $lead->cidade,
+                    'data_nascimento' => $dados->nascimento,
+                ]);
 
-            if ($telefone) $verificacaoTel = $this->newQuery()
-                ->where('id', '!=', $id)
-                ->where('telefone', $telefone)
-                ->exists();
+            (new LeadsDados())->atualizar($id, $dados->telefones);
 
-            if (
-                !$verificacaoTel &&
-                (($dados['nome'] ?? null) || ($dados['razao_social'] ?? null))
-            ) {
-                $lead = $this->newQuery()->find($id);
-                $idEndereco = $lead->endereco ? (new Enderecos())->updateDados($lead->endereco, $dados->get('endereco')) : (new Enderecos())->create($dados->get('endereco'));
-
-                $this->newQuery()
-                    ->find($id)
-                    ->update([
-                        'nome' => $dados->nome,
-                        'atendente' => $dados->atendente,
-                        'telefone' => $telefone,
-                        'razao_social' => $dados->razao_social,
-                        'inscricao_estadual' => $dados->inscricao_estadual,
-                        'cnpj' => $cnpj ?: null,
-                        'rg' => $dados->rg,
-                        'cpf' => $dados->cpf,
-                        'email' => $dados->email,
-                        'endereco' => $idEndereco,
-                        'cidade' => $dados->cidade ?? $lead->cidade,
-                        'estado' => $dados->estado ?? $lead->cidade,
-                        'data_nascimento' => $dados->nascimento,
-                    ]);
-                return 1;
-            } else {
-                $msgErro = '';
-                if ($verificacaoCnpj) {
-                    $dados = $this->newQuery()->where('cnpj', $cnpj)->first();
-                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO CNPJ: ' . converterCNPJ($dados['cnpj']));
-                }
-                if ($verificacaoTel) {
-                    $dados = $this->newQuery()->where('telefone', $telefone)->first();
-                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO TELEFONE: ' . converterTelefone($dados['telefone']));
-                }
-                (new LeadsNotificacao())->notificarDuplicidade($msgErro);
-            }
-            throw new \DomainException($msgErro);
         } catch (QueryException $exception) {
-            $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->exists();
-            $msg = $existCnpj ? 'CNPJ já cadastrado!' : 'Error';
+            $msgErro = ('O CNPJ: ' . converterCNPJ($dados['cnpj'] . ' já está cadastrado em outro LEAD!'));
+            (new LeadsNotificacao())->notificarDuplicidade($msgErro);
 
-            throw new \DomainException($msg);
+            throw new \DomainException($msgErro);
         }
     }
 
@@ -870,7 +844,7 @@ class Leads extends Model
                     'pedido_emitido' => $item->pedido_emitido,
                     'encaminhado_data' => $item->data_encaminhado ? date('d/m/y H:i', strtotime($item->data_encaminhado)) : null,
                     'status_periodo' => $this->difData($item->status_data),
-                    'pedido_data' => $item->ultimo_pedido_data ? date('d/m/y H:i', strtotime($item->ultimo_pedido_data)): null,
+                    'pedido_data' => $item->ultimo_pedido_data ? date('d/m/y H:i', strtotime($item->ultimo_pedido_data)) : null,
                     'pedido_periodo' => $this->difData($item->ultimo_pedido_data)
                 ]
             ];

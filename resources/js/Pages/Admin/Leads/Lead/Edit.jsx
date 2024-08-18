@@ -11,7 +11,7 @@ import CardTitle from "@/Components/Cards/CardTitle";
 import {Person} from "react-bootstrap-icons";
 import {useEffect} from "react";
 
-export default function Edit({dados, endereco, telefones, urlAnterior}) {
+export default function Edit({dados, endereco, telefones}) {
     const {setData, data} = useForm({
         id_lead: dados.id,
         pessoa: dados.cnpj ? 'Jurídica' : 'Pessoa Física',
@@ -28,7 +28,6 @@ export default function Edit({dados, endereco, telefones, urlAnterior}) {
 
         cidade: dados.cidade,
         estado: dados.estado,
-        // telefones: [],
         endereco: {
             cep: endereco.cep,
             rua: endereco.rua,
@@ -43,7 +42,7 @@ export default function Edit({dados, endereco, telefones, urlAnterior}) {
     function submit(e) {
         e.preventDefault();
         router.post(route('admin.clientes.leads.leads-main.update', dados.id),
-            {_method: 'put', ...data, url: urlAnterior}
+            {_method: 'put', ...data, url: document.referrer}
         );
     }
 
@@ -53,16 +52,11 @@ export default function Edit({dados, endereco, telefones, urlAnterior}) {
 
 
     return (
-        <Layout container voltar={urlAnterior} titlePage="Editar LEAD" menu="leads" submenu="leads-cadastrados">
-            <CardContainer>
-                <CardTitle title="Atualizar informações do lead" icon={<Person size={22}/>}/>
-                <CardBody>
-                    <form onSubmit={submit}>
-                        <InputsDadosLead data={data} setData={setData} telefones={telefones}/>
-                        <button type="submit" className="btn btn-primary">Salvar</button>
-                    </form>
-                </CardBody>
-            </CardContainer>
+        <Layout container voltar={document.referrer} titlePage="Editar LEAD" menu="leads" submenu="leads-cadastrados">
+            <form onSubmit={submit}>
+                <InputsDadosLead data={data} setData={setData} telefones={telefones}/>
+                <button type="submit" className="btn btn-primary">Salvar</button>
+            </form>
         </Layout>
     )
 }

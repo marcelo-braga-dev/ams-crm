@@ -7,6 +7,8 @@ import MenuItem from "@mui/material/MenuItem";
 import {useEffect} from "react";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import {GeoAlt, Person, Phone, Telephone} from "react-bootstrap-icons";
 
 const estados = [
     {id: 'AC', nome: 'Acre'},
@@ -47,6 +49,7 @@ export default function InputsDadosLead({data, setData, telefones, required}) {
     return (
         <>
             <CardContainer>
+                <CardTitle title="Dados do Lead" icon={<Person size={22}/>}/>
                 <CardBody>
                     <div className="row">
                         {/*Check Pessoa*/}
@@ -117,21 +120,23 @@ export default function InputsDadosLead({data, setData, telefones, required}) {
             </CardContainer>
 
             <CardContainer>
+                <CardTitle title="Telefones" icon={<Telephone size={20}/>}/>
                 <CardBody>
                     <div className="row row-cols-5">
                         {telefones?.map((item, i) => (
-                            <div key={i} className="col">
+                            <div key={i} className="col mb-3">
                                 <TextField label={`Telefone ${i + 1}:`} required={required} fullWidth className="phone" defaultValue={item.telefone}
-                                           onBlur={e => setData({...data, telefones: {...data.telefones, [item.id]: e.target.value}})}/>
+                                           onChange={e => setData({...data, telefones: {...data.telefones, [item.id]: e.target.value}})}/>
                             </div>
                         ))}
-                        <TextField label={`Telefone`} required={required} fullWidth className="phone"
-                                   onBlur={e => setData({...data, telefones: {...data.telefones, [0]: e.target.value}})}/>
+                        <TextField label="Adicionar Telefone" required={required} fullWidth className="phone"
+                                   onChange={e => setData({...data, telefones: {...data.telefones, [0]: e.target.value}})}/>
                     </div>
                 </CardBody>
             </CardContainer>
 
             <CardContainer>
+                <CardTitle title="Endereço" icon={<GeoAlt size={20}/>}/>
                 <CardBody>
                     <div className="row">
                         <div className="mb-4 col-6 col-md-2">

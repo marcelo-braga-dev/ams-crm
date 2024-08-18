@@ -16,8 +16,8 @@ export default function ModalsAllerts() {
     }
 
     if (flash.erro) {
-        toast.error(flash.error, {
-            toastId: flash.error, autoClose: false
+        toast.error(flash.erro, {
+            toastId: flash.erro, autoClose: false
         });
         flash.erro = null
     }

@@ -191,7 +191,6 @@ class LeadsController extends Controller
         $dados = (new Leads())->find($id);
         $endereco = (new Enderecos())->get($dados->endereco);
         $telefones = (new LeadsDados())->get((new DadosLeads())->chaveTelefone(), $id);
-//        print_pre($telefones);
 
         $urlAnterior = url()->previous();
 
@@ -203,7 +202,6 @@ class LeadsController extends Controller
     {
         try {
             (new Leads())->atualizar($id, $request);
-            (new LeadsDados())->atualizar($id, $request->telefones);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

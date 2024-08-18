@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Consultor\Leads;
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
 use App\Models\Leads;
+use App\Models\LeadsDados;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
 use App\Models\Pins;
 use App\Services\Leads\CardLeadsService;
 use App\Services\Leads\CardsLeadsService;
+use App\src\Leads\Dados\DadosLeads;
 use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use Illuminate\Http\Request;
@@ -47,9 +49,11 @@ class LeadsController extends Controller
     {
         $dados = (new Leads())->newQuery()->find($id);
         $endereco = (new Enderecos())->get($dados->endereco);
+        $telefones = (new LeadsDados())->get((new DadosLeads())->chaveTelefone(), $id);
         $urlAnterior = url()->previous();
 
-        return Inertia::render('Consultor/Leads/Edit', compact('dados', 'endereco', 'urlAnterior'));
+        return Inertia::render('Consultor/Leads/Edit',
+            compact('dados', 'telefones', 'endereco', 'urlAnterior'));
     }
 
     public function update($id, Request $request)

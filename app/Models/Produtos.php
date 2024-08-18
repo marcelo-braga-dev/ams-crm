@@ -33,8 +33,7 @@ class Produtos extends Model
         return $query->leftJoin('produtos_fornecedores', 'produtos.fornecedor_id', '=', 'produtos_fornecedores.id')
             ->leftJoin('produtos_categorias', 'produtos.categoria_id', '=', 'produtos_categorias.id')
             ->leftJoin('produtos_unidades', 'produtos.unidade_id', '=', 'produtos_unidades.id')
-            ->groupBy('produtos.id')
-            ->orderBy('produtos.nome');
+            ->groupBy('produtos.id');
     }
 
     private function colunas()
@@ -81,7 +80,8 @@ class Produtos extends Model
             ->where(($filtros['setor'] ?? null) ? ['produtos.setor_id' => $filtros['setor']] : null)
             ->where(($filtros['categoria'] ?? null) ? ['produtos.categoria_id' => $filtros['categoria']] : null);
 
-        $query->whereIn('categoria_id', (new ProdutosCategoriasUsuarios())->categorias(id_usuario_atual()));
+        $query->whereIn('categoria_id', (new ProdutosCategoriasUsuarios())->categorias(id_usuario_atual()))
+            ->orderByDesc('estoque_local');
 
         if ($setor) $query->where('produtos.setor_id', $setor);
 
