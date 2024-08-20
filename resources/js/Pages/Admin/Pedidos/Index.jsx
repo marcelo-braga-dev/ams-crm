@@ -244,7 +244,7 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                             </tr>
                             </thead>
                             <tbody>
-                            <tr className="align-top bg-white">
+                            <tr className="align-top">
                                 <td id="td-1" style={{minWidth: 300}}>
                                     {pedidos.reprovado.map((dados) => {
                                         return <CardPedidos key={dados.id} dados={dados} status="reprovado" cor={coresAbas.reprovado}/>
