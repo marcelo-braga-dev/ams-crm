@@ -70,7 +70,7 @@ export default function InfoCliente({setData, data}) {
         <Row className="mb-4">
             <Col className={"mb-3"} lg={"4"}>
                 <TextField label="Data Nascimento" id="nascimento" required value={data.nascimento}
-                           onBlur={e => setData('nascimento', e.target.value)} type={'date'}
+                           onChange={e => setData('nascimento', e.target.value)} type={'date'}
                            fullWidth InputLabelProps={{shrink: true}}></TextField>
             </Col>
             <Col className={"mb-3"} lg={"4"}>

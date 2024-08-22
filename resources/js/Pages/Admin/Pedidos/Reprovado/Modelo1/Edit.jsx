@@ -11,6 +11,7 @@ import Pedidos from "./Partials/Pedido";
 import {Alert} from "@mui/material";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import {da} from "react-date-range/dist/locale/index.js";
 
 export default function Edit({pedido, cliente, img, fornecedores, endereco}) {
     const {errors} = usePage().props;
