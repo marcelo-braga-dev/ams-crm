@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 
 import ForwardIcon from '@mui/icons-material/Forward';

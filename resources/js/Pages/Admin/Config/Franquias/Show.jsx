@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import Color from "@/Components/Elementos/Color";
 import { Avatar, Card } from "@mui/material";
 import * as React from "react";

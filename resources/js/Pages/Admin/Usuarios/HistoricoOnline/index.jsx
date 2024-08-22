@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import "chart.js/auto";
 import TempoOnlineDiasUsuarios from "./Graficos/TempoOnlineDiasUsuarios";
 import { MenuItem, TextField } from "@mui/material";
@@ -24,7 +24,7 @@ export default function ({ tempoOnline }) {
     const[mesSelecionado, setMesSelecionado] = useState()
 
     useEffect(function () {
-            
+
     }, [])
 
     return (

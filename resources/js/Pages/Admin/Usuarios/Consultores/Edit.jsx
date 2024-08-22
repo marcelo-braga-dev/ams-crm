@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {useForm} from '@inertiajs/react';
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import {TextField, MenuItem, Card} from "@mui/material";
 import {router} from '@inertiajs/react'
 

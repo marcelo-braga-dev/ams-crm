@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import {Avatar, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";

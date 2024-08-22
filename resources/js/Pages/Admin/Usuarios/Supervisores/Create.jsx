@@ -1,5 +1,5 @@
 import {useForm} from '@inertiajs/react';
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import {Button, Col, Container, Row, Table} from "reactstrap";
 import {TextField} from "@mui/material";
 import Alert from "@mui/material/Alert";

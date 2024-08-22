@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import Form from "@/Pages/Consultor/Pedidos/Create/Modelo2/Partials/Form";
 
 export default function ({fornecedores, unidades, lead, endereco, categorias, errors}) {

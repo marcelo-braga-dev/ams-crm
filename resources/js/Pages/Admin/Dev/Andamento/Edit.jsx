@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
@@ -52,7 +52,7 @@ export default function ({dados, tarefas}) {
                     />
                 </div>
             </div>
-            
+
             <div className="row mt-4">
                 <div className="col">
                     <button onClick={() => avancarStatus()} className="btn btn-primary">Avançar Status Aguardando Aprovação</button>

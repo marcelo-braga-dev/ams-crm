@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import { router, useForm } from '@inertiajs/react';
 import { Avatar, Checkbox, FormControlLabel, Stack, Switch, TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";

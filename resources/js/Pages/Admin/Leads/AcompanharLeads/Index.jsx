@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import React from "react";
 import CardContainer from "@/Components/Cards/CardContainer";
 

@@ -1,4 +1,4 @@
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 import {router} from "@inertiajs/react";
 
 export default function Create({id, fornecedores, setores, setorAtual}) {

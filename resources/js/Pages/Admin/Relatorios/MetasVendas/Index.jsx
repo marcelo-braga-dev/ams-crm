@@ -5,7 +5,7 @@ import {router, useForm} from "@inertiajs/react";
 import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import convertFloatToMoney, {convertMoneyFloat} from "@/Helpers/converterDataHorario";
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 
 export default function ({vendasMensalUsuario, ano, dados, vendasMensalSubordinados}) {
 

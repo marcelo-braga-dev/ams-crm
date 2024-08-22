@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";

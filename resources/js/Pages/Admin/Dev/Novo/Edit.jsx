@@ -1,4 +1,4 @@
-import Layout from "@/Layouts/AdminLayout/LayoutAdmin";
+import Layout from "@/Layouts/Layout";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import React from "react";
@@ -35,7 +35,7 @@ export default function ({dados, tarefas}) {
                     <span className="d-block">ID: #{dados.id}</span>
                 </div>
             </div>
-            
+
             <div className="row mt-4">
                 <div className="col">
                     <button onClick={() => avancarStatus()} className="btn btn-primary">Avançar Status para Em Andamento</button>
@@ -61,7 +61,7 @@ export default function ({dados, tarefas}) {
                                     </td>
                                 </tr>
                             )
-                        })}                        
+                        })}
                     </tbody>
                 </table>
             </div>

@@ -6,7 +6,7 @@ import {
     ListItemButton,
     TextField
 } from "@mui/material";
-import Layout from '@/Layouts/AdminLayout/LayoutAdmin';
+import Layout from '@/Layouts/Layout';
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";
 
