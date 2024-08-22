@@ -18,13 +18,12 @@ import PreAtendimentoCard from "./Cards/PreAtendimentoCard";
 import {router, useForm} from "@inertiajs/react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import {Avatar, Box, CircularProgress, Divider, Radio, RadioGroup, Stack, Typography} from "@mui/material";
+import {Avatar, Box, Divider, Stack, Typography} from "@mui/material";
 import LinearProgress from '@mui/material/LinearProgress';
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import Switch from "@mui/material/Switch";
 import {Trash} from "react-bootstrap-icons";
-import FormControlLabel from "@mui/material/FormControlLabel";
 
 let idLeads = []
 const styleCard = 'p-2 mx-1 text-white row justify-content-between rounded-top'
@@ -40,7 +39,10 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
 
     const [alterarStatusConsultor, setAlterarStatusConsultor] = useState(true)
     const [alterarStatusSdr, setAlterarStatusSdr] = useState(true)
-    const [tipoEncaminhar, setTipoEncaminhar] = useState()
+
+    const [toggleAlterarConsultor, setToggleAlterarConsultor] = useState(false)
+    const [toggleAlterarSdr, setToggleAlteraSdr] = useState(false)
+    const [toggleRemoverStatus, setToglleRemoverStatus] = useState(false)
 
     useEffect(() => {
         fetchLeads();
@@ -125,75 +127,186 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
         limparStatus && router.post(route('admin.leads.cards-leads.limpar-finalizados', {id: usuario.id, status: limparStatus}))
     }
 
+
+    const handdleAltararConsultor = () => {
+        setToggleAlterarConsultor(e => !e)
+        setToggleAlteraSdr(e => false)
+        setToglleRemoverStatus(e => false)
+    }
+
+    const handdleAltararSdr = () => {
+        setToggleAlterarConsultor(e => false)
+        setToggleAlteraSdr(e => !e)
+        setToglleRemoverStatus(e => false)
+    }
+
+    const handdleRemoverStatus = () => {
+        setToggleAlterarConsultor(e => false)
+        setToggleAlteraSdr(e => false)
+        setToglleRemoverStatus(e => !e)
+    }
+
     return (
         <Layout empty titlePage="Lista de Leads" menu="leads" submenu="leads-cards" voltar={route('admin.leads.cards-leads.index')}>
-            <CardContainer>
-                <CardBody>
-                    <div className="row justify-content-between">
-                        <div className="col-auto">
-                            <span className="d-block"><b>Nome:</b> {usuario.nome}</span>
+
+            <div className="row">
+                <div className="col-md-10">
+                    {carregandoRegistros && <LinearProgress/>}
+                    {!carregandoRegistros &&
+                        <div className='row justify-content-center'>
+
+                            <div className='col-auto'>
+                                <div className="overflow-scroll" style={{height: '90vh'}}>
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th className="sticky-top" id="th-1">
+                                                <div className={styleCard} style={{backgroundColor: 'blue'}}>
+                                                    <div className='col-auto'>Iniciar Atendimento</div>
+                                                    <div className='col-auto'>Qdt: {leads.novo.length}</div>
+                                                </div>
+                                            </th>
+                                            <th className="sticky-top" id="th-2">
+                                                <div className={styleCard} style={{backgroundColor: 'orange'}}>
+                                                    <div className='col-auto'>
+                                                        Pré Atendimento
+                                                    </div>
+                                                    <div className='col-auto'><Typography variant="body1">Qdt: {leads.pre_atendimento.length}</Typography></div>
+                                                </div>
+                                            </th>
+                                            <th className="sticky-top" id="th-3">
+                                                <div className={styleCard} style={{backgroundColor: 'green'}}>
+                                                    <div className='col-auto'>
+                                                        Em Aberto
+                                                    </div>
+                                                    <div className='col-auto'>Qdt: {leads.aberto.length}</div>
+                                                </div>
+                                            </th>
+                                            <th className="sticky-top" id="th-4">
+                                                <div className={styleCard} style={{backgroundColor: 'yellowgreen'}}>
+                                                    <div className='col-auto'>Em Atendimento</div>
+                                                    <div className='col-auto'>Qdt: {leads.atendimento.length}</div>
+                                                </div>
+                                            </th>
+                                            <th className="sticky-top" id="th-5">
+                                                <div className={styleCard} style={{backgroundColor: 'brown'}}>
+                                                    <div className='col-auto'>Ativo</div>
+                                                    <div className='col-auto'>Qdt: {leads.ativo.length}</div>
+                                                </div>
+                                            </th>
+                                            <th className="sticky-top" id="th-6">
+                                                <div className={styleCard} style={{backgroundColor: 'black'}}>
+                                                    <div className='col-auto'>Finalizados</div>
+                                                    <div className='col-auto'>Qdt: {leads.finalizado.length}</div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr className="align-top bg-white">
+                                            <td id="td-1" style={{minWidth: 300}}>
+                                                {leads.novo.map((dado) => {
+                                                    return <NovoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
+                                                })}
+                                            </td>
+                                            <td id="td-2" style={{minWidth: 300}}>
+                                                {leads.pre_atendimento.map((dado) => {
+                                                    return <PreAtendimentoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
+                                                })}
+                                            </td>
+                                            <td id="td-3" style={{minWidth: 300}}>
+                                                {leads.aberto.map((dado) => {
+                                                    return <AbertoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
+                                                })}
+                                            </td>
+                                            <td id="td-4" style={{minWidth: 300}}>
+                                                {leads.atendimento.map((dado) => {
+                                                    return <AtendimentoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
+                                                })}
+                                            </td>
+                                            <td id="td-5" style={{minWidth: 300}}>
+                                                {leads.ativo.map((dado) => {
+                                                    return <AtivoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
+                                                })}
+                                            </td>
+                                            <td id="td-6" style={{minWidth: 300}}>
+                                                {leads.finalizado.map((dado) => {
+                                                    return <FinalizadoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
+                                                })}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <div className="col-auto">
-                            <span className="d-block"><b>Funcão:</b> {usuario.funcao}</span>
-                        </div>
-                        <div className="col-auto">
-                            <span className="d-block"><b>Setor:</b> {usuario.setor}</span>
-                        </div>
-                        <div className="col-3 text-end">
+                    }
+                </div>
+                <div className="col-md-2">
+                    <Stack direction="row" spacing={3} marginBottom={2}>
+                        <Trash cursor="pointer" size="15" color="red" data-bs-toggle="modal" data-bs-target="#modalExcluir"/>
+                    </Stack>
+                    <CardContainer>
+                        <CardBody>
                             <FormControl variant="outlined" className="bg-white" size="small">
                                 <InputLabel htmlFor="search">Pesquisar...</InputLabel>
                                 <OutlinedInput id="search" label="Pesquisar..."
                                                endAdornment={<InputAdornment position="end"><SearchOutlinedIcon/></InputAdornment>}
                                                onChange={e => pesquisaCards(e.target.value)}/>
                             </FormControl>
-                        </div>
-                    </div>
-                </CardBody>
-            </CardContainer>
+                        </CardBody>
+                    </CardContainer>
+                    <CardContainer>
+                        <CardBody>
+                            <Stack spacing={1}>
+                                <span className="d-block"><b>Nome:</b> {usuario.nome}</span>
+                                <span className="d-block"><b>Funcão:</b> {usuario.funcao}</span>
+                                <span className="d-block"><b>Setor:</b> {usuario.setor}</span>
+                            </Stack>
+                        </CardBody>
+                    </CardContainer>
 
-            <div className="row">
-                <div className="col">
                     {isLeadsEncaminhar &&
                         <CardContainer>
                             <CardBody>
-                                <div className="row g-2">
-                                    <Typography variant="body1">Alterar CONSULTOR(A) dos Leads Selecionados:</Typography>
-                                    <div className="col-md-8">
-                                        <TextField label="Selecione o Consultor..." select
-                                                   fullWidth required size="small" defaultValue=""
-                                                   onChange={e => setData('novo_consultor', e.target.value)}>
-                                            <MenuItem value="vazio" className="text-muted ps-3">Nenhum Consultor(a)</MenuItem>
-                                            <Divider/>
-                                            {consultores.map((option) => <MenuItem key={option.id} value={option.id}>
-                                                <Box display="flex" alignItems="center">
-                                                    <Avatar src={option.foto} alt={option.nome} sx={{mr: 1, width: 20, height: 20}}/>
-                                                    {option.nome}
-                                                </Box>
-                                            </MenuItem>)}
-                                        </TextField>
+                                <Typography className="cursor-pointer" onClick={handdleAltararConsultor} marginBottom={2}>+ Alterar Consultor</Typography>
+                                {toggleAlterarConsultor &&
+                                    <div className="row g-2">
+                                        <Typography variant="body1">Alterar CONSULTOR(A) dos Leads Selecionados:</Typography>
+
+                                            <TextField label="Selecione o Consultor..." select
+                                                       fullWidth required size="small" defaultValue=""
+                                                       onChange={e => setData('novo_consultor', e.target.value)}>
+                                                <MenuItem value="vazio" className="text-muted ps-3">Nenhum Consultor(a)</MenuItem>
+                                                <Divider/>
+                                                {consultores.map((option) => <MenuItem key={option.id} value={option.id}>
+                                                    <Box display="flex" alignItems="center">
+                                                        <Avatar src={option.foto} alt={option.nome} sx={{mr: 1, width: 20, height: 20}}/>
+                                                        {option.nome}
+                                                    </Box>
+                                                </MenuItem>)}
+                                            </TextField>
+
+                                            <button type="button" className="btn btn-dark btn-sm px-3" data-bs-toggle="modal" data-bs-target="#alterarConsultor">
+                                                ENVIAR
+                                            </button>
+                                        <div>
+                                            <Switch checked={alterarStatusConsultor} size="small"
+                                                    onChange={e => setAlterarStatusConsultor(e.target.checked)}/>
+                                            <Typography variant="body2" display="inline">Alterar Status para "EM ABERTO" ao atualizar?</Typography>
+                                        </div>
                                     </div>
-                                    <div className="col-3">
-                                        <button type="button" className="btn btn-dark btn-sm px-3" data-bs-toggle="modal" data-bs-target="#alterarConsultor">
-                                            ENVIAR
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <Switch checked={alterarStatusConsultor} size="small"
-                                                onChange={e => setAlterarStatusConsultor(e.target.checked)}/>
-                                        <Typography variant="body2" display="inline">Alterar Status para "EM ABERTO" ao atualizar?</Typography>
-                                    </div>
-                                </div>
+                                }
                             </CardBody>
                         </CardContainer>
                     }
-                </div>
-                <div className="col">
                     {isLeadsEncaminhar &&
                         <CardContainer>
                             <CardBody>
-                                <div className="row g-2">
+                                <Typography className="cursor-pointer" onClick={handdleAltararSdr} marginBottom={3}>+ Alterar SDR</Typography>
+                                {toggleAlterarSdr && <div className="row g-2">
                                     <Typography variant="body1">Alterar SDR dos Leads selecionados:</Typography>
-                                    <div className="col-md-8">
+
                                         <TextField label="Selecione o SDR..." select
                                                    fullWidth required size="small" defaultValue=""
                                                    onChange={e => setData('novo_sdr', e.target.value)}>
@@ -206,29 +319,25 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                                                 </Box>
                                             </MenuItem>)}
                                         </TextField>
-                                    </div>
-                                    <div className="col-3">
                                         <button type="button" className="btn btn-dark btn-sm px-3" data-bs-toggle="modal" data-bs-target="#alterarSdr">
                                             ENVIAR
                                         </button>
-                                    </div>
                                     <div className="">
                                         <Switch checked={alterarStatusSdr} onChange={e => setAlterarStatusSdr(e.target.checked)} size="small"/>
                                         <Typography variant="body2" display="inline">Alterar Status para "INICIAR ATENDIMENTO" ao atualizar?</Typography>
                                     </div>
-                                </div>
+                                </div>}
                             </CardBody>
                         </CardContainer>
                     }
-                </div>
-                <div className="col">
                     {isLeadsLimpar &&
                         <CardContainer>
                             <CardBody>
-                                <Typography variant="body1">Remover todos os Leads do status:</Typography>
-                                <div className="row">
-                                    <div className="col-7">
-                                        <TextField label="Status" select value={limparStatus ?? ''}
+                                <Typography marginBottom={3} className="cursor-pointer" onClick={handdleRemoverStatus}>+ Alterar Status</Typography>
+                                {toggleRemoverStatus && <div className="row">
+                                    <Typography variant="body1" marginBottom={3}>Remover todos os Leads do status:</Typography>
+
+                                        <TextField label="Status" select value={limparStatus ?? ''} className="mb-4"
                                                    fullWidth required size="small" defaultValue=""
                                                    onChange={e => setLimparStatus(e.target.value)}>
                                             <MenuItem value="pre_atendimento">Pré Atendiemnto</MenuItem>
@@ -236,119 +345,18 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                                             <MenuItem value="atendimento">Atendimento</MenuItem>
                                             <MenuItem value="finalizado">Finalizado</MenuItem>
                                         </TextField>
-                                    </div>
-                                    <div className="col-auto">
+
                                         <button type="button" className="btn btn-success btn-sm"
                                                 data-bs-toggle="modal" data-bs-target="#modalLimpar">
                                             Remover
                                         </button>
-                                    </div>
-                                </div>
+
+                                </div>}
                             </CardBody>
                         </CardContainer>
                     }
-                    <CardContainer>
-                        <CardBody>
-                            <Stack direction="row" spacing={3}>
-                                <Typography className="cursor-pointer" variant="body1" color="red" data-bs-toggle="modal" data-bs-target="#modalExcluir">
-                                    <Trash size="15"/> Excluir</Typography>
-                            </Stack>
-                        </CardBody>
-                    </CardContainer>
                 </div>
             </div>
-
-            {/*Tabela*/}
-            {carregandoRegistros && <LinearProgress color="inherit"/>}
-
-            {!carregandoRegistros &&
-                <div className='row justify-content-center'>
-                    <div className='col-auto'>
-                        <div className="overflow-scroll" style={{height: '60vh'}}>
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th className="sticky-top" id="th-1">
-                                        <div className={styleCard} style={{backgroundColor: 'blue'}}>
-                                            <div className='col-auto'>Iniciar Atendimento</div>
-                                            <div className='col-auto'>Qdt: {leads.novo.length}</div>
-                                        </div>
-                                    </th>
-                                    <th className="sticky-top" id="th-2">
-                                        <div className={styleCard} style={{backgroundColor: 'orange'}}>
-                                            <div className='col-auto'>
-                                                Pré Atendimento
-                                            </div>
-                                            <div className='col-auto'><Typography variant="body1">Qdt: {leads.pre_atendimento.length}</Typography></div>
-                                        </div>
-                                    </th>
-                                    <th className="sticky-top" id="th-3">
-                                        <div className={styleCard} style={{backgroundColor: 'green'}}>
-                                            <div className='col-auto'>
-                                                Em Aberto
-                                            </div>
-                                            <div className='col-auto'>Qdt: {leads.aberto.length}</div>
-                                        </div>
-                                    </th>
-                                    <th className="sticky-top" id="th-4">
-                                        <div className={styleCard} style={{backgroundColor: 'yellowgreen'}}>
-                                            <div className='col-auto'>Em Atendimento</div>
-                                            <div className='col-auto'>Qdt: {leads.atendimento.length}</div>
-                                        </div>
-                                    </th>
-                                    <th className="sticky-top" id="th-5">
-                                        <div className={styleCard} style={{backgroundColor: 'brown'}}>
-                                            <div className='col-auto'>Ativo</div>
-                                            <div className='col-auto'>Qdt: {leads.ativo.length}</div>
-                                        </div>
-                                    </th>
-                                    <th className="sticky-top" id="th-6">
-                                        <div className={styleCard} style={{backgroundColor: 'black'}}>
-                                            <div className='col-auto'>Finalizados</div>
-                                            <div className='col-auto'>Qdt: {leads.finalizado.length}</div>
-                                        </div>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr className="align-top bg-white">
-                                    <td id="td-1" style={{minWidth: 300}}>
-                                        {leads.novo.map((dado) => {
-                                            return <NovoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
-                                        })}
-                                    </td>
-                                    <td id="td-2" style={{minWidth: 300}}>
-                                        {leads.pre_atendimento.map((dado) => {
-                                            return <PreAtendimentoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
-                                        })}
-                                    </td>
-                                    <td id="td-3" style={{minWidth: 300}}>
-                                        {leads.aberto.map((dado) => {
-                                            return <AbertoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
-                                        })}
-                                    </td>
-                                    <td id="td-4" style={{minWidth: 300}}>
-                                        {leads.atendimento.map((dado) => {
-                                            return <AtendimentoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
-                                        })}
-                                    </td>
-                                    <td id="td-5" style={{minWidth: 300}}>
-                                        {leads.ativo.map((dado) => {
-                                            return <AtivoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
-                                        })}
-                                    </td>
-                                    <td id="td-6" style={{minWidth: 300}}>
-                                        {leads.finalizado.map((dado) => {
-                                            return <FinalizadoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
-                                        })}
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            }
 
             {/*Alterar consultor*/}
             <div className="mt-5 modal fade" id="alterarConsultor" tabIndex="-1" aria-labelledby="limparLeadLabel"

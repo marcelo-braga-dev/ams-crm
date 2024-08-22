@@ -34,12 +34,11 @@ class ImportarController extends Controller
             return redirect()->back();
         }
 
-
         $qtd = 0;
         foreach ($dadosSeparados as $item) {
             try {
                 $qtd++;
-                (new Leads())->create($item, $request->setor, null, $idHistorico);
+                (new Leads())->createOrUpdatePlanilhas($item, $request->setor, $idHistorico);
             } catch (\DomainException $exception) {
                 $qtd--;
             }

@@ -56,9 +56,82 @@ class Leads extends Model
         'atividade_principal',
         'natureza_juridica',
         'quadro_societario',
+        'situacao',
+        'cnae',
         'data_situacao',
         'data_abertura',
     ];
+
+    public function createOrUpdatePlanilhas($dados, $setor, $importacao = null)
+    {
+        $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
+
+        try {
+            $status = (new NovoStatusLeads())->getStatus();
+            $verificacaoCnpj = null;
+
+            $idEndereco = (new Enderecos())->create($dados['endereco'] ?? null);
+            $pessoa = ($dados['pessoa'] ?? null) ? !(($dados['pessoa'] ?? null) == 'Pessoa Física') : substr($cnpj, -6, 4) == '0001';
+
+            if ((($dados['nome'] ?? null) || ($dados['razao_social'] ?? null)) && count($dados['telefones'] ?? [])) {
+
+                $atributos = [
+                    'cnpj' => $cnpj,
+                ];
+
+                $valores = [
+                    'nome' => $dados['nome'] ?? null,
+                    'razao_social' => $dados['razao_social'] ?? null,
+                    'cnpj' => $cnpj ?: null,
+                    'inscricao_estadual' => $dados['inscricao_estadual'] ?? null,
+                    'email' => $dados['email'] ?? null,
+                    'importacao_id' => $importacao,
+                    'atendente' => $dados['atendente'] ?? null,
+                    'setor_id' => $setor,
+                    'endereco' => $idEndereco,
+                    'pessoa_juridica' => $pessoa,
+                    'rg' => $dados['rg'] ?? null,
+                    'cpf' => $dados['cpf'] ?? null,
+                    'data_nascimento' => $dados['nascimento'] ?? null,
+                    'anotacoes' => $dados['anotacoes'] ?? null,
+                    'status_data' => now(),
+                    'infos' => $dados['infos'] ?? null,
+                    'capital_social' => $dados['capital_social'] ?? null,
+                    'tipo' => $dados['tipo'] ?? null,
+                    'porte' => $dados['porte'] ?? null,
+                    'atividade_principal' => $dados['atividade_principal'] ?? null,
+                    'natureza_juridica' => $dados['natureza_juridica'] ?? null,
+                    'quadro_societario' => $dados['quadro_societario'] ?? null,
+                    'data_situacao' => $dados['data_situacao'] ?? null,
+                    'data_abertura' => $dados['data_abertura'] ?? null,
+                    'situacao' => $dados['situacao'] ?? null,
+                    'cnae' => $dados['cnae'] ?? null,
+                ];
+
+                $record = $this->newQuery()->where('cnpj', $cnpj)->first();
+
+                if (!$record) {
+                    $valores['status'] = $status;
+                }
+
+                $lead = $this->newQuery()->updateOrCreate($atributos, $valores);
+                $this->cadastrarTelefone($lead->id, $dados['telefones'] ?? null);
+
+                return $lead->id;
+            } else {
+                $msgErro = '';
+                if ($verificacaoCnpj) {
+                    $dados = $this->newQuery()->where('cnpj', $cnpj)->first();
+                    $msgErro = ('O LEAD #' . $dados->id . ' POSSUI O MESMO CNPJ: ' . converterCNPJ($dados['cnpj']));
+                }
+                modalErro($msgErro);
+                (new LeadsNotificacao())->notificarDuplicidade($msgErro);
+            }
+        } catch (QueryException $exception) {
+            $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
+            if ($existCnpj->id ?? null) throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
+        }
+    }
 
     public function getDisponiveis($setor, $idImportacao = null)
     {

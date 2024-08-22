@@ -48,7 +48,7 @@ export default function Create({sac, pedido}) {
                                         <div className="row row-cols-4 mt-3">
                                             {dado.anexos.map(item => (
                                                 <div className="col">
-                                                    <ImagePdf url={item.url}/>
+                                                    <ImagePdf url={item.url} urlRaiz/>
                                                 </div>
                                             ))}
                                         </div>

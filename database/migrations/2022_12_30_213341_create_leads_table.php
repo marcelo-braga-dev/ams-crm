@@ -38,6 +38,7 @@ return new class extends Migration {
             $table->string('infos')->nullable();
             $table->string('classificacao', 8)->nullable();
             $table->string('anotacoes')->nullable();
+            $table->string('cnae')->nullable();
             $table->dateTime('ultimo_pedido_data')->nullable();
             $table->timestamp('data_encaminhado')->nullable();
             $table->string('capital_social')->nullable();
@@ -46,6 +47,7 @@ return new class extends Migration {
             $table->string('atividade_principal')->nullable();
             $table->string('natureza_juridica')->nullable();
             $table->string('quadro_societario')->nullable();
+            $table->string('situacao')->nullable();
             $table->string('data_situacao')->nullable();
             $table->string('data_abertura')->nullable();
             $table->timestamps();

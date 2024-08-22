@@ -21,12 +21,12 @@ class LeadsDados extends Model
     public function create($id, $chave, $valor = null, $nome = null)
     {
         $this->newQuery()
-            ->create([
-                'lead_id' => $id,
-                'chave' => $chave,
-                'valor' => $valor,
-                'nome' => $nome,
-            ]);
+            ->updateOrCreate(
+                ['lead_id' => $id, 'valor' => $valor, 'chave' => $chave],
+                [
+                    'nome' => $nome,
+                ]
+            );
     }
 
     public function dados($id, $chave)

@@ -73,6 +73,7 @@ export default function Show({
                 voltar={route('admin.clientes.leads.leads-cadastrados')}>
             <CardContainer>
                 <CardTitle title="Informações do Lead" icon={<Person size="22"/>}/>
+
                 <CardBody>
                     <div className="row">
                         <div className="col">
@@ -92,22 +93,6 @@ export default function Show({
                                         </IconButton>}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </CardBody>
-            </CardContainer>
-
-            <CardContainer>
-                <CardBody>
-                    <div className="row">
-                        <div className="col">
-                            <b>Consultor(a):</b> {dados.consultor.nome}
-                        </div>
-                        <div className="col">
-                            <b>SDR:</b> {dados.sdr.nome}
-                        </div>
-                        <div className="col">
-                            <b> Status do Lead:</b> {dados.infos.status_nome}
                         </div>
                     </div>
                 </CardBody>
@@ -172,7 +157,7 @@ export default function Show({
                 </div>
                 <div className="col-md-4">
                     <CardContainer>
-                        <CardTitle title="Histórico de Pedidos" icon={<BoxSeam size="22"/> }/>
+                        <CardTitle title="Histórico de Pedidos" icon={<BoxSeam size="22"/>}/>
                         <CardBody>
                             <HistoricoPedidos historicos={historicoPedidos}/>
                         </CardBody>
@@ -180,7 +165,7 @@ export default function Show({
                 </div>
                 <div className="col-md-3">
                     <CardContainer>
-                        <CardTitle title="Histórico dos Status" icon={<List size="22"/> }/>
+                        <CardTitle title="Histórico dos Status" icon={<List size="22"/>}/>
                         <CardBody>
                             <HistoricoStatus dados={historicoStatus}/>
                         </CardBody>

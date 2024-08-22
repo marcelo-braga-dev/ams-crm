@@ -26,35 +26,40 @@ class DadosImportacaoService
             'razao_social' => $dado[2] ?? null,
             'nome' => $dado[3] ?? null,
             'data_abertura' => $dado[4] ?? null,
-            'natureza_juridica' => $dado[5] ?? null,
-            'data_situacao' => $dado[6] ?? null,
-            'atividade_principal' => $dado[8] ?? null,
-            'porte' => $dado[12] ?? null,
-            'email' => $dado[13] ?? null,
+            'cnae' => $dado[5] ?? null,
+            'situacao' => $dado[15] ?? null,
+            'data_situacao' => $dado[16] ?? null,
+            'atividade_principal' => $dado[6] ?? null,
+            'porte' => $dado[17] ?? null,
+            'email' => $dado[23] ?? null,
+
             'endereco' => [
-                'rua' => $dado[16] ?? null,
-                'numero' => $dado[17] ?? null,
-                'complemento' => $dado[18] ?? null,
-                'bairro' => $dado[19] ?? null,
-                'cidade' => $dado[20] ?? null,
-                'estado' => $dado[21] ?? null,
-                'cep' => $dado[22] ?? null,
+                'rua' => $dado[28] ?? null,
+                'numero' => $dado[29] ?? null,
+                'complemento' => $dado[30] ?? null,
+                'bairro' => $dado[31] ?? null,
+                'cidade' => $dado[32] ?? null,
+                'estado' => $dado[33] ?? null,
+                'cep' => $dado[34] ?? null,
             ],
             'telefones' => [
-                $dado[27] ?? null,//cel
-                $dado[28] ?? null,
-                $dado[23] ?? null,
-                $dado[24] ?? null,
-                $dado[25] ?? null,
-                $dado[26] ?? null,
+                $dado[87] ?? null,//cel
+                $dado[88] ?? null,
+                $dado[89] ?? null,
+                $dado[90] ?? null,
+                $dado[91] ?? null,
+                $dado[92] ?? null,
+                $dado[93] ?? null,
+                $dado[94] ?? null,
+                $dado[95] ?? null,
+                $dado[96] ?? null,
             ],
-            'quadro_societario' => (($dado[30] ?? null) . ' ' . ($dado[29] ?? null)) .
-                (($dado[32] ?? null) ? (' & ' . $dado[32] . ' ' . ($dado[31] ?? null)) : '') .
-                (($dado[34] ?? null) ? (' & ' . $dado[34] . ' ' . ($dado[33] ?? null)) : '') .
-                (($dado[36] ?? null) ? (' & ' . $dado[36] . ' ' . ($dado[35] ?? null)) : ''),
-//            'inscricao_estadual' => $dado[3] ?? null,
-
-//            'capital_social' => $dado[4] ?? null,
+            'quadro_societario' => (($dado[109] ?? null) . ' ' . ($dado[108] ?? null)) .
+                (($dado[115] ?? null) ? (' & ' . $dado[115] . ' ' . ($dado[114] ?? null)) : '') .
+                (($dado[121] ?? null) ? (' & ' . $dado[121] . ' ' . ($dado[120] ?? null)) : '') .
+                (($dado[127] ?? null) ? (' & ' . $dado[127] . ' ' . ($dado[126] ?? null)) : '') .
+                (($dado[133] ?? null) ? (' & ' . $dado[133] . ' ' . ($dado[132] ?? null)) : '') .
+                (($dado[139] ?? null) ? (' & ' . $dado[139] . ' ' . ($dado[138] ?? null)) : '')
         ];
     }
 }
