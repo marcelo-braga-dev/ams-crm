@@ -13,8 +13,8 @@ class LeadsApiController extends Controller
     {
         $setor = $request->setor ?? 1;;
         event(new ChatInternoNovaMensagemRecebida($request->all(), $request));
-        throw new \DomainException($request->fields['cnpj']['value']);
-        (new Leads())->create($request, 1);
+//        throw new \DomainException($request->fields['cnpj']['value']);
+//        (new Leads())->create($request, 1);
         return response()->json(['status' => 'success'], 200);
     }
 }
