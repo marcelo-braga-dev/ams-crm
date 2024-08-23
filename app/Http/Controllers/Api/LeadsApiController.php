@@ -12,7 +12,13 @@ class LeadsApiController extends Controller
     public function cadastrar(Request $request)
     {
         $setor = $request->setor ?? 1;
-        throw new \DomainException($request->fields['cnpj']['title']);
+
+        $dados['cnpj'] = $request->fields['cnpj']['value'] ?? null;
+        $dados['nome'] = $request->fields['nome']['value'] ?? null;
+        $dados['razao_social'] = $request->fields['razao_social']['value'] ?? null;
+        $dados['telefones'][] = $request->fields['telefone']['value'] ?? null;
+
+        (new Leads())->create($dados, 1);
 
         return response()->json(['status' => 'success'], 200);
     }
