@@ -10,8 +10,8 @@ class LeadsApiController extends Controller
 {
     public function cadastrar(Request $request)
     {
-        (new Leads())->create($request, 5);
+        $setor = $request->setor ?? 1;
+        (new Leads())->create($request, $setor);
         return response()->json(['status' => 'success'], 200);
-//        return redirect('https://intersolar.ams360.com.br/');
     }
 }
