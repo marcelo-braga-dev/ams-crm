@@ -11,7 +11,7 @@ class LeadsApiController extends Controller
     public function cadastrar(Request $request)
     {
         $setor = $request->setor ?? 1;
-        (new Leads())->create($request, $setor);
+        (new Leads())->create($request, 1);
         return response()->json(['status' => 'success'], 200);
     }
 }
