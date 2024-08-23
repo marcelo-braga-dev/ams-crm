@@ -26,13 +26,14 @@ class ChatInternoNovaMensagemRecebida  implements ShouldBroadcast
      */
     public function __construct($destinatarioId, $mensagem)
     {
-        $remetente = (new User())->find(id_usuario_atual());
+//        $remetente = (new User())->find(id_usuario_atual());
 
-        $this->mensagem = $mensagem;
-        $this->destinatarioId = $destinatarioId;
-        $this->remetente = $remetente->name;
-        $this->remetenteFoto = url_arquivos($remetente->foto);
-        $this->remetenteId = $remetente->id;
+        $this->mensagem = $destinatarioId;
+//        $this->mensagem = $mensagem;
+//        $this->destinatarioId = $destinatarioId;
+//        $this->remetente = $remetente->name;
+//        $this->remetenteFoto = url_arquivos($remetente->foto);
+//        $this->remetenteId = $remetente->id;
     }
 
     /**
