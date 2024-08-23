@@ -23,7 +23,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import Switch from "@mui/material/Switch";
-import {Trash} from "react-bootstrap-icons";
+import {ChevronDown, ChevronRight, Trash} from "react-bootstrap-icons";
 
 let idLeads = []
 const styleCard = 'p-2 mx-1 text-white row justify-content-between rounded-top'
@@ -159,20 +159,20 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                                     <table>
                                         <thead>
                                         <tr>
-                                            <th className="sticky-top" id="th-1">
-                                                <div className={styleCard} style={{backgroundColor: 'blue'}}>
-                                                    <div className='col-auto'>Iniciar Atendimento</div>
-                                                    <div className='col-auto'>Qdt: {leads.novo.length}</div>
-                                                </div>
-                                            </th>
-                                            <th className="sticky-top" id="th-2">
-                                                <div className={styleCard} style={{backgroundColor: 'orange'}}>
-                                                    <div className='col-auto'>
-                                                        Pré Atendimento
-                                                    </div>
-                                                    <div className='col-auto'><Typography variant="body1">Qdt: {leads.pre_atendimento.length}</Typography></div>
-                                                </div>
-                                            </th>
+                                            {/*<th className="sticky-top" id="th-1">*/}
+                                            {/*    <div className={styleCard} style={{backgroundColor: 'blue'}}>*/}
+                                            {/*        <div className='col-auto'>Iniciar Atendimento</div>*/}
+                                            {/*        <div className='col-auto'>Qdt: {leads.novo.length}</div>*/}
+                                            {/*    </div>*/}
+                                            {/*</th>*/}
+                                            {/*<th className="sticky-top" id="th-2">*/}
+                                            {/*    <div className={styleCard} style={{backgroundColor: 'orange'}}>*/}
+                                            {/*        <div className='col-auto'>*/}
+                                            {/*            Pré Atendimento*/}
+                                            {/*        </div>*/}
+                                            {/*        <div className='col-auto'><Typography variant="body1">Qdt: {leads.pre_atendimento.length}</Typography></div>*/}
+                                            {/*    </div>*/}
+                                            {/*</th>*/}
                                             <th className="sticky-top" id="th-3">
                                                 <div className={styleCard} style={{backgroundColor: 'green'}}>
                                                     <div className='col-auto'>
@@ -203,16 +203,16 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                                         </thead>
                                         <tbody>
                                         <tr className="align-top bg-white">
-                                            <td id="td-1" style={{minWidth: 300}}>
-                                                {leads.novo.map((dado) => {
-                                                    return <NovoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
-                                                })}
-                                            </td>
-                                            <td id="td-2" style={{minWidth: 300}}>
-                                                {leads.pre_atendimento.map((dado) => {
-                                                    return <PreAtendimentoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
-                                                })}
-                                            </td>
+                                            {/*<td id="td-1" style={{minWidth: 300}}>*/}
+                                            {/*    {leads.novo.map((dado) => {*/}
+                                            {/*        return <NovoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>*/}
+                                            {/*    })}*/}
+                                            {/*</td>*/}
+                                            {/*<td id="td-2" style={{minWidth: 300}}>*/}
+                                            {/*    {leads.pre_atendimento.map((dado) => {*/}
+                                            {/*        return <PreAtendimentoCard key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>*/}
+                                            {/*    })}*/}
+                                            {/*</td>*/}
                                             <td id="td-3" style={{minWidth: 300}}>
                                                 {leads.aberto.map((dado) => {
                                                     return <AbertoCards key={dado.id} dados={dado} leadsSelecionados={leadsSelecionados}/>
@@ -268,8 +268,11 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                     {isLeadsEncaminhar &&
                         <CardContainer>
                             <CardBody>
-                                <Typography className="cursor-pointer" variant="body2"
-                                            onClick={handdleAltararConsultor} marginBottom={2}>+ Alterar Consultor</Typography>
+                                <Stack direction="row" spacing={1} onClick={handdleAltararConsultor} marginBottom={2} alignItems="center">
+                                    {toggleAlterarConsultor ? <ChevronDown color="black" size={13}/> : <ChevronRight color="black" size={13}/>}
+                                    <Typography className="cursor-pointer" variant="body2">Alterar Consultor</Typography>
+                                </Stack>
+
                                 {toggleAlterarConsultor &&
                                     <div className="row g-2">
                                         <Typography variant="body1">Alterar CONSULTOR(A) dos Leads Selecionados:</Typography>
@@ -303,8 +306,10 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                     {isLeadsEncaminhar &&
                         <CardContainer>
                             <CardBody>
-                                <Typography className="cursor-pointer" variant="body2"
-                                            onClick={handdleAltararSdr} marginBottom={3}>+ Alterar SDR</Typography>
+                                <Stack direction="row" spacing={1} onClick={handdleAltararSdr} marginBottom={2} alignItems="center">
+                                    {toggleAlterarConsultor ? <ChevronDown color="black" size={13}/> : <ChevronRight color="black" size={13}/>}
+                                    <Typography className="cursor-pointer" variant="body2">Alterar SDR</Typography>
+                                </Stack>
                                 {toggleAlterarSdr && <div className="row g-2">
                                     <Typography variant="body1">Alterar SDR dos Leads selecionados:</Typography>
 
@@ -334,8 +339,10 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                     {isLeadsLimpar &&
                         <CardContainer>
                             <CardBody>
-                                <Typography marginBottom={3} className="cursor-pointer" variant="body2"
-                                            onClick={handdleRemoverStatus}>+ Alterar Status</Typography>
+                                <Stack direction="row" spacing={1} onClick={handdleRemoverStatus} marginBottom={2} alignItems="center">
+                                    {toggleAlterarConsultor ? <ChevronDown color="black" size={13}/> : <ChevronRight color="black" size={13}/>}
+                                    <Typography className="cursor-pointer" variant="body2">Alterar Status</Typography>
+                                </Stack>
                                 {toggleRemoverStatus && <div className="row">
                                     <Typography variant="body1" marginBottom={3}>Remover todos os Leads do status:</Typography>
 
