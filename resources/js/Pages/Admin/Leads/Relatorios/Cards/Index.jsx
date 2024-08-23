@@ -153,10 +153,9 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                 <div className="col-md-10">
                     {carregandoRegistros && <LinearProgress/>}
                     {!carregandoRegistros &&
-                        <div className='row justify-content-center'>
-
+                        <div className='row justify-content-center overflow-scroll' style={{height: '85vh'}}>
                             <div className='col-auto'>
-                                <div className="overflow-scroll" style={{height: '90vh'}}>
+                                <div>
                                     <table>
                                         <thead>
                                         <tr>
@@ -259,9 +258,9 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                     <CardContainer>
                         <CardBody>
                             <Stack spacing={1}>
-                                <span className="d-block"><b>Nome:</b> {usuario.nome}</span>
-                                <span className="d-block"><b>Funcão:</b> {usuario.funcao}</span>
-                                <span className="d-block"><b>Setor:</b> {usuario.setor}</span>
+                                <Typography className="d-block"><b>Nome:</b> {usuario.nome}</Typography>
+                                <Typography className="d-block"><b>Funcão:</b> {usuario.funcao}</Typography>
+                                <Typography className="d-block"><b>Setor:</b> {usuario.setor}</Typography>
                             </Stack>
                         </CardBody>
                     </CardContainer>
@@ -269,27 +268,28 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                     {isLeadsEncaminhar &&
                         <CardContainer>
                             <CardBody>
-                                <Typography className="cursor-pointer" onClick={handdleAltararConsultor} marginBottom={2}>+ Alterar Consultor</Typography>
+                                <Typography className="cursor-pointer" variant="body2"
+                                            onClick={handdleAltararConsultor} marginBottom={2}>+ Alterar Consultor</Typography>
                                 {toggleAlterarConsultor &&
                                     <div className="row g-2">
                                         <Typography variant="body1">Alterar CONSULTOR(A) dos Leads Selecionados:</Typography>
 
-                                            <TextField label="Selecione o Consultor..." select
-                                                       fullWidth required size="small" defaultValue=""
-                                                       onChange={e => setData('novo_consultor', e.target.value)}>
-                                                <MenuItem value="vazio" className="text-muted ps-3">Nenhum Consultor(a)</MenuItem>
-                                                <Divider/>
-                                                {consultores.map((option) => <MenuItem key={option.id} value={option.id}>
-                                                    <Box display="flex" alignItems="center">
-                                                        <Avatar src={option.foto} alt={option.nome} sx={{mr: 1, width: 20, height: 20}}/>
-                                                        {option.nome}
-                                                    </Box>
-                                                </MenuItem>)}
-                                            </TextField>
+                                        <TextField label="Selecione o Consultor..." select
+                                                   fullWidth required size="small" defaultValue=""
+                                                   onChange={e => setData('novo_consultor', e.target.value)}>
+                                            <MenuItem value="vazio" className="text-muted ps-3">Nenhum Consultor(a)</MenuItem>
+                                            <Divider/>
+                                            {consultores.map((option) => <MenuItem key={option.id} value={option.id}>
+                                                <Box display="flex" alignItems="center">
+                                                    <Avatar src={option.foto} alt={option.nome} sx={{mr: 1, width: 20, height: 20}}/>
+                                                    {option.nome}
+                                                </Box>
+                                            </MenuItem>)}
+                                        </TextField>
 
-                                            <button type="button" className="btn btn-dark btn-sm px-3" data-bs-toggle="modal" data-bs-target="#alterarConsultor">
-                                                ENVIAR
-                                            </button>
+                                        <button type="button" className="btn btn-dark btn-sm px-3" data-bs-toggle="modal" data-bs-target="#alterarConsultor">
+                                            ENVIAR
+                                        </button>
                                         <div>
                                             <Switch checked={alterarStatusConsultor} size="small"
                                                     onChange={e => setAlterarStatusConsultor(e.target.checked)}/>
@@ -303,25 +303,26 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                     {isLeadsEncaminhar &&
                         <CardContainer>
                             <CardBody>
-                                <Typography className="cursor-pointer" onClick={handdleAltararSdr} marginBottom={3}>+ Alterar SDR</Typography>
+                                <Typography className="cursor-pointer" variant="body2"
+                                            onClick={handdleAltararSdr} marginBottom={3}>+ Alterar SDR</Typography>
                                 {toggleAlterarSdr && <div className="row g-2">
                                     <Typography variant="body1">Alterar SDR dos Leads selecionados:</Typography>
 
-                                        <TextField label="Selecione o SDR..." select
-                                                   fullWidth required size="small" defaultValue=""
-                                                   onChange={e => setData('novo_sdr', e.target.value)}>
-                                            <MenuItem value="vazio" className="text-muted ps-5">Nenhum SDR</MenuItem>
-                                            <Divider/>
-                                            {sdrs.map((option) => <MenuItem key={option.id} value={option.id}>
-                                                <Box display="flex" alignItems="center">
-                                                    <Avatar src={option.foto} alt={option.nome} sx={{mr: 1, width: 20, height: 20}}/>
-                                                    <Typography variant="body1">{option.nome}</Typography>
-                                                </Box>
-                                            </MenuItem>)}
-                                        </TextField>
-                                        <button type="button" className="btn btn-dark btn-sm px-3" data-bs-toggle="modal" data-bs-target="#alterarSdr">
-                                            ENVIAR
-                                        </button>
+                                    <TextField label="Selecione o SDR..." select
+                                               fullWidth required size="small" defaultValue=""
+                                               onChange={e => setData('novo_sdr', e.target.value)}>
+                                        <MenuItem value="vazio" className="text-muted ps-5">Nenhum SDR</MenuItem>
+                                        <Divider/>
+                                        {sdrs.map((option) => <MenuItem key={option.id} value={option.id}>
+                                            <Box display="flex" alignItems="center">
+                                                <Avatar src={option.foto} alt={option.nome} sx={{mr: 1, width: 20, height: 20}}/>
+                                                <Typography variant="body1">{option.nome}</Typography>
+                                            </Box>
+                                        </MenuItem>)}
+                                    </TextField>
+                                    <button type="button" className="btn btn-dark btn-sm px-3" data-bs-toggle="modal" data-bs-target="#alterarSdr">
+                                        ENVIAR
+                                    </button>
                                     <div className="">
                                         <Switch checked={alterarStatusSdr} onChange={e => setAlterarStatusSdr(e.target.checked)} size="small"/>
                                         <Typography variant="body2" display="inline">Alterar Status para "INICIAR ATENDIMENTO" ao atualizar?</Typography>
@@ -333,23 +334,24 @@ export default function Dashboard({usuario, consultores, sdrs, isLeadsLimpar, is
                     {isLeadsLimpar &&
                         <CardContainer>
                             <CardBody>
-                                <Typography marginBottom={3} className="cursor-pointer" onClick={handdleRemoverStatus}>+ Alterar Status</Typography>
+                                <Typography marginBottom={3} className="cursor-pointer" variant="body2"
+                                            onClick={handdleRemoverStatus}>+ Alterar Status</Typography>
                                 {toggleRemoverStatus && <div className="row">
                                     <Typography variant="body1" marginBottom={3}>Remover todos os Leads do status:</Typography>
 
-                                        <TextField label="Status" select value={limparStatus ?? ''} className="mb-4"
-                                                   fullWidth required size="small" defaultValue=""
-                                                   onChange={e => setLimparStatus(e.target.value)}>
-                                            <MenuItem value="pre_atendimento">Pré Atendiemnto</MenuItem>
-                                            <MenuItem value="aberto">Em Aberto</MenuItem>
-                                            <MenuItem value="atendimento">Atendimento</MenuItem>
-                                            <MenuItem value="finalizado">Finalizado</MenuItem>
-                                        </TextField>
+                                    <TextField label="Status" select value={limparStatus ?? ''} className="mb-4"
+                                               fullWidth required size="small" defaultValue=""
+                                               onChange={e => setLimparStatus(e.target.value)}>
+                                        <MenuItem value="pre_atendimento">Pré Atendiemnto</MenuItem>
+                                        <MenuItem value="aberto">Em Aberto</MenuItem>
+                                        <MenuItem value="atendimento">Atendimento</MenuItem>
+                                        <MenuItem value="finalizado">Finalizado</MenuItem>
+                                    </TextField>
 
-                                        <button type="button" className="btn btn-success btn-sm"
-                                                data-bs-toggle="modal" data-bs-target="#modalLimpar">
-                                            Remover
-                                        </button>
+                                    <button type="button" className="btn btn-success btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#modalLimpar">
+                                        Remover
+                                    </button>
 
                                 </div>}
                             </CardBody>
