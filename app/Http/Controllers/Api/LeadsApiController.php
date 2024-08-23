@@ -12,7 +12,7 @@ class LeadsApiController extends Controller
     {
         $setor = $request->setor ?? 1;
         ;
-        throw new \DomainException($request->data);
+        throw new \DomainException($request->fields);
         (new Leads())->create($request, 1);
         return response()->json(['status' => 'success'], 200);
     }
