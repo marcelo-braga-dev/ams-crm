@@ -11,10 +11,9 @@ class LeadsApiController extends Controller
 {
     public function cadastrar(Request $request)
     {
-        $setor = $request->setor ?? 1;;
-        event(new ChatInternoNovaMensagemRecebida($request->all(), $request));
-//        throw new \DomainException($request->fields['cnpj']['value']);
-//        (new Leads())->create($request, 1);
+        $setor = $request->setor ?? 1;
+        throw new \DomainException($request->fields['cnpj']['title']);
+
         return response()->json(['status' => 'success'], 200);
     }
 }
