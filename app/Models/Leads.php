@@ -228,7 +228,7 @@ class Leads extends Model
                         'user_id' => $vendedor,
                         'sdr_id' => $sdr,
                         'status' => $status,
-                        'nome' => $dados['nome'] ?? null,
+                        'nome' => $dados['nome'] ?? $dados['razao_social'] ?? null,
                         'razao_social' => $dados['razao_social'] ?? null,
                         'cnpj' => $cnpj ?: null,
                         'inscricao_estadual' => $dados['inscricao_estadual'] ?? null,
@@ -268,6 +268,7 @@ class Leads extends Model
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
         } catch (QueryException $exception) {
+            print_pre($exception->getMessage());
             $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
             if ($existCnpj->id ?? null) throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
         }

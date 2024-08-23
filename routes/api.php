@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::any('/leads/cadastrar', [App\Http\Controllers\Api\LeadsApiController::class, 'cadastrar'])
+    ->name('api.leads.cadastrar');
