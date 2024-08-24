@@ -17,7 +17,7 @@ class LeadsApiController extends Controller
         $dados['nome'] = $request->fields['nome']['value'] ?? null;
         $dados['razao_social'] = $request->fields['razao_social']['value'] ?? null;
         $dados['telefones'][] = $request->fields['telefone']['value'] ?? null;
-        (new ChatInternoNovaMensagemRecebida(1, $request->all()))
+        (new ChatInternoNovaMensagemRecebida(1, $request->fields))
         (new Leads())->create($dados, 1);
 
         return response()->json(['status' => 'success'], 200);
