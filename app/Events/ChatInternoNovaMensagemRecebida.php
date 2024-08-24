@@ -30,9 +30,9 @@ class ChatInternoNovaMensagemRecebida  implements ShouldBroadcast
 
         $this->mensagem = $mensagem;
         $this->destinatarioId = $destinatarioId;
-        $this->remetente = $remetente->name;
-        $this->remetenteFoto = url_arquivos($remetente->foto);
-        $this->remetenteId = $remetente->id;
+//        $this->remetente = $remetente->name;
+//        $this->remetenteFoto = url_arquivos($remetente->foto);
+//        $this->remetenteId = $remetente->id;
     }
 
     /**
