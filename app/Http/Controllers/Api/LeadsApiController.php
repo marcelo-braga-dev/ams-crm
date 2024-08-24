@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\ChatInternoNovaMensagemRecebida;
 use App\Http\Controllers\Controller;
 use App\Models\Leads;
 use Illuminate\Http\Request;
@@ -17,7 +16,7 @@ class LeadsApiController extends Controller
         $dados['nome'] = $request->fields['nome']['value'] ?? null;
         $dados['razao_social'] = $request->fields['razao_social']['value'] ?? null;
         $dados['telefones'][] = $request->fields['telefone']['value'] ?? null;
-        event(new ChatInternoNovaMensagemRecebida(1, $request->all()));
+
         (new Leads())->create($dados, 1);
 
         return response()->json(['status' => 'success'], 200);
