@@ -205,17 +205,19 @@ class Leads extends Model
     {
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
+        if ($status) $status = (new PreAtendimentoStatusLeads())->getStatus();
+        else $status = (new AbertoStatusLeads())->getStatus();
+
         try {
             $sdr = null;
             $vendedor = null;
-            $status = (new AbertoStatusLeads())->getStatus();
+
             if ($usuario) {
                 $isSdr = is_sdr($usuario);
                 $status = $isSdr ? (new NovoStatusLeads())->getStatus() : (new AbertoStatusLeads())->getStatus();
                 $isSdr ? $sdr = $usuario : $vendedor = $usuario;
             }
 
-            if ($status) $status = (new PreAtendimentoStatusLeads())->getStatus();
             if ($importacao) $status = (new NovoStatusLeads())->getStatus();
 
             $verificacaoCnpj = null;
