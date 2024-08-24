@@ -10,6 +10,7 @@ use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\InativoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
+use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\Status\StatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use DateTime;
@@ -200,7 +201,7 @@ class Leads extends Model
         }
     }
 
-    public function create($dados, $setor, $usuario = null, $importacao = null)
+    public function create($dados, $setor, $usuario = null, $importacao = null, $status = false)
     {
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
@@ -213,6 +214,8 @@ class Leads extends Model
                 $status = $isSdr ? (new NovoStatusLeads())->getStatus() : (new AbertoStatusLeads())->getStatus();
                 $isSdr ? $sdr = $usuario : $vendedor = $usuario;
             }
+
+            if ($status) $status = (new PreAtendimentoStatusLeads())->getStatus();
             if ($importacao) $status = (new NovoStatusLeads())->getStatus();
 
             $verificacaoCnpj = null;

@@ -17,7 +17,7 @@ class LeadsApiController extends Controller
         $dados['razao_social'] = $request->fields['razao_social']['value'] ?? null;
         $dados['telefones'][] = $request->fields['telefone']['value'] ?? null;
 
-        (new Leads())->create($dados, 1);
+        (new Leads())->create($dados, 1, null, null, true);
 
         return response()->json(['status' => 'success'], 200);
     }
