@@ -14,18 +14,18 @@ const dashboard = {
             icon: ChatText,
             submenu: [
                 {
+                    id: 'chats-whatsapp',
+                    chave: chaves.chats.interno,
+                    title: 'WhatsApp',
+                    type: 'item',
+                    url: route('admin.chats.whatsapp.index'),
+                }, {
                     id: 'chat-interno',
                     chave: chaves.chats.interno,
                     title: 'Chat Interno',
                     type: 'item',
                     url: route('admin.chat-interno.index'),
-                }, {
-                    id: 'chats-whatsapp',
-                    chave: chaves.chats.interno,
-                    title: 'Whatsapp',
-                    type: 'item',
-                    url: route('admin.chats.whatsapp.index'),
-                }
+                },
             ]
         }
     ]
