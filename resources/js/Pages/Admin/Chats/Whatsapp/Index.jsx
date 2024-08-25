@@ -16,20 +16,10 @@ const Page = ({width, height}) => {
     }, []);
 
     return <Layout>
-        WHATSAPP
-
-        <div>
-            <h1>Whaticket</h1>
-            <div id="whaticket-root">
-                {/* Aqui o conteúdo do Whaticket será carregado */}
-            </div>
-        </div>
-
-        <h1>IFLAME</h1>
         <iframe
             src={url}
             width="100%"
-            height="1000px"
+            height="60vh"
             style={{border: "none"}}
             title="Whaticket"
         />
