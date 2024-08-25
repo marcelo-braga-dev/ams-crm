@@ -20,7 +20,7 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.chat-interno.index'),
                 }, {
-                    id: 'chat-whatsapp',
+                    id: 'chats-whatsapp',
                     chave: chaves.chats.interno,
                     title: 'Whatsapp',
                     type: 'item',
