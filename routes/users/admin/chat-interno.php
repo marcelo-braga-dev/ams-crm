@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ChatInterno\ChatInternoController;
+use App\Http\Controllers\Admin\Chats\WhatsappController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
@@ -14,4 +15,10 @@ Route::name('admin.')
 
         Route::post('chat-interno-excluir-aviso', [ChatInternoController::class, 'excluirAviso'])
             ->name('chat-interno-excluir-aviso');
+    });
+
+Route::name('admin.chats.')
+    ->prefix('admin/chats')
+    ->group(function () {
+        Route::resource('whatsapp', WhatsappController::class);
     });
