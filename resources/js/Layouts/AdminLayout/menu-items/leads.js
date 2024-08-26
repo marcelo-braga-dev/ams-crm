@@ -26,6 +26,12 @@ const dashboard = {
                     type: 'item',
                     url: route('admin.clientes.leads.leads-main.create'),
                 }, {
+                    id: 'leads-kanban',
+                    chave: chaves.leads.kanban,
+                    title: 'Funil de Vendas',
+                    type: 'item',
+                    url: route('admin.leads.kanban.index'),
+                }, {
                     id: 'leads-cards',
                     chave: chaves.leads.quadros,
                     title: 'Quadros de Leads',

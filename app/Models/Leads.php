@@ -12,6 +12,7 @@ use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\Status\StatusLeads;
+use App\src\Leads\StatusLeads\StatusLeadsInterface;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use DateTime;
 use Error;
@@ -62,6 +63,37 @@ class Leads extends Model
         'data_situacao',
         'data_abertura',
     ];
+
+
+    public function agrupadosPorStatus()
+    {
+        $sequenciaStatus = (new \App\src\Leads\StatusLeads())->sequenciaStatus();
+        $sequenciaStatusIndice = (new \App\src\Leads\StatusLeads())->sequenciaStatusDadosIndice();
+
+        return $this->newQuery()
+            ->get()
+            ->groupBy('status')
+            ->mapWithKeys(function ($items, $status) use ($sequenciaStatus, $sequenciaStatusIndice) {
+                $limitedItems = $items->take(10);
+                return [
+                    $status => [
+                        'status' => $status,
+                        'status_dados' => $sequenciaStatusIndice[$status] ?? null,
+                        'items' => $limitedItems->map(function ($item) {
+                            return [
+                                'id' => $item->id,
+                                'status' => $item->status,
+                                'status_data' => date('d/m/y H:i', strtotime($item->created_at)),
+                            ];
+                        }),
+                    ]
+                ];
+            })
+            ->sortBy(function ($item, $key) use ($sequenciaStatus) {
+                $index = array_search($key, $sequenciaStatus);
+                return $index !== false ? $index : PHP_INT_MAX;
+            });
+    }
 
     public function createOrUpdatePlanilhas($dados, $setor, $importacao = null)
     {

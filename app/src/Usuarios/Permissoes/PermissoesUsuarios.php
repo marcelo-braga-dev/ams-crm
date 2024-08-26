@@ -20,6 +20,7 @@ class PermissoesUsuarios extends ChavesPermissoes
             ], [
                 'categoria' => 'Leads',
                 'permissoes' => [
+                    ['id' => $this->chaveLeadsKanban(), 'nome' => 'Kanban'],
                     ['id' => $this->chaveLeadsReceber(), 'nome' => 'Recebe Leads dos SDR'],
                     ['id' => $this->chaveLeadsCadastrados(), 'nome' => 'Ver Cadastrados'],
                     ['id' => $this->chaveLeadsCadastrar(), 'nome' => 'Cadastrar Leads'],

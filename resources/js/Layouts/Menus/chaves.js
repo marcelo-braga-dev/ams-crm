@@ -3,8 +3,8 @@ const chavesPermissoes = {
         emitir: 1, config: 2, quadros: 32, historico: 33, relatorio: 34, fretes: 60
     },
     leads: {
-        cadastrar: 3, encaminhar: 4, importar: 5, cadastrados: 35, quadros: 36, historico: 37,
-        alterar_consultor: 38, relatorio: 39, encaminhados: 51
+       cadastrar: 3, encaminhar: 4, importar: 5, cadastrados: 35, quadros: 36, historico: 37,
+        alterar_consultor: 38, relatorio: 39, encaminhados: 51, kanban: 63
     },
     produtos: {
         cadastrados: 6, cadastrar: 7, categorias: 40, unidades: 41, estoque: 42, integracoes: 56, fornecedores: 57

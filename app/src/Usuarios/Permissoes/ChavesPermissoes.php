@@ -313,4 +313,9 @@ class ChavesPermissoes
     {
         return '62';
     }
+
+    public function chaveLeadsKanban()
+    {
+        return '63';
+    }
 }
