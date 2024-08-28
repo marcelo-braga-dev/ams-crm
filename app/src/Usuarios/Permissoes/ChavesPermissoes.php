@@ -318,4 +318,45 @@ class ChavesPermissoes
     {
         return '63';
     }
+
+
+    public function chaveLeadsStatusNovos()
+    {
+        return '64';
+    }
+
+    public function chaveLeadsStatusFazer()
+    {
+        return '65';
+    }
+
+    public function chaveLeadsStatusProgresso()
+    {
+        return '66';
+    }
+
+    public function chaveLeadsStatusRevisao()
+    {
+        return '67';
+    }
+
+    public function chaveLeadsStatusConcluido()
+    {
+        return '68';
+    }
+
+    public function chaveLeadsStatusFinalizados()
+    {
+        return '69';
+    }
+
+    public function chaveLeadsStatusInativos()
+    {
+        return '70';
+    }
+
+    public function chaveLeadsStatusInicioFunil()
+    {
+        return '71';
+    }
 }

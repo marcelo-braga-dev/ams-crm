@@ -5,9 +5,9 @@ namespace App\src\Leads\StatusLeads;
 class InicioFunilStatusLeads implements StatusLeadsInterface
 {
     private string $status = 'inicio_funil';
-    private string $statusNome = 'Início Funil';
+    private string $statusNome = 'Inicio Funil';
     private int $statusPrazo = 0;
-    private string $statusCor = 'gray';
+    private string $statusCor = 'purple';
 
     public function status(): string
     {

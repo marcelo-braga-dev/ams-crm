@@ -1,24 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import {Grid, Stack, Typography, Divider, Chip, Box} from "@mui/material";
-import {Envelope, Person, PersonVideo2, Telephone, Whatsapp} from "react-bootstrap-icons";
+import {Grid, Stack, Typography, Divider, Chip, Box, IconButton, Avatar} from "@mui/material";
+import {Envelope, Eye, Person, PersonFill, PersonVideo2, Telephone, Whatsapp} from "react-bootstrap-icons";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import Modal from "@mui/material/Modal";
 import AbrirChatWhatsapp from "@/Components/Chats/Whatsapp/AbrirChatWhatsapp.jsx";
+import AbrirTelefone from "@/Components/Chats/Telefone/AbrirTelefone.jsx";
+import Link from "@/Components/Link.jsx";
 
 const CardKanbanLeads = ({item: {razao_social, nome, cnpj, cpf, id, telefones}}) => {
 
     return (
         <CardContainer>
             <CardBody>
-                <Grid container gap={1} marginBottom={1}>
+                <Grid container marginBottom={1}>
                     <Grid item md={1}>
-                        <Person size={18}/>
+                        <PersonFill size={18}/>
                     </Grid>
-                    <Grid item md={10}>
+                    <Grid item md={10} paddingInline={1}>
                         <Stack>
                             <Typography fontWeight="bold">{razao_social || nome}</Typography>
                         </Stack>
+                    </Grid>
+                    <Grid item md={1}>
+                        <Link href={route('admin.clientes.leads.leads-main.show', id)} icon={<Eye size={20} color="blue"/>}/>
                     </Grid>
                 </Grid>
 
@@ -43,8 +48,9 @@ const CardKanbanLeads = ({item: {razao_social, nome, cnpj, cpf, id, telefones}})
                 <Divider sx={{marginTop: 2}}/>
 
                 <Stack direction="row" spacing={2} marginTop={2}>
-                    <AbrirChatWhatsapp/>
-                    <Telephone cursor="pointer" size={18} color="blue"/>
+                    <AbrirChatWhatsapp telefones={telefones}/>
+                    <AbrirTelefone telefones={telefones}/>
+
                     <Envelope cursor="pointer" size={20} color="orange"/>
                 </Stack>
 

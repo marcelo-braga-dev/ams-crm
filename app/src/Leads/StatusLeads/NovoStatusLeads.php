@@ -7,7 +7,7 @@ class NovoStatusLeads implements StatusLeadsInterface
     private string $status = 'novo';
     private string $statusNome = 'Novos';
     private int $statusPrazo = 0;
-    private string $statusCor = 'pink';
+    private string $statusCor = '#41D310E2';
 
     public function status(): string
     {

@@ -22,8 +22,8 @@ class StatusLeads
     private function sequenciaClasses()
     {
         return [
-            (new NovoStatusLeads()),
             (new InicioFunilStatusLeads()),
+            (new NovoStatusLeads()),
             (new AFazerStatusLeads),
             (new EmProgressoStatusLeads),
             (new RevisaoStatusLeads()),

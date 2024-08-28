@@ -47,6 +47,11 @@ class LeadsController extends Controller
         return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
     }
 
+    public function alterarStatusTelefone($id, Request $request)
+    {
+        (new LeadsDados())->atualizarStatus($id, $request->status);
+    }
+
     public function leadsCadastrados(Request $request)
     {
         $categoriaAtual = $request->setor ?? 1;

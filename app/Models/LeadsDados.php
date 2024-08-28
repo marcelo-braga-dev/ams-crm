@@ -16,6 +16,8 @@ class LeadsDados extends Model
         'valor',
         'nome',
         'status',
+        'status_whatsapp',
+        'status_telefone',
     ];
 
     public function create($id, $chave, $valor = null, $nome = null)
@@ -85,5 +87,12 @@ class LeadsDados extends Model
                     ['lead_id' => $idLead, 'chave' => $chaves->chaveTelefone(), 'valor' => converterInt(converterTelefone($dado)), 'nome' => $chaves->nomeTelefone()]
                 );
         }
+    }
+
+    public function atualizarStatus($id, $status)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['status_telefone' => $status]);
     }
 }

@@ -38,6 +38,9 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveLeadsInativar(), 'nome' => 'Inativar Leads'],
                 ]
             ], [
+                'categoria' => 'Leads Funil de Vendas',
+                'permissoes' => (new LeadsKanban())->permissoes(),
+            ], [
                 'categoria' => 'Produtos',
                 'permissoes' => [
                     ['id' => $this->chaveProdutos(), 'nome' => 'Ver Produtos'],

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\src\Usuarios\Permissoes\ChavesPermissoes;
+use App\src\Usuarios\Permissoes\LeadsKanban;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +15,15 @@ class UsersPermissoes extends Model
         'user_id',
         'chave',
     ];
+
+    public function permissoesUsuaioCategoria(int $id, array $categorias)
+    {
+        return $this->newQuery()
+            ->where('user_id', $id)
+            ->whereIn('chave', $categorias)
+            ->pluck('chave');
+    }
+
 
     public function atualizar($id, $permissoes)
     {

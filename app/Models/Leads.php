@@ -14,6 +14,7 @@ use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\Status\StatusLeads;
 use App\src\Leads\StatusLeads\StatusLeadsInterface;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
+use App\src\Usuarios\Permissoes\LeadsKanban;
 use DateTime;
 use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -64,13 +65,21 @@ class Leads extends Model
         'data_abertura',
     ];
 
+    public function telefones()
+    {
+        return $this->hasMany(LeadsDados::class, 'lead_id')
+            ->selectRaw('id, lead_id, valor as telefone, status, status_whatsapp, status_telefone');
+    }
 
-    public function agrupadosPorStatus()
+    public function agrupadosPorStatus($status)
     {
         $sequenciaStatus = (new \App\src\Leads\StatusLeads())->sequenciaStatus();
         $sequenciaStatusIndice = (new \App\src\Leads\StatusLeads())->sequenciaStatusDadosIndice();
 
         return $this->newQuery()
+            ->with('telefones')
+            ->orderBy('id', 'desc')
+            ->whereIn('status', $status)
             ->get()
             ->groupBy('status')
             ->mapWithKeys(function ($items, $status) use ($sequenciaStatus, $sequenciaStatusIndice) {
@@ -83,11 +92,23 @@ class Leads extends Model
                             return [
                                 'id' => $item->id,
                                 'nome' => $item->nome,
+
                                 'razao_social' => $item->razao_social,
                                 'cnpj' => converterCNPJ($item->cnpj),
                                 'cpf' => $item->cpf,
                                 'status' => $item->status,
                                 'status_data' => date('d/m/y H:i', strtotime($item->created_at)),
+                                'telefones' => $item->telefones->map(function ($telefone) {
+                                    return [
+                                        'id' => $telefone->id,
+                                        'lead_id' => $telefone->lead_id,
+                                        'telefone' => $telefone->telefone,
+                                        'telefone_padrao' => converterTelefone($telefone->telefone),
+                                        'status' => $telefone->status,
+                                        'status_whatsapp' => $telefone->status_whatsapp,
+                                        'status_telefone' => $telefone->status_telefone
+                                    ];
+                                }),
                             ];
                         }),
                     ]
@@ -887,10 +908,6 @@ class Leads extends Model
             });
     }
 
-    public function telefones()
-    {
-        return $this->hasMany(LeadsDados::class, 'lead_id');
-    }
 
     public function getDadosMinimoPaginate($setor, $filtros)
     {
