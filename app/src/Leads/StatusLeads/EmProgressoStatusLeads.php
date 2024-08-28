@@ -32,4 +32,9 @@ class EmProgressoStatusLeads implements StatusLeadsInterface
             'cor' => $this->statusCor
         ];
     }
+
+    public function permissoes(): array
+    {
+        // TODO: Implement permissoes() method.
+    }
 }

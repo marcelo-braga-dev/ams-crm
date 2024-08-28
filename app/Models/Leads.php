@@ -82,6 +82,10 @@ class Leads extends Model
                         'items' => $limitedItems->map(function ($item) {
                             return [
                                 'id' => $item->id,
+                                'nome' => $item->nome,
+                                'razao_social' => $item->razao_social,
+                                'cnpj' => converterCNPJ($item->cnpj),
+                                'cpf' => $item->cpf,
                                 'status' => $item->status,
                                 'status_data' => date('d/m/y H:i', strtotime($item->created_at)),
                             ];

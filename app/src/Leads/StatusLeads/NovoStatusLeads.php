@@ -2,12 +2,12 @@
 
 namespace App\src\Leads\StatusLeads;
 
-class RevisaoStatusLeads implements StatusLeadsInterface
+class NovoStatusLeads implements StatusLeadsInterface
 {
-    private string $status = 'revisao';
-    private string $statusNome = 'Revisão';
+    private string $status = 'novo';
+    private string $statusNome = 'Novos';
     private int $statusPrazo = 0;
-    private string $statusCor = 'red';
+    private string $statusCor = 'pink';
 
     public function status(): string
     {
@@ -27,9 +27,9 @@ class RevisaoStatusLeads implements StatusLeadsInterface
     public function statusDados(): array
     {
         return [
-            'nome' => $this->statusNome,
             'status' => $this->status,
-            'cor' => $this->statusCor
+            'nome' => $this->statusNome,
+            'cor' => $this->statusCor,
         ];
     }
 

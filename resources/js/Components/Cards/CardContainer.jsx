@@ -3,11 +3,11 @@ import {useContext} from "react";
 import AuthProvider from '@/Layouts/Contexts/Context'
 
 const Card = styled.div`
-    border: 1px solid #e8e8e8;
     border-radius: 10px;
     overflow-wrap: break-word;
     margin-bottom: 2rem;
-    background-color: ${(props) => props.bgColor || 'white'}
+    background-color: ${(props) => props.bgColor || 'white'};
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 `
 
 export default function CardContainer({children, className}) {

@@ -5,6 +5,10 @@ namespace App\src\Leads;
 use App\src\Leads\StatusLeads\AFazerStatusLeads;
 use App\src\Leads\StatusLeads\ConcluidoStatusLeads;
 use App\src\Leads\StatusLeads\EmProgressoStatusLeads;
+use App\src\Leads\StatusLeads\FinalizadosStatusLeads;
+use App\src\Leads\StatusLeads\InativoStatusLeads;
+use App\src\Leads\StatusLeads\InicioFunilStatusLeads;
+use App\src\Leads\StatusLeads\NovoStatusLeads;
 use App\src\Leads\StatusLeads\RevisaoStatusLeads;
 use App\src\Leads\StatusLeads\StatusLeadsInterface;
 
@@ -18,10 +22,14 @@ class StatusLeads
     private function sequenciaClasses()
     {
         return [
+            (new NovoStatusLeads()),
+            (new InicioFunilStatusLeads()),
             (new AFazerStatusLeads),
             (new EmProgressoStatusLeads),
             (new RevisaoStatusLeads()),
-            (new ConcluidoStatusLeads())
+            (new ConcluidoStatusLeads()),
+            (new FinalizadosStatusLeads()),
+            (new InativoStatusLeads()),
         ];
     }
 

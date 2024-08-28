@@ -11,4 +11,6 @@ interface StatusLeadsInterface
     public function statusPrazo(): ?int;
 
     public function statusDados(): array;
+
+    public function permissoes(): array;
 }

@@ -28,8 +28,13 @@ class AFazerStatusLeads implements StatusLeadsInterface
     {
         return [
             'status' => $this->status,
-            'status_nome' => $this->statusNome,
-            'status_cor' => $this->statusCor,
+            'nome' => $this->statusNome,
+            'cor' => $this->statusCor,
         ];
+    }
+
+    public function permissoes(): array
+    {
+        // TODO: Implement permissoes() method.
     }
 }

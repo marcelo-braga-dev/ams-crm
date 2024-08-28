@@ -2,12 +2,12 @@
 
 namespace App\src\Leads\StatusLeads;
 
-class RevisaoStatusLeads implements StatusLeadsInterface
+class InicioFunilStatusLeads implements StatusLeadsInterface
 {
-    private string $status = 'revisao';
-    private string $statusNome = 'Revisão';
+    private string $status = 'inicio_funil';
+    private string $statusNome = 'Início Funil';
     private int $statusPrazo = 0;
-    private string $statusCor = 'red';
+    private string $statusCor = 'gray';
 
     public function status(): string
     {

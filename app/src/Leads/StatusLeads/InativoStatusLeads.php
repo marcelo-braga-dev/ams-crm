@@ -2,12 +2,12 @@
 
 namespace App\src\Leads\StatusLeads;
 
-class RevisaoStatusLeads implements StatusLeadsInterface
+class InativoStatusLeads implements StatusLeadsInterface
 {
-    private string $status = 'revisao';
-    private string $statusNome = 'Revisão';
+    private string $status = 'inativo';
+    private string $statusNome = 'Inativos';
     private int $statusPrazo = 0;
-    private string $statusCor = 'red';
+    private string $statusCor = 'gray';
 
     public function status(): string
     {
