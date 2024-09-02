@@ -11,7 +11,7 @@ class InicioFunilStatusLeads extends StatusLeads
         $this->setStatus();
         $this->setStatusNome();
         $this->setStatusCor();
-        $this->urlStatus = 'auth.leads.show';
+        $this->urlStatus = '';
     }
 
     public function setStatus(): void

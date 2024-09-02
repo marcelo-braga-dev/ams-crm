@@ -64,6 +64,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function subordinados()
+    {
+        return $this->newQuery()
+            ->whereIn('id', supervisionados(id_usuario_atual()))
+            ->orderBy('name')
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'nome' => $item->name,
+                    'foto' => url_arquivos($item->foto),
+                ];
+            });
+    }
+
+    ///////
+
     public function create($dados)
     {
         try {

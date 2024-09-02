@@ -16,12 +16,11 @@ class CategoriasController extends Controller
 {
     public function index(Request $request)
     {
-        $setorAtual = $request->setor;
         $setores = (new SetoresService())->setores();
-        $categorias = (new ProdutosCategorias())->categorias($setorAtual);
+        $categorias = (new ProdutosCategorias())->categorias(null, true);
 
         return Inertia::render('Admin/Produtos/Categorias/Index',
-            compact('categorias', 'setores', 'setorAtual'));
+            compact('categorias', 'setores'));
     }
 
     public function show($id)

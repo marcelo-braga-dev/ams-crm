@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class WhatsappController extends Controller
 {
-    public function armazenarEnvioMensagem(Request $request)
+    public function enviadoMensagem(Request $request)
     {
-        $mensagem = $request->mensagem['content'] ?? '';
-        $origem = $request->input('origem');
         $leadId = $request->input('lead_id');
-        $telefoneId = $request->input('lead_id');
+        $telefoneId = $request->input('telefone_id');
+        $origem = $request->input('origem');
+        $meta = $request->input('meta');
 
-//        (new LeadsContatosRealizados())->store($leadId, $telefoneId, $mensagem, $origem);
+        (new LeadsContatosRealizados())->store($leadId, $telefoneId, $origem, $meta);
     }
 }

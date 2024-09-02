@@ -23,7 +23,7 @@ class FunilVendasKanbanController extends Controller
         $usuario = $request->input("usuario");
 
         $colunas = (new StatusLeads())->sequenciaStatusDadosIndice($usuario);
-        $usuarios = (new User())->usuarios(true);
+        $usuarios = (new User())->subordinados();
         $setores = (new Setores())->setores();
 
         $registros = (new Leads)->agrupadosPorStatus($setor, $usuario);

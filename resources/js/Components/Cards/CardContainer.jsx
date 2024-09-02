@@ -3,7 +3,7 @@ import {useContext} from "react";
 import AuthProvider from '@/Layouts/Contexts/Context'
 
 const Card = styled.div`
-    border-radius: 6px;
+    border-radius: 10px;
     overflow-wrap: break-word;
     margin-bottom: 2rem;
     background-color: ${(props) => props.bgColor || 'white'};

@@ -13,21 +13,21 @@ const optionsFetch = (token, number) => ({
 });
 
 // Função para cadastrar contato via API
-export const fetchCadastrarContato = async ({numero, id}, setContactId) => {
+export const fetchCadastrarContatoNoWhatsapp = async ({numero, id}, setContactId) => {
     try {
         const response = await fetch(`${apiURL}/messages/contacts`, optionsFetch(apiToken, `${numero}`));
+
         if (!response.ok) {
+            if (response.status === 400) inativarStatusWhatsapp(id);
             throw new Error('Erro na requisição');
         }
 
         const data = await response.json();
-
         setContactId(data?.data?.contactId);
 
         ativarStatusWhatsapp(id);
         return true;
     } catch (error) {
-        inativarStatusWhatsapp(id);
         return false;
     }
 };

@@ -59,10 +59,6 @@ Route::name('admin.leads.')
         Route::resource('encaminhados', EncaminhadosController::class);
         Route::resource('historicos', HistoricosController::class);
 
-        Route::put('alterar-status/telefone/{id}', [LeadsController::class, 'alterarStatusTelefone'])
-            ->name('alterar-status.telefone');
-
-
         Route::resource('cards-novo', NovoController::class);
         Route::resource('cards-pre_atendimento', PreAtendimentoController::class);
         Route::put('cards-pre_atendimento/voltar_status/{id}', [PreAtendimentoController::class, 'voltarStatus'])->name('cards-pre_atendimento.voltar_status');

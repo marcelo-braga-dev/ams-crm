@@ -1,18 +1,16 @@
 import React, {useState} from 'react';
-import {Grid, Stack, Typography, Divider, Chip, IconButton, Avatar} from "@mui/material";
+import {Grid, Stack, Typography, Divider, IconButton, Avatar} from "@mui/material";
 import {
-    ArrowDownShort,
-    ArrowUpShort,
+    ArrowDownShort, Box,
     Eye,
-    FileEarmarkRuled,
     ForwardFill,
-    Hash, Hourglass,
+    Hash,
     Pencil,
     PersonFill,
     PersonVideo2,
     PinAngle,
     PinAngleFill,
-    Ticket, TicketFill
+    TicketFill
 } from "react-bootstrap-icons";
 import CardContainer from "@/Components/Cards/CardContainer";
 import AbrirChatWhatsapp from "@/Components/Chats/Whatsapp/AbrirChatWhatsapp.jsx";
@@ -23,25 +21,25 @@ import Tooltip from "@mui/material/Tooltip";
 import DialogMui from "@/Components/Modals/DialogMui.jsx";
 import {router} from "@inertiajs/react";
 
-const CardKanbanLeads = ({item, fetchData}) => {
+const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
     const {
         razao_social, nome, cnpj, cpf, id, telefones, consultor, status_data, status_data_dias, classificacao,
         setor, avancar_status_url, index
     } = item
 
+    const [openModalConfirmStatus, setOpenModalConfirmStatus] = useState()
+    const handleOpen = () => setOpenModalConfirmStatus(true)
+    const handleClose = () => setOpenModalConfirmStatus(false)
+
     const [pin, setPin] = useState(false)
-    const armazenarPin = () => {
+    const armazenarStatusPinCard = () => {
         axios.post(route('auth.pins.leads'), {lead_id: id})
     }
-
-    const [open, setOpen] = useState()
-    const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
 
     const avancarStatus = () => {
         router.post(route(avancar_status_url, id))
         handleClose()
-        fetchData()
+        atualizarCards()
     }
 
     return (
@@ -125,8 +123,8 @@ const CardKanbanLeads = ({item, fetchData}) => {
                         <Divider sx={{marginTop: 2}}/>
 
                         <Stack direction="row" spacing={2} marginTop={2}>
-                            <AbrirChatWhatsapp telefones={telefones} leadId={id}/>
-                            <AbrirTelefone telefones={telefones}/>
+                            <AbrirChatWhatsapp telefones={telefones} leadId={id} atualizarCards={atualizarCards}/>
+                            <AbrirTelefone telefones={telefones} atualizarCards={atualizarCards}/>
                             <AbrirEmail/>
                             {/*<Hourglass size={25}/>*/}
                             {/*{index}*/}
@@ -148,12 +146,12 @@ const CardKanbanLeads = ({item, fetchData}) => {
                             </Stack>
                         </Stack>
 
-                        <Divider sx={{marginTop: 2}}/>
+                        {/*<Divider sx={{marginTop: 2}}/>*/}
 
-                        <Stack direction="row" spacing={2} marginTop={2}>
-                            <Typography variant="body2">Origem:</Typography>
-                            <Chip label="Instagram" size="small" variant="outlined"/>
-                        </Stack>
+                        {/*<Stack direction="row" spacing={2} marginTop={2}>*/}
+                        {/*    <Typography variant="body2">Origem:</Typography>*/}
+                        {/*    <Chip label="Instagram" size="small" variant="outlined"/>*/}
+                        {/*</Stack>*/}
                     </Grid>
 
                     {/* Coluna da direita com o ícone, centralizado */}
@@ -164,21 +162,24 @@ const CardKanbanLeads = ({item, fetchData}) => {
                             </IconButton>
                             <Link href={route('auth.leads.show', id)} icon={<Eye size={20} color="black"/>}/>
 
+                            {emitePedidos && <Link href={route('auth.leads.show', id)} icon={<Box size={18} color="black"/>}/>}
+
                             {pin
                                 ? <IconButton
                                     onClick={() => {
                                         setPin(e => !e)
-                                        armazenarPin()
+                                        armazenarStatusPinCard()
                                     }}>
                                     <PinAngleFill color="red" size={18}/>
                                 </IconButton>
                                 : <IconButton
                                     onClick={() => {
                                         setPin(e => !e)
-                                        armazenarPin()
+                                        armazenarStatusPinCard()
                                     }}>
                                     <PinAngle color="black" size={18}/>
                                 </IconButton>}
+
                         </Stack>
                     </Grid>
                 </Grid>
@@ -190,7 +191,7 @@ const CardKanbanLeads = ({item, fetchData}) => {
                         <Typography>LEAD: {razao_social || nome}</Typography>
                     </Stack>
                 }
-                open={open} title="AVANÇAR STATUS"
+                open={openModalConfirmStatus} title="AVANÇAR STATUS"
                 onConfirm={avancarStatus}
                 href={route(avancar_status_url, id)}
                 onClose={handleClose}/>

@@ -15,4 +15,6 @@ interface StatusLeadsInterface
     public function setStatusCor(): void;
 
     public function updateStatus($id): void;
+
+    public function emitePedidos(): bool;
 }

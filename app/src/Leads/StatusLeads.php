@@ -45,15 +45,17 @@ class StatusLeads
 
     public function sequenciaStatusDadosIndice($usuario = null): array
     {
+        if (count(supervisionados(id_usuario_atual())) == 1) $usuario = id_usuario_atual();
         if ($usuario) $statusPermitidos = (new LeadsKanbanPermissoesServices())->permissoesUsuario($usuario);
-        $classes = [];
+
+        $status = [];
 
         foreach ($this->sequenciaClasses() as $statusDados) {
             if ($usuario) {
-                if (in_array($statusDados->status(), $statusPermitidos)) $classes[$statusDados->status()] = $statusDados->statusDados();
-            } else $classes[$statusDados->status()] = $statusDados->statusDados();
+                if (in_array($statusDados->status(), $statusPermitidos)) $status[$statusDados->status()] = $statusDados->statusDados();
+            } else $status[$statusDados->status()] = $statusDados->statusDados();
         }
 
-        return $classes;
+        return $status;
     }
 }

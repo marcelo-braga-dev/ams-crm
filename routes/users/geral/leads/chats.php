@@ -1,9 +1,7 @@
 <?php
 
-use App\Http\Controllers\Geral\Chats\Whatsapp\LeadsWhatsappController;
+use App\Http\Controllers\Geral\Chats\Telefones\TelefonesController;
 use App\Http\Controllers\Geral\Chats\Whatsapp\WhatsappController;
-use App\Http\Controllers\Geral\Leads\FunilVendasKanbanController;
-use App\Http\Controllers\Geral\Leads\LeadsController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('auth.chats.')
@@ -13,7 +11,14 @@ Route::name('auth.chats.')
         Route::name('whatsapp.')
             ->prefix('chats/whatsapp-api')
             ->group(function () {
-                Route::post('armazenar-mensagem', [WhatsappController::class, 'armazenarEnvioMensagem'])
-                    ->name('armazenar-mensagem');
+                Route::post('enviado-mensagem', [WhatsappController::class, 'enviadoMensagem'])
+                    ->name('enviado-mensagem');
+            });
+
+        Route::name('telefone.')
+            ->prefix('chats/telefone-api')
+            ->group(function () {
+                Route::put('alterar-status/{id}', [TelefonesController::class, 'alterarStatus'])
+                    ->name('alterar-status');
             });
     });

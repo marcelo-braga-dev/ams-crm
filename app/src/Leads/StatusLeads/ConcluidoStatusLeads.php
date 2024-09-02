@@ -11,7 +11,8 @@ class ConcluidoStatusLeads extends StatusLeads
         $this->setStatus();
         $this->setStatusNome();
         $this->setStatusCor();
-        $this->urlStatus = 'auth.leads.show';
+        $this->urlStatus = 'auth.leads.avancar-status.concluido';
+        $this->emitePedidos = true;
     }
 
     public function setStatus(): void

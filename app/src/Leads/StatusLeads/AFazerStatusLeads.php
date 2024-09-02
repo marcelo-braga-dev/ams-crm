@@ -11,7 +11,7 @@ class AFazerStatusLeads extends StatusLeads
         $this->setStatus();
         $this->setStatusNome();
         $this->setStatusCor();
-        $this->urlStatus = 'auth.leads.show';
+        $this->urlStatus = 'auth.leads.avancar-status.fazer';
     }
 
     public function setStatus(): void

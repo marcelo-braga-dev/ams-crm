@@ -14,14 +14,14 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('lead_id');
-            $table->unsignedBigInteger('numero_id');
-            $table->text('mensagem')->nullable();
+            $table->unsignedBigInteger('telefone_id');
             $table->string('origem')->nullable();
+            $table->string('meta')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
-            $table->foreign('numero_id')->references('id')->on('leads_telefones')->onDelete('cascade');
+            $table->foreign('telefone_id')->references('id')->on('leads_telefones')->onDelete('cascade');
         });
     }
 

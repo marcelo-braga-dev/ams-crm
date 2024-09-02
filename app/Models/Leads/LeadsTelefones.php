@@ -35,4 +35,14 @@ class LeadsTelefones extends Model
             $telefone->save();
         }
     }
+
+    public function alterarStatusTelefone($id, $status)
+    {
+        $telefone = $this->find($id);
+
+        if ($telefone) {
+            $telefone->status_telefone = $status ? 2 : 0;
+            $telefone->save();
+        }
+    }
 }

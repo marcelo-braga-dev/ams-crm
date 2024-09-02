@@ -13,7 +13,7 @@ const Page = ({categorias, setores}) => {
 
     const cadastrarCategoria = (e) => {
         e.preventDefault()
-        router.post(route('admin.produtos-categorias.store'))
+        router.post(route('admin.produtos-categorias.store'), {...data})
     }
 
     return (
@@ -25,7 +25,6 @@ const Page = ({categorias, setores}) => {
                     <table className="table-1 table-hover">
                         <thead>
                         <tr>
-                            <th className="text-center" style={{width: 30}}>ID</th>
                             <th>Categorias</th>
                             <th>Setor</th>
                             <th></th>
@@ -35,9 +34,6 @@ const Page = ({categorias, setores}) => {
                         {categorias.map((dados) => {
                             return (
                                 <tr key={dados.id}>
-                                    <td className="text-center">
-                                        #{dados.id}
-                                    </td>
                                     <td>
                                         {dados.nome}
                                     </td>

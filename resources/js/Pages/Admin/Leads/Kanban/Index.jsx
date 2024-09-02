@@ -2,7 +2,7 @@ import Layout from "@/Layouts/Layout.jsx";
 import React, {useEffect, useState, useMemo, useCallback} from "react";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import {Typography} from "@mui/material";
+import {Avatar, Stack, Typography} from "@mui/material";
 import CardKanbanLeads from "@/Pages/Admin/Leads/Kanban/Components/CardKanbanLeads.jsx";
 import ScrollContainer from "react-indiana-drag-scroll";
 import axios from "axios";
@@ -10,8 +10,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import {debounce} from 'lodash';
 import {Pencil, PersonFill, Ticket} from "react-bootstrap-icons";
 import InputAdornment from "@mui/material/InputAdornment";
-import CardContainer from "@/Components/Cards/CardContainer.jsx";
-import CardBody from "@/Components/Cards/CardBody.jsx";
 
 const Page = () => {
     const [setor, setSetor] = useState("");
@@ -27,7 +25,6 @@ const Page = () => {
     // Função para buscar os dados e aplicar filtros com debouncing para melhorar a performance
     const fetchData = useCallback(
         debounce(async (setor, usuario) => {
-            setCarregando(true);
             try {
                 const response = await axios.get(route('auth.leads.funil-vendas-kanban.index-registros'), {
                     params: {setor, usuario},
@@ -43,12 +40,12 @@ const Page = () => {
             }
         }, 300), []); // Debounce para evitar chamadas excessivas
 
-    // useEffect para buscar os dados iniciais e aplicar filtros quando setor ou usuario mudarem
     useEffect(() => {
+        setCarregando(true);
         fetchData(setor, usuario);
     }, [setor, usuario, fetchData]);
 
-    const atualizar = () => {
+    const atualizarCards = () => {
         fetchData(setor, usuario);
     }
 
@@ -80,7 +77,10 @@ const Page = () => {
             return (
                 <td key={status} style={{padding: 10}}>
                     {statusGroup?.items?.map((item) => (
-                        <CardKanbanLeads key={item.id} item={item} fetchData={atualizar}/>
+                        <CardKanbanLeads key={item.id}
+                                         item={item}
+                                         emitePedidos={statusGroup.status_dados.emite_pedidos}
+                                         atualizarCards={atualizarCards}/>
                     ))}
                 </td>
             );
@@ -89,54 +89,56 @@ const Page = () => {
 
     return (
         <Layout titlePage="Funil de Vendas" menu="leads" submenu="leads-kanban">
-            <div className="row">
-                <div className="col-md-4 mb-4">
-                    <TextField
-                        label="Representante"
-                        select
-                        fullWidth
-                        value={usuario}
-                        onChange={(e) => setUsuario(e.target.value)}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Pencil size={20} color="gray"/> {/* Ícone à esquerda */}
-                                </InputAdornment>
-                            ),
-                        }}
-                    >
-                        <MenuItem value="">Todos</MenuItem>
-                        {usuarios?.map(({id, nome}) => (
-                            <MenuItem key={id} value={id}>
-                                {nome}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+            {usuarios.length > 1 && (
+                <div className="row">
+                    <div className="col-md-4 mb-4">
+                        <TextField
+                            label="Representante"
+                            select fullWidth value={usuario} onChange={(e) => setUsuario(e.target.value)}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Pencil size={20} color="gray"/>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        >
+                            <MenuItem value="">Todos</MenuItem>
+                            {usuarios?.map(({id, nome, foto}) => (
+                                <MenuItem key={id} value={id}>
+                                    <Stack direction="row" spacing={1}>
+                                        <Avatar src={foto} sx={{width: 20, height: 20}}/>
+                                        <Typography>{nome}</Typography>
+                                    </Stack>
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </div>
+                    <div className="col-md-3 mb-4">
+                        <TextField
+                            label="Setor"
+                            select
+                            fullWidth
+                            value={setor}
+                            onChange={(e) => setSetor(e.target.value)}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Ticket size={20} color="gray"/>
+                                    </InputAdornment>
+                                ),
+                            }}
+                        >
+                            <MenuItem value="">Todos</MenuItem>
+                            {setores?.map(({id, nome}) => (
+                                <MenuItem key={id} value={id}>
+                                    {nome}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </div>
                 </div>
-                <div className="col-md-3 mb-4">
-                    <TextField
-                        label="Setor"
-                        select
-                        fullWidth
-                        value={setor}
-                        onChange={(e) => setSetor(e.target.value)}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Ticket size={20} color="gray"/>
-                                </InputAdornment>
-                            ),
-                        }}
-                    >
-                        <MenuItem value="">Todos</MenuItem>
-                        {setores?.map(({id, nome}) => (
-                            <MenuItem key={id} value={id}>
-                                {nome}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-                </div>
-            </div>
+            )}
 
             {carregando && <LinearProgress/>}
 

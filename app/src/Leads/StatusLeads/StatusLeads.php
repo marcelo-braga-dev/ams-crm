@@ -9,6 +9,7 @@ abstract class StatusLeads implements StatusLeadsInterface
     protected int $statusPrazo = 0;
     protected string $statusCor;
     protected string $urlStatus;
+    protected bool $emitePedidos = false;
 
     public function status(): string
     {
@@ -33,11 +34,17 @@ abstract class StatusLeads implements StatusLeadsInterface
             'cor' => $this->statusCor,
             'limite_dias' => $this->statusPrazo,
             'url_avancar_status' => $this->urlStatus,
+            'emite_pedidos' => $this->emitePedidos,
         ];
     }
 
     public function permissoes(): array
     {
         return [];
+    }
+
+    public function emitePedidos(): bool
+    {
+        return $this->emitePedidos;
     }
 }
