@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Leads\LeadsTelefones;
 use App\Services\Excel\RelatorioLeads;
+use App\Services\Permissoes\LeadsKanbanPermissoesServices;
 use App\src\Leads\Dados\DadosLeads;
 use App\src\Leads\Status\AbertoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
@@ -12,7 +14,6 @@ use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\Status\StatusLeads;
-use App\src\Leads\StatusLeads\StatusLeadsInterface;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use App\src\Usuarios\Permissoes\LeadsKanban;
 use DateTime;
@@ -67,58 +68,107 @@ class Leads extends Model
 
     public function telefones()
     {
-        return $this->hasMany(LeadsDados::class, 'lead_id')
-            ->selectRaw('id, lead_id, valor as telefone, status, status_whatsapp, status_telefone');
+        return $this->hasMany(LeadsTelefones::class, 'lead_id')
+            ->select(['id', 'lead_id', 'numero', 'status_whatsapp', 'status_telefone']);
     }
 
-    public function agrupadosPorStatus($status)
+    public function consultor()
+    {
+        return $this->belongsTo(User::class, 'user_id')
+            ->select(['id', 'name as nome', 'foto']);
+    }
+
+    public function setor()
+    {
+        return $this->belongsTo(Setores::class, 'setor_id')
+            ->select(['id', 'nome', 'cor']);
+    }
+
+    public function agrupadosPorStatus($setor = null, $usuario = null)
     {
         $sequenciaStatus = (new \App\src\Leads\StatusLeads())->sequenciaStatus();
         $sequenciaStatusIndice = (new \App\src\Leads\StatusLeads())->sequenciaStatusDadosIndice();
 
-        return $this->newQuery()
+        $query = $this->newQuery()
+            ->select([
+                'id',
+                'user_id',
+                'setor_id',
+                'nome',
+                'razao_social',
+                'cnpj',
+                'cpf',
+                'status',
+                'created_at',
+                'setor_id',
+                'user_id',
+                'status_data',
+                'classificacao',
+                DB::raw('DATEDIFF(CURDATE(), status_data) AS status_data_dias')
+            ])
+            ->with('consultor')
+            ->with('setor')
             ->with('telefones')
-            ->orderBy('id', 'desc')
-            ->whereIn('status', $status)
-            ->get()
-            ->groupBy('status')
-            ->mapWithKeys(function ($items, $status) use ($sequenciaStatus, $sequenciaStatusIndice) {
-                $limitedItems = $items->take(10);
-                return [
-                    $status => [
-                        'status' => $status,
-                        'status_dados' => $sequenciaStatusIndice[$status] ?? null,
-                        'items' => $limitedItems->map(function ($item) {
-                            return [
-                                'id' => $item->id,
-                                'nome' => $item->nome,
-
-                                'razao_social' => $item->razao_social,
-                                'cnpj' => converterCNPJ($item->cnpj),
-                                'cpf' => $item->cpf,
-                                'status' => $item->status,
-                                'status_data' => date('d/m/y H:i', strtotime($item->created_at)),
-                                'telefones' => $item->telefones->map(function ($telefone) {
-                                    return [
-                                        'id' => $telefone->id,
-                                        'lead_id' => $telefone->lead_id,
-                                        'telefone' => $telefone->telefone,
-                                        'telefone_padrao' => converterTelefone($telefone->telefone),
-                                        'status' => $telefone->status,
-                                        'status_whatsapp' => $telefone->status_whatsapp,
-                                        'status_telefone' => $telefone->status_telefone
-                                    ];
-                                }),
-                            ];
-                        }),
-                    ]
-                ];
+            ->when($setor, function ($q) use ($setor) {
+                return $q->where('setor_id', $setor);
             })
+            ->when($usuario, function ($q) use ($usuario) {
+                return $q->where('user_id', $usuario);
+            })
+            ->whereIn('user_id', supervisionados(id_usuario_atual()))
+            ->whereIn('status', $sequenciaStatus)
+            ->latest('status_data');
+
+        $resultados = $query->get()->groupBy('status');
+
+        return $resultados->mapWithKeys(function ($items, $status) use ($sequenciaStatus, $sequenciaStatusIndice) {
+
+            $limitedItems = $items->take(10);
+
+            return [
+                $status => [
+                    'status' => $status,
+                    'status_dados' => $sequenciaStatusIndice[$status] ?? null,
+                    'items' => $limitedItems->map(function ($item, $idex) use ($status, $sequenciaStatusIndice) {
+                        return [
+                            'id' => $item->id,
+                            'index' => $idex,
+                            'nome' => $item->nome,
+                            'avancar_status_url' => $sequenciaStatusIndice[$status]['url_avancar_status'] ?? null,
+                            'consultor' => [
+                                'id' => $item->consultor->id ?? null,
+                                'nome' => $item->consultor->nome ?? null,
+                                'foto' => url_arquivos($item->consultor->foto ?? null) ?? null,
+                            ],
+                            'razao_social' => $item->razao_social,
+                            'cnpj' => converterCNPJ($item->cnpj),
+                            'cpf' => $item->cpf,
+                            'status' => $item->status,
+                            'status_data' => date('d/m/y', strtotime($item->created_at)),
+                            'status_data_dias' => $item->status_data_dias,
+                            'classificacao' => $item->classificacao,
+                            'setor' => $item->setor,
+                            'telefones' => $item->telefones->map(function ($telefone) {
+                                return [
+                                    'id' => $telefone->id,
+                                    'lead_id' => $telefone->lead_id,
+                                    'numero' => $telefone->numero,
+                                    'telefone_padronizado' => converterTelefone($telefone->numero),
+                                    'status_whatsapp' => $telefone->status_whatsapp,
+                                    'status_telefone' => $telefone->status_telefone
+                                ];
+                            }),
+                        ];
+                    }),
+                ]
+            ];
+        })
             ->sortBy(function ($item, $key) use ($sequenciaStatus) {
                 $index = array_search($key, $sequenciaStatus);
                 return $index !== false ? $index : PHP_INT_MAX;
             });
     }
+
 
     public function createOrUpdatePlanilhas($dados, $setor, $importacao = null)
     {

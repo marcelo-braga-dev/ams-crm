@@ -6,6 +6,9 @@ use App\src\Leads\Dados\DadosLeads;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @deprecated
+ */
 class LeadsDados extends Model
 {
     use HasFactory;

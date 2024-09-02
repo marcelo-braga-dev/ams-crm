@@ -2,39 +2,45 @@
 
 namespace App\src\Leads\StatusLeads;
 
-class AFazerStatusLeads implements StatusLeadsInterface
+use App\Models\Leads;
+
+class AFazerStatusLeads extends StatusLeads
 {
-    private string $status = 'fazer';
-    private string $statusNome = 'A Fazer';
-    private int $statusPrazo = 0;
-    private string $statusCor = 'orange';
-
-    public function status(): string
+    public function __construct()
     {
-        return $this->status;
+        $this->setStatus();
+        $this->setStatusNome();
+        $this->setStatusCor();
+        $this->urlStatus = 'auth.leads.show';
     }
 
-    public function statusNome(): string
+    public function setStatus(): void
     {
-        return $this->statusNome;
+        $this->status = 'fazer';
     }
 
-    public function statusPrazo(): ?int
+    public function setStatusNome(): void
     {
-        return $this->statusPrazo;
+        $this->statusNome = 'A Fazer';
     }
 
-    public function statusDados(): array
+    public function setStatusCor(): void
     {
-        return [
-            'status' => $this->status,
-            'nome' => $this->statusNome,
-            'cor' => $this->statusCor,
-        ];
+        $this->statusCor = 'orange';
     }
 
-    public function permissoes(): array
+    public function setStatusPrazo(): void
     {
-        // TODO: Implement permissoes() method.
+
+    }
+
+    public function setPermissoes(): void
+    {
+
+    }
+
+    public function updateStatus($id): void
+    {
+        (new Leads())->updateStatus($id, $this->status);
     }
 }

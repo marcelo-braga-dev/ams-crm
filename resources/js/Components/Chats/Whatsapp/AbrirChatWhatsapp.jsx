@@ -1,81 +1,89 @@
-import React, {useState} from "react";
-
+import React, {useEffect, useState} from "react";
 import Dialog from '@mui/material/Dialog';
-import {Whatsapp} from "react-bootstrap-icons";
-import {Badge, Menu} from "@mui/material";
+import {CircularProgress} from "@mui/material";
+import {WhatsappButton} from "./WhatsappButton";
+import {fetchCadastrarContato} from "./fetchUtils";
+import {armazenarMensagemDB} from "./armazenarMensagemDB.js";
+import {router} from "@inertiajs/react";
 
-function AbrirChatWhatsapp({telefones}) {
-    const apiURL = 'http://localhost:8082/api';
-    const apiToken = 'ecec8e23-e5ec-4a5a-b78a-cb8a2e55142e';
-
+const AbrirChatWhatsapp = ({telefones}) => {
     const [open, setOpen] = useState(false);
-    const [contactID, setContactID] = useState(false);
+    const [contactId, setContactId] = useState(null);
+    const [carregando, setCarregando] = useState(false);
 
-    const fetchCadastrarContato = async ({telefone}) => {
-        await fetch(`${apiURL}/messages/contacts`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${apiToken}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                number: telefone,
-                name: 'TESTE',
-            }),
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+    let URL_DO_WHATICKET = `http://localhost:3000/tickets/${contactId}`
+
+    useEffect(() => {
+        if (contactId) setOpen(true);
+    }, [contactId]);
+
+    const selecionarTelefones = async () => {
+        for (const item of telefones) {
+            if (item.numero && item.status_whatsapp) {
+                const success = await fetchCadastrarContato(item, setContactId);
+                if (success) break;
             }
-            return response.json();
-        })
-            .then(data => {
-                setContactID(data?.data?.contactId);
-            })
-            .catch(error => {
-                console.error('Failed to create contact:', error);
-            });
-    }
-
-    const enviarMensagem = async () => {
-        telefones.map(telefone => {
-            if (telefone) fetchCadastrarContato(telefone)
-        })
-
+        }
     };
 
-    const handleOpenWhatsapp = () => {
-        enviarMensagem()
-        setOpen(true);
+    const handleOpenWhatsapp = async () => {
+        setCarregando(true);
+        setContactId(false)
+
+        try {
+            await selecionarTelefones();
+        } catch (error) {
+            console.error("Erro ao abrir o WhatsApp:", error);
+        } finally {
+            setCarregando(false);
+        }
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    return (
-        <>
-            {telefones.length > 0
-                ? <Whatsapp size={19} cursor="pointer" color="green" onClick={handleOpenWhatsapp}/>
-                : <Whatsapp size={19} color="gray"/>}
 
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="whaticket-modal-title"
-                fullWidth={true}
-                maxWidth="md"
-            >
-                {open && contactID && <iframe
-                    src={`http://localhost:3000/tickets/${contactID}`}
-                    style={{width: '100%', height: '700px', border: 'none'}}
-                    title="WhatsApp"
-                />}
-            </Dialog>
-        </>
-    );
-}
+    armazenarMensagemDB()
+
+    const handleMessage = (event) => {
+        if (event.data.type === 'messageSent') {
+            const message = event.data.data;
+
+            saveMessageToDatabase(message);
+            console.info('ARMAZENAR NO DB: ', message)
+        }
+    };
+
+    const saveMessageToDatabase = async (message) => {
+        try {
+            await router.post(route('auth.chats.whatsapp.armazenar-mensagem'),
+                {mensagem: message?.content, origem: 'funil-vendas', lead_id: '1'});
+        } catch (error) {
+            console.error('Erro ao salvar a mensagem:', error);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('message', handleMessage);
+
+        return () => {
+            window.removeEventListener('message', handleMessage);
+        };
+    }, []);
+
+    return (<>
+        {carregando && <CircularProgress size={20}/>}
+        {!carregando && <WhatsappButton telefones={telefones} handleOpen={handleOpenWhatsapp}/>}
+
+        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
+            {open && (<iframe
+                src={URL_DO_WHATICKET}
+                style={{width: '100%', height: '700px', border: 'none'}}
+                title="WhatsApp"
+            />)}
+        </Dialog>
+    </>);
+};
 
 export default AbrirChatWhatsapp;
-
-
-

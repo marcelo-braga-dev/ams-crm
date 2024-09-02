@@ -38,6 +38,26 @@ class LeadsController extends Controller
             compact('categorias', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
     }
 
+    public function show($id)
+    {
+        $idUsuario = id_usuario_atual();
+
+        $dados = (new Leads())->getDados($id);
+        $historicos = (new HistoricoDadosService())->dados($id);
+        $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
+        $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
+        $historicoStatus = (new LeadsStatusHistoricos())->getId($id);
+        $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar($idUsuario);
+        $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar($idUsuario);
+        $isEditar = (new UsersPermissoes())->isLeadsEditar($idUsuario);
+        $isExcluir = (new UsersPermissoes())->isLeadsExcluir($idUsuario);
+        $isInativar = (new UsersPermissoes())->isLeadsInativar($idUsuario);
+
+        return Inertia::render('Admin/Leads/Lead/Show',
+            compact('dados', 'historicos', 'usuarios', 'historicoPedidos', 'historicoStatus',
+                'isLeadsEncaminhar', 'isLeadsLimpar', 'isEditar', 'isExcluir', 'isInativar'));
+    }
+
     public function leadsCadastradosPaginate(Request $request)
     {
         $categoriaAtual = $request->filtros['setor'] ?? 1;
@@ -172,25 +192,6 @@ class LeadsController extends Controller
         modalSucesso('Leads enviado com sucesso!');
     }
 
-    public function show($id)
-    {
-        $idUsuario = id_usuario_atual();
-
-        $dados = (new Leads())->getDados($id);
-        $historicos = (new HistoricoDadosService())->dados($id);
-        $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
-        $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
-        $historicoStatus = (new LeadsStatusHistoricos())->getId($id);
-        $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar($idUsuario);
-        $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar($idUsuario);
-        $isEditar = (new UsersPermissoes())->isLeadsEditar($idUsuario);
-        $isExcluir = (new UsersPermissoes())->isLeadsExcluir($idUsuario);
-        $isInativar = (new UsersPermissoes())->isLeadsInativar($idUsuario);
-
-        return Inertia::render('Admin/Leads/Lead/Show',
-            compact('dados', 'historicos', 'usuarios', 'historicoPedidos', 'historicoStatus',
-                'isLeadsEncaminhar', 'isLeadsLimpar', 'isEditar', 'isExcluir', 'isInativar'));
-    }
 
     public function edit($id)
     {

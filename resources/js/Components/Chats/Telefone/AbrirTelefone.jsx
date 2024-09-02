@@ -32,8 +32,8 @@ function AbrirTelefone({telefones}) {
                        horizontal: 'right',
                    }}>
                 {telefones.length > 0
-                    ? <Telephone size={19} cursor="pointer" color="blue" onClick={handleClick}/>
-                    : <Telephone size={19} color="gray"/>}
+                    ? <Telephone size={24} cursor="pointer" color="blue" onClick={handleClick}/>
+                    : <Telephone size={24} color="gray"/>}
             </Badge>
 
             <Menu
@@ -45,22 +45,22 @@ function AbrirTelefone({telefones}) {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                {telefones.map(({id, status_telefone, telefone_padrao}) => status_telefone !== 0 && (
+                {telefones.map(({id, status_telefone, telefone_padronizado}) => status_telefone !== 0 && (
                         <Stack key={id} direction="row" spacing={0} alignItems="center" marginInlineStart={1}>
-                            <IconButton size="small" sx={{padding: 0, margin: 0}}>
+                            <IconButton size="small" onClick={() => ativarTelefone(id)} sx={{padding: 0, margin: 0}}>
                                 {status_telefone === 1
                                     ? <CheckCircleFill color="green" size={18}/>
-                                    : <Check color="green" size={18} onClick={() => ativarTelefone(id)}/>
+                                    : <Check color="green" size={18}/>
                                 }
                             </IconButton>
-                            <IconButton size="small">
+                            <IconButton size="small" onClick={() => inativarTelefone(id)}>
                                 {status_telefone === 0
                                     ? 'X'
-                                    : <X color="red" size={18} onClick={() => inativarTelefone(id)}/>
+                                    : <X color="red" size={18}/>
                                 }
                             </IconButton>
                             <MenuItem>
-                                <Typography>{telefone_padrao}</Typography>
+                                <Typography>{telefone_padronizado}</Typography>
                             </MenuItem>
                         </Stack>
                     )

@@ -2,6 +2,7 @@
 
 namespace App\src\Leads;
 
+use App\Services\Permissoes\LeadsKanbanPermissoesServices;
 use App\src\Leads\StatusLeads\AFazerStatusLeads;
 use App\src\Leads\StatusLeads\ConcluidoStatusLeads;
 use App\src\Leads\StatusLeads\EmProgressoStatusLeads;
@@ -19,7 +20,7 @@ class StatusLeads
      *
      * @return StatusLeadsInterface[] Um array de objetos que implementam a interface `StatusLeadsInterface`.
      */
-    private function sequenciaClasses()
+    private function sequenciaClasses(): array
     {
         return [
             (new InicioFunilStatusLeads()),
@@ -42,12 +43,17 @@ class StatusLeads
         return $classes;
     }
 
-    public function sequenciaStatusDadosIndice()
+    public function sequenciaStatusDadosIndice($usuario = null): array
     {
+        if ($usuario) $statusPermitidos = (new LeadsKanbanPermissoesServices())->permissoesUsuario($usuario);
         $classes = [];
-        foreach ($this->sequenciaClasses() as $status) {
-            $classes[$status->status()] = $status->statusDados();
+
+        foreach ($this->sequenciaClasses() as $statusDados) {
+            if ($usuario) {
+                if (in_array($statusDados->status(), $statusPermitidos)) $classes[$statusDados->status()] = $statusDados->statusDados();
+            } else $classes[$statusDados->status()] = $statusDados->statusDados();
         }
+
         return $classes;
     }
 }

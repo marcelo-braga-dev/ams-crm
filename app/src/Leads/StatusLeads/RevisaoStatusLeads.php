@@ -2,39 +2,45 @@
 
 namespace App\src\Leads\StatusLeads;
 
-class RevisaoStatusLeads implements StatusLeadsInterface
+use App\Models\Leads;
+
+class RevisaoStatusLeads extends StatusLeads
 {
-    private string $status = 'revisao';
-    private string $statusNome = 'Revisão';
-    private int $statusPrazo = 0;
-    private string $statusCor = 'red';
-
-    public function status(): string
+    public function __construct()
     {
-        return $this->status;
+        $this->setStatus();
+        $this->setStatusNome();
+        $this->setStatusCor();
+        $this->urlStatus = 'auth.leads.show';
     }
 
-    public function statusNome(): string
+    public function setStatus(): void
     {
-        return $this->statusNome;
+        $this->status = 'revisao';
     }
 
-    public function statusPrazo(): ?int
+    public function setStatusNome(): void
     {
-        return $this->statusPrazo;
+        $this->statusNome = 'Revisão';
     }
 
-    public function statusDados(): array
+    public function setStatusCor(): void
     {
-        return [
-            'nome' => $this->statusNome,
-            'status' => $this->status,
-            'cor' => $this->statusCor
-        ];
+        $this->statusCor = 'red';
     }
 
-    public function permissoes(): array
+    public function setStatusPrazo(): void
     {
-        // TODO: Implement permissoes() method.
+
+    }
+
+    public function setPermissoes(): void
+    {
+
+    }
+
+    public function updateStatus($id): void
+    {
+        (new Leads())->updateStatus($id, $this->status);
     }
 }

@@ -13,7 +13,6 @@ use App\Http\Controllers\Admin\Leads\Encaminhados\EncaminhadosController;
 use App\Http\Controllers\Admin\Leads\Historicos\HistoricosController;
 use App\Http\Controllers\Admin\Leads\ImportarController;
 use App\Http\Controllers\Admin\Leads\ImportarHistoricoController;
-use App\Http\Controllers\Admin\Leads\Kanban\KanbanController;
 use App\Http\Controllers\Admin\Leads\LeadsController;
 use App\Http\Controllers\Admin\Leads\RelatoriosController;
 use App\Http\Controllers\Admin\Leads\StatusController;
@@ -54,7 +53,7 @@ Route::name('admin.clientes.leads.')
 Route::name('admin.leads.')
     ->prefix('admin/leads/relatorios')
     ->group(function () {
-        Route::resource('kanban', KanbanController::class);
+
         Route::resource('relatorios', RelatoriosController::class);
         Route::resource('consultores-cards', CardsController::class);
         Route::resource('encaminhados', EncaminhadosController::class);

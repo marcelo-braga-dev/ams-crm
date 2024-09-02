@@ -2,39 +2,45 @@
 
 namespace App\src\Leads\StatusLeads;
 
-class ConcluidoStatusLeads implements StatusLeadsInterface
+use App\Models\Leads;
+
+class ConcluidoStatusLeads extends StatusLeads
 {
-    private string $status = 'concluido';
-    private string $statusNome = 'Concluído';
-    private int $statusPrazo = 0;
-    private string $statusCor = 'green';
-
-    public function status(): string
+    public function __construct()
     {
-        return $this->status;
+        $this->setStatus();
+        $this->setStatusNome();
+        $this->setStatusCor();
+        $this->urlStatus = 'auth.leads.show';
     }
 
-    public function statusNome(): string
+    public function setStatus(): void
     {
-        return $this->statusNome;
+        $this->status = 'concluido';
     }
 
-    public function statusPrazo(): ?int
+    public function setStatusNome(): void
     {
-        return $this->statusPrazo;
+        $this->statusNome = 'Concluído';
     }
 
-    public function statusDados(): array
+    public function setStatusCor(): void
     {
-        return [
-            'nome' => $this->statusNome,
-            'status' => $this->status,
-            'cor' => $this->statusCor
-        ];
+        $this->statusCor = 'green';
     }
 
-    public function permissoes(): array
+    public function setStatusPrazo(): void
     {
-        // TODO: Implement permissoes() method.
+
+    }
+
+    public function setPermissoes(): void
+    {
+
+    }
+
+    public function updateStatus($id): void
+    {
+        (new Leads())->updateStatus($id, $this->status);
     }
 }

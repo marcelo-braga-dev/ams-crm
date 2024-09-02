@@ -36,10 +36,10 @@ const Header = ({titlePage, voltar}) => {
                 }}>
                     {toggleMenu ? <TextIndentRight size="22" color="black"/> : <TextIndentLeft size="22" color="black"/>}
                 </IconButton>
-                <IconButton disableRipple edge="start" className="m-0" disabled={!!!voltar}>
-                    <Link href={voltar}>
+                <IconButton disableRipple edge="start" className="m-0" onClick={handleVoltar} disabled={!!!voltar}>
+                    {/*<Link href={voltar}>*/}
                         {!!voltar && <ArrowLeftShort size="20" color="black"/>}
-                    </Link>
+                    {/*</Link>*/}
                 </IconButton>
             </Stack>
             <HeaderContent titlePage={titlePage}/>

@@ -42,18 +42,15 @@ export default function Create({setores}) {
                 </CardBody>
             </CardContainer>
 
-            <CardContainer>
-                <CardBody>
-                    <form onSubmit={onSubmit}>
-                        <InputsDadosLead setData={setData} data={data}/>
-                        <div className="">
-                            <div className="text-center">
-                                <button className="btn btn-primary">Salvar</button>
-                            </div>
-                        </div>
-                    </form>
-                </CardBody>
-            </CardContainer>
+
+            <form onSubmit={onSubmit}>
+                <InputsDadosLead setData={setData} data={data}/>
+                <div className="">
+                    <div className="text-center">
+                        <button className="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </form>
         </Layout>
     )
 }

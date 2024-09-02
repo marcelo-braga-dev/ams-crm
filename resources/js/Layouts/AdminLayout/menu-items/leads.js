@@ -30,7 +30,7 @@ const dashboard = {
                     chave: chaves.leads.kanban,
                     title: 'Funil de Vendas',
                     type: 'item',
-                    url: route('admin.leads.kanban.index'),
+                    url: route('auth.leads.funil-vendas-kanban.index'),
                 }, {
                     id: 'leads-cards',
                     chave: chaves.leads.quadros,

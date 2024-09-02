@@ -4,13 +4,15 @@ namespace App\src\Leads\StatusLeads;
 
 interface StatusLeadsInterface
 {
-    public function status(): string;
+    public function setStatus(): void;
 
-    public function statusNome(): string;
+    public function setStatusNome(): void;
 
-    public function statusPrazo(): ?int;
+    public function setStatusPrazo(): void;
 
-    public function statusDados(): array;
+    public function setPermissoes(): void;
 
-    public function permissoes(): array;
+    public function setStatusCor(): void;
+
+    public function updateStatus($id): void;
 }
