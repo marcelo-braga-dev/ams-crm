@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->float('preco_venda', 10);
             $table->float('preco_custo', 10)->nullable();
             $table->float('repasse', 10)->nullable();
+            $table->float('repasse_desconto', 10)->nullable();
             $table->float('imposto', 10)->nullable();
             $table->timestamp('data_faturamento')->nullable();
             $table->unsignedBigInteger('user_faturamento')->nullable();

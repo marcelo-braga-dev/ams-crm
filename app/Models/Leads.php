@@ -964,9 +964,8 @@ class Leads extends Model
         $nomeConsultores = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
 
-        $query = $this->newQuery()->with(['telefones' => function ($query) {
-            $query->where('chave', 'telefone');
-        }])
+        $query = $this->newQuery()
+            ->with('telefones')
             ->where('setor_id', $setor);
 
         $orderBy = $filtros['ordenar_by'] ?? 'ASC';
@@ -1017,7 +1016,7 @@ class Leads extends Model
                     'telefones' => $item->telefones->transform(function ($item) {
                         return [
                             'id' => $item->id,
-                            'telefone' => converterTelefone($item->valor),
+                            'telefone' => converterTelefone($item->numero),
                         ];
                     }),
                     'razao_social' => $item->razao_social,

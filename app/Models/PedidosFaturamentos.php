@@ -103,11 +103,12 @@ class PedidosFaturamentos extends Model
                     'status' => $statusNome[$item->status] ?? '',
                     'data' => date('d/m/y H:i', strtotime($item->data_faturamento)),
                     'nota_faturamento' => $item->nota_faturamento,
-
                     'lead_nome' => $item->lead_nome,
                     'valor_nota' => $item->preco_venda + $item->repasse,
-                    'lucro' => ($item->preco_venda - $item->preco_custo) * (1 - ($item->imposto / 100)),
+                    'lucro' => $this->calcularLucro($item),
                     'repasse' => $item->repasse,
+                    'repasse_desconto' => $item->repasse_desconto ?? 0,
+                    'repasse_total' => $this->calcularRepasseTotal($item->repasse, $item->repasse_desconto),
                     'imposto' => $item->imposto,
                     'preco_custo' => $item->preco_custo,
                     'cliente_nome' => $item->cliente_nome ?? $item->cliente_razao_social,
@@ -117,9 +118,21 @@ class PedidosFaturamentos extends Model
                     'exportacao_id' => $item->exportacao_id,
                     'setor_nome' => $item->setor_nome,
                     'nota_distribuidora' => $item->nota_distribuidora,
-                    'fornecedor_nome' => $item->fornecedor_nome
+                    'fornecedor_nome' => $item->fornecedor_nome,
                 ];
             });
+    }
+
+    private function calcularLucro($item)
+    {
+        $lucroBruto = ($item->preco_venda - $item->preco_custo) * (1 - ($item->imposto / 100));
+        $lucroRepasse = $item->repasse * ($item->repasse_desconto / 100);
+        return $lucroBruto + $lucroRepasse;
+    }
+
+    private function calcularRepasseTotal($repasse, $repasseDesconto)
+    {
+        return $repasse - ($repasse * ($repasseDesconto / 100));
     }
 
     public function get($mes, $fornecedor, $consultor)

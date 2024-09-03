@@ -2,6 +2,8 @@ import InfoCliente from "@/Pages/Consultor/Pedidos/Create/Modelo1/Partials/InfoC
 import Anexos from "@/Pages/Consultor/Pedidos/Create/Modelo1/Partials/Anexos";
 import Pedidos from "@/Pages/Consultor/Pedidos/Create/Modelo1/Partials/Pedido";
 import {useForm} from "@inertiajs/react";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
 
 export default function Form({url, fornecedores, lead}) {
 
@@ -39,12 +41,17 @@ export default function Form({url, fornecedores, lead}) {
 
     return (
         <form onSubmit={submit}>
-            <div className="card card-body mb-4">
-                <InfoCliente setData={setData} data={data}/>
-            </div>
-            <div className="card card-body mb-4">
-                <Anexos setData={setData} data={data}></Anexos>
-            </div>
+           <CardContainer>
+               <CardBody>
+                   <InfoCliente setData={setData} data={data}/>
+               </CardBody>
+           </CardContainer>
+
+           <CardContainer>
+               <CardBody>
+                   <Anexos setData={setData} data={data}></Anexos><Anexos setData={setData} data={data}></Anexos>
+               </CardBody>
+           </CardContainer>
 
             <Pedidos fornecedores={fornecedores} setData={setData} data={data}/>
 

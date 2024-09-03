@@ -46,10 +46,14 @@ class FinanceiroFaturamento
         $this->sheet->setCellValue('F1', 'IMPOSTO');
         $this->sheet->setCellValue('G1', 'COMISSAO');
         $this->sheet->setCellValue('H1', 'REPASSE');
-        $this->sheet->setCellValue('I1', 'VALOR NOTA');
-        $this->sheet->setCellValue('J1', 'N NOTA FATURAMENTO');
-        $this->sheet->setCellValue('K1', 'DATA');
-        $this->sheet->setCellValue('L1', 'STATUS');
+
+        $this->sheet->setCellValue('I1', 'REPASSE DESCONTO');
+        $this->sheet->setCellValue('J1', 'REPASSE TOTAL');
+
+        $this->sheet->setCellValue('K1', 'VALOR NOTA');
+        $this->sheet->setCellValue('L1', 'N NOTA FATURAMENTO');
+        $this->sheet->setCellValue('M1', 'DATA');
+        $this->sheet->setCellValue('N1', 'STATUS');
         $this->linhaTabelaProdutos++;
     }
 
@@ -65,16 +69,21 @@ class FinanceiroFaturamento
                 $this->sheet->setCellValue('F' . $this->linhaTabelaProdutos, $venda['imposto']);
                 $this->sheet->setCellValue('G' . $this->linhaTabelaProdutos, $venda['lucro']);
                 $this->sheet->setCellValue('H' . $this->linhaTabelaProdutos, $venda['repasse']);
-                $this->sheet->setCellValue('I' . $this->linhaTabelaProdutos, $venda['valor_nota']);
-                $this->sheet->setCellValue('J' . $this->linhaTabelaProdutos, $venda['nota_faturamento']);
-                $this->sheet->setCellValue('K' . $this->linhaTabelaProdutos, $venda['data']);
-                $this->sheet->setCellValue('L' . $this->linhaTabelaProdutos, $venda['status']);
+
+                $this->sheet->setCellValue('I' . $this->linhaTabelaProdutos, $venda['repasse_desconto']);
+                $this->sheet->setCellValue('J' . $this->linhaTabelaProdutos, $venda['repasse_total']);
+
+                $this->sheet->setCellValue('K' . $this->linhaTabelaProdutos, $venda['valor_nota']);
+                $this->sheet->setCellValue('L' . $this->linhaTabelaProdutos, $venda['nota_faturamento']);
+                $this->sheet->setCellValue('M' . $this->linhaTabelaProdutos, $venda['data']);
+                $this->sheet->setCellValue('N' . $this->linhaTabelaProdutos, $venda['status']);
 
                 $this->convertMoney('D' . $this->linhaTabelaProdutos);
                 $this->convertMoney('E' . $this->linhaTabelaProdutos);
                 $this->convertMoney('G' . $this->linhaTabelaProdutos);
                 $this->convertMoney('H' . $this->linhaTabelaProdutos);
-                $this->convertMoney('I' . $this->linhaTabelaProdutos);
+                $this->convertMoney('J' . $this->linhaTabelaProdutos);
+                $this->convertMoney('K' . $this->linhaTabelaProdutos);
                 $this->linhaTabelaProdutos++;
             }
         }
@@ -82,11 +91,11 @@ class FinanceiroFaturamento
 
     private function configStyle(): void
     {
-        $this->sheet->getStyle('A1:L1')->getAlignment()->setHorizontal('center');
-        $this->sheet->getStyle('A1:L1')->getFont()->setBold(true);
+        $this->sheet->getStyle('A1:N1')->getAlignment()->setHorizontal('center');
+        $this->sheet->getStyle('A1:N1')->getFont()->setBold(true);
 
         $col = 'A';
-        while ($col != 'M') {
+        while ($col != 'O') {
             $this->sheet->getColumnDimension($col)->setAutoSize(true);
             $col++;
         }

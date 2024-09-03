@@ -39,6 +39,7 @@ class Pedidos extends Model
         'obs',
         'modelo',
         'repasse',
+        'repasse_desconto',
         'imposto',
     ];
 

@@ -8,12 +8,14 @@ import {
 } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import TextFieldMoney from "@/Components/Inputs/TextFieldMoney";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
 
 export default function Pedido({fornecedores, setData, data}) {
 
     return <>
-        <div className="card mb-4 p-1">
-            <div className="card-body">
+        <CardContainer>
+            <CardBody>
                 <div className="row">
                     <div className="mb-4 col-md-3">
                         <TextFieldMoney label="Preço" value={data.preco} setData={setData} index="preco" required/>
@@ -73,17 +75,15 @@ export default function Pedido({fornecedores, setData, data}) {
                                             required/>}
                     </div>
                 </div>
-            </div>
-        </div>
+            </CardBody>
+        </CardContainer>
 
-        <div className="card card-body">
-            <div className="row">
-                <div className="mb-4">
-                    <TextField
-                        label="Anotações" multiline rows={2} fullWidth
-                        value={data.obs} onChange={e => setData('obs', e.target.value)}/>
-                </div>
-            </div>
-        </div>
+        <CardContainer>
+            <CardBody>
+                <TextField
+                    label="Anotações" multiline rows={2} fullWidth
+                    value={data.obs} onChange={e => setData('obs', e.target.value)}/>
+            </CardBody>
+        </CardContainer>
     </>
 }

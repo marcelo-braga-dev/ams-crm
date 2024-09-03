@@ -1,7 +1,7 @@
 import Layout from "@/Layouts/Layout.jsx";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
-import {Stack, TextField, Typography} from "@mui/material";
+import {Divider, Stack, TextField, Typography} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import SelectMesesMultiples from "@/Components/Inputs/SelectMesesMultiples.jsx";
 import convertFloatToMoney from "@/Helpers/converterDataHorario.jsx";
@@ -204,14 +204,25 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                                         <Typography><b>Documento:</b> {item.cliente_documento}</Typography>
                                                         <Typography><b>Setor:</b> {item.setor_nome}</Typography>
                                                         <Typography><b>Distribuidora:</b> {item.fornecedor_nome}</Typography>
+                                                        <Divider/>
                                                         <Stack direction="row" spacing={2}>
                                                             <Typography><b>Valor Pedido:</b> R$ {convertFloatToMoney(item.valor)}</Typography>
-                                                            <Typography><b>Repasse:</b> R$ {convertFloatToMoney(item.repasse)}</Typography>
                                                         </Stack>
+
+                                                        {item.repasse > 0 && <>
+                                                            <Divider/>
+                                                            <Stack direction="row" spacing={2}>
+                                                            <Typography><b>Repasse:</b> R$ {convertFloatToMoney(item.repasse)}</Typography>
+                                                            <Typography><b>Desconto :</b> {convertFloatToMoney(item.repasse_desconto)}%</Typography>
+                                                            <Typography><b>Total:</b> R$ {convertFloatToMoney(item.repasse_total)}</Typography>
+                                                        </Stack></>}
+                                                        <Divider/>
                                                         <Stack direction="row" spacing={2}>
                                                             <Typography><b>Comissão:</b> R$ {convertFloatToMoney(item.lucro)}</Typography>
-                                                            <Typography><b>Valor Nota:</b> R$ {convertFloatToMoney(item.valor_nota)}</Typography>
+
                                                         </Stack>
+                                                        <Divider/>
+                                                        <Typography><b>VALOR DA NOTA: R$ {convertFloatToMoney(item.valor_nota)}</b></Typography>
                                                     </Stack>
                                                 </td>
                                                 <td className="text-center">
