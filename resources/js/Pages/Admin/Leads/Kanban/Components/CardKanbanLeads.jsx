@@ -3,7 +3,7 @@ import {Grid, Stack, Typography, Divider, IconButton, Avatar} from "@mui/materia
 import {
     ArrowDownShort, Box,
     Eye,
-    ForwardFill,
+    ForwardFill, Geo, GeoAlt,
     Hash,
     Pencil,
     PersonFill,
@@ -85,6 +85,18 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
                                     ) : (
                                         <Typography variant="body2">-</Typography>
                                     )}
+                                </Tooltip>
+                            </Grid>
+                        </Grid>
+
+                        {/*localidade*/}
+                        <Grid container spacing={3} marginBottom={1} alignItems="center">
+                            <Grid item xs={1}>
+                                <GeoAlt size={18} />
+                            </Grid>
+                            <Grid item xs={11}>
+                                <Tooltip title="Setor" placement="bottom-start" arrow>
+                                    <Typography>CIDADE/ESTADO</Typography>
                                 </Tooltip>
                             </Grid>
                         </Grid>

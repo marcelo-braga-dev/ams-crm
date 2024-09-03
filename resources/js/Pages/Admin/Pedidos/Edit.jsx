@@ -9,11 +9,13 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import {Pencil} from "react-bootstrap-icons";
+import TextFieldPorcentagem from "@/Components/Inputs/TextFieldPorcentagem.jsx";
 
 export default function ({pedido, usuarios}) {
     const [valorPedido, setValorPedido] = useState(pedido.financeiro.preco)
     const [precoCusto, setPrecoCusto] = useState(pedido.financeiro.preco_custo)
     const [repasse, setRepasse] = useState(pedido.financeiro.repasse)
+    const [repasseDesconto, setRepasseDesconto] = useState(pedido.financeiro.repasse_desconto)
     const [userFaturado, setUserFaturado] = useState(pedido.pedido.user_faturamento)
     const [dataFaturamento, setDataFaturamento] = useState(pedido.financeiro.data_faturamento)
     const [notaPedido, setNotaPedido] = useState(pedido.financeiro.nota_numero)
@@ -30,7 +32,16 @@ export default function ({pedido, usuarios}) {
             usuario_faturado: userFaturado,
             data_faturamento: dataFaturamento,
             nota_pedido: notaPedido,
+            repasse_desconto: repasseDesconto,
         })
+    }
+
+    function maskMoney(valor) {
+        let value = valor.replace('.', '').replace(',', '').replace(/\D/g, '')
+        const options = {minimumFractionDigits: 2}
+        return new Intl.NumberFormat('pt-BR', options).format(
+            parseFloat(value) / 100
+        )
     }
 
     return (
@@ -71,6 +82,16 @@ export default function ({pedido, usuarios}) {
                             {isAdmin &&
                                 <div className="col-md-2">
                                     <TextFieldMoney label="Repasse" set={setRepasse} defaultValue={repasse}/>
+                                </div>
+                            }
+                            {isAdmin &&
+                                <div className="col-md-2">
+                                    <TextField
+                                        label="Repasse Desconto"
+                                        value={repasseDesconto}
+                                        onChange={e => setRepasseDesconto(maskMoney(e.target.value))}
+                                        setData={setRepasse} defaultValue={repasseDesconto}
+                                    />
                                 </div>
                             }
                             {isAdmin &&

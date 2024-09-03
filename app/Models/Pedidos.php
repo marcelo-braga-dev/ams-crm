@@ -517,6 +517,7 @@ class Pedidos extends Model
                 'lucro' => $isFinanceiro ? convert_float_money($pedido->preco_venda - $pedido->preco_custo - ($frete->valor_frete ?? 0)) : null,
                 'repasse_float' => $pedido->repasse,
                 'repasse' => convert_float_money($pedido->repasse),
+                'repasse_desconto' => convert_float_money($pedido->repasse_desconto),
                 'valor_nota' => convert_float_money($pedido->preco_venda + $pedido->repasse),
                 'forma_pagamento' => $pedido->forma_pagamento,
                 'boletos' => (new PedidosArquivos())->getBoletos($pedido->id),
@@ -754,6 +755,7 @@ class Pedidos extends Model
         if ($dados['preco']) $query->update(['preco_venda' => convert_money_float($dados['preco'])]);
         if ($dados['preco_custo']) $query->update(['preco_custo' => convert_money_float($dados['preco_custo'])]);
         if ($dados['repasse']) $query->update(['repasse' => convert_money_float($dados['repasse'])]);
+        if ($dados['repasse_desconto']) $query->update(['repasse_desconto' => convert_money_float($dados['repasse_desconto'])]);
         if ($dados['usuario_faturado']) $query->update(['user_faturamento' => $dados['usuario_faturado']]);
         if ($dados['data_faturamento']) $query->update(['data_faturamento' => $dados['data_faturamento']]);
         if ($dados['nota_pedido']) (new PedidosFaturados())->updateNotaPedido($id, $dados['nota_pedido']);
