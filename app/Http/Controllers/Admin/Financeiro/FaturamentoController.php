@@ -47,6 +47,14 @@ class FaturamentoController extends Controller
         return redirect()->back();
     }
 
+    public function excluirPLanilha(Request $request)
+    {
+        (new PedidosFaturadosPlanilhas())->remover($request->id);
+
+        modalSucesso('Planilha excluida com sucesso');
+        return redirect()->back();
+    }
+
     public function planilha(Request $request)
     {
         $path = (new FinanceiroFaturamento())->gerar($request->vendas, $request->pedidos);

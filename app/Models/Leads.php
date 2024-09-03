@@ -223,7 +223,7 @@ class Leads extends Model
                 }
 
                 $lead = $this->newQuery()->updateOrCreate($atributos, $valores);
-                $this->cadastrarTelefone($lead->id, $dados['telefones'] ?? null);
+                $this->cadastrarTelefones($lead->id, $dados['telefones'] ?? null);
 
                 return $lead->id;
             } else {
@@ -367,7 +367,7 @@ class Leads extends Model
                         'data_abertura' => $dados['data_abertura'] ?? null,
                     ]);
 
-                $this->cadastrarTelefone($lead->id, $dados['telefones'] ?? null);
+                $this->cadastrarTelefones($lead->id, $dados['telefones'] ?? null);
 
                 return $lead->id;
             } else {
@@ -386,14 +386,13 @@ class Leads extends Model
         }
     }
 
-    private function cadastrarTelefone($id, $telefones): void
+    private function cadastrarTelefones($id, $telefones): void
     {
         foreach ($telefones ?? [] as $item) {
             if ($item) {
                 $telefone = converterInt(converterTelefone($item));
 
-                $chaves = (new DadosLeads());
-                (new LeadsDados())->create($id, $chaves->chaveTelefone(), $telefone, $chaves->nomeTelefone());
+                (new LeadsTelefones())->cadastrar($id, $telefone);
             }
         }
     }

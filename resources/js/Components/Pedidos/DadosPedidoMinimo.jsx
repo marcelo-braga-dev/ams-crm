@@ -1,11 +1,16 @@
 import Typography from "@mui/material/Typography";
+import {Stack} from "@mui/material";
+import * as React from "react";
+import CampoTexto from "@/Components/CampoTexto.jsx";
 
 export default function DadosPedidoMinimo({dados}) {
-    return (<>
-        {dados.pedido.id && <Typography className="mb-2" fontSize={15}><b>ID do Pedido:</b> #{dados.pedido.id}</Typography>}
-        {dados.consultor.nome && <Typography className="mb-2" fontSize={15}><b>Consultor:</b> {dados.consultor.nome}</Typography>}
-        {dados.integrador.nome && <Typography className="mb-2" fontSize={15}><b>Integrador:</b> {dados.integrador.nome}</Typography>}
-        {dados.cliente.nome && <Typography className="mb-2" fontSize={15}><b>Nome do Cliente:</b> {dados.cliente.nome}</Typography>}
-        {dados.pedido.status && <Typography className="mb-2" fontSize={15}><b>Status do Pedido:</b> {dados.pedido.status}</Typography>}
-    </>)
+    return (
+        <Stack spacing={1}>
+            {dados.pedido.id && <CampoTexto titulo="ID do Pedido" texto={`#${dados.pedido.id}`}/>}
+            {dados.consultor.nome && <CampoTexto titulo="Consultor" texto={dados.consultor.nome}/>}
+            {dados.integrador.nome && <CampoTexto titulo="Integrador" texto={dados.integrador.nome}/>}
+            {dados.cliente.nome && <CampoTexto titulo="Nome do Cliente" texto={dados.cliente.nome}/>}
+            {dados.pedido.status && <CampoTexto titulo="Status do Pedido" texto={dados.pedido.status}/>}
+        </Stack>
+    )
 }

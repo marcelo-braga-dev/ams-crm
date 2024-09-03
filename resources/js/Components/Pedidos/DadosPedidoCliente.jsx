@@ -1,19 +1,22 @@
 import Typography from "@mui/material/Typography";
 import {Person} from "react-bootstrap-icons";
 import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
+import {Stack} from "@mui/material";
+import CampoTexto from "@/Components/CampoTexto.jsx";
 
 export default function DadosPedidoCliente({dados}) {
     return (<>
         <CardTitleDefault title="Informações do Cliente" icon={<Person size={22}/>}/>
-        {dados.cliente.nome && <Typography className="mb-2" fontSize={15}><b>Cliente:</b> {dados.cliente.nome}</Typography>}
-        {dados.cliente.nascimento && <Typography className="mb-2" fontSize={15}><b>Data Nascimento:</b> {dados.cliente.nascimento}</Typography>}
-        {dados.cliente.rg && <Typography className="mb-2" fontSize={15}><b>RG:</b> {dados.cliente.rg}</Typography>}
-        {dados.cliente.cpf && <Typography className="mb-2" fontSize={15}><b>CPF:</b> {dados.cliente.cpf}</Typography>}
-        {dados.cliente.cnpj && <Typography className="mb-2" fontSize={15}><b>CNPJ:</b> {dados.cliente.cnpj}</Typography>}
-        {dados.cliente.inscricao_estadual &&
-            <Typography className="mb-2" fontSize={15}><b>Inscrição Estadual:</b> {dados.cliente.inscricao_estadual}</Typography>}
-        {dados.cliente.telefone && <Typography className="mb-2" fontSize={15}><b>Telefone:</b> {dados.cliente.telefone}</Typography>}
-        {dados.cliente.email && <Typography className="mb-2" fontSize={15}><b>Email:</b> {dados.cliente.email}</Typography>}
-        {dados.cliente.endereco && <Typography className="mb-2" fontSize={15}><b>Endereço:</b> {dados.cliente.endereco}</Typography>}
+        <Stack spacing={1}>
+            {dados.cliente.nome && <CampoTexto titulo="Cliente" texto={dados.cliente.nome}/>}
+            {dados.cliente.nascimento && <CampoTexto titulo="Data Nascimento" texto={dados.cliente.nascimento}/>}
+            {dados.cliente.rg && <CampoTexto titulo="RG" texto={dados.cliente.rg}/>}
+            {dados.cliente.cpf && <CampoTexto titulo="CPF" texto={dados.cliente.cpf}/>}
+            {dados.cliente.cnpj && <CampoTexto titulo="CNPJ" texto={dados.cliente.cnpj}/>}
+            {dados.cliente.inscricao_estadual && <CampoTexto titulo="IE" texto={dados.cliente.inscricao_estadual}/>}
+            {dados.cliente.email && <CampoTexto titulo="Email" texto={dados.cliente.email}/>}
+            {dados.cliente.endereco && <CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/>}
+        </Stack>
+
     </>)
 }

@@ -1,12 +1,13 @@
-import {Stack, Typography} from "@mui/material";
+import {Stack} from "@mui/material";
 import * as React from "react";
+import CampoTexto from "@/Components/CampoTexto.jsx";
 
 const DadosPedidoFrete = ({dados}) => {
     return (
         <Stack spacing={1}>
-            <Typography><b>Valor:</b> {dados.frete.preco}</Typography>
-            <Typography><b>Transportadora:</b> {dados.frete.transportadora_nome}</Typography>
-            <Typography><b>Rastreio:</b> {dados.frete.rastreio}</Typography>
+            <CampoTexto titulo="Valor" texto={dados.frete.preco}/>
+            <CampoTexto titulo="Transportadora" texto={dados.frete.transportadora_nome}/>
+            <CampoTexto titulo="Rastreio" texto={dados.frete.rastreio}/>
         </Stack>
     )
 }

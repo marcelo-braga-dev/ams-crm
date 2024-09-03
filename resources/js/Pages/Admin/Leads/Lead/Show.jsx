@@ -71,32 +71,27 @@ export default function Show({
     return (
         <Layout empty titlePage="Informações do Lead" menu="leads" submenu="leads-cadastrados"
                 voltar={route('admin.clientes.leads.leads-cadastrados')}>
-            <CardContainer>
-                <CardTitle title="Informações do Lead" icon={<Person size="22"/>}/>
 
-                <CardBody>
+            <div className="row">
+                <div className="col">
+                    <LeadsDados dados={dados}/>
+                </div>
+                <div className="col-auto">
                     <div className="row">
-                        <div className="col">
-                            <LeadsDados dados={dados}/>
-                        </div>
-                        <div className="col-auto">
-                            <div className="row">
-                                <div className="col-12">
-                                    {isEditar &&
-                                        <IconButton color="success"
-                                                    href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
-                                            <EditIcon/>
-                                        </IconButton>}
-                                    {isExcluir &&
-                                        <IconButton color="success" data-bs-toggle="modal" data-bs-target="#modalExcluir">
-                                            <DeleteIcon color="error"/>
-                                        </IconButton>}
-                                </div>
-                            </div>
+                        <div className="col-12">
+                            {isEditar &&
+                                <IconButton color="success"
+                                            href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
+                                    <EditIcon/>
+                                </IconButton>}
+                            {isExcluir &&
+                                <IconButton color="success" data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                                    <DeleteIcon color="error"/>
+                                </IconButton>}
                         </div>
                     </div>
-                </CardBody>
-            </CardContainer>
+                </div>
+            </div>
 
             {(isLeadsEncaminhar || isLeadsLimpar) &&
                 <CardContainer>

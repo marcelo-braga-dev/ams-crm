@@ -14,6 +14,9 @@ Route::name('admin.financeiro.')
 
         Route::post('faturamento/remover-distribuidora', [FaturamentoController::class, 'removerNotaDistribuidora'])
             ->name('faturamento.remover-distribuidora');
+        Route::post('faturamento/excluir-planilha', [FaturamentoController::class, 'excluirPLanilha'])
+            ->name('faturamento.excluir-planilha');
+
         Route::post('fluxo-caixa-alterar-status', [FluxoCaixaController::class, 'alterarStatus'])
             ->name('fluxo-caixa.alterar-status');
         Route::put('fluxo-caixa-alterar-baixa/{id}', [FluxoCaixaController::class, 'alterarBaixa'])

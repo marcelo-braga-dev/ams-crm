@@ -16,6 +16,7 @@ import Link from "@/Components/Link.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
 import Checkbox from "@mui/material/Checkbox";
 import Switch from "@mui/material/Switch";
+import CampoTexto from "@/Components/CampoTexto.jsx";
 
 const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, distribuidoras, distribuidora, isFaturado}) => {
     const [mesesSelecionado, setMesesSelecionado] = useState(mes)
@@ -93,6 +94,10 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
 
     const removerNotaDistribuidora = (id) => {
         router.post(route('admin.financeiro.faturamento.remover-distribuidora'), {id}, {preserveScroll: true})
+    }
+
+    const deletePlanilha = (id) => {
+        router.post(route('admin.financeiro.faturamento.excluir-planilha'), {id}, {preserveScroll: true})
     }
 
     const allChecked = pedidosSelecionado.length === vendas.length;
@@ -212,10 +217,10 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                                         {item.repasse > 0 && <>
                                                             <Divider/>
                                                             <Stack direction="row" spacing={2}>
-                                                            <Typography><b>Repasse:</b> R$ {convertFloatToMoney(item.repasse)}</Typography>
-                                                            <Typography><b>Desconto :</b> {convertFloatToMoney(item.repasse_desconto)}%</Typography>
-                                                            <Typography><b>Total:</b> R$ {convertFloatToMoney(item.repasse_total)}</Typography>
-                                                        </Stack></>}
+                                                                <Typography><b>Repasse:</b> R$ {convertFloatToMoney(item.repasse)}</Typography>
+                                                                <Typography><b>Desconto :</b> {convertFloatToMoney(item.repasse_desconto)}%</Typography>
+                                                                <Typography><b>Total:</b> R$ {convertFloatToMoney(item.repasse_total)}</Typography>
+                                                            </Stack></>}
                                                         <Divider/>
                                                         <Stack direction="row" spacing={2}>
                                                             <Typography><b>Comissão:</b> R$ {convertFloatToMoney(item.lucro)}</Typography>
@@ -269,22 +274,26 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                 <CardContainer key={item.id}>
                                     <CardBody>
                                         <div className="row">
-                                            <div className="col-auto"><Typography variant="body2">#{item.id}</Typography></div>
+                                            <div className="col-auto">
+                                                <Stack spacing={3} alignItems="center" marginBottom={6}>
+                                                    <Typography variant="body2">#{item.id}</Typography>
+                                                    <a href={item.url}><Download size={20} color="green"/></a>
+                                                </Stack>
+                                                <Trash size={15} cursor="pointer" color="red" onClick={() => deletePlanilha(item.id)}/>
+                                            </div>
                                             <div className="col">
-                                                <Stack>
-                                                    <Typography variant="body2"><b>NOTA DIST.:</b> {item.nota_distribuidora}</Typography>
-                                                    <Typography variant="body2"><b>EMPRESA:</b> {item.empresa_nome}</Typography>
-                                                    {item.distribuidora_nome && <Typography variant="body2"><b>DISTRIB.:</b> {item.distribuidora_nome}</Typography>}
+                                                <Stack spacing={1}>
+                                                    <CampoTexto titulo="NOTA DIST." texto={item.nota_distribuidora}/>
+                                                    <CampoTexto titulo="EMPRESA" texto={item.empresa_nome}/>
+                                                    <CampoTexto titulo="DISTRIB." texto={item.distribuidora_nome}/>
                                                     <Typography variant="body2">{item.data}</Typography>
-                                                    {item.anotacoes && <Typography marginTop={1} variant="body2"><b>ANOT.:</b>{item.anotacoes}</Typography>}
+                                                    {item.anotacoes && <CampoTexto titulo="ANOT." texto={item.anotacoes}/>}
+
                                                     {addAnotacoesBtn !== item.id &&
                                                         <Stack marginTop={1} onClick={() => handleAddAnotacaoes(item.id)} className="cursor-pointer">
                                                             <Typography variant="body2"><PencilSquare/> Anotações</Typography>
                                                         </Stack>}
                                                 </Stack>
-                                            </div>
-                                            <div className="col-auto">
-                                                <a href={item.url}><Download size={20}/></a>
                                             </div>
                                         </div>
                                         {addAnotacoesBtn === item.id && <Stack direction="row" spacing={1} marginTop={2}>

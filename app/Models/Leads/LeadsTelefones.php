@@ -16,6 +16,15 @@ class LeadsTelefones extends Model
         'status_telefone',
     ];
 
+    public function cadastrar(int $id, int $numero)
+    {
+        $this->newQuery()
+            ->create([
+                'lead_id' => $id,
+                'numero' => $numero,
+            ]);
+    }
+
     public function ativar($id)
     {
         $telefone = $this->find($id);

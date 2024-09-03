@@ -4,7 +4,9 @@ import {useState} from "react";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
-import {Telephone, TelephoneFill} from "react-bootstrap-icons";
+import {Person, Telephone, TelephoneFill} from "react-bootstrap-icons";
+import * as React from "react";
+import CampoTexto from "@/Components/CampoTexto.jsx";
 
 export default function LeadsDados({dados}) {
     const [toggleMenu, setToggleMenu] = useState(false)
@@ -15,24 +17,25 @@ export default function LeadsDados({dados}) {
 
     return (<>
         <CardContainer>
+            <CardTitle title="Informações do Lead" icon={<Person size="22"/>}/>
             <CardBody>
                 <div className="row">
                     <div className="col">
                         <Stack spacing={1}>
-                            {dados.cliente.razao_social && <Typography fontWeight="bold"><b>Razão Social:</b> {dados.cliente.razao_social}</Typography>}
-                            {dados.cliente.nome && <Typography fontWeight="bold"><b>Nome/Nome Fantasia:</b> {dados.cliente.nome}</Typography>}
-                            <Typography><b>Status:</b> {dados.infos.status_nome}</Typography>
-                            {dados.cliente.cnpj && <Typography><b>CNPJ:</b> {dados.cliente.cnpj}</Typography>}
-                            {dados.cliente.rg && <Typography><b>RG:</b> {dados.cliente.rg}</Typography>}
-                            {dados.cliente.cpf && <Typography><b>CPF:</b> {dados.cliente.cpf}</Typography>}
+                            {dados.cliente.razao_social && <CampoTexto titulo="Razão Social" texto={dados.cliente.razao_social}/>}
+                            {dados.cliente.nome && <CampoTexto titulo="Nome/Nome Fantasia" texto={dados.cliente.nome}/>}
+                            <CampoTexto titulo="Status" texto={dados.infos.status_nome}/>
+                            {dados.cliente.cnpj && <CampoTexto titulo="CNPJ" texto={dados.cliente.cnpj}/>}
+                            {dados.cliente.rg && <CampoTexto titulo="RG" texto={dados.cliente.rg}/>}
+                            {dados.cliente.cpf && <CampoTexto titulo="CPF" texto={dados.cliente.cpf}/>}
                         </Stack>
                     </div>
                     <div className="col">
                         <Stack spacing={1}>
-                            <Typography><b>ID:</b> #{dados.id}</Typography>
-                            <Typography><b>Setor:</b> {dados?.infos?.setor?.nome}</Typography>
-                            {dados.cliente.endereco && <Typography><b>Endereço:</b> {dados.cliente.endereco}</Typography>}
-                            {dados.infos.anotacoes && <Typography><b>Anotações:</b> {dados.infos.anotacoes}</Typography>}
+                            <CampoTexto titulo="ID" texto={`#${dados.id}`}/>
+                            <CampoTexto titulo="Setor" texto={dados?.infos?.setor?.nome}/>
+                            {dados.cliente.endereco && <CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/>}
+                            {dados.infos.anotacoes && <CampoTexto titulo="Anotações" texto={dados.infos.anotacoes}/>}
                         </Stack>
                     </div>
                 </div>

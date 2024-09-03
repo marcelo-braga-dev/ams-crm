@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import {Stack} from "@mui/material";
+import {Divider, Stack} from "@mui/material";
 
 const Title = styled.span`
-    color: rgb(89, 89, 89);
+    color: black;
     font-size: 16px;
     font-weight: 600;
 `
@@ -22,6 +22,7 @@ export default function CardTitleDefault({title, icon, children, subtitle, class
                     </Stack>
                 </Stack>
             </div>
+            <Divider className="mt-2"/>
             <div className="col-auto mb-0">{children}</div>
         </Container>
     )

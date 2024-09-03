@@ -60,4 +60,11 @@ class PedidosFaturadosPlanilhas extends Model
             ->where('id', $id)
             ->update(['anotacoes' => $anotacao]);
     }
+
+    public function remover($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->delete();
+    }
 }

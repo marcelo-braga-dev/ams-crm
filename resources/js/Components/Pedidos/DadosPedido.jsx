@@ -3,67 +3,51 @@ import {usePage} from "@inertiajs/react";
 import {CardChecklist} from "react-bootstrap-icons";
 import {Grid, Stack} from "@mui/material";
 import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
+import CampoTexto from "@/Components/CampoTexto.jsx";
 
-const li = {listStyle: 'none', marginBottom: '.5rem'}
-const text = {color: "rgb(59, 64, 86)", fontSize: 15}
-const textBold = {marginRight: 10, fontWeight: 500}
 
 export default function DadosPedido({dados}) {
 
     const isAdmin = usePage().props.auth.user.is_financeiro == 1
 
     return (<>
-            <CardTitleDefault title="Informações do Pedido" icon={<CardChecklist size="23"/>}/>
-
+            <CardTitleDefault title="Informações do Pedido" icon={<CardChecklist size="22" color="black"/>}/>
             <Grid container>
                 <Grid item md={6}>
+                    <CampoTexto titulo="" texto=""/>
                     <Stack spacing={1}>
-                        {dados.pedido.id &&
-                            <Typography style={text}><span style={textBold}>ID do Pedido:</span> #{dados.pedido.id}</Typography>}
-                        {dados.pedido.status &&
-                            <Typography style={text}><span style={textBold}>Status do Pedido:</span>{dados.pedido.status}</Typography>}
-                        {dados.consultor.nome &&
-                            <Typography style={text}><span style={textBold}>Consultor:</span>{dados.consultor.nome}</Typography>}
-                        {dados.integrador.nome &&
-                            <Typography style={text}><span style={textBold}>Integrador:</span>{dados.integrador.nome} [#{dados.integrador.id}]</Typography>}
-                        {dados.integrador.cnpj &&
-                            <Typography style={text}><span style={textBold}>CNPJ do Integrador:</span>{dados.integrador.cnpj}</Typography>}
-                        {dados.fornecedor.nome &&
-                            <Typography style={text}><span style={textBold}>Fornecedor:</span>{dados.fornecedor.nome}</Typography>}
-                        {dados.pedido.setor &&
-                            <Typography style={text}><span style={textBold}>Setor:</span>{dados.pedido.setor}</Typography>}
+                        {dados.pedido.id && <CampoTexto titulo="ID do Pedido" texto={`#${dados.pedido.id}`}/>}
+                        {dados.pedido.status && <CampoTexto titulo="Status do Pedido" texto={dados.pedido.status}/>}
+                        {dados.consultor.nome && <CampoTexto titulo="Consultor" texto={dados.consultor.nome}/>}
+                        {dados.integrador.nome && <CampoTexto titulo="Integrador" texto={`${dados.integrador.nome} [#${dados.integrador.id}]`}/>}
+                        {dados.integrador.cnpj && <CampoTexto titulo="CNPJ do Integrador" texto={dados.integrador.cnpj}/>}
+                        {dados.fornecedor.nome && <CampoTexto titulo="Fornecedor" texto={dados.fornecedor.nome}/>}
+                        {dados.pedido.setor && <CampoTexto titulo="Setor" texto={dados.pedido.setor}/>}
                     </Stack>
                 </Grid>
                 <Grid item>
                     <Stack spacing={1}>
-                        {dados.financeiro.preco && <Typography style={text}><span style={textBold}>Valor do Pedido:</span> R$ {dados.financeiro.preco}</Typography>}
-                        {dados.frete.preco && <Typography style={text}><span style={textBold}>Frete:</span> R$ {dados.frete.preco}</Typography>}
-                        {dados.financeiro.valor_nota &&
-                            <Typography style={text}><span style={textBold}>Valor da Nota:</span> R$ {dados.financeiro.valor_nota}</Typography>}
-                        {dados.financeiro.nota_numero &&
-                            <Typography style={text}><span style={textBold}>N. da Nota:</span> {dados.financeiro.nota_numero}</Typography>}
-                        {dados.financeiro.repasse_float > 0 && <Typography style={text}><span style={textBold}>Repasse:</span> R$ {dados.financeiro.repasse}</Typography>}
-                        {isAdmin && dados.financeiro.preco_custo &&
-                            <Typography style={text}><span style={textBold}>Preço Custo:</span> R$ {dados.financeiro.preco_custo}</Typography>}
-                        {isAdmin && dados.financeiro.preco_custo &&
-                            <Typography style={text}><span style={textBold}>Lucro:</span> R$ {dados.financeiro.lucro}</Typography>}
-                        {dados.financeiro.forma_pagamento &&
-                            <Typography style={text}><span style={textBold}>Forma de Pagamento:</span> {dados.financeiro.forma_pagamento}</Typography>}
+                        {dados.financeiro.preco && <CampoTexto titulo="Valor do Pedido" texto={`R$ ${dados.financeiro.preco}`}/>}
+                        {dados.frete.preco && <CampoTexto titulo="Frete" texto={`R$ ${dados.frete.preco}`}/>}
+                        {dados.financeiro.valor_nota && <CampoTexto titulo="Valor da Nota" texto={`R$ ${dados.financeiro.valor_nota}`}/>}
+                        {dados.financeiro.nota_numero && <CampoTexto titulo="N. da Nota" texto={dados.financeiro.nota_numero}/>}
+                        {dados.financeiro.repasse_float > 0 && <CampoTexto titulo="Repasse" texto={`R$ ${dados.financeiro.repasse}`}/>}
+                        {isAdmin && dados.financeiro.preco_custo && <CampoTexto titulo="Preço Custo" texto={`R$ ${dados.financeiro.preco_custo}`}/>}
+                        {isAdmin && dados.financeiro.preco_custo && <CampoTexto titulo="Lucro" texto={`R$ ${dados.financeiro.lucro}`}/>}
+                        {dados.financeiro.forma_pagamento && <CampoTexto titulo="Forma de Pagamento" texto={dados.financeiro.forma_pagamento}/>}
 
                         {dados.financeiro.boletos.length > 0 &&
                             <div className="pt-2">
-                                <Typography style={text}><span style={textBold}>Vencimentos dos Boletos</span></Typography>
-                                {dados.financeiro.boletos.map((item, index) => {
-                                    return (
-                                        <Typography key={index} className="d-block">{item.indice}° Boleto: {item.data}</Typography>
-                                    )
+                                <CampoTexto titulo="Vencimentos dos Boletos"/>
+                                {dados.financeiro.boletos.map((item) => {
+                                    return <CampoTexto key={item.indice} texto={`${item.indice}° Boleto: ${item.data}`}/>
                                 })}
                             </div>
                         }
+                        {dados.pedido.info && <CampoTexto marginTop={2} titulo="Anotações" texto={dados.pedido.info}/>}
                     </Stack>
                 </Grid>
             </Grid>
-            {dados.pedido.info && <Typography style={text}><span style={textBold}>Anotações:</span> {dados.pedido.info}</Typography>}
         </>
     )
 }
