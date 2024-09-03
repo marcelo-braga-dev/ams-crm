@@ -3,7 +3,7 @@ import React from "react";
 
 const AbrirEmail = (emails) => {
     return (
-        emails ? <Envelope size={24} cursor="auto" color="#cccccc"/>
+        emails ? <Envelope size={24} cursor="auto" color="gray"/>
             : <Envelope cursor="pointer" size={24} color="orange"/>
     )
 }

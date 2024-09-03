@@ -8,6 +8,6 @@ export const WhatsappButton = ({telefones, handleOpen}) => {
     return hasActiveWhatsapp ? (
         <Whatsapp size={24} cursor="pointer" color="green" onClick={handleOpen}/>
     ) : (
-        <Whatsapp size={24} color="#cccccc"/>
+        <Whatsapp size={24} color="gray"/>
     );
 };
