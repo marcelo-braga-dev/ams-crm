@@ -9,6 +9,7 @@ export default function DadosPedidoCliente({dados}) {
         <CardTitleDefault title="Informações do Cliente" icon={<Person size={22}/>}/>
         <Stack spacing={1}>
             {dados.cliente.nome && <CampoTexto titulo="Cliente" texto={dados.cliente.nome}/>}
+            {dados.cliente.telefone && <CampoTexto titulo="Telefone" texto={dados.cliente.telefone}/>}
             {dados.cliente.nascimento && <CampoTexto titulo="Data Nascimento" texto={dados.cliente.nascimento}/>}
             {dados.cliente.rg && <CampoTexto titulo="RG" texto={dados.cliente.rg}/>}
             {dados.cliente.cpf && <CampoTexto titulo="CPF" texto={dados.cliente.cpf}/>}
