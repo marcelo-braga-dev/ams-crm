@@ -162,7 +162,7 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
                             </IconButton>
                             <Link href={route('auth.leads.show', id)} icon={<Eye size={20} color="black"/>}/>
 
-                            {emitePedidos && <Link href={route('auth.leads.show', id)} icon={<Box size={18} color="black"/>}/>}
+                            {emitePedidos && <Link href={route('auth.pedidos.create', {lead_id: id})} icon={<Box size={18} color="black"/>}/>}
 
                             {pin
                                 ? <IconButton
