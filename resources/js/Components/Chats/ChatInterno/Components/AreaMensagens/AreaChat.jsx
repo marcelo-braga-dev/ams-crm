@@ -1,4 +1,4 @@
-import {Box, Card} from "@mui/material";
+import {Box, Card, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
@@ -50,8 +50,8 @@ export default function AreaChat({item, infoChatSelecionado, setProgress}) {
                             mr={15}
                         >
                             <CardWrapperSecondary>
-                                {item.url && <span className="d-block"><ImagePdf url={item.url}/></span>}
-                                {item.mensagem && <span>{item.mensagem}</span>}
+                                {item.url && <span className="d-block"><ImagePdf url={item.url} urlRaiz/></span>}
+                                {item.mensagem && <Typography>{item.mensagem}</Typography>}
                             </CardWrapperSecondary>
                             <small className="font-italic pt-1" style={{fontSize: 12}}>
                                 <DoneAllIcon color={item.status ? 'info' : 'disabled'}
@@ -75,8 +75,8 @@ export default function AreaChat({item, infoChatSelecionado, setProgress}) {
                             ml={15}
                         >
                             <CardWrapperPrimary>
-                                {item.url && <span className="d-block"><ImagePdf url={item.url}/></span>}
-                                {item.mensagem && <span>{item.mensagem}</span>}
+                                {item.url && <span className="d-block"><ImagePdf url={item.url} urlRaiz/></span>}
+                                {item.mensagem && <Typography>{item.mensagem}</Typography>}
                             </CardWrapperPrimary>
                             <small className="font-italic pt-1" style={{fontSize: 12}}>
                                 <DoneAllIcon color={item.status ? 'info' : 'disabled'}

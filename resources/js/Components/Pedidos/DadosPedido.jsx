@@ -1,4 +1,3 @@
-import Typography from "@mui/material/Typography";
 import {usePage} from "@inertiajs/react";
 import {CardChecklist} from "react-bootstrap-icons";
 import {Grid, Stack} from "@mui/material";
@@ -25,7 +24,7 @@ export default function DadosPedido({dados}) {
                         {dados.pedido.setor && <CampoTexto titulo="Setor" texto={dados.pedido.setor}/>}
                     </Stack>
                 </Grid>
-                <Grid item>
+                <Grid item md={6}>
                     <Stack spacing={1}>
                         {dados.financeiro.preco && <CampoTexto titulo="Valor do Pedido" texto={`R$ ${dados.financeiro.preco}`}/>}
                         {dados.frete.preco && <CampoTexto titulo="Frete" texto={`R$ ${dados.frete.preco}`}/>}

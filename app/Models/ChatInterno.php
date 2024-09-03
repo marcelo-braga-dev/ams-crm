@@ -79,7 +79,7 @@ class ChatInterno extends Model
                 $query->where('contato_id', $usuarioAtual)
                     ->where('categoria', $categoria);
             })
-            ->orderBy('id')
+            ->orderByDesc('id')
             ->get();
     }
 
