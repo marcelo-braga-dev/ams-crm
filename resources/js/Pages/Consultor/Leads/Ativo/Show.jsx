@@ -39,24 +39,19 @@ export default function Show({dados, contatos, historicos, permissaoPedido, hist
 
     return (
         <Layout empty voltar={route('consultor.leads.main.index')} titlePage="Lead - Ativo" menu="leads">
-            <CardContainer>
-                <CardTitle title="Informações do Lead" icon={<Person size={22}/>}/>
-                <CardBody>
-                    <div className="row">
-                        <div className="col">
-                            <LeadsDados dados={dados}/>
-                            <Classificacao
-                                classificacao={data.classificacao}
-                                updateClassificacao={updateClassificacao}
-                                leadId={dados.id}
-                            />
-                        </div>
-                        <div className="col-auto text-end">
-                            <a href={route('consultor.leads.main.edit', dados.id)} className="btn btn-primary btn-sm mb-0">Editar Dados</a>
-                        </div>
-                    </div>
-                </CardBody>
-            </CardContainer>
+            <div className="row">
+                <div className="col">
+                    <LeadsDados dados={dados}/>
+                    <Classificacao
+                        classificacao={data.classificacao}
+                        updateClassificacao={updateClassificacao}
+                        leadId={dados.id}
+                    />
+                </div>
+                <div className="col-auto text-end">
+                    <a href={route('consultor.leads.main.edit', dados.id)} className="btn btn-primary btn-sm mb-0">Editar Dados</a>
+                </div>
+            </div>
 
             <CardContainer>
                 <CardBody>
@@ -102,7 +97,7 @@ export default function Show({dados, contatos, historicos, permissaoPedido, hist
                 </CardBody>
             </CardContainer>
 
-            <div className="row">
+            <div className="row mb-6">
                 <div className="col">
                     <HistoricoSection historicos={historicos} enviarComentario={enviarComentario} setData={setData}/>
                 </div>
@@ -146,38 +141,35 @@ const PedidoButton = ({dados, modeloSetor}) => (
 );
 
 const HistoricoSection = ({historicos, enviarComentario, setData}) => (
-    <CardContainer>
-        <CardTitle title="Histórico de Atendimento"/>
-        <CardBody>
-            <HistoricoLista historicos={historicos} enviarComentario={enviarComentario} setData={setData} urlPedidos="consultor.pedidos.show"/>
-        </CardBody>
-    </CardContainer>
+    <HistoricoLista historicos={historicos} enviarComentario={enviarComentario} setData={setData} urlPedidos="consultor.pedidos.show"/>
 );
 
 const PedidosSection = ({historicoPedidos}) => (
     <CardContainer>
-        <CardTitle title="Histórico de Atendimento"/>
+        <CardTitle title="Histórico de Pedidos"/>
         <CardBody>
-            {historicoPedidos.map(item => (
-                <CardContainer key={item.id}>
-                    <CardBody>
-                        <div className="row justify-content-between">
-                            <div className="col">
-                                <span className="d-block"><b>ID do Pedido:</b> #{item.id}</span>
-                                <span className="d-block"><b>Status:</b> {item.status}</span>
-                                <span className="d-block"><b>Valor:</b> R$ {item.valor}</span>
-                                <span className="d-block"><b>Data do Pedido:</b> {item.data_criacao}</span>
+            <div style={{maxHeight: 700, overflow: 'auto'}}>
+                {historicoPedidos.map(item => (
+                    <CardContainer key={item.id}>
+                        <CardBody>
+                            <div className="row justify-content-between">
+                                <div className="col">
+                                    <span className="d-block"><b>ID do Pedido:</b> #{item.id}</span>
+                                    <span className="d-block"><b>Status:</b> {item.status}</span>
+                                    <span className="d-block"><b>Valor:</b> R$ {item.valor}</span>
+                                    <span className="d-block"><b>Data do Pedido:</b> {item.data_criacao}</span>
+                                </div>
+                                <div className="col-auto">
+                                    <a className="btn btn-primary btn-sm" href={route('consultor.pedidos.show', item.id)}>Ver Pedido</a>
+                                </div>
                             </div>
-                            <div className="col-auto">
-                                <a className="btn btn-primary btn-sm" href={route('consultor.pedidos.show', item.id)}>Ver Pedido</a>
-                            </div>
-                        </div>
-                    </CardBody>
-                </CardContainer>
-            ))}
-            {historicoPedidos.length === 0 && <div className="row text-center">
-                <span>Não há histórico de pedidos.</span>
-            </div>}
+                        </CardBody>
+                    </CardContainer>
+                ))}
+                {historicoPedidos.length === 0 && <div className="row text-center">
+                    <span>Não há histórico de pedidos.</span>
+                </div>}
+            </div>
         </CardBody>
     </CardContainer>
 );

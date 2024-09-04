@@ -23,7 +23,8 @@ class LeadsTelefones extends Model
             ->where('lead_id', $leadId)
             ->get()
             ->transform(function ($item) {
-                $item->telefone = converterTelefone($item->numero);
+                $item->numero = converterTelefone($item->numero);
+                $item->numero_padronizado = converterTelefone($item->numero);
                 return $item;
             });
     }
@@ -33,23 +34,28 @@ class LeadsTelefones extends Model
         $records = [];
 
         foreach ($telefones as $telefone) {
-            if ($telefone) $records[] = [
+            if (is_array($telefone)) $records[] = [
                 'lead_id' => $leadId,
                 'id' => $telefone['id'] ?? null,
-                'numero' => converterInt(converterTelefone($telefone['numero'] ?? $telefone)),
+                'numero' => ($telefone['numero'] ?? null) ? converterInt(converterTelefone($telefone['numero'])) : null,
             ];
         }
 
         if (!empty($records)) {
             try {
                 foreach ($records as $record) {
-                    $this->updateOrCreate(
-                        ['id' => $record['id']],
-                        [
-                            'lead_id' => $record['lead_id'],
-                            'numero' => $record['numero'],
-                        ]
-                    );
+                    if (!$record['numero'])
+                        if (!$record['numero']) {
+                            $tel = $this->newQuery()->find($record['id']);
+                            $tel?->delete();
+                        } else
+                            $this->updateOrCreate(
+                                ['id' => $record['id']],
+                                [
+                                    'lead_id' => $record['lead_id'],
+                                    'numero' => $record['numero'],
+                                ]
+                            );
                 }
             } catch (\Exception $e) {
                 Log::error('Erro ao cadastrar telefones do lead: ' . $e->getMessage(), [
@@ -59,7 +65,7 @@ class LeadsTelefones extends Model
                     'dados' => $telefones,
                 ]);
 
-                throw new \DomainException('Erro ao cadastrar telefones do lead.');
+//                throw new \DomainException('Erro ao cadastrar telefones do lead.');
             }
         }
 

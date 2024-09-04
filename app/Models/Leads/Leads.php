@@ -505,6 +505,7 @@ class Leads extends Model
                     'data_nascimento' => $dados->nascimento,
                 ]);
 
+            (new LeadsTelefones())->criar($id, $dados['telefones'] ?? []);
 
         } catch (QueryException $exception) {
             $msgErro = ('O CNPJ: ' . converterCNPJ($dados['cnpj'] . ' já está cadastrado em outro LEAD!'));

@@ -25,6 +25,7 @@ export default function Edit({dados, endereco, telefones}) {
         email: dados.email,
         inscricao_estadual: dados.inscricao_estadual,
         atendente: dados.atendente,
+        telefones: telefones,
 
         cidade: dados.cidade,
         estado: dados.estado,
@@ -46,15 +47,10 @@ export default function Edit({dados, endereco, telefones}) {
         );
     }
 
-    useEffect(() => {
-        maskJquery()
-    }, []);
-
-
     return (
-        <Layout container voltar={document.referrer} titlePage="Editar LEAD" menu="leads" submenu="leads-cadastrados">
+        <Layout voltar={'back'}  titlePage="Editar LEAD" menu="leads" submenu="leads-cadastrados">
             <form onSubmit={submit}>
-                <FormLeads data={data} setData={setData} telefones={telefones}/>
+                <FormLeads data={data} setData={setData}/>
                 <button type="submit" className="btn btn-primary">Salvar</button>
             </form>
         </Layout>

@@ -41,7 +41,7 @@ export default function FormLeads({data, setData, required}) {
     // Função para adicionar um novo telefone diretamente quando o usuário termina de digitar
     const handleAdicionarTelefone = () => {
         if (novoTelefone.trim()) {
-            const novo = { id: Date.now(), numero: novoTelefone };
+            const novo = {id: Date.now(), numero: novoTelefone};
             setData('telefones', [...data.telefones, novo]); // Adiciona o novo telefone ao estado
             setNovoTelefone(''); // Limpa o campo de entrada
         }
@@ -131,7 +131,7 @@ export default function FormLeads({data, setData, required}) {
                         <div key={item.id} className="col mb-3">
                             <TextField
                                 label={`Telefone ${i + 1}:`}
-                                required
+                                required={i < 1}
                                 fullWidth
                                 className="phone"
                                 value={item.numero}

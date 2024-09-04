@@ -84,9 +84,9 @@ export default function LeadsDados({dados}) {
             <CardBody>
                 <div className="row">
                     <Stack direction="row" spacing={2}>
-                        {dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({telefone}) => (
-                            <div key={telefone} className="p-2 px-3 border border-radius-lg">
-                                <Typography display="inline" marginBottom={1}>{telefone}</Typography>
+                        {dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({numero_padronizado}) => (
+                            <div key={numero_padronizado} className="p-2 px-3 border border-radius-lg">
+                                <Typography display="inline" marginBottom={1}>{numero_padronizado}</Typography>
                             </div>
                         ))}
                     </Stack>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
 use App\Models\Leads\Leads;
 use App\Models\Leads\LeadsCopias;
+use App\Models\Leads\LeadsTelefones;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
 use App\Models\LeadsStatusHistoricos;
@@ -191,7 +192,7 @@ class LeadsController extends Controller
     {
         $dados = (new Leads())->find($id);
         $endereco = (new Enderecos())->get($dados->endereco);
-        $telefones = [];
+        $telefones = (new LeadsTelefones())->get($id);
 
         $urlAnterior = url()->previous();
 
@@ -209,7 +210,7 @@ class LeadsController extends Controller
         }
 
         modalSucesso("Dados atualizado com sucesso!");
-        return redirect($request->url);
+        return redirect()->back();
     }
 
     public function limparConsultor(Request $request)

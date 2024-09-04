@@ -5,6 +5,8 @@ import {TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import HistoricoLista from "@/Components/Leads/HistoricoLista";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
 
 export default function Show({dados, status, contatos, historicos, isSdr}) {
     const {data, setData, post} = useForm({
@@ -45,8 +47,8 @@ export default function Show({dados, status, contatos, historicos, isSdr}) {
 
     return (
         <Layout empty menu="leads" voltar={route('consultor.leads.main.index')} titlePage="Lead - Em Atendimento">
-            <div className="card mb-3">
-                <div className="card-body">
+            <CardContainer>
+                <CardBody>
                     <LeadsDados dados={dados}/>
                     <div className="row">
                         <div className="col">
@@ -70,29 +72,32 @@ export default function Show({dados, status, contatos, historicos, isSdr}) {
                         <div className="col text-end">
                             <a href={route('consultor.leads.main.edit', dados.id)} className="btn btn-primary btn-sm mb-0">Editar Dados</a></div>
                     </div>
-                </div>
-            </div>
+                </CardBody>
+            </CardContainer>
 
-            {!isSdr && <div className="card card-body mb-4">
-                <div className="row">
-                    <div className="col-auto">
-                        <button onClick={() => avancaStatus(dados.id)}
-                                className="btn btn-success">Ativar Lead
-                        </button>
+
+            {!isSdr && <CardContainer>
+                <CardBody>
+                    <div className="row">
+                        <div className="col-auto">
+                            <button onClick={() => avancaStatus(dados.id)}
+                                    className="btn btn-success">Ativar Lead
+                            </button>
+                        </div>
+                        <div className="col-auto">
+                            <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#modalFinalizary">
+                                Finalizar Atendimento
+                            </button>
+                        </div>
                     </div>
-                    <div className="col-auto">
-                        <button type="button" className="btn btn-outline-danger" data-bs-toggle="modal"
-                                data-bs-target="#modalFinalizary">
-                            Finalizar Atendimento
-                        </button>
-                    </div>
-                </div>
-            </div>}
+                </CardBody>
+            </CardContainer>}
 
             <div className="row mb-4">
                 <div className="col">
-                    <div className="card">
-                        <div className="card-body">
+                    <CardContainer>
+                        <CardBody>
                             <form onSubmit={onSubmit}>
                                 <h6>Atualizar Status</h6>
                                 <div className="row">
@@ -126,24 +131,15 @@ export default function Show({dados, status, contatos, historicos, isSdr}) {
                                     </div>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col">
-                    <div className="card">
-                        <div className="card-body">
-                            <h6 className="mb-3">Histórico de Atendimento</h6>
-                            <HistoricoLista
-                                historicos={historicos} enviarComentario={enviarComentario}
-                                setData={setData} urlPedidos="consultor.pedidos.show"
-                            />
-                        </div>
-                    </div>
+                        </CardBody>
+                    </CardContainer>
                 </div>
             </div>
 
+            <HistoricoLista
+                historicos={historicos} enviarComentario={enviarComentario}
+                setData={setData} urlPedidos="consultor.pedidos.show"
+            />
 
             {/*Modal*/}
             <div className="modal fade mt-5" id="modalFinalizary" tabIndex="10" aria-labelledby="exampleModalLabel"
