@@ -36,6 +36,7 @@ export default function Tabela({
             pedido_data: items.infos.pedido_data,
             pedido_periodo: items.infos.pedido_periodo,
             telefones: items.cliente.telefones,
+            enriquecido: items.enriquecido.qtd,
         }
     });
 
@@ -120,6 +121,7 @@ export default function Tabela({
                                 <Stack direction="row" spacing={2}>
                                     {!!item.data_encaminhado ? <Chip label="Já Atendido" size="small"/> : <Chip label="Novo" size="small"/>}
                                     {!!item.pedido_emitido && <Chip label="Ativado" size="small"/>}
+                                    {!!item.enriquecido && <Chip label="Enriquecido" size="small"/>}
                                 </Stack>
                             </td>
                             <td style={{width: '15%'}}>

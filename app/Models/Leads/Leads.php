@@ -90,6 +90,12 @@ class Leads extends Model
             ->select(['id', 'nome', 'cor']);
     }
 
+    public function copias()
+    {
+        return $this->hasMany(LeadsCopias::class, 'lead_id')
+            ->select(['id', 'lead_id']);
+    }
+
     public function agrupadosPorStatus($setor = null, $usuario = null)
     {
         $sequenciaStatus = (new \App\src\Leads\StatusLeads())->sequenciaStatus();
@@ -1005,6 +1011,7 @@ class Leads extends Model
 
         $query = $this->newQuery()
             ->with('telefones')
+            ->with('copias')
             ->where('setor_id', $setor);
 
         $orderBy = $filtros['ordenar_by'] ?? 'ASC';
@@ -1042,6 +1049,9 @@ class Leads extends Model
         $dados = $items->transform(function ($item) use ($nomeConsultores, $setores) {
             return [
                 'id' => $item->id,
+                'enriquecido' => [
+                    'qtd' => count($item->copias)
+                ],
                 'consultor' => [
                     'nome' => $nomeConsultores[$item->user_id] ?? '',
                     'id' => $item->user_id
