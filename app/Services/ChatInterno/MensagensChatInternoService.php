@@ -12,32 +12,36 @@ class MensagensChatInternoService
         $online = $this->online();
         $usuarioAtual = id_usuario_atual();
         $nomeAvatar = (new User())->getNomesAvatar();
-
-        $mensagens = (new ChatInterno())->getDestinatarios($usuarioAtual);
+        $mensagens = (new ChatInterno())->getDestinatarios($usuarioAtual)->toArray();
 
         $users = [];
-        $qtnNova2 = [];
+
+        $qtnNova2 = array_reduce($mensagens, function ($carry, $mensagem) use ($usuarioAtual) {
+            $id = $mensagem['contato_id'] === $usuarioAtual ? $mensagem['user_id'] : $mensagem['contato_id'];
+            if ($mensagem['lido'] == '0' && $mensagem['contato_id'] == $usuarioAtual) {
+                $carry[$id][] = 1;
+            }
+            return $carry;
+        }, []);
 
         foreach ($mensagens as $mensagem) {
-            $id = $mensagem->contato_id === $usuarioAtual ? $mensagem->user_id : $mensagem->contato_id;
-
-            if ($mensagem->lido == '0' && $mensagem->contato_id == $usuarioAtual) $qtnNova2[$id][] = 1;
+            $id = $mensagem['contato_id'] === $usuarioAtual ? $mensagem['user_id'] : $mensagem['contato_id'];
 
             $users[$id] = [
-                'ordem' => strtotime($mensagem->created_at),
+                'ordem' => strtotime($mensagem['created_at']),
                 'id' => $id,
-                'nome' => $nomeAvatar[$id]['nome'],
+                'nome' => $nomeAvatar[$id]['nome'] ?? 'Nome Indisponível',
                 'ultima_mensagem' => '',
-                'file' => !!$mensagem->url,
-                'data_mensagem' => date('d/m/y H:i:s', strtotime($mensagem->created_at)),
-                'status' => $mensagem->status,
-                'foto' => $nomeAvatar[$id]['foto'],
+                'file' => !empty($mensagem['url']),
+                'data_mensagem' => date('d/m/y H:i:s', strtotime($mensagem['created_at'])),
+                'status' => $mensagem['status'] ?? '',
+                'foto' => $nomeAvatar[$id]['foto'] ?? null,
                 'online' => $online[$id] ?? false,
-                'qtd_nova' => ($qtnNova2[$id] ?? null) ? count($qtnNova2[$id]) : 0
+                'qtd_nova' => count($qtnNova2[$id] ?? []),
             ];
         }
 
-        return [...$users];
+        return array_values($users);
     }
 
     public function chatAlertas()

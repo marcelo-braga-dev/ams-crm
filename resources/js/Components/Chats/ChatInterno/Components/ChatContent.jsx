@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useRef} from 'react';
+import React, {useCallback, useEffect, useState, useRef, useMemo} from 'react';
 import AreaChat from "./AreaMensagens/AreaChat";
 import AreaAviso from "./AreaMensagens/AreaAviso";
 import axios from "axios";
@@ -9,12 +9,13 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
     const [progress, setProgress] = useState(false);
     const [semMensagem, setSemMensagem] = useState(false);
     const scrollRef = useRef(null); // Referência para o controle do scroll
-    const mensagensRef = useRef(mensagens); // Usada para manter o controle das mensagens
+    // const mensagensRef = useRef(mensagens); // Usada para manter o controle das mensagens
 
     // Atualiza a referência das mensagens quando mudam
-    useEffect(() => {
-        mensagensRef.current = mensagens;
-    }, [mensagens]);
+    // useEffect(() => {
+    //     mensagensRef.current = mensagens;
+    // }, [mensagens]);
+
 
     // Função para excluir a conversa
     const excluirConversa = async () => {
@@ -32,17 +33,13 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
         }
     };
 
-    // Efeito que rola o scroll sempre que mensagens forem recebidas ou enviadas
-    useEffect(() => {
-        scrollToBottom();
-    }, [mensagens]); // Dispara sempre que `mensagens` mudar
-
     // Configuração inicial do chat
     useEffect(() => {
         if (infoChatSelecionado.id && mensagens.length === 0) {
             setSemMensagem(true);
             setProgress(false);
         }
+        scrollToBottom();
     }, [infoChatSelecionado.id, mensagens]);
 
     // Função para renderizar as mensagens
