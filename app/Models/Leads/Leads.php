@@ -619,6 +619,7 @@ class Leads extends Model
                 'infos' => [
                     'setor' => $setores[$item->setor_id] ?? '',
                     'status' => $item->status,
+                    'situacao' => $item->situacao,
                     'status_nome' => (new StatusLeads())->nome($item->status),
                     'status_anotacoes' => $item->status_anotacoes,
                     'anotacoes' => $item->infos,

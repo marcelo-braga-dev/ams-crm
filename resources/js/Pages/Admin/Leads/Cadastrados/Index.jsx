@@ -43,8 +43,7 @@ const FilterSection = ({
                 <TextField fullWidth select label="Status" defaultValue="" size="small"
                            onChange={event => setStatus(event.target.value)}>
                     <MenuItem value="">Todos</MenuItem>
-                    <MenuItem value="novo">Iniciar Atendimento</MenuItem>
-                    <MenuItem value="pre_atendimento">Pré-Atendimento</MenuItem>
+                    <MenuItem value="novo">Novos</MenuItem>
                     <MenuItem value="aberto">Aberto</MenuItem>
                     <MenuItem value="atendimento">Atendimento</MenuItem>
                     <MenuItem value="ativo">Ativo</MenuItem>
