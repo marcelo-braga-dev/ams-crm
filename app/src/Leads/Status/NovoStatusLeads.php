@@ -22,7 +22,7 @@ class NovoStatusLeads
 
     public function getNome(): string
     {
-        return 'Iniciar Atendimento';
+        return 'Novo';
     }
     public function updateStatus($id)
     {
