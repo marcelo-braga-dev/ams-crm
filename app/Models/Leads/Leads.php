@@ -187,6 +187,8 @@ class Leads extends Model
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
         try {
+            if ($cnpj && $cnpj <= 100000000000) throw new \DomainException('CNPJs inválidos;');
+
             $status = (new NovoStatusLeads())->getStatus();
             $verificacaoCnpj = null;
 
@@ -249,8 +251,10 @@ class Leads extends Model
                 modalErro($msgErro);
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
-        } catch (QueryException $exception) {
+        } catch (\DomainException $exception) {
             print_pre($exception->getMessage());
+        } catch (QueryException $exception) {
+            print_pre($dados);
             $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
             if ($existCnpj->id ?? null) throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
         }
@@ -1032,6 +1036,7 @@ class Leads extends Model
         }
 
         if ($filtros['sdr'] ?? null) $query->whereNull('sdr_id');
+        if ($filtros['enriquecidos'] ?? null) $query->whereHas('copias');
         if ($filtros['consultor'] ?? null) $query->whereNull('user_id');
         if ($filtros['importacao'] ?? null) $query->where('importacao_id', $filtros['importacao']);
         if ($filtros['status'] ?? null) $query->where('status', $filtros['status']);

@@ -23,7 +23,8 @@ const FilterSection = ({
                            setComSdr,
                            setComConsultor,
                            setFiltroLeads,
-                           setFiltroClassificacao
+                           setFiltroClassificacao,
+                           setFiltroEnriquecidos
                        }) => (<>
         <div className="row justify-content-between">
             <div className="col-md-2">
@@ -95,6 +96,9 @@ const FilterSection = ({
                     <FormControlLabel label={<small>Apenas SEM Consultor(a)</small>}
                                       control={<Switch size="small" disabled={carregando}
                                                        onChange={e => setComConsultor(e.target.checked)}/>}/>
+                    <FormControlLabel label={<small>Enriquecidos</small>}
+                                      control={<Switch size="small" disabled={carregando}
+                                                       onChange={e => setFiltroEnriquecidos(e.target.checked)}/>}/>
                 </Stack>
             </div>
         </div>
@@ -129,6 +133,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
     const [filtroOrdenar, setFiltroFiltroOrdenar] = useState('');
     const [filtroOrdenarBy, setFiltroFiltroOrdenarBy] = useState('');
     const [filtroQtdPagina, setFiltroQtdPagina] = useState(50);
+    const [filtroEnriquecidos, setFiltroEnriquecidos] = useState(false);
     const isFirstRender = useRef(true);
 
     function getLeads() {
@@ -146,7 +151,8 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                 ordenar: filtroOrdenar,
                 ordenar_by: filtroOrdenarBy,
                 page_qtd: filtroQtdPagina,
-                classificacao: filtroClassificacao
+                classificacao: filtroClassificacao,
+                enriquecidos: filtroEnriquecidos,
             },
         })).then(res => {
             setLeads(res.data.leads.dados);
@@ -163,7 +169,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
         setPaginate(1)
         getLeads()
     }, [filtroSetor, filtroImportacao, filtroStatus, filtroSdr, filtroConsultor, enviarLead, filtroValor,
-        filtroLeads, filtroOrdenar, filtroOrdenarBy, filtroQtdPagina, filtroClassificacao]);
+        filtroLeads, filtroOrdenar, filtroOrdenarBy, filtroQtdPagina, filtroClassificacao, filtroEnriquecidos]);
 
     useEffect(() => {
         if (isFirstRender.current) {
@@ -252,6 +258,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                         setComConsultor={setFiltroConsultor}
                         setFiltroLeads={setFiltroLeads}
                         setFiltroClassificacao={setFiltroClassificacao}
+                        setFiltroEnriquecidos={setFiltroEnriquecidos}
                     />
                 </CardBody>
             </CardContainer>

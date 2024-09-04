@@ -54,7 +54,30 @@ class LeadsCopias extends Model
         if (!empty($colunasAlteradas)) {
             $colunasAlteradas['lead_id'] = $dadosAntigos->id;
             $colunasAlteradas['importacao_id'] = $importacao;
-            $this->insert($colunasAlteradas);
+
+            $this->insert([
+                'lead_id' => $colunasAlteradas['lead_id'] ?? null,
+                'nome' => $colunasAlteradas['nome'] ?? null,
+                'user_id' => id_usuario_atual(),
+                'importacao_id' => $colunasAlteradas['importacao_id'] ?? null,
+                'cnpj' => $colunasAlteradas['cnpj'] ?? null,
+                'rg' => $colunasAlteradas['rg'] ?? null,
+                'cpf' => $colunasAlteradas['cpf'] ?? null,
+                'inscricao_estadual' => $colunasAlteradas['inscricao_estadual'] ?? null,
+                'razao_social' => $colunasAlteradas['razao_social'] ?? null,
+                'email' => $colunasAlteradas['email'] ?? null,
+                'endereco' => $colunasAlteradas['endereco'] ?? null,
+                'cnae' => $colunasAlteradas['cnae'] ?? null,
+                'capital_social' => $colunasAlteradas['capital_social'] ?? null,
+                'tipo' => $colunasAlteradas['tipo'] ?? null,
+                'porte' => $colunasAlteradas['porte'] ?? null,
+                'atividade_principal' => $colunasAlteradas['atividade_principal'] ?? null,
+                'natureza_juridica' => $colunasAlteradas['natureza_juridica'] ?? null,
+                'quadro_societario' => $colunasAlteradas['quadro_societario'] ?? null,
+                'situacao' => $colunasAlteradas['situacao'] ?? null,
+                'data_situacao' => $colunasAlteradas['data_situacao'] ?? null,
+                'data_abertura' => $colunasAlteradas['data_abertura'] ?? null,
+            ]);
         }
     }
 
