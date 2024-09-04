@@ -3,8 +3,8 @@ import DataTable from 'react-data-table-component';
 import {
     Backdrop,
     CircularProgress,
-    ListItemButton,
-    TextField
+    ListItemButton, Stack,
+    TextField, Typography
 } from "@mui/material";
 import Layout from '@/Layouts/Layout';
 import MenuItem from "@mui/material/MenuItem";
@@ -17,6 +17,9 @@ import InfoLead from "@/Pages/Admin/Leads/Componentes/InfoLead";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTable from "@/Components/Cards/CardTable";
+import CampoTexto from "@/Components/CampoTexto.jsx";
+import Switch from "@mui/material/Switch";
+import Chip from "@mui/material/Chip";
 
 export default function Filtering({leads, dadosimportacao}) {
     // loading
@@ -28,6 +31,7 @@ export default function Filtering({leads, dadosimportacao}) {
     const [checkedPage, setCheckedPage] = useState(false);
     const [leadsChecked, setLeadsChecked] = useState([]);
     const [consultorSelecionado, setConsultorSelecionado] = useState();
+    const [filtroEnriquecidos, setFiltroEnriquecidos] = useState(false);
 
     function handleToggle(value) {
         const currentIndex = leadsChecked.indexOf(value);
@@ -92,6 +96,8 @@ export default function Filtering({leads, dadosimportacao}) {
 
                                     <div className="col">
                                         <span>Status: {row.status}<br/><br/></span>
+                                        {row.enriquecida > 0 &&
+                                            <Chip label='Enriquecida'/>}
                                         {row.consultor &&
                                             <span>Último Vendedor(a):<br/>
                                                 {row.consultor}</span>
@@ -121,10 +127,11 @@ export default function Filtering({leads, dadosimportacao}) {
             cidade: items.cliente.cidade,
             estado: items.cliente.estado,
             status: items.infos.status,
+            enriquecida: items.enriquecida.qtd,
         }
     });
     // Dados - fim
-
+    console.log(filtroEnriquecidos)
     const filteredItems = linhas.filter(
         item => filtro === 'id' &&
             item.id && item.id.toString() === filterText
@@ -149,13 +156,10 @@ export default function Filtering({leads, dadosimportacao}) {
             || filtro === 'ddd' && filterText === ''
     );
 
-    function encaminharLead() {
-        if (consultorSelecionado && leadsChecked) {
-            setOpen(!open);
-            router.post(route('admin.clientes.leads.update-consultor',
-                {leadsSelecionados: leadsChecked, consultor: consultorSelecionado}))
-        }
-    }
+    const filteredEnriquecidas = filteredItems.filter(
+        item => filtroEnriquecidos ? (filtroEnriquecidos && item.enriquecida > 0) : true
+    );
+
 
     // Form Excluir
     function excluir() {
@@ -183,6 +187,8 @@ export default function Filtering({leads, dadosimportacao}) {
         setCheckedPage(false)
     })
 
+    const handleToggleEnriquecidos = () => setFiltroEnriquecidos(e => !e)
+
     // Form Ocultar - fim
     return (
         <Layout container titlePage="Histórico da Importação" menu="leads" submenu="leads-importar"
@@ -192,11 +198,20 @@ export default function Filtering({leads, dadosimportacao}) {
                 <CardBody>
                     <div className="row justify-content-between mb-4">
                         <div className="col">
-                            <span className="d-block"><b>Data da Importação:</b> {dadosimportacao.data}</span>
-                            <span className="d-block"><b>Responsável pela Importação:</b> {dadosimportacao.nome}</span>
-                            <span className="d-block"><b>ID da Importação:</b>  #{dadosimportacao.id}</span>
-                            <span className="d-block"><b>Qtd. Total de Leads Importados:</b> {dadosimportacao.qtd}</span>
-                            <span className="d-block"><b>Setor:</b> {dadosimportacao.setor}</span>
+                            <Stack spacing={2}>
+                                <CampoTexto titulo="Data da Importação" texto={dadosimportacao.data}/>
+                                <CampoTexto titulo="Responsável pela Importação" texto={dadosimportacao.nome}/>
+                                <CampoTexto titulo="ID da Importação" texto={dadosimportacao.id}/>
+                            </Stack>
+                        </div>
+                        <div className="col">
+                            <Stack spacing={2}>
+
+                                {/*<CampoTexto titulo="" texto={}/>*/}
+                                <CampoTexto titulo="Setor" texto={dadosimportacao.setor}/>
+                                <CampoTexto titulo="Qtd. Enriquecidos" texto={dadosimportacao.enriquecidas}/>
+                                <CampoTexto titulo="Qtd. Novos" texto={dadosimportacao.qtd}/>
+                            </Stack>
                         </div>
                         <div className="col-auto">
                             <button className="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modalExcluirImportacao">
@@ -204,6 +219,10 @@ export default function Filtering({leads, dadosimportacao}) {
                             </button>
                         </div>
                     </div>
+                    <Stack spacing={0} direction="row" alignItems="center">
+                        <Switch checked={filtroEnriquecidos} onChange={handleToggleEnriquecidos}/>
+                        <Typography>Enriquecidos</Typography>
+                    </Stack>
                 </CardBody>
             </CardContainer>
 
@@ -262,7 +281,7 @@ export default function Filtering({leads, dadosimportacao}) {
 
                     <DataTable
                         columns={columns}
-                        data={filteredItems}
+                        data={filteredEnriquecidas}
                         pagination
                         paginationPerPage={rowsPerPage}
                         onChangeRowsPerPage={value => setRowsPerPage(value)}

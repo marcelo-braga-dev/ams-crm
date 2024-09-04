@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\LeadsImportarHistoricos;
 use App\Services\Leads\Importar\DadosImportacaoService;
 use App\Services\Leads\Importar\ImportarArquivoService;
@@ -25,6 +25,7 @@ class ImportarController extends Controller
 
     public function store(Request $request)
     {
+        set_time_limit(600);
         try {
             $dados = (new ImportarArquivoService())->dados($request);
             $dadosSeparados = (new DadosImportacaoService())->executar($dados);
@@ -44,7 +45,7 @@ class ImportarController extends Controller
             }
         }
 
-        (new LeadsImportarHistoricos())->atualizar($idHistorico, $qtd);
+        (new LeadsImportarHistoricos())->atualizar($idHistorico, $dadosSeparados);
 
         modalSucesso("Importação Realizada com sucesso!");
         return redirect()->route('admin.clientes.leads.importar.index');

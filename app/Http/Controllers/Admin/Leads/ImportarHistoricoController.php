@@ -3,12 +3,8 @@
 namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\LeadsImportarHistoricos;
-use App\Models\User;
-use App\Services\Leads\LeadsDadosService;
-use App\Services\Setores\SetoresService;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ImportarHistoricoController extends Controller

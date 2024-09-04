@@ -4,7 +4,7 @@ import {useForm} from "@inertiajs/react";
 
 import {router} from "@inertiajs/react";
 import maskJquery from "@/Helpers/maskJquery";
-import InputsDadosLead from "@/Partials/Leads/InputsDados";
+import FormLeads from "@/Partials/Leads/FormLeads.jsx";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
@@ -54,7 +54,7 @@ export default function Edit({dados, endereco, telefones}) {
     return (
         <Layout container voltar={document.referrer} titlePage="Editar LEAD" menu="leads" submenu="leads-cadastrados">
             <form onSubmit={submit}>
-                <InputsDadosLead data={data} setData={setData} telefones={telefones}/>
+                <FormLeads data={data} setData={setData} telefones={telefones}/>
                 <button type="submit" className="btn btn-primary">Salvar</button>
             </form>
         </Layout>

@@ -7,6 +7,7 @@ import CardTitle from "@/Components/Cards/CardTitle.jsx";
 import {Person, Telephone, TelephoneFill} from "react-bootstrap-icons";
 import * as React from "react";
 import CampoTexto from "@/Components/CampoTexto.jsx";
+import Chip from "@mui/material/Chip";
 
 export default function LeadsDados({dados}) {
     const [toggleMenu, setToggleMenu] = useState(false)
@@ -40,9 +41,7 @@ export default function LeadsDados({dados}) {
                     </div>
                 </div>
 
-                <Typography className="cursor-pointer" onClick={toggleInfo}>
-                    {toggleMenu ? '-' : '+'} informações
-                </Typography>
+
 
                 {toggleMenu && <div className="row mt-4">
                     <div className="col">
@@ -75,6 +74,8 @@ export default function LeadsDados({dados}) {
                         </Stack>
                     </div>
                 </div>}
+                    <Chip className="cursor-pointer mt-4" onClick={toggleInfo} label={`${toggleMenu ? '-' : '+'} Informações`}/>
+
             </CardBody>
         </CardContainer>
 

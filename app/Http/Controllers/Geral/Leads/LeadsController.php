@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\LeadsNEW;
+use App\Models\Leads\Leads;
 use App\Models\LeadsStatusHistoricos;
 use App\Models\Pedidos;
+use App\Models\Setores;
 use App\Models\User;
 use App\Models\UsersPermissoes;
 use App\Services\Leads\HistoricoDadosService;
@@ -14,6 +16,7 @@ use App\src\Leads\StatusLeads\ConcluidoStatusLeads;
 use App\src\Leads\StatusLeads\EmProgressoStatusLeads;
 use App\src\Leads\StatusLeads\FinalizadosStatusLeads;
 use App\src\Leads\StatusLeads\InativoStatusLeads;
+use App\src\Leads\StatusLeads\NovoStatusLeads;
 use App\src\Leads\StatusLeads\RevisaoStatusLeads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -43,6 +46,26 @@ class LeadsController extends Controller
 
         return Inertia::render('Geral/Leads/Show',
             compact('dados', 'historicos', 'usuarios', 'permissoes'));
+    }
+
+    public function create()
+    {
+        $setores = (new Setores())->setores();
+
+        return Inertia::render('Geral/Leads/Create', compact('setores'));
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            (new LeadsNEW())->criar($request, (new NovoStatusLeads())->status(), $request['setor']);
+        } catch (\DomainException $e) {
+            modalErro($e->getMessage());
+            return redirect()->back();
+        }
+
+        modalSucesso('Lead cadastrado com sucesso');
+        return redirect()->back();
     }
 
     public function novo($id)

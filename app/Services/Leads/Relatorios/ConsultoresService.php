@@ -2,7 +2,7 @@
 
 namespace App\Services\Leads\Relatorios;
 
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\LeadsHistoricos;
 
 class ConsultoresService

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Consultor\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\LeadsHistoricos;
 use App\Services\Leads\HistoricoDadosService;
 use App\src\Leads\Historicos\AtivadoHistorico;

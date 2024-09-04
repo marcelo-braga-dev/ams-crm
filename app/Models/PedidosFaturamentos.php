@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Leads\Leads;
 use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\StatusPedidos;
-use App\src\Produtos\ProdutosStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;

@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Consultor\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Services\Leads\HistoricoDadosService;
-use App\Services\Leads\LeadsDadosService;
 use App\src\Leads\StatusAtendimentoLeads;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class FinalizadosController extends Controller

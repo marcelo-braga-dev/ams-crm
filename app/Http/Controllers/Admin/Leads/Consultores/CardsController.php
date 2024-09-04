@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\User;
 use App\Models\UsersPermissoes;
-use App\Services\Leads\CardLeadsService;
 use App\Services\Leads\CardsLeadsService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

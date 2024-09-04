@@ -11,13 +11,13 @@ import {Eye} from "react-bootstrap-icons";
 import Link from "@/Components/Link.jsx";
 
 export default function ({setores, modelo, historicos}) {
-    const {post, setData} = useForm()
+    const {data, setData} = useForm()
     const [pregress, setPregress] = useState(false);
 
     function submit(e) {
         e.preventDefault()
         setPregress(true)
-        post(route('admin.clientes.leads.importar.store'))
+        router.post(route('admin.clientes.leads.importar.store'), {...data})
     }
 
     router.on('success', () => setPregress(false))
@@ -68,12 +68,13 @@ export default function ({setores, modelo, historicos}) {
                     <CardContainer>
                         <CardTitle title="Histórico de Importação"/>
                         <div className="table-responsive">
-                            <table className="table-1">
+                            <table className="table-1 table-sm">
                                 <thead>
                                 <tr>
-                                    <th>Nome</th>
-                                    <th>Setor</th>
-                                    <th className="text-center">Qtd.</th>
+                                    <th>ID</th>
+                                    <th>Importação</th>
+                                    <th className="text-center">Novos</th>
+                                    <th className="text-center">Enriquecidos</th>
                                     <th></th>
                                 </tr>
                                 </thead>
@@ -81,19 +82,17 @@ export default function ({setores, modelo, historicos}) {
                                 {historicos.map((dado, index) => {
                                     return (
                                         <tr key={index}>
+                                            <td>#{dado.id}</td>
                                             <td>
                                                 <Typography variant="body1">{dado.nome}</Typography>
-                                                <Stack direction="row" spacing={2}>
-                                                    <Typography variant="body2">ID #{dado.id}</Typography>
-                                                    <Typography variant="body2">{dado.data}</Typography>
-                                                </Stack>
-                                            </td>
-                                            <td>
                                                 <Typography variant="body1">{dado.setor}</Typography>
+                                                <Typography variant="body2">{dado.data}</Typography>
                                             </td>
                                             <td className="text-center">
                                                 <Typography variant="body1">{dado.qtd}</Typography>
                                             </td>
+                                            <td className="text-center">
+                                                <Typography variant="body1">{dado.enriquecidas}</Typography></td>
                                             <td>
                                                 <Link href={route('admin.clientes.leads.importar-historico.show', dado.id)} icon={<Eye size="22"/>}/>
                                             </td>

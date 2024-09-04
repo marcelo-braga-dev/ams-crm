@@ -5,24 +5,47 @@ import axios from "axios";
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
-    const [idExcluirAviso, setIdExcluirAviso] = useState()
-    const [progress, setProgress] = useState(false)
-    const [semMensagem, setSemMensagem] = useState(false)
-    const scrollRef = useRef(null);
+    const [idExcluirAviso, setIdExcluirAviso] = useState();
+    const [progress, setProgress] = useState(false);
+    const [semMensagem, setSemMensagem] = useState(false);
+    const scrollRef = useRef(null); // Referência para o controle do scroll
+    const mensagensRef = useRef(mensagens); // Usada para manter o controle das mensagens
 
+    // Atualiza a referência das mensagens quando mudam
+    useEffect(() => {
+        mensagensRef.current = mensagens;
+    }, [mensagens]);
+
+    // Função para excluir a conversa
     const excluirConversa = async () => {
-        await axios.post(route('admin.chat-interno-excluir-aviso', {id: idExcluirAviso}));
+        try {
+            await axios.post(route('admin.chat-interno-excluir-aviso', {id: idExcluirAviso}));
+        } catch (error) {
+            console.error('Erro ao excluir aviso:', error);
+        }
     };
 
-    useEffect(() => {
-        setTimeout(() => scrollRef.current.scrollIntoView({behavior: 'auto', align: 'end'}), 300)
-    }, [infoChatSelecionado.id]);
+    // Função que desce o scroll para o final
+    const scrollToBottom = () => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollIntoView({behavior: 'smooth'});
+        }
+    };
 
+    // Efeito que rola o scroll sempre que mensagens forem recebidas ou enviadas
     useEffect(() => {
-        if (mensagens.length === 0) setProgress(false)
-        if (infoChatSelecionado.id && mensagens.length === 0) setSemMensagem(true)
-    }, [])
+        scrollToBottom();
+    }, [mensagens]); // Dispara sempre que `mensagens` mudar
 
+    // Configuração inicial do chat
+    useEffect(() => {
+        if (infoChatSelecionado.id && mensagens.length === 0) {
+            setSemMensagem(true);
+            setProgress(false);
+        }
+    }, [infoChatSelecionado.id, mensagens]);
+
+    // Função para renderizar as mensagens
     const renderMessage = useCallback((item, index) => (
         infoChatSelecionado.categoria === 'chat' ? (
             <AreaChat
@@ -46,33 +69,31 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
 
     return (
         <div className="scroll-container" style={{height: '100%', overflowY: 'scroll', display: 'flex', flexDirection: 'column-reverse'}}>
-            <div className="scroll-content" style={{
-                display: 'flex',
-                flexDirection: 'column'
-            }}>
+            <div className="scroll-content" style={{display: 'flex', flexDirection: 'column'}}>
                 {progress && <div className="text-center mt-8"><CircularProgress color="inherit"/></div>}
                 {semMensagem && <div className="text-center mt-8">NÃO HÁ MENSAGENS</div>}
-                {mensagens.map(renderMessage)}
-                <div ref={scrollRef}/>
+                {/*{mensagens.map(renderMessage)}*/}
+
+                {/*<div ref={scrollRef} />*/}
+                <div>
+                    {mensagens.map(renderMessage)}
+                </div>
             </div>
 
-            <div className="modal fade mt-5" id="excluirAviso" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
+            {/* Modal para confirmação de exclusão */}
+            <div className="modal fade mt-5" id="excluirAviso" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">Excluir Aviso</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             Excluir mensagem?
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Voltar</button>
-                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal"
-                                    onClick={() => excluirConversa()}>Excluir
-                            </button>
+                            <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={excluirConversa}>Excluir</button>
                         </div>
                     </div>
                 </div>

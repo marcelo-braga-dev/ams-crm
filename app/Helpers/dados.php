@@ -76,6 +76,7 @@ if (!function_exists('converterCNPJ')) {
 if (!function_exists('converterInt')) {
     function converterInt($dado = null)
     {
+        if (!$dado) return null;
         return preg_replace('/[^0-9]/', '', $dado);
     }
 }

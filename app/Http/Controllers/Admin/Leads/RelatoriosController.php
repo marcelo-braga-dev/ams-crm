@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\Notificacoes;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\Relatorios\ConsultoresService;
-use App\Services\Leads\Relatorios\LeadsUsuariosService;
-use App\Services\Setores\SetoresService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 

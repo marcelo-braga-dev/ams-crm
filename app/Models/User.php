@@ -3,10 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Leads\Leads;
 use App\Services\Images;
 use App\src\Leads\Status\AtivoStatusLeads;
-use App\src\Usuarios\Funcoes\Admins;
-use App\src\Usuarios\Funcoes\Supervisores;
 use App\src\Usuarios\Permissoes\ChavesPermissoes;
 use App\src\Usuarios\Status\AtivoStatusUsuario;
 use DomainException;

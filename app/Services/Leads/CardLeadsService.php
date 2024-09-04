@@ -2,7 +2,7 @@
 
 namespace App\Services\Leads;
 
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\CanceladoStatusLeads;

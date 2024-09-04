@@ -3,7 +3,7 @@ import InfoCliente from "@/Pages/Consultor/Pedidos/Create/Modelo2/Partials/InfoC
 import Pedidos from "@/Pages/Consultor/Pedidos/Create/Modelo2/Partials/Pedido";
 import {useForm} from "@inertiajs/react";
 import {useState} from "react";
-import InputsDadosLead from "@/Partials/Leads/InputsDados";
+import FormLeads from "@/Partials/Leads/FormLeads.jsx";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
@@ -54,7 +54,7 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
                 <CardContainer>
                     <CardTitle title="Dados do Cliente" icon={<Person size={20}/>}/>
                     <CardBody>
-                        <InputsDadosLead data={data} setData={setData} required/>
+                        <FormLeads data={data} setData={setData} required/>
                     </CardBody>
                 </CardContainer>
 

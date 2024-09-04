@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->integer('setor');
-            $table->integer('qtd')->nullable();
+            $table->integer('novas')->nullable();
+            $table->integer('enriquecidas')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

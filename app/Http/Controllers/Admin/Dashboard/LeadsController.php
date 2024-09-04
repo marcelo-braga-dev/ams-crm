@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\LeadsEncaminhados;
 use App\Models\LeadsStatusHistoricos;
 use App\Models\Setores;
@@ -11,8 +11,8 @@ use App\Models\User;
 use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
-use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class LeadsController extends Controller
 {

@@ -2,7 +2,7 @@
 
 namespace App\src\Leads\StatusLeads;
 
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 
 class EmProgressoStatusLeads extends StatusLeads
 {

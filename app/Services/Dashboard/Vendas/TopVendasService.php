@@ -2,11 +2,10 @@
 
 namespace App\Services\Dashboard\Vendas;
 
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\Pedidos;
 use App\Models\User;
 use App\Services\Pedidos\StatusPedidosServices;
-use App\src\Pedidos\StatusPedidos;
 use Illuminate\Support\Facades\DB;
 
 class TopVendasService

@@ -1,10 +1,6 @@
 import React, {useEffect, useState, useCallback} from "react";
 import {
-    Tooltip,
-    IconButton,
-    Box,
-    Button,
-    InputBase,
+    Tooltip, IconButton, Box, Button, InputBase,
 } from '@mui/material';
 import AttachFileTwoToneIcon from '@mui/icons-material/AttachFileTwoTone';
 import SendTwoToneIcon from '@mui/icons-material/SendTwoTone';
@@ -38,17 +34,14 @@ const Container = styled.div`
 
 function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
     const {data, setData, post, reset} = useForm({
-        mensagem: '',
-        anexo: ''
+        mensagem: '', anexo: ''
     });
 
     const [abrirEmojis, setAbrirEmojis] = useState(false);
 
     useEffect(() => {
         setData(previousInputs => ({
-            ...previousInputs,
-            destinatario: infoChatSelecionado.id,
-            categoria: infoChatSelecionado.categoria
+            ...previousInputs, destinatario: infoChatSelecionado.id, categoria: infoChatSelecionado.categoria
         }));
     }, [infoChatSelecionado]);
 
@@ -87,8 +80,7 @@ function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
             imageEle.src = URL.createObjectURL(blob);
         }
         const file = new File([blob], "imagem", {
-            type: "image/jpeg",
-            lastModified: new Date().getTime()
+            type: "image/jpeg", lastModified: new Date().getTime()
         });
         const container = new DataTransfer();
         container.items.add(file);
@@ -104,47 +96,22 @@ function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
         };
     }, [handlePaste]);
 
-    useEffect(() => {
-        const handleKeyPress = (e) => {
-            if (e.key === 'Enter' && !e.ctrlKey) {
-                const btn = document.querySelector("#btn-enviar-mensagem");
-                if (btn) {
-                    btn.click();
-                }
-            }
-            if (e.key === 'Enter' && e.ctrlKey) {
-                setData('mensagem', data.mensagem.trim() + "\n");
-            }
-        };
-
-        document.addEventListener("keypress", handleKeyPress);
-        return () => {
-            document.removeEventListener("keypress", handleKeyPress);
-        };
-    }, [data.mensagem, setData]);
-
-    return (
-        (infoChatSelecionado.id || (infoChatSelecionado.categoria === 'avisos' && admin)) ? (
-            <>
+    return ((infoChatSelecionado.id || (infoChatSelecionado.categoria === 'avisos' && admin)) ? (<>
                 <div className="bg-white">
-                    {abrirEmojis && (
-                        <>
+                    {abrirEmojis && (<>
                             <div className="text-end pe-3">
                                 <span onClick={() => setAbrirEmojis(!abrirEmojis)}>
                                     <i className="fas fa-times text-danger"></i>
                                 </span>
                             </div>
                             <EmojiPicker width="100%" theme="google" searchDisabled onEmojiClick={handleEmojiClick}/>
-                        </>
-                    )}
-                    {data.anexo && (
-                        <div className="my-1">
+                        </>)}
+                    {data.anexo && (<div className="my-1">
                             <small>
                                 <AttachFileIcon style={{fontSize: 18}}/>
                                 <b>{data.anexo.name}</b>
                             </small>
-                        </div>
-                    )}
+                        </div>)}
                     <input hidden accept="image/*" type="file" id="file_input"/>
                     <Preview id="preview"/>
                 </div>
@@ -161,6 +128,15 @@ function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
                             id="input_mensagem"
                             placeholder="Escreva sua mensagem aqui..."
                             onChange={e => setData('mensagem', e.target.value)}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter' && e.shiftKey) {
+                                    setData('mensagem', data.mensagem + '\n')
+                                    e.preventDefault(); // Evita o comportamento padrão de submissão ou foco
+                                } else if (e.key === 'Enter') {
+                                    submit()
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                     </Box>
                     <Box>
@@ -182,9 +158,7 @@ function BottomBarContent({infoChatSelecionado, setores, urlSubmit, admin}) {
                         </Button>
                     </Box>
                 </Box>
-            </>
-        ) : <Box sx={{background: 'white', p: 4}}/>
-    );
+            </>) : <Box sx={{background: 'white', p: 4}}/>);
 }
 
 export default BottomBarContent;

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
-use App\Models\Leads;
-use App\Models\LeadsDados;
+use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsCopias;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
 use App\Models\LeadsStatusHistoricos;
@@ -14,10 +14,9 @@ use App\Models\Setores;
 use App\Models\User;
 use App\Models\UsersPermissoes;
 use App\Services\Leads\HistoricoDadosService;
+use App\Services\Leads\LeadsDadosService;
 use App\Services\Leads\Relatorios\LeadsUsuariosService;
 use App\Services\Setores\SetoresService;
-use App\Services\Leads\LeadsDadosService;
-use App\src\Leads\Dados\DadosLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\UpdateStatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
@@ -28,7 +27,6 @@ class LeadsController extends Controller
 {
     public function cadastrados(Request $request)
     {
-//        print_pre((new Leads())->getDadosMinimoPaginate(1, null));
         $categorias = (new SetoresService())->setores();
         $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
@@ -52,10 +50,11 @@ class LeadsController extends Controller
         $isEditar = (new UsersPermissoes())->isLeadsEditar($idUsuario);
         $isExcluir = (new UsersPermissoes())->isLeadsExcluir($idUsuario);
         $isInativar = (new UsersPermissoes())->isLeadsInativar($idUsuario);
+        $leadDadosHistoricos = (new LeadsCopias())->get($id);
 
         return Inertia::render('Admin/Leads/Lead/Show',
             compact('dados', 'historicos', 'usuarios', 'historicoPedidos', 'historicoStatus',
-                'isLeadsEncaminhar', 'isLeadsLimpar', 'isEditar', 'isExcluir', 'isInativar'));
+                'isLeadsEncaminhar', 'isLeadsLimpar', 'isEditar', 'isExcluir', 'isInativar', 'leadDadosHistoricos'));
     }
 
     public function leadsCadastradosPaginate(Request $request)
@@ -65,11 +64,6 @@ class LeadsController extends Controller
         $dados = (new Leads())->getDadosMinimoPaginate($categoriaAtual, $request->filtros);
 
         return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
-    }
-
-    public function alterarStatusTelefone($id, Request $request)
-    {
-        (new LeadsDados())->atualizarStatus($id, $request->status);
     }
 
     public function leadsCadastrados(Request $request)
@@ -197,7 +191,7 @@ class LeadsController extends Controller
     {
         $dados = (new Leads())->find($id);
         $endereco = (new Enderecos())->get($dados->endereco);
-        $telefones = (new LeadsDados())->get((new DadosLeads())->chaveTelefone(), $id);
+        $telefones = [];
 
         $urlAnterior = url()->previous();
 

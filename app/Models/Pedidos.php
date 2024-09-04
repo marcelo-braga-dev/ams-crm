@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Leads\Leads;
 use App\Services\Pedidos\StatusPedidosServices;
-use App\src\Pedidos\PedidoUpdateStatus;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\StatusPedidos;

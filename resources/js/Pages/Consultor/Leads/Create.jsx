@@ -9,7 +9,7 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import {Person} from "react-bootstrap-icons";
-import InputsDadosLead from "@/Partials/Leads/InputsDados";
+import FormLeads from "@/Partials/Leads/FormLeads.jsx";
 
 export default function Create() {
     maskJquery()
@@ -28,7 +28,7 @@ export default function Create() {
                 <CardTitle title="Dados do Lead" icon={<Person size={22}/>}/>
                 <CardBody>
                     <form onSubmit={onSubmit}>
-                        <InputsDadosLead data={data} setData={setData}/>
+                        <FormLeads data={data} setData={setData}/>
 
                         <div className="">
                             <div className="text-center">

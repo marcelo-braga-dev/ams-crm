@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Leads;
 
-use App\Models\Leads\LeadsTelefones;
+use App\Models\Enderecos;
+use App\Models\LeadsHistoricos;
+use App\Models\LeadsImportarHistoricos;
+use App\Models\Pedidos;
+use App\Models\Pins;
+use App\Models\Setores;
+use App\Models\User;
 use App\Services\Excel\RelatorioLeads;
-use App\Services\Permissoes\LeadsKanbanPermissoesServices;
-use App\src\Leads\Dados\DadosLeads;
 use App\src\Leads\Status\AbertoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
@@ -15,7 +19,6 @@ use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\Status\StatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
-use App\src\Usuarios\Permissoes\LeadsKanban;
 use DateTime;
 use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -216,14 +219,16 @@ class Leads extends Model
                     'cnae' => $dados['cnae'] ?? null,
                 ];
 
-                $record = $this->newQuery()->where('cnpj', $cnpj)->first();
+                $dadosAntigos = $this->newQuery()->where('cnpj', $cnpj)->first();
 
-                if (!$record) {
-                    $valores['status'] = $status;
-                }
+                if (!$dadosAntigos) $valores['status'] = $status;
 
                 $lead = $this->newQuery()->updateOrCreate($atributos, $valores);
-                $this->cadastrarTelefones($lead->id, $dados['telefones'] ?? null);
+
+                if ($dadosAntigos) (new LeadsCopias())->atualizarRegistro($cnpj, $dadosAntigos, $valores, $importacao);
+
+                $this->cadastrarTelefones($lead->id, $dados['telefones'] ?? null, $importacao);
+
 
                 return $lead->id;
             } else {
@@ -236,12 +241,14 @@ class Leads extends Model
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
         } catch (QueryException $exception) {
+            print_pre($exception->getMessage());
             $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
             if ($existCnpj->id ?? null) throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
         }
     }
 
-    public function getDisponiveis($setor, $idImportacao = null)
+    public
+    function getDisponiveis($setor, $idImportacao = null)
     {
         $query = $this->newQuery();
         if ($idImportacao) $query->where('importacao_id', $idImportacao);
@@ -259,7 +266,8 @@ class Leads extends Model
             });
     }
 
-    public function updateUser($id, $idConsultor)
+    public
+    function updateUser($id, $idConsultor)
     {
         $this->newQuery()
             ->find($id)
@@ -268,7 +276,8 @@ class Leads extends Model
             ]);
     }
 
-    public function setConsultor($idLeads, $idConsultor, $alterarStatus = true)
+    public
+    function setConsultor($idLeads, $idConsultor, $alterarStatus = true)
     {
         $this->newQuery()
             ->whereIn('id', $idLeads)
@@ -288,7 +297,8 @@ class Leads extends Model
         }
     }
 
-    public function setSdr($idLead, $idConsultor, $alterarStatus = true)
+    public
+    function setSdr($idLead, $idConsultor, $alterarStatus = true)
     {
         $this->newQuery()
             ->whereIn('id', $idLead)
@@ -308,7 +318,8 @@ class Leads extends Model
         }
     }
 
-    public function create($dados, $setor, $usuario = null, $importacao = null, $status = false)
+    public
+    function create($dados, $setor, $usuario = null, $importacao = null, $status = false)
     {
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
@@ -386,18 +397,14 @@ class Leads extends Model
         }
     }
 
-    private function cadastrarTelefones($id, $telefones): void
+    private
+    function cadastrarTelefones($id, $telefones, $importacao): void
     {
-        foreach ($telefones ?? [] as $item) {
-            if ($item) {
-                $telefone = converterInt(converterTelefone($item));
-
-                (new LeadsTelefones())->cadastrar($id, $telefone);
-            }
-        }
+        if ($telefones ?? []) (new LeadsTelefones())->criar($id, $telefones, $importacao);
     }
 
-    public function getResumido($setor, $comSdr = null, $comConsultor = null, $importacao = null)
+    public
+    function getResumido($setor, $comSdr = null, $comConsultor = null, $importacao = null)
     {
         $nomeConsultores = (new User())->getNomes();
 
@@ -416,14 +423,16 @@ class Leads extends Model
             });
     }
 
-    public function find($id)
+    public
+    function find($id)
     {
         return $this->newQuery()
             ->leftJoin('enderecos', 'leads.endereco', '=', 'enderecos.id')
             ->find($id, ['leads.*', 'enderecos.cidade AS cidade', 'enderecos.estado AS estado']);
     }
 
-    public function updateStatus($id, $status)
+    public
+    function updateStatus($id, $status)
     {
         $this->newQuery()
             ->find($id)
@@ -432,7 +441,8 @@ class Leads extends Model
             ]);
     }
 
-    public function remover($id)
+    public
+    function remover($id)
     {
         $ids = is_array($id) ? $id : [$id];
 
@@ -456,7 +466,8 @@ class Leads extends Model
         }
     }
 
-    public function getOcultos($setor)
+    public
+    function getOcultos($setor)
     {
         return $this->newQuery()
             ->where('status', (new OcultosLeadsStatus())->getStatus())
@@ -465,7 +476,8 @@ class Leads extends Model
             ->get();
     }
 
-    public function atualizar($id, $dados)
+    public
+    function atualizar($id, $dados)
     {
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
@@ -490,7 +502,6 @@ class Leads extends Model
                     'data_nascimento' => $dados->nascimento,
                 ]);
 
-            (new LeadsDados())->atualizar($id, $dados->telefones);
 
         } catch (QueryException $exception) {
             $msgErro = ('O CNPJ: ' . converterCNPJ($dados['cnpj'] . ' já está cadastrado em outro LEAD!'));
@@ -500,14 +511,16 @@ class Leads extends Model
         }
     }
 
-    public function atualizarDataStatus(int $id)
+    public
+    function atualizarDataStatus(int $id)
     {
         $this->newQuery()
             ->find($id)
             ->update(['status_data' => now()]);
     }
 
-    public function qtdLeadsUsuarios($id, $setor = null)
+    public
+    function qtdLeadsUsuarios($id, $setor = null)
     {
         return $this->newQuery()
             ->where('sdr_id', $id)
@@ -521,7 +534,8 @@ class Leads extends Model
      * @deprecated
      * remover instancia em dados
      */
-    public function getPeloStatus($id, string $status, string $order = 'desc', $msg = [])
+    public
+    function getPeloStatus($id, string $status, string $order = 'desc', $msg = [])
     {
         return $this->newQuery()
             ->where('user_id', $id)
@@ -533,22 +547,25 @@ class Leads extends Model
             });
     }
 
-    public function getDados($id)
+    public
+    function getDados($id)
     {
         $item = $this->newQuery()->find($id);
         $nomes = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
-        $telefones = (new LeadsDados())->dados($item->id, (new DadosLeads())->chaveTelefone());
+        $telefones = [];
 
         return $this->dados($item, $nomes, $setores, $telefones);
     }
 
-    private function dados($item, $nomes = [], $setores = [], $telefones = [])
+    private
+    function dados($item, $nomes = [], $setores = [], $telefones = [])
     {
         if ($item)
 
             return [
                 'id' => $item->id,
+                'enriquecida' => ['qtd' => $item->enriquecida_qtd ?? 0],
                 'consultor' => [
                     'nome' => $nomes[$item->user_id] ?? '',
                     'id' => $item->user_id
@@ -598,7 +615,8 @@ class Leads extends Model
             ];
     }
 
-    private function dadosMinimo($item, $nomes = [], $setores = [])
+    private
+    function dadosMinimo($item, $nomes = [], $setores = [])
     {
         return [
             'id' => $item->id,
@@ -634,7 +652,8 @@ class Leads extends Model
         ];
     }
 
-    private function dadosResumido($item, $nomeConsultores = []): array
+    private
+    function dadosResumido($item, $nomeConsultores = []): array
     {
         if (!$item) return [];
 
@@ -679,7 +698,8 @@ class Leads extends Model
         ];
     }
 
-    public function updateClassificacao($id, $valor)
+    public
+    function updateClassificacao($id, $valor)
     {
         $this->newQuery()
             ->find($id)
@@ -688,7 +708,8 @@ class Leads extends Model
             ]);
     }
 
-    public function qtdLeadsStatusConsultor($idConsultor): array
+    public
+    function qtdLeadsStatusConsultor($idConsultor): array
     {
         $dados = $this->newQuery()
             ->where('user_id', $idConsultor)
@@ -703,7 +724,8 @@ class Leads extends Model
         return $items;
     }
 
-    public function getNomes()
+    public
+    function getNomes()
     {
         $items = $this->newQuery()
             ->get(['id', 'nome', 'razao_social']);
@@ -716,7 +738,8 @@ class Leads extends Model
         return $dados;
     }
 
-    public function getCards($id)
+    public
+    function getCards($id)
     {
         $nomes = (new User())->getNomes();
 
@@ -758,24 +781,30 @@ class Leads extends Model
             });
     }
 
-    public function importacao($id)
+    public
+    function importacao($id)
     {
         return $this->newQuery()
-            ->where('importacao_id', $id)
+            ->leftJoin('leads_copias', 'leads.id', '=', 'leads_copias.lead_id')
+            ->where('leads.importacao_id', $id)
+            ->select('leads.*', DB::raw('COUNT(leads_copias.id) as enriquecida_qtd'))
+            ->groupBy('leads.id')
             ->get()
             ->transform(function ($item) {
                 return $this->dados($item);
             });
     }
 
-    public function atualizarDataUltimoPedido($id): void
+    public
+    function atualizarDataUltimoPedido($id): void
     {
         if ($id) $this->newQuery()
             ->find($id)
             ->update(['ultimo_pedido_data' => now()]);
     }
 
-    public function relatorio($setor)
+    public
+    function relatorio($setor)
     {
         $dados = $this->newQuery()
             ->where('leads.status', (new AtivoStatusLeads())->getStatus())
@@ -808,7 +837,8 @@ class Leads extends Model
         return (new RelatorioLeads())->gerar($dados);
     }
 
-    public function limparFinalizados($id)
+    public
+    function limparFinalizados($id)
     {
         $this->newQuery()
             ->where('user_id', $id)
@@ -827,7 +857,8 @@ class Leads extends Model
             ]);
     }
 
-    public function relatorioLeads()
+    public
+    function relatorioLeads()
     {
         $status = (new StatusLeads())->nomesStatus();
 
@@ -850,7 +881,8 @@ class Leads extends Model
         ];
     }
 
-    public function relatorioUsuarios($id)
+    public
+    function relatorioUsuarios($id)
     {
         $nomes = (new StatusLeads())->nomesStatus();
 
@@ -869,7 +901,8 @@ class Leads extends Model
             });
     }
 
-    public function removerConsultor($id)
+    public
+    function removerConsultor($id)
     {
         $ids = is_array($id) ? $id : [$id];
 
@@ -887,7 +920,8 @@ class Leads extends Model
             ]);
     }
 
-    public function removerSdr($id)
+    public
+    function removerSdr($id)
     {
         $ids = is_array($id) ? $id : [$id];
 
@@ -905,7 +939,8 @@ class Leads extends Model
             ]);
     }
 
-    public function getDadosMinimo($setor, $comSdr = null, $comConsultor = null, $importacao = null)
+    public
+    function getDadosMinimo($setor, $comSdr = null, $comConsultor = null, $importacao = null)
     {
         $nomeConsultores = (new User())->getNomes();
 
@@ -958,7 +993,8 @@ class Leads extends Model
     }
 
 
-    public function getDadosMinimoPaginate($setor, $filtros)
+    public
+    function getDadosMinimoPaginate($setor, $filtros)
     {
         $nomeConsultores = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
@@ -1047,14 +1083,16 @@ class Leads extends Model
         return ['dados' => $dados, 'paginate' => ['current' => $items->currentPage(), 'last_page' => $items->lastPage(), 'total' => $items->total()]];
     }
 
-    private function difData($data)
+    private
+    function difData($data)
     {
         $dataInicio = new DateTime($data);
         $dataAtual = new DateTime();
         return $dataInicio->diff($dataAtual)->days;
     }
 
-    public function limparStatus(int $id, string $status)
+    public
+    function limparStatus(int $id, string $status)
     {
         $this->newQuery()
             ->where('user_id', $id)
@@ -1073,7 +1111,8 @@ class Leads extends Model
             ]);
     }
 
-    public function filtrar($filtros, \Illuminate\Database\Eloquent\Builder $query): void
+    public
+    function filtrar($filtros, \Illuminate\Database\Eloquent\Builder $query): void
     {
         $filtro = $filtros['filtro'] ?? null;
         $valor = $filtros['filtro_valor'] ?? null;
@@ -1106,7 +1145,8 @@ class Leads extends Model
             }
     }
 
-    public function removerImportacao($id)
+    public
+    function removerImportacao($id)
     {
         $this->newQuery()
             ->where('importacao_id', $id)
@@ -1115,7 +1155,8 @@ class Leads extends Model
         (new LeadsImportarHistoricos())->newQuery()->find($id)->delete();
     }
 
-    public function inativar($id)
+    public
+    function inativar($id)
     {
         $this->newQuery()
             ->find($id)
@@ -1124,7 +1165,8 @@ class Leads extends Model
         (new LeadsHistoricos())->createHistorico($id, (new InativoStatusLeads())->getStatus());
     }
 
-    public function reativar(mixed $id)
+    public
+    function reativar(mixed $id)
     {
         $this->newQuery()
             ->find($id)

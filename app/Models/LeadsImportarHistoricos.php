@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsCopias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +14,8 @@ class LeadsImportarHistoricos extends Model
     protected $fillable = [
         'user_id',
         'setor',
-        'qtd',
+        'novas',
+        'enriquecidas',
     ];
 
     public function create($setor)
@@ -24,11 +27,22 @@ class LeadsImportarHistoricos extends Model
             ])->id;
     }
 
-    public function atualizar($id, $qtd)
+    public function atualizar($id, $dadosPlanilha)
     {
+        $qtdLeads = (new Leads())->newQuery()
+            ->where('importacao_id', $id)
+            ->count();
+
+        $qtdEnriquecida = (new LeadsCopias())->newQuery()
+            ->where('importacao_id', $id)
+            ->count();
+
         $this->newQuery()
             ->find($id)
-            ->update(['qtd' => $qtd]);
+            ->update([
+                'novas' => ($qtdLeads - $qtdEnriquecida),
+                'enriquecidas' => $qtdEnriquecida
+            ]);
     }
 
     public function historicos()
@@ -44,7 +58,8 @@ class LeadsImportarHistoricos extends Model
                     'id' => $item->id,
                     'nome' => $nomes[$item->user_id],
                     'setor' => $setores[$item->setor] ?? '',
-                    'qtd' => $item->qtd,
+                    'qtd' => $item->novas,
+                    'enriquecidas' => $item->enriquecidas ?? 0,
                     'data' => date('d/m/y H:i', strtotime($item->created_at))
                 ];
             });
@@ -53,7 +68,7 @@ class LeadsImportarHistoricos extends Model
     public function datasImportacao()
     {
         return $this->newQuery()
-            ->where('qtd', '>', 0)
+            ->where('novas', '>', 0)
             ->orderByDesc('id')
             ->get()
             ->transform(function ($item) {
@@ -75,7 +90,8 @@ class LeadsImportarHistoricos extends Model
             'id' => $item->id,
             'nome' => $nomes[$item->user_id],
             'setor' => $setores[$item->setor] ?? '',
-            'qtd' => $item->qtd,
+            'qtd' => $item->novas,
+            'enriquecidas' => $item->enriquecidas,
             'data' => date('d/m/y H:i', strtotime($item->created_at))
         ];
     }

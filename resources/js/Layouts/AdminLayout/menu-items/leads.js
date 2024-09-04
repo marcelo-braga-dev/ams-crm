@@ -24,7 +24,7 @@ const dashboard = {
                     chave: chaves.leads.cadastrar,
                     title: 'Cadastrar',
                     type: 'item',
-                    url: route('admin.clientes.leads.leads-main.create'),
+                    url: route('auth.leads.create'),
                 }, {
                     id: 'leads-kanban',
                     chave: chaves.leads.kanban,

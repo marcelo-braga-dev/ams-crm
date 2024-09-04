@@ -2,13 +2,12 @@
 
 namespace App\src\Pedidos;
 
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\Pedidos;
 use App\Models\PedidosArquivos;
 use App\Models\PedidosClientes;
 use App\Models\PedidosImagens;
 use App\Models\PedidosProdutos;
-use App\Models\Produtos;
 use App\src\Modelos\CompletoModelo;
 use App\src\Modelos\ProdutoModelo;
 use App\src\Pedidos\Arquivos\ArquivosPedido;

@@ -2,7 +2,6 @@
 
 namespace App\Services\Leads;
 
-use App\Models\Leads;
 use App\Models\LeadsEncaminhados;
 use App\Models\User;
 

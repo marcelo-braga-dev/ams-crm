@@ -4,7 +4,7 @@ import {TextField} from "@mui/material";
 import {useForm} from "@inertiajs/react";
 import MenuItem from "@mui/material/MenuItem";
 import maskJquery from "@/Helpers/maskJquery";
-import InputsDadosLead from "@/Partials/Leads/InputsDados";
+import FormLeads from "@/Partials/Leads/FormLeads.jsx";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 
@@ -44,7 +44,7 @@ export default function Create({setores}) {
 
 
             <form onSubmit={onSubmit}>
-                <InputsDadosLead setData={setData} data={data}/>
+                <FormLeads setData={setData} data={data}/>
                 <div className="">
                     <div className="text-center">
                         <button className="btn btn-primary">Salvar</button>

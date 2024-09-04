@@ -2,7 +2,7 @@
 
 namespace App\Services\Pedidos;
 
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\Pedidos;
 use App\Models\PedidosClientes;
 use App\Models\User;

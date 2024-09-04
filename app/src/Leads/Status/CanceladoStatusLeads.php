@@ -2,7 +2,7 @@
 
 namespace App\src\Leads\Status;
 
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\LeadsStatusHistoricos;
 
 class CanceladoStatusLeads

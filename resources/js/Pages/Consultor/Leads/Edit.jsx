@@ -4,7 +4,7 @@ import {useForm} from "@inertiajs/react";
 
 import {router} from "@inertiajs/react";
 import maskJquery from "@/Helpers/maskJquery";
-import InputsDadosLead from "@/Partials/Leads/InputsDados";
+import FormLeads from "@/Partials/Leads/FormLeads.jsx";
 
 export default function Edit({dados, telefones, endereco}) {
     const {setData, data} = useForm({
@@ -44,7 +44,7 @@ export default function Edit({dados, telefones, endereco}) {
     return (
         <Layout container titlePage="Editar LEAD" menu="leads" voltar={document.referrer}>
             <form onSubmit={submit}>
-                <InputsDadosLead data={data} setData={setData} telefones={telefones}/>
+                <FormLeads data={data} setData={setData} telefones={telefones}/>
                 <button type="submit" className="btn btn-primary">Salvar</button>
             </form>
         </Layout>

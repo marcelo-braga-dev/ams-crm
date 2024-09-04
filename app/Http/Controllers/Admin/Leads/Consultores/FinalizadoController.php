@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Consultor\Leads\MeioContatoLeads;
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\LeadsHistoricos;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;

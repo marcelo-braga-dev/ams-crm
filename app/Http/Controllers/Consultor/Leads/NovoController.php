@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\Consultor\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\LeadsHistoricos;
 use App\Services\Leads\HistoricoDadosService;
-use App\Services\Leads\LeadsDadosService;
-use App\src\Leads\Historicos\IniciarAtendimentoHistorico;
 use App\src\Leads\Historicos\PreAtendimentoHistorico;
-use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\StatusAtendimentoLeads;
 use App\src\Leads\UpdateStatusLeads;
 use Illuminate\Http\Request;

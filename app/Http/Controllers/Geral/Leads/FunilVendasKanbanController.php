@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads;
+use App\Models\Leads\Leads;
 use App\Models\Setores;
 use App\Models\User;
 use App\src\Leads\StatusLeads;

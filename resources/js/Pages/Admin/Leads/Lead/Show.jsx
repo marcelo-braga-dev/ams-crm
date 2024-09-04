@@ -15,6 +15,7 @@ import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import {BoxSeam, List, ListUl, Person, PersonBoundingBox} from "react-bootstrap-icons";
 import HistoricoStatus from "@/Partials/Leads/HistoricoStatus.jsx";
+import CampoTexto from "@/Components/CampoTexto.jsx";
 
 export default function Show({
                                  dados,
@@ -26,7 +27,8 @@ export default function Show({
                                  isLeadsLimpar,
                                  isEditar,
                                  isExcluir,
-                                 isInativar
+                                 isInativar,
+                                 leadDadosHistoricos
                              }) {
     const [consultorSelecionado, setConsultorSelecionado] = useState();
 
@@ -141,32 +143,81 @@ export default function Show({
                 </CardContainer>
             }
 
-            <div className="row">
+            <div className="row mb-4">
                 <div className="col-md-5">
                     <CardContainer>
                         <CardTitle title="Histórico de Atendimento" icon={<ListUl size={24}/>}/>
-                        <CardBody>
-                            <HistoricoAtendimento historicos={historicos}/>
-                        </CardBody>
+                        <div style={{maxHeight: 500, overflow: 'auto'}}>
+                            <CardBody>
+                                <HistoricoAtendimento historicos={historicos}/>
+                            </CardBody>
+                        </div>
                     </CardContainer>
                 </div>
                 <div className="col-md-4">
                     <CardContainer>
                         <CardTitle title="Histórico de Pedidos" icon={<BoxSeam size="22"/>}/>
-                        <CardBody>
-                            <HistoricoPedidos historicos={historicoPedidos}/>
-                        </CardBody>
+                        <div style={{maxHeight: 500, overflow: 'auto'}}>
+                            <CardBody>
+                                <HistoricoPedidos historicos={historicoPedidos}/>
+                            </CardBody>
+                        </div>
                     </CardContainer>
                 </div>
                 <div className="col-md-3">
                     <CardContainer>
                         <CardTitle title="Histórico dos Status" icon={<List size="22"/>}/>
-                        <CardBody>
-                            <HistoricoStatus dados={historicoStatus}/>
-                        </CardBody>
+                        <div style={{maxHeight: 500, overflow: 'auto'}}>
+                            <CardBody>
+                                <HistoricoStatus dados={historicoStatus}/>
+                            </CardBody>
+                        </div>
                     </CardContainer>
                 </div>
             </div>
+
+            <CardContainer>
+                <CardTitle title="Histórico de Atualização de Dados do Lead"/>
+                <CardBody>
+                    <div className="row">
+                        <div className="col">
+                            {leadDadosHistoricos.map(item => (
+                                <CardContainer>
+                                    <CardBody>
+                                        <Stack direction="row" spacing={3} marginBottom={2}>
+                                            <Typography><b>Data:</b> {item.data}</Typography>
+                                            <Typography><b>ID da Importação:</b> #{item.importacao_id}</Typography>
+                                        </Stack>
+                                        <Stack direction="row" spacing={3}>
+                                            {item.nome && <CampoTexto titulo="Nome/Nome Fantasia" texto={item.nome}/>}
+                                            {/*{item.user_id && <CampoTexto titulo="" texto={item.user_id}/>}*/}
+                                            {/*{item.importacao_id && <CampoTexto titulo="" texto={item.importacao_id}/>}*/}
+                                            {/*{item.cnpj && <CampoTexto titulo="CN" texto={item.cnpj}/>}*/}
+                                            {item.rg && <CampoTexto titulo="RG" texto={item.rg}/>}
+                                            {item.cpf && <CampoTexto titulo="CPF" texto={item.cpf}/>}
+                                            {item.inscricao_estadual && <CampoTexto titulo="IE" texto={item.inscricao_estadual}/>}
+                                            {item.razao_social && <CampoTexto titulo="Razão Social" texto={item.razao_social}/>}
+                                            {item.email && <CampoTexto titulo="Email" texto={item.email}/>}
+                                            {item.endereco && <CampoTexto titulo="" texto={item.endereco}/>}
+                                            {item.cnae && <CampoTexto titulo="CNAE" texto={item.cnae}/>}
+                                            {item.capital_social && <CampoTexto titulo="Capital Social" texto={item.capital_social}/>}
+                                            {item.tipo && <CampoTexto titulo="Tipo" texto={item.tipo}/>}
+                                            {item.porte && <CampoTexto titulo="Porte" texto={item.porte}/>}
+                                            {item.atividade_principal && <CampoTexto titulo="Atividade Principal" texto={item.atividade_principal}/>}
+                                            {item.natureza_juridica && <CampoTexto titulo="Natureza Jurídica" texto={item.natureza_juridica}/>}
+                                            {item.quadro_societario && <CampoTexto titulo="Quadro Societário" texto={item.quadro_societario}/>}
+                                            {item.situacao && <CampoTexto titulo="Situação" texto={item.situacao}/>}
+                                            {item.data_situacao && <CampoTexto titulo="Data da Situção" texto={item.data_situacao}/>}
+                                            {item.data_abertura && <CampoTexto titulo="Data de Abertua" texto={item.data_abertura}/>}
+                                        </Stack>
+                                    </CardBody>
+                                </CardContainer>
+                            ))}
+                        </div>
+                    </div>
+                </CardBody>
+            </CardContainer>
+
 
             {/*MODAL ENVIAR*/}
             <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"
