@@ -17,6 +17,17 @@ class LeadsTelefones extends Model
         'status_telefone',
     ];
 
+    public function get($leadId)
+    {
+        return $this->newQuery()
+            ->where('lead_id', $leadId)
+            ->get()
+            ->transform(function ($item) {
+                $item->telefone = converterTelefone($item->numero);
+                return $item;
+            });
+    }
+
     public function criar(int $leadId, array $telefones, ?int $importacao = null)
     {
         $records = [];
@@ -33,7 +44,7 @@ class LeadsTelefones extends Model
             try {
                 foreach ($records as $record) {
                     $this->updateOrCreate(
-                        ['id' => $record['id']], // Critério de busca pelo ID
+                        ['id' => $record['id']],
                         [
                             'lead_id' => $record['lead_id'],
                             'numero' => $record['numero'],

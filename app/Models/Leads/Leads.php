@@ -26,6 +26,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @deprecated
+ */
 class Leads extends Model
 {
     use HasFactory;
@@ -398,7 +401,7 @@ class Leads extends Model
     }
 
     private
-    function cadastrarTelefones($id, $telefones, $importacao): void
+    function cadastrarTelefones($id, $telefones, $importacao = null): void
     {
         if ($telefones ?? []) (new LeadsTelefones())->criar($id, $telefones, $importacao);
     }
@@ -553,7 +556,7 @@ class Leads extends Model
         $item = $this->newQuery()->find($id);
         $nomes = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
-        $telefones = [];
+        $telefones = (new LeadsTelefones())->get($id);
 
         return $this->dados($item, $nomes, $setores, $telefones);
     }

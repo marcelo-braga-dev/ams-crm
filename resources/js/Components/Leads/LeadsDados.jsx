@@ -42,7 +42,6 @@ export default function LeadsDados({dados}) {
                 </div>
 
 
-
                 {toggleMenu && <div className="row mt-4">
                     <div className="col">
                         <Stack spacing={1}>
@@ -74,7 +73,7 @@ export default function LeadsDados({dados}) {
                         </Stack>
                     </div>
                 </div>}
-                    <Chip className="cursor-pointer mt-4" onClick={toggleInfo} label={`${toggleMenu ? '-' : '+'} Informações`}/>
+                <Chip className="cursor-pointer mt-4" onClick={toggleInfo} label={`${toggleMenu ? '-' : '+'} Informações`}/>
 
             </CardBody>
         </CardContainer>
@@ -85,14 +84,11 @@ export default function LeadsDados({dados}) {
             <CardBody>
                 <div className="row">
                     <Stack direction="row" spacing={2}>
-                        {dados?.contato?.telefone && <div className="p-2 px-3 border border-radius-lg">
-                            <Typography display="inline" marginBottom={1}>{dados?.contato?.telefone}</Typography>
-                        </div>}
-                        {dados?.contato?.telefones && dados?.contato?.telefones.map(item => dados.contato.telefone !== item &&
-                            <div key={item} className="p-2 px-3 border border-radius-lg">
-                                <Typography display="inline" marginBottom={1}>{item}</Typography>
+                        {dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({telefone}) => (
+                            <div key={telefone} className="p-2 px-3 border border-radius-lg">
+                                <Typography display="inline" marginBottom={1}>{telefone}</Typography>
                             </div>
-                        )}
+                        ))}
                     </Stack>
                 </div>
             </CardBody>

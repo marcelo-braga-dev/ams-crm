@@ -58,14 +58,14 @@ class LeadsController extends Controller
     public function store(Request $request)
     {
         try {
-            (new LeadsNEW())->criar($request, (new NovoStatusLeads())->status(), $request['setor']);
-        } catch (\DomainException $e) {
-            modalErro($e->getMessage());
+            $id = (new Leads())->create($request, $request->setor);
+
+            modalSucesso('Lead Cadastrado com sucesso!');
+            return redirect()->route('admin.clientes.leads.leads-main.show', $id);
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
             return redirect()->back();
         }
-
-        modalSucesso('Lead cadastrado com sucesso');
-        return redirect()->back();
     }
 
     public function novo($id)
