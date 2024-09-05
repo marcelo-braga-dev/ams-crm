@@ -49,6 +49,7 @@ class StatusLeads
             $ativo->getStatus() => (new AtivoStatusLeads()),
             $finalizado->getStatus() => (new FinalizadoStatusLeads()),
             $inativo->getStatus() => (new InativoStatusLeads()),
+            default => (new BaixadaStatusLeads()),
         };
 
         return ['nome' => $status->getNome(), 'cor' => $status->getCor()];

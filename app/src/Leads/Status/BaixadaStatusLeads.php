@@ -5,10 +5,10 @@ namespace App\src\Leads\Status;
 use App\Models\Leads\Leads;
 use App\Models\LeadsStatusHistoricos;
 
-class InativoStatusLeads
+class BaixadaStatusLeads
 {
-    private string $status = 'inativo';
-    private string $cor = 'rgb(0, 0, 255)';
+    private string $status = 'baixada';
+    private string $cor = 'red';
 
     public function getStatus()
     {
@@ -22,7 +22,7 @@ class InativoStatusLeads
 
     public function getNome(): string
     {
-        return 'Inativo';
+        return 'Baixada';
     }
     public function updateStatus($id)
     {
