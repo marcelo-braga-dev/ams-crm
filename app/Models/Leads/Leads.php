@@ -1015,6 +1015,7 @@ class Leads extends Model
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
+            ->whereIn('status', ['novo', 'aberto', 'atendimento', 'ativo', 'finalizado'])
             ->with('telefones')
             ->with('copias')
             ->where('setor_id', $setor);
