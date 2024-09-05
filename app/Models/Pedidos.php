@@ -109,6 +109,7 @@ class Pedidos extends Model
                     'qtd' => $item->qtd,
                     'nome' => $nomes[$item->id]['nome'] ?? '',
                     'foto' => $nomes[$item->id]['foto'] ?? '',
+                    'user_id' => $nomes[$item->id]['id'] ?? '',
                     'status' => !!$item->status
                 ];
             });

@@ -25,8 +25,11 @@ import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import Link from "@/Components/Link";
 import DistribuidorasGrafico from "@/Pages/Admin/Dashboard/Vendas/Graficos/DistribuidorasGrafico";
+import MetasDistribuidoras from "@/Pages/Admin/Dashboard/Vendas/Graficos/MetasDistribuidoras.jsx";
 
 export default function DashboardVendas({mes, ano, setores, setor}) {
+    const [vendasUsuarioDistribuidora, setVendasUsuarioDistribuidora] = useState()
+
     const [vendasData, setVendasData] = useState({
         vendasUsuarios: [],
         vendasUsuariosComp: [],
@@ -43,11 +46,11 @@ export default function DashboardVendas({mes, ano, setores, setor}) {
         vendasMetasAnualComp: [],
         vendasEstados: [],
         leads: [],
-        fornecedores_vendas: []
+        fornecedores_vendas: [],
     });
 
     const [filters, setFilters] = useState({
-        mesesSelecionado: [mes], anoSelecionado: ano, setorSelecionado: setor, mesesSelecionadoComp: [], anoSelecionadoComp: undefined,
+        mesesSelecionado: [mes], anoSelecionado: ano, setorSelecionado: setor, mesesSelecionadoComp: [], anoSelecionadoComp: undefined
     });
 
     const [carregando, setCarregando] = useState(true);
@@ -102,6 +105,17 @@ export default function DashboardVendas({mes, ano, setores, setor}) {
     const handleFiltrar = () => {
         setFiltrar((prev) => !prev);
     };
+
+    const fetchUsuario = (id) => {
+        axios.get(route('admin.dashboard.get-vendas.fornecedores-usuario', {
+            usuario: id,
+            mes: filters.mesesSelecionado,
+            ano: filters.anoSelecionado,
+            setor: filters.setorSelecionado,
+            mesComp: filters.mesesSelecionadoComp,
+            anoComp: filters.anoSelecionadoComp,}))
+            .then(res => setVendasUsuarioDistribuidora(res.data))
+    }
 
     return (<Layout empty titlePage="Indicadores de Vendas" menu="dashboard" submenu="dashboard-vendas">
         <CardContainer>
@@ -252,6 +266,26 @@ export default function DashboardVendas({mes, ano, setores, setor}) {
                                 leads={vendasData.leads}
                                 vendasLeadsComp={vendasData.vendasLeadsComp}
                             />
+                        </CardBody>
+                    </CardContainer>
+                    <CardContainer>
+                        <CardTitle title="Vendas Distribuidora por Vendedor" icon={<Truck size="22"/>}/>
+                        <CardBody>
+                            <TextField select sx={{width: 250, marginBottom: 2}} size="small"
+                                       onChange={e => fetchUsuario(e.target.value)}>
+                                {vendasData?.vendasUsuarios?.map(item => (
+                                    <MenuItem key={item.user_id} value={item.user_id}>
+                                        <Stack direction="row" spacing={1}>
+                                            <Avatar src={item.foto} sx={{width: 20, height: 20}}/>
+                                            <Typography>{item.nome}</Typography>
+                                        </Stack>
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                            {vendasUsuarioDistribuidora &&
+                                <MetasDistribuidoras
+                                    vendasDistribuidoras={vendasUsuarioDistribuidora}
+                                />}
                         </CardBody>
                     </CardContainer>
                 </div>

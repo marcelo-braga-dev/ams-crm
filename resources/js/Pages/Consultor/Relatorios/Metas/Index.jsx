@@ -6,9 +6,10 @@ import {round} from "lodash";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
-import {BarChart} from "react-bootstrap-icons";
+import {BarChart, Truck} from "react-bootstrap-icons";
+import MetasDistribuidoras from "./Graficos/MetasDistribuidoras.jsx";
 
-export default function ({idUsuario, vendas, metas, ano}) {
+export default function ({idUsuario, vendas, vendasDistribuidoras, metas, ano}) {
 
     const meses = [
         {abv: 'jan', mes: 1, nome: 'Janeiro'},
@@ -31,12 +32,25 @@ export default function ({idUsuario, vendas, metas, ano}) {
 
     return (
         <Layout empty titlePage="Metas de Vendas" menu="dashboards" submenu="dashboards-vendas">
-            <CardContainer>
-                <CardTitle title="Meta x Vendas" icon={<BarChart size={22} /> }/>
-                <CardBody>
-                    <MetasAtingidas vendas={vendas} metas={metas} meses={meses}/>
-                </CardBody>
-            </CardContainer>
+            <div className="row">
+                <div className="col-md-8">
+                    <CardContainer>
+                        <CardTitle title="Meta x Vendas" icon={<BarChart size={22}/>}/>
+                        <CardBody>
+                            <MetasAtingidas vendas={vendas} metas={metas} meses={meses}/>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+                <div className="col">
+                    <CardContainer>
+                        <CardTitle title="Vendas por Distribuidora" icon={<Truck size={22}/>}/>
+                        <CardBody>
+                            <MetasDistribuidoras vendasDistribuidoras={vendasDistribuidoras} metas={metas}/>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+            </div>
+
 
             <CardContainer>
                 <CardBody>

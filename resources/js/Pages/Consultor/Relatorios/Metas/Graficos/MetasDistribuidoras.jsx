@@ -2,20 +2,21 @@ import {Bar} from "react-chartjs-2";
 import "chart.js/auto";
 import React from "react";
 
-export default function MetasAtingidas({vendas, metas, meses}) {
+export default function MetasDistribuidoras({vendasDistribuidoras, metas}) {
 
-    const mesesNomes = meses.map(item => item.abv.toUpperCase())
-    const metasMensal = meses.map(item => metas?.[item.mes])
-    const atingida = meses.map(item => vendas?.[item.mes]?.vendas)
+    const mesesNomes = vendasDistribuidoras.map(item => item?.fornecedor_nome)
+    const metasMensal = 0
+    const atingida = vendasDistribuidoras.map(item => item?.valor)
 
     const data = {
         labels: mesesNomes,
         datasets: [
             {
                 label: "Alcançado",
-                backgroundColor: "rgba(229,210,4)",
+                backgroundColor: "orange",
                 data: atingida,
-            },{
+            },
+            {
                 label: "Meta",
                 backgroundColor: "#0000FFaa",
                 data: metasMensal,

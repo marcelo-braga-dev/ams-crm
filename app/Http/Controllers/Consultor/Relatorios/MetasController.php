@@ -7,6 +7,7 @@ use App\Models\MetasVendas;
 use App\Models\Pedidos;
 use App\Models\PedidosFaturamentos;
 use App\Models\User;
+use App\Services\Dashboard\Vendas\VendasService;
 use App\Services\Excel\VendasUsuario;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,14 +17,17 @@ class MetasController extends Controller
     public function index(Request $request)
     {
         $ano = $request->ano ?? date('Y');
+        $mes = $request->ano ?? date('m');
         $idUsuario = id_usuario_atual();
 
         $vendas = (new Pedidos())->vendasMensaisUsuario($idUsuario, $ano);
         $metas = (new MetasVendas())->metasMensais($idUsuario, $ano);
 
+        $vendasDistribuidoras = (new VendasService())->vendasFornecedoresPorUsuario([$mes], $ano, id_usuario_atual(), setor_usuario_atual());
+
         return Inertia::render(
             'Consultor/Relatorios/Metas/Index',
-            compact('idUsuario', 'vendas', 'metas', 'ano')
+            compact('idUsuario', 'vendas', 'vendasDistribuidoras', 'metas', 'ano')
         );
     }
 

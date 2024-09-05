@@ -252,4 +252,75 @@ class VendasService
             });
         return $items;
     }
+
+    public function vendasFornecedoresPorUsuarios($mes, $ano, $setor)
+    {
+        $dados = (new Pedidos())->newQuery()
+            ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
+            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+            ->whereIn('pedidos.user_faturamento', supervisionados(id_usuario_atual()))
+            ->whereYear('pedidos.data_faturamento', $ano)
+            ->where('pedidos.setor_id', $setor)
+            ->select(DB::raw('
+        pedidos.user_id,
+        count(pedidos.id) AS qtd,
+        produtos_fornecedores.id AS fornecedor_id,
+        produtos_fornecedores.nome AS fornecedor_nome,
+        SUM(pedidos.preco_venda) AS valor
+    '))
+            ->groupBy('pedidos.user_id', 'pedidos.fornecedor_id')
+            ->orderByDesc('valor')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'user_id' => $item->user_id,
+                    'fornecedor_id' => $item->fornecedor_id,
+                    'fornecedor_nome' => $item->fornecedor_nome,
+                    'qtd' => $item->qtd,
+                    'valor' => $item->valor,
+                    'pedido_data' => date('d/m/y', strtotime($item->pedido_data)),
+                    'pedido_data_dif' => $item->dif_data,
+                ];
+            });
+
+        $usuarios = [];
+        foreach ($dados as $dado) {
+            $usuarios[$dado['user_id']][] = $dado;
+        }
+
+        return $usuarios;
+    }
+
+    public function vendasFornecedoresPorUsuario($mes, $ano, $userId, $setor)
+    {
+        return (new Pedidos())->newQuery()
+            ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
+            ->whereIn('pedidos.status', (new StatusPedidosServices())->statusAguardandoFaturamendo())
+            ->whereIn(DB::raw('MONTH(pedidos.data_faturamento)'), $mes)
+            ->where('pedidos.user_faturamento', $userId)
+            ->whereYear('pedidos.data_faturamento', $ano)
+            ->where('pedidos.setor_id', $setor)
+            ->select(DB::raw('
+            pedidos.user_id,
+            count(pedidos.id) AS qtd,
+            produtos_fornecedores.id AS fornecedor_id,
+            produtos_fornecedores.nome AS fornecedor_nome,
+            SUM(pedidos.preco_venda) AS valor
+        '))
+            ->groupBy('pedidos.user_id', 'pedidos.fornecedor_id')
+            ->orderByDesc('valor')
+            ->get()
+            ->transform(function ($item) {
+                return [
+                    'user_id' => $item->user_id,
+                    'fornecedor_id' => $item->fornecedor_id,
+                    'fornecedor_nome' => $item->fornecedor_nome,
+                    'qtd' => $item->qtd,
+                    'valor' => $item->valor,
+                    'pedido_data' => date('d/m/y', strtotime($item->pedido_data)),
+                    'pedido_data_dif' => $item->dif_data,
+                ];
+            });
+    }
 }

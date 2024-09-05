@@ -33,6 +33,8 @@ class VendasController extends Controller
         $mesComp = $request->mesComp ?? [];
         $anoComp = $request->anoComp ?? null;
         $setor = $request->setor ?? 1;
+        $usuario = $request->user_id;
+        $usuario = 25;
 
         $vendas = (new Pedidos())->vendasPeriodo($mes, $ano, $setor);
         $vendasTotal = (new Pedidos())->vendasMensalEmpresa($mes, $ano, $setor);
@@ -51,6 +53,7 @@ class VendasController extends Controller
         $vendasLeads = (new VendasService())->vendasPorLeads($mes, $ano, $setor, 10, true);
         $leads = (new VendasService())->vendasPorLeadsIds($mes, $ano, $mesComp, $anoComp, $setor, 10);
         $fornecedoresVendas = (new VendasService())->vendasFornecedores($mes, $ano, $setor, null, false);
+
 
         if ($request->mesComp || $request->anoComp) {
             $vendasComp = (new Pedidos())->vendasPeriodo($mesComp, $anoComp, $setor, true);
@@ -127,6 +130,18 @@ class VendasController extends Controller
         $fornecedor = $request->fornecedor;
 
         $vendas = (new VendasService())->vendasFornecedor($fornecedor, $mes, $ano, $setor, null, false);
+
+        return response()->json($vendas);
+    }
+
+    public function getVendasFornecedorUsuario(Request $request)
+    {
+        $mes = $request->mes ?? [date('n')];
+        $ano = $request->ano ?? date('Y');
+        $setor = $request->setor ?? 1;
+        $usuario = $request->usuario;
+
+        $vendas = (new VendasService())->vendasFornecedoresPorUsuario($mes, $ano, $usuario, $setor);
 
         return response()->json($vendas);
     }
