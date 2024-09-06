@@ -8,8 +8,13 @@ import CardBody from "@/Components/Cards/CardBody";
 
 export default function DadosPedidoFiles({dados}) {
     return (<>
-            <CardTitleDefault title="Anexos" icon={<Paperclip size="23"/>}/>
-            <div className="row row-cols-4 pt-4">
+            <CardContainer>
+                <CardBody>
+                    <CardTitleDefault title="Anexos" icon={<Paperclip size="23"/>}/>
+                </CardBody>
+            </CardContainer>
+
+            <div className="row row-cols-4">
                 {dados.pedido_files.orcamento &&
                     <div className="col mb-3">
                         <CardContainer>

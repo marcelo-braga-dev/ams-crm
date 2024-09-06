@@ -14,7 +14,8 @@ import FormLeads from "@/Partials/Leads/FormLeads.jsx";
 export default function Create() {
     maskJquery()
     const {data, setData, post} = useForm({
-        pessoa: 'Jurídica'
+        pessoa: 'Jurídica',
+        telefones: []
     });
 
     function onSubmit(e) {
@@ -24,20 +25,18 @@ export default function Create() {
 
     return (
         <Layout container titlePage="Cadastro de Leads" menu="leads" submenu="leads-cadastrar">
-            <CardContainer>
-                <CardTitle title="Dados do Lead" icon={<Person size={22}/>}/>
-                <CardBody>
-                    <form onSubmit={onSubmit}>
-                        <FormLeads data={data} setData={setData}/>
+            <form onSubmit={onSubmit}>
 
-                        <div className="">
-                            <div className="text-center">
-                                <button className="btn btn-primary">Salvar</button>
-                            </div>
+                <FormLeads data={data} setData={setData}/>
+
+                <CardContainer>
+                    <CardBody>
+                        <div className="text-center">
+                            <button className="btn btn-success">Salvar</button>
                         </div>
-                    </form>
-                </CardBody>
-            </CardContainer>
+                    </CardBody>
+                </CardContainer>
+            </form>
         </Layout>
     )
 }

@@ -404,14 +404,12 @@ class Leads extends Model
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
         } catch (QueryException $exception) {
-            print_pre($exception->getMessage());
             $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
             if ($existCnpj->id ?? null) throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
         }
     }
 
-    private
-    function cadastrarTelefones($id, $telefones, $importacao = null): void
+    private function cadastrarTelefones($id, $telefones, $importacao = null): void
     {
         if ($telefones ?? []) (new LeadsTelefones())->criar($id, $telefones, $importacao);
     }
@@ -572,8 +570,7 @@ class Leads extends Model
         return $this->dados($item, $nomes, $setores, $telefones);
     }
 
-    private
-    function dados($item, $nomes = [], $setores = [], $telefones = [])
+    private function dados($item, $nomes = [], $setores = [], $telefones = [])
     {
         if ($item)
 
@@ -630,8 +627,7 @@ class Leads extends Model
             ];
     }
 
-    private
-    function dadosMinimo($item, $nomes = [], $setores = [])
+    private function dadosMinimo($item, $nomes = [], $setores = [])
     {
         return [
             'id' => $item->id,
@@ -667,8 +663,7 @@ class Leads extends Model
         ];
     }
 
-    private
-    function dadosResumido($item, $nomeConsultores = []): array
+    private function dadosResumido($item, $nomeConsultores = []): array
     {
         if (!$item) return [];
 
@@ -1104,8 +1099,7 @@ class Leads extends Model
         return ['dados' => $dados, 'paginate' => ['current' => $items->currentPage(), 'last_page' => $items->lastPage(), 'total' => $items->total()]];
     }
 
-    private
-    function difData($data)
+    private function difData($data)
     {
         $dataInicio = new DateTime($data);
         $dataAtual = new DateTime();

@@ -44,18 +44,17 @@ class LeadsTelefones extends Model
         if (!empty($records)) {
             try {
                 foreach ($records as $record) {
-                    if (!$record['numero'])
-                        if (!$record['numero']) {
-                            $tel = $this->newQuery()->find($record['id']);
-                            $tel?->delete();
-                        } else
-                            $this->updateOrCreate(
-                                ['id' => $record['id']],
-                                [
-                                    'lead_id' => $record['lead_id'],
-                                    'numero' => $record['numero'],
-                                ]
-                            );
+                    if (!$record['numero']) {
+                        $tel = $this->newQuery()->find($record['id']);
+                        $tel?->delete();
+                    } else
+                        $this->updateOrCreate(
+                            ['id' => $record['id']],
+                            [
+                                'lead_id' => $record['lead_id'],
+                                'numero' => $record['numero'],
+                            ]
+                        );
                 }
             } catch (\Exception $e) {
                 Log::error('Erro ao cadastrar telefones do lead: ' . $e->getMessage(), [

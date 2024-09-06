@@ -42,12 +42,13 @@ class PedidosController extends Controller
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
         $historicoAcompanhamento = (new PedidosAcompanhamentos())->get($id);
         $sacHistorico = (new Sac())->pedido($id);
+        $anotacoesHistorico = (new Pedidos\PedidosAnotacoes())->getDados($id);
 
         $urlPrevious = go_card($id);
 
         return Inertia::render(
             'Admin/Pedidos/Show',
-            compact('pedido', 'historico', 'produtos', 'transportadoras', 'historicoAcompanhamento', 'sacHistorico', 'urlPrevious')
+            compact('pedido', 'historico', 'produtos', 'transportadoras', 'anotacoesHistorico', 'historicoAcompanhamento', 'sacHistorico', 'urlPrevious')
         );
     }
 

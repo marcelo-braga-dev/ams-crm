@@ -15,7 +15,7 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTable from "@/Components/Cards/CardTable";
 import {ListCheck, Tags, Truck} from "react-bootstrap-icons";
-import {Stack, TextField, Typography} from "@mui/material";
+import {Avatar, Stack, TextField, Typography} from "@mui/material";
 import Link from "@/Components/Link.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
 import DadosPedidoFrete from "@/Components/Pedidos/DadosPedidoFrete.jsx";
@@ -50,13 +50,14 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({pedido, produtos, historico, transportadoras, historicoAcompanhamento, sacHistorico, urlPrevious}) {
+export default function Pedidos({pedido, produtos, historico, transportadoras, anotacoesHistorico, historicoAcompanhamento, sacHistorico, urlPrevious}) {
     const [value, setValue] = React.useState(0);
 
     const [frete, setFrete] = React.useState(false);
     const [freteValor, setFreteValor] = useState(pedido.frete.preco);
     const [freteTransportadora, setFreteTransportadora] = useState(pedido.frete.transportadora_id);
     const [freteRastreio, setFreteRastreio] = useState(pedido.frete.rastreio);
+    const [anotacoesMsg, setAnotacoesMsg] = useState();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -66,6 +67,11 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, h
         router.post(route('admin.pedidos.fretes.update', pedido.id),
             {frete_transportadora: freteTransportadora, frete_valor: freteValor, frete_rastreio: freteRastreio, _method: 'PUT'})
         setFrete(false)
+    }
+
+    const adicionarAnotacoes = () => {
+        if (anotacoesMsg) router.post(route('auth.pedidos.add-anotacoes', {pedido_id: pedido.id, mensagem: anotacoesMsg}))
+        setAnotacoesMsg('')
     }
 
     return (
@@ -80,7 +86,8 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, h
                         <Tab label="Frete" {...a11yProps(3)} />
                         <Tab label="Anexos" {...a11yProps(4)} />
                         <Tab label="Histórico" {...a11yProps(5)} />
-                        <Tab label="SAC" {...a11yProps(6)} />
+                        <Tab label="Anotações" {...a11yProps(6)} />
+                        <Tab label="SAC" {...a11yProps(7)} />
                     </Tabs>
                 </div>
                 <div className="col-auto m-0">
@@ -160,11 +167,7 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, h
 
                 {/*Anexos*/}
                 <TabPanel value={value} index={4}>
-                    <CardContainer>
-                        <CardBody>
-                            <DadosPedidoFiles dados={pedido}/>
-                        </CardBody>
-                    </CardContainer>
+                    <DadosPedidoFiles dados={pedido}/>
                 </TabPanel>
 
                 {/*Historico*/}
@@ -242,6 +245,45 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, h
                     }
                 </TabPanel>
                 <TabPanel value={value} index={6}>
+                    <CardContainer>
+                        <CardTable title="Anotações" icon={<Tags size="23"/>}>
+                            {anotacoesHistorico.length > 0 &&
+                                <table className="table-1">
+                                    <thead>
+                                    <tr>
+                                        <th>Autor</th>
+                                        <th>Mensagem</th>
+                                        <th>Data</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {anotacoesHistorico.map(item => (
+                                        <tr>
+                                            <td className="col-3">
+                                                <Stack direction="row" spacing={1} alignItems="center">
+                                                    <Avatar src={item.foto} sx={{width: 30, height: 30}}/>
+                                                    <Typography>{item.nome}</Typography>
+                                                </Stack>
+                                            </td>
+                                            <td><Typography>{item.mensagem}</Typography></td>
+                                            <td className="col-2"><Typography>{item.data}</Typography></td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            }
+                        </CardTable>
+                    </CardContainer>
+                    <CardContainer>
+                        <CardTitle title="Adicionar Anotação" icon={<Tags size="23"/>}/>
+                        <CardBody>
+                            <TextField label="Mensagem" multiline fullWidth minRows={3} value={anotacoesMsg}
+                                       onChange={e => setAnotacoesMsg(e.target.value)}/>
+                            <button className="btn btn-success mt-4" onClick={adicionarAnotacoes}>Salvar</button>
+                        </CardBody>
+                    </CardContainer>
+                </TabPanel>
+                <TabPanel value={value} index={7}>
                     <CardContainer>
                         <CardTable title="SAC" icon={<Tags size="23"/>}>
                             {!!sacHistorico.length &&
