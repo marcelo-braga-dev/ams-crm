@@ -88,10 +88,11 @@ class PedidosController extends Controller
         $historico = (new PedidosHistoricos())->historico($id);
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
         $sacHistorico = (new Sac())->pedido($id);
+        $anotacoesHistorico = (new Pedidos\PedidosAnotacoes())->getDados($id);
 
         return Inertia::render(
             'Consultor/Pedidos/Show',
-            compact('dados', 'historico', 'produtos', 'sacHistorico')
+            compact('dados', 'historico', 'produtos', 'sacHistorico', 'anotacoesHistorico')
         );
     }
 

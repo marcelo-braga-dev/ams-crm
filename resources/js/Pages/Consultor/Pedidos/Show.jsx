@@ -12,6 +12,14 @@ import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles";
 import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta.jsx";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardTable from "@/Components/Cards/CardTable.jsx";
+import {Tags} from "react-bootstrap-icons";
+import {Avatar, Stack, TextField, Typography} from "@mui/material";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
+import {router} from "@inertiajs/react";
+import {useState} from "react";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -35,12 +43,18 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({dados, produtos, historico, sacHistorico}) {
+export default function Pedidos({dados, produtos, historico, sacHistorico, anotacoesHistorico}) {
     const [value, setValue] = React.useState(0);
+    const [anotacoesMsg, setAnotacoesMsg] = useState();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const adicionarAnotacoes = () => {
+        if (anotacoesMsg) router.post(route('auth.pedidos.add-anotacoes', {pedido_id: dados.id, mensagem: anotacoesMsg}))
+        setAnotacoesMsg('')
+    }
 
     return (
         <Layout empty titlePage="Pedidos" menu="pedidos" submenu="pedidos-lista"
@@ -53,27 +67,26 @@ export default function Pedidos({dados, produtos, historico, sacHistorico}) {
                         <Tab label="Financeiro" {...a11yProps(2)} />
                         <Tab label="Anexos" {...a11yProps(3)} />
                         <Tab label="Histórico" {...a11yProps(4)} />
-                        <Tab label="SAC" {...a11yProps(4)} />
+                        <Tab label="Anotaçoes" {...a11yProps(5)} />
+                        <Tab label="SAC" {...a11yProps(6)} />
                     </Tabs>
                 </div>
 
                 <TabPanel value={value} index={0} className="p-0 m-0 ">
-                    <div className="card card-body mb-4">
-                        <div className="row">
-                            <div className="col-md-8">
-                                <DadosPedido dados={dados}/>
-                            </div>
-                        </div>
-                    </div>
-                    {!!produtos.length &&
-                        <div className="card card-body mb-4">
-                            <div className="row">
-                                <div className="col">
-                                    <DadosProdutosCompleta dados={produtos}/>
-                                </div>
-                            </div>
-                        </div>
-                    }
+                    <CardContainer>
+                        <CardBody>
+                            <DadosPedido dados={dados}/>
+                        </CardBody>
+                    </CardContainer>
+
+                    {!!produtos.length && (
+                        <CardContainer>
+                            <CardBody>
+                                <DadosProdutosCompleta dados={produtos}/>
+                            </CardBody>
+                        </CardContainer>
+                    )}
+
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <div className="card card-body mb-4">
@@ -141,6 +154,45 @@ export default function Pedidos({dados, produtos, historico, sacHistorico}) {
                     </div>
                 </TabPanel>
                 <TabPanel value={value} index={5}>
+                    <CardContainer>
+                        <CardTable title="Anotações" icon={<Tags size="23"/>}>
+                            {anotacoesHistorico.length > 0 &&
+                                <table className="table-1">
+                                    <thead>
+                                    <tr>
+                                        <th>Autor</th>
+                                        <th>Mensagem</th>
+                                        <th>Data</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {anotacoesHistorico.map(item => (
+                                        <tr>
+                                            <td className="col-3">
+                                                <Stack direction="row" spacing={1} alignItems="center">
+                                                    <Avatar src={item.foto} sx={{width: 30, height: 30}}/>
+                                                    <Typography>{item.nome}</Typography>
+                                                </Stack>
+                                            </td>
+                                            <td><Typography>{item.mensagem}</Typography></td>
+                                            <td className="col-2"><Typography>{item.data}</Typography></td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            }
+                        </CardTable>
+                    </CardContainer>
+                    <CardContainer>
+                        <CardTitle title="Adicionar Anotação" icon={<Tags size="23"/>}/>
+                        <CardBody>
+                            <TextField label="Mensagem" multiline fullWidth minRows={3} value={anotacoesMsg}
+                                       onChange={e => setAnotacoesMsg(e.target.value)}/>
+                            <button className="btn btn-success mt-4" onClick={adicionarAnotacoes}>Salvar</button>
+                        </CardBody>
+                    </CardContainer>
+                </TabPanel>
+                <TabPanel value={value} index={6}>
                     <div className="card card-body">
                         {!!sacHistorico.length &&
                             <table className="table">
