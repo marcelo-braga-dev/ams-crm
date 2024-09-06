@@ -41,36 +41,24 @@ export default function Form({url, fornecedores, lead}) {
 
     return (
         <form onSubmit={submit}>
-           <CardContainer>
-               <CardBody>
-                   <InfoCliente setData={setData} data={data}/>
-               </CardBody>
-           </CardContainer>
 
-           <CardContainer>
-               <CardBody>
-                   <Anexos setData={setData} data={data}></Anexos><Anexos setData={setData} data={data}></Anexos>
-               </CardBody>
-           </CardContainer>
+            <InfoCliente setData={setData} data={data}/>
+
+            <Anexos setData={setData} data={data}/>
 
             <Pedidos fornecedores={fornecedores} setData={setData} data={data}/>
 
-            <div className="row text-center mb-3">
-                <div className="col">
-                    {progress && (
-                        <progress value={progress.percentage} max="100">
-                            {progress.percentage}%
-                        </progress>
-                    )}
-                </div>
-            </div>
-            <div className="card card-body mb-4">
-                <div className="row text-center">
-                    <div className="col">
-                        <button className="btn btn-success" disabled={processing}>Cadastrar Pedido</button>
-                    </div>
-                </div>
-                </div>
+            {progress && (
+                <progress value={progress.percentage} max="100">
+                    {progress.percentage}%
+                </progress>
+            )}
+
+            <CardContainer>
+                <CardBody>
+                    <button className="btn btn-success" disabled={processing}>Cadastrar Pedido</button>
+                </CardBody>
+            </CardContainer>
         </form>
-)
+    )
 }

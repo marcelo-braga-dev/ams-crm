@@ -8,6 +8,8 @@ import DadosPedidoMinimo from "@/Components/Pedidos/DadosPedidoMinimo";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
+import DadosPedido from "@/Components/Pedidos/DadosPedido.jsx";
+import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente.jsx";
 
 export default function Create({pedido, historicos, infoEntrega}) {
     const {data, setData, post} = useForm({
@@ -30,20 +32,24 @@ export default function Create({pedido, historicos, infoEntrega}) {
                 voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}>
             <CardContainer>
                 <CardBody>
-                    <div className="row mb-4">
-                        <div className="col-12 mb-3">
-                            <DadosPedidoMinimo dados={pedido}/>
-                        </div>
-                        <div className="col">
-                            <b>Informações da entrega:</b> {infoEntrega}
-                        </div>
-                    </div>
+                    <DadosPedido dados={pedido}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoCliente dados={pedido}/>
                 </CardBody>
             </CardContainer>
 
             <CardContainer>
                 <CardBody>
-                    <button className="btn btn-warning mb-0" data-bs-toggle="modal" data-bs-target="#modal">
+                    <b>Informações da entrega:</b> {infoEntrega}
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardBody>
+                    <button className="btn btn-success mb-0" data-bs-toggle="modal" data-bs-target="#modal">
                         Enviar pedido para entregue
                     </button>
                 </CardBody>

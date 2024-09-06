@@ -16,6 +16,7 @@ import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta.js
 import CardTable from "@/Components/Cards/CardTable.jsx";
 import {Box} from "react-bootstrap-icons";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles.jsx";
+import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro.jsx";
 
 export default function Pedidos({pedido, produtos}) {
 
@@ -39,22 +40,23 @@ export default function Pedidos({pedido, produtos}) {
                 <b>PEDIDO PASSOU POR REVISÃO</b><br/>
                 {pedido.pedido.alerta}
             </Alert>}
-            <div className="row">
-                <div className="col">
-                    <CardContainer>
-                        <CardBody>
-                            <DadosPedido dados={pedido}/>
-                        </CardBody>
-                    </CardContainer>
-                </div>
-                <div className="col">
-                    <CardContainer>
-                        <CardBody>
-                            <DadosPedidoCliente dados={pedido}/>
-                        </CardBody>
-                    </CardContainer>
-                </div>
-            </div>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedido dados={pedido}/>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoCliente dados={pedido}/>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoFinanceiro dados={pedido}/>
+                </CardBody>
+            </CardContainer>
 
             {!!produtos.length &&
                 <CardContainer>
@@ -63,6 +65,14 @@ export default function Pedidos({pedido, produtos}) {
                     </CardTable>
                 </CardContainer>
             }
+
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoFiles dados={pedido}/>
+                    <DadosPedidoFinanceiroFiles dados={pedido}/>
+                    <DadosPedidoClienteFiles dados={pedido}/>
+                </CardBody>
+            </CardContainer>
 
             <CardContainer>
                 <CardBody>
@@ -84,14 +94,6 @@ export default function Pedidos({pedido, produtos}) {
                             </div>
                         </div>
                     </form>
-                </CardBody>
-            </CardContainer>
-
-            <CardContainer>
-                <CardBody>
-                    <DadosPedidoFiles dados={pedido}/>
-                    <DadosPedidoFinanceiroFiles dados={pedido}/>
-                    <DadosPedidoClienteFiles dados={pedido}/>
                 </CardBody>
             </CardContainer>
 

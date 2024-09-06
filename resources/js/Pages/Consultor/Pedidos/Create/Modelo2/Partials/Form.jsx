@@ -20,6 +20,7 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
         cpf: lead.cpf,
         cnpj: lead.cnpj,
         telefone: lead.telefone,
+        telefones: [],
         email: lead.email,
         inscricao_estadual: lead.inscricao_estadual,
         preco: 0,
@@ -51,12 +52,8 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
         <form onSubmit={submit}>
             <div className="">
                 <AlertDanger errors={errors}/>
-                <CardContainer>
-                    <CardTitle title="Dados do Cliente" icon={<Person size={20}/>}/>
-                    <CardBody>
-                        <FormLeads data={data} setData={setData} required/>
-                    </CardBody>
-                </CardContainer>
+
+                <FormLeads data={data} setData={setData} required/>
 
                 <Pedidos fornecedores={fornecedores} setData={setData} data={data}
                          categorias={categorias} unidades={unidades} urlProdutos={urlProdutos}/>

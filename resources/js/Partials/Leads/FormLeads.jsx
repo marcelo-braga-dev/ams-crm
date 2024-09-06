@@ -110,10 +110,10 @@ export default function FormLeads({data, setData, required}) {
                                    onBlur={e => setData('nascimento', e.target.value)} type={'date'}
                                    fullWidth InputLabelProps={{shrink: true}}></TextField>
                     </div>
-                    <div className="col-md-3 mb-4">
-                        <TextField label={'Atendente'} required={required} fullWidth defaultValue={data?.atendente}
-                                   onBlur={e => setData('atendente', e.target.value)}/>
-                    </div>
+                    {/*<div className="col-md-3 mb-4">*/}
+                    {/*    <TextField label={'Atendente'} required={required} fullWidth defaultValue={data?.atendente}*/}
+                    {/*               onBlur={e => setData('atendente', e.target.value)}/>*/}
+                    {/*</div>*/}
                     <div className="col-md-3 mb-4">
                         <TextField label="Email" type="email" defaultValue={data?.email}
                                    onBlur={e => setData('email', e.target.value)} fullWidth>

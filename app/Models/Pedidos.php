@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Leads\Leads;
+use App\Models\Pedidos\PedidosFinanciamentoDados;
 use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\SituacaoPedido;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
@@ -173,35 +174,17 @@ class Pedidos extends Model
         (new PedidosProdutos())->estornar($id);
     }
 
-    private function franquia(): void
+    private function calculoLucro($isFinanceiro, $pedido, $frete)
     {
-//        if (is_admin() && !franquia_usuario_atual()) {
-//            $fraquia = franquia_selecionada();
-//            if ($fraquia) $this->query->where('franquia_id', $fraquia);
-//            return;
-//        }
-//
-//        $this->query->where('franquia_id', franquia_usuario_atual());
+        if (!$isFinanceiro) return null;
+        $lucroBruto = ($pedido->preco_venda - $pedido->preco_custo) * (1 - ($pedido->imposto / 100)) - ($frete->valor_frete ?? 0);
+        $lucroRepasse = $pedido->repasse * ($pedido->repasse_desconto / 100);
+        return convert_float_money($lucroBruto + $lucroRepasse);
     }
 
-    private function pedidosSubordinados(): void
+    public function calculoRepasse($pedido): mixed
     {
-
-    }
-
-    public function usuario($idUsuario = null): void
-    {
-
-    }
-
-    public function setor($setor = null): void
-    {
-
-    }
-
-    public function fornecedor($fornecedor = null): void
-    {
-
+        return convertFloatToMoney($pedido->repasse - ($pedido->repasse * 0.138));
     }
 
     function create($dados)
@@ -226,11 +209,14 @@ class Pedidos extends Model
                     'fornecedor_id' => $dados->fornecedor,
                     'info_pedido' => $dados->obs,
                     'modelo' => modelo_usuario(),
-                    'repasse' => convert_money_float($dados->repasse)
+                    'repasse' => convert_money_float($dados->repasse),
+                    'repasse_desconto' => $dados->repasse ? 13.8 : null
                 ]);
         } catch (QueryException $exception) {
             throw new \DomainException('Falha no cadastro do pedido.');
         }
+
+        if ($dados['tipo_financiamento'] ?? null) (new PedidosFinanciamentoDados())->create($pedido->id, $dados['tipo_financiamento']);
 
         (new Leads())->atualizarDataUltimoPedido($dados->id_lead);
         (new PedidosHistoricos())->create($pedido->id, $status, $prazo, null);
@@ -478,6 +464,9 @@ class Pedidos extends Model
         $frete = (new PedidosFretes())->pedido($pedido->id);
         $faturado = (new PedidosFaturados())->pedido($pedido->id);
 
+        $isFianciamento = $pedido->forma_pagamento === 'Financiamento';
+        $dadosFinanciamento = $isFianciamento ? (new PedidosFinanciamentoDados())->getDados($pedido->id) : null;
+
         if ($pedido->modelo === 1) {
             $cliente = (new PedidosClientes())->find($pedido->id);
         }
@@ -515,10 +504,11 @@ class Pedidos extends Model
                 'preco' => convert_float_money($pedido->preco_venda),
                 'preco_custo' => $precoCusto,
                 'imposto' => $isFinanceiro ? $pedido->imposto : null,
-                'lucro' => $isFinanceiro ? convert_float_money($pedido->preco_venda - $pedido->preco_custo - ($frete->valor_frete ?? 0)) : null,
+                'lucro' => $this->calculoLucro($isFinanceiro, $pedido, $frete),
                 'repasse_float' => $pedido->repasse,
                 'repasse' => convert_float_money($pedido->repasse),
                 'repasse_desconto' => convert_float_money($pedido->repasse_desconto),
+                'repasse_total' => $this->calculoRepasse($pedido),
                 'valor_nota' => convert_float_money($pedido->preco_venda + $pedido->repasse),
                 'forma_pagamento' => $pedido->forma_pagamento,
                 'boletos' => (new PedidosArquivos())->getBoletos($pedido->id),
@@ -526,7 +516,14 @@ class Pedidos extends Model
                 'pix' => (new PedidosArquivos())->getPix($pedido->id),
                 'link_pagamento' => $files->url_pagamento ?? null,
                 'data_faturamento' => $pedido->data_faturamento,
-                'nota_numero' => $faturado['nota_numero'] ?? null
+                'nota_numero' => $faturado['nota_numero'] ?? null,
+                'tipo_financiamento' => $isFianciamento ? [
+                    'tipo_nota' => $dadosFinanciamento ? 'Nota Final' : 'Nota Futura',
+                    'banco' => $dadosFinanciamento['banco'] ?? null,
+                    'gerente_nome' => $dadosFinanciamento['gerente_nome'] ?? null,
+                    'gerente_telefone' => converterTelefone($dadosFinanciamento['gerente_telefone'] ?? null) ?? null,
+                    'gerente_email' => $dadosFinanciamento['gerente_email'] ?? null,
+                ] : null
             ],
             'frete' => [
                 'preco' => $frete->valor_frete ?? null,

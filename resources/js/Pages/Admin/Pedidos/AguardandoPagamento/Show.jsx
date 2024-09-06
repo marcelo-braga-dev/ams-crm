@@ -13,6 +13,8 @@ import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
+import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro.jsx";
+import {Download, File, Folder} from "react-bootstrap-icons";
 
 export default function Pedidos({dados}) {
     const {data, setData} = useForm()
@@ -30,28 +32,30 @@ export default function Pedidos({dados}) {
                 menu="pedidos" submenu="pedidos-lista">
             <CardContainer>
                 <CardBody>
-                    <div className="row">
-                        <div className="row mb-4">
-                            <div className="col">
-                                <DadosPedido dados={dados}/>
-                            </div>
-                            <div className="col">
-                                <DadosPedidoCliente dados={dados}/>
-                            </div>
-                        </div>
-                        <Row>
-                            <Col>
-                                <Typography variant={"body1"} component="p">Baixar Nota/Boleto</Typography>
-                                <ImagePdf url={dados.pedido_files.boleto}/>
-                            </Col>
-                        </Row>
-                    </div>
+                    <DadosPedido dados={dados}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoCliente dados={dados}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoFinanceiro dados={dados}/>
                 </CardBody>
             </CardContainer>
 
+            <CardContainer>
+                <CardTitle title="Baixar Nota/Boleto" icon={<Download size={22} color="black"/>}/>
+                <CardBody>
+                    <Typography variant={"body1"} component="p"></Typography>
+                    <ImagePdf url={dados.pedido_files.boleto}/>
+                </CardBody>
+            </CardContainer>
 
             <CardContainer>
-                <CardTitle title="Enviar Comprovantes de Pagametos"/>
+                <CardTitle title="Enviar Comprovantes de Pagametos"  icon={<Folder size={22} color="black"/>}/>
                 <CardBody>
                 <form onSubmit={submit}>
                     <span>Recibo do Pagamento</span>
@@ -70,9 +74,9 @@ export default function Pedidos({dados}) {
                         </Col>
                     </Row>
                     <div className="text-center">
-                        <Button variant="contained" type='submit' color="primary">
+                        <button className="btn btn-success" type='submit'>
                             Enviar
-                        </Button>
+                        </button>
                     </div>
                 </form>
                 </CardBody>

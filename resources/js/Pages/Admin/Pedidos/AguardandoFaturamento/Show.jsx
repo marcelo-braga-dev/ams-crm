@@ -11,6 +11,9 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro.jsx";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import {Download, FileText} from "react-bootstrap-icons";
 
 export default function Create({pedido}) {
     const getCurrentDate = () => {
@@ -39,17 +42,27 @@ export default function Create({pedido}) {
     return (
         <Layout container voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})} titlePage="Pedido Aguardando Faturamento"
                 menu="pedidos" submenu="pedidos-lista">
+
             <CardContainer>
                 <CardBody>
-                    <div className="row">
-                        <div className="col mb-4">
-                            <DadosPedido dados={pedido}/>
-                        </div>
-                        <div className="col mb-4">
-                            <DadosPedidoCliente dados={pedido}/>
-                        </div>
-                    </div>
-                    <Typography variant={"h6"} component="h5">Baixar Comprovante Pagamento/Recibo</Typography>
+                    <DadosPedido dados={pedido}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoCliente dados={pedido}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoFinanceiro dados={pedido}/>
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardTitle title="Baixar Comprovante Pagamento/Recibo" icon={<Download size={22} color="black"/>}/>
+                <CardBody>
+                    <Typography variant={"h6"} component="h5"></Typography>
                     <div className="row">
                         <div className="col-md-4">
                             <ImagePdf url={pedido.pedido_files.recibo_1}/>
@@ -60,10 +73,11 @@ export default function Create({pedido}) {
                     </div>
                 </CardBody>
             </CardContainer>
+
             <CardContainer>
+                <CardTitle title="Enviar Nota Fiscal do Pedido" icon={<FileText size={22} color="black"/>}/>
                 <CardBody>
                     <form onSubmit={submit}>
-                        <Typography variant="h6">Enviar Nota Fiscal do Pedido</Typography>
                         <div className="row mb-4">
                             <div className="col-md-6">
                                 <TextField label="N. Nota" fullWidth required
@@ -92,7 +106,7 @@ export default function Create({pedido}) {
                                            onChange={e => setData('prazo', e.target.value)}></TextField>
                             </div>
                         </div>
-                        <button className="btn btn-primary mt-4" type='submit' color="primary">
+                        <button className="btn btn-success mt-4" type='submit' color="primary">
                             Enviar
                         </button>
                     </form>

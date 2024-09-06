@@ -54,14 +54,12 @@ export default function Pedidos({dados}) {
 
             <CardContainer>
                 <CardBody>
-                    <div className="row">
-                        <div className="col">
-                            <DadosPedido dados={dados}/>
-                        </div>
-                        <div className="col">
-                            <DadosPedidoCliente dados={dados}/>
-                        </div>
-                    </div>
+                    <DadosPedido dados={dados}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoCliente dados={dados}/>
                 </CardBody>
             </CardContainer>
 

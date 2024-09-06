@@ -7,6 +7,8 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import * as React from "react";
+import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro.jsx";
 
 export default function Create({dados}) {
 
@@ -26,14 +28,17 @@ export default function Create({dados}) {
                 menu="pedidos" submenu="pedidos-lista">
             <CardContainer>
                 <CardBody>
-                    <div className="row">
-                        <div className="col">
-                            <DadosPedido dados={dados}/>
-                        </div>
-                        <div className="col">
-                            <DadosPedidoCliente dados={dados}/>
-                        </div>
-                    </div>
+                    <DadosPedido dados={dados}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoCliente dados={dados}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoFinanceiro dados={dados}/>
                 </CardBody>
             </CardContainer>
 

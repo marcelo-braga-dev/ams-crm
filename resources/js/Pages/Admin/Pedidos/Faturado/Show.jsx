@@ -8,6 +8,7 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro.jsx";
 
 export default function Create({pedido}) {
     const {data, setData, post} = useForm({
@@ -28,23 +29,27 @@ export default function Create({pedido}) {
                 menu="pedidos" submenu="pedidos-lista">
             <CardContainer>
                 <CardBody>
-                    <div className="row">
-                        <div className="col mb-4">
-                            <DadosPedido dados={pedido}/>
-                        </div>
-                        <div className="col mb-4">
-                            <DadosPedidoCliente dados={pedido}/>
-                        </div>
-                    </div>
-
-                    <div className="col mx-auto">
-                        <button className="btn btn-success mx-auto" data-bs-toggle="modal" data-bs-target="#modalAvancarStatus">
-                            Atualizar Status para Acompanhamento
-                        </button>
-                    </div>
+                    <DadosPedido dados={pedido}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoCliente dados={pedido}/>
+                </CardBody>
+            </CardContainer>
+            <CardContainer>
+                <CardBody>
+                    <DadosPedidoFinanceiro dados={pedido}/>
                 </CardBody>
             </CardContainer>
 
+            <CardContainer>
+                <CardBody>
+                    <button className="btn btn-success mx-auto" data-bs-toggle="modal" data-bs-target="#modalAvancarStatus">
+                        Atualizar Status para Acompanhamento
+                    </button>
+                </CardBody>
+            </CardContainer>
 
             {/*Modal*/}
             <div className="modal fade mt-5" id="modalAvancarStatus" tabIndex="-1" aria-labelledby="exampleModalLabel"
