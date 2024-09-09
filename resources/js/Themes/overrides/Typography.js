@@ -6,10 +6,10 @@ export default function Typography() {
             styleOverrides: {
                 root: {
                     '& .MuiTypography-root': {
-                        backgroundColor: 'rgba(65,211,16,0.89)',
+                        // backgroundColor: 'rgba(65,211,16,0.89)',
                     },
                     '& .MuiTypography-body1': {
-                        borderColor: '#1128b8',
+                        // borderColor: '#1128b8',
                     },
                 },
                 gutterBottom: {

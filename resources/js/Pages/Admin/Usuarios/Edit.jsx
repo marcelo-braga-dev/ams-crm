@@ -114,7 +114,7 @@ export default function ({
                                         [item.id]: e.target.checked
                                     })}/>
                             </div>
-                            <div className="me-2"><Avatar src={item.foto}/></div>
+                            <div className="me-2"><Avatar src={item.foto} sx={{width: 80, height: 80}}/></div>
                             <div>
                                 <Typography fontWeight="bold">{item.nome}</Typography>
                                 <Typography variant="body2">{item.funcao}</Typography>

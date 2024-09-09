@@ -133,7 +133,7 @@ export default function Show({dados, historicos, historicoStatus, consultores, i
                     <CardContainer>
                         <CardTitle title="Histórico dos Status" icon={<List size="22"/>}/>
                         <CardBody>
-                            <HistoricoStatus dados={historicoStatus}/>
+                            <HistoricoStatus historicos={historicoStatus}/>
                         </CardBody>
                     </CardContainer>
                 </div>

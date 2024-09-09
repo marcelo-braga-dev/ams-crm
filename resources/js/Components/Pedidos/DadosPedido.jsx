@@ -13,7 +13,6 @@ export default function DadosPedido({dados}) {
             <CardTitleDefault title="Informações do Pedido" icon={<CardChecklist size="22" color="black"/>}/>
             <Grid container>
                 <Grid item md={6}>
-                    <CampoTexto titulo="" texto=""/>
                     <Stack spacing={1}>
                         {dados.pedido.id && <CampoTexto titulo="ID do Pedido" texto={`#${dados.pedido.id}`}/>}
                         {dados.financeiro.preco && <CampoTexto titulo="Valor do Pedido" texto={`R$ ${dados.financeiro.preco}`}/>}

@@ -29,7 +29,7 @@ class LeadsController extends Controller
 
         $dados = (new Leads())->getDados($id);
         $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
-
+//        print_pre($dados);
         $permissoes = [
             'encaminhar' => (new UsersPermissoes())->isLeadsEncaminhar($idUsuario),
             'limpar' => (new UsersPermissoes())->isLeadsLimpar($idUsuario),
@@ -65,6 +65,16 @@ class LeadsController extends Controller
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();
+        }
+    }
+
+    public function update($id, Request $request)
+    {
+        try {
+            (new Leads())->atualizar($id, $request);
+            modalSucesso('Dados Atualizados com sucesso!');
+        } catch (\DomainException $exception) {
+            modalErro($exception->getMessage());
         }
     }
 

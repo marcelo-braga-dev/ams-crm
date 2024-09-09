@@ -578,11 +578,12 @@ class Leads extends Model
         $nomes = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
         $telefones = (new LeadsTelefones())->get($id);
+        $endereco = (new Enderecos())->newQuery()->find($item->endereco ?? null);
 
-        return $this->dados($item, $nomes, $setores, $telefones);
+        return $this->dados($item, $nomes, $setores, $telefones, $endereco);
     }
 
-    private function dados($item, $nomes = [], $setores = [], $telefones = [])
+    private function dados($item, $nomes = [], $setores = [], $telefones = [], $endereco = [])
     {
         if ($item)
 
@@ -603,6 +604,8 @@ class Leads extends Model
                     'cnpj' => converterCNPJ($item->cnpj),
                     'rg' => $item->rg,
                     'cpf' => $item->cpf,
+                    'inscricao_estadual' => $item->inscricao_estadual,
+                    'data_nascimento' => $item->data_nascimento,
                     'cidade' => $item->cidade,
                     'estado' => $item->estado,
                     'endereco' => $item->endereco ? getEnderecoCompleto($item->endereco) : '',
@@ -636,6 +639,7 @@ class Leads extends Model
                     'contato' => $item->meio_contato,
                     'data_criacao' => date('d/m/y H:i', strtotime($item->created_at)),
                 ],
+                'endereco' => $endereco
             ];
     }
 

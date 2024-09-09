@@ -12,26 +12,31 @@ const dashboard = {
             type: 'collapse',
             url: undefined,
             icon: People,
-            submenu: [
-                {
-                    id: 'leads-quadros',
-                    chave: chaves.leads.quadros,
-                    title: 'Lista de Clientes',
-                    type: 'item',
-                    url: route('consultor.leads.main.index'),
-                }, {
-                    id: 'leads-cadastrar',
-                    chave: chaves.leads.cadastrar,
-                    title: 'Cadastrar Clientes',
-                    type: 'item',
-                    url: route('consultor.leads.main.create'),
-                }, {
-                    id: 'leads-encaminhados',
-                    chave: chaves.leads.encaminhados,
-                    title: 'Clientes Encaminhados',
-                    type: 'item',
-                    url: route('consultor.leads.encaminhados.index'),
-                },
+            submenu: [{
+                id: 'leads-kanban',
+                chave: chaves.leads.kanban,
+                title: 'Funil de Vendas',
+                type: 'item',
+                url: route('auth.leads.funil-vendas-kanban.index'),
+            }, {
+                id: 'leads-quadros',
+                chave: chaves.leads.quadros,
+                title: 'Lista de Clientes',
+                type: 'item',
+                url: route('consultor.leads.main.index'),
+            }, {
+                id: 'leads-cadastrar',
+                chave: chaves.leads.cadastrar,
+                title: 'Cadastrar Clientes',
+                type: 'item',
+                url: route('consultor.leads.main.create'),
+            }, {
+                id: 'leads-encaminhados',
+                chave: chaves.leads.encaminhados,
+                title: 'Clientes Encaminhados',
+                type: 'item',
+                url: route('consultor.leads.encaminhados.index'),
+            },
             ]
         }
     ]

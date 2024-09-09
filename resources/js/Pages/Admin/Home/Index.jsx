@@ -8,7 +8,7 @@ export default function () {
 
     // const isLoading = false
 
-    return (<></>
-        // <Layout titlePage="Home"/>
+    return (
+         <Layout titlePage="Home"/>
     )
 }

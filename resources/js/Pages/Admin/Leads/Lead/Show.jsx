@@ -169,7 +169,7 @@ export default function Show({
                         <CardTitle title="Histórico dos Status" icon={<List size="22"/>}/>
                         <div style={{maxHeight: 500, overflow: 'auto'}}>
                             <CardBody>
-                                <HistoricoStatus dados={historicoStatus}/>
+                                <HistoricoStatus historicos={historicoStatus}/>
                             </CardBody>
                         </div>
                     </CardContainer>
