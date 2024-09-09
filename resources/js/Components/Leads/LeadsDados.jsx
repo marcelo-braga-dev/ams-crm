@@ -9,7 +9,7 @@ import * as React from "react";
 import CampoTexto from "@/Components/CampoTexto.jsx";
 import Chip from "@mui/material/Chip";
 
-export default function LeadsDados({dados}) {
+export default function LeadsDados({dados, acoes}) {
     const [toggleMenu, setToggleMenu] = useState(false)
 
     const toggleInfo = () => {
@@ -18,10 +18,11 @@ export default function LeadsDados({dados}) {
 
     return (<>
         <CardContainer>
-            <CardTitle title="Informações do Lead" icon={<Person size="22"/>}/>
+            <CardTitle title="Informações do Lead" icon={<Person size="22"/>} children={acoes}/>
             <CardBody>
                 <div className="row">
                     <div className="col">
+                        <Typography>Xcccccsda sdf sdf sdf sdf sd de fsdf sdfsdsdfsd</Typography>
                         <Stack spacing={1}>
                             {dados.cliente.razao_social && <CampoTexto titulo="Razão Social" texto={dados.cliente.razao_social}/>}
                             {dados.cliente.nome && <CampoTexto titulo="Nome/Nome Fantasia" texto={dados.cliente.nome}/>}

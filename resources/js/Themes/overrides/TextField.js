@@ -1,14 +1,13 @@
 // ==============================|| OVERRIDES - BADGE ||============================== //
 
-export default function TextField(theme) {
+export default function TextField() {
     return {
         MuiTextField: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: '4px',
                     '& .MuiInputBase-root': {
                         backgroundColor: '#FFFFFF',
+                        borderRadius: '10px',
                     },
                     '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
                         borderColor: '#FFFFFF',

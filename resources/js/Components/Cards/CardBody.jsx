@@ -1,6 +1,7 @@
-import styled from 'styled-components'
 import React from "react";
 
 export default function CardBody(props) {
-    return <div {...props} style={{padding: '20px'}}>{props.children}</div>
+    const {displayNone} = props
+
+    return <div style={{padding: '20px', marginTop: 10, display: displayNone ? 'none' : 'block'}} {...props}>{props.children}</div>
 }

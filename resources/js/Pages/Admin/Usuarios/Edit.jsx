@@ -1,13 +1,13 @@
 import Layout from "@/Layouts/Layout";
 import MenuItem from "@mui/material/MenuItem";
 import {router, useForm} from '@inertiajs/react';
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {Avatar, Checkbox, FormControlLabel, Grid, Stack, Switch, TextField, Typography} from "@mui/material";
 import * as React from "react";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
-import {CardChecklist, ChevronRight, People, Person} from "react-bootstrap-icons";
+import {CardChecklist, ChevronRight, People, Person, ChevronDown, Box} from "react-bootstrap-icons";
 
 export default function ({
                              usuario,
@@ -22,6 +22,8 @@ export default function ({
                              categoriasUsuario
                          }) {
     const [usuarioAtivos, setUsuarioAtivos] = useState(false)
+
+    const [aba, setAba] = useState({permissoes: true, categorias: true, supervisionados: true});
 
     const {data, setData} = useForm({
         nome: usuario.nome,
@@ -43,6 +45,87 @@ export default function ({
         e.preventDefault();
         router.post(route('admin.usuarios.usuario.update', usuario.id), {...data, _method: 'PUT'});
     };
+
+    const toggleAba = (key) => {
+        setAba(prev => ({
+            permissoes: key === 'permissoes' ? !prev.permissoes : true,
+            categorias: key === 'categorias' ? !prev.categorias : true,
+            supervisionados: key === 'supervisionados' ? !prev.supervisionados : true,
+        }));
+    };
+
+    const dadosPermissao = useMemo(() => {
+        return permissoes?.map(categorias => {
+            return (
+                <CardContainer>
+                    <CardBody key={categorias.categoria}>
+                        <Typography><ChevronRight size={10}/> <b>{categorias.categoria}</b></Typography>
+                        <div className="row row-cols-5">
+                            {categorias?.permissoes?.map(item => {
+                                return (
+                                    <div key={item.id} className="col">
+                                        <FormControlLabel label={<Typography variant="body2">{item.nome}</Typography>} control={
+                                            <Switch defaultChecked={permissoesUsuario[item.id] > 0}
+                                                    size="small" key={item.id}
+                                                    onChange={e => setData('permissoes', {
+                                                        ...data.permissoes,
+                                                        [item.id]: e.target.checked
+                                                    })}/>
+                                        }/>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </CardBody>
+                </CardContainer>
+            )
+        })
+    }, [data]);
+
+    const dadosCategorias = useMemo(() => {
+        return categorias.map(item => <Grid item md={3} marginBottom={1}>
+            <Stack direction="row" spacing={1}>
+                <Switch defaultChecked={categoriasUsuario[item.id] > 0}
+                        size="small" key={item.id}
+                        onChange={e => setData('categorias', {
+                            ...data.categorias,
+                            [item.id]: e.target.checked
+                        })}/>
+                <Stack direction="column" spacing={0}>
+                    <Typography>{item.nome}</Typography>
+                    <Typography variant="body2">{item.setor}</Typography>
+                </Stack>
+            </Stack>
+        </Grid>)
+    }, [data]);
+
+    const dadosSupervisionados = useMemo(() => {
+        return usuarios.map(item =>
+            (item.status || usuarioAtivos) &&
+            <div key={item.id} className="mb-2 col">
+                <CardContainer>
+                    <CardBody>
+                        <Stack direction="row" spacing="3" className="pt-2">
+                            <div>
+                                <Checkbox
+                                    defaultChecked={supervisionados?.[item.id] > 0}
+                                    onChange={e => setData('supervisionados', {
+                                        ...data.supervisionados,
+                                        [item.id]: e.target.checked
+                                    })}/>
+                            </div>
+                            <div className="me-2"><Avatar src={item.foto}/></div>
+                            <div>
+                                <Typography fontWeight="bold">{item.nome}</Typography>
+                                <Typography variant="body2">{item.funcao}</Typography>
+                                <Typography variant="body2">{item.setor_nome}</Typography>
+                            </div>
+                        </Stack>
+                    </CardBody>
+                </CardContainer>
+            </div>
+        )
+    }, [data, usuarios]);
 
     return (
         <Layout empty titlePage="Editar Usuário" menu="usuarios" submenu="usuarios-contas"
@@ -108,94 +191,36 @@ export default function ({
                 </CardContainer>
 
                 <CardContainer>
-                    <CardTitle title="Permissões de Acesso" icon={<CardChecklist size={22}/>}/>
-                    <CardBody>
+                    <CardTitle title="Permissões de Acesso" icon={<CardChecklist size={22}/>} onClick={() => toggleAba('permissoes')}
+                               children={<ChevronDown size={22}/>} cursorPointer/>
+                    <CardBody displayNone={aba.permissoes}>
                         <div className="row">
                             <div className="mb-4 col">
-                                {permissoes?.map(categorias => {
-                                    return (
-                                        <CardContainer>
-                                            <CardBody key={categorias.categoria}>
-                                                <Typography><ChevronRight size={10}/> <b>{categorias.categoria}</b></Typography>
-                                                <div className="row row-cols-5">
-                                                    {categorias?.permissoes?.map(item => {
-                                                        return (
-                                                            <div key={item.id} className="col">
-                                                                <FormControlLabel label={<small>{item.nome}</small>} control={
-                                                                    <Switch defaultChecked={permissoesUsuario[item.id] > 0}
-                                                                            size="small" key={item.id}
-                                                                            onChange={e => setData('permissoes', {
-                                                                                ...data.permissoes,
-                                                                                [item.id]: e.target.checked
-                                                                            })}/>
-                                                                }/>
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </div>
-                                            </CardBody>
-                                        </CardContainer>
-                                    )
-                                })}
+                                {dadosPermissao}
                             </div>
                         </div>
                     </CardBody>
                 </CardContainer>
 
                 <CardContainer>
-                    <CardTitle title="Categorias de Produtos"/>
-                    <CardBody>
+                    <CardTitle title="Categorias de Produtos" onClick={() => toggleAba('categorias')} icon={<Box size={22}/>}
+                               children={<ChevronDown size={22}/>} cursorPointer/>
+                    <CardBody displayNone={aba.categorias}>
                         <Grid container>
-                            {categorias.map(item => <Grid item md={3} marginBottom={1}>
-                                <Stack direction="row" spacing={1}>
-                                    <Switch defaultChecked={categoriasUsuario[item.id] > 0}
-                                            size="small" key={item.id}
-                                            onChange={e => setData('categorias', {
-                                                ...data.categorias,
-                                                [item.id]: e.target.checked
-                                            })}/>
-                                    <Stack direction="column" spacing={0}>
-                                        <Typography>{item.nome}</Typography>
-                                        <Typography variant="body2">{item.setor}</Typography>
-                                    </Stack>
-                                </Stack>
-                            </Grid>)}
+                            {dadosCategorias}
                         </Grid>
                     </CardBody>
                 </CardContainer>
 
                 <CardContainer>
-                    <CardTitle title="Supervisonados" icon={<People size={22}/>}>
+                    <CardTitle title="Supervisonados" icon={<People size={22}/>} onClick={() => toggleAba('supervisionados')}
+                               children={<ChevronDown size={22}/>} cursorPointer>
+                    </CardTitle>
+                    <CardBody displayNone={aba.supervisionados}>
                         <FormControlLabel label="Ver Bloqueados" control={
                             <Switch onChange={e => setUsuarioAtivos(e.target.checked)}/>}/>
-                    </CardTitle>
-                    <CardBody>
                         <div className="row row-cols-4">
-                            {usuarios.map(item =>
-                                (item.status || usuarioAtivos) &&
-                                <div key={item.id} className="mb-2 col">
-                                    <CardContainer>
-                                        <CardBody>
-                                            <Stack direction="row" spacing="3" className="pt-2">
-                                                <div>
-                                                    <Checkbox
-                                                        defaultChecked={supervisionados?.[item.id] > 0}
-                                                        onChange={e => setData('supervisionados', {
-                                                            ...data.supervisionados,
-                                                            [item.id]: e.target.checked
-                                                        })}/>
-                                                </div>
-                                                <div className="me-2"><Avatar src={item.foto}/></div>
-                                                <div>
-                                                    <span><b>{item.nome}</b></span><br/>
-                                                    <small>{item.funcao}</small><br/>
-                                                    <small>{item.setor_nome}</small><br/>
-                                                </div>
-                                            </Stack>
-                                        </CardBody>
-                                    </CardContainer>
-                                </div>
-                            )}
+                            {dadosSupervisionados}
                         </div>
                     </CardBody>
                 </CardContainer>

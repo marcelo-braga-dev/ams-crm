@@ -8,7 +8,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import axios from "axios";
 import LinearProgress from "@mui/material/LinearProgress";
 import {debounce} from 'lodash';
-import {Pencil, PersonFill, Ticket} from "react-bootstrap-icons";
+import {Box, Pencil, PersonFill, Ticket} from "react-bootstrap-icons";
 import InputAdornment from "@mui/material/InputAdornment";
 
 const Page = () => {
@@ -54,10 +54,14 @@ const Page = () => {
         Object.values(colunas).map((item) => (
             <th key={item.status}
                 style={{position: 'sticky', top: 0, zIndex: 2}}>
-                <div className="row p-2 mx-1 justify-content-between rounded-top"
+                <div className="row mx-1 justify-content-between"
                      style={{
                          backgroundColor: item.cor ?? 'black',
                          width: 370,
+                         paddingBlock: 10,
+                         paddingInline: 15,
+                         borderTopLeftRadius: 15,
+                         borderTopRightRadius: 15,
                      }}
                 >
                     <div className="col-auto">
@@ -72,13 +76,14 @@ const Page = () => {
     ), [colunas]);
 
     const renderedRows = useMemo(() => (
-        Object.values(colunas).map(({status}) => {
+        Object.values(colunas).map(({status, cor}) => {
             const statusGroup = registros[status];
             return (
                 <td key={status} style={{padding: 10}}>
                     {statusGroup?.items?.map((item) => (
                         <CardKanbanLeads key={item.id}
                                          item={item}
+                                         cor={cor}
                                          emitePedidos={statusGroup.status_dados.emite_pedidos}
                                          atualizarCards={atualizarCards}/>
                     ))}
@@ -124,7 +129,7 @@ const Page = () => {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <Ticket size={20} color="gray"/>
+                                        <Box size={20} color="gray"/>
                                     </InputAdornment>
                                 ),
                             }}
@@ -142,19 +147,17 @@ const Page = () => {
 
             {carregando && <LinearProgress/>}
 
-            <ScrollContainer
-                vertical={true}
-                horizontal={true}
-                activationDistance={10}
-                style={{
-                    cursor: 'grab',
-                    overflow: 'scroll',
-                    maxHeight: 'calc(100vh - 11rem)',
-                    whiteSpace: 'nowrap'
-                }}
-                className="scroll-container"
-            >
-                {!carregando && (
+            {!carregando && (
+                <ScrollContainer
+                    vertical={true}
+                    horizontal={true}
+                    activationDistance={10}
+                    hideScrollbars={false}
+                    style={{
+                        cursor: 'grab',
+                        height: 'calc(100vh - 10rem)'
+                    }}
+                >
                     <div style={{minWidth: '1000px'}}>
                         <table>
                             <thead style={{position: 'sticky', top: 0, zIndex: 2}}>
@@ -170,12 +173,15 @@ const Page = () => {
                         </table>
                         {/*{colunas.length <= 0 && <CardContainer>*/}
                         {/*    <CardBody>*/}
-                        {/*        <Typography>Não há status de leads cadastrados para este usuário;</Typography>*/}
+                        {colunas.length === 0 &&
+                            <Typography>Não há status de funil cadastrados para este usuário;</Typography>
+                        }
                         {/*    </CardBody>*/}
                         {/*</CardContainer>}*/}
                     </div>
-                )}
-            </ScrollContainer>
+
+                </ScrollContainer>
+            )}
         </Layout>
     );
 };

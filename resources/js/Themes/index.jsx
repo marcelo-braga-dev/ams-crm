@@ -29,22 +29,6 @@ export default function ThemeCustomization({children}) {
                     xl: 1536
                 }
             },
-            components: {
-                MuiTextField: {
-                    styleOverrides: {
-                        root: {
-                            backgroundColor: '#0c7a08', // Define a cor de fundo padrão aqui
-                            borderRadius: '4px', // (Opcional) Adiciona bordas arredondadas
-                            '& .MuiInputBase-root': {
-                                backgroundColor: '#b81130', // Aplica a cor de fundo ao campo de entrada
-                            },
-                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#ff4081', // (Opcional) Altera a cor da borda quando o campo está focado
-                            },
-                        },
-                    },
-                },
-            },
             direction: 'ltr',
             mixins: {
                 toolbar: {

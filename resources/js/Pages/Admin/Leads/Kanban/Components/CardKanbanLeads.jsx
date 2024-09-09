@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Grid, Stack, Typography, Divider, IconButton, Avatar} from "@mui/material";
 import {
-    ArrowDownShort, Box,
+    ArrowDownShort, Box, Dot,
     Eye,
     ForwardFill, Geo, GeoAlt,
     Hash,
@@ -9,10 +9,10 @@ import {
     PersonFill,
     PersonVideo2,
     PinAngle,
-    PinAngleFill,
+    PinAngleFill, Stopwatch,
     TicketFill
 } from "react-bootstrap-icons";
-import CardContainer from "@/Components/Cards/CardContainer";
+
 import AbrirChatWhatsapp from "@/Components/Chats/Whatsapp/AbrirChatWhatsapp.jsx";
 import AbrirTelefone from "@/Components/Chats/Telefone/AbrirTelefone.jsx";
 import Link from "@/Components/Link.jsx";
@@ -20,11 +20,22 @@ import AbrirEmail from "@/Components/Chats/Email/AbrirEmail.jsx";
 import Tooltip from "@mui/material/Tooltip";
 import DialogMui from "@/Components/Modals/DialogMui.jsx";
 import {router} from "@inertiajs/react";
+import styled from 'styled-components'
+import LinearProgress from "@mui/material/LinearProgress";
 
-const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
+const Card = styled.div`
+    border-radius: 15px;
+    overflow-wrap: break-word;
+    margin-bottom: 2rem;
+    background-color: ${(props) => props.bgColor || 'white'};
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.05);
+    border-left: 3px solid ${(props) => props.border || 'white'};
+`
+
+const CardKanbanLeads = ({item, emitePedidos, atualizarCards, cor}) => {
     const {
         razao_social, nome, cnpj, cpf, id, telefones, consultor, status_data, status_data_dias, classificacao,
-        setor, avancar_status_url, index
+        setor, avancar_status_url, localidade
     } = item
 
     const [openModalConfirmStatus, setOpenModalConfirmStatus] = useState()
@@ -42,8 +53,10 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
         atualizarCards()
     }
 
+    const margemAtendimento = (status_data_dias / 15 * 100) > 100 ? 100 : (status_data_dias / 15 * 100);
+
     return (
-        <CardContainer>
+        <Card border={cor}>
             <div style={{width: 350, padding: '20px'}}>
                 <Grid container spacing={2}>
                     {/* Coluna da esquerda com o conteúdo principal */}
@@ -92,28 +105,31 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
                         {/*localidade*/}
                         <Grid container spacing={3} marginBottom={1} alignItems="center">
                             <Grid item xs={1}>
-                                <GeoAlt size={18} />
+                                <GeoAlt size={18}/>
                             </Grid>
-                            <Grid item xs={11}>
-                                <Tooltip title="Setor" placement="bottom-start" arrow>
-                                    <Typography>CIDADE/ESTADO</Typography>
+                            <Grid item xs={10}>
+                                <Tooltip title="Localidade" arrow>
+                                    <Typography>{localidade.cidade ?? '-'}/{localidade.estado ?? '-'}</Typography>
                                 </Tooltip>
                             </Grid>
                         </Grid>
 
                         {/*setor*/}
-                        <Grid container spacing={3} marginBottom={1} alignItems="center">
-                            <Grid item xs={1}>
-                                <TicketFill size={18} color={setor.cor ?? 'black'}/>
+                        <Tooltip title="Setor" arrow>
+                            <Grid container spacing={3} marginBottom={1} alignItems="center">
+                                <Grid item xs={1}>
+                                    <Box size={18}/>
+                                </Grid>
+                                <Grid item xs={11}>
+                                    <Typography>
+                                        {/*<Dot size={30}  color={setor.cor ?? 'black'}/>*/}
+                                        {setor.nome ?? '-'}
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={11}>
-                                <Tooltip title="Setor" placement="bottom-start" arrow>
-                                    <Typography>{setor.nome ?? '-'}</Typography>
-                                </Tooltip>
-                            </Grid>
-                        </Grid>
+                        </Tooltip>
 
-                        <Divider sx={{marginBlock: 2}}/>
+                        <Divider sx={{marginBlock: 2}} color="#fafafa"/>
 
                         {/*vendedor*/}
                         <Grid container spacing={3} marginBottom={1} alignItems="center">
@@ -132,7 +148,24 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
                             </Grid>
                         </Grid>
 
-                        <Divider sx={{marginTop: 2}}/>
+                        <Divider sx={{marginBlock: 2}} color="#fafafa"/>
+
+                        {/*prazo atendimento*/}
+                        <Tooltip title="Prazo para atendimento" placement="bottom-start" arrow>
+                            <Grid container spacing={3} marginBottom={1}>
+                                <Grid item xs={1}>
+                                    <Stopwatch size={18}/>
+                                </Grid>
+                                <Grid item xs={11} style={{color: margemAtendimento > 75 ? 'red' : 'inherit'}}>
+                                    <Stack marginTop={1} alignContent={'end'} textAlign={'end'}>
+                                        <LinearProgress variant="determinate" color="inherit" value={margemAtendimento}/>
+                                        <Typography variant="body2">restam {15 - status_data_dias} de {15} dias</Typography>
+                                    </Stack>
+                                </Grid>
+                            </Grid>
+                        </Tooltip>
+
+                        <Divider sx={{marginTop: 2}} color="#fafafa"/>
 
                         <Stack direction="row" spacing={2} marginTop={2}>
                             <AbrirChatWhatsapp telefones={telefones} leadId={id} atualizarCards={atualizarCards}/>
@@ -142,8 +175,9 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
                             {/*{index}*/}
                         </Stack>
 
-                        <Divider sx={{marginBlock: 2}}/>
+                        <Divider sx={{marginBlock: 2}} color="#fafafa"/>
 
+                        {/*rodape*/}
                         <Stack direction="row" spacing={2} alignItems="center">
                             <Stack direction="row" spacing={0} alignItems="center">
                                 <Hash size={16}/>
@@ -191,11 +225,11 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
                                     }}>
                                     <PinAngle color="black" size={18}/>
                                 </IconButton>}
-
                         </Stack>
                     </Grid>
                 </Grid>
             </div>
+
             <DialogMui
                 content={
                     <Stack>
@@ -207,7 +241,7 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards}) => {
                 onConfirm={avancarStatus}
                 href={route(avancar_status_url, id)}
                 onClose={handleClose}/>
-        </CardContainer>
+        </Card>
     )
 };
 

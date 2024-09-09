@@ -14,6 +14,7 @@ class FunilVendasKanbanController extends Controller
 {
     public function index()
     {
+//        print_pre($registros = (new Leads)->agrupadosPorStatus());
         return Inertia::render('Admin/Leads/Kanban/Index');
     }
 

@@ -1,7 +1,7 @@
 import Layout from "@/Layouts/Layout";
 
-import {MenuItem, TextField, IconButton, DialogContent, Typography, Divider, DialogTitle, DialogActions} from "@mui/material";
-import {BoxSeam, List, ListUl, Person} from "react-bootstrap-icons";
+import {MenuItem, TextField, IconButton, Stack} from "@mui/material";
+import {BoxSeam, List, ListUl} from "react-bootstrap-icons";
 
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,10 +17,7 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import HistoricoStatus from "@/Partials/Leads/HistoricoStatus.jsx";
-import Dialog from "@mui/material/Dialog";
-import {Close} from "@mui/icons-material";
-import {Button} from "reactstrap";
-import DialogMui from "@/Components/Modals/DialogMui.jsx";
+import Button from '@mui/material/Button';
 
 export default function Show({dados, usuarios, historicos, permissoes}) {
 
@@ -66,29 +63,20 @@ export default function Show({dados, usuarios, historicos, permissoes}) {
     return (
         <Layout empty titlePage="Informações do Lead" menu="leads" submenu="leads-cadastrados"
                 voltar={route('admin.clientes.leads.leads-cadastrados')}>
-            <CardContainer>
-                <CardTitle title="Informações do Lead" icon={<Person size="22"/>}/>
-                <CardBody>
-                    <div className="row">
-                        <div className="col">
-                            <LeadsDados dados={dados}/>
-                        </div>
-                        <div className="col-auto">
-                            <div className="row">
-                                <div className="col-12">
-                                    {editar && <IconButton color="success"
-                                                           href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
-                                        <EditIcon/>
-                                    </IconButton>}
-                                    {excluir && <IconButton color="success" data-bs-toggle="modal" data-bs-target="#modalExcluir">
-                                        <DeleteIcon color="error"/>
-                                    </IconButton>}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </CardBody>
-            </CardContainer>
+
+            <LeadsDados dados={dados} acoes={
+                <Stack direction="row" spacing={2}>
+                    {editar && <IconButton color="success"
+                                           href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
+                        <EditIcon/>
+                    </IconButton>}
+                    {excluir && <IconButton color="success" data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                        <DeleteIcon color="error"/>
+                    </IconButton>}
+                </Stack>
+            }/>
+
+            <Button variant="contained" color="warning">Botao</Button>
 
             {(encaminhar || limpar) && <CardContainer>
                 <CardBody>
@@ -207,7 +195,6 @@ export default function Show({dados, usuarios, historicos, permissoes}) {
                     </div>
                 </div>
             </div>
-
 
             {/*MODAL REMOVER CONSULTOR*/}
             <div className="modal fade mt-5" id="modalRemoverConsultor" tabIndex="-1"

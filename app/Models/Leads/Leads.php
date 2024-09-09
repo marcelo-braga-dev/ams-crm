@@ -96,6 +96,12 @@ class Leads extends Model
             ->select(['id', 'lead_id']);
     }
 
+    public function cidadeEstado()
+    {
+        return $this->belongsTo(Enderecos::class, 'endereco')
+            ->select(['id', 'cidade', 'estado']);
+    }
+
     public function agrupadosPorStatus($setor = null, $usuario = null)
     {
         $sequenciaStatus = (new \App\src\Leads\StatusLeads())->sequenciaStatus();
@@ -116,11 +122,13 @@ class Leads extends Model
                 'user_id',
                 'status_data',
                 'classificacao',
+                'endereco',
                 DB::raw('DATEDIFF(CURDATE(), status_data) AS status_data_dias')
             ])
             ->with('consultor')
             ->with('setor')
             ->with('telefones')
+            ->with('cidadeEstado')
             ->when($setor, function ($q) use ($setor) {
                 return $q->where('setor_id', $setor);
             })
@@ -146,6 +154,10 @@ class Leads extends Model
                             'id' => $item->id,
                             'index' => $idex,
                             'nome' => $item->nome,
+                            'localidade' => [
+                                'cidade' => $item->cidadeEstado['cidade'] ?? null,
+                                'estado' => $item->cidadeEstado['estado'] ?? null,
+                            ],
                             'avancar_status_url' => $sequenciaStatusIndice[$status]['url_avancar_status'] ?? null,
                             'consultor' => [
                                 'id' => $item->consultor->id ?? null,

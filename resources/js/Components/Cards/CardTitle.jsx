@@ -11,10 +11,10 @@ const Container = styled.span`
     padding-top: 20px;
 `
 
-export default function CardTitle({title, icon, children, subtitle, className}) {
+export default function CardTitle({title, icon, children, subtitle, className, onClick, cursorPointer}) {
     return (
-        <Container className="row">
-            <div className="col mb-0">
+        <Container className={`row ${cursorPointer ? 'cursor-pointer' : ''}`}>
+            <div className="col mb-0" onClick={onClick}>
                 <Stack direction="row" spacing={1}>
                     {icon && <span style={{color: 'rgb(89, 89, 89)'}}>{icon}</span>}
                     <Stack direction="column" className={className} spacing={0}>
@@ -23,8 +23,8 @@ export default function CardTitle({title, icon, children, subtitle, className}) 
                     </Stack>
                 </Stack>
             </div>
-            <Divider className="mt-2 mb-1"/>
             <div className="col-auto mb-0">{children}</div>
+            <div style={{border: '1px solid #EEF2F6'}} className="mt-3"/>
         </Container>
     )
 }
