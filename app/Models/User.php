@@ -222,6 +222,7 @@ class User extends Authenticatable
             'ultimo_login' => date('d/m/Y H:i:s', strtotime($dados->ultimo_login)),
             'foto' => asset('storage/' . $dados->foto),
             'data_cadastro' => date('d/m/Y H:i:s', strtotime($dados->created_at)),
+            'tipo' => $dados->tipo,
         ];
     }
 

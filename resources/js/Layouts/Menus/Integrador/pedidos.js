@@ -15,7 +15,7 @@ const dashboard = {
                 {
                     id: 'pedidos-lista',
                     chave: true,
-                    title: 'Quadro de Pedidos',
+                    title: 'Quadro de PedidosX',
                     type: 'item',
                     url: route('integrador.pedidos.pedido.index'),
                 },

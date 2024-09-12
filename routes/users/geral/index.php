@@ -9,4 +9,5 @@ Route::middleware(['auth'])
         require __DIR__ . '/leads/leads.php';
         require __DIR__ . '/leads/chats.php';
         require __DIR__ . '/pedidos/pedidos.php';
+        require __DIR__ . '/perfil/perfil.php';
     });
