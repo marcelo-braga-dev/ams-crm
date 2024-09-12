@@ -245,8 +245,8 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                     }
                 </TabPanel>
                 <TabPanel value={value} index={6}>
-                    <CardContainer>
-                        {anotacoesHistorico.length > 0 && (
+                    {anotacoesHistorico.length > 0 && (
+                        <CardContainer>
                             <CardTable title="Anotações" icon={<Tags size="23"/>}>
                                 <table className="table-1">
                                     <thead>
@@ -272,8 +272,8 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                                     </tbody>
                                 </table>
                             </CardTable>
-                        )}
-                    </CardContainer>
+                        </CardContainer>
+                    )}
                     <CardContainer>
                         <CardTitle title="Adicionar Anotação" icon={<Tags size="23"/>}/>
                         <CardBody>

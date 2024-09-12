@@ -29,7 +29,7 @@ export default function ({setores, modelo, historicos}) {
                 <div className="col">
                     <CardContainer>
                         <CardTitle title="Importar Planilhas de Leads">
-                            <a href={modelo} className="btn btn-warning  btn-sm mb-0">Baixar Modelo</a>
+                            <a href={modelo} className="btn btn-primary btn-sm mb-0">Baixar Modelo</a>
                         </CardTitle>
                         <CardBody>
                             <form onSubmit={submit}>
@@ -67,11 +67,12 @@ export default function ({setores, modelo, historicos}) {
                 <div className="col">
                     <CardContainer>
                         <CardTitle title="Histórico de Importação"/>
+                        <div  style={{height: '50vh', overflow: "auto"}}>
                         <div className="table-responsive">
                             <table className="table-1 table-sm">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th className="text-center">ID</th>
                                     <th>Importação</th>
                                     <th className="text-center">Novos</th>
                                     <th className="text-center">Enriquecidos</th>
@@ -82,10 +83,10 @@ export default function ({setores, modelo, historicos}) {
                                 {historicos.map((dado, index) => {
                                     return (
                                         <tr key={index}>
-                                            <td>#{dado.id}</td>
+                                            <td className="text-center">#{dado.id}</td>
                                             <td>
-                                                <Typography variant="body1">{dado.nome}</Typography>
-                                                <Typography variant="body1">{dado.setor}</Typography>
+                                                <Typography variant="body1" fontWeight="bold">{dado.nome}</Typography>
+                                                <Typography variant="body2">{dado.setor}</Typography>
                                                 <Typography variant="body2">{dado.data}</Typography>
                                             </td>
                                             <td className="text-center">
@@ -102,22 +103,10 @@ export default function ({setores, modelo, historicos}) {
                                 </tbody>
                             </table>
                         </div>
+                        </div>
                     </CardContainer>
                 </div>
             </div>
-
-
-            <div className="row justify-content-between">
-                <div className="col-auto">
-
-                </div>
-                <div className="col-auto">
-                    <a className="btn btn-primary btn-sm"
-                       href={route('admin.clientes.leads.importar-historico.index')}>Histórico</a>
-                </div>
-            </div>
-
-
         </Layout>
     )
 }
