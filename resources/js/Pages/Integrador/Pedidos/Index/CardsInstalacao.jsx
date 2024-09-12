@@ -1,22 +1,12 @@
 import MenuMore from "./MenuMore";
 import {usePage} from "@inertiajs/react";
-import React, {useState} from "react";
-import {Alarm, CalendarEvent, Coin, Pen, PersonFill, Shop, Wallet2} from "react-bootstrap-icons";
+import {Alarm, CalendarEvent, FileRuled, Hash, PersonFill} from "react-bootstrap-icons";
 import {Typography} from "@mui/material";
-import convertFloatToMoney from "@/Helpers/converterDataHorario";
-import TruckIcon from "@mui/icons-material/LocalShippingOutlined";
-import Stack from "@mui/material/Stack";
-import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import Link from "@/Components/Link.jsx";
 
 const Card = ({dados, menuMore, btnAvancaStatus, alerts, border}) => {
 
     const goCard = usePage().props.goCard
-    const [pin, setPin] = useState(dados.pin)
-
-    function armazenarPin() {
-        axios.post(route('geral.pins.pedidos'), {pedido_id: dados.id})
-    }
 
     return (
         <div className="pesquisar-card shadow-sm bg-white m-2 py-2 px-3 rounded mb-4" id={'card-id-' + dados.id}
@@ -38,25 +28,31 @@ const Card = ({dados, menuMore, btnAvancaStatus, alerts, border}) => {
                         </td>
                         <td className="col-1 px-0">{menuMore}</td>
                     </tr>
+                    <tr>
+                        <td className="col-1 px-2"><FileRuled size="18"/></td>
+                        <td>
+                            <Typography>ID do Pedido #{dados.pedido_id}</Typography>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
 
+            <div className="row justify-content-end mt-4">
+                <div className="col-auto">
+                    <Link href={route('integrador.pedidos.pedido-instalacao.show', dados.id)} variant="success bt-sm" label="Abrir"/>
+                </div>
+            </div>
+
             {/* Datas */}
-            {/*<div className='row border-top justify-content-between'>*/}
-            {/*    <div className='col-auto'>*/}
-            {/*        <CalendarEvent size="12"></CalendarEvent>*/}
-            {/*        <span className="ps-1" style={{fontSize: 11}}>*/}
-            {/*        {dados.prazos.data_status}*/}
-            {/*        </span>*/}
-            {/*    </div>*/}
-            {/*    <div className='col-auto'>*/}
-            {/*        <Alarm size="12"/>*/}
-            {/*        <span className="ps-1" style={{fontSize: 11}}>*/}
-            {/*        {dados.prazos.data_prazo}*/}
-            {/*        </span>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            <div className='row border-top justify-content-between mt-3'>
+                <div className='col-auto'>
+                    <CalendarEvent size="12"></CalendarEvent>
+                    <span className="ps-1" style={{fontSize: 11}}>
+                    {dados.data_criacao}
+                    </span>
+                </div>
+            </div>
         </div>)
 }
 

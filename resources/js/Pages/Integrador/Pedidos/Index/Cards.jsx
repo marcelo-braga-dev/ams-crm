@@ -1,6 +1,6 @@
 // import CardPedidos from "@/Components/Pedidos/CardPedidos";
 import MenuMore from "./MenuMore";
-import {usePage} from "@inertiajs/react";
+import {router, usePage} from "@inertiajs/react";
 import React, {useState} from "react";
 import {Alarm, CalendarEvent, Coin, Pen, PersonFill, PinAngle, PinAngleFill, Shop, Wallet2} from "react-bootstrap-icons";
 import {Typography} from "@mui/material";
@@ -10,13 +10,17 @@ import Stack from "@mui/material/Stack";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 // import AlertsCard from "./AlertsCard";
 
-const Card = ({dados, menuMore, btnAvancaStatus, alerts, border}) => {
+const Card = ({dados, menuMore, btnAvancaStatus, alerts, border, instalacao, instalacaoDados}) => {
 
     const goCard = usePage().props.goCard
     const [pin, setPin] = useState(dados.pin)
 
     function armazenarPin() {
         axios.post(route('geral.pins.pedidos'), {pedido_id: dados.id})
+    }
+
+    const enviarInstalacao = () => {
+        router.post(route('integrador.pedidos.instalacao.enviar-instalacao'), {pedido_id: dados.id})
     }
 
     return (
@@ -70,6 +74,10 @@ const Card = ({dados, menuMore, btnAvancaStatus, alerts, border}) => {
                 </div>
             </div>
 
+            {instalacao && !(instalacaoDados.some(item => item.pedido_id === dados.id)) && <div className="text-center">
+                <button className="btn btn-warning" onClick={enviarInstalacao}>Enviar Para Instalacão</button>
+            </div>}
+
             {/*Icons Buttons*/}
             <div className="row mb-2 justify-content-between">
                 <div className="col-auto cursor-pointer">
@@ -111,12 +119,13 @@ const Card = ({dados, menuMore, btnAvancaStatus, alerts, border}) => {
         </div>)
 }
 
-const Cards = ({dados, cor}) => {
+const Cards = ({dados, cor, instalacao, instalacaoDados}) => {
     return (
         <Card
             dados={dados}
             menuMore={<MenuMore id={dados.id}/>}
-            // alerts={<AlertsCard dados={dados}/>}
+            instalacao={instalacao}
+            instalacaoDados={instalacaoDados}
             border={cor}
         />
     )

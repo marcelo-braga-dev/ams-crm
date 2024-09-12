@@ -24,4 +24,12 @@ class PedidosInstalacaoController extends Controller
         modalSucesso('Anotação realizada com sucesso!');
         return redirect()->back();
     }
+
+    public function enviarParaInstalacao(Request $request)
+    {
+        (new PedidosInstalacoes())->cadastrar($request->pedido_id);
+
+        modalSucesso('Pedido enviado para instalação!');
+        return redirect()->back();
+    }
 }

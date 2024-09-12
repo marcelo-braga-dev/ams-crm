@@ -188,11 +188,14 @@ export default function Dashboard({pedidos, instalacao, coresAbas, goCard}) {
                             <td id="td-9" style={{minWidth: 300}}>
                                 {pedidos.entregue.map((dados, index) => {
                                     if (index > limiteQtdEntregue) return;
-                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.entregue}/>
+                                    return <Cards key={dados.id} dados={dados} cor={coresAbas.entregue}
+                                                  instalacao instalacaoDados={instalacao}/>
                                 })}
 
                                 {(pedidos?.entregue?.length > limiteQtdEntregue) && <Stack alignContent="center">
-                                    <button className="btn btn-primary mx-4" style={{backgroundColor: coresAbas.entregue}} onClick={handleLimiteQtdEntregue}>Ver mais
+                                    <button className="btn btn-primary mx-4"
+                                            style={{backgroundColor: coresAbas.entregue}}
+                                            onClick={handleLimiteQtdEntregue}>Ver mais
                                     </button>
                                 </Stack>}
                             </td>

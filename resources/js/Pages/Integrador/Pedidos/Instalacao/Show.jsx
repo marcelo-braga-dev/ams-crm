@@ -55,7 +55,7 @@ const Page = ({anotacoes}) => {
     })
 
     return (
-        <Layout titlePage="Instalação" menu="pedidos">
+        <Layout titlePage="Instalação" menu="pedidos" voltar={true}>
             <CardContainer>
                 <CardTitle title="Anotações da Instalação" icon={<ListAlt size={16} color="black"/>}/>
                 {anotacoes?.pedido && (
@@ -75,7 +75,6 @@ const Page = ({anotacoes}) => {
                                             </Stack>
                                         </div>
                                     </div>
-
                                 </CardBody>
                             </CardContainer>
                         )}
