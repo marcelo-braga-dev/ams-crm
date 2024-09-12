@@ -76,22 +76,17 @@ export default function Show({
 
             <div className="row">
                 <div className="col">
-                    <LeadsDados dados={dados}/>
-                </div>
-                <div className="col-auto">
-                    <div className="row">
-                        <div className="col-12">
-                            {isEditar &&
-                                <IconButton color="success"
-                                            href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
-                                    <EditIcon/>
-                                </IconButton>}
-                            {isExcluir &&
-                                <IconButton color="success" data-bs-toggle="modal" data-bs-target="#modalExcluir">
-                                    <DeleteIcon color="error"/>
-                                </IconButton>}
-                        </div>
-                    </div>
+                    <LeadsDados dados={dados} acoes={<>
+                        {isEditar &&
+                            <IconButton color="success"
+                                        href={route('admin.clientes.leads.leads-main.edit', dados.id)}>
+                                <EditIcon/>
+                            </IconButton>}
+                        {isExcluir &&
+                            <IconButton color="success" data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                                <DeleteIcon color="error"/>
+                            </IconButton>}
+                    </>}/>
                 </div>
             </div>
 
@@ -147,31 +142,25 @@ export default function Show({
                 <div className="col-md-5">
                     <CardContainer>
                         <CardTitle title="Histórico de Atendimento" icon={<ListUl size={24}/>}/>
-                        <div style={{maxHeight: 500, overflow: 'auto'}}>
-                            <CardBody>
-                                <HistoricoAtendimento historicos={historicos}/>
-                            </CardBody>
-                        </div>
+                        <CardBody>
+                            <HistoricoAtendimento historicos={historicos}/>
+                        </CardBody>
                     </CardContainer>
                 </div>
                 <div className="col-md-4">
                     <CardContainer>
                         <CardTitle title="Histórico de Pedidos" icon={<BoxSeam size="22"/>}/>
-                        <div style={{maxHeight: 500, overflow: 'auto'}}>
-                            <CardBody>
-                                <HistoricoPedidos historicos={historicoPedidos}/>
-                            </CardBody>
-                        </div>
+                        <CardBody>
+                            <HistoricoPedidos historicos={historicoPedidos}/>
+                        </CardBody>
                     </CardContainer>
                 </div>
                 <div className="col-md-3">
                     <CardContainer>
                         <CardTitle title="Histórico dos Status" icon={<List size="22"/>}/>
-                        <div style={{maxHeight: 500, overflow: 'auto'}}>
-                            <CardBody>
-                                <HistoricoStatus historicos={historicoStatus}/>
-                            </CardBody>
-                        </div>
+                        <CardBody>
+                            <HistoricoStatus historicos={historicoStatus}/>
+                        </CardBody>
                     </CardContainer>
                 </div>
             </div>

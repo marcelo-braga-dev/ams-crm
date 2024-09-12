@@ -359,7 +359,7 @@ class Pedidos extends Model
         $this->updateStatus($id, $dados->status, $dados->prazo, $motivo);
     }
 
-    public function getPedidos($idUsuario, $setor, $fornecedor, $lead)
+    public function getPedidos($idUsuario, $setor, $fornecedor, $leadCnpj)
     {
         $usuarioAtual = id_usuario_atual();
 
@@ -373,15 +373,26 @@ class Pedidos extends Model
             ->orderByDesc('pin')
             ->orderBy('status_data');
 
-        if (!$lead) $query->whereIn('pedidos.user_id', supervisionados($usuarioAtual));
+        if (!$leadCnpj) $query->whereIn('pedidos.user_id', supervisionados($usuarioAtual));
 
-        $query->where(function ($query) {
-            $query->whereRaw('(pedidos.status = "entregue" OR pedidos.status = "cancelado") AND DATEDIFF(CURDATE(), pedidos.status_data) <= 1')
-                ->orWhereRaw('pedidos.status != "entregue" AND pedidos.status != "cancelado"');
+        $query->where(function ($query) use ($leadCnpj) {
+            if (!$leadCnpj) {
+                $query->where(function ($query) {
+                    $query->where('pedidos.status', 'entregue')
+                        ->whereRaw('DATEDIFF(CURDATE(), pedidos.status_data) <= 1')
+                        ->orWhere('pedidos.status', '!=', 'entregue');
+                });
+            }
+
+            $query->where(function ($query) {
+                $query->where('pedidos.status', 'cancelado')
+                    ->whereRaw('DATEDIFF(CURDATE(), pedidos.status_data) <= 1')
+                    ->orWhere('pedidos.status', '!=', 'cancelado');
+            });
         });
 
         if ($idUsuario) $query->where('pedidos.user_id', $idUsuario);
-        if ($lead) $query->where('leads.cnpj', $lead);
+        if ($leadCnpj) $query->where('leads.cnpj', $leadCnpj);
         if ($setor) $query->where('pedidos.setor_id', $setor);
         if ($fornecedor) $query->where('pedidos.fornecedor_id', $fornecedor);
 

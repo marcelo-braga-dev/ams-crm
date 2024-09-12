@@ -84,9 +84,9 @@ export default function LeadsDados({dados, acoes}) {
 
         {/*Telefones*/}
         <CardContainer>
-            <CardTitle icon={<Chat size={20}/>} title="Contatos" children={dados?.consultor?.nome && `Vendedor(a): ${dados?.consultor?.nome}`}/>
+            <CardTitle icon={<Chat size={20}/>} title="Contatos"/>
             <CardBody>
-                <div className="row row-cols-6">
+                <div className="row row-cols-auto">
                     {telefones}
 
                     {dados?.contato?.email && <div className="col p-2 m-2 mt-1 px-3 border border-radius-lg">
@@ -98,5 +98,14 @@ export default function LeadsDados({dados, acoes}) {
                 </div>
             </CardBody>
         </CardContainer>
+
+        {dados?.consultor?.nome && <CardContainer>
+            <CardBody>
+                <Stack direction="row" spacing={2}>
+                    <Typography fontWeight="bold">Vendedor(a):</Typography>
+                    <Typography>{dados?.consultor?.nome}</Typography>
+                </Stack>
+            </CardBody>
+        </CardContainer>}
     </>)
 }
