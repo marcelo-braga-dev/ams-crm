@@ -22,10 +22,10 @@ class PedidosFinanciamentoDados extends Model
         $this->newQuery()
             ->create([
                 'pedido_id' => $idPeddo,
-                'banco' => $dados['banco'],
-                'gerente_nome' => $dados['gerente'],
-                'gerente_telefone' => converterInt($dados['telefone']),
-                'gerente_email' => $dados['email'],
+                'banco' => $dados['banco'] ?? null,
+                'gerente_nome' => $dados['gerente'] ?? null,
+                'gerente_telefone' => converterInt($dados['telefone']) ?? null,
+                'gerente_email' => $dados['email'] ?? null,
             ]);
     }
 
