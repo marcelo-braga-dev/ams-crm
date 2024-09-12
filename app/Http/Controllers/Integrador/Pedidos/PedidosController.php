@@ -12,7 +12,7 @@ class PedidosController extends Controller
 {
     public function index(Request $request)
     {
-        $pedidos = (new CardDadosService())->getCards(null, null, null, id_usuario_atual());
+        $pedidos = (new CardDadosService())->getCards(null, null, null, auth()->user()->cnpj);
         $coresAbas = (new ConfigCores())->getPedidos();
         $goCard = $request->id_card;
 

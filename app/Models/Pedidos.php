@@ -381,7 +381,7 @@ class Pedidos extends Model
         });
 
         if ($idUsuario) $query->where('pedidos.user_id', $idUsuario);
-        if ($lead) $query->where('leads.cnpj', '53882826000279');
+        if ($lead) $query->where('leads.cnpj', $lead);
         if ($setor) $query->where('pedidos.setor_id', $setor);
         if ($fornecedor) $query->where('pedidos.fornecedor_id', $fornecedor);
 

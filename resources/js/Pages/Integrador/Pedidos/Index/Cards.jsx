@@ -1,5 +1,5 @@
 // import CardPedidos from "@/Components/Pedidos/CardPedidos";
-import MenuMore from "@/Pages/Consultor/Pedidos/Cards/MenuMore";
+import MenuMore from "./MenuMore";
 import {usePage} from "@inertiajs/react";
 import React, {useState} from "react";
 import {Alarm, CalendarEvent, Coin, Pen, PersonFill, PinAngle, PinAngleFill, Shop, Wallet2} from "react-bootstrap-icons";
@@ -115,7 +115,7 @@ const Cards = ({dados, cor}) => {
     return (
         <Card
             dados={dados}
-            // menuMore={<MenuMore id={dados.id}/>}
+            menuMore={<MenuMore id={dados.id}/>}
             // alerts={<AlertsCard dados={dados}/>}
             border={cor}
         />

@@ -39,7 +39,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
 
             {/*Tabela*/}
             <ScrollContainer hideScrollbars={false}>
-                <div className="overflow-scroll bg-white" style={{height: '84vh'}}>
+                <div style={{height: 'calc(100vh - 12rem)'}}>
                     <table>
                         <thead>
                         <tr>
