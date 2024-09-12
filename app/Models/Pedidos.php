@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Leads\Leads;
+use App\Models\Pedidos\Instalacoes\PedidosInstalacoesAnotacoes;
 use App\Models\Pedidos\PedidosFinanciamentoDados;
 use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\SituacaoPedido;
@@ -44,6 +45,19 @@ class Pedidos extends Model
         'imposto',
     ];
 
+    public function cliente()
+    {
+        return $this->belongsTo(PedidosClientes::class, 'id', 'pedido_id');
+    }
+
+    public function pedidosInstalacoesAnotacoes()
+    {
+        $this->belongsTo(PedidosInstalacoesAnotacoes::class, 'pedido_id');
+    }
+
+    /**
+     * Deplecated
+    **/
     public function historicoPedidosLead($id)
     {
         $status = (new StatusPedidos());
