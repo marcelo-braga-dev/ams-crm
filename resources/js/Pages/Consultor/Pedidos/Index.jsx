@@ -53,7 +53,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
 
             {/*Tabela*/}
             <ScrollContainer hideScrollbars={false}>
-                <div style={{height: '78vh'}}>
+                <div style={{height: 'calc(100vh - 12rem)'}}>
                     <table>
                         <thead>
                         <tr>

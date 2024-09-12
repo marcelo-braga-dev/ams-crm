@@ -9,6 +9,11 @@ import {router} from "@inertiajs/react";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import CardTravelOutlinedIcon from "@mui/icons-material/CardTravelOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
+import CardTable from "@/Components/Cards/CardTable.jsx";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import Link from "@/Components/Link.jsx";
 
 export default function ({coresPedidos}) {
 
@@ -21,7 +26,6 @@ export default function ({coresPedidos}) {
     function buscarRegistros(tipos) {
         axios.post(route('consultor.calendario.registros', {tipos: tipoSelecionado}))
             .then(res => {
-                setRegistrosPedidos(res.data.pedidos)
                 setRegistrosReunioes(res.data.reunioes)
             })
     }
@@ -107,215 +111,178 @@ export default function ({coresPedidos}) {
 
     return (
         <Layout titlePage="Agenda" menu="ferramentas" submenu="ferramentas-agenda">
-
-            <div className="row mb-3">
-                <div className="col-md-3">
-                    <div className="row">
+            <CardContainer>
+                <CardBody>
+                    <div className="row justify-content-between">
                         <div className="col-auto">
-                            <button className="btn btn-link p-0 m-2" onClick={() => mudarMes(-1)}>
-                                <ArrowBackIosIcon/>
-                            </button>
-                            <button className="btn btn-link p-0 m-0" onClick={() => mudarMes(1)}>
-                                <ArrowForwardIosIcon/>
-                            </button>
+                            <Link label="Novo Registro" href={route('consultor.calendario.agenda.create')}/>
                         </div>
-                        <div className="col-auto mt-2">
-                            {months[activeDate.getMonth()]}/{activeDate.getFullYear()}
+                        <div className="col-auto">
+                            <ToggleButtonGroup value={tipoSelecionado} onChange={handleFormat}>
+                                <ToggleButton value="pedidos">
+                                    Pedidos
+                                </ToggleButton>
+                                <ToggleButton value="reunioes">
+                                    Reuniões
+                                </ToggleButton>
+                                <ToggleButton value="visitas">
+                                    Visitas
+                                </ToggleButton>
+                                <ToggleButton value="anotacoes">
+                                    Anotacões
+                                </ToggleButton>
+                            </ToggleButtonGroup>
                         </div>
                     </div>
-                </div>
-                <div className="col-auto">
-                    <a href={route('consultor.calendario.agenda.create')} className="btn btn-primary btn-sm">
-                        Novo registro
-                    </a>
-                </div>
-            </div>
+                </CardBody>
+            </CardContainer>
 
-            <div className="mb-4">
-                <ToggleButtonGroup value={tipoSelecionado} onChange={handleFormat}>
-                    <ToggleButton value="pedidos">
-                        Pedidos
-                    </ToggleButton>
-                    <ToggleButton value="reunioes">
-                        Reuniões
-                    </ToggleButton>
-                    <ToggleButton value="visitas">
-                        Visitas
-                    </ToggleButton>
-                    <ToggleButton value="anotacoes">
-                        Anotacões
-                    </ToggleButton>
-                </ToggleButtonGroup>
-            </div>
+            <CardContainer>
+                <CardTitle title={<div className="row">
+                    <div className="col-auto">
+                        <button className="btn btn-link p-0 m-2" onClick={() => mudarMes(-1)}>
+                            <ArrowBackIosIcon/>
+                        </button>
+                        <button className="btn btn-link p-0 m-0" onClick={() => mudarMes(1)}>
+                            <ArrowForwardIosIcon/>
+                        </button>
+                    </div>
+                    <div className="col-auto mt-2">
+                        {months[activeDate.getMonth()]}/{activeDate.getFullYear()}
+                    </div>
+                </div>}/>
+                <CardTable>
+                    <div className="table-responsive">
+                        <table className="table-1">
+                            <thead>
+                            <tr className="text-center">
+                                <th className="border text-sm text-danger" style={{width: '14.28%'}}>DOM</th>
+                                <th className="border text-sm">SEG</th>
+                                <th className="border text-sm" style={{width: '14.28%'}}>TER</th>
+                                <th className="border text-sm" style={{width: '14.28%'}}>QUA</th>
+                                <th className="border text-sm" style={{width: '14.28%'}}>QUI</th>
+                                <th className="border text-sm" style={{width: '14.28%'}}>SEX</th>
+                                <th className="border text-sm" style={{width: '14.28%'}}>SAB</th>
+                            </tr>
+                            </thead>
+                            <tbody className="align-text-top">
+                            {matrix.map((row, indexRow) => {
+                                return (
+                                    <tr key={indexRow}>
+                                        {row.map((dia, indexCol) => {
+                                            let pedidos = []
 
-            <div className="mb-2">
-                <small className="d-block text-muted">Status Pedidos</small>
-                <small style={{backgroundColor: coresPedidos.reprovado}}
-                       className="badge rounded-pill mb-2 me-2 text-white">
-                    Reprovado
-                </small>
-                <small style={{backgroundColor: coresPedidos.conferencia}}
-                       className="badge rounded-pill mb-2 me-2 text-white">
-                    Conferência
-                </small>
-                <small style={{backgroundColor: coresPedidos.lancado}}
-                       className="badge rounded-pill mb-2 me-2 text-white">
-                    Lançado
-                </small>
-                <small style={{backgroundColor: coresPedidos.boleto}}
-                       className="badge rounded-pill mb-2 me-2 text-white">
-                    Nota/Boleto
-                </small>
-                <small style={{backgroundColor: coresPedidos.pagamento}}
-                       className="badge rounded-pill mb-2 me-2 text-white">
-                    Aguard. Pagamento
-                </small>
-                <small style={{backgroundColor: coresPedidos.faturamento}}
-                       className="badge rounded-pill mb-2 me-2 text-white">
-                    Aguard. Faturamento
-                </small>
-                <small style={{backgroundColor: coresPedidos.faturado}}
-                       className="badge rounded-pill mb-2 me-2 text-white">
-                    Faturado
-                </small>
-                <small style={{backgroundColor: coresPedidos.acompanhamento}}
-                       className="badge rounded-pill mb-2 me-2 text-white">
-                    Acompanhamento
-                </small>
-                <small style={{backgroundColor: coresPedidos.entregue}}
-                       className="badge rounded-pill mb-2 me-2 text-white">
-                    Entregue
-                </small>
-            </div>
-            <div className="table-responsive">
-                <table className="table">
-                    <thead>
-                    <tr className="text-center ">
-                        <th className="border text-sm text-danger" style={{width: '14.28%'}}>DOM</th>
-                        <th className="border text-sm">SEG</th>
-                        <th className="border text-sm" style={{width: '14.28%'}}>TER</th>
-                        <th className="border text-sm" style={{width: '14.28%'}}>QUA</th>
-                        <th className="border text-sm" style={{width: '14.28%'}}>QUI</th>
-                        <th className="border text-sm" style={{width: '14.28%'}}>SEX</th>
-                        <th className="border text-sm" style={{width: '14.28%'}}>SAB</th>
-                    </tr>
-                    </thead>
-                    <tbody className="align-text-top">
-                    {matrix.map((row, indexRow) => {
-                        return (
-                            <tr key={indexRow}>
-                                {row.map((dia, indexCol) => {
-                                    let pedidos = []
-
-                                    function pedidosPrazo() {
-                                        try {
-                                            pedidos.push(registrosPedidos[activeDate.getFullYear()][activeDate.getMonth() + 1][dia])
-                                        } catch (e) {
-                                        }
-                                        return pedidos[0] &&
-                                            <span className="d-block border shadow p-1 border-success rounded">
+                                            function pedidosPrazo() {
+                                                try {
+                                                    pedidos.push(registrosPedidos[activeDate.getFullYear()][activeDate.getMonth() + 1][dia])
+                                                } catch (e) {
+                                                }
+                                                return pedidos[0] &&
+                                                    <span className="d-block border shadow p-1 border-success rounded">
                                             Fim Prazo Pedidos:<br/>
-                                                {pedidos[0]?.map((dado, index) => {
-                                                    return (
-                                                        <span key={index} className="badge m-1"
-                                                              style={corPedidos(dado.status)}>
+                                                        {pedidos[0]?.map((dado, index) => {
+                                                            return (
+                                                                <span key={index} className="badge m-1"
+                                                                      style={corPedidos(dado.status)}>
                                                          <a className="text-white"
                                                             href={route('consultor.pedidos.show', dado.id)}>#{dado.id}</a>
                                                      </span>
-                                                    )
-                                                })}
+                                                            )
+                                                        })}
                                         </span>
-                                    }
-
-                                    let registroReunioes = []
-                                    let registroVisitas = []
-                                    let registroAnotacoes = []
-
-                                    function infos(item, Icon) {
-                                        return (<>
-                                            <div className="row">
-                                                <div className="col">
-                                                    <small><Icon sx={{fontSize: 15}}/> {item.categoria}</small>
-                                                </div>
-                                                <div className="col-auto text-end">
-
-
-                                                </div>
-                                            </div>
-                                            {item.status === 'novo' ?
-                                                <div className="d-block text-end mb-2"><span className="badge bg-success">{item.status_nome}</span></div> :
-                                                <small className="d-block text-end mb-2"><b>{item.status_nome}</b></small>
                                             }
-                                            <span className="d-block text-center"><b>{item.titulo}</b></span>
-                                            <small className="d-block text-muted mb-2 text-center">{item.data}</small>
-                                            <span className="d-block text-start mb-2">{item.msg}</span>
-                                            <small className="d-block text-end font-italic"><b>{item.autor}</b></small>
-                                        </>)
-                                    }
 
-                                    function avisosCalendarioTag() {
-                                        try {
-                                            registroReunioes.push(registrosReunioes[activeDate.getFullYear()][activeDate.getMonth() + 1][dia]['reuniao'])
-                                            registroVisitas.push(registrosReunioes[activeDate.getFullYear()][activeDate.getMonth() + 1][dia]['visita'])
-                                            registroAnotacoes.push(registrosReunioes[activeDate.getFullYear()][activeDate.getMonth() + 1][dia]['anotacoes'])
-                                        } catch (e) {
-                                        }
+                                            let registroReunioes = []
+                                            let registroVisitas = []
+                                            let registroAnotacoes = []
 
-                                        const reunioes = registroReunioes[0]?.map((item) => {
+                                            function infos(item, Icon) {
+                                                return (<>
+                                                    <div className="row">
+                                                        <div className="col">
+                                                            <small><Icon sx={{fontSize: 15}}/> {item.categoria}</small>
+                                                        </div>
+                                                        <div className="col-auto text-end">
+
+
+                                                        </div>
+                                                    </div>
+                                                    {item.status === 'novo' ?
+                                                        <div className="d-block text-end mb-2"><span className="badge bg-success">{item.status_nome}</span></div> :
+                                                        <small className="d-block text-end mb-2"><b>{item.status_nome}</b></small>
+                                                    }
+                                                    <span className="d-block text-center"><b>{item.titulo}</b></span>
+                                                    <small className="d-block text-muted mb-2 text-center">{item.data}</small>
+                                                    <span className="d-block text-start mb-2">{item.msg}</span>
+                                                    <small className="d-block text-end font-italic"><b>{item.autor}</b></small>
+                                                </>)
+                                            }
+
+                                            function avisosCalendarioTag() {
+                                                try {
+                                                    registroReunioes.push(registrosReunioes[activeDate.getFullYear()][activeDate.getMonth() + 1][dia]['reuniao'])
+                                                    registroVisitas.push(registrosReunioes[activeDate.getFullYear()][activeDate.getMonth() + 1][dia]['visita'])
+                                                    registroAnotacoes.push(registrosReunioes[activeDate.getFullYear()][activeDate.getMonth() + 1][dia]['anotacoes'])
+                                                } catch (e) {
+                                                }
+
+                                                const reunioes = registroReunioes[0]?.map((item) => {
+                                                    return (
+                                                        <div key={item.id}
+                                                             onClick={() => router.get(route('consultor.calendario.agenda.show', item.id))}
+                                                             className="mb-3 p-2 border border-warning rounded text-wrap shadow cursor-pointer">
+                                                            {infos(item, GroupsOutlinedIcon)}
+                                                        </div>
+                                                    )
+                                                })
+
+                                                const visitas = registroVisitas[0]?.map((item, index) => {
+                                                    return (
+                                                        <div key={item.id}
+                                                             onClick={() => router.get(route('consultor.calendario.agenda.show', item.id))}
+                                                             className="mb-3 p-2 border border-info rounded text-wrap shadow cursor-pointer">
+                                                            {infos(item, CardTravelOutlinedIcon)}
+                                                        </div>
+                                                    )
+                                                })
+
+                                                const anotacoes = registroAnotacoes[0]?.map((item, index) => {
+                                                    return (
+                                                        <div key={item.id}
+                                                             onClick={() => router.get(route('consultor.calendario.agenda.show', item.id))}
+                                                             className="mb-3 p-2 border border-dark rounded text-wrap shadow cursor-pointer">
+                                                            {infos(item, ArticleOutlinedIcon)}
+                                                        </div>
+                                                    )
+                                                })
+
+                                                return ([reunioes, visitas, anotacoes])
+                                            }
+
                                             return (
-                                                <div key={item.id}
-                                                     onClick={() => router.get(route('consultor.calendario.agenda.show', item.id))}
-                                                     className="mb-3 p-2 border border-warning rounded text-wrap shadow cursor-pointer">
-                                                    {infos(item, GroupsOutlinedIcon)}
-                                                </div>
-                                            )
-                                        })
-
-                                        const visitas = registroVisitas[0]?.map((item, index) => {
-                                            return (
-                                                <div key={item.id}
-                                                     onClick={() => router.get(route('consultor.calendario.agenda.show', item.id))}
-                                                     className="mb-3 p-2 border border-info rounded text-wrap shadow cursor-pointer">
-                                                    {infos(item, CardTravelOutlinedIcon)}
-                                                </div>
-                                            )
-                                        })
-
-                                        const anotacoes = registroAnotacoes[0]?.map((item, index) => {
-                                            return (
-                                                <div key={item.id}
-                                                     onClick={() => router.get(route('consultor.calendario.agenda.show', item.id))}
-                                                     className="mb-3 p-2 border border-dark rounded text-wrap shadow cursor-pointer">
-                                                    {infos(item, ArticleOutlinedIcon)}
-                                                </div>
-                                            )
-                                        })
-
-                                        return ([reunioes, visitas, anotacoes])
-                                    }
-
-                                    return (
-                                        <td key={indexCol} className="border text-wrap">
-                                            <div className="row mb-4 text-wrap">
+                                                <td key={indexCol} className="border text-wrap">
+                                                    <div className="row mb-4 text-wrap">
                                                 <span
                                                     className={(indexCol === 0 ? 'text-danger ' : '') + "d-block text-end text-wrap fs-6 mb-2"}>
                                                     {dia === dataAtual && activeDate.getMonth() === mesAtual ?
                                                         <span className="badge rounded-pill bg-dark">{dia}</span> : dia}
                                                 </span>
-                                                <span className="m-1">
+                                                        <span className="m-1">
                                                     {avisosCalendarioTag()}
-                                                    {pedidosPrazo()}
+                                                            {pedidosPrazo()}
                                                 </span>
-                                            </div>
-                                        </td>
-                                    )
-                                })}
-                            </tr>
-                        )
-                    })}
-                    </tbody>
-                </table>
-            </div>
+                                                    </div>
+                                                </td>
+                                            )
+                                        })}
+                                    </tr>
+                                )
+                            })}
+                            </tbody>
+                        </table>
+                    </div>
+                </CardTable>
+            </CardContainer>
         </Layout>
     )
 }

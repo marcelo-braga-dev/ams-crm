@@ -9,6 +9,8 @@ import ImagePdf from "@/Components/Elementos/ImagePdf";
 import Text from "@/Components/Elementos/Text";
 import Layout from "@/Layouts/Layout";
 import {Stack} from "@mui/material";
+import CardContainer from "@/Components/Cards/CardContainer.jsx";
+import CardBody from "@/Components/Cards/CardBody.jsx";
 
 function CustomTabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -52,31 +54,36 @@ export default function ({produto, infos}) {
 
     return (
         <Layout titlePage="Informaçoẽs do Produto" menu="produtos" voltar={route('consultor.produtos.index')}>
-            <div className="row">
-                <div className="col-auto">
-                    <ImagePdf url={produto.foto}/>
-                </div>
-                <div className="col">
-                    <div className="row justify-content-between">
+            <CardContainer>
+                <CardBody>
+                    <div className="row">
+                        <div className="col-auto">
+                            <ImagePdf url={produto.foto}/>
+                        </div>
                         <div className="col">
-                            <Stack spacing={1}>
-                                <Typography variant="h4">{produto.nome}</Typography>
-                                <small>ID: #{produto.id}</small>
-                                <Stack direction="row" spacing={3}>
-                                    <Typography><b>Preço de Venda:</b> R$ {produto.preco_venda}</Typography>
-                                    <Typography><b>Estoque:</b> {produto.estoque} und.</Typography>
-                                </Stack>
-                                {produto.preco_fornecedor > 0 && <Typography><b>Preço do Forn.:</b> R$ {produto.preco_fornecedor}</Typography>}
-                                <Typography><b>Unidade:</b> {produto.unidade_valor} {produto.unidade_nome}</Typography>
-                                <Typography><b>Categoria:</b> {produto.categoria_nome}</Typography>
-                                <Typography><b>Fornecedor:</b> {produto.fornecedor_nome}</Typography>
-                            </Stack>
+                            <div className="row justify-content-between">
+                                <div className="col">
+                                    <Stack spacing={1}>
+                                        <Typography variant="h4">{produto.nome}</Typography>
+                                        <small>ID: #{produto.id}</small>
+                                        <Stack direction="row" spacing={3}>
+                                            <Typography><b>Preço de Venda:</b> R$ {produto.preco_venda}</Typography>
+                                            <Typography><b>Estoque:</b> {produto.estoque} und.</Typography>
+                                        </Stack>
+                                        {produto.preco_fornecedor > 0 && <Typography><b>Preço do Forn.:</b> R$ {produto.preco_fornecedor}</Typography>}
+                                        <Typography><b>Unidade:</b> {produto.unidade_valor} {produto.unidade_nome}</Typography>
+                                        <Typography><b>Categoria:</b> {produto.categoria_nome}</Typography>
+                                        <Typography><b>Fornecedor:</b> {produto.fornecedor_nome}</Typography>
+                                    </Stack>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className="row mt-4">
-                <div className="col">
+                </CardBody>
+            </CardContainer>
+
+            <CardContainer>
+                <CardBody>
                     <Box sx={{width: '100%'}}>
                         <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -111,8 +118,8 @@ export default function ({produto, infos}) {
                             })}
                         </CustomTabPanel>
                     </Box>
-                </div>
-            </div>
+                </CardBody>
+            </CardContainer>
         </Layout>
     )
 }

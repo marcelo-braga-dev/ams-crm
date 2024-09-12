@@ -1,6 +1,6 @@
 import {Stack, Typography} from "@mui/material";
 import Switch from "@/Components/Inputs/Switch";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
@@ -15,6 +15,18 @@ export default function LeadsDados({dados, acoes}) {
     const toggleInfo = () => {
         setToggleMenu(e => !e)
     }
+
+    const telefones = useMemo(() => {
+        return dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({numero_padronizado}) => (
+            <div key={numero_padronizado} className="col p-2 m-2 mt-1 px-3 border border-radius-lg">
+                <Stack direction="row" alignItems="center" spacing={2}>
+                    <Whatsapp size={18} color="green"/>
+                    <Telephone size={18} color="blue"/>
+                    <Typography display="inline" marginBottom={1}>{numero_padronizado}</Typography>
+                </Stack>
+            </div>
+        ))
+    }, [dados]);
 
     return (<>
         <CardContainer>
@@ -74,24 +86,15 @@ export default function LeadsDados({dados, acoes}) {
         <CardContainer>
             <CardTitle icon={<Chat size={20}/>} title="Contatos" children={dados?.consultor?.nome && `Vendedor(a): ${dados?.consultor?.nome}`}/>
             <CardBody>
-                <div className="row">
-                    <Stack direction="row" spacing={2}>
-                        {dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({numero_padronizado}) => (
-                            <div key={numero_padronizado} className="p-2 px-3 border border-radius-lg">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                    <Whatsapp size={18} color="green"/>
-                                    <Telephone size={18} color="blue"/>
-                                    <Typography display="inline" marginBottom={1}>{numero_padronizado}</Typography>
-                                </Stack>
-                            </div>
-                        ))}
-                        {dados?.contato?.email && <div className="p-2 px-3 border border-radius-lg">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                                <Envelope size={20} color="orange"/>
-                                <Typography display="inline" marginBottom={1}>{dados.contato.email}</Typography>
-                            </Stack>
-                        </div>}
-                    </Stack>
+                <div className="row row-cols-6">
+                    {telefones}
+
+                    {dados?.contato?.email && <div className="col p-2 m-2 mt-1 px-3 border border-radius-lg">
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                            <Envelope size={20} color="orange"/>
+                            <Typography display="inline" marginBottom={1}>{dados.contato.email}</Typography>
+                        </Stack>
+                    </div>}
                 </div>
             </CardBody>
         </CardContainer>

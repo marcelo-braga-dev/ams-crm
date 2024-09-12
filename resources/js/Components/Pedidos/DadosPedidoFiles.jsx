@@ -5,13 +5,12 @@ import {CardChecklist, Paperclip} from "react-bootstrap-icons";
 import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
 
 export default function DadosPedidoFiles({dados}) {
     return (<>
             <CardContainer>
-                <CardBody>
-                    <CardTitleDefault title="Anexos" icon={<Paperclip size="23"/>}/>
-                </CardBody>
+                <CardTitle title="Anexos" icon={<Paperclip size="23"/>}/>
             </CardContainer>
 
             <div className="row row-cols-4">

@@ -91,7 +91,7 @@ export default function Dashboard({isSdr}) {
             {!leads ? <LinearProgress className="my-4"/> : (
                 <div className="row justify-content-center">
                     <div className="col-auto">
-                        <div className="overflow-scroll bg-white" style={{height: '78vh'}}>
+                        <div className="overflow-scroll" style={{height: 'calc(100vh - 11rem)'}}>
                             <table>
                                 <TableHeader isSdr={isSdr} leads={leads}/>
                                 <TableBody isSdr={isSdr} leads={leads}/>
