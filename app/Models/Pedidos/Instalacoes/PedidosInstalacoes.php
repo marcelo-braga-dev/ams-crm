@@ -21,7 +21,7 @@ class PedidosInstalacoes extends Model
         'pedido_id'
     ];
 
-    public function getDataCriacaoAttribute()
+    protected function getDataCriacaoAttribute()
     {
         return Carbon::parse($this->created_at)->format('d/m/Y H:i:s');
     }
