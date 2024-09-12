@@ -195,7 +195,7 @@ const Page = ({vendas, setores, setor, planilhasGeradas, mes, ano, empresas, dis
                                                                                            onClick={() => removerNotaDistribuidora(item.id)}/>}
                                                     </Stack>
                                                 </td>
-                                                <td>
+                                                <td className="col-3">
                                                     <Stack spacing={1}>
                                                         <Typography>#{item.id}</Typography>
                                                         <Typography><b>{item.status}</b></Typography>
