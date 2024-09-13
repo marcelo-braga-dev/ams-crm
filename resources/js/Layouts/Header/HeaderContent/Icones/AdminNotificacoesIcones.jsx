@@ -10,6 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import {styled} from "@mui/material/styles";
 import setUltimoLoginUsuario from "@/Helpers/setUltimoLoginUsuario";
 import {Bell, CalendarEvent, Chat, Envelope, ListTask, People, Tags} from "react-bootstrap-icons";
+import {usePage} from "@inertiajs/react";
 
 const StyledBadge = styled(Badge)(({theme}) => ({
     '& .MuiBadge-badge': {
@@ -43,6 +44,9 @@ const StyledBadge = styled(Badge)(({theme}) => ({
 export default function AdminNotificacoesIcones({corTexto}) {
 
     const [notificacoes, setNotificacoes] = useState([]);
+
+    const {_permissoesUsuario} = usePage().props;
+    console.log(_permissoesUsuario)
 
     setUltimoLoginUsuario()
 
@@ -80,35 +84,36 @@ export default function AdminNotificacoesIcones({corTexto}) {
                 urlPageChat={route('admin.chat-interno.index')}
             />
 
-            <IconButton disableRipple sx={{color: corTexto}} href={route('admin.notificacoes.sac.index')}>
+            {_permissoesUsuario?.[22] && <IconButton disableRipple sx={{color: corTexto}} href={route('admin.notificacoes.sac.index')}>
                 <Badge badgeContent={notificacoes.sac} color="error">
                     <Tags size="20" color="black"/>
                 </Badge>
-            </IconButton>
+            </IconButton>}
 
-            <IconButton disableRipple sx={{color: corTexto}} href={route('admin.notificacoes.sac.index')}>
+            {_permissoesUsuario?.[59] && <IconButton disableRipple sx={{color: corTexto}} href={route('admin.notificacoes.sac.index')}>
                 <Badge badgeContent={notificacoes.tarefas} color="error">
                     <ListTask size="24" color="black"/>
                 </Badge>
-            </IconButton>
+            </IconButton>}
 
-            <IconButton disableRipple sx={{color: corTexto}} href={route('admin.emails.index')}>
+            {_permissoesUsuario?.[28] && <IconButton disableRipple sx={{color: corTexto}} href={route('admin.emails.index')}>
                 <Badge badgeContent={notificacoes.email} color="error">
                     <Envelope size="20" color="black"/>
                 </Badge>
-            </IconButton>
+            </IconButton>}
 
-            <IconButton disableRipple sx={{color: corTexto}} href={route('admin.agenda.calendario.index')}>
+            {_permissoesUsuario?.[17] && <IconButton disableRipple sx={{color: corTexto}} href={route('admin.agenda.calendario.index')}>
                 <Badge badgeContent={notificacoes.agenda} color="error">
                     <CalendarEvent size="20" color="black"/>
                 </Badge>
-            </IconButton>
+            </IconButton>}
 
-            <IconButton disableRipple sx={{color: corTexto}} onClick={handleClick2}>
+            {_permissoesUsuario?.[20] && <IconButton disableRipple sx={{color: corTexto}} onClick={handleClick2}>
                 <Badge badgeContent={notificacoes?.user_online?.length} color="error">
                     <People size="22" color="black"/>
                 </Badge>
-            </IconButton>
+            </IconButton>}
+
             <Popover
                 id={id} open={open2} anchorEl={anchorEl2}
                 onClose={handleClose}
@@ -143,11 +148,11 @@ export default function AdminNotificacoesIcones({corTexto}) {
                     <small className="m-3">0 online</small>}
             </Popover>
 
-            <IconButton disableRipple sx={{color: corTexto}} href={route('admin.chat-interno.index')}>
+            {_permissoesUsuario?.[12] && <IconButton disableRipple sx={{color: corTexto}} href={route('admin.chat-interno.index')}>
                 <Badge badgeContent={notificacoes.chat_interno} color="error">
                     <Chat size="20" color="black"/>
                 </Badge>
-            </IconButton>
+            </IconButton>}
 
             <IconButton disableRipple sx={{color: corTexto}} href={route('admin.notificacoes.pedidos.index')}>
                 <Badge badgeContent={notificacoes.pedidos} color="error">

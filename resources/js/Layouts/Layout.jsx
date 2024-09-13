@@ -12,6 +12,7 @@ import ChatNotificacoes from "@/Components/Alerts/ChatNotificacoes.jsx";
 
 export default function Layout({children, titlePage, voltar, menu, submenu}) {
     const {app_settings} = usePage().props;
+
     const _toggleMenu = sessionStorage.getItem('_toggleMenu') === 'true';
     const [toggleMenu, setToggleMenu] = useState(!_toggleMenu)
 
