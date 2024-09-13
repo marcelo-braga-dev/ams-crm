@@ -231,7 +231,7 @@ export default function ({fornecedores, franquias, empresas}) {
                 </div>
             </div>
 
-            <CardEntradaFinanceiro/>
+            {/*<CardEntradaFinanceiro/>*/}
 
             {dias.map((dia, index) => {
                     fluxo = 1

@@ -15,8 +15,8 @@ class FluxoCaixaController extends Controller
 {
     public function index(Request $request)
     {
-        $registros = (new \App\Models\Financeiro\FluxoCaixa())->getRegistros();
-        print_pre($registros);
+//        $registros = (new \App\Models\Financeiro\FluxoCaixa())->getRegistros();
+//        print_pre($registros);
 
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
         $empresas = (new FluxoCaixasConfig())->getEmpresas();
