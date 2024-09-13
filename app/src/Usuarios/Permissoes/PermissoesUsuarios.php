@@ -18,6 +18,23 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chavePedidosFretes(), 'nome' => 'Fretes'],
                 ]
             ], [
+                'categoria' => 'Alterar Status dos Pedidos',
+                'permissoes' => [
+                    ['id' => $this->chavePedidosStatusReprovado(), 'nome' => 'Reprovados'],
+                    ['id' => $this->chavePedidosStatusEncomenda(), 'nome' => 'Encomendas'],
+                    ['id' => $this->chavePedidosStatusConferencia(), 'nome' => 'Conferência'],
+                    ['id' => $this->chavePedidosStatusLancado(), 'nome' => 'Lancados'],
+                    ['id' => $this->chavePedidosStatusAguardandoNota(), 'nome' => 'Aguardando Nota'],
+                    ['id' => $this->chavePedidosStatusAguardandoPagamento(), 'nome' => 'Aguardando Pagamento'],
+                    ['id' => $this->chavePedidosStatusAguaradandoFaturamento(), 'nome' => 'Aguaradando Faturamento'],
+                    ['id' => $this->chavePedidosStatusFaturado(), 'nome' => 'Faturado'],
+                    ['id' => $this->chavePedidosStatusFaturadoVista(), 'nome' => 'Faturado Vista'],
+                    ['id' => $this->chavePedidosStatusFaturadoPrazo(), 'nome' => 'Faturado Prazo'],
+                    ['id' => $this->chavePedidosStatusAcompanhamento(), 'nome' => 'Acompanhamento'],
+                    ['id' => $this->chavePedidosStatusEntregue(), 'nome' => 'Entregue'],
+                    ['id' => $this->chavePedidosStatusCancelados(), 'nome' => 'Cancelados'],
+                ]
+            ], [
                 'categoria' => 'Leads',
                 'permissoes' => [
                     ['id' => $this->chaveLeadsKanban(), 'nome' => 'Kanban'],
@@ -64,6 +81,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                 'categoria' => 'Chats',
                 'permissoes' => [
                     ['id' => $this->chaveChatsInterno(), 'nome' => 'Chat Interno'],
+                    ['id' => $this->chaveChatsWhatsapp(), 'nome' => 'Whatsapp'],
                 ]
             ], [
                 'categoria' => 'Financeiro',

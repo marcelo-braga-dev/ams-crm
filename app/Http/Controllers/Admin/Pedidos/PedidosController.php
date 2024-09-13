@@ -14,7 +14,9 @@ use App\Models\ProdutosFornecedores;
 use App\Models\Sac;
 use App\Models\Setores;
 use App\Models\User;
+use App\Models\UsersPermissoes;
 use App\Services\Pedidos\CardDadosService;
+use App\Services\Permissoes\PedidosStatusPermissoesServices;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -26,10 +28,11 @@ class PedidosController extends Controller
         $fornecedores = (new ProdutosFornecedores())->get();
         $coresAbas = (new ConfigCores())->getPedidos();
         $goCard = $request->id_card;
+        $permissoesStatus = (new PedidosStatusPermissoesServices())->permissoesUsuario(id_usuario_atual());
 
         return Inertia::render(
             'Admin/Pedidos/Index',
-            compact('fornecedores', 'setores', 'coresAbas', 'goCard')
+            compact('fornecedores', 'setores', 'permissoesStatus', 'coresAbas', 'goCard')
         );
     }
 

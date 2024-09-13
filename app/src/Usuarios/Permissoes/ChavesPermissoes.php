@@ -359,4 +359,75 @@ class ChavesPermissoes
     {
         return '71';
     }
+
+
+    public function chavePedidosStatusReprovado()
+    {
+        return '72';
+    }
+
+    public function chavePedidosStatusEncomenda()
+    {
+        return '73';
+    }
+
+    public function chavePedidosStatusConferencia()
+    {
+        return '74';
+    }
+
+    public function chavePedidosStatusLancado()
+    {
+        return '75';
+    }
+
+    public function chavePedidosStatusAguardandoNota()
+    {
+        return '76';
+    }
+
+    public function chavePedidosStatusAguardandoPagamento()
+    {
+        return '77';
+    }
+
+    public function chavePedidosStatusAguaradandoFaturamento()
+    {
+        return '78';
+    }
+
+    public function chavePedidosStatusFaturado()
+    {
+        return '79';
+    }
+
+    public function chavePedidosStatusFaturadoVista()
+    {
+        return '80';
+    }
+
+    public function chavePedidosStatusFaturadoPrazo()
+    {
+        return '81';
+    }
+
+    public function chavePedidosStatusAcompanhamento()
+    {
+        return '82';
+    }
+
+    public function chavePedidosStatusEntregue()
+    {
+        return '83';
+    }
+
+    public function chavePedidosStatusCancelados()
+    {
+        return '84';
+    }
+
+    public function chaveChatsWhatsapp()
+    {
+        return '85';
+    }
 }

@@ -21,7 +21,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
-export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
+export default function Pedidos({fornecedores, setores, permissoesStatus,coresAbas, goCard}) {
     const [pedidos, setPedidos] = useState()
     const [modelo, setModelo] = useState()
     const [carregando, setCarregando] = useState(true)
@@ -247,77 +247,77 @@ export default function Pedidos({fornecedores, setores, coresAbas, goCard}) {
                             <tr className="align-top">
                                 <td id="td-1" style={{minWidth: 300}}>
                                     {pedidos.reprovado.map((dados) => {
-                                        return <CardPedidos key={dados.id} dados={dados} status="reprovado" cor={coresAbas.reprovado}/>
+                                        return <CardPedidos key={dados.id} dados={dados} status="reprovado" cor={coresAbas.reprovado} permissoesStatus={permissoesStatus}/>
                                     })}
                                 </td>
                                 {modelo2 &&
                                     <td id="td-2" style={{minWidth: 300}}>
                                         {pedidos.encomenda.map((dados) => {
-                                            return <CardPedidos key={dados.id} dados={dados} status="encomenda" cor={coresAbas.encomenda}/>
+                                            return <CardPedidos key={dados.id} dados={dados} status="encomenda" cor={coresAbas.encomenda} permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>
                                 }
                                 <td id="td-3" style={{minWidth: 300}}>
                                     {pedidos.conferencia.map((dados) =>
-                                        <CardPedidos key={dados.id} status="conferencia" dados={dados} cor={coresAbas.conferencia}/>
+                                        <CardPedidos key={dados.id} status="conferencia" dados={dados} cor={coresAbas.conferencia} permissoesStatus={permissoesStatus}/>
                                     )}
                                 </td>
                                 <td id="td-4" style={{minWidth: 300}}>
                                     {pedidos.lancado.map((dados) => {
-                                        return <CardPedidos key={dados.id} status="lancado" dados={dados} cor={coresAbas.lancado}/>
+                                        return <CardPedidos key={dados.id} status="lancado" dados={dados} cor={coresAbas.lancado} permissoesStatus={permissoesStatus}/>
                                     })}
                                 </td>
                                 {modelo1 &&
                                     <td id="td-5" style={{minWidth: 300}}>
                                         {pedidos.nota.map((dados) => {
-                                            return <CardPedidos key={dados.id} dados={dados} status="nota" cor={coresAbas.boleto}/>
+                                            return <CardPedidos key={dados.id} dados={dados} status="nota" cor={coresAbas.boleto} permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 {modelo1 &&
                                     <td id="td-6" style={{minWidth: 300}}>
                                         {pedidos.pagamento.map((dados) => {
-                                            return <CardPedidos key={dados.id} dados={dados} status="pagamento" cor={coresAbas.pagamento}/>
+                                            return <CardPedidos key={dados.id} dados={dados} status="pagamento" cor={coresAbas.pagamento} permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 {modelo1 &&
                                     <td id="td-7" style={{minWidth: 300}}>
                                         {pedidos.faturamento.map((dados) => {
-                                            return <CardPedidos key={dados.id} dados={dados} status="faturamento" cor={coresAbas.faturamento}/>
+                                            return <CardPedidos key={dados.id} dados={dados} status="faturamento" cor={coresAbas.faturamento} permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 {modelo1 &&
                                     <td id="td-8" style={{minWidth: 300}}>
                                         {pedidos.faturado.map((dados) => {
-                                            return <CardPedidos key={dados.id} dados={dados} status="faturado" cor={coresAbas.faturado}/>
+                                            return <CardPedidos key={dados.id} dados={dados} status="faturado" cor={coresAbas.faturado} permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 {modelo2 &&
                                     <td id="td-9" style={{minWidth: 300}}>
                                         {pedidos.faturado_vista.map((dados) => {
                                             return (
-                                                <CardPedidos key={dados.id} dados={dados} status="faturado_vista" cor={"#3B087A"}/>)
+                                                <CardPedidos key={dados.id} dados={dados} status="faturado_vista" cor={"#3B087A"} permissoesStatus={permissoesStatus}/>)
                                         })}
                                     </td>}
                                 {modelo2 &&
                                     <td id="td-10" style={{minWidth: 300}}>
                                         {pedidos.faturado_prazo.map((dados) => {
-                                            return <CardPedidos key={dados.id} dados={dados} status="faturado_prazo" cor={'#b81919'}/>
+                                            return <CardPedidos key={dados.id} dados={dados} status="faturado_prazo" cor={'#b81919'} permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 {modelo1 &&
                                     <td id="td-11" style={{minWidth: 300}}>
                                         {pedidos.acompanhamento.map((dados) => {
-                                            return <CardPedidos key={dados.id} dados={dados} status="acompanhamento" cor={coresAbas.acompanhamento}/>
+                                            return <CardPedidos key={dados.id} dados={dados} status="acompanhamento" cor={coresAbas.acompanhamento} permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 <td id="td-12" style={{minWidth: 300}}>
                                     {pedidos.entregue.map((dados) => {
-                                        return <CardPedidos key={dados.id} dados={dados} status="entregue" cor={coresAbas.entregue}/>
+                                        return <CardPedidos key={dados.id} dados={dados} status="entregue" cor={coresAbas.entregue} permissoesStatus={permissoesStatus}/>
                                     })}
                                 </td>
                                 <td id="td-13" style={{minWidth: 300}}>
                                     {pedidos.cancelado.map((dados) => {
-                                        return <CardPedidos key={dados.id} dados={dados} status="cancelado" cor={coresAbas.cancelados}/>
+                                        return <CardPedidos key={dados.id} dados={dados} status="cancelado" cor={coresAbas.cancelados} permissoesStatus={permissoesStatus}/>
                                     })}
                                 </td>
                             </tr>
