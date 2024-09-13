@@ -63,6 +63,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = ['avatar'];
+
+    public function getAvatarAttribute()
+    {
+        return url_arquivos($this->attributes['foto'] ?? null);
+    }
+
+
+    /**
+     * @deprecated
+     */
+
     public function subordinados()
     {
         return $this->newQuery()

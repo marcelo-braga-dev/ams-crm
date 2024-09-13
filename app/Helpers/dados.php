@@ -84,6 +84,6 @@ if (!function_exists('converterInt')) {
 if (!function_exists('url_arquivos')) {
     function url_arquivos($dado = null)
     {
-        return $dado ? asset('storage/' . $dado) : null;
+        return $dado ? url('storage/' . $dado) : null;
     }
 }

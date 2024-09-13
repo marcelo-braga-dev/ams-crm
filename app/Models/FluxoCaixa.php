@@ -11,6 +11,8 @@ class FluxoCaixa extends Model
 {
     use HasFactory;
 
+//    protected $table = 'fluxo_caixas_antigo';
+
     protected $fillable = [
         'user_id',
         'banco_id',

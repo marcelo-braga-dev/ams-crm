@@ -15,6 +15,9 @@ class FluxoCaixaController extends Controller
 {
     public function index(Request $request)
     {
+        $registros = (new \App\Models\Financeiro\FluxoCaixa())->getRegistros();
+        print_pre($registros);
+
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
         $empresas = (new FluxoCaixasConfig())->getEmpresas();
         $franquias = (new Franquias())->get();
@@ -39,7 +42,7 @@ class FluxoCaixaController extends Controller
 
     public function store(Request $request)
     {
-        (new FluxoCaixa())->create($request);
+        (new \App\Models\Financeiro\FluxoCaixa())->cadastrar($request);
 
         modalSucesso('Operação realizada com sucesso!');
         return redirect()->route('admin.financeiro.fluxo-caixa.index');

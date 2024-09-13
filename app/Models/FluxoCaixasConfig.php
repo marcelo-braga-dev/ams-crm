@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 
+/**
+ * @deprecated
+ */
 class FluxoCaixasConfig extends Model
 {
     protected $fillable = [

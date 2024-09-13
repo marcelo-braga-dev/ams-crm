@@ -23,6 +23,7 @@ import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import LocalAtmOutlinedIcon from '@mui/icons-material/LocalAtmOutlined';
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import CardEntradaFinanceiro from "./Components/CardEntradaFinanceiro.jsx";
 
 export default function ({fornecedores, franquias, empresas}) {
     const [dados, setDados] = useState([])
@@ -107,9 +108,12 @@ export default function ({fornecedores, franquias, empresas}) {
                                 }}
                                 showSelectionPreview={true}
                                 moveRangeOnFirstSelection={false}
-                                months={2}
+                                months={1}
+                                scroll={{ enabled: true }}
                                 ranges={state}
-                                direction="horizontal"
+                                direction="vertical"
+                                minDate={new Date('2023-01-01')}
+                                maxDate={new Date('2026-01-01')}
                                 showDateDisplay={false}
                                 locale={ptBR}
                                 dateDisplayFormat="d/MM/yyyy"
@@ -165,8 +169,7 @@ export default function ({fornecedores, franquias, empresas}) {
                                 <div className="col">
                                 </div>
                                 <div className="col-auto">
-                                    <small className="cursor-pointer" onClick={() => limparFiltroData()}>Limpar
-                                        filtro</small>
+                                    <small className="cursor-pointer" onClick={() => limparFiltroData()}>Limpar filtro</small>
                                 </div>
                             </div>
                         </div>
@@ -228,6 +231,7 @@ export default function ({fornecedores, franquias, empresas}) {
                 </div>
             </div>
 
+            <CardEntradaFinanceiro/>
 
             {dias.map((dia, index) => {
                     fluxo = 1
