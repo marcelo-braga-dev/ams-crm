@@ -46,7 +46,6 @@ export default function AdminNotificacoesIcones({corTexto}) {
     const [notificacoes, setNotificacoes] = useState([]);
 
     const {_permissoesUsuario} = usePage().props;
-    console.log(_permissoesUsuario)
 
     setUltimoLoginUsuario()
 

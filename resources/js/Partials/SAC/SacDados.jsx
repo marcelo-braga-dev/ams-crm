@@ -4,37 +4,36 @@ import CardContainer from "@/Components/Cards/CardContainer";
 import CardTitle from "@/Components/Cards/CardTitle";
 import CardBody from "@/Components/Cards/CardBody";
 import {Stack, Typography} from "@mui/material";
-import {Check, Paperclip, Tags, X} from "react-bootstrap-icons";
+import {Check, Eye, Paperclip, Tags, X} from "react-bootstrap-icons";
+import CampoTexto from "@/Components/CampoTexto.jsx";
+import Link from "@/Components/Link.jsx";
 
 export default function SacDados({sac, pedido, urlPedido}) {
     const iconBool = (statusItem) => {
-        return  statusItem ? <Check color="green" size={22}/> : <X color="red" size={22}/>
+        return statusItem ? <Check color="green" size={22}/> : <X color="red" size={22}/>
     }
 
     return (<>
         <CardContainer>
-            <CardTitle icon={<Tags size={25} />} title={sac.titulo} subtitle={
+            <CardTitle icon={<Tags size={25}/>} title={sac.titulo} subtitle={
                 <Stack direction="row" spacing={3}>
-                <Typography variant="body2"><b>Autor:</b> {sac.autor}</Typography>
-                <Typography variant="body2"><b>Stataus do SAC:</b> {sac.status}</Typography>
-                <Typography variant="body2"><b>Data de abertura:</b> {sac.data}</Typography>
-            </Stack>
+                    <Typography variant="body2"><b>Autor:</b> {sac.autor}</Typography>
+                    <Typography variant="body2"><b>Stataus do SAC:</b> {sac.status}</Typography>
+                    <Typography variant="body2"><b>Data de abertura:</b> {sac.data}</Typography>
+                </Stack>
             }>
 
             </CardTitle>
             <CardBody>
                 <div className="row">
                     <div className="col">
-                        <span className="d-block">
-                            <b>ID do Pedido:</b> #{sac.pedido_id}
-                            <a className="btn btn-link btn-sm text-dark p-0 m-0 ms-4" href={urlPedido}>Ver Pedido</a>
-                        </span>
-                        <span className="d-block"><b>Status do Pedido:</b> {pedido.pedido.status}</span>
-                        <span className="d-block"><b>Valor do Pedido:</b> R$ {pedido.financeiro.preco}</span>
-                        <span className="d-block"><b>Integrador:</b> {pedido.integrador.nome}</span>
-                        {pedido.fornecedor.nome && <span className="d-block"><b>Distribuidora:</b> {pedido.fornecedor.nome}</span>}
-                        <span className="d-block"><b>Cliente:</b> {pedido.cliente.nome}</span>
-                        <span className="d-block"><b>Endereço:</b> {pedido.cliente.endereco}</span>
+                        <CampoTexto titulo="ID do Pedido" texto={`#${sac.pedido_id}`}/>
+                        <CampoTexto titulo="Status do Pedido" texto={pedido.pedido.status}/>
+                        <CampoTexto titulo="Valor do Pedido" texto={`R$ ${pedido.financeiro.preco}`}/>
+                        <CampoTexto titulo="Integrador" texto={pedido.integrador.nome}/>
+                        <CampoTexto titulo="Distribuidora" texto={pedido.fornecedor.nome}/>
+                        <CampoTexto titulo="Cliente" texto={pedido.cliente.nome}/>
+                        <CampoTexto titulo="Endereço" texto={pedido.cliente.endereco}/>
                     </div>
                 </div>
             </CardBody>

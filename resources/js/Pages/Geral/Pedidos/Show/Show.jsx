@@ -14,7 +14,7 @@ import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinancei
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTable from "@/Components/Cards/CardTable";
-import {ListCheck, Tags, Truck} from "react-bootstrap-icons";
+import {Eye, ListCheck, Tags, Truck} from "react-bootstrap-icons";
 import {Avatar, Stack, TextField, Typography} from "@mui/material";
 import Link from "@/Components/Link.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
@@ -305,7 +305,7 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                                             <td className="col-1">{item.autor}</td>
                                             <td>{item.titulo}</td>
                                             <td>
-                                                {/*<a className="btn btn-primary btn-sm" href={route('admin.chamados.show', item.id)}>Abrir</a>*/}
+                                                <Link href={route('auth.sac.show', item.id)} icon={<Eye size={24}/> }/>
                                             </td>
                                         </tr>
                                     ))}

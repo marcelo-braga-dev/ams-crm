@@ -4,9 +4,6 @@ import {Head, useForm} from '@inertiajs/react';
 import {Grid, Stack, TextField, Typography} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import ModalsAlerts from "@/Components/Modals/AlertsModals";
-
-
-
 export default function Login({status, canResetPassword}) {
     const {data, setData, post, errors, reset} = useForm({
         email: '',
@@ -27,7 +24,7 @@ export default function Login({status, canResetPassword}) {
 
     return (
         <GuestLayout>
-            <ModalsAlerts />
+            {/*<ModalsAlerts />*/}
             <Head title="Log in"/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
