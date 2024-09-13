@@ -8,6 +8,7 @@ import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import TruckIcon from "@mui/icons-material/LocalShippingOutlined";
 import Stack from "@mui/material/Stack";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
+import Link from "@/Components/Link.jsx";
 // import AlertsCard from "./AlertsCard";
 
 const Card = ({dados, menuMore, btnAvancaStatus, alerts, border, instalacao, instalacaoDados}) => {
@@ -89,11 +90,11 @@ const Card = ({dados, menuMore, btnAvancaStatus, alerts, border, instalacao, ins
 
             {/* Pills */}
             <Stack direction="row" spacing={1}>
-                {dados.infos.sac ? <a href={route('admin.chamado.pedido.show', dados.id)}>
+                {dados.infos.sac > 0 &&
                     <span className="badge rounded-pill bg-warning mb-2">
                         <SpeakerNotesIcon className="ml-2"/> SAC
                     </span>
-                </a> : ''}
+                }
             </Stack>
 
             <div className='row'>

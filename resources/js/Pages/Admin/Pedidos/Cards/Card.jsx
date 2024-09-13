@@ -18,7 +18,7 @@ export default function Card({dados, status, cor, permissoesStatus}) {
     return <CardPedidos
         dados={dados}
         menuMore={<MenuMore id={dados.id} status={status}/>}
-        btnAvancaStatus={permissoesStatus.some(item => item === status) ? avancarStatus(dados.id, status, dados.infos.situacao) : ''}
+        btnAvancaStatus={permissoesStatus.some(item => item === dados.status) ? avancarStatus(dados.id, status, dados.infos.situacao) : ''}
         alerts={<AlertsCard dados={dados}/>}
         border={cor}/>
 }
