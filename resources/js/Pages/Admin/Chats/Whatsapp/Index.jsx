@@ -1,8 +1,9 @@
 import Layout from "@/Layouts/Layout.jsx";
 
-const Page = ({width, height}) => {
-    // const url = "https://app-wa.ams360crm.com.br/whaticket.js"
-    const url = "http://localhost:3000/tickets"
+const Page = () => {
+
+    // const url = "http://localhost:3000/tickets"
+    const url = import.meta.env.VITE_WHATSAPP
 
     return <Layout titlePage="Whatsapp" menu="chats" submenu="chats-whatsapp">
         <iframe

@@ -1,7 +1,7 @@
 import {ativarStatusWhatsapp, inativarStatusWhatsapp} from "./statusUtils";
 
-const apiURL = 'http://localhost:8082/api';
-const apiToken = '8b34400c-e402-4a91-986a-05488f489241';
+const apiURL = `${import.meta.env.VITE_WHATSAPP_API}/api`;
+const apiToken = import.meta.env.VITE_WHATSAPP_API_TOKEN;
 
 const optionsFetch = (token, number) => ({
     method: 'POST',
@@ -9,7 +9,7 @@ const optionsFetch = (token, number) => ({
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify({number, name: 'TESTE', userId: "2"}),
+    body: JSON.stringify({number, name: 'TESTE', userId: "1"}),
 });
 
 // Função para cadastrar contato via API

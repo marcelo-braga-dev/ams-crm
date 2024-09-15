@@ -14,7 +14,7 @@ const AbrirChatWhatsapp = ({telefones, atualizarCards}) => {
     const [isPrimeiraMensagem, setIsPrimeiraMensagem] = useState(false);
     const [telefoneSelecionado, setTelefoneSelecionado] = useState(null);
 
-    const URL_DO_WHATICKET = `http://localhost:3000/tickets/${contactId}`;
+    const URL_DO_WHATICKET = `${import.meta.env.VITE_WHATSAPP}/tickets/${contactId}`;
 
     // Abre o iframe quando o contactId é definido
     useEffect(() => {
