@@ -41,7 +41,7 @@ const PagamentosEntrada = ({setPagamentos, pagamentos, qtdPagamentos, bancos}) =
                                 <MenuItem value="Cartão de Crédito">Cartão de Crédito</MenuItem>
                                 <MenuItem value="PIX">PIX</MenuItem>
                                 <MenuItem value="Boleto">Boleto</MenuItem>
-                                <MenuItem value="Boleto">Cheque</MenuItem>
+                                <MenuItem value="Cheque">Cheque</MenuItem>
                             </TextField>}
                     </td>
                     <td>

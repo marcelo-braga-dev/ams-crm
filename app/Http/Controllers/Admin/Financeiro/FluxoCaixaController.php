@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Financeiro;
 
 use App\Http\Controllers\Controller;
+use App\Models\Financeiro\FluxoCaixaPagamento;
 use App\Models\FinanceirosEmpresas;
 use App\Models\FinanceirosSalarios;
 use App\Models\FluxoCaixa;
@@ -15,12 +16,11 @@ class FluxoCaixaController extends Controller
 {
     public function index(Request $request)
     {
-//        $registros = (new \App\Models\Financeiro\FluxoCaixa())->getRegistros();
-//        print_pre($registros);
-
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
         $empresas = (new FluxoCaixasConfig())->getEmpresas();
         $franquias = (new Franquias())->get();
+
+        $this->proximosPagamentos();
 
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Index',
             compact('fornecedores', 'franquias', 'empresas'));
@@ -45,7 +45,7 @@ class FluxoCaixaController extends Controller
         (new \App\Models\Financeiro\FluxoCaixa())->cadastrar($request);
 
         modalSucesso('Operação realizada com sucesso!');
-        return redirect()->route('admin.financeiro.fluxo-caixa.index');
+//        return redirect()->route('admin.financeiro.fluxo-caixa.index');
     }
 
     public function show($id)
@@ -78,6 +78,26 @@ class FluxoCaixaController extends Controller
 
         modalSucesso('Dados atualizado com sucesso!');
         return redirect()->back();
+    }
+
+    public function proximosPagamentos()
+    {
+        $pagamentos = (new FluxoCaixaPagamento())
+            ->getAll()
+            ->whereNull('data_baixa')
+            ->orderBy('data')
+            ->get();
+
+        return response()->json(compact('pagamentos'));
+    }
+
+    public function atualizarPagamento(Request $request)
+    {
+//        print_pre($request->all())
+        (new FluxoCaixaPagamento())->pagar($request);
+
+        modalSucesso('Pagamento realizado com sucesso!');
+//        return redirect()->back();
     }
 
     public function alterarBaixa($id, Request $request)
@@ -116,5 +136,27 @@ class FluxoCaixaController extends Controller
         $salarios = (new FinanceirosSalarios())->financeiro($dataInicio, $dataFim);
 
         return response()->json(['registros' => $dados, 'salarios' => $salarios]);
+    }
+
+    public function opcoes()
+    {
+        $formasPagamento = [
+            'Cartão de Crédito',
+            'PIX',
+            'Boleto',
+            'Cheque'
+        ];
+
+        $dados = [
+            'empresas' => (new FinanceirosEmpresas())->get(),
+            'fornecedores' => (new FluxoCaixasConfig())->getFornecedores(),
+            'bancos' => (new FluxoCaixasConfig())->getBancos(),
+            'franquias' => (new Franquias())->get(),
+            'permissaoEntradas' => is_fluxocaixa_entradas(),
+            'permissaoSaidas' => is_fluxocaixa_saidas(),
+            'formasPagamento' => $formasPagamento
+        ];
+
+        return response()->json($dados);
     }
 }

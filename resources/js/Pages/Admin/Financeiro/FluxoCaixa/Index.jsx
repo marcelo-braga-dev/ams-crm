@@ -1,40 +1,44 @@
 import Layout from "@/Layouts/Layout";
 import React, {useEffect, useState} from "react";
 import Switch from "@mui/material/Switch";
-import {Card, TextField} from "@mui/material";
+import {Card, TextField, Typography} from "@mui/material";
 import {router} from "@inertiajs/react";
 
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
-import {DateRange} from 'react-date-range';
-import {ptBR} from 'react-date-range/src/locale';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import MenuItem from "@mui/material/MenuItem";
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import LocalAtmOutlinedIcon from '@mui/icons-material/LocalAtmOutlined';
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
-import CardEntradaFinanceiro from "./Components/CardEntradaFinanceiro.jsx";
+
+import Filtros from "./Index/Filtros.jsx"
+import CreateDialog from "./Create/CreateDialog.jsx"
+import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import {ArrowDownShort, ArrowUpShort, ListCheck} from "react-bootstrap-icons";
+import ProximosPagamentos from "@/Pages/Admin/Financeiro/FluxoCaixa/Index/ProximosPagamentos.jsx";
 
 export default function ({fornecedores, franquias, empresas}) {
+    const [filtros, setFiltros] = useState({
+        tipo: '',
+        status: '',
+        fornecedor: '',
+        franquia: '',
+        empresa: '',
+        periodoInicio: '',
+        periodoFim: '',
+    })
+
     const [dados, setDados] = useState([])
     const [registrosSalarios, setRegistrosSalarios] = useState([])
     const [chaveStatus, setChaveStatus] = useState()
     const [idStatus, setIdStatus] = useState()
-    const [filtroTipo, setFiltoTipo] = useState()
-    const [filtroStatus, setFiltoStatus] = useState()
-    const [filtroFornecedor, setFiltoFornecedor] = useState()
-    const [filtroFranquia, setFiltoFranquia] = useState()
-    const [filtroEmpresa, setFiltoEmpresa] = useState()
+
     const [atualizarStatus, setAtualizarStatus] = useState(false)
 
     const [totalSaida, setTotalSaida] = useState(0)
@@ -48,186 +52,69 @@ export default function ({fornecedores, franquias, empresas}) {
 
     router.on('success', () => window.location.reload())
 
-    const [filtroData, setFiltroData] = useState()
-    const [state, setState] = useState([
-        {
-            startDate: new Date,
-            endDate: new Date,
-            key: 'selection',
-            color: '#102030'
-        }
-    ]);
-
     useEffect(() => {
-        axios.get(route('admin.financeiro.registros',
-            {
-                periodoInicio: filtroData?.[0]?.startDate,
-                periodoFim: filtroData?.[0]?.endDate,
-                tipo: filtroTipo,
-                status: filtroStatus,
-                fornecedor: filtroFornecedor,
-                franquia: filtroFranquia,
-                empresa: filtroEmpresa,
-            }))
-            .then(res => {
-                setDados(res.data.registros)
-                setRegistrosSalarios(res.data.salarios.registros)
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(route('admin.financeiro.registros', {...filtros}));
 
-                setTotalEntrada(0)
-                setTotalSaida(0)
+                setDados(response.data.registros);
+                setRegistrosSalarios(response.data.salarios.registros);
+                setTotalEntrada(0);
+                setTotalSaida(0);
 
-                Object.values(res.data.registros).map(a => a.map(item => (item.tipo === 'entrada') ?
-                    setTotalEntrada(prevState => prevState + item.valor_float) :
-                    setTotalSaida(prevState => prevState + item.valor_float)))
+                Object.values(response.data.registros).forEach(a =>
+                    a.forEach(item => {
+                        if (item.tipo === 'entrada') {
+                            setTotalEntrada(prevState => prevState + item.valor_float);
+                        } else {
+                            setTotalSaida(prevState => prevState + item.valor_float);
+                        }
+                    })
+                );
 
-                setTotalSaida(prevState => prevState + res.data.salarios.total)
-            })
-    }, [filtroData, filtroTipo, filtroStatus, filtroFornecedor, filtroFranquia, filtroEmpresa, atualizarStatus]);
+                setTotalSaida(prevState => prevState + response.data.salarios.total);
+            } catch (error) {
+                console.error('Erro ao buscar registros:', error);
+            }
+        };
 
-    const limparFiltroData = (event) => {
-        router.get(route('admin.financeiro.fluxo-caixa.index'))
-    }
+        fetchData();
+    }, [filtros, atualizarStatus]);
 
-    const itemsFornecedor = fornecedores.map(item => {
-        return {label: item.valor, id: item.id}
-    })
 
     const dias = Array.from({length: 31}, (_, i) => i + 1);
     let fluxo = 0
 
     return (
         <Layout titlePage="Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa">
-            <CardContainer>
-                <CardBody>
-                    <div className="row">
-                        <div className="col-auto">
-                            <DateRange
-                                onChange={item => {
-                                    setFiltroData([item.selection])
-                                    setState([item.selection])
-                                }}
-                                showSelectionPreview={true}
-                                moveRangeOnFirstSelection={false}
-                                months={1}
-                                scroll={{ enabled: true }}
-                                ranges={state}
-                                direction="vertical"
-                                minDate={new Date('2023-01-01')}
-                                maxDate={new Date('2026-01-01')}
-                                showDateDisplay={false}
-                                locale={ptBR}
-                                dateDisplayFormat="d/MM/yyyy"
-                            />
-                        </div>
-                        <div className="mt-3 col-md-4 align-items-center">
-                            <div className="row row-cols-2">
-                                <div className="col">
-                                    <TextField className="mb-3" label="Tipo" select fullWidth
-                                               value={filtroTipo ?? ''}
-                                               onChange={e => setFiltoTipo(e.target.value)}>
-                                        <MenuItem value={undefined}>Todas</MenuItem>
-                                        <MenuItem value="entrada">Entrada</MenuItem>
-                                        <MenuItem value="saida">Saída</MenuItem>
-                                    </TextField>
-                                </div>
-                                <div className="col">
-                                    <TextField className="mb-3" label="Status" select fullWidth
-                                               value={filtroStatus ?? ''}
-                                               onChange={e => setFiltoStatus(e.target.value)}>
-                                        <MenuItem value={undefined}>Todas</MenuItem>
-                                        <MenuItem value="pago">Pago</MenuItem>
-                                        <MenuItem value="aberto">Aberto</MenuItem>
-                                    </TextField></div>
-                                <div className="col">
-                                    <Autocomplete
-                                        className="mb-3" disablePortal
-                                        options={itemsFornecedor}
-                                        onChange={(event, newValue) => setFiltoFornecedor(newValue?.id)}
-                                        renderInput={(params) => <TextField {...params} label="Fornecedor:"/>}
-                                    />
-                                </div>
-                                <div className="col">
-                                    <TextField label="Franquia" select fullWidth
-                                               value={filtroFranquia ?? ''}
-                                               onChange={e => setFiltoFranquia(e.target.value)}>
-                                        <MenuItem value={undefined}>Todas</MenuItem>
-                                        {franquias.map(item => <MenuItem key={item.id}
-                                                                         value={item.id}>{item.nome}</MenuItem>)}
-                                    </TextField>
-                                </div>
-                                <div className="col">
-                                    <TextField label="Empresa" select fullWidth
-                                               value={filtroEmpresa ?? ''}
-                                               onChange={e => setFiltoEmpresa(e.target.value)}>
-                                        <MenuItem value={undefined}>Todas</MenuItem>
-                                        {empresas.map(item => <MenuItem key={item.id}
-                                                                        value={item.id}>{item.valor}</MenuItem>)}
-                                    </TextField>
-                                </div>
-                            </div>
-                            <div className="mt-4 row">
-                                <div className="col">
-                                </div>
-                                <div className="col-auto">
-                                    <small className="cursor-pointer" onClick={() => limparFiltroData()}>Limpar filtro</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </CardBody>
-            </CardContainer>
+            <CreateDialog/>
 
-            <CardContainer>
-                <CardBody>
-                    <div className="mb-2 row justify-content-ce nter">
-                        <div className="col-auto">
-                            <Stack direction="column" spacing={1} className="d-inline">
-                                <ArrowUpwardOutlinedIcon color="success"/> ENTRADAS:
-                                R$ {convertFloatToMoney(totalEntrada)}<br/>
-                            </Stack>
-                        </div>
-                        <div className="col-auto">
-                            <Stack direction="column" spacing={1} className="d-inline">
-                                <ArrowDownwardOutlinedIcon color="error"/> TOTAL SAÍDAS:
-                                R$ {convertFloatToMoney(totalSaida)}<br/>
-                            </Stack>
-                        </div>
-                    </div>
+            <div className="mb-2 row justify-content-ce nter">
+                <div className="col-md-8">
+                    <Filtros filtros={filtros} setFiltros={setFiltros} empresas={empresas} franquias={franquias} fornecedores={fornecedores}/>
+                </div>
+                <div className="col-2">
+                    <CardContainer>
+                        <CardTitle icon={<ArrowUpShort size={28} color="green"/>} title={<Typography>R$ {convertFloatToMoney(totalEntrada)}</Typography>}/>
+                    </CardContainer>
+                </div>
+                <div className="col-2">
+                    <CardContainer>
+                        <CardTitle icon={<ArrowDownShort size={28} color="red"/>} title={<Typography>R$ {convertFloatToMoney(totalSaida)}</Typography>}/>
+                    </CardContainer>
+                </div>
+            </div>
 
-                    <div className="row justify-content-end">
-                        <div className="col-auto text-end">
-                            <Stack className="" direction="row" spacing={2}>
-                                <small>
-                                    {'Período: ' + (filtroData?.[0] ? (
-                                            (new Date(filtroData?.[0]?.startDate)).toLocaleDateString() + (
-                                                (filtroData?.[0]?.endDate !== filtroData?.[0]?.startDate) ?
-                                                    (' até ' + (new Date(filtroData?.[0]?.endDate)).toLocaleDateString()) : ''
-                                            )) : new Date().toLocaleDateString()
-                                    )}
-                                </small>
-                                <small>|</small>
-                                <small>{'Tipo: ' + (filtroTipo ?? 'Todos')}</small>
-                                <small>|</small>
-                                <small>{'Status: ' + (filtroStatus ?? 'Todos')}</small>
-                                <small>|</small>
-                                <small>{'Fornec.: ' + (filtroFornecedor ? (fornecedores.filter(function (item) {
-                                    return (item.id === filtroFornecedor);
-                                }))?.[0]?.valor : 'Todos')}</small>
-                                <small>|</small>
-                                <small>{'Franquia: ' + (filtroFranquia ? (franquias.filter(function (item) {
-                                    return (item.id === filtroFranquia);
-                                }))?.[0]?.nome : 'Todos')}</small>
-                            </Stack>
-                        </div>
-                    </div>
-                </CardBody>
-            </CardContainer>
-
-            <div className="mb-3 row">
-                <div className="col">
-                    <a className="btn btn-primary"
-                       href={route('admin.financeiro.fluxo-caixa.create')}>
-                        <AddOutlinedIcon/> Cadastrar</a>
+            <div className="row">
+                <div className="col-md-8">
+                    <CardContainer>
+                        <CardTitle title="Pagamentos Filtrados" icon={<ListCheck size={25} color="black"/>}/>
+                        <CardBody>
+                        </CardBody>
+                    </CardContainer>
+                </div>
+                <div className="col-md-4">
+                    <ProximosPagamentos/>
                 </div>
             </div>
 

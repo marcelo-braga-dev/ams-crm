@@ -22,21 +22,52 @@ class FluxoCaixaPagamento extends Model
         'forma_pagamento',
     ];
 
+    protected $appends = ['status'];
+
+    public function pagar($dados)
+    {
+        $this->find($dados->pagamento_id)
+            ->update([
+                'forma_pagamento' => $dados->forma_pagamento,
+                'banco_id' => $dados->banco,
+                'data_baixa' => $dados->data_baixa,
+                'valor_baixa' => $dados->valor_baixa,
+            ]);
+    }
+
+    // Attributes
+    protected function setValorBaixaAttribute($value)
+    {
+        $this->attributes['valor_baixa'] = convert_money_float($value);
+    }
+
     protected function getDataAttribute()
     {
-        return $this->attributes['data'] ? Carbon::parse($this->attributes['data'])->format('d/m/Y H:i:s') : null;
+        return $this->attributes['data'] ? Carbon::parse($this->attributes['data'])->format('d/m/Y') : null;
     }
 
     protected function getDataBaixaAttribute()
     {
-        return $this->attributes['data_baixa'] ? Carbon::parse($this->attributes['data_baixa'])->format('d/m/Y H:i:s') : null;
+        return $this->attributes['data_baixa'] ? Carbon::parse($this->attributes['data_baixa'])->format('d/m/Y') : null;
     }
 
+    public function getStatusAttribute()
+    {
+        return ($this->attributes['data_baixa'] ?? null) ? 'pago' : 'aberto';
+    }
+
+    // Relations
     public function autor()
     {
         return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'name as nome');
     }
 
+    public function notaFiscal()
+    {
+        return $this->belongsTo(FluxoCaixa::class, 'fluxo_caixa_id', 'id');
+    }
+
+    // Metodos
     public function cadastrar($id, $dados)
     {
         $insert = [];
@@ -54,5 +85,10 @@ class FluxoCaixaPagamento extends Model
         }
 
         $this->insert($insert);
+    }
+
+    public function getAll()
+    {
+        return $this->with('notaFiscal');
     }
 }

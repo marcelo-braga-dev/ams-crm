@@ -12,6 +12,14 @@ Route::name('admin.financeiro.')
         Route::resource('fluxo-caixa', FluxoCaixaController::class);
         Route::resource('faturamento', FaturamentoController::class);
 
+        Route::name('fluxo-caixa.')
+            ->prefix('api')
+            ->group(function () {
+                Route::get('proximos-pagamentos', [FluxoCaixaController::class, 'proximosPagamentos'])->name('proximos-pagamentos');
+                Route::post('atualizar-pagamento', [FluxoCaixaController::class, 'atualizarPagamento'])->name('atualizar-pagamento');
+            });
+
+
         Route::post('faturamento/remover-distribuidora', [FaturamentoController::class, 'removerNotaDistribuidora'])
             ->name('faturamento.remover-distribuidora');
         Route::post('faturamento/excluir-planilha', [FaturamentoController::class, 'excluirPLanilha'])
@@ -22,6 +30,7 @@ Route::name('admin.financeiro.')
         Route::put('fluxo-caixa-alterar-baixa/{id}', [FluxoCaixaController::class, 'alterarBaixa'])
             ->name('fluxo-caixa.atualizar-baixa');
         Route::get('registros', [FluxoCaixaController::class, 'registros'])->name('registros');
+        Route::get('opcoes', [FluxoCaixaController::class, 'opcoes'])->name('opcoes');
 
         Route::resource('config', FluxoCaixaConfigController::class);
         Route::get('config-registros', [FluxoCaixaConfigController::class, 'registros'])->name('config-registros');

@@ -16,7 +16,7 @@ class FluxoCaixa extends Model
 {
     use HasFactory;
 
-    protected $with = ['autor'];
+    protected $with = ['autor', 'fornecedor', 'franquia', 'empresa'];
 
     protected $fillable = [
         'user_id',
@@ -40,6 +40,28 @@ class FluxoCaixa extends Model
         'created_at',
         'updated_at',
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('withContagens', function ( $query) {
+            $query->withCount([
+                'pagamentos as pagamentos_qtd',
+                'pagamentos as pagos_qtd' => function ($query) {
+                    $query->whereNotNull('data_baixa');
+                }
+            ]);
+        });
+    }
+
+    public function scopeWithContagens($query)
+    {
+        return $query->withCount([
+            'pagamentos as pagamentos_qtd',
+            'pagamentos as pagos_qtd' => function ($query) {
+                $query->whereNotNull('data_baixa');
+            }
+        ]);
+    }
 
 //    atributos
     public function getStatusAttribute()
@@ -109,7 +131,9 @@ class FluxoCaixa extends Model
                 (new FluxoCaixaPagamento())->cadastrar($fluxo->id, $dados['pagamentos'] ?? []);
             });
 
-        } catch (\Exception $exception) {
+        } catch (\DomainException $exception) {
+//        } catch (\Exception $exception) {
+
             throw new \DomainException('Falha no cadastro.');
         }
     }
@@ -117,12 +141,12 @@ class FluxoCaixa extends Model
     public function getRegistros()
     {
         return $this->with(['pagamentos', 'fornecedor', 'franquia', 'empresa'])
-            ->withCount([
-                'pagamentos as pagamentos_qtd',
-                'pagamentos as pagos_qtd' => function ($query) {
-                    $query->whereNotNull('data_baixa');
-                }
-            ])
-            ->get()->toArray();
+//            ->withCount([
+//                'pagamentos as pagamentos_qtd',
+//                'pagamentos as pagos_qtd' => function ($query) {
+//                    $query->whereNotNull('data_baixa');
+//                }
+//            ])
+            ->get();
     }
 }
