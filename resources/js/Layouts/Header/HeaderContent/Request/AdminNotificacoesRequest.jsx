@@ -1,20 +1,45 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useRef} from "react";
 
 export default function AdminNotificacoesRequest({url, setNotificacoes}) {
 
-    async function buscaQtnNotificacoes() {
+    const intervalRef = useRef(null);
 
-        await axios.get(url).then((res) => {
-            setNotificacoes(res.data)
-        }).catch(function () {
-        })
-
-        setTimeout(function () {
-            buscaQtnNotificacoes();
-        }, 10000)
-    }
+    const buscaQtnNotificacoes = async () => {
+        try {
+            const res = await axios.get(url);
+            setNotificacoes(res.data);
+        } catch (error) {
+            console.error('Erro ao buscar notificações:', error);
+        }
+    };
 
     useEffect(() => {
-        setTimeout(() => buscaQtnNotificacoes(), 500);
+        buscaQtnNotificacoes();
+
+        intervalRef.current = setInterval(() => {
+            buscaQtnNotificacoes();
+        }, 90000);
+
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
     }, []);
+
+    // async function buscaQtnNotificacoes() {
+    //
+    //     await axios.get(url).then((res) => {
+    //         setNotificacoes(res.data)
+    //     }).catch(function () {
+    //     })
+    //
+    //     setTimeout(function () {
+    //         buscaQtnNotificacoes();
+    //     }, 10000)
+    // }
+    //
+    // useEffect(() => {
+    //     setTimeout(() => buscaQtnNotificacoes(), 500);
+    // }, []);
 }

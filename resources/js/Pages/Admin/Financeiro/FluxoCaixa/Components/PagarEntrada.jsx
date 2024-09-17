@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Switch from "@mui/material/Switch";
-import {InputAdornment, TextField, Typography} from "@mui/material";
-import {convertInputMoney} from "@/Components/Inputs/TextFieldMoney.jsx";
+import {TextField, Typography} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import convertFloatToMoney from "@/Helpers/converterDataHorario.jsx";
 import {useForm} from "@inertiajs/inertia-react";
@@ -66,7 +64,7 @@ const PagarEntrada = ({dadosPagamento}) => {
                         </TextField>
                     </td>
                     <td>
-                        <button className="btn btn-success mt-2">Salvar</button>
+                        <button type="submit" className="btn btn-success mt-2">Salvar</button>
                     </td>
                 </tr>
                 </thead>
