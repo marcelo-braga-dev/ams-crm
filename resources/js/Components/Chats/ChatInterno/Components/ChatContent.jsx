@@ -8,14 +8,7 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
     const [idExcluirAviso, setIdExcluirAviso] = useState();
     const [progress, setProgress] = useState(false);
     const [semMensagem, setSemMensagem] = useState(false);
-    const scrollRef = useRef(null); // Referência para o controle do scroll
-    // const mensagensRef = useRef(mensagens); // Usada para manter o controle das mensagens
-
-    // Atualiza a referência das mensagens quando mudam
-    // useEffect(() => {
-    //     mensagensRef.current = mensagens;
-    // }, [mensagens]);
-
+    const scrollRef = useRef(null);
 
     // Função para excluir a conversa
     const excluirConversa = async () => {

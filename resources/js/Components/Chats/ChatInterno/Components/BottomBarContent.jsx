@@ -32,12 +32,13 @@ const Container = styled.div`
     padding: 1rem 0;
 `;
 
-function BottomBarContent({infoChatSelecionado, urlSubmit, admin}) {
+function BottomBarContent({infoChatSelecionado, urlSubmit, admin, fetchMensagens}) {
     const {data, setData, post, reset} = useForm({
         mensagem: '', anexo: ''
     });
 
     const [abrirEmojis, setAbrirEmojis] = useState(false);
+    // const [isSending, setIsSending] = useState(false);
 
     useEffect(() => {
         setData(previousInputs => ({
@@ -45,16 +46,30 @@ function BottomBarContent({infoChatSelecionado, urlSubmit, admin}) {
         }));
     }, [infoChatSelecionado]);
 
+    let isSending = false
     const submit = useCallback(() => {
+        if (isSending) return;
+        isSending = true;
+
         if ((data.mensagem.trim() || data.anexo) && data.destinatario) {
-            router.post(urlSubmit, {...data})
+            router.post(urlSubmit, {...data}, {
+                onSuccess: (item) => {
+                    limparCaixaMensagem()
+                    fetchMensagens()
+                    isSending = false;
+                }
+            })
         }
         if (data.mensagem.trim() && infoChatSelecionado.categoria === 'avisos') {
-            router.post(urlSubmit, {...data})
+            router.post(urlSubmit, {...data}, {
+                onSuccess: (item) => {
+                    limparCaixaMensagem()
+                    fetchMensagens()
+                    isSending = false;
+                }
+            })
         }
-        router.on('success', () => {
-            limparCaixaMensagem()
-        })
+
     }, [data, infoChatSelecionado, post, urlSubmit]);
 
     const limparCaixaMensagem = () => {
@@ -129,13 +144,13 @@ function BottomBarContent({infoChatSelecionado, urlSubmit, admin}) {
                     fullWidth
                     id="input_mensagem"
                     placeholder="Escreva sua mensagem aqui..."
-                    onChange={e => setData('mensagem', e.target.value)}
+                    onChange={(e) => setData({...data, mensagem: e.target.value})}
                     onKeyPress={(e) => {
                         if (e.key === 'Enter' && e.shiftKey) {
-                            setData('mensagem', data.mensagem + '\n')
-                            e.preventDefault(); // Evita o comportamento padrão de submissão ou foco
+                            setData({...data, mensagem: data.mensagem + '\n'});
+                            e.preventDefault();
                         } else if (e.key === 'Enter') {
-                            submit()
+                            submit();
                             e.preventDefault();
                         }
                     }}
