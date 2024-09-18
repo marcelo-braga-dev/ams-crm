@@ -17,6 +17,7 @@ Route::name('admin.financeiro.')
             ->group(function () {
                 Route::get('proximos-pagamentos', [FluxoCaixaController::class, 'proximosPagamentos'])->name('proximos-pagamentos');
                 Route::post('atualizar-pagamento', [FluxoCaixaController::class, 'atualizarPagamento'])->name('atualizar-pagamento');
+                Route::get('registros-filtrados', [FluxoCaixaController::class, 'getRegistrosFiltrados'])->name('registros-filtrados');
             });
 
 

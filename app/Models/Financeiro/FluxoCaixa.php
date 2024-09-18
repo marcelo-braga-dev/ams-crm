@@ -43,7 +43,7 @@ class FluxoCaixa extends Model
 
     protected static function booted()
     {
-        static::addGlobalScope('withContagens', function ( $query) {
+        static::addGlobalScope('withContagens', function ($query) {
             $query->withCount([
                 'pagamentos as pagamentos_qtd',
                 'pagamentos as pagos_qtd' => function ($query) {
@@ -140,13 +140,12 @@ class FluxoCaixa extends Model
 
     public function getRegistros()
     {
-        return $this->with(['pagamentos', 'fornecedor', 'franquia', 'empresa'])
+        return $this->with(['pagamentos', 'fornecedor', 'franquia', 'empresa']);
 //            ->withCount([
 //                'pagamentos as pagamentos_qtd',
 //                'pagamentos as pagos_qtd' => function ($query) {
 //                    $query->whereNotNull('data_baixa');
 //                }
 //            ])
-            ->get();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Financeiro;
 
+use App\Models\FluxoCaixasConfig;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,7 @@ class FluxoCaixaPagamento extends Model
     ];
 
     protected $appends = ['status'];
+    protected $with = ['banco'];
 
     public function pagar($dados)
     {
@@ -60,6 +62,11 @@ class FluxoCaixaPagamento extends Model
     public function autor()
     {
         return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'name as nome');
+    }
+
+    public function banco()
+    {
+        return $this->belongsTo(FluxoCaixasConfig::class, 'banco_id', 'id');
     }
 
     public function notaFiscal()

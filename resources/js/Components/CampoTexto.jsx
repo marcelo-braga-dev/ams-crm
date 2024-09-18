@@ -2,9 +2,10 @@ import {Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 const CampoTexto = ({titulo, texto, bold, nowrap}) => {
+
     return (
-        <Stack spacing={1} direction="row">
-            <Typography fontSize={15} color="black" variant="caption">{titulo}:</Typography>
+        <Stack spacing={0} marginBottom={1}>
+            <Typography fontSize={12} color="black" variant="caption">{titulo}:</Typography>
             <Typography fontSize={15} color={bold ? "#000" : '#777'}
                         sx={nowrap && {
                             whiteSpace: 'nowrap',

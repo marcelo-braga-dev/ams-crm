@@ -35,7 +35,7 @@ const CreateDialog = () => {
     const [qtdPagamentos, setQtdPagamentos] = useState(1)
     const [pagamentos, setPagamentos] = useState({})
 
-    const {data, setData} = useForm({
+    const {data, setData, reset} = useForm({
         empresa: '',
         franquia: '',
         fornecedor: '',
@@ -48,7 +48,13 @@ const CreateDialog = () => {
 
     function submit(e) {
         e.preventDefault()
-        router.post(route('admin.financeiro.fluxo-caixa.store'), {...data, pagamentos, tipo})
+        router.post(route('admin.financeiro.fluxo-caixa.store'), {...data, pagamentos, tipo}, {
+            onSuccess: () => {
+                handleClose()
+                reset()
+                handleTipo('')
+            }
+        })
     }
 
     const handleTipo = (valor) => {
@@ -74,7 +80,12 @@ const CreateDialog = () => {
                     <Typography>Cadastrar</Typography>
                 </Stack>
             </button>
-            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xl">
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                fullWidth
+                maxWidth="lg"
+            >
                 <DialogContent>
                     {carregando && <CardContainer>
                         <CardTitle title="Cadastrar Fluxo de Caixa" icon={<FileEarmarkPlus size={22}/>}/>

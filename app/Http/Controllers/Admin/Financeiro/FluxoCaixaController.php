@@ -9,6 +9,8 @@ use App\Models\FinanceirosSalarios;
 use App\Models\FluxoCaixa;
 use App\Models\FluxoCaixasConfig;
 use App\Models\Franquias;
+use App\Services\Financeiro\FluxoCaixaService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,6 +18,8 @@ class FluxoCaixaController extends Controller
 {
     public function index(Request $request)
     {
+//        print_pre((new \App\Models\Financeiro\FluxoCaixa())->getRegistros()->get()->toArray());
+
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
         $empresas = (new FluxoCaixasConfig())->getEmpresas();
         $franquias = (new Franquias())->get();
@@ -93,12 +97,19 @@ class FluxoCaixaController extends Controller
 
     public function atualizarPagamento(Request $request)
     {
-//        print_pre($request->all())
         (new FluxoCaixaPagamento())->pagar($request);
 
         modalSucesso('Pagamento realizado com sucesso!');
-//        return redirect()->back();
     }
+
+    public function getRegistrosFiltrados(Request $request)
+    {
+        $dados = (new FluxoCaixaService())->getRegistrosFiltrados($request);
+
+        return response()->json($dados);
+    }
+
+    ///////////////////////////////////////////
 
     public function alterarBaixa($id, Request $request)
     {
