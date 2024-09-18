@@ -11,19 +11,80 @@ class FluxoCaixaService
 {
     public function getRegistrosFiltrados($filters)
     {
-        $dataInicio =  Carbon::parse($filters->get('periodoInicio') ?? now())->format('d/m/Y');
-        $dataFim =  Carbon::parse($filters->get('periodoFim') ?? now())->format('d/m/Y') ;
+        $dataInicio = Carbon::parse($filters->get('periodoInicio') ?? now())->format('d/m/Y');
+        $dataFim = Carbon::parse($filters->get('periodoFim') ?? now())->format('d/m/Y');
+        $tipo = $filters->get('tipo');
+        $status = $filters->get('status');
+        $fornecedor = $filters->get('fornecedor');
+        $franquia = $filters->get('franquia');
+        $empresa = $filters->get('empresa');
 
-        return (new FluxoCaixa)->getRegistros()
+        $query =  (new FluxoCaixa)->getRegistros();
 
-            ->when($filters->input('tipo'), fn($q, $tipo) => $q->where('tipo', $tipo))
-            ->when($filters->input('status'), fn($q, $status) => $q->where('status', $status))
-            ->when($filters->input('fornecedor'), fn($q, $fornecedor) => $q->where('fornecedor_id', $fornecedor))
-            ->when($filters->input('franquia'), fn($q, $franquia) => $q->where('franquia_id', $franquia))
-            ->when($filters->input('empresa'), fn($q, $empresa) => $q->where('empresa_id', $empresa))
-            ->whereHas('pagamentos', function ($query) use ($dataInicio, $dataFim) {
-                $query->whereBetween(DB::raw('DATE_FORMAT(data, "%d/%m/%Y")'), [$dataInicio, $dataFim]);
+        $this->tipo($query, $tipo);
+        $this->status($query, $status);
+        $this->fornecedor($query, $fornecedor);
+        $this->franquia($query, $franquia);
+        $this->empresa($query, $empresa);
+        $this->data($query, $dataInicio, $dataFim);
+
+        return $query->get();
+    }
+
+    private function tipo($query, $tipo)
+    {
+        $query->when($tipo, fn($q, $tipo) => $q->where('tipo', $tipo));
+    }
+
+    private function status($query, $status)
+    {
+        $query->whereHas('pagamentos', function ($query) use ($status) {
+            $query->when($status === 'pago', function ($q) {
+                $q->whereNotNull('data_baixa');
             })
-            ->get();
+                ->when($status === 'aberto', function ($q) {
+                    $q->whereNull('data_baixa');
+                });
+        });
+    }
+
+    private function fornecedor($query, $fornecedor)
+    {
+        $query->whereHas('fornecedor', function ($q) use ($fornecedor) {
+            $q->when($fornecedor, function ($q, $valor) {
+                $q->where('fornecedor_id', $valor);
+            });
+        });
+    }
+
+    private function franquia($query, $franquia)
+    {
+        $query->whereHas('franquia', function ($q) use ($franquia) {
+            $q->when($franquia, function ($q, $valor) {
+                $q->where('franquia_id', $valor);
+            });
+        });
+    }
+
+    private function empresa($query, $empresa)
+    {
+        $query->where(function ($query) use ($empresa) {
+            $query->whereHas('empresa', function ($q) use ($empresa) {
+                $q->when($empresa, function ($q, $valor) {
+                    $q->where('empresa_id', $valor);
+                });
+            });
+
+            if (empty($empresa)) {
+                $query->orWhereDoesntHave('empresa');
+            }
+        });
+    }
+
+    private function data($query, $dataInicio, $dataFim)
+    {
+        $query->whereHas('pagamentos', function ($query) use ($dataInicio, $dataFim) {
+            $query->whereBetween(DB::raw('DATE_FORMAT(data, "%d/%m/%Y")'), [$dataInicio, $dataFim]);
+        });
     }
 }

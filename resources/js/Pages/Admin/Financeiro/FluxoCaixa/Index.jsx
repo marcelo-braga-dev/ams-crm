@@ -1,26 +1,12 @@
 import Layout from "@/Layouts/Layout";
 import React, {useEffect, useState} from "react";
-import Switch from "@mui/material/Switch";
 import {Card, TextField, Typography} from "@mui/material";
-import {router} from "@inertiajs/react";
-
-import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
-import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
-import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import FormControlLabel from '@mui/material/FormControlLabel';
-
-import convertFloatToMoney from "@/Helpers/converterDataHorario";
-import LocalAtmOutlinedIcon from '@mui/icons-material/LocalAtmOutlined';
-import CardContainer from "@/Components/Cards/CardContainer";
-import CardBody from "@/Components/Cards/CardBody";
 
 import Filtros from "./Index/Filtros.jsx"
 import CreateDialog from "./Create/CreateDialog.jsx"
-import CardTitle from "@/Components/Cards/CardTitle.jsx";
-import {ArrowDownShort, ArrowUpShort, ListCheck} from "react-bootstrap-icons";
 import ProximosPagamentos from "@/Pages/Admin/Financeiro/FluxoCaixa/Index/ProximosPagamentos.jsx";
 import PagamentosFiltrados from "@/Pages/Admin/Financeiro/FluxoCaixa/Index/PagamentosFiltrados.jsx";
 
@@ -35,56 +21,6 @@ export default function ({fornecedores, franquias, empresas}) {
         periodoFim: '',
     })
 
-    const [dados, setDados] = useState([])
-    const [registrosSalarios, setRegistrosSalarios] = useState([])
-    const [chaveStatus, setChaveStatus] = useState()
-    const [idStatus, setIdStatus] = useState()
-
-    const [atualizarStatus, setAtualizarStatus] = useState(false)
-
-    const [totalSaida, setTotalSaida] = useState(0)
-    const [totalEntrada, setTotalEntrada] = useState(0)
-
-    const alterarStatus = (status) => {
-        axios.post(route('admin.financeiro.fluxo-caixa.alterar-status', {id: idStatus, status: status}))
-        setChaveStatus(undefined)
-        setAtualizarStatus(res => !res)
-    }
-
-    // router.on('success', () => window.location.reload())
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.get(route('admin.financeiro.registros', {...filtros}));
-    //
-    //             setDados(response.data.registros);
-    //             setRegistrosSalarios(response.data.salarios.registros);
-    //             setTotalEntrada(0);
-    //             setTotalSaida(0);
-    //
-    //             Object.values(response.data.registros).forEach(a =>
-    //                 a.forEach(item => {
-    //                     if (item.tipo === 'entrada') {
-    //                         setTotalEntrada(prevState => prevState + item.valor_float);
-    //                     } else {
-    //                         setTotalSaida(prevState => prevState + item.valor_float);
-    //                     }
-    //                 })
-    //             );
-    //
-    //             setTotalSaida(prevState => prevState + response.data.salarios.total);
-    //         } catch (error) {
-    //             console.error('Erro ao buscar registros:', error);
-    //         }
-    //     };
-    //
-    //     fetchData();
-    // }, [filtros, atualizarStatus]);
-
-    const dias = Array.from({length: 31}, (_, i) => i + 1);
-    let fluxo = 0
-
     return (
         <Layout titlePage="Fluxo de Caixa" menu="financeiro" submenu="fluxo-caixa">
             <CreateDialog/>
@@ -92,22 +28,6 @@ export default function ({fornecedores, franquias, empresas}) {
             <div className="mb-2 row justify-content-ce nter">
                 <div className="col-md-8">
                     <Filtros filtros={filtros} setFiltros={setFiltros} empresas={empresas} franquias={franquias} fornecedores={fornecedores}/>
-                </div>
-                <div className="col-2">
-                    <CardContainer>
-                        <CardTitle icon={<ArrowUpShort size={28} color="green"/>} title={<Typography>R$ {convertFloatToMoney(totalEntrada)}</Typography>}/>
-                    </CardContainer>
-                </div>
-                <div className="col-2">
-                    <CardContainer>
-                        <CardTitle icon={<ArrowDownShort size={28} color="red"/>} title={<Typography>R$ {convertFloatToMoney(totalSaida)}</Typography>}/>
-                    </CardContainer>
-                </div>
-            </div>
-
-
-            <div className="row">
-                <div className="col-md-8">
                     <PagamentosFiltrados filtros={filtros}/>
                 </div>
                 <div className="col-md-4">
@@ -252,33 +172,6 @@ export default function ({fornecedores, franquias, empresas}) {
             {/*        )*/}
             {/*    }*/}
             {/*)}*/}
-
-            {/*Modal*/}
-            <div className="mt-6 modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            Digite "ALTERAR" para atualizar o Status:<br/>
-                            <TextField value={chaveStatus ?? ''} onChange={e => setChaveStatus(e.target.value)}/>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar
-                            </button>
-                            <button type="button" data-bs-dismiss="modal" className="btn btn-primary"
-                                    disabled={chaveStatus !== 'ALTERAR'}
-                                    onClick={() => alterarStatus('pago')}>
-                                Alterar Status
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </Layout>
     )
 }

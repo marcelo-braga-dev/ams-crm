@@ -23,7 +23,7 @@ class FluxoCaixaPagamento extends Model
         'forma_pagamento',
     ];
 
-    protected $appends = ['status'];
+    protected $appends = ['status', 'vencido'];
     protected $with = ['banco'];
 
     public function pagar($dados)
@@ -56,6 +56,16 @@ class FluxoCaixaPagamento extends Model
     public function getStatusAttribute()
     {
         return ($this->attributes['data_baixa'] ?? null) ? 'pago' : 'aberto';
+    }
+
+    public function getVencidoAttribute()
+    {
+        $dataVencimento = $this->attributes['data'];
+        if ($dataVencimento) {
+            $diasVencidos = Carbon::now()->diffInDays(Carbon::parse($dataVencimento));
+            return intval($diasVencidos);
+        }
+        return null;
     }
 
     // Relations

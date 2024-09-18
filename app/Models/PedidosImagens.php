@@ -91,6 +91,8 @@ class PedidosImagens extends Model
         $url = (new Images())->armazenar($dados, 'file_boleto', 'pedidos/' . $id);
         $url2 = (new Images())->armazenar($dados, 'file_boleto_2', 'pedidos/' . $id);
 
+        if ($url == 0) throw new \DomainException('ARQUIVO INVÁLIDO');
+
         $this->newQuery()
             ->where('pedido_id', $id)
             ->updateOrCreate(
@@ -107,6 +109,8 @@ class PedidosImagens extends Model
     {
         $url1 = (new Images())->armazenar($dados, 'file_recibo_1', 'pedidos/' . $id);
         $url2 = (new Images())->armazenar($dados, 'file_recibo_2', 'pedidos/' . $id);
+
+        if ($url1 == 0) throw new \DomainException('ARQUIVO INVÁLIDO');
 
         $this->newQuery()
             ->where('pedido_id', $id)

@@ -24,7 +24,7 @@ class FluxoCaixaController extends Controller
         $empresas = (new FluxoCaixasConfig())->getEmpresas();
         $franquias = (new Franquias())->get();
 
-        $this->proximosPagamentos();
+//        $this->proximosPagamentos();
 
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Index',
             compact('fornecedores', 'franquias', 'empresas'));
@@ -84,11 +84,23 @@ class FluxoCaixaController extends Controller
         return redirect()->back();
     }
 
-    public function proximosPagamentos()
+    public function proximosPagamentos(Request $request)
     {
+        $entrada = !$request->input('tipo_entrada');
+        $saida = !$request->input('tipo_saida');
+
         $pagamentos = (new FluxoCaixaPagamento())
             ->getAll()
             ->whereNull('data_baixa')
+            ->whereHas('notaFiscal', function ($q) use ($entrada, $saida) {
+
+                $q->when($entrada, function ($q) {
+                    $q->where('tipo', 'entrada');
+                })
+                    ->when($saida, function ($q) {
+                        $q->where('tipo', 'saida');
+                    });
+            })
             ->orderBy('data')
             ->get();
 

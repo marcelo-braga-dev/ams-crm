@@ -12,7 +12,7 @@ import {ChevronDown, ChevronUp, ListCheck} from "react-bootstrap-icons";
 
 const Filtros = ({filtros, setFiltros, fornecedores, franquias, empresas}) => {
 
-    const [openFiltro, setOpenFiltro] = useState(false)
+    const [openFiltro, setOpenFiltro] = useState(true)
 
     const [state, setState] = useState([
         {
@@ -23,9 +23,12 @@ const Filtros = ({filtros, setFiltros, fornecedores, franquias, empresas}) => {
         }
     ]);
 
-    const itemsFornecedor = fornecedores.map(item => {
-        return {label: item.valor, id: item.id}
-    })
+    const itemsFornecedor = [
+        { label: "Todos", id: "" },
+        ...fornecedores.map(item => {
+            return { label: item.valor, id: item.id };
+        })
+    ];
 
     const limparFiltroData = () => {
         router.get(route('admin.financeiro.fluxo-caixa.index'))
@@ -82,7 +85,10 @@ const Filtros = ({filtros, setFiltros, fornecedores, franquias, empresas}) => {
                                 <Autocomplete
                                     disablePortal
                                     options={itemsFornecedor}
-                                    onChange={e => setFiltros({...filtros, fornecedor: e.target.value})}
+                                    getOptionLabel={(option) => option.label}
+                                    onChange={(event, newValue) => {
+                                        setFiltros({...filtros, fornecedor: newValue ? newValue.id : null});
+                                    }}
                                     renderInput={(params) => <TextField {...params} label="Fornecedor:"/>}
                                 />
                             </div>

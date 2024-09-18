@@ -84,6 +84,12 @@ class PedidoUpdateStatus
         (new AcompanhamentoStatus())->updateStatus($id, $msg);
     }
 
+    public function setAguardandoPagamento($id, $request)
+    {
+        (new AguardandoPagamentoStatus())->insertDadosStatus($id, $request);
+        (new AguardandoPagamentoStatus())->updateStatus($id);
+    }
+
     public function conferencia(int $id): void
     {
         (new LancadoStatus())->updateStatus($id);
@@ -102,6 +108,7 @@ class PedidoUpdateStatus
 
     public function aguardandoBoleto($id, $request)
     {
+
         (new AguardandoPagamentoStatus())->insertDadosStatus($id, $request);
         (new AguardandoPagamentoStatus())->updateStatus($id);
     }
@@ -110,13 +117,6 @@ class PedidoUpdateStatus
     {
         (new PedidosImagens())->updateRecibo($id, $request);
         (new AguardandoFaturamentoStatus())->updateStatus($id);
-    }
-
-    public function faturando($id, $request)
-    {
-        (new PedidosImagens())->updateNotaFiscal($id, $request);
-        (new FaturadoStatus())->updateStatus($id, null, $request->prazo);
-        (new Pedidos())->updatePrazo($id, $request->prazo);
     }
 
     public function faturado($id, $msg)
@@ -129,11 +129,6 @@ class PedidoUpdateStatus
         (new Pedidos)->estornarProdutos($id);
 
         (new CanceladoStatus())->updateStatus($id, $request->motivo);
-    }
-
-    public function revisar($id, $alerta)
-    {
-        (new ConferenciaStatusPedido())->updateStatus($id, $alerta);
     }
 
     public function acompanhamento($id, $alerta)
