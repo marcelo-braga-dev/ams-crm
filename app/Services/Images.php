@@ -28,11 +28,12 @@ class Images
         ];
     }
 
-    public function armazenar($request, $file, $path = 'images')
+    public function armazenar(Request $request, $file, $path = 'images')
     {
         if ($request->hasFile($file)) {
             if ($request->file($file)->isValid()) {
-                $url = $request->$file->store($path);
+                $url = $request->input($file)->store($path);
+//                $url = $request->$file->store($path);
                 print_pre($url);
                 return ;
             }
