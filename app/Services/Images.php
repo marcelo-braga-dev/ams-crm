@@ -32,11 +32,11 @@ class Images
     {
         if ($request->hasFile($file)) {
             if ($request->file($file)->isValid()) {
-                print_pre($file);
-                $url = $request->input($file)->store($path);
-//                $url = $request->$file->store($path);
-                print_pre($url);
-                return ;
+//                print_pre($file);
+//                $url = $request->input($file)->store($path);
+                $url = $request->$file->store($path);
+//                print_pre($url);
+                return $url;
             }
         }
         return $request->$file;
