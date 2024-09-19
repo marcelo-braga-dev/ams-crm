@@ -110,8 +110,6 @@ class PedidosImagens extends Model
         $url1 = (new Images())->armazenar($dados, 'file_recibo_1', 'pedidos/' . $id);
         $url2 = (new Images())->armazenar($dados, 'file_recibo_2', 'pedidos/' . $id);
 
-        print_pre($url1);
-
         if ($url1 == 0) throw new \DomainException('ARQUIVO INVÁLIDO');
 
         $this->newQuery()
