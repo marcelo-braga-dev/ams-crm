@@ -30,8 +30,8 @@ class Images
 
     public function armazenar($request, $file, $path = 'images')
     {
-        if ($request->hasFile($file)) {print_pre('VALIDO');
-            if ($request->file($file)->isValid()) {
+        if ($request->hasFile($file)) {
+            if ($request->file($file)->isValid()) {print_pre('VALIDO_OK');
                 return $request->$file->store($path);
             }
         }
