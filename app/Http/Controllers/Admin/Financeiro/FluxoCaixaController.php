@@ -18,13 +18,9 @@ class FluxoCaixaController extends Controller
 {
     public function index(Request $request)
     {
-//        print_pre((new \App\Models\Financeiro\FluxoCaixa())->getRegistros()->get()->toArray());
-
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
         $empresas = (new FluxoCaixasConfig())->getEmpresas();
         $franquias = (new Franquias())->get();
-
-//        $this->proximosPagamentos();
 
         return Inertia::render('Admin/Financeiro/FluxoCaixa/Index',
             compact('fornecedores', 'franquias', 'empresas'));
@@ -49,7 +45,6 @@ class FluxoCaixaController extends Controller
         (new \App\Models\Financeiro\FluxoCaixa())->cadastrar($request);
 
         modalSucesso('Operação realizada com sucesso!');
-//        return redirect()->route('admin.financeiro.fluxo-caixa.index');
     }
 
     public function show($id)
