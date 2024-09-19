@@ -32,6 +32,7 @@ class Images
     {
         if ($request->hasFile($file)) {
             if ($request->file($file)->isValid()) {
+                print_pre($file);
                 $url = $request->input($file)->store($path);
 //                $url = $request->$file->store($path);
                 print_pre($url);
