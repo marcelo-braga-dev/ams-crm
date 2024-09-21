@@ -2,7 +2,7 @@
 
 namespace App\Services\Pedidos;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\PedidosClientes;
 use App\Models\User;
@@ -16,7 +16,7 @@ class PedidosService
 
         $dados = [];
         $nomes = (new User())->getNomes();
-        $nomesLeads = (new Leads())->getNomes();
+        $nomesLeads = (new LeadsANTIGO())->getNomes();
         $nomesClientes = (new PedidosClientes())->getNomes();
 
         foreach ($pedidos as $item) {

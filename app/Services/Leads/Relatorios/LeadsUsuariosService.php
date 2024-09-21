@@ -2,7 +2,7 @@
 
 namespace App\Services\Leads\Relatorios;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\User;
 
 class LeadsUsuariosService
@@ -16,7 +16,7 @@ class LeadsUsuariosService
             $qtd[] = [
                 'id' => $id,
                 'nome' => $nomes[$id],
-                'status' => (new Leads())->qtdLeadsUsuarios($id, $setor)];
+                'status' => (new LeadsANTIGO())->qtdLeadsUsuarios($id, $setor)];
         }
 
         return $qtd;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsImportarHistoricos;
 use Inertia\Inertia;
 
@@ -18,7 +18,7 @@ class ImportarHistoricoController extends Controller
 
     public function show($id)
     {
-        $leads = (new Leads)->importacao($id);
+        $leads = (new LeadsANTIGO)->importacao($id);
         $dadosimportacao = (new LeadsImportarHistoricos())->getDados($id);
 
         return Inertia::render('Admin/Leads/Importar/Historico/Show',
@@ -27,7 +27,7 @@ class ImportarHistoricoController extends Controller
 
     public function destroy($id)
     {
-        (new Leads)->removerImportacao($id);
+        (new LeadsANTIGO)->removerImportacao($id);
 
         modalSucesso('Leads deletados com sucesso!');
         return redirect()->route('admin.clientes.leads.importar.index');

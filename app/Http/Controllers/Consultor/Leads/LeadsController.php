@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Consultor\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
 use App\Models\Pins;
@@ -29,7 +29,7 @@ class LeadsController extends Controller
     public function store(Request $request)
     {
         try {
-            $id = (new Leads())->create($request, setor_usuario_atual(), id_usuario_atual());
+            $id = (new LeadsANTIGO())->create($request, setor_usuario_atual(), id_usuario_atual());
 
             modalSucesso('Cliente cadastrado com sucesso!');
             if (is_sdr(id_usuario_atual())) return redirect()->route('consultor.leads.novo.show', $id);
@@ -42,7 +42,7 @@ class LeadsController extends Controller
 
     public function edit($id)
     {
-        $dados = (new Leads())->newQuery()->find($id);
+        $dados = (new LeadsANTIGO())->newQuery()->find($id);
         $endereco = (new Enderecos())->get($dados->endereco);
         $telefones = [];
         $urlAnterior = url()->previous();
@@ -54,7 +54,7 @@ class LeadsController extends Controller
     public function update($id, Request $request)
     {
         try {
-            (new Leads())->atualizar($id, $request);
+            (new LeadsANTIGO())->atualizar($id, $request);
 
             modalSucesso("Dados atualizado com sucesso!");
             return redirect($request->urlAnterior);
@@ -66,7 +66,7 @@ class LeadsController extends Controller
 
     public function updateClassificacao(Request $request)
     {
-        (new Leads())->updateClassificacao($request->id, $request->valor);
+        (new LeadsANTIGO())->updateClassificacao($request->id, $request->valor);
 
         modalSucesso("Classificação atualizada!");
         return redirect()->back();

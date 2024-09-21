@@ -2,7 +2,7 @@
 
 namespace App\Services\Dashboard\Vendas;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\User;
 use App\Services\Pedidos\StatusPedidosServices;
@@ -33,7 +33,7 @@ class TopVendasService
 
     public function integradores($mes, $ano)
     {
-        $nomes = (new Leads())->getNomes();
+        $nomes = (new LeadsANTIGO())->getNomes();
 
         return (new Pedidos())->newQuery()
             ->whereIn('status', (new StatusPedidosServices())->statusAguardandoFaturamendo())

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Consultor\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsHistoricos;
 use App\Services\Leads\HistoricoDadosService;
 use App\src\Leads\Historicos\AtivadoHistorico;
@@ -16,7 +16,7 @@ class AtendimentoController extends Controller
 {
     public function show($id)
     {
-        $dados = (new Leads())->getDados($id);
+        $dados = (new LeadsANTIGO())->getDados($id);
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);

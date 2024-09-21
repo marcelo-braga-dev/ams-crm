@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Leads\LeadsCopias;
 use App\Models\Leads\LeadsTelefones;
 use App\Models\LeadsHistoricos;
@@ -41,7 +41,7 @@ class LeadsController extends Controller
     {
         $idUsuario = id_usuario_atual();
 
-        $dados = (new Leads())->getDados($id);
+        $dados = (new LeadsANTIGO())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
         $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
         $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
@@ -62,7 +62,7 @@ class LeadsController extends Controller
     {
         $categoriaAtual = $request->filtros['setor'] ?? 1;
         $usuarios = (new User())->getUsuariosNomes($categoriaAtual);
-        $dados = (new Leads())->getDadosMinimoPaginate($categoriaAtual, $request->filtros);
+        $dados = (new LeadsANTIGO())->getDadosMinimoPaginate($categoriaAtual, $request->filtros);
 
         return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
     }
@@ -71,7 +71,7 @@ class LeadsController extends Controller
     {
         $categoriaAtual = $request->setor ?? 1;
         $usuarios = (new User())->getUsuariosNomes($categoriaAtual);
-        $dados = (new Leads())->getDadosMinimo($categoriaAtual, $request->com_sdr, $request->com_consultor, $request->importacao);
+        $dados = (new LeadsANTIGO())->getDadosMinimo($categoriaAtual, $request->com_sdr, $request->com_consultor, $request->importacao);
 
         return response()->json(['leads' => $dados, 'categoria_atual' => $categoriaAtual, 'usuarios' => $usuarios]);
     }
@@ -83,7 +83,7 @@ class LeadsController extends Controller
         $usuariosSdr = (new User())->usuariosSdr();
         $usuariosVendedor = (new User())->usuariosRecebeLeads();
 
-        $dados = (new Leads())->getDisponiveis($categoriaAtual, $idImportacao);
+        $dados = (new LeadsANTIGO())->getDisponiveis($categoriaAtual, $idImportacao);
 
         return ['registros' => $dados, 'usuarios_sdr' => $usuariosSdr, 'usuarios_vendedor' => $usuariosVendedor];
     }
@@ -98,7 +98,7 @@ class LeadsController extends Controller
     public function store(Request $request)
     {
         try {
-            $id = (new Leads())->create($request, $request->setor);
+            $id = (new LeadsANTIGO())->create($request, $request->setor);
 
             modalSucesso('Lead Cadastrado com sucesso!');
             return redirect()->route('admin.clientes.leads.leads-main.show', $id);
@@ -112,8 +112,8 @@ class LeadsController extends Controller
     {
         try {
             is_sdr($request->consultor) ?
-                (new Leads())->setSdr($request->leadsSelecionados, $request->consultor) :
-                (new Leads())->setConsultor($request->leadsSelecionados, $request->consultor);
+                (new LeadsANTIGO())->setSdr($request->leadsSelecionados, $request->consultor) :
+                (new LeadsANTIGO())->setConsultor($request->leadsSelecionados, $request->consultor);
 
             // Notificar Leads
             if (count($request->leadsSelecionados)) (new LeadsNotificacao())->notificar($request->consultor, count($request->leadsSelecionados), $request->leadsSelecionados);
@@ -128,7 +128,7 @@ class LeadsController extends Controller
     public function delete(Request $request)
     {
         try {
-            (new Leads())->remover($request->lead);
+            (new LeadsANTIGO())->remover($request->lead);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();
@@ -181,8 +181,8 @@ class LeadsController extends Controller
     {
         $isSdr = is_sdr($request->novo_consultor);
         $isSdr ?
-            (new Leads())->setSdr($request->idLeads, $request->novo_consultor, $request->alterarStatus) :
-            (new Leads())->setConsultor($request->idLeads, $request->novo_consultor, $request->alterarStatus);
+            (new LeadsANTIGO())->setSdr($request->idLeads, $request->novo_consultor, $request->alterarStatus) :
+            (new LeadsANTIGO())->setConsultor($request->idLeads, $request->novo_consultor, $request->alterarStatus);
 
         modalSucesso('Leads enviado com sucesso!');
     }
@@ -190,7 +190,7 @@ class LeadsController extends Controller
 
     public function edit($id)
     {
-        $dados = (new Leads())->find($id);
+        $dados = (new LeadsANTIGO())->find($id);
         $endereco = (new Enderecos())->get($dados->endereco);
         $telefones = (new LeadsTelefones())->get($id);
 
@@ -203,7 +203,7 @@ class LeadsController extends Controller
     public function update($id, Request $request)
     {
         try {
-            (new Leads())->atualizar($id, $request);
+            (new LeadsANTIGO())->atualizar($id, $request);
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();
@@ -219,7 +219,7 @@ class LeadsController extends Controller
             if (!empty($request->leadsSelecionados)) {
                 foreach ($request->leadsSelecionados as $item) {
                     (new UpdateStatusLeads())->ocultar($item);
-                    (new Leads())->setConsultor($item, null);
+                    (new LeadsANTIGO())->setConsultor($item, null);
                 }
             }
         } catch (\DomainException $exception) {
@@ -240,14 +240,14 @@ class LeadsController extends Controller
 
     public function removerConsultor(Request $request)
     {
-        (new Leads())->removerConsultor($request->lead);
+        (new LeadsANTIGO())->removerConsultor($request->lead);
 
         return redirect()->back();
     }
 
     public function removerSdr(Request $request)
     {
-        (new Leads())->removerSdr($request->lead);
+        (new LeadsANTIGO())->removerSdr($request->lead);
 
         return redirect()->back();
     }
@@ -264,7 +264,7 @@ class LeadsController extends Controller
     public function limparSdr(Request $request)
     {
         $idLeads = $request->id ? [$request->id] : $request->idLeads;
-        (new Leads())->setSdr($idLeads, null, $request->alterarStatus);
+        (new LeadsANTIGO())->setSdr($idLeads, null, $request->alterarStatus);
 
         modalSucesso('Consultor(a) removido com sucesso!');
     }
@@ -273,22 +273,22 @@ class LeadsController extends Controller
     {
         $isSdr = is_sdr($request->novo_sdr);
         $isSdr ?
-            (new Leads())->setSdr($request->idLeads, $request->novo_sdr, $request->alterarStatus) :
-            (new Leads())->setConsultor($request->idLeads, $request->novo_sdr, $request->alterarStatus);
+            (new LeadsANTIGO())->setSdr($request->idLeads, $request->novo_sdr, $request->alterarStatus) :
+            (new LeadsANTIGO())->setConsultor($request->idLeads, $request->novo_sdr, $request->alterarStatus);
 
         modalSucesso('Leads enviado com sucesso!');
     }
 
     public function inativarLead(Request $request)
     {
-        (new Leads())->inativar($request->id);
+        (new LeadsANTIGO())->inativar($request->id);
 
         modalSucesso('Lead inativado com sucesso!');
     }
 
     public function reativarLead(Request $request)
     {
-        (new Leads())->reativar($request->id);
+        (new LeadsANTIGO())->reativar($request->id);
 
         modalSucesso('Lead inativado com sucesso!');
     }

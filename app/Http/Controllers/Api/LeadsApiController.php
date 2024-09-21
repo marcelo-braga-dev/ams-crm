@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use Illuminate\Http\Request;
 
 class LeadsApiController extends Controller
@@ -17,7 +17,7 @@ class LeadsApiController extends Controller
         $dados['razao_social'] = $request->fields['razao_social']['value'] ?? null;
         $dados['telefones'][] = $request->fields['telefone']['value'] ?? null;
 
-        (new Leads())->create($dados, 1, null, null, true);
+        (new LeadsANTIGO())->create($dados, 1, null, null, true);
 
         return response()->json(['status' => 'success'], 200);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\StatusPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -61,7 +61,7 @@ class PedidosFaturamentos extends Model
 
     public function faturadosPeriodo($id, array $mes, $ano, $setor = null, $distribuidora = null, $isFaturado = null, $statusFaturado = false)
     {
-        $nomeLeads = (new Leads())->getNomes();
+        $nomeLeads = (new LeadsANTIGO())->getNomes();
         $statusNome = (new StatusPedidos())->getStatus();
 
         $query = Pedidos::query()

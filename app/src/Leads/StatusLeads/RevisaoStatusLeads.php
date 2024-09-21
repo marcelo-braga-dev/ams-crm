@@ -2,7 +2,7 @@
 
 namespace App\src\Leads\StatusLeads;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 
 class RevisaoStatusLeads extends StatusLeads
 {
@@ -41,6 +41,6 @@ class RevisaoStatusLeads extends StatusLeads
 
     public function updateStatus($id): void
     {
-        (new Leads())->updateStatus($id, $this->status);
+        (new LeadsANTIGO())->updateStatus($id, $this->status);
     }
 }

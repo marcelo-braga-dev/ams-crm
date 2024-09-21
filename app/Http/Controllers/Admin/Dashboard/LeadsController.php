@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsEncaminhados;
 use App\Models\LeadsStatusHistoricos;
 use App\Models\Setores;
@@ -38,7 +38,7 @@ class LeadsController extends Controller
         $usuariosConsultores = (new User())->usuariosConsultores();
 
         $registrosUsuario = (new LeadsStatusHistoricos())->qtdUsuario($userId, $mes, $ano);
-        $registrosStatus = (new Leads())->relatorioLeads();
+        $registrosStatus = (new LeadsANTIGO())->relatorioLeads();
 
         $statusQtds = [
             'novo' => (new LeadsStatusHistoricos())->periodoStatus((new NovoStatusLeads())->getStatus(), $mes, $ano),

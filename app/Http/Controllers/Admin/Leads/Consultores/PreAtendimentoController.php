@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Consultor\Leads\MeioContatoLeads;
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsHistoricos;
 use App\Models\User;
 use App\Models\UsersPermissoes;
@@ -20,7 +20,7 @@ class PreAtendimentoController extends Controller
 {
     public function show($id)
     {
-        $dados = (new Leads())->getDados($id);
+        $dados = (new LeadsANTIGO())->getDados($id);
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
@@ -35,7 +35,7 @@ class PreAtendimentoController extends Controller
 
     public function update($id, Request $request)
     {
-        (new Leads)->setConsultor([$request->lead_id], $id);
+        (new LeadsANTIGO)->setConsultor([$request->lead_id], $id);
 
         modalSucesso('Status atualizado!');
         return redirect()->route('admin.leads.cards-aberto.show', $request->lead_id);

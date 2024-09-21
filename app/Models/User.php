@@ -3,7 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Services\Images;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Usuarios\Permissoes\ChavesPermissoes;
@@ -412,7 +412,7 @@ class User extends Authenticatable
                 ->where('user_id', $antigo)
                 ->update(['user_id' => $novo]);
 
-            (new Leads())->newQuery()
+            (new LeadsANTIGO())->newQuery()
                 ->where('user_id', $antigo)
                 ->update(['user_id' => $novo]);
         } catch (QueryException) {

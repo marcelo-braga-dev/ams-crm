@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Consultor\Leads\MeioContatoLeads;
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsHistoricos;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
@@ -18,7 +18,7 @@ class FinalizadoController extends Controller
 {
     public function show($id)
     {
-        $dados = (new Leads())->getDados($id);
+        $dados = (new LeadsANTIGO())->getDados($id);
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
@@ -40,7 +40,7 @@ class FinalizadoController extends Controller
     public function destroy($id, Request $request)
     {
         try {
-            (new Leads())->remover($id);
+            (new LeadsANTIGO())->remover($id);
             modalSucesso('Lead deletado com sucesso!');
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());

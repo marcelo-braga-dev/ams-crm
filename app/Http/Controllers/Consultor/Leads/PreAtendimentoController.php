@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Consultor\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsEncaminhados;
 use App\Models\LeadsHistoricos;
 use App\Services\Leads\HistoricoDadosService;
@@ -18,7 +18,7 @@ class PreAtendimentoController extends Controller
 {
     public function show($id)
     {
-        $dados = (new Leads())->getDados($id);
+        $dados = (new LeadsANTIGO())->getDados($id);
         $status = (new StatusAtendimentoLeads())->status();
         $contatos = (new MeioContatoLeads())->status();
         $historicos = (new HistoricoDadosService())->dados($id);
@@ -32,11 +32,11 @@ class PreAtendimentoController extends Controller
     public function update($id, Request $request)
     {
         try {
-            $lead = (new Leads())->find($id);
+            $lead = (new LeadsANTIGO())->find($id);
             $idEnviar = (new SequenciaEnvioLeadsService())->proximo($lead->setor_id);
 
             (new LeadsEncaminhados())->create($idEnviar, $id);
-            (new Leads())->updateUser($id, $idEnviar);
+            (new LeadsANTIGO())->updateUser($id, $idEnviar);
             (new UpdateStatusLeads())->setAberto($id);
             (new LeadsHistoricos())->createHistorico($id, (new AtivadoHistorico())->status(), $request->msg);
         } catch (\DomainException $exception) {

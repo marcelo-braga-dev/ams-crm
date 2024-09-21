@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\User;
 use App\Models\UsersPermissoes;
 use App\Services\Leads\CardsLeadsService;
@@ -32,7 +32,7 @@ class CardsController extends Controller
     public function limparConsultor(Request $request)
     {
         $idLeads = $request->id ? [$request->id] : $request->idLeads;
-        (new Leads())->setConsultor($idLeads, null);
+        (new LeadsANTIGO())->setConsultor($idLeads, null);
 
         modalSucesso('Consultor(a) removido com sucesso!');
     }

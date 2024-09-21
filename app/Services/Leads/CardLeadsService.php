@@ -2,7 +2,7 @@
 
 namespace App\Services\Leads;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\src\Leads\Status\AtendimentoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\CanceladoStatusLeads;
@@ -31,7 +31,7 @@ class CardLeadsService
         $finalizado = (new FinalizadoStatusLeads())->getStatus();
         $cancelado = (new CanceladoStatusLeads())->getStatus();
 
-        $leads = (new Leads());
+        $leads = (new LeadsANTIGO());
 
         $this->cards['novo'] = $leads->getPeloStatus($id, $novo, 'asc');
         $this->cards['atendimento'] = $leads->getPeloStatus($id, $atendimento);

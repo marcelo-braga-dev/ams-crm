@@ -4,17 +4,25 @@ namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Setores;
 use App\Models\User;
+use App\Services\Leads\LeadFunilVendasService;
 use App\src\Leads\StatusLeads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class FunilVendasKanbanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-//        print_pre($registros = (new Leads)->agrupadosPorStatus());
+        $setor = $request->input('setor');
+        $usuario = $request->input('usuario');
+
+        $dados = (new LeadFunilVendasService())->getLeadsGroupedByStatus($setor, $usuario);
+//        print_pre($dados);
+
+
         return Inertia::render('Admin/Leads/Kanban/Index');
     }
 
@@ -27,8 +35,10 @@ class FunilVendasKanbanController extends Controller
         $usuarios = (new User())->subordinados();
         $setores = (new Setores())->setores();
 
-        $registros = (new Leads)->agrupadosPorStatus($setor, $usuario);
+        $registros = (new Leads)->cards($setor, $usuario);
 
-        return response()->json(compact('registros', 'usuarios', 'setores', 'colunas'));
+        $cards = (new LeadFunilVendasService())->getLeadsGroupedByStatus($setor, $usuario);
+
+        return response()->json(compact('cards', 'registros', 'usuarios', 'setores', 'colunas'));
     }
 }

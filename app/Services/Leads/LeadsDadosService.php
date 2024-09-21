@@ -2,7 +2,7 @@
 
 namespace App\Services\Leads;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\User;
 
 class LeadsDadosService
@@ -16,7 +16,7 @@ class LeadsDadosService
 
     public function getAll(int $categoria): array
     {
-        $dados = (new Leads())->getResumido($categoria);
+        $dados = (new LeadsANTIGO())->getResumido($categoria);
 
         return $this->dados($dados);
     }
@@ -26,7 +26,7 @@ class LeadsDadosService
      */
     public function lead($id): array
     {
-        $dados = (new Leads())->find($id);
+        $dados = (new LeadsANTIGO())->find($id);
 
         return $this->items($dados);
     }
@@ -82,7 +82,7 @@ class LeadsDadosService
 
     public function getOcultos($setor): array
     {
-        $dados = (new Leads())->getOcultos($setor);
+        $dados = (new LeadsANTIGO())->getOcultos($setor);
 
         return $this->dados($dados);
     }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Notificacoes;
 use App\Models\Setores;
 use App\Models\User;
@@ -50,7 +50,7 @@ class RelatoriosController extends Controller
     {
         $setor = $request->setor ?? 1;
 
-        $url = (new Leads())->relatorio($setor);
+        $url = (new LeadsANTIGO())->relatorio($setor);
         return redirect($url);
     }
 

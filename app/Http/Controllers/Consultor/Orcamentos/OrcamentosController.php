@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Consultor\Orcamentos;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\OrcamentosSolar;
 use App\src\Orcamentos\BuscarKits;
 use App\src\Orcamentos\EstruturasGeradores;
@@ -20,7 +20,7 @@ class OrcamentosController extends Controller
 
     public function create(Request $request)
     {
-        $lead = (new Leads())->find($request->lead);
+        $lead = (new LeadsANTIGO())->find($request->lead);
         $estruturas = (new EstruturasGeradores())->estruturasNomesId();
 
         return Inertia::render('Consultor/Orcamentos/Create/Create',

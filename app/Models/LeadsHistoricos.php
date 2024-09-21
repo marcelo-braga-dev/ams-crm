@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\src\Leads\StatusAtendimentoLeads;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +23,7 @@ class LeadsHistoricos extends Model
 
     public function create(int $id, $dados, $status)
     {
-        (new Leads())->atualizarDataStatus($id);
+        (new LeadsANTIGO())->atualizarDataStatus($id);
 
         return $this->newQuery()
             ->create([

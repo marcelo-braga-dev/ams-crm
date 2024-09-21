@@ -2,7 +2,7 @@
 
 namespace App\src\Leads\Status;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsStatusHistoricos;
 
 class OcultosLeadsStatus
@@ -20,7 +20,7 @@ class OcultosLeadsStatus
     }
     public function updateStatus($id): void
     {
-        (new Leads())->updateStatus($id, $this->getStatus());
+        (new LeadsANTIGO())->updateStatus($id, $this->getStatus());
         (new LeadsStatusHistoricos())->create($id, $this->status);
     }
 }

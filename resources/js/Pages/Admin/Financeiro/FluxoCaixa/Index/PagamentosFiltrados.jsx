@@ -48,10 +48,10 @@ const PagamentosFiltrados = ({filtros}) => {
                     <CardTitle title={isEntrada ? 'Entrada' : 'Saída'} icon={isEntrada ?
                         <ArrowUpShort size={30} color="green"/> : <ArrowDownShort size={30} color="red"/>}/>
                     <CardBody>
-                        <CampoTexto titulo="Fornecedor" texto={item?.fornecedor?.nome} nowrap/>
-                        <CampoTexto titulo="Franquia" texto={item?.franquia?.nome}/>
-                        {item?.empresa?.nome && <CampoTexto titulo="Empresa" texto={item?.empresa?.nome}/>}
-                        <CampoTexto titulo="Pagamentos" texto={`${item?.pagos_qtd}/${item?.pagamentos_qtd}`}/>
+                        {/*<CampoTexto titulo="Fornecedor" texto={item?.fornecedor?.nome} nowrap/>*/}
+                        {/*<CampoTexto titulo="Franquia" texto={item?.franquia?.nome}/>*/}
+                        {/*{item?.empresa?.nome && <CampoTexto titulo="Empresa" texto={item?.empresa?.nome}/>}*/}
+                        {/*<CampoTexto titulo="Pagamentos" texto={`${item?.pagos_qtd}/${item?.pagamentos_qtd}`}/>*/}
 
                         {item?.pagamentos.map(pagamentos => (
                             <CardContainer>

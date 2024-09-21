@@ -41,7 +41,7 @@ class LeadsCopias extends Model
 
     public function atualizarRegistro($cnpj, $dadosAntigos, $dadosNovos, $importacao)
     {
-        $registroAtualizado = (new Leads())->newQuery()->where('cnpj', $cnpj)->first();
+        $registroAtualizado = (new LeadsANTIGO())->newQuery()->where('cnpj', $cnpj)->first();
 
         $colunasAlteradas = [];
         foreach ($dadosNovos as $coluna => $valor) {

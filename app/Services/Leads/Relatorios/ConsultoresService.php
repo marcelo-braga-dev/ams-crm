@@ -2,14 +2,14 @@
 
 namespace App\Services\Leads\Relatorios;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsHistoricos;
 
 class ConsultoresService
 {
     public function qtdLeadsStatus($idConsultor)
     {
-        return (new Leads())->qtdLeadsStatusConsultor($idConsultor);
+        return (new LeadsANTIGO())->qtdLeadsStatusConsultor($idConsultor);
     }
 
     public function qtdAtendimentoTipo($idConsultor)

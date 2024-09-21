@@ -2,7 +2,7 @@
 
 namespace App\src\Pedidos;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\PedidosArquivos;
 use App\Models\PedidosClientes;
@@ -41,7 +41,7 @@ class Pedido
             case (new ProdutoModelo())->modelo(): {
                     DB::beginTransaction();
                     try {
-                        (new Leads())->atualizar($request->id_lead, $request);
+                        (new LeadsANTIGO())->atualizar($request->id_lead, $request);
                         $idPedido = (new Pedidos())->create($request);
 
                         (new PedidosProdutos())->create($idPedido, $request);

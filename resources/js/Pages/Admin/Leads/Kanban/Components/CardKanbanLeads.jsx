@@ -22,6 +22,7 @@ import DialogMui from "@/Components/Modals/DialogMui.jsx";
 import {router} from "@inertiajs/react";
 import styled from 'styled-components'
 import LinearProgress from "@mui/material/LinearProgress";
+import {round} from "lodash";
 
 const Card = styled.div`
     border-radius: 15px;
@@ -32,11 +33,10 @@ const Card = styled.div`
     border-left: 3px solid ${(props) => props.border || 'white'};
 `
 
-const CardKanbanLeads = ({item, emitePedidos, atualizarCards, cor}) => {
+const CardKanbanLeads = ({card, item, emitePedidos, atualizarCards, cor}) => {
     const {
-        razao_social, nome, cnpj, cpf, id, telefones, consultor, status_data, status_data_dias, classificacao,
-        setor, avancar_status_url, localidade
-    } = item
+        razao_social, nome, cnpj, cpf, id, telefones, consultor, status_data, classificacao,
+        setor, avancar_status_url,     } = item
 
     const [openModalConfirmStatus, setOpenModalConfirmStatus] = useState()
     const handleOpen = () => setOpenModalConfirmStatus(true)
@@ -53,7 +53,10 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards, cor}) => {
         atualizarCards()
     }
 
-    const margemAtendimento = (status_data_dias / 15 * 100) > 100 ? 100 : (status_data_dias / 15 * 100);
+    const prazo = 15
+    const margemPrazo = round((1+card.status_prazo/prazo)*100)
+
+    const margemPrazoStatus = card.status_prazo < 0 ? 100 : (card.status_prazo / prazo * 100);
 
     return (
         <Card border={cor}>
@@ -109,7 +112,7 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards, cor}) => {
                             </Grid>
                             <Grid item xs={10}>
                                 <Tooltip title="Localidade" arrow>
-                                    <Typography>{localidade.cidade ?? '-'}/{localidade.estado ?? '-'}</Typography>
+                                    <Typography>{card.cidade_estado?.cidade ?? '-'}/{card.cidade_estado?.estado ?? '-'}</Typography>
                                 </Tooltip>
                             </Grid>
                         </Grid>
@@ -156,10 +159,10 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards, cor}) => {
                                 <Grid item xs={1}>
                                     <Stopwatch size={18}/>
                                 </Grid>
-                                <Grid item xs={11} style={{color: margemAtendimento > 75 ? 'red' : 'inherit'}}>
+                                <Grid item xs={11} style={{color: margemPrazo > 75 ? 'red' : 'inherit'}}>
                                     <Stack marginTop={1} alignContent={'end'} textAlign={'end'}>
-                                        <LinearProgress variant="determinate" color="inherit" value={margemAtendimento}/>
-                                        <Typography variant="body2">restam {15 - status_data_dias} de {15} dias</Typography>
+                                        <LinearProgress variant="determinate" color="inherit" value={margemPrazo}/>
+                                        <Typography variant="body2">{`restam ${prazo + card.status_prazo} de ${prazo} dias`}</Typography>
                                     </Stack>
                                 </Grid>
                             </Grid>
@@ -188,7 +191,7 @@ const CardKanbanLeads = ({item, emitePedidos, atualizarCards, cor}) => {
 
                             <Stack direction="row" spacing={0}>
                                 <ArrowDownShort size={20}/>
-                                <Typography variant="body2">{status_data} há {status_data_dias} dias</Typography>
+                                <Typography variant="body2">{status_data}</Typography>
                             </Stack>
                         </Stack>
 

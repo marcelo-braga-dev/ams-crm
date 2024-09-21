@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Pedidos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
 use App\Models\ProdutosFornecedores;
@@ -33,7 +33,7 @@ class EmitirPedidosController extends Controller
         $setor = setor_usuario_atual();
 
         $fornecedores = (new ProdutosFornecedores())->getAll($setor);
-        $lead = (new Leads())->find($request->lead);
+        $lead = (new LeadsANTIGO())->find($request->lead);
 
         $endereco = (new Enderecos())->get($lead->endereco);
         $categorias = (new ProdutosCategorias())->categorias(setor_usuario_atual());

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Services\Leads\Relatorios\LeadsUsuariosService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -20,7 +20,7 @@ class CardsController extends Controller
 
     public function limparFinalizados(Request $request)
     {
-        (new Leads())->limparStatus($request->id, $request->status);
+        (new LeadsANTIGO())->limparStatus($request->id, $request->status);
 
         modalSucesso('Ação realizada com sucesso!');
         return redirect()->back();

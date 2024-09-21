@@ -15,6 +15,8 @@ const Page = () => {
     const [setor, setSetor] = useState("");
     const [usuario, setUsuario] = useState("");
 
+    const [cards, setCards] = useState([]);
+
     const [registros, setRegistros] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
     const [setores, setSetores] = useState([]);
@@ -29,6 +31,8 @@ const Page = () => {
                 const response = await axios.get(route('auth.leads.funil-vendas-kanban.index-registros'), {
                     params: {setor, usuario},
                 });
+                setCards(response.data.cards)
+
                 setRegistros(response.data.registros);
                 setUsuarios(response.data.usuarios);
                 setSetores(response.data.setores);
@@ -38,7 +42,7 @@ const Page = () => {
             } finally {
                 setCarregando(false);
             }
-        }, 300), []); // Debounce para evitar chamadas excessivas
+        }, 300), []);
 
     useEffect(() => {
         setCarregando(true);
@@ -77,20 +81,24 @@ const Page = () => {
 
     const renderedRows = useMemo(() => (
         Object.values(colunas).map(({status, cor}) => {
-            const statusGroup = registros[status];
+            const statusGroup = cards['concluido'];
+
             return (
                 <td key={status} style={{padding: 10}}>
-                    {statusGroup?.items?.map((item) => (
-                        <CardKanbanLeads key={item.id}
-                                         item={item}
-                                         cor={cor}
-                                         emitePedidos={statusGroup.status_dados.emite_pedidos}
-                                         atualizarCards={atualizarCards}/>
+                    {statusGroup?.map((item, index) => (
+                        index < 20 ? <CardKanbanLeads
+                            key={item.id}
+                            item={item}//
+                            card={item}
+                            cor={cor}
+                            emitePedidos={statusGroup?.status_dados?.emite_pedidos}
+                            atualizarCards={atualizarCards}
+                        /> : ''
                     ))}
                 </td>
             );
         })
-    ), [colunas, registros]);
+    ), [colunas, cards]);
 
     return (
         <Layout titlePage="Funil de Vendas" menu="leads" submenu="leads-kanban">
@@ -171,13 +179,10 @@ const Page = () => {
                             </tr>
                             </tbody>
                         </table>
-                        {/*{colunas.length <= 0 && <CardContainer>*/}
-                        {/*    <CardBody>*/}
+
                         {colunas.length === 0 &&
                             <Typography>Não há status de funil cadastrados para este usuário;</Typography>
                         }
-                        {/*    </CardBody>*/}
-                        {/*</CardContainer>}*/}
                     </div>
 
                 </ScrollContainer>

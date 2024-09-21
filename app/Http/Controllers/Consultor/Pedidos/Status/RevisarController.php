@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Consultor\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\PedidosArquivos;
 use App\Models\PedidosClientes;
@@ -26,7 +26,7 @@ class RevisarController extends Controller
         $preco = convert_float_money($pedido->preco_venda);
 
         if ($pedido->modelo == 2) {
-            $cliente = (new Leads())->getDados($pedido->lead_id);
+            $cliente = (new LeadsANTIGO())->getDados($pedido->lead_id);
             return Inertia::render('Consultor/Pedidos/Revisar/Modelo2/Edit',
                 compact('pedido', 'cliente', 'preco', 'fornecedores', 'preco'));
         }
@@ -54,7 +54,7 @@ class RevisarController extends Controller
             }
 
             if ($pedido->modelo == 2) {
-                (new Leads())->atualizar($id, $request);
+                (new LeadsANTIGO())->atualizar($id, $request);
             }
 
             (new PedidosArquivos())->setRG($id, $request);

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsImportarHistoricos;
 use App\Services\Leads\Importar\DadosImportacaoService;
 use App\Services\Leads\Importar\ImportarArquivoService;
@@ -39,7 +39,7 @@ class ImportarController extends Controller
         foreach ($dadosSeparados as $item) {
             try {
                 $qtd++;
-                (new Leads())->createOrUpdatePlanilhas($item, $request->setor, $idHistorico);
+                (new LeadsANTIGO())->createOrUpdatePlanilhas($item, $request->setor, $idHistorico);
             } catch (\DomainException $exception) {
                 $qtd--;
             }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Leads\LeadsCopias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,7 +29,7 @@ class LeadsImportarHistoricos extends Model
 
     public function atualizar($id, $dadosPlanilha)
     {
-        $qtdLeads = (new Leads())->newQuery()
+        $qtdLeads = (new LeadsANTIGO())->newQuery()
             ->where('importacao_id', $id)
             ->count();
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Consultor\Pedidos;
 use App\Http\Controllers\Controller;
 use App\Models\ConfigCores;
 use App\Models\Enderecos;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosProdutos;
@@ -56,7 +56,7 @@ class PedidosController extends Controller
         $setor = setor_usuario_atual();
 
         $fornecedores = (new ProdutosFornecedores())->getAll($setor);
-        $lead = (new Leads())->find($request->lead);
+        $lead = (new LeadsANTIGO())->find($request->lead);
 
         $endereco = (new Enderecos())->get($lead->endereco);
         $categorias = (new ProdutosCategorias())->categorias(setor_usuario_atual());

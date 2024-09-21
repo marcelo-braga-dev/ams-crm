@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leads\LeadsNEW;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsStatusHistoricos;
 use App\Models\Pedidos;
 use App\Models\Setores;
@@ -27,7 +27,7 @@ class LeadsController extends Controller
     {
         $idUsuario = id_usuario_atual();
 
-        $dados = (new Leads())->getDados($id);
+        $dados = (new LeadsANTIGO())->getDados($id);
         $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
 //        print_pre($dados);
         $permissoes = [
@@ -58,7 +58,7 @@ class LeadsController extends Controller
     public function store(Request $request)
     {
         try {
-            $id = (new Leads())->create($request, $request->setor);
+            $id = (new LeadsANTIGO())->create($request, $request->setor);
 
             modalSucesso('Lead Cadastrado com sucesso!');
             return redirect()->route('admin.clientes.leads.leads-main.show', $id);
@@ -71,7 +71,7 @@ class LeadsController extends Controller
     public function update($id, Request $request)
     {
         try {
-            (new Leads())->atualizar($id, $request);
+            (new LeadsANTIGO())->atualizar($id, $request);
             modalSucesso('Dados Atualizados com sucesso!');
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());

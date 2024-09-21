@@ -2,7 +2,7 @@
 
 namespace App\src\Pedidos\Notificacoes\Leads;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Notificacoes;
 use App\Models\User;
 use App\src\Leads\Status\AtendimentoStatusLeads;
@@ -32,7 +32,7 @@ class LeadsNotificacao implements Notificacao
     {
         $titulo = 'Comentário adicionado no LEAD #' . $idLead;
 
-        $dadosLead = (new Leads())->find($idLead);
+        $dadosLead = (new LeadsANTIGO())->find($idLead);
 
         $novo = (new NovoStatusLeads())->getStatus();
         $atendimento = (new AtendimentoStatusLeads())->getStatus();

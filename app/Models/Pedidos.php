@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\Pedidos\Instalacoes\PedidosInstalacoesAnotacoes;
 use App\Models\Pedidos\PedidosFinanciamentoDados;
 use App\Services\Pedidos\StatusPedidosServices;
@@ -232,7 +232,7 @@ class Pedidos extends Model
 
         if ($dados['tipo_financiamento'] ?? null) (new PedidosFinanciamentoDados())->create($pedido->id, $dados['tipo_financiamento']);
 
-        (new Leads())->atualizarDataUltimoPedido($dados->id_lead);
+        (new LeadsANTIGO())->atualizarDataUltimoPedido($dados->id_lead);
         (new PedidosHistoricos())->create($pedido->id, $status, $prazo, null);
         (new LeadsHistoricos())->createPedido($dados->id_lead, $pedido->id);
 
@@ -483,7 +483,7 @@ class Pedidos extends Model
         // Consulta unica
         $consultor = (new User)->get($pedido->user_id);
         $fornecedor = (new Fornecedores())->find($pedido->fornecedor_id);
-        $integrador = $pedido->lead_id ? (new Leads())->getDados($pedido->lead_id) : '';
+        $integrador = $pedido->lead_id ? (new LeadsANTIGO())->getDados($pedido->lead_id) : '';
         $files = (new PedidosImagens())->getImagens($pedido->id);
         $setores = (new Setores())->getNomes();
         $frete = (new PedidosFretes())->pedido($pedido->id);
@@ -496,7 +496,7 @@ class Pedidos extends Model
             $cliente = (new PedidosClientes())->find($pedido->id);
         }
         if ($pedido->modelo === 2) {
-            $cliente = (new Leads())->find($pedido->lead_id);
+            $cliente = (new LeadsANTIGO())->find($pedido->lead_id);
         }
 
         $isFinanceiro = is_financeiro();
@@ -630,7 +630,7 @@ class Pedidos extends Model
                     $cliente = (new PedidosClientes())->find($pedido->id);
                 }
                 if ($pedido->modelo === 2) {
-                    $cliente = (new Leads())->find($pedido->lead_id);
+                    $cliente = (new LeadsANTIGO())->find($pedido->lead_id);
                 }
 
                 return [

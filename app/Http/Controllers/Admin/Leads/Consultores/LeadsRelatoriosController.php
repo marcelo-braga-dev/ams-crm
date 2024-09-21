@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
+use App\Models\Leads\LeadsANTIGO;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
@@ -14,7 +14,7 @@ class LeadsRelatoriosController extends Controller
     public function updateConsultor(Request $request)
     {
 
-        (new Leads())->setConsultor([$request->lead], $request->novo_consultor);
+        (new LeadsANTIGO())->setConsultor([$request->lead], $request->novo_consultor);
 //        (new LeadsNotificacao())->notificar($request->novo_consultor, 1, [$request->lead]);
 
         modalSucesso('Consultor(a) Atualizado com sucesso!');
