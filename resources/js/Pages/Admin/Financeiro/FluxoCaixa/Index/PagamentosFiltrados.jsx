@@ -1,113 +1,55 @@
-import CardContainer from "@/Components/Cards/CardContainer.jsx";
-import CardTitle from "@/Components/Cards/CardTitle.jsx";
-import {ArrowDownShort, ArrowUpShort} from "react-bootstrap-icons";
-import CardBody from "@/Components/Cards/CardBody.jsx";
-import React, {useEffect, useMemo, useState} from "react";
-import CampoTexto from "@/Components/CampoTexto.jsx";
-import convertFloatToMoney from "@/Helpers/converterDataHorario.jsx";
-import {DialogContent, Divider, Stack, Typography} from "@mui/material";
-import PagarEntrada from "@/Pages/Admin/Financeiro/FluxoCaixa/Components/PagarEntrada.jsx";
-import PagarSaida from "@/Pages/Admin/Financeiro/FluxoCaixa/Components/PagarSaida.jsx";
-import Dialog from "@mui/material/Dialog";
-import {router} from "@inertiajs/react";
+import CardContainer from '@/Components/Cards/CardContainer.jsx';
+import CardBody from '@/Components/Cards/CardBody.jsx';
+import React, { useContext, useEffect, useState } from 'react';
+import { Stack, Typography } from '@mui/material';
+import { TbArrowDown, TbArrowUp } from 'react-icons/tb';
+import InfoNota from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/InfoNota.jsx';
+import Pagamentos from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/Pagamentos.jsx';
+import { ContextFluxoCaixa } from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/ContextFluxoCaixa.jsx';
 
-const PagamentosFiltrados = ({filtros}) => {
-    const [registros, setRegistros] = useState([])
+const PagamentosFiltrados = ({ filtros }) => {
+    const [registros, setRegistros] = useState([]);
+    const { atualizarRegistros } = useContext(ContextFluxoCaixa);
 
     useEffect(() => {
-        fethRegistros()
-    }, [filtros]);
-
-    const registrosCards = useMemo(async () => {
-
-    }, []);
+        fethRegistros();
+    }, [filtros, atualizarRegistros]);
 
     const fethRegistros = async () => {
-        await axios.get(route('admin.financeiro.fluxo-caixa.registros-filtrados', {...filtros}))
-            .then(res => setRegistros(res.data))
-    }
-
-    const [open, setOpen] = React.useState(false);
-    const [openDialogId, setOpenDialogId] = useState('');
-
-    const handleClickOpen = (id) => {
-        setOpenDialogId(id)
-        setOpen(true);
+        await axios
+            .get(
+                route('admin.financeiro.fluxo-caixa.registros-filtrados', {
+                    ...filtros,
+                }),
+            )
+            .then((res) => setRegistros(res.data));
     };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     return (
-        registros?.length > 0 && registros.map(item => {
-            const isEntrada = item.tipo === 'entrada'
+        registros?.length > 0 &&
+        registros.map((item) => {
+            const isEntrada = item.tipo === 'entrada';
 
             return (
-                <CardContainer>
-                    <CardTitle title={isEntrada ? 'Entrada' : 'Saída'} icon={isEntrada ?
-                        <ArrowUpShort size={30} color="green"/> : <ArrowDownShort size={30} color="red"/>}/>
+                <CardContainer map={item.id}>
                     <CardBody>
-                        {/*<CampoTexto titulo="Fornecedor" texto={item?.fornecedor?.nome} nowrap/>*/}
-                        {/*<CampoTexto titulo="Franquia" texto={item?.franquia?.nome}/>*/}
-                        {/*{item?.empresa?.nome && <CampoTexto titulo="Empresa" texto={item?.empresa?.nome}/>}*/}
-                        {/*<CampoTexto titulo="Pagamentos" texto={`${item?.pagos_qtd}/${item?.pagamentos_qtd}`}/>*/}
-
-                        {item?.pagamentos.map(pagamentos => (
-                            <CardContainer>
-                                <CardBody>
-                                    <CampoTexto titulo="Data Pagamento" texto={pagamentos.data}/>
-                                    <div className="row">
-                                        <div className="col"><CampoTexto titulo="Status" texto={pagamentos.status.toUpperCase()}/></div>
-                                        <div className="col"><CampoTexto titulo="Valor" texto={`R$ ${convertFloatToMoney(pagamentos.valor)}`}/></div>
-                                    </div>
-
-                                    {pagamentos.data_baixa && <>
-                                        <Divider color="gray" className="mb-2"/>
-                                        <Typography variant="body2">Informações da Baixa</Typography>
-                                        <div className="row">
-                                            {pagamentos.valor_baixa && <div className="col">
-                                                <CampoTexto titulo="Valor Baixa" texto={`R$ ${convertFloatToMoney(pagamentos.valor_baixa)}`}/></div>}
-                                            {pagamentos.data_baixa &&
-                                                <div className="col"><CampoTexto titulo="Data Baixa" texto={pagamentos.data_baixa}/></div>}
-                                            {pagamentos.forma_pagamento &&
-                                                <div className="col"><CampoTexto titulo="Forma Pagamento" texto={pagamentos.forma_pagamento}/></div>}
-                                            {pagamentos.banco &&
-                                                <div className="col"><CampoTexto titulo="Banco" texto={pagamentos?.banco?.nome}/></div>}
-                                        </div>
-                                    </>}
-
-                                    {pagamentos.status === 'aberto' &&
-                                        <button className="btn btn-success" onClick={() => handleClickOpen(pagamentos.id)}>
-                                            Pagar
-                                        </button>
-                                    }
-
-                                    {(openDialogId === pagamentos.id) &&
-                                        <Dialog
-                                            open={open}
-                                            onClose={handleClose}
-                                            fullWidth
-                                            maxWidth="lg"
-                                        >
-                                            <DialogContent>
-                                                <CampoTexto titulo="Fornecedor" texto={item?.fornecedor?.nome} nowrap/>
-                                                <CampoTexto titulo="Franquia" texto={item?.franquia?.nome}/>
-                                                {item?.empresa?.nome && <CampoTexto titulo="Empresa" texto={item?.empresa?.nome}/>}
-                                            </DialogContent>
-                                            {(isEntrada ? <PagarEntrada dadosPagamento={pagamentos}/> : <PagarSaida dadosPagamento={pagamentos}/>)}
-                                        </Dialog>
-                                    }
-
-                                </CardBody>
-                            </CardContainer>
-                        ))}
+                        <div className="row">
+                            <div className="col-1">
+                                <Stack spacing={1} alignItems="center">
+                                    {isEntrada ? <TbArrowUp size={35} color="green" /> : <TbArrowDown size={35} color="red" />}
+                                    <Typography>{`${item?.pagos_qtd}/${item?.pagamentos_qtd}`}</Typography>
+                                </Stack>
+                            </div>
+                            <div className="col-11">
+                                <InfoNota nota={item} />
+                                <Pagamentos pagamentos={item} />
+                            </div>
+                        </div>
                     </CardBody>
-
-
                 </CardContainer>
-            )
+            );
         })
-    )
-}
-export default PagamentosFiltrados
+    );
+};
+export default PagamentosFiltrados;

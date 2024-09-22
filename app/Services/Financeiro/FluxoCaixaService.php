@@ -19,24 +19,24 @@ class FluxoCaixaService
         $franquia = $filters->get('franquia');
         $empresa = $filters->get('empresa');
 
-        $query =  (new FluxoCaixa)->getRegistros();
+        $query =  (new FluxoCaixa)->getAll();
 
-        $this->tipo($query, $tipo);
-        $this->status($query, $status);
-        $this->fornecedor($query, $fornecedor);
-        $this->franquia($query, $franquia);
-        $this->empresa($query, $empresa);
-        $this->data($query, $dataInicio, $dataFim);
+        $this->filtroTipo($query, $tipo);
+        $this->filtroStatus($query, $status);
+        $this->filtroFornecedor($query, $fornecedor);
+        $this->filtroFranquia($query, $franquia);
+        $this->filtroEmpresa($query, $empresa);
+        $this->filtroPeriodo($query, $dataInicio, $dataFim);
 
         return $query->get();
     }
 
-    private function tipo($query, $tipo)
+    private function filtroTipo($query, $tipo)
     {
         $query->when($tipo, fn($q, $tipo) => $q->where('tipo', $tipo));
     }
 
-    private function status($query, $status)
+    private function filtroStatus($query, $status)
     {
         $query->whereHas('pagamentos', function ($query) use ($status) {
             $query->when($status === 'pago', function ($q) {
@@ -48,7 +48,7 @@ class FluxoCaixaService
         });
     }
 
-    private function fornecedor($query, $fornecedor)
+    private function filtroFornecedor($query, $fornecedor)
     {
         $query->whereHas('fornecedor', function ($q) use ($fornecedor) {
             $q->when($fornecedor, function ($q, $valor) {
@@ -57,7 +57,7 @@ class FluxoCaixaService
         });
     }
 
-    private function franquia($query, $franquia)
+    private function filtroFranquia($query, $franquia)
     {
         $query->whereHas('franquia', function ($q) use ($franquia) {
             $q->when($franquia, function ($q, $valor) {
@@ -66,7 +66,7 @@ class FluxoCaixaService
         });
     }
 
-    private function empresa($query, $empresa)
+    private function filtroEmpresa($query, $empresa)
     {
         $query->where(function ($query) use ($empresa) {
             $query->whereHas('empresa', function ($q) use ($empresa) {
@@ -81,7 +81,7 @@ class FluxoCaixaService
         });
     }
 
-    private function data($query, $dataInicio, $dataFim)
+    private function filtroPeriodo($query, $dataInicio, $dataFim)
     {
         $query->whereHas('pagamentos', function ($query) use ($dataInicio, $dataFim) {
             $query->whereBetween(DB::raw('DATE_FORMAT(data, "%d/%m/%Y")'), [$dataInicio, $dataFim]);

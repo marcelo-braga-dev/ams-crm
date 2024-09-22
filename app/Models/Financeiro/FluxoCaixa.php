@@ -2,6 +2,7 @@
 
 namespace App\Models\Financeiro;
 
+use App\Models\FinanceirosEmpresas;
 use App\Models\FluxoCaixasConfig;
 use App\Models\Fornecedores;
 use App\Models\Franquias;
@@ -15,8 +16,6 @@ use Illuminate\Support\Facades\DB;
 class FluxoCaixa extends Model
 {
     use HasFactory;
-
-    protected $with = ['autor', 'fornecedor', 'franquia', 'empresa'];
 
     protected $fillable = [
         'user_id',
@@ -41,6 +40,10 @@ class FluxoCaixa extends Model
         'updated_at',
     ];
 
+    protected $with = ['autor', 'fornecedor', 'franquia', 'empresa'];
+
+    protected $appends = ['valor_nota', 'cadastrado_dia'];
+
     protected static function booted()
     {
         static::addGlobalScope('withContagens', function ($query) {
@@ -64,6 +67,11 @@ class FluxoCaixa extends Model
     }
 
 //    atributos
+    public function getValorNotaAttribute()
+    {
+        return $this->pagamentos()->sum('valor');
+    }
+
     public function getStatusAttribute()
     {
         return ($this->attributes['pagos_qtd'] >= $this->attributes['pagamentos_qtd']) ? 'pago' : 'aberto';
@@ -76,7 +84,12 @@ class FluxoCaixa extends Model
 
     protected function getEmissaoAttribute()
     {
-        return $this->attributes['emissao'] ? Carbon::parse($this->attributes['emissao'])->format('d/m/Y H:i:s') : null;
+        return $this->attributes['emissao'] ? Carbon::parse($this->attributes['emissao'])->format('d/m/Y') : null;
+    }
+
+    protected function getCadastradoDiaAttribute()
+    {
+        return $this->attributes['created_at'] ? Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s') : null;
     }
 
 //    relacionamentos
@@ -97,7 +110,7 @@ class FluxoCaixa extends Model
 
     public function empresa()
     {
-        return $this->belongsTo(FluxoCaixasConfig::class, 'empresa_id',);
+        return $this->belongsTo(FinanceirosEmpresas::class, 'empresa_id',);
     }
 
     public function franquia()
@@ -131,14 +144,13 @@ class FluxoCaixa extends Model
                 (new FluxoCaixaPagamento())->cadastrar($fluxo->id, $dados['pagamentos'] ?? []);
             });
 
-        } catch (\DomainException $exception) {
-//        } catch (\Exception $exception) {
+        } catch (\Exception $exception) {
 
             throw new \DomainException('Falha no cadastro.');
         }
     }
 
-    public function getRegistros()
+    public function getAll()
     {
         return $this->with(['pagamentos', 'fornecedor', 'franquia', 'empresa']);
     }

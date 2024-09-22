@@ -1,27 +1,13 @@
 import {InputAdornment, TextField, Typography} from "@mui/material";
 import convertFloatToMoney from "@/Helpers/converterDataHorario.jsx";
 import MenuItem from "@mui/material/MenuItem";
-import React, {useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {useForm} from "@inertiajs/inertia-react";
 import {router} from "@inertiajs/react";
 import {convertInputMoney} from "@/Components/Inputs/TextFieldMoney.jsx";
+import { ContextFluxoCaixa } from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/ContextFluxoCaixa.jsx';
 
-const PagarSaida = ({dadosPagamento}) => {
-    const {data, setData} = useForm({
-        'pagamento_id': dadosPagamento.id
-    })
-
-    const [opcoes, setOpcoes] = useState()
-
-    useEffect(() => {
-        axios.get(route('admin.financeiro.opcoes'))
-            .then(res => setOpcoes(res.data))
-    }, []);
-
-    const submit = (e) => {
-        e.preventDefault()
-        router.post(route('admin.financeiro.fluxo-caixa.atualizar-pagamento'), {...data})
-    }
+const PagarSaida = ({pagamento, opcoes, setData, submit}) => {
 
     return (
         <form onSubmit={submit}>
@@ -40,10 +26,10 @@ const PagarSaida = ({dadosPagamento}) => {
                 <thead>
                 <tr>
                     <td>
-                        <Typography>R$ {convertFloatToMoney(dadosPagamento.valor)}</Typography>
+                        <Typography>R$ {convertFloatToMoney(pagamento.valor)}</Typography>
                     </td>
                     <td>
-                        <Typography>{dadosPagamento.data}</Typography>
+                        <Typography>{pagamento.data}</Typography>
                     </td>
                     <td>
                         <TextField

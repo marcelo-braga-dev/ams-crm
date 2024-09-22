@@ -5,23 +5,7 @@ import convertFloatToMoney from "@/Helpers/converterDataHorario.jsx";
 import {useForm} from "@inertiajs/inertia-react";
 import {router} from "@inertiajs/react";
 
-const PagarEntrada = ({dadosPagamento}) => {
-
-    const {data, setData} = useForm({
-        'pagamento_id': dadosPagamento.id
-    })
-
-    const [opcoes, setOpcoes] = useState()
-
-    useEffect(() => {
-        axios.get(route('admin.financeiro.opcoes'))
-            .then(res => setOpcoes(res.data))
-    }, []);
-
-    const submit = (e) => {
-        e.preventDefault()
-        router.post(route('admin.financeiro.fluxo-caixa.atualizar-pagamento'), {...data})
-    }
+const PagarEntrada = ({pagamento, opcoes, setData, submit}) => {
 
     return (
         <form onSubmit={submit}>
@@ -39,10 +23,10 @@ const PagarEntrada = ({dadosPagamento}) => {
                 <thead>
                 <tr>
                     <td>
-                        <Typography>R$ {convertFloatToMoney(dadosPagamento.valor)}</Typography>
+                        <Typography>R$ {convertFloatToMoney(pagamento.valor)}</Typography>
                     </td>
                     <td>
-                        <Typography>{dadosPagamento.data}</Typography>
+                        <Typography>{pagamento.data}</Typography>
                     </td>
                     <td>
                         <TextField

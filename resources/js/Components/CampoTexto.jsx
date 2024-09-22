@@ -1,46 +1,49 @@
-import {Stack} from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { Stack } from '@mui/material';
+import styled from 'styled-components';
 
-const CampoTexto = ({titulo, texto, bold, nowrap}) => {
+const TituloCard = styled.span`
+    color: rgb(59, 64, 86);
+    font-size: 15px;
+    font-weight: 500;
+`;
+const TextoCard = styled.span`
+    color: rgb(103, 107, 123);
+    font-size: 15px;
+    font-weight: 400
+`;
+
+const CampoTexto = ({ titulo, texto, icone, bold, nowrap }) => {
+    const IconTexto = icone;
 
     return (
-        <Stack spacing={0} marginBottom={1}>
-            <Typography fontSize={12} color="black" variant="caption">{titulo}:</Typography>
-            <Typography fontSize={15} color={bold ? "#000" : '#777'}
-                        sx={nowrap && {
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            maxWidth: '100%',
-                            display: 'block'
-                        }}>
-                {texto}
-            </Typography>
+        <Stack direction="row" spacing={1} alignItems="top" marginBottom={1}>
+            <div>
+                <Stack direction="row" spacing={1} alignItems="center" marginBottom={1}>
+                    {icone && <IconTexto color="rgb(59, 64, 86)" size={18} />}
+                    {titulo && <TituloCard>{titulo}:</TituloCard>}
+                </Stack>
+            </div>
+            {texto && <TextoCard>{texto}</TextoCard>}
         </Stack>
-    )
-}
-export default CampoTexto
 
-
-//
-//         <Stack spacing={1} sx={{ overflow: 'hidden', flex: 1 }}>
-//             <Stack spacing={1} direction="row" sx={{ overflow: 'hidden', flex: 1 }}>
-//                 <Typography fontSize={15} color="black" variant="caption">
-//                     {titulo}:
-//                 </Typography>
-//                 <Typography
-//                     fontSize={15}
-//                     color={bold ? "#000" : "#777"}
-//                     sx={{
-//                         whiteSpace: 'nowrap',      // Evita quebra de linha
-//                         overflow: 'hidden',        // Oculta o texto excedente
-//                         textOverflow: 'ellipsis',  // Adiciona '...' ao final do texto cortado
-//                         maxWidth: '100%',          // Limita a largura para respeitar o espaço disponível
-//                         display: 'block'           // Garante o comportamento adequado de overflow
-//                     }}
-//                 >
-//                     {texto}
-//                 </Typography>
-//             </Stack>
-//         </Stack>
-
+        // <Stack spacing={1} marginBottom={1} direction="row" alignItems="center">
+        //     <Stack>
+        //         <FornecedorIcone size={25}/>
+        //     </Stack>
+        //     <Stack spacing={-0.5}>
+        //         <Typography fontSize={12} color="black" variant="caption">{titulo}:</Typography>
+        //         <Typography fontSize={15} color={bold ? "#000" : '#777'}
+        //                     sx={nowrap && {
+        //                         whiteSpace: 'nowrap',
+        //                         overflow: 'hidden',
+        //                         textOverflow: 'ellipsis',
+        //                         maxWidth: '100%',
+        //                         display: 'block'
+        //                     }}>
+        //             {texto}
+        //         </Typography>
+        //     </Stack>
+        // </Stack>
+    );
+};
+export default CampoTexto;

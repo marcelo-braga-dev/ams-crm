@@ -24,7 +24,7 @@ export default function CardTitle({title, icon, children, subtitle, className, o
                     </Stack>
                 </Stack>
             </div>
-            <div className="col-auto mb-0">{children}</div>
+            <div className="col-auto mb-0" onClick={onClick}>{children}</div>
             <div style={{border: '1px solid #EEF2F6'}} className="mt-3"/>
         </Container>
     )

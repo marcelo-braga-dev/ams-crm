@@ -21,8 +21,8 @@ class FluxoCaixaController extends Controller
         $fornecedores = (new FluxoCaixasConfig())->getFornecedores();
         $empresas = (new FluxoCaixasConfig())->getEmpresas();
         $franquias = (new Franquias())->get();
-
-        return Inertia::render('Admin/Financeiro/FluxoCaixa/Index',
+//print_pre($dados = (new FluxoCaixaService())->getRegistrosFiltrados($request));
+        return Inertia::render('Admin/Financeiro/FluxoCaixa/Index/Index',
             compact('fornecedores', 'franquias', 'empresas'));
     }
 
