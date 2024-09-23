@@ -157,7 +157,7 @@ const Pagamentos = ({ pagamentos }) => {
                                                 titulo="Autor"
                                                 texto={pagamento?.autor?.nome}
                                             />
-                                            {pagamento?.anexo && <ImagePdf url={pagamento?.anexo} urlRaiz />}{console.log(pagamento)}
+                                            {pagamento?.anexo && <ImagePdf url={pagamento?.anexo} urlRaiz />}
                                         </>
                                     )}
                                 </CardBody>

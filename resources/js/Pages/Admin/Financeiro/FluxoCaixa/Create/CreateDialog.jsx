@@ -81,7 +81,7 @@ const CreateDialog = () => {
                 open={open}
                 onClose={handleClose}
                 fullWidth
-                maxWidth="lg"
+                maxWidth="xl"
             >
                 <DialogContent>
                     <CardContainer>

@@ -45,6 +45,14 @@ const PagamentosSaida = ({ setPagamentos, pagamentos, qtdPagamentos, bancos }) =
                     </td>
                     <td>
                         {pagamentos?.[i]?.status &&
+                            <TextField
+                                type="date" label="Data Baixa" fullWidth InputLabelProps={{ shrink: true }} required
+                                onChange={e => setPagamentos(pagamentoDados(pagamentos, 'data_baixa', e.target.value, i))}
+                            />
+                        }
+                    </td>
+                    <td>
+                        {pagamentos?.[i]?.status &&
                             <TextField label="Forma Pagamento" fullWidth required select
                                        sx={{ width: '10rem' }}
                                        onChange={e => setPagamentos(pagamentoDados(pagamentos, 'forma_pagamento', e.target.value, i))}>
@@ -71,7 +79,7 @@ const PagamentosSaida = ({ setPagamentos, pagamentos, qtdPagamentos, bancos }) =
                         {pagamentos?.[i]?.status &&
                             <TextField
                                 sx={{ width: '10rem' }}
-                                type="file"
+                                type="file" InputLabelProps={{ shrink: true }} label="Comprovante Pagamento"
                                 onChange={e => setPagamentos(pagamentoDados(pagamentos, 'anexo', e.target.files[0], i))}
                             />
                         }
