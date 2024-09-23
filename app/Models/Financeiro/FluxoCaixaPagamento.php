@@ -69,7 +69,7 @@ class FluxoCaixaPagamento extends Model
 
     public function getAnexoAttribute()
     {
-        return url_arquivos($this->attributes['data_baixa'] ?? null);
+        return url_arquivos($this->attributes['anexo'] ?? null);
     }
 
     public function getVencidoAttribute()

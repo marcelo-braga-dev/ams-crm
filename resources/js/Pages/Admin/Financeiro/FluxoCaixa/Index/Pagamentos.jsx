@@ -9,6 +9,7 @@ import Dialog from '@mui/material/Dialog';
 import React, { useState } from 'react';
 import InfoNota from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/InfoNota.jsx';
 import RealizarPagamento from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/RealizarPagamento.jsx';
+import ImagePdf from '@/Components/Elementos/ImagePdf.jsx';
 
 const Pagamentos = ({ pagamentos }) => {
 
@@ -156,6 +157,7 @@ const Pagamentos = ({ pagamentos }) => {
                                                 titulo="Autor"
                                                 texto={pagamento?.autor?.nome}
                                             />
+                                            {pagamento?.anexo && <ImagePdf url={pagamento?.anexo} urlRaiz />}{console.log(pagamento)}
                                         </>
                                     )}
                                 </CardBody>

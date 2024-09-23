@@ -15,6 +15,7 @@ import CardTitle from '@/Components/Cards/CardTitle.jsx';
 import CardBody from '@/Components/Cards/CardBody.jsx';
 import { router } from '@inertiajs/react';
 import { ContextFluxoCaixa } from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/ContextFluxoCaixa.jsx';
+import ImagePdf from '@/Components/Elementos/ImagePdf.jsx';
 
 const InfoNota = ({ nota }) => {
     const [maisInfo, setMaisInfo] = useState(false);
@@ -81,7 +82,7 @@ const InfoNota = ({ nota }) => {
                         <CampoTexto titulo="Data Emissão Nota" texto={nota?.emissao ?? '-'} icone={TbCalendar} />
                     </div>
                     <div className="col">
-                        {nota?.anexo && <CampoTexto icone={AnexoIcone} />}
+                        {nota?.anexo && <ImagePdf url={nota?.anexo} urlRaiz />}
                     </div>
                 </div>
                 <div className="row">
