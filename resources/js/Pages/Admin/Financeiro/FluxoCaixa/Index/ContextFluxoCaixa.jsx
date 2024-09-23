@@ -6,9 +6,17 @@ export const ProviderFluxoCaixa = ({ children }) => {
     const [atualizarRegistros, setAtualizarRegistros] = useState(false);
     const [variaveis, setVariaveis] = useState([]);
 
-    useEffect(async () => {
-        const response = await axios.get(route('admin.financeiro.fluxo-caixa.variaveis'));
-        setVariaveis(response.data);
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get(route('admin.financeiro.fluxo-caixa.variaveis'));
+                setVariaveis(response.data);
+            } catch (error) {
+                console.error("Erro ao buscar os dados:", error);
+            }
+        }
+
+        fetchData();
     }, []);
 
     return (<ContextFluxoCaixa.Provider value={{ atualizarRegistros, setAtualizarRegistros, variaveis }}>

@@ -16,15 +16,13 @@ const PagamentosFiltrados = ({ filtros }) => {
     }, [filtros, atualizarRegistros]);
 
     const fethRegistros = async () => {
-        await axios
-            .get(
-                route('admin.financeiro.fluxo-caixa.registros-filtrados', {
-                    ...filtros,
-                }),
-            )
+        await axios.get(
+            route('admin.financeiro.fluxo-caixa.registros-filtrados', {
+                ...filtros,
+            }),
+        )
             .then((res) => setRegistros(res.data));
     };
-
 
     return (
         registros?.length > 0 &&
@@ -32,7 +30,7 @@ const PagamentosFiltrados = ({ filtros }) => {
             const isEntrada = item.tipo === 'entrada';
 
             return (
-                <CardContainer map={item.id}>
+                <CardContainer key={item.id}>
                     <CardBody>
                         <div className="row">
                             <div className="col-1">

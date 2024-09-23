@@ -11,8 +11,9 @@ class FluxoCaixaService
 {
     public function getRegistrosFiltrados($filters)
     {
-        $dataInicio = Carbon::parse($filters->get('periodoInicio') ?? now())->format('d/m/Y');
-        $dataFim = Carbon::parse($filters->get('periodoFim') ?? now())->format('d/m/Y');
+        $dataInicio = Carbon::parse($filters->get('periodoInicio') ?? now())->startOfDay();
+        $dataFim = Carbon::parse($filters->get('periodoFim') ?? now())->endOfDay();
+
         $tipo = $filters->get('tipo');
         $status = $filters->get('status');
         $fornecedor = $filters->get('fornecedor');
@@ -84,7 +85,7 @@ class FluxoCaixaService
     private function filtroPeriodo($query, $dataInicio, $dataFim)
     {
         $query->whereHas('pagamentos', function ($query) use ($dataInicio, $dataFim) {
-            $query->whereBetween(DB::raw('DATE_FORMAT(data, "%d/%m/%Y")'), [$dataInicio, $dataFim]);
+            $query->whereBetween('data', [$dataInicio, $dataFim]);
         });
     }
 }
