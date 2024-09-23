@@ -449,16 +449,22 @@ class Pedidos extends Model
             });
     }
 
-    public function paginate($filtros)
+    public function paginate($filtros, $leadCNPJ = null)
     {
         $query = $this->newQuery()
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
             ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
             ->leftJoin('users', 'pedidos.user_id', '=', 'users.id')
-            ->whereIn('pedidos.user_id', supervisionados(id_usuario_atual()))
+
             ->orderByDesc('pedidos.id')
             ->selectRaw('pedidos.*, leads.nome AS lead_nome, leads.id AS lead_id, pedidos_clientes.nome AS cliente_nome,
                 users.name AS consultor_nome');
+
+        if ($leadCNPJ) {
+            $query->where('leads.cnpj', $leadCNPJ);
+        } else {
+            $query->whereIn('pedidos.user_id', supervisionados(id_usuario_atual()));
+        }
 
         $this->filtrar($filtros, $query);
 

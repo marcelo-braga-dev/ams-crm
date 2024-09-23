@@ -15,9 +15,9 @@ const dashboard = {
                 {
                     id: 'sac-kanban',
                     chave: true,
-                    title: 'Sac',
+                    title: 'SAC',
                     type: 'item',
-                    url: route('auth.sac.index'),
+                    url: route('integrador.sac.index'),
                 },
             ]
         }

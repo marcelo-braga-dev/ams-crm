@@ -29,7 +29,7 @@ const Header = ({titlePage, voltar}) => {
 
     const mainHeader = (
         <Toolbar style={{borderBottom: '1px solid #f4f4f4', paddingLeft: (!toggleMenu && (drawerMinWidth + 7)), backgroundColor: app_settings.header_bgcolor}}>
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" spacing={1} marginInlineEnd={2}>
                 <IconButton disableRipple edge="start" onClick={() => {
                     menuToggle(!toggleMenu)
                     sessionStorage.setItem('_toggleMenu', toggleMenu);
@@ -38,7 +38,7 @@ const Header = ({titlePage, voltar}) => {
                 </IconButton>
                 <IconButton disableRipple edge="start" className="m-0" onClick={handleVoltar} disabled={!!!voltar}>
                     {/*<Link href={voltar}>*/}
-                        {!!voltar && <ArrowLeftShort size="20" color="black"/>}
+                        {!!voltar && <ArrowLeftShort className="ms-2" size="20" color="black"/>}
                     {/*</Link>*/}
                 </IconButton>
             </Stack>

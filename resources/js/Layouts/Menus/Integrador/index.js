@@ -4,7 +4,7 @@ import perfil from './perfil';
 import sac from './sac';
 
 const menuItems = {
-    items: [pedidos, perfil]
+    items: [pedidos, sac, perfil]
 };
 
 export default menuItems;

@@ -18,6 +18,12 @@ const dashboard = {
                     title: 'Quadro de Pedidos',
                     type: 'item',
                     url: route('integrador.pedidos.pedido.index'),
+                },{
+                    id: 'pedidos-historico',
+                    chave: true,
+                    title: 'Histórico de Pedidos',
+                    type: 'item',
+                    url: route('integrador.pedidos.historico.index'),
                 },
             ]
         }

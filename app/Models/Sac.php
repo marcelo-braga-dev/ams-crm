@@ -74,8 +74,24 @@ class Sac extends Model
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
             ->leftJoin('pedidos_clientes', 'pedidos_clientes.pedido_id', '=', 'pedidos.id')
             ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
-
             ->whereIn('sacs.user_id', supervisionados(id_usuario_atual()))
+            ->orderByDesc('id')
+            ->select(DB::raw('
+                sacs.*, sacs.created_at as data_cadastro , users.name as autor, leads.nome as lead_nome, pedidos_clientes.nome as cliente_nome, pedidos.preco_venda as valor,
+                pedidos.status as pedido_status, pedidos.setor_id as pedido_setor, produtos_fornecedores.nome as fornecedor_nome
+                '))
+            ->get();
+    }
+
+    public function cardsIntegrador()
+    {
+        return $this->newQuery()
+            ->leftJoin('users', 'sacs.user_id', '=', 'users.id')
+            ->leftJoin('pedidos', 'sacs.pedido_id', '=', 'pedidos.id')
+            ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
+            ->leftJoin('pedidos_clientes', 'pedidos_clientes.pedido_id', '=', 'pedidos.id')
+            ->leftJoin('produtos_fornecedores', 'pedidos.fornecedor_id', '=', 'produtos_fornecedores.id')
+            ->where('leads.cnpj', auth()->user()->cnpj)
             ->orderByDesc('id')
             ->select(DB::raw('
                 sacs.*, sacs.created_at as data_cadastro , users.name as autor, leads.nome as lead_nome, pedidos_clientes.nome as cliente_nome, pedidos.preco_venda as valor,
