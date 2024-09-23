@@ -103,7 +103,7 @@ const Filtros = ({ filtros, setFiltros }) => {
 
                             <TextField label="Empresa" select fullWidth
                                        value={filtros.empresa ?? ''}
-                                       onChange={e => setFiltros({ ...filtros, empresa: e.target.value })}>>
+                                       onChange={e => setFiltros({ ...filtros, empresa: e.target.value })}>
                                 <MenuItem value={undefined}>Todas</MenuItem>
                                 {empresas.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
