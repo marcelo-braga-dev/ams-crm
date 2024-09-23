@@ -1,6 +1,6 @@
 import CardTitle from '@/Components/Cards/CardTitle.jsx';
 import { ArrowDownShort, ArrowUpShort, CalendarEvent, CurrencyDollar, Eye, List, Truck } from 'react-bootstrap-icons';
-import { Typography, Checkbox, Stack } from '@mui/material';
+import { Typography, Checkbox, Stack, Button } from '@mui/material';
 import CardBody from '@/Components/Cards/CardBody.jsx';
 import CardContainer from '@/Components/Cards/CardContainer.jsx';
 import React, { useContext, useEffect, useState } from 'react';
@@ -11,11 +11,14 @@ import Chip from '@mui/material/Chip';
 import RealizarPagamento from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/RealizarPagamento.jsx';
 import { ContextFluxoCaixa } from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/ContextFluxoCaixa.jsx';
 import LinearProgress from '@mui/material/LinearProgress';
+import { round } from 'lodash';
+import { TbChevronDown } from 'react-icons/tb';
 
 const ProximosPagamentos = () => {
     const [pagamentos, setPagamentos] = useState([]);
     const [tipoEntrada, setTipoEntrada] = useState(true);
     const [tipoSaida, setTipoSaida] = useState(true);
+    const [qtdPagamentosVisualizar, setQtdPagamentosVisualizar] = useState(10);
 
     const [carregando, setCarregando] = useState(false);
 
@@ -25,8 +28,8 @@ const ProximosPagamentos = () => {
         setCarregando(true);
         try {
             const response = await axios.get(route('admin.financeiro.fluxo-caixa.proximos-pagamentos', {
-                tipo_saida: tipoSaida,
-                tipo_entrada: tipoEntrada,
+                tipo_saida: !tipoSaida,
+                tipo_entrada: !tipoEntrada,
             })).finally(() => setCarregando(false));
             setPagamentos(response.data.pagamentos);
 
@@ -47,6 +50,36 @@ const ProximosPagamentos = () => {
     const handleOpenDialog = (pagamento) => {
         setSelectedPagamento(pagamento);
         setOpenDialog(true);
+    };
+
+    const handleQtdVisualizar = () => {
+        setQtdPagamentosVisualizar(e => e + 30);
+    };
+
+    const chipPazo = (prazo) => {
+        let chipLabel = '';
+        let chipColor = '';
+
+        switch (true) {
+            case prazo < -1:
+                chipLabel = `Vencido há ${Math.round(Math.abs(prazo))} dias`;
+                chipColor = 'error';
+                break;
+            case prazo < 0:
+                chipLabel = 'Vence Hoje';
+                chipColor = 'warning';
+                break;
+            case prazo < 1:
+                chipLabel = 'Vence Amanhã';
+                chipColor = 'info';
+                break;
+            default:
+                chipLabel = `Vencerá em ${Math.round(prazo)} dias`;
+                chipColor = 'info';
+                break;
+        }
+
+        return <Chip label={chipLabel} size="small" color={chipColor} />;
     };
 
     return (<>
@@ -77,7 +110,8 @@ const ProximosPagamentos = () => {
             <CardBody>
                 {carregando ? <LinearProgress /> :
                     <div style={{ maxHeight: '60vh', overflow: 'auto' }}>
-                        {pagamentos.length > 0 ? pagamentos.map(item => (
+                        {pagamentos.length > 0 ? pagamentos.map((item, index) => (
+                            index < qtdPagamentosVisualizar &&
                             <CardContainer key={item.id}>
                                 <CardBody>
                                     <Stack direction="row" onClick={() => handleOpenDialog(item)} spacing={1} sx={{ cursor: 'pointer' }}>
@@ -115,18 +149,28 @@ const ProximosPagamentos = () => {
                                                 <CurrencyDollar />
                                                 <Typography>R$ {convertFloatToMoney(item.valor)}</Typography>
                                             </Stack>
-                                            {item?.vencido < 0 ? (
-                                                <Chip label={`Vencido há ${Math.abs(item?.vencido)} dias`} color="error" />
-                                            ) : item?.vencido > 0 ? (
-                                                <Chip title={`Vencerá em ${item?.vencido} dias`} label={`Vencerá em ${item?.vencido} dias`} />
-                                            ) : (
-                                                <Chip title="Vence hoje" color="success" label="Vence hoje" />
-                                            )}
+                                            {chipPazo(item?.vencido)}
                                         </Stack>
                                     </Stack>
                                 </CardBody>
                             </CardContainer>
+
                         )) : <Typography variant="body2">Não há registros.</Typography>}
+
+                        {pagamentos.length > qtdPagamentosVisualizar &&
+                            <Stack
+                                direction="row"
+                                justifyContent="center"
+                                alignItems="center"
+                                spacing={1}
+                                onClick={handleQtdVisualizar}
+                                className="cursor-pointer"
+                                marginBottom={2}
+                            >
+                                <Typography>Ver mais</Typography>
+                                <TbChevronDown size={22}/>
+                            </Stack>
+                        }
                     </div>
                 }
             </CardBody>

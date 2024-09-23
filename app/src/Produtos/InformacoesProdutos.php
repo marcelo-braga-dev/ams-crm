@@ -3,7 +3,7 @@
 namespace App\src\Produtos;
 
 use App\Models\ProdutosDados;
-use App\Services\Images;
+use App\Services\UploadFiles;
 
 class InformacoesProdutos
 {
@@ -72,7 +72,7 @@ class InformacoesProdutos
     {
         if ($valor)
             foreach ($valor as $item) {
-                $url = (new Images())->armazenarSeparado($item, 'produtos/galeria');
+                $url = (new UploadFiles())->armazenarSeparado($item, 'produtos/galeria');
                 (new ProdutosDados())->createGaleria($id, $this->galeria, $url);
             }
     }

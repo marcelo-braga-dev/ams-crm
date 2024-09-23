@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Images;
+use App\Services\UploadFiles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +25,7 @@ class PlataformasDados extends Model
     public function atualizar($dados)
     {
         if ($dados->logo) {
-            $urlLogo = (new Images)->armazenar($dados, 'logo', 'app');
+            $urlLogo = (new UploadFiles)->armazenar($dados, 'logo', 'app');
 
             $this->newQuery()
                 ->updateOrCreate(
@@ -35,7 +35,7 @@ class PlataformasDados extends Model
         }
 
         if ($dados->favicon) {
-            $urlFavicon = (new Images)->armazenar($dados, 'favicon', 'app');
+            $urlFavicon = (new UploadFiles)->armazenar($dados, 'favicon', 'app');
 
             $this->newQuery()
                 ->updateOrCreate(

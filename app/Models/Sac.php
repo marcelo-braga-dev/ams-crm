@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Images;
+use App\Services\UploadFiles;
 use App\src\Pedidos\Notificacoes\NotificacoesCategorias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -30,9 +30,9 @@ class Sac extends Model
 
     public function create($dados): int
     {
-        if ($dados->img_cte) $cte = (new Images())->armazenar($dados, 'img_cte', 'chamados-anexos');
-        if ($dados->img_entrega) $entrega = (new Images())->armazenar($dados, 'img_entrega', 'chamados-anexos');
-        if ($dados->img_produto) $produto = (new Images())->armazenar($dados, 'img_produto', 'chamados-anexos');
+        if ($dados->img_cte) $cte = (new UploadFiles())->armazenar($dados, 'img_cte', 'chamados-anexos');
+        if ($dados->img_entrega) $entrega = (new UploadFiles())->armazenar($dados, 'img_entrega', 'chamados-anexos');
+        if ($dados->img_produto) $produto = (new UploadFiles())->armazenar($dados, 'img_produto', 'chamados-anexos');
 
         $item = $this->newQuery()
             ->create([

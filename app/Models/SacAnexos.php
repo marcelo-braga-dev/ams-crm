@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Images;
+use App\Services\UploadFiles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,7 +19,7 @@ class SacAnexos extends Model
     public function create(int $id, $dados)
     {
         if ($dados->anexos) foreach ($dados->anexos as $anexo) {
-            $url = (new Images())->armazenarSeparado($anexo, 'chamados-anexos');
+            $url = (new UploadFiles())->armazenarSeparado($anexo, 'chamados-anexos');
 
             $this->newQuery()
                 ->create([

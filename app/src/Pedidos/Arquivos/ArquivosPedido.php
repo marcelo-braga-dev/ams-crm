@@ -3,13 +3,13 @@
 namespace App\src\Pedidos\Arquivos;
 
 use App\Models\PedidosArquivos;
-use App\Services\Images;
+use App\Services\UploadFiles;
 
 class ArquivosPedido
 {
     public function inserirAquivo($file, $path)
     {
-        return (new Images())->armazenarSeparado($file, $path);
+        return (new UploadFiles())->armazenarSeparado($file, $path);
     }
 
     public function comprovantePix($idPedido, $request)

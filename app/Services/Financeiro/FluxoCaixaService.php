@@ -19,7 +19,7 @@ class FluxoCaixaService
         $franquia = $filters->get('franquia');
         $empresa = $filters->get('empresa');
 
-        $query =  (new FluxoCaixa)->getAll();
+        $query =  (new FluxoCaixa)->getNota();
 
         $this->filtroTipo($query, $tipo);
         $this->filtroStatus($query, $status);

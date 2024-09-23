@@ -14,7 +14,7 @@ import { Button } from '@mui/material';
 import { TbHistory } from 'react-icons/tb';
 import { Link } from '@inertiajs/inertia-react';
 
-export default function({ fornecedores, franquias, empresas }) {
+export default function() {
     const [filtros, setFiltros] = useState({
         tipo: '',
         status: '',
@@ -30,7 +30,7 @@ export default function({ fornecedores, franquias, empresas }) {
             <ProviderFluxoCaixa>
                 <div className="mb-2 row justify-content-ce nter">
                     <div className="col-md-8">
-                        <Filtros filtros={filtros} setFiltros={setFiltros} empresas={empresas} franquias={franquias} fornecedores={fornecedores} />
+                        <Filtros filtros={filtros} setFiltros={setFiltros} />
                         <div className="row justify-content-between">
                             <div className="col">
                                 <CreateDialog />

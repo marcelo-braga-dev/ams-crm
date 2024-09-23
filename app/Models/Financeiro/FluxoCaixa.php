@@ -7,15 +7,17 @@ use App\Models\FluxoCaixasConfig;
 use App\Models\Fornecedores;
 use App\Models\Franquias;
 use App\Models\User;
-use App\Services\Images;
+use App\Services\UploadFiles;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
 class FluxoCaixa extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -118,39 +120,21 @@ class FluxoCaixa extends Model
         return $this->belongsTo(Franquias::class, 'franquia_id',);
     }
 
-//    metodos
-    public function cadastrar($dados)
+    protected function setAnexoAttribute($value)
     {
-        $anexo = null;
-        if ($dados['anexo'] ?? null) {
-            $anexo = (new Images)->armazenar($dados, 'anexo', 'financeiro');
-        }
-
-        try {
-            DB::transaction(function () use ($dados, $anexo) {
-                $fluxo = $this->create([
-                    'user_id' => id_usuario_atual(),
-                    'tipo' => $dados->tipo,
-                    'empresa_id' => $dados->empresa,
-                    'franquia_id' => $dados->franquia,
-                    'fornecedor_id' => $dados->fornecedor,
-                    'origem_id' => $dados->origem,
-                    'descricao' => $dados->descricao,
-                    'nota' => $dados->nota_fiscal,
-                    'emissao' => $dados->emissao,
-                    'anexo' => $anexo,
-                ]);
-
-                (new FluxoCaixaPagamento())->cadastrar($fluxo->id, $dados['pagamentos'] ?? []);
-            });
-
-        } catch (\Exception $exception) {
-
-            throw new \DomainException('Falha no cadastro.');
-        }
+        $this->attributes['anexo'] = $this->uploadAnexo($value);
     }
 
-    public function getAll()
+//    metodos
+    private function uploadAnexo($anexo)
+    {
+        if ($anexo) {
+            return (new UploadFiles())->uploadFile($anexo, 'financeiro/fluxo_caixa/comprovantes');
+        }
+        return null;
+    }
+
+    public function getNota(): Builder
     {
         return $this->with(['pagamentos', 'fornecedor', 'franquia', 'empresa']);
     }

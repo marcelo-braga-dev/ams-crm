@@ -1,48 +1,52 @@
-import React from "react";
-import Switch from "@mui/material/Switch";
-import {InputAdornment, TextField} from "@mui/material";
-import {convertInputMoney} from "@/Components/Inputs/TextFieldMoney.jsx";
-import MenuItem from "@mui/material/MenuItem";
+import React from 'react';
+import Switch from '@mui/material/Switch';
+import { InputAdornment, TextField, Typography } from '@mui/material';
+import { convertInputMoney } from '@/Components/Inputs/TextFieldMoney.jsx';
+import MenuItem from '@mui/material/MenuItem';
 
 const pagamentoDados = (pagamentos, chave, valor, i) => {
     return {
         ...pagamentos, [i]: {
             ...pagamentos[i],
-            [chave]: valor
-        }
-    }
-}
+            [chave]: valor,
+        },
+    };
+};
 
-const PagamentosSaida = ({setPagamentos, pagamentos, qtdPagamentos, bancos}) => {
-    let camposValores = []
+const PagamentosSaida = ({ setPagamentos, pagamentos, qtdPagamentos, bancos }) => {
+    let camposValores = [];
     const camposPagamentos = () => {
         for (let i = 0; i < qtdPagamentos; i++)
             camposValores.push(
                 <tr key={i}>
-                    <td className="text-center">
+                    <td className="text-center" style={{ width: '5rem' }}>
+                        <Typography variant="body2">Pago</Typography>
                         <Switch size="small"
-                                onChange={e => setPagamentos(pagamentoDados(pagamentos, 'status', e.target.checked, i))}/>
+                                onChange={e => setPagamentos(pagamentoDados(pagamentos, 'status', e.target.checked, i))} />
                     </td>
-                    <td>
+                    <td style={{ width: '10rem' }}>
                         <TextField fullWidth label={`Valor da ${i + 1}° Parcela`}
-                                   InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
-                                   onChange={e => setPagamentos(pagamentoDados(pagamentos, 'valor', convertInputMoney(e), i))}/>
+                                   style={{ width: '10rem' }}
+                                   InputProps={{ startAdornment: <InputAdornment position="start">R$</InputAdornment> }}
+                                   onChange={e => setPagamentos(pagamentoDados(pagamentos, 'valor', convertInputMoney(e), i))} />
                     </td>
-                    <td>
+                    <td style={{ width: '10rem' }}>
                         <TextField
-                            type="date" label="Data Vencimento" fullWidth InputLabelProps={{shrink: true}} required
+                            type="date" label="Data Vencimento" fullWidth InputLabelProps={{ shrink: true }} required
                             onChange={e => setPagamentos(pagamentoDados(pagamentos, 'data', e.target.value, i))}
                         />
                     </td>
                     <td>
                         {pagamentos?.[i]?.status &&
                             <TextField fullWidth required label="Valor Baixa"
-                                       InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
-                                       onChange={e => setPagamentos(pagamentoDados(pagamentos, 'valor_baixa', convertInputMoney(e), i))}/>}
+                                       sx={{ width: '10rem' }}
+                                       InputProps={{ startAdornment: <InputAdornment position="start">R$</InputAdornment> }}
+                                       onChange={e => setPagamentos(pagamentoDados(pagamentos, 'valor_baixa', convertInputMoney(e), i))} />}
                     </td>
                     <td>
                         {pagamentos?.[i]?.status &&
                             <TextField label="Forma Pagamento" fullWidth required select
+                                       sx={{ width: '10rem' }}
                                        onChange={e => setPagamentos(pagamentoDados(pagamentos, 'forma_pagamento', e.target.value, i))}>
                                 <MenuItem value="Cartão de Crédito">Cartão de Crédito</MenuItem>
                                 <MenuItem value="PIX">PIX</MenuItem>
@@ -53,38 +57,39 @@ const PagamentosSaida = ({setPagamentos, pagamentos, qtdPagamentos, bancos}) => 
                     <td>
                         {pagamentos?.[i]?.status &&
                             <TextField select required label="Banco" fullWidth
+                                       sx={{ width: '10rem' }}
                                        onChange={e => setPagamentos(pagamentoDados(pagamentos, 'banco', e.target.value, i))}>
                                 {bancos.map(item => <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>)}
                             </TextField>}
                     </td>
                     <td>
                         {pagamentos?.[i]?.status &&
-                            <TextField required type="date" fullWidth label="Data da Baixa" InputLabelProps={{shrink: true}}
-                                       onChange={e => setPagamentos(pagamentoDados(pagamentos, 'data_baixa', e.target.value, i))}/>}
+                            <TextField required type="date" fullWidth label="Data da Baixa" InputLabelProps={{ shrink: true }}
+                                       onChange={e => setPagamentos(pagamentoDados(pagamentos, 'data_baixa', e.target.value, i))} />}
                     </td>
-                </tr>
-            )
-        return camposValores
-    }
+                    <td>
+                        {pagamentos?.[i]?.status &&
+                            <TextField
+                                sx={{ width: '10rem' }}
+                                type="file"
+                                onChange={e => setPagamentos(pagamentoDados(pagamentos, 'anexo', e.target.files[0], i))}
+                            />
+                        }
+                    </td>
+                </tr>,
+            );
+        return camposValores;
+    };
 
     return (
-        <table className="table-1">
-            <thead>
-            <tr>
-                <th style={{width: 50}} className="text-center">Pago</th>
-                <th style={{width: 250}}>Valor</th>
-                <th style={{width: 250}}>Data Vencimento</th>
-                <th style={{width: 250}}>Valor Baixa</th>
-                <th style={{width: 250}}>Forma Pagamento</th>
-                <th style={{width: 250}}>Banco</th>
-                <th style={{width: 250}}>Data Baixa</th>
-            </tr>
-            </thead>
-            <thead>
-            {camposPagamentos()}
-            </thead>
-        </table>
-    )
-}
+        <div style={{ overflowX: 'auto' }}>
+            <table className="table-1">
+                <thead>
+                {camposPagamentos()}
+                </thead>
+            </table>
+        </div>
+    );
+};
 
-export default PagamentosSaida
+export default PagamentosSaida;

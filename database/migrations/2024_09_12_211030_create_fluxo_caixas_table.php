@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('nota')->nullable();
             $table->date('emissao')->nullable();
             $table->string('anexo')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

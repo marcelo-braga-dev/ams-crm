@@ -19,6 +19,18 @@ export default function Button(theme) {
         },
     };
 
+    const errorStyle = {
+        '&.MuiButton-colorError': {
+            color: '#fff',
+            backgroundColor: '#ec1414',
+            borderColor: theme.palette.success.light,
+            '&:hover': {
+                backgroundColor: '#d10e0e',
+                color: '#fff',
+            },
+        },
+    };
+
     const rootStyle = {
         fontWeight: 700,
         paddingBlock: 7,
@@ -30,6 +42,7 @@ export default function Button(theme) {
             color: '#fff',
         },
         ...successStyle,
+        ...errorStyle,
     };
 
     return {

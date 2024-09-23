@@ -39,22 +39,50 @@ const Pagamentos = ({ pagamentos }) => {
         setOpenDialogInfo('');
     };
 
+    const chipPrazo = (pagamento) => {
+        let chipLabel = '';
+        let chipColor = '';
+
+        switch (pagamento.status) {
+            case 'pago':
+                chipLabel = 'Pago';
+                chipColor = 'success';
+                break;
+
+            case 'aberto':
+                switch (true) {
+                    case pagamento.vencido < -1:
+                        chipLabel = 'Em Atraso';
+                        chipColor = 'error';
+                        break;
+                    case pagamento.vencido < 0:
+                        chipLabel = 'Vence Hoje';
+                        chipColor = 'warning';
+                        break;
+                    case pagamento.vencido < 1:
+                        chipLabel = 'Vence Amanhã';
+                        chipColor = 'info';
+                        break;
+                    default:
+                        chipLabel = 'Em Aberto';
+                        chipColor = 'info';
+                        break;
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return <Chip label={chipLabel} size="small" color={chipColor} />;
+    };
+
     return pagamentos?.pagamentos.map((pagamento) => (
         <CardContainer key={pagamento.id}>
             <CardBody>
                 <div className="row">
-
                     <div className="col">
-                        {pagamento.status === 'pago' ? (
-                            <Chip label="Pago" size="small" color="success" />
-                        ) : pagamento.status === 'aberto' && (
-                            pagamento.vencido < 0 ? (
-                                <Chip label="Em Atraso" size="small" color="error" />
-                            ) : (
-                                <Chip label="Em Aberto" size="small" color="info" />
-                            )
-                        )}
-
+                        {chipPrazo(pagamento)}
                     </div>
                     <div className="col">
                         <CampoTexto icone={TbCalendarDollar} texto={pagamento.data} />

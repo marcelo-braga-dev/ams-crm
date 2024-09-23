@@ -1,4 +1,4 @@
-import {InputAdornment, TextField, Typography} from "@mui/material";
+import { Button, InputAdornment, TextField, Typography } from '@mui/material';
 import convertFloatToMoney from "@/Helpers/converterDataHorario.jsx";
 import MenuItem from "@mui/material/MenuItem";
 import React, { useContext, useEffect, useState } from 'react';
@@ -7,7 +7,7 @@ import {router} from "@inertiajs/react";
 import {convertInputMoney} from "@/Components/Inputs/TextFieldMoney.jsx";
 import { ContextFluxoCaixa } from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/ContextFluxoCaixa.jsx';
 
-const PagarSaida = ({pagamento, opcoes, setData, submit}) => {
+const PagarSaida = ({pagamento, variaveis, setData, submit}) => {
 
     return (
         <form onSubmit={submit}>
@@ -20,6 +20,7 @@ const PagarSaida = ({pagamento, opcoes, setData, submit}) => {
                     <th style={{width: 250}}>Forma Pagamento</th>
                     <th style={{width: 250}}>Banco</th>
                     <th style={{width: 250}}>Data Baixa</th>
+                    <th>Comprovante</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -34,30 +35,36 @@ const PagarSaida = ({pagamento, opcoes, setData, submit}) => {
                     <td>
                         <TextField
                             fullWidth label="Valor Baixa"
-                            InputProps={{startAdornment: <InputAdornment position="start">R$</InputAdornment>}}
-                            onChange={e => setData('valor_baixa', convertInputMoney(e))}/>
+                            InputProps={{ startAdornment: <InputAdornment position="start">R$</InputAdornment> }}
+                            onChange={e => setData('valor_baixa', convertInputMoney(e))} />
                     </td>
                     <td>
                         <TextField
                             label="Forma Pagamento" fullWidth required select
                             onChange={e => setData('forma_pagamento', e.target.value)}>
-                            {opcoes?.formasPagamento?.map(item => <MenuItem value={item}>{item}</MenuItem>)}
+                            {variaveis?.formas_pagamento?.map(item => <MenuItem value={item}>{item}</MenuItem>)}
                         </TextField>
                     </td>
                     <td>
                         <TextField
                             select required label="Banco" fullWidth
-                            onChange={e => setData('banco', e.target.value)}>
-                            {opcoes?.bancos?.map(item => <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>)}
+                            onChange={e => setData('banco_id', e.target.value)}>
+                            {variaveis?.bancos?.map(item => <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>)}
                         </TextField>
                     </td>
                     <td>
                         <TextField
-                            type="date" label="Data Baixa" fullWidth InputLabelProps={{shrink: true}} required
-                            onChange={e => setData('data_baixa', e.target.value)}/>
+                            type="date" label="Data Baixa" fullWidth InputLabelProps={{ shrink: true }} required
+                            onChange={e => setData('data_baixa', e.target.value)} />
                     </td>
                     <td>
-                        <button className="btn btn-success mt-2">Salvar</button>
+                        <TextField
+                            sx={{ width: '10rem' }}
+                            type="file"
+                            onChange={e => setData('anexo', e.target.files[0])} />
+                    </td>
+                    <td>
+                        <Button color="success" type="submit">Salvar</Button>
                     </td>
                 </tr>
                 </thead>

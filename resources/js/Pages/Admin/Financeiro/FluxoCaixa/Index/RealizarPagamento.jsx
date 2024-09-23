@@ -1,7 +1,7 @@
 import PagarEntrada from '@/Pages/Admin/Financeiro/FluxoCaixa/Components/PagarEntrada.jsx';
 import PagarSaida from '@/Pages/Admin/Financeiro/FluxoCaixa/Components/PagarSaida.jsx';
 import React, { useContext, useEffect, useState } from 'react';
-import { Dialog, DialogContent } from '@mui/material';
+import { Button, Dialog, DialogContent, Stack } from '@mui/material';
 import CardContainer from '@/Components/Cards/CardContainer.jsx';
 import CardBody from '@/Components/Cards/CardBody.jsx';
 import InfoNota from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/InfoNota.jsx';
@@ -13,16 +13,9 @@ import { ContextFluxoCaixa } from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/Con
 
 const RealizarPagamento = ({ nota, pagamento, open, close }) => {
 
-    const { setAtualizarRegistros } = useContext(ContextFluxoCaixa);
+    const { setAtualizarRegistros, variaveis } = useContext(ContextFluxoCaixa);
 
     const { data, setData } = useForm();
-
-    const [opcoes, setOpcoes] = useState();
-
-    useEffect(() => {
-        axios.get(route('admin.financeiro.opcoes'))
-            .then(res => setOpcoes(res.data));
-    }, []);
 
     const submit = (e) => {
         e.preventDefault();
@@ -64,18 +57,21 @@ const RealizarPagamento = ({ nota, pagamento, open, close }) => {
                                     {nota.tipo === 'entrada'
                                         ? <PagarEntrada
                                             pagamento={pagamento}
-                                            opcoes={opcoes}
+                                            variaveis={variaveis}
                                             setData={setData}
                                             submit={submit}
                                         />
                                         : <PagarSaida
                                             pagamento={pagamento}
-                                            opcoes={opcoes}
+                                            variaveis={variaveis}
                                             setData={setData}
                                             submit={submit} />
                                     }
                                 </CardTable>
                             </CardContainer>
+                            <Stack direction="row" justifyContent="end">
+                                <Button onClick={() => close(false)}>Fechar</Button>
+                            </Stack>
                         </>}
                     </CardBody>
                 </CardContainer>

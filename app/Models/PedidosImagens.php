@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Images;
+use App\Services\UploadFiles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
@@ -32,13 +32,13 @@ class PedidosImagens extends Model
 
     function create($id, $dados)
     {
-        $urlOrcamento = (new Images())->armazenar($dados, 'file_orcamento', 'pedidos/' . $id);
-        $urlRg = (new Images())->armazenar($dados, 'file_rg', 'pedidos/' . $id);
-        $urlCpf = (new Images())->armazenar($dados, 'file_cpf', 'pedidos/' . $id);
-        $urlCnh = (new Images())->armazenar($dados, 'file_cnh', 'pedidos/' . $id);
-        $urlCnpj = (new Images())->armazenar($dados, 'file_cartao_cnpj', 'pedidos/' . $id);
-        $urlComprovante = (new Images())->armazenar($dados, 'file_comprovante_residencia', 'pedidos/' . $id);
-        $urlCarta = (new Images())->armazenar($dados, 'file_carta_autorizacao', 'pedidos/' . $id);
+        $urlOrcamento = (new UploadFiles())->armazenar($dados, 'file_orcamento', 'pedidos/' . $id);
+        $urlRg = (new UploadFiles())->armazenar($dados, 'file_rg', 'pedidos/' . $id);
+        $urlCpf = (new UploadFiles())->armazenar($dados, 'file_cpf', 'pedidos/' . $id);
+        $urlCnh = (new UploadFiles())->armazenar($dados, 'file_cnh', 'pedidos/' . $id);
+        $urlCnpj = (new UploadFiles())->armazenar($dados, 'file_cartao_cnpj', 'pedidos/' . $id);
+        $urlComprovante = (new UploadFiles())->armazenar($dados, 'file_comprovante_residencia', 'pedidos/' . $id);
+        $urlCarta = (new UploadFiles())->armazenar($dados, 'file_carta_autorizacao', 'pedidos/' . $id);
 
         try {
             $this->newQuery()
@@ -65,13 +65,13 @@ class PedidosImagens extends Model
 
     public function updateDados(int $id, $dados)
     {
-        $urlOrcamento = (new Images())->armazenar($dados, 'file_orcamento', 'pedidos/' . $id);
-        $urlRg = (new Images())->armazenar($dados, 'file_rg', 'pedidos/' . $id);
-        $urlCpf = (new Images())->armazenar($dados, 'file_cpf', 'pedidos/' . $id);
-        $urlCnh = (new Images())->armazenar($dados, 'file_cnh', 'pedidos/' . $id);
-        $urlCnpj = (new Images())->armazenar($dados, 'file_cartao_cnpj', 'pedidos/' . $id);
-        $urlComprovante = (new Images())->armazenar($dados, 'file_comprovante_residencia', 'pedidos/' . $id);
-        $urlCarta = (new Images())->armazenar($dados, 'file_carta_autorizacao', 'pedidos/' . $id);
+        $urlOrcamento = (new UploadFiles())->armazenar($dados, 'file_orcamento', 'pedidos/' . $id);
+        $urlRg = (new UploadFiles())->armazenar($dados, 'file_rg', 'pedidos/' . $id);
+        $urlCpf = (new UploadFiles())->armazenar($dados, 'file_cpf', 'pedidos/' . $id);
+        $urlCnh = (new UploadFiles())->armazenar($dados, 'file_cnh', 'pedidos/' . $id);
+        $urlCnpj = (new UploadFiles())->armazenar($dados, 'file_cartao_cnpj', 'pedidos/' . $id);
+        $urlComprovante = (new UploadFiles())->armazenar($dados, 'file_comprovante_residencia', 'pedidos/' . $id);
+        $urlCarta = (new UploadFiles())->armazenar($dados, 'file_carta_autorizacao', 'pedidos/' . $id);
 
         $this->newQuery()
             ->where('pedido_id', $id)
@@ -88,8 +88,8 @@ class PedidosImagens extends Model
 
     function updateBoleto($id, $dados)
     {
-        $url = (new Images())->armazenar($dados, 'file_boleto', 'pedidos/' . $id);
-        $url2 = (new Images())->armazenar($dados, 'file_boleto_2', 'pedidos/' . $id);
+        $url = (new UploadFiles())->armazenar($dados, 'file_boleto', 'pedidos/' . $id);
+        $url2 = (new UploadFiles())->armazenar($dados, 'file_boleto_2', 'pedidos/' . $id);
 
         if ($url == 0) throw new \DomainException('ARQUIVO INVÁLIDO');
 
@@ -107,8 +107,8 @@ class PedidosImagens extends Model
 
     function updateRecibo($id, $dados)
     {
-        $url1 = (new Images())->armazenar($dados, 'file_recibo_1', 'pedidos/' . $id);
-        $url2 = (new Images())->armazenar($dados, 'file_recibo_2', 'pedidos/' . $id);
+        $url1 = (new UploadFiles())->armazenar($dados, 'file_recibo_1', 'pedidos/' . $id);
+        $url2 = (new UploadFiles())->armazenar($dados, 'file_recibo_2', 'pedidos/' . $id);
 
         if ($url1 == 0) throw new \DomainException('ARQUIVO INVÁLIDO');
 
@@ -127,7 +127,7 @@ class PedidosImagens extends Model
 
     function updateNotaFiscal($id, $dados)
     {
-        $url = (new Images())->armazenar($dados, 'file_nota_fiscal', 'pedidos/' . $id);
+        $url = (new UploadFiles())->armazenar($dados, 'file_nota_fiscal', 'pedidos/' . $id);
 
         $this->newQuery()
             ->where('pedido_id', $id)
@@ -138,7 +138,7 @@ class PedidosImagens extends Model
 
     public function updatePlanilhaPedido($id, $dados)
     {
-        $url = (new Images())->armazenar($dados, 'img_pedido', 'pedidos/' . $id);
+        $url = (new UploadFiles())->armazenar($dados, 'img_pedido', 'pedidos/' . $id);
 
         $this->newQuery()
             ->where('pedido_id', $id)
@@ -176,7 +176,7 @@ class PedidosImagens extends Model
 
     public function atualizarUrl($dados, $id, $nameFile, $name)
     {
-        $url = (new Images())->armazenar($dados, $nameFile, 'pedidos/' . $id);
+        $url = (new UploadFiles())->armazenar($dados, $nameFile, 'pedidos/' . $id);
 
         $this->newQuery()
             ->where('pedido_id', $id)

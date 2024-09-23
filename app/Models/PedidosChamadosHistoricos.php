@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Images;
+use App\Services\UploadFiles;
 use App\src\Chamados\StatusChamados;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +25,7 @@ class PedidosChamadosHistoricos extends Model
     public function create($idPedidos, $idChamado, $status, $msg, $prazo, $anexos)
     {
         foreach ($anexos as $anexo) {
-            $anexo2 = (new Images())->armazenarSeparado($anexo, 'chamados-anexos');
+            $anexo2 = (new UploadFiles())->armazenarSeparado($anexo, 'chamados-anexos');
         }
 
         $this->newQuery()

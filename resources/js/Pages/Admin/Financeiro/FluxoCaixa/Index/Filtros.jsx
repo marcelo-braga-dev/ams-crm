@@ -4,13 +4,17 @@ import { DateRange } from 'react-date-range';
 import { Stack, TextField } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Autocomplete from '@mui/material/Autocomplete';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { ptBR } from 'react-date-range/src/locale';
 import { router } from '@inertiajs/react';
 import CardTitle from '@/Components/Cards/CardTitle.jsx';
 import { ChevronDown, ChevronUp, ListCheck } from 'react-bootstrap-icons';
+import { ContextFluxoCaixa } from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/ContextFluxoCaixa.jsx';
 
-const Filtros = ({ filtros, setFiltros, fornecedores, franquias, empresas }) => {
+const Filtros = ({ filtros, setFiltros }) => {
+    const { variaveis } = useContext(ContextFluxoCaixa);
+    const empresas = variaveis?.empresas;
+    const franquias = variaveis?.franquias;
 
     const [openFiltro, setOpenFiltro] = useState(false);
 
@@ -23,12 +27,9 @@ const Filtros = ({ filtros, setFiltros, fornecedores, franquias, empresas }) => 
         },
     ]);
 
-    const itemsFornecedor = [
-        { label: 'Todos', id: '' },
-        ...fornecedores.map(item => {
-            return { label: item.valor, id: item.id };
-        }),
-    ];
+    const fornecedores = variaveis?.fornecedores?.map(item => {
+        return { label: item.valor, id: item.id };
+    });
 
     const limparFiltroData = () => {
         router.get(route('admin.financeiro.fluxo-caixa.index'));
@@ -85,7 +86,7 @@ const Filtros = ({ filtros, setFiltros, fornecedores, franquias, empresas }) => 
 
                             <Autocomplete
                                 disablePortal
-                                options={itemsFornecedor}
+                                options={[{ label: 'Todos', id: '' }, ...fornecedores]}
                                 getOptionLabel={(option) => option.label}
                                 onChange={(event, newValue) => {
                                     setFiltros({ ...filtros, fornecedor: newValue ? newValue.id : null });
@@ -104,7 +105,7 @@ const Filtros = ({ filtros, setFiltros, fornecedores, franquias, empresas }) => 
                                        value={filtros.empresa ?? ''}
                                        onChange={e => setFiltros({ ...filtros, empresa: e.target.value })}>>
                                 <MenuItem value={undefined}>Todas</MenuItem>
-                                {empresas.map(item => <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>)}
+                                {empresas.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </Stack>
                         <div className="mt-4 row">

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Images;
+use App\Services\UploadFiles;
 use App\src\Pedidos\Arquivos\ChavesArquivosPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -160,7 +160,7 @@ class PedidosArquivos extends Model
     public function setRG($idPedido, $request)
     {
         if ($request->img_rg) {
-            $url = (new Images())->armazenar($request, 'img_rg', 'pedidos/' . $idPedido);
+            $url = (new UploadFiles())->armazenar($request, 'img_rg', 'pedidos/' . $idPedido);
 
             (new PedidosArquivos())->insert($idPedido, (new ChavesArquivosPedidos())->rg(), $url);
         }
@@ -169,7 +169,7 @@ class PedidosArquivos extends Model
     public function setCPF($idPedido, $request)
     {
         if ($request->img_cpf) {
-            $url = (new Images())->armazenar($request, 'img_cpf', 'pedidos/' . $idPedido);
+            $url = (new UploadFiles())->armazenar($request, 'img_cpf', 'pedidos/' . $idPedido);
 
             (new PedidosArquivos())->insert($idPedido, (new ChavesArquivosPedidos())->cpf(), $url);
         }
@@ -179,7 +179,7 @@ class PedidosArquivos extends Model
     public function setCNH($idPedido, $request)
     {
         if ($request->img_cnh) {
-            $url = (new Images())->armazenar($request, 'img_cnh', 'pedidos/' . $idPedido);
+            $url = (new UploadFiles())->armazenar($request, 'img_cnh', 'pedidos/' . $idPedido);
 
             (new PedidosArquivos())->insert($idPedido, (new ChavesArquivosPedidos())->cnh(), $url);
         }
@@ -188,7 +188,7 @@ class PedidosArquivos extends Model
     public function setCNPJ($idPedido, $request)
     {
         if ($request->file_cartao_cnpj) {
-            $url = (new Images())->armazenar($request, 'file_cartao_cnpj', 'pedidos/' . $idPedido);
+            $url = (new UploadFiles())->armazenar($request, 'file_cartao_cnpj', 'pedidos/' . $idPedido);
 
             (new PedidosArquivos())->insert($idPedido, (new ChavesArquivosPedidos())->cnpj(), $url);
         }
@@ -197,7 +197,7 @@ class PedidosArquivos extends Model
     public function setResidencia($idPedido, $request)
     {
         if ($request->file_comprovante_residencia) {
-            $url = (new Images())->armazenar($request, 'file_comprovante_residencia', 'pedidos/' . $idPedido);
+            $url = (new UploadFiles())->armazenar($request, 'file_comprovante_residencia', 'pedidos/' . $idPedido);
 
             (new PedidosArquivos())->insert($idPedido, (new ChavesArquivosPedidos())->residencia(), $url);
         }

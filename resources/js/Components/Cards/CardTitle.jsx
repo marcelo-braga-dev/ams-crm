@@ -10,6 +10,7 @@ const Container = styled.span`
     padding-inline: 20px;
     padding-top: 20px;
     align-items: center;
+    width: 100%;
 `
 
 export default function CardTitle({title, icon, children, subtitle, className, onClick, cursorPointer}) {

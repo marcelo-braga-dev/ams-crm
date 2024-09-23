@@ -4,13 +4,15 @@ namespace App\Models\Financeiro;
 
 use App\Models\FluxoCaixasConfig;
 use App\Models\User;
+use App\Services\UploadFiles;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FluxoCaixaPagamento extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -21,26 +23,33 @@ class FluxoCaixaPagamento extends Model
         'valor_baixa',
         'data_baixa',
         'forma_pagamento',
+        'anexo',
     ];
 
     protected $appends = ['status', 'vencido'];
     protected $with = ['banco'];
 
-    public function pagar($dados)
+    // =======================
+    // Atributos (Getters/Setters)
+    // =======================
+    protected function setValorAttribute($value)
     {
-        $this->find($dados->pagamento_id)
-            ->update([
-                'forma_pagamento' => $dados->forma_pagamento,
-                'banco_id' => $dados->banco,
-                'data_baixa' => $dados->data_baixa,
-                'valor_baixa' => $dados->valor_baixa,
-            ]);
+        $this->attributes['valor'] = convert_money_float($value);
     }
 
-    // Attributes
     protected function setValorBaixaAttribute($value)
     {
         $this->attributes['valor_baixa'] = convert_money_float($value);
+    }
+
+    protected function setAnexoAttribute($value)
+    {
+        $this->attributes['anexo'] = $this->uploadAnexo($value);
+    }
+
+    protected function setUserIdAttribute($value)
+    {
+        $this->attributes['user_id'] = id_usuario_atual();
     }
 
     protected function getDataAttribute()
@@ -58,17 +67,24 @@ class FluxoCaixaPagamento extends Model
         return ($this->attributes['data_baixa'] ?? null) ? 'pago' : 'aberto';
     }
 
+    public function getAnexoAttribute()
+    {
+        return url_arquivos($this->attributes['data_baixa'] ?? null);
+    }
+
     public function getVencidoAttribute()
     {
-        $dataVencimento = $this->attributes['data'];
-        if ($dataVencimento) {
-            $diasVencidos = Carbon::now()->diffInDays(Carbon::parse($dataVencimento));
-            return intval($diasVencidos);
+        if ($this->attributes['data']) {
+            $dataVencimento = Carbon::parse($this->attributes['data']);
+
+            return (Carbon::now()->diffInDays($dataVencimento));
         }
         return null;
     }
 
-    // Relations
+    // =======================
+    // Relacionamentos
+    // =======================
     public function autor()
     {
         return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'name as nome');
@@ -84,27 +100,18 @@ class FluxoCaixaPagamento extends Model
         return $this->belongsTo(FluxoCaixa::class, 'fluxo_caixa_id', 'id');
     }
 
-    // Metodos
-    public function cadastrar($id, $dados)
+    // =======================
+    // Métodos
+    // =======================
+    private function uploadAnexo($anexo)
     {
-        $insert = [];
-        foreach ($dados as $value) {
-            $insert[] = [
-                'user_id' => id_usuario_atual(),
-                'fluxo_caixa_id' => $id,
-                'valor' => convert_money_float($value['valor'] ?? null),
-                'data' => $value['data'] ?? null,
-                'banco_id' => $value['banco'] ?? null,
-                'valor_baixa' => $value['valor_baixa'] ?? null,
-                'data_baixa' => $value['data_baixa'] ?? null,
-                'forma_pagamento' => $value['forma_pagamento'] ?? null,
-            ];
+        if ($anexo) {
+            return (new UploadFiles())->uploadFile($anexo, 'financeiro/fluxo_caixa/comprovantes');
         }
-
-        $this->insert($insert);
+        return null;
     }
 
-    public function getAll()
+    public function getNotaFiscal()
     {
         return $this->with('notaFiscal');
     }

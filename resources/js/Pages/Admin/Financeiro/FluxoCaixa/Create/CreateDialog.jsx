@@ -19,21 +19,9 @@ import { TbHistory, TbPlus } from 'react-icons/tb';
 
 
 const CreateDialog = () => {
+    const { setAtualizarRegistros, variaveis } = useContext(ContextFluxoCaixa);
 
-    const [dados, setDados] = useState();
-    const [carregando, setCarregando] = useState(false);
-
-    const { setAtualizarRegistros } = useContext(ContextFluxoCaixa);
-
-    useEffect(() => {
-        axios.get(route('admin.financeiro.opcoes'))
-            .then(res => {
-                setDados(res.data);
-                setCarregando(true);
-            });
-    }, []);
-
-    const bancos = dados?.bancos ?? [];
+    const bancos = variaveis?.bancos ?? [];
 
     const [tipo, setTipo] = useState();
     const [qtdPagamentos, setQtdPagamentos] = useState(1);
@@ -58,6 +46,7 @@ const CreateDialog = () => {
                 reset();
                 handleTipo('');
                 setAtualizarRegistros(e => !e);
+                setQtdPagamentos(1);
             },
         });
     }
@@ -95,21 +84,21 @@ const CreateDialog = () => {
                 maxWidth="lg"
             >
                 <DialogContent>
-                    {carregando && <CardContainer>
+                    <CardContainer>
                         <CardTitle title="Cadastrar Fluxo de Caixa" icon={<FileEarmarkPlus size={22} />} />
                         <CardBody>
                             <FormControl>
                                 <RadioGroup onChange={e => handleTipo(e.target.value)}>
                                     <Stack direction="row" spacing={4}>
-                                        {dados.permissaoEntradas && <FormControlLabel value="entrada" control={<Radio size="small" />} label="Entrada" />}
-                                        {dados.permissaoSaidas && <FormControlLabel value="saida" control={<Radio size="small" />} label="Saída" />}
+                                        {variaveis?.permissoes?.entrada && <FormControlLabel value="entrada" control={<Radio size="small" />} label="Entrada" />}
+                                        {variaveis?.permissoes?.saida && <FormControlLabel value="saida" control={<Radio size="small" />} label="Saída" />}
                                     </Stack>
                                 </RadioGroup>
                             </FormControl>
-                            {!dados.permissaoEntradas && <small className="d-block">Você não tem permissão para cadastros de entradas.</small>}
-                            {!dados.permissaoSaidas && <small>Você não tem permissão para cadastros de saídas.</small>}
+                            {!variaveis?.permissoes?.entrada && <small className="d-block">Você não tem permissão para cadastros de entradas.</small>}
+                            {!variaveis?.permissoes?.saida && <small>Você não tem permissão para cadastros de saídas.</small>}
                         </CardBody>
-                    </CardContainer>}
+                    </CardContainer>
 
                     {tipo &&
                         <form onSubmit={submit}>
@@ -119,32 +108,32 @@ const CreateDialog = () => {
                                     <div className="row mb-4">
                                         <div className="col-md-3">
                                             <TextField select label="Empresa" fullWidth required
-                                                       onChange={e => setData('empresa', e.target.value)}>
-                                                {dados.empresas.map(item =>
+                                                       onChange={e => setData('empresa_id', e.target.value)}>
+                                                {variaveis.empresas.map(item =>
                                                     <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>,
                                                 )}
                                             </TextField>
                                         </div>
                                         <div className="col-md-3">
                                             <TextField select label="Franquia" fullWidth required
-                                                       onChange={e => setData('franquia', e.target.value)}>
-                                                {dados.franquias.map(item =>
+                                                       onChange={e => setData('franquia_id', e.target.value)}>
+                                                {variaveis.franquias.map(item =>
                                                     <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>,
                                                 )}
                                             </TextField>
                                         </div>
                                         <div className="col-md-3">
                                             <TextField select label="Fornecedor" fullWidth required
-                                                       onChange={e => setData('fornecedor', e.target.value)}>
-                                                {dados.fornecedores.map(item => <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>)}
+                                                       onChange={e => setData('fornecedor_id', e.target.value)}>
+                                                {variaveis.fornecedores.map(item => <MenuItem key={item.id} value={item.id}>{item.valor}</MenuItem>)}
                                             </TextField>
                                         </div>
                                         <div className="col-md-3">
                                             <TextField select label="Origem do Gasto" fullWidth required
-                                                       onChange={e => setData('origem', e.target.value)}>
-                                                <MenuItem value="outros">Outros</MenuItem>
-                                                <MenuItem value="escritorio">Escritório</MenuItem>
-                                                <MenuItem value="servicos">Serviços</MenuItem>
+                                                       onChange={e => setData('origem_id', e.target.value)}>
+                                                <MenuItem value="1">Outros</MenuItem>
+                                                <MenuItem value="2">Escritório</MenuItem>
+                                                <MenuItem value="3">Serviços</MenuItem>
                                             </TextField>
                                         </div>
                                     </div>
@@ -162,7 +151,7 @@ const CreateDialog = () => {
                                 <CardBody>
                                     <div className="row">
                                         <div className="col">
-                                            <TextField fullWidth label="N° da Nota Fiscal" onChange={e => setData('nota_fiscal', e.target.value)} />
+                                            <TextField fullWidth label="N° da Nota Fiscal" onChange={e => setData('nota', e.target.value)} />
                                         </div>
                                         <div className="col">
                                             <TextField type="date" label="Data de Emissão da Nota" fullWidth InputLabelProps={{ shrink: true }}

@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Leads\LeadsANTIGO;
-use App\Services\Images;
+use App\Services\UploadFiles;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Usuarios\Permissoes\ChavesPermissoes;
 use App\src\Usuarios\Status\AtivoStatusUsuario;
@@ -425,7 +425,7 @@ class User extends Authenticatable
     public function setFoto($id, $request)
     {
         if ($request->foto) {
-            $url = (new Images())->armazenar($request, 'foto', 'fotos_usuarios');
+            $url = (new UploadFiles())->armazenar($request, 'foto', 'fotos_usuarios');
 
             $this->newQuery()
                 ->find($id)

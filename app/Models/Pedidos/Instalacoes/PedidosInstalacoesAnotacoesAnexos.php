@@ -2,7 +2,7 @@
 
 namespace App\Models\Pedidos\Instalacoes;
 
-use App\Services\Images;
+use App\Services\UploadFiles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,7 +26,7 @@ class PedidosInstalacoesAnotacoesAnexos extends Model
     {
         $urls = [];
         foreach ($anexos as $anexo) {
-            $url = (new Images())->armazenarSeparado($anexo, 'pedidos_instalacoes_anexos');
+            $url = (new UploadFiles())->armazenarSeparado($anexo, 'pedidos_instalacoes_anexos');
             $urls[] = [
                 'anotacoes_id' => $anotacaoId,
                 'url' => $url

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\Images;
+use App\Services\UploadFiles;
 use App\src\Produtos\ProdutosStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -101,7 +101,7 @@ class Produtos extends Model
 
     public function create($dados)
     {
-        $url = (new Images())->armazenar($dados, 'foto', 'fotos_produtos');
+        $url = (new UploadFiles())->armazenar($dados, 'foto', 'fotos_produtos');
 
         $dados = $this->newQuery()
             ->create([
@@ -151,7 +151,7 @@ class Produtos extends Model
         $sql = $this->newQuery()->find($id);
 
         if ($dados->foto) {
-            $url = (new Images())->armazenar($dados, 'foto', 'fotos_produtos');
+            $url = (new UploadFiles())->armazenar($dados, 'foto', 'fotos_produtos');
             $sql->update([
                 'url_foto' => $url
             ]);

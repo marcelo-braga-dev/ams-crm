@@ -1,13 +1,17 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 export const ContextFluxoCaixa = createContext();
 
 export const ProviderFluxoCaixa = ({ children }) => {
     const [atualizarRegistros, setAtualizarRegistros] = useState(false);
+    const [variaveis, setVariaveis] = useState([]);
 
-    return (
-        <ContextFluxoCaixa.Provider value={{ atualizarRegistros, setAtualizarRegistros }}>
+    useEffect(async () => {
+        const response = await axios.get(route('admin.financeiro.fluxo-caixa.variaveis'));
+        setVariaveis(response.data);
+    }, []);
+
+    return (<ContextFluxoCaixa.Provider value={{ atualizarRegistros, setAtualizarRegistros, variaveis }}>
             {children}
-        </ContextFluxoCaixa.Provider>
-    );
+        </ContextFluxoCaixa.Provider>);
 };
