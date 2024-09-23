@@ -44,7 +44,6 @@ class UploadFiles
     {
         if ($request->hasFile($file)) {
             if ($request->file($file)->isValid()) {
-                print_pre('file');
                 $uploadedFile = $request->file($file);
                 $originalName = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
 
