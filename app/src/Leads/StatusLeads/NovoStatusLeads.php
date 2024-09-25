@@ -11,6 +11,7 @@ class NovoStatusLeads extends StatusLeads
         $this->setStatus();
         $this->setStatusNome();
         $this->setStatusCor();
+        $this->setStatusPrazo();
         $this->urlStatus = 'auth.leads.avancar-status.novo';
     }
 
@@ -29,9 +30,9 @@ class NovoStatusLeads extends StatusLeads
         $this->statusCor = '#41D310';
     }
 
-    public function setStatusPrazo(): void
+    public function setStatusPrazo()
     {
-
+        $this->statusPrazo = 1;
     }
 
     public function setPermissoes(): void

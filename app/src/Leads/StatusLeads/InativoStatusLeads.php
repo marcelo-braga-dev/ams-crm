@@ -11,7 +11,8 @@ class InativoStatusLeads extends StatusLeads
         $this->setStatus();
         $this->setStatusNome();
         $this->setStatusCor();
-        $this->urlStatus = 'auth.leads.avancar-status.inativos';
+        $this->setStatusPrazo();
+        $this->urlStatus = '';
     }
 
     public function setStatus(): void

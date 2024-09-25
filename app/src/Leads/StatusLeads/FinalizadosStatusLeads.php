@@ -11,7 +11,8 @@ class FinalizadosStatusLeads extends StatusLeads
         $this->setStatus();
         $this->setStatusNome();
         $this->setStatusCor();
-        $this->urlStatus = 'auth.leads.avancar-status.finalizados';
+        $this->setStatusPrazo();
+        $this->urlStatus = '';
     }
 
     public function setStatus(): void

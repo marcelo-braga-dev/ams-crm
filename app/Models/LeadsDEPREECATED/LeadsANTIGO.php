@@ -462,7 +462,8 @@ class LeadsANTIGO extends Model
         $this->newQuery()
             ->find($id)
             ->update([
-                'status' => $status
+                'status' => $status,
+                'status_data' => now()
             ]);
     }
 

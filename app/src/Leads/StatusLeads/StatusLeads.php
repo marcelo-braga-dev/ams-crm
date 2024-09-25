@@ -6,7 +6,7 @@ abstract class StatusLeads implements StatusLeadsInterface
 {
     protected string $status;
     protected string $statusNome;
-    protected int $statusPrazo = 0;
+    protected int $statusPrazo = 15;
     protected string $statusCor;
     protected string $urlStatus;
     protected bool $emitePedidos = false;
@@ -32,7 +32,7 @@ abstract class StatusLeads implements StatusLeadsInterface
             'status' => $this->status,
             'nome' => $this->statusNome,
             'cor' => $this->statusCor,
-            'limite_dias' => $this->statusPrazo,
+            'prazo_dias' => $this->statusPrazo(),
             'url_avancar_status' => $this->urlStatus,
             'emite_pedidos' => $this->emitePedidos,
         ];

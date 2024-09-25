@@ -37,10 +37,10 @@ const Card = styled.div`
 
 `;
 
-const CardKanbanLeads = ({ card, emitePedidos, atualizarCards, cor }) => {
+const CardKanbanLeads = ({ card, emitePedidos, atualizarCards, cor, urlAvancarStatus, prazoDias }) => {
     const {
         razao_social, nome, cnpj, cpf, id, telefones, consultor, status_data, classificacao,
-        setor, avancar_status_url,
+        setor,
     } = card;
 
     const [openModalConfirmStatus, setOpenModalConfirmStatus] = useState();
@@ -53,15 +53,16 @@ const CardKanbanLeads = ({ card, emitePedidos, atualizarCards, cor }) => {
     };
 
     const avancarStatus = () => {
-        router.post(route(avancar_status_url, id));
+        router.post(route(urlAvancarStatus, id));
         handleClose();
         atualizarCards();
     };
 
-    const prazo = 15;
-    const margemPrazo = round((1 + card.status_prazo / prazo) * 100);
+    const prazoRestante = prazoDias + card.status_prazo
 
-    const margemPrazoStatus = card.status_prazo < 0 ? 100 : (card.status_prazo / prazo * 100);
+    const margemPrazo = round((1 + card.status_prazo / prazoDias) * 100);
+
+    const margemPrazoStatus = prazoRestante < 0 ? 100 : margemPrazo;
 
     return (
         <Card border={cor}>
@@ -191,9 +192,9 @@ const CardKanbanLeads = ({ card, emitePedidos, atualizarCards, cor }) => {
                             <Stopwatch size={18} />
                         </Grid>
                         <Grid item xs={11} style={{ color: margemPrazo > 75 ? 'red' : 'inherit' }}>
-                            <Stack marginTop={1} alignContent={'end'} textAlign={'end'}>
-                                <LinearProgress variant="determinate" color="inherit" value={margemPrazo} />
-                                <Typography variant="body2">{`restam ${prazo + card.status_prazo} de ${prazo} dias`}</Typography>
+                            <Stack marginTop={1} alignContent="end" textAlign="end">
+                                <LinearProgress variant="determinate" color="inherit" value={margemPrazoStatus} />
+                                <Typography variant="body2">{`restam ${prazoRestante} de ${prazoDias} dias`}</Typography>
                             </Stack>
                         </Grid>
                     </Grid>
@@ -208,9 +209,9 @@ const CardKanbanLeads = ({ card, emitePedidos, atualizarCards, cor }) => {
                         <AbrirEmail />
                     </Stack>
                     <Stack direction="row">
-                        <IconButton onClick={handleOpen}>
+                        {urlAvancarStatus && <IconButton onClick={handleOpen}>
                             <TbArrowBigRightFilled size={25} color="green" />
-                        </IconButton>
+                        </IconButton>}
                     </Stack>
                 </Stack>
 
@@ -235,13 +236,14 @@ const CardKanbanLeads = ({ card, emitePedidos, atualizarCards, cor }) => {
             <DialogMui
                 content={
                     <Stack>
-                        <Typography>CONFIRMAR O AVANCO DO STATUS: #{id}</Typography>
+                        <Typography>CONFIRMAR O AVANCO DO STATUS DO LEAD</Typography>
+                        <Typography>ID DO LEAD: #{id}</Typography>
                         <Typography>LEAD: {razao_social || nome}</Typography>
                     </Stack>
                 }
                 open={openModalConfirmStatus} title="AVANÇAR STATUS"
                 onConfirm={avancarStatus}
-                href={route(avancar_status_url, id)}
+                href={route(urlAvancarStatus, id)}
                 onClose={handleClose} />
         </Card>
     );

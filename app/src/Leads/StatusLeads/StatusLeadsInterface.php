@@ -8,7 +8,7 @@ interface StatusLeadsInterface
 
     public function setStatusNome(): void;
 
-    public function setStatusPrazo(): void;
+    public function setStatusPrazo();
 
     public function setPermissoes(): void;
 

@@ -11,6 +11,7 @@ class InicioFunilStatusLeads extends StatusLeads
         $this->setStatus();
         $this->setStatusNome();
         $this->setStatusCor();
+        $this->setStatusPrazo();
         $this->urlStatus = '';
     }
 

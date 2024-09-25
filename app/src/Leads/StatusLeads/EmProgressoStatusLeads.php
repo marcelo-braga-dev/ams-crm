@@ -11,6 +11,7 @@ class EmProgressoStatusLeads extends StatusLeads
         $this->setStatus();
         $this->setStatusNome();
         $this->setStatusCor();
+        $this->setStatusPrazo();
         $this->urlStatus = 'auth.leads.avancar-status.progresso';
     }
 

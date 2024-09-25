@@ -17,7 +17,6 @@ class LeadFunilVendasService
             })
             ->whereIn('user_id', supervisionados(id_usuario_atual()))
             ->orderBy('status_data', 'desc')
-            ->limit(1000)
             ->get();
 
         return $leads->groupBy('status')->toArray();

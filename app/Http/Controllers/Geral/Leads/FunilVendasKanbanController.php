@@ -18,13 +18,8 @@ class FunilVendasKanbanController extends Controller
 {
     public function index(Request $request)
     {
-//        print_pre((new LeadFunilVendasService())->getLeadsGroupedByStatus(null, null));
-//        $dados = (new LeadStatus())
-//            ->with('leads')
-//            ->orderBy('ordem')
-//            ->get();
-//
-//        print_pre($dados->toArray());
+
+//        print_pre( (new StatusLeads())->sequenciaStatusDadosIndice(null));
 
         return Inertia::render('Admin/Leads/Kanban/Index');
     }
@@ -49,7 +44,7 @@ class FunilVendasKanbanController extends Controller
         $usuarios = (new User())->subordinados();
         $setores = (new Setores())->setores();
 
-        $registros = (new Leads)->cards($setor, $usuario);
+        $registros = (new Leads)->cards($setor, $usuario);//
 
         $cards = (new LeadFunilVendasService())->getLeadsGroupedByStatus($setor, $usuario);
 

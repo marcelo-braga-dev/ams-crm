@@ -31,8 +31,6 @@ const Page = () => {
                     params: {setor, usuario},
                 });
                 setCards(response.data.cards)
-                console.log(response.data.cards)
-
 
                 setUsuarios(response.data.usuarios);
                 setSetores(response.data.setores);
@@ -79,8 +77,9 @@ const Page = () => {
         ))
     ), [colunas]);
 
+    // CARDS
     const renderedRows = useMemo(() => (
-        Object.values(colunas).map(({status, cor}) => {
+        Object.values(colunas).map(({status, cor, url_avancar_status, prazo_dias}) => {
             const statusGroup = cards[status];
 
             return (
@@ -90,6 +89,8 @@ const Page = () => {
                             key={item.id}
                             card={item}
                             cor={cor}
+                            prazoDias={prazo_dias}
+                            urlAvancarStatus={url_avancar_status}
                             emitePedidos={statusGroup?.status_dados?.emite_pedidos}
                             atualizarCards={atualizarCards}
                         /> : ''

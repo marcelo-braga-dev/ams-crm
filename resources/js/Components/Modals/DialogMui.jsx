@@ -4,7 +4,7 @@ import {Close} from '@mui/icons-material';
 
 const DialogMui = ({open, onClose, title, content, onConfirm, href}) => {
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+        <Dialog open={open ?? false} onClose={onClose} maxWidth="xs" fullWidth>
             <DialogTitle>
                 <Typography variant="h6" component="div" sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     {title}
