@@ -13,8 +13,7 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     const [carregando, setCarregando] = useState(false);
     const [isPrimeiraMensagem, setIsPrimeiraMensagem] = useState(false);
     const [telefoneSelecionado, setTelefoneSelecionado] = useState(null);
-
-    const [keys, setKeys] = useState({ urlFrontend: '' });
+    const [keys, setKeys] = useState({ urlFrontend: '', urlBackend: '', apiKey: '', userId: '' });
 
     const fetchKeys = async () => {
         const urlFrontend = await axios.get(route('auth.chats.whatsapp.chaves'));

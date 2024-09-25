@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
+import { router } from '@inertiajs/react';
 
 export const LeadContext = createContext();
 

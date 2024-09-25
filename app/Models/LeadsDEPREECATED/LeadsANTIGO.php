@@ -33,7 +33,7 @@ class LeadsANTIGO extends Model
 {
     use HasFactory;
 
-    protected $table = 'leads_antigo';
+    protected $table = 'leads';
 
     protected $fillable = [
         'user_id',

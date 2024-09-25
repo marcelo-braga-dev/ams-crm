@@ -14,8 +14,6 @@ const optionsFetch = (token, number, userId) => ({
 export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setContactId) => {
 
     const [keys, setKeys] = useState({ urlFrontend: '', urlBackend: '', apiKey: '', userId: '' });
-    const apiURL = `${keys.urlBackend}/api`;
-    const apiToken = keys.apiKey;
 
     const fetchKeys = async () => {
         const urlFrontend = await axios.get(route('auth.chats.whatsapp.chaves'));
@@ -27,7 +25,7 @@ export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setContact
     }, []);
 
     try {
-        const response = await fetch(`${apiURL}/messages/contacts`, optionsFetch(apiToken, `${numero}`, keys.userId));
+        const response = await fetch(`${keys.urlBackend}/api/messages/contacts`, optionsFetch(keys.apiKey, `${numero}`, keys.userId));
 
         if (!response.ok) {
             if (response.status === 400) inativarStatusWhatsapp(id);
