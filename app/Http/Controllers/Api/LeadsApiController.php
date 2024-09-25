@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use Illuminate\Http\Request;
 
 class LeadsApiController extends Controller

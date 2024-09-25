@@ -20,13 +20,7 @@ export default function HistoricoAtendimento({historicos}) {
                 {historicos.map((dado, index) => (
                     dado.msg !== 'Pedido Emitido' && dado.msg &&
                     <CardContainer>
-                        <ListItem
-                            // secondaryAction={
-                            //     <IconButton>
-                            //         <Eye/>
-                            //     </IconButton>
-                            // }
-                        >
+                        <ListItem>
                             <ListItemAvatar>
                                 <Avatar sx={{bgcolor: tipoContato?.[dado.meio_contato]?.cor ?? 'orange'}}>
                                     {tipoContato?.[dado.meio_contato]?.icone ?? <ChatFill/>}

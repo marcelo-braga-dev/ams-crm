@@ -2,7 +2,7 @@
 
 namespace App\src\Pedidos\Notificacoes\Leads;
 
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Notificacoes;
 use App\Models\User;
 use App\src\Leads\Status\AtendimentoStatusLeads;

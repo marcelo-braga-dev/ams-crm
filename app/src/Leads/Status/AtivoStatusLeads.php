@@ -2,7 +2,7 @@
 
 namespace App\src\Leads\Status;
 
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsStatusHistoricos;
 
 class AtivoStatusLeads

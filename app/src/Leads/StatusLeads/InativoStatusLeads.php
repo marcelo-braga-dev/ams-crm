@@ -2,7 +2,7 @@
 
 namespace App\src\Leads\StatusLeads;
 
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 
 class InativoStatusLeads extends StatusLeads
 {

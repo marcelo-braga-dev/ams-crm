@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Pedidos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Produtos;
 use App\Models\ProdutosCategorias;
 use App\Models\ProdutosFornecedores;

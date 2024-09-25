@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Tests\\Unit\\Lead\\LeadTest::test_criar_lead_com_cnpj_e_status":5,"Tests\\Feature\\Lead\\LeadTest::test_criar_lead_com_cnpj_e_status":8},"times":{"Tests\\Unit\\Lead\\LeadTest::test_criar_lead_com_cnpj_e_status":0.004,"Tests\\Feature\\Lead\\LeadTest::test_criar_lead_com_cnpj_e_status":0.072}}

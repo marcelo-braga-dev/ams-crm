@@ -58,7 +58,7 @@ function AbrirTelefone({telefones, atualizarCards}) {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                {telefones.map(({id, status_telefone, telefone_padronizado}) => (
+                {telefones.map(({id, status_telefone, telefone}) => (
                         <Stack key={id} direction="row" spacing={0} alignItems="center" marginInlineStart={1}>
                             <IconButton size="small" onClick={() => ativarTelefone(id)} sx={{padding: 0, margin: 0}}>
                                 {status_telefone === 2
@@ -73,7 +73,7 @@ function AbrirTelefone({telefones, atualizarCards}) {
                                 }
                             </IconButton>
                             <MenuItem>
-                                <Typography color={status_telefone === 0 ? '#ccc' : 'black'}>{telefone_padronizado}</Typography>
+                                <Typography color={status_telefone === 0 ? '#ccc' : 'black'}>{telefone}</Typography>
                             </MenuItem>
                         </Stack>
                     )

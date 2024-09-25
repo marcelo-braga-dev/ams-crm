@@ -1,4 +1,4 @@
-import { Button, FormControl, Radio, RadioGroup, Stack, TextField, Typography } from '@mui/material';
+import { Button, FormControl, IconButton, Radio, RadioGroup, Stack, TextField, Typography } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import React, { useContext, useEffect, useState } from 'react';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,7 +15,7 @@ import { Link } from '@inertiajs/inertia-react';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import { ContextFluxoCaixa } from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/ContextFluxoCaixa.jsx';
-import { TbHistory, TbPlus } from 'react-icons/tb';
+import { TbArrowDown, TbArrowUp, TbHistory, TbPlus, TbX } from 'react-icons/tb';
 
 
 const CreateDialog = () => {
@@ -64,6 +64,7 @@ const CreateDialog = () => {
 
     const handleClose = () => {
         setOpen(false);
+        setTipo('');
     };
 
     return (
@@ -85,13 +86,24 @@ const CreateDialog = () => {
             >
                 <DialogContent>
                     <CardContainer>
-                        <CardTitle title="Cadastrar Fluxo de Caixa" icon={<FileEarmarkPlus size={22} />} />
+                        <CardTitle title="Cadastrar Fluxo de Caixa" icon={<FileEarmarkPlus size={22} />}
+                                   children={<IconButton onClick={handleClose}><TbX color="red"/></IconButton>} />
                         <CardBody>
                             <FormControl>
                                 <RadioGroup onChange={e => handleTipo(e.target.value)}>
-                                    <Stack direction="row" spacing={4}>
-                                        {variaveis?.permissoes?.entrada && <FormControlLabel value="entrada" control={<Radio size="small" />} label="Entrada" />}
-                                        {variaveis?.permissoes?.saida && <FormControlLabel value="saida" control={<Radio size="small" />} label="Saída" />}
+                                    <Stack direction="row" spacing={10}>
+                                        {variaveis?.permissoes?.entrada && (
+                                            <FormControlLabel
+                                                value="entrada"
+                                                control={<Radio size="small" />}
+                                                label={<><TbArrowUp color="green" size={22}/>Entrada</>}
+                                            />
+                                        )}
+                                        {variaveis?.permissoes?.saida && (
+                                            <FormControlLabel value="saida" control={<Radio size="small" />}
+                                                              label={<><TbArrowDown color="red" size={22}/>Saída</>}
+                                            />
+                                        )}
                                     </Stack>
                                 </RadioGroup>
                             </FormControl>

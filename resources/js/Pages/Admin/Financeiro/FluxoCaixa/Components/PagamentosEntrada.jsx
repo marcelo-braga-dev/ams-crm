@@ -1,6 +1,6 @@
 import React from 'react';
 import Switch from '@mui/material/Switch';
-import { InputAdornment, TextField } from '@mui/material';
+import { InputAdornment, TextField, Typography } from '@mui/material';
 import { convertInputMoney } from '@/Components/Inputs/TextFieldMoney.jsx';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -20,6 +20,7 @@ const PagamentosEntrada = ({ setPagamentos, pagamentos, qtdPagamentos, bancos })
             camposValores.push(
                 <tr key={i}>
                     <td className="text-center" style={{ width: '5rem' }}>
+                        <Typography variant="body2">Pago</Typography>
                         <Switch size="small"
                                 onChange={e => setPagamentos(pagamentoDados(pagamentos, 'status', e.target.checked, i))} />
                     </td>

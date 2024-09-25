@@ -2,7 +2,7 @@ import CardContainer from '@/Components/Cards/CardContainer.jsx';
 import CardBody from '@/Components/Cards/CardBody.jsx';
 import Chip from '@mui/material/Chip';
 import CampoTexto from '@/Components/CampoTexto.jsx';
-import { TbCalendarDollar, TbEye } from 'react-icons/tb';
+import { TbCalendarDollar, TbEye, TbX } from 'react-icons/tb';
 import convertFloatToMoney from '@/Helpers/converterDataHorario.jsx';
 import { Button, DialogContent, IconButton, Typography } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
@@ -10,6 +10,9 @@ import React, { useState } from 'react';
 import InfoNota from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/InfoNota.jsx';
 import RealizarPagamento from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/RealizarPagamento.jsx';
 import ImagePdf from '@/Components/Elementos/ImagePdf.jsx';
+import { FileEarmarkPlus } from 'react-bootstrap-icons';
+import CardTitle from '@/Components/Cards/CardTitle.jsx';
+import FluxoCaixaIcone from '@/Components/Icons/FluxoCaixaIcone.jsx';
 
 const Pagamentos = ({ pagamentos }) => {
 
@@ -110,6 +113,8 @@ const Pagamentos = ({ pagamentos }) => {
                     <Dialog open={openInfo} onClose={handleCloseInfo} fullWidth maxWidth="lg">
                         <DialogContent>
                             <CardContainer>
+                                <CardTitle title="Fluxo de Caixa" icon={<FluxoCaixaIcone size={25} />}
+                                           children={<IconButton onClick={handleCloseInfo}><TbX color="red"/></IconButton>} />
                                 <CardBody>
                                     <InfoNota nota={pagamentos} />
                                 </CardBody>

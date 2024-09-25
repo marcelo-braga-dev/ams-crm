@@ -1,20 +1,31 @@
-import React, {useEffect, useState, useCallback} from "react";
+import React, { useEffect, useState, useCallback } from 'react';
 import Dialog from '@mui/material/Dialog';
-import {CircularProgress} from "@mui/material";
-import {WhatsappButton} from "./WhatsappButton";
-import {fetchCadastrarContatoNoWhatsapp} from "./fetchUtils";
+import { CircularProgress } from '@mui/material';
+import { WhatsappButton } from './WhatsappButton';
+import { fetchCadastrarContatoNoWhatsapp } from './fetchUtils';
 import axios from 'axios';
-import AlertError from "@/Components/Alerts/AlertError.jsx";
-import {inativarStatusWhatsapp} from "@/Components/Chats/Whatsapp/statusUtils.jsx";
+import AlertError from '@/Components/Alerts/AlertError.jsx';
+import { inativarStatusWhatsapp } from '@/Components/Chats/Whatsapp/statusUtils.jsx';
 
-const AbrirChatWhatsapp = ({telefones, atualizarCards}) => {
+const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     const [openIflame, setOpenIflame] = useState(false);
     const [contactId, setContactId] = useState(null);
     const [carregando, setCarregando] = useState(false);
     const [isPrimeiraMensagem, setIsPrimeiraMensagem] = useState(false);
     const [telefoneSelecionado, setTelefoneSelecionado] = useState(null);
 
-    const URL_DO_WHATICKET = `${import.meta.env.VITE_WHATSAPP}/tickets/${contactId}`;
+    const [keys, setKeys] = useState({ urlFrontend: '' });
+
+    const fetchKeys = async () => {
+        const urlFrontend = await axios.get(route('auth.chats.whatsapp.chaves'));
+        setKeys(urlFrontend.data);
+    };
+
+    useEffect(() => {
+        fetchKeys();
+    }, []);
+
+    const URL_DO_WHATICKET = `${keys.urlFrontend}/tickets/${contactId}`;
 
     // Abre o iframe quando o contactId é definido
     useEffect(() => {
@@ -42,21 +53,21 @@ const AbrirChatWhatsapp = ({telefones, atualizarCards}) => {
 
     // Função para selecionar o telefone para contatar
     const selecionarTelefonesParaContatar = useCallback(async () => {
-        let noContato = true
+        let noContato = true;
         for (const item of telefones) {
             if (item.numero && item.status_whatsapp) {
                 const success = await fetchCadastrarContatoNoWhatsapp(item, setContactId);
                 setTelefoneSelecionado(item);
                 if (success) {
-                    noContato = false
+                    noContato = false;
                     break;
                 }
             }
-            setContactId(false)
+            setContactId(false);
         }
         if (noContato) {
-            atualizarCards()
-            AlertError('Nenhum número de Whatsapp válido!')
+            atualizarCards();
+            AlertError('Nenhum número de Whatsapp válido!');
         }
 
     }, [telefones]);
@@ -69,8 +80,8 @@ const AbrirChatWhatsapp = ({telefones, atualizarCards}) => {
         try {
             await selecionarTelefonesParaContatar();
         } catch (error) {
-            AlertError("Erro ao iniciar a conversa no WhatsApp")
-            console.error("Erro ao abrir o WhatsApp:", error);
+            AlertError('Erro ao iniciar a conversa no WhatsApp');
+            console.error('Erro ao abrir o WhatsApp:', error);
         } finally {
             setCarregando(false);
         }
@@ -89,24 +100,24 @@ const AbrirChatWhatsapp = ({telefones, atualizarCards}) => {
                 lead_id: telefone.lead_id,
                 telefone_id: telefone.id,
                 origem: 'whatsapp',
-                meta: 'funil-vendas'
+                meta: 'funil-vendas',
             });
             setIsPrimeiraMensagem(false);
         } catch (error) {
-            AlertError("Erro ao armazenar registro de contato.")
+            AlertError('Erro ao armazenar registro de contato.');
             console.error('Erro ao salvar a mensagem:', error);
         }
     };
 
     return (
         <>
-            {carregando ? <CircularProgress size={20}/> : <WhatsappButton telefones={telefones} handleOpen={handleOpenWhatsapp}/>}
+            {carregando ? <CircularProgress size={20} /> : <WhatsappButton telefones={telefones} handleOpen={handleOpenWhatsapp} />}
 
             <Dialog open={openIflame} onClose={handleClose} fullWidth maxWidth="md">
                 {openIflame && (
                     <iframe
                         src={URL_DO_WHATICKET}
-                        style={{width: '100%', height: '700px', border: 'none'}}
+                        style={{ width: '100%', height: '700px', border: 'none' }}
                         title="WhatsApp"
                     />
                 )}

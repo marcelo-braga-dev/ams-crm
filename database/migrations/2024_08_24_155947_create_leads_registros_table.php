@@ -19,8 +19,8 @@ return new class extends Migration
             $table->boolean('status')->default(true);
             $table->timestamps();
 
-            $table->foreign('lead_id')->references('id')->on('leads');
-            $table->foreign('campo_id')->references('id')->on('leads_campos');
+//            $table->foreign('lead_id')->references('id')->on('leads');
+//            $table->foreign('campo_id')->references('id')->on('leads_campos');
         });
     }
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Geral\Chats\Whatsapp;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\LeadsTelefones;
+use App\Models\LeadsDEPREECATED\LeadsTelefones;
 
 class LeadsWhatsappController extends Controller
 {

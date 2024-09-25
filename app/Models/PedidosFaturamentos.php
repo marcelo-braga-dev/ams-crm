@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\StatusPedidos;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

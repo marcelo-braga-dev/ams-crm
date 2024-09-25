@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Consultor\Orcamentos;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\OrcamentosSolar;
 use App\src\Orcamentos\BuscarKits;
 use App\src\Orcamentos\EstruturasGeradores;

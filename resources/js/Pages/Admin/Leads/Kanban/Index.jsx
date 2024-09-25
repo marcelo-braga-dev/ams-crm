@@ -8,7 +8,7 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import axios from "axios";
 import LinearProgress from "@mui/material/LinearProgress";
 import {debounce} from 'lodash';
-import {Box, Pencil, PersonFill, Ticket} from "react-bootstrap-icons";
+import {Box, Pencil} from "react-bootstrap-icons";
 import InputAdornment from "@mui/material/InputAdornment";
 
 const Page = () => {
@@ -17,7 +17,6 @@ const Page = () => {
 
     const [cards, setCards] = useState([]);
 
-    const [registros, setRegistros] = useState([]);
     const [usuarios, setUsuarios] = useState([]);
     const [setores, setSetores] = useState([]);
     const [colunas, setColunas] = useState([]);
@@ -32,8 +31,9 @@ const Page = () => {
                     params: {setor, usuario},
                 });
                 setCards(response.data.cards)
+                console.log(response.data.cards)
 
-                setRegistros(response.data.registros);
+
                 setUsuarios(response.data.usuarios);
                 setSetores(response.data.setores);
                 setColunas(response.data.colunas);
@@ -81,14 +81,13 @@ const Page = () => {
 
     const renderedRows = useMemo(() => (
         Object.values(colunas).map(({status, cor}) => {
-            const statusGroup = cards['concluido'];
+            const statusGroup = cards[status];
 
             return (
                 <td key={status} style={{padding: 10}}>
                     {statusGroup?.map((item, index) => (
                         index < 20 ? <CardKanbanLeads
                             key={item.id}
-                            item={item}//
                             card={item}
                             cor={cor}
                             emitePedidos={statusGroup?.status_dados?.emite_pedidos}

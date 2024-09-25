@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\Leads;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\Lead\Lead;
+use App\Models\Lead\LeadStatus;
+use App\Models\LeadsDEPREECATED\Leads;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\LeadFunilVendasService;
@@ -16,14 +18,26 @@ class FunilVendasKanbanController extends Controller
 {
     public function index(Request $request)
     {
-        $setor = $request->input('setor');
-        $usuario = $request->input('usuario');
-
-        $dados = (new LeadFunilVendasService())->getLeadsGroupedByStatus($setor, $usuario);
-//        print_pre($dados);
-
+//        print_pre((new LeadFunilVendasService())->getLeadsGroupedByStatus(null, null));
+//        $dados = (new LeadStatus())
+//            ->with('leads')
+//            ->orderBy('ordem')
+//            ->get();
+//
+//        print_pre($dados->toArray());
 
         return Inertia::render('Admin/Leads/Kanban/Index');
+    }
+
+    public function getDados()
+    {
+        //  telefones,  status_data, classificacao,  avancar_status_url,
+        $dados = (new LeadStatus())
+            ->with('leads')
+            ->orderBy('ordem')
+            ->get();
+
+        return response()->json(compact('dados'));
     }
 
     public function getIndexRegistros(Request $request)

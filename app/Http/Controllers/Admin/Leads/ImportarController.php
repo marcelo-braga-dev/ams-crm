@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsImportarHistoricos;
 use App\Services\Leads\Importar\DadosImportacaoService;
 use App\Services\Leads\Importar\ImportarArquivoService;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\User;
 use App\Models\UsersPermissoes;
 use App\Services\Leads\CardsLeadsService;

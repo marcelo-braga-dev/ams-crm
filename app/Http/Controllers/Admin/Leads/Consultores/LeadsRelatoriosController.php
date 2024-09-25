@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsHistoricosComentarios;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;

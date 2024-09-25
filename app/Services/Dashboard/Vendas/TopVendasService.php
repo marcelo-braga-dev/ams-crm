@@ -2,7 +2,7 @@
 
 namespace App\Services\Dashboard\Vendas;
 
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\User;
 use App\Services\Pedidos\StatusPedidosServices;

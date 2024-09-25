@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Geral\Chats\Telefones;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\LeadsTelefones;
+use App\Models\LeadsDEPREECATED\LeadsTelefones;
 use Illuminate\Http\Request;
 
 class TelefonesController extends Controller

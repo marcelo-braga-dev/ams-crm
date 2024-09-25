@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Consultor\Pedidos\Status;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\PedidosArquivos;
 use App\Models\PedidosClientes;

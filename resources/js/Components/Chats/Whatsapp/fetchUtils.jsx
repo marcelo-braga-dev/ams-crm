@@ -1,7 +1,5 @@
-import {ativarStatusWhatsapp, inativarStatusWhatsapp} from "./statusUtils";
-
-const apiURL = `${import.meta.env.VITE_WHATSAPP_API}/api`;
-const apiToken = import.meta.env.VITE_WHATSAPP_API_TOKEN;
+import { ativarStatusWhatsapp, inativarStatusWhatsapp } from './statusUtils';
+import { useEffect, useState } from 'react';
 
 const optionsFetch = (token, number) => ({
     method: 'POST',
@@ -9,11 +7,25 @@ const optionsFetch = (token, number) => ({
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify({number, name: 'TESTE', userId: "1"}),
+    body: JSON.stringify({ number, name: 'TESTE', userId: '1' }),
 });
 
 // Função para cadastrar contato via API
-export const fetchCadastrarContatoNoWhatsapp = async ({numero, id}, setContactId) => {
+export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setContactId) => {
+
+    const [keys, setKeys] = useState({ urlFrontend: '', urlBackend: '', apiKey: '' });
+    const apiURL = `${keys.urlBackend}/api`;
+    const apiToken = keys.apiKey;
+
+    const fetchKeys = async () => {
+        const urlFrontend = await axios.get(route('auth.chats.whatsapp.chaves'));
+        setKeys(urlFrontend.data);
+    };
+
+    useEffect(() => {
+        fetchKeys();
+    }, []);
+
     try {
         const response = await fetch(`${apiURL}/messages/contacts`, optionsFetch(apiToken, `${numero}`));
 

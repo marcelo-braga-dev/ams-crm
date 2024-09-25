@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Leads\LeadsNEW;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsNEW;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsStatusHistoricos;
 use App\Models\Pedidos;
 use App\Models\Setores;
@@ -21,6 +21,9 @@ use App\src\Leads\StatusLeads\RevisaoStatusLeads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+/**
+ * @deprecated
+ */
 class LeadsController extends Controller
 {
     public function show($id, Request $request)

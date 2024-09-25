@@ -3,7 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Services\UploadFiles;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Usuarios\Permissoes\ChavesPermissoes;

@@ -1,7 +1,7 @@
 import Layout from "@/Layouts/Layout";
 
 import {MenuItem, TextField, Stack, Typography} from "@mui/material";
-import {ArrowRight, ArrowRightShort, BoxSeam, ListUl, Tag, TrashFill} from "react-bootstrap-icons";
+import {ArrowRight, BoxSeam, ListUl, Tag, TrashFill} from "react-bootstrap-icons";
 
 import * as React from "react";
 import {useState} from "react";
@@ -15,6 +15,9 @@ import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import HistoricoStatus from "@/Partials/Leads/HistoricoStatus.jsx";
 import EditModal from "@/Pages/Geral/Leads/EditModal.jsx";
+
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 export default function Show({dados, usuarios, historicos, permissoes}) {
 
@@ -57,6 +60,12 @@ export default function Show({dados, usuarios, historicos, permissoes}) {
         router.post(route('admin.clientes.leads.reativar-lead'), {id: dados.id, _method: 'PUT'})
     }
 
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
     return (
         <Layout empty titlePage="Informações do Lead" menu="leads" submenu="leads-cadastrados"
                 voltar={route('admin.clientes.leads.leads-cadastrados')}>
@@ -79,32 +88,25 @@ export default function Show({dados, usuarios, historicos, permissoes}) {
                 </Stack>
             }/>
 
-            <div className="row">
-                <div className="col-md-4">
-                    <CardContainer>
-                        <CardTitle title="Histórico de Atendimento" icon={<ListUl size={24}/>}/>
-                        <CardBody>
-                            <HistoricoAtendimento historicos={atendimento}/>
-                        </CardBody>
-                    </CardContainer>
-                </div>
-                <div className="col-md-4">
-                    <CardContainer>
-                        <CardTitle title="Histórico de Pedidos" icon={<BoxSeam size="22"/>}/>
-                        <CardBody>
-                            <HistoricoPedidos historicos={pedidos}/>
-                        </CardBody>
-                    </CardContainer>
-                </div>
-                <div className="col-md-4">
-                    <CardContainer>
-                        <CardTitle title="Histórico dos Status" icon={<Tag size="22"/>}/>
-                        <CardBody>
-                            <HistoricoStatus historicos={status}/>
-                        </CardBody>
-                    </CardContainer>
-                </div>
-            </div>
+            <CardContainer>
+                <CardTitle title={(
+                    <Tabs
+                        value={value}
+                        onChange={handleChange}
+                    >
+                        <Tab icon={<ListUl size={24}/>} iconPosition="start" label="Histórico de Atendimento" />
+                        <Tab icon={<BoxSeam size={22}/>} iconPosition="start" label="Histórico de Pedidos" />
+                        <Tab icon={<Tag size={22}/>} iconPosition="start" label="Histórico dos Status" />
+                    </Tabs>
+                )} />
+                <CardBody>
+                    {value === 0 && <HistoricoAtendimento historicos={atendimento}/>}
+
+                    {value === 1 && <HistoricoPedidos historicos={pedidos}/>}
+
+                    {value === 2 && <HistoricoStatus historicos={status}/>}
+                </CardBody>
+            </CardContainer>
 
             {/*MODAL ENVIAR*/}
             <div className="modal fade mt-5" id="modalEnviar" tabIndex="-1" aria-labelledby="exampleModalLabel"

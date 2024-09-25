@@ -10,9 +10,6 @@ import ProximosPagamentos from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/Proxim
 import PagamentosFiltrados from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/PagamentosFiltrados.jsx';
 
 import { ProviderFluxoCaixa } from './ContextFluxoCaixa.jsx';
-import { Button } from '@mui/material';
-import { TbHistory } from 'react-icons/tb';
-import { Link } from '@inertiajs/inertia-react';
 
 export default function() {
     const [filtros, setFiltros] = useState({
@@ -35,14 +32,14 @@ export default function() {
                             <div className="col">
                                 <CreateDialog />
                             </div>
-                            <div className="col-auto">
-                                <Button
-                                    startIcon={<TbHistory />}
-                                    component={Link}
-                                >
-                                    Histórico Pagamentos
-                                </Button>
-                            </div>
+                            {/*<div className="col-auto">*/}
+                            {/*    <Button*/}
+                            {/*        startIcon={<TbHistory />}*/}
+                            {/*        component={Link}*/}
+                            {/*    >*/}
+                            {/*        Histórico Pagamentos*/}
+                            {/*    </Button>*/}
+                            {/*</div>*/}
                         </div>
 
                         <PagamentosFiltrados filtros={filtros} />

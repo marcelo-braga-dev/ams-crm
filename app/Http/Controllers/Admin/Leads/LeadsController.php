@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
-use App\Models\Leads\LeadsANTIGO;
-use App\Models\Leads\LeadsCopias;
-use App\Models\Leads\LeadsTelefones;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsCopias;
+use App\Models\LeadsDEPREECATED\LeadsTelefones;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
 use App\Models\LeadsStatusHistoricos;

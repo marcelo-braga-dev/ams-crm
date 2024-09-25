@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Consultor\Pedidos;
 use App\Http\Controllers\Controller;
 use App\Models\ConfigCores;
 use App\Models\Enderecos;
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosProdutos;

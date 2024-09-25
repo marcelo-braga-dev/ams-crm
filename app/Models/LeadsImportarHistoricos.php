@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Leads\LeadsANTIGO;
-use App\Models\Leads\LeadsCopias;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsCopias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

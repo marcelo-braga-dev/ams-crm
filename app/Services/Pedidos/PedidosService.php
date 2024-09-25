@@ -2,7 +2,7 @@
 
 namespace App\Services\Pedidos;
 
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\PedidosClientes;
 use App\Models\User;

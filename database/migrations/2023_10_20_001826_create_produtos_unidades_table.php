@@ -18,9 +18,9 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::table('produtos', function (Blueprint $table) {
-            $table->foreign('unidade_id')->references('id')->on('produtos_unidades');
-        });
+//        Schema::table('produtos', function (Blueprint $table) {
+//            $table->foreign('unidade_id')->references('id')->on('produtos_unidades');
+//        });
     }
 
     /**

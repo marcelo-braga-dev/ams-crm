@@ -2,7 +2,7 @@
 
 namespace App\Services\Leads\Relatorios;
 
-use App\Models\Leads\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\User;
 
 class LeadsUsuariosService

@@ -11,8 +11,8 @@ Route::name('auth.chats.')
         Route::name('whatsapp.')
             ->prefix('chats/whatsapp-api')
             ->group(function () {
-                Route::post('enviado-mensagem', [WhatsappController::class, 'enviadoMensagem'])
-                    ->name('enviado-mensagem');
+                Route::post('enviado-mensagem', [WhatsappController::class, 'enviadoMensagem'])->name('enviado-mensagem');
+                Route::get('chaves', [WhatsappController::class, 'chaves'])->name('chaves');
             });
 
         Route::name('telefone.')

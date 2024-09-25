@@ -20,11 +20,11 @@ return new class extends Migration
             $table->foreign('fornecedor_id')->references('id')->on('fornecedores');
         });
 
-        Schema::table('leads', function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('sdr_id')->references('id')->on('users');
-            $table->foreign('setor_id')->references('id')->on('setores');
-        });
+//        Schema::table('leads', function (Blueprint $table) {
+//            $table->foreign('user_id')->references('id')->on('users');
+//            $table->foreign('sdr_id')->references('id')->on('users');
+//            $table->foreign('setor_id')->references('id')->on('setores');
+//        });
 
         Schema::table('setores', function (Blueprint $table) {
             $table->foreign('franquia_id')->references('id')->on('franquias');

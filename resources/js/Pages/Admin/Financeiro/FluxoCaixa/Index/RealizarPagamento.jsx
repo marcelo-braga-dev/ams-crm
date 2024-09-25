@@ -1,7 +1,7 @@
 import PagarEntrada from '@/Pages/Admin/Financeiro/FluxoCaixa/Components/PagarEntrada.jsx';
 import PagarSaida from '@/Pages/Admin/Financeiro/FluxoCaixa/Components/PagarSaida.jsx';
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Dialog, DialogContent, Stack } from '@mui/material';
+import { Button, Dialog, DialogContent, IconButton, Stack } from '@mui/material';
 import CardContainer from '@/Components/Cards/CardContainer.jsx';
 import CardBody from '@/Components/Cards/CardBody.jsx';
 import InfoNota from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/InfoNota.jsx';
@@ -10,6 +10,9 @@ import { Files } from 'react-bootstrap-icons';
 import { useForm } from '@inertiajs/inertia-react';
 import { router } from '@inertiajs/react';
 import { ContextFluxoCaixa } from '@/Pages/Admin/Financeiro/FluxoCaixa/Index/ContextFluxoCaixa.jsx';
+import CardTitle from '@/Components/Cards/CardTitle.jsx';
+import FluxoCaixaIcone from '@/Components/Icons/FluxoCaixaIcone.jsx';
+import { TbX } from 'react-icons/tb';
 
 const RealizarPagamento = ({ nota, pagamento, open, close }) => {
 
@@ -47,6 +50,8 @@ const RealizarPagamento = ({ nota, pagamento, open, close }) => {
                     <CardBody>
                         {nota && <>
                             <CardContainer>
+                                <CardTitle title="Fluxo de Caixa" icon={<FluxoCaixaIcone size={24}/>}
+                                           children={<IconButton onClick={() => close(false)}><TbX color="red"/></IconButton>}/>
                                 <CardBody>
                                     <InfoNota nota={nota} />
                                 </CardBody>
@@ -69,9 +74,6 @@ const RealizarPagamento = ({ nota, pagamento, open, close }) => {
                                     }
                                 </CardTable>
                             </CardContainer>
-                            <Stack direction="row" justifyContent="end">
-                                <Button onClick={() => close(false)}>Fechar</Button>
-                            </Stack>
                         </>}
                     </CardBody>
                 </CardContainer>

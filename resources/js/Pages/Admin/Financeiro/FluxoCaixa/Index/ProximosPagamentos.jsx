@@ -109,7 +109,7 @@ const ProximosPagamentos = () => {
 
             <CardBody>
                 {carregando ? <LinearProgress /> :
-                    <div style={{ maxHeight: '60vh', overflow: 'auto' }}>
+                    <div style={{ maxHeight: 'calc(100vh - 15rem)', overflow: 'auto' }}>
                         {pagamentos.length > 0 ? pagamentos.map((item, index) => (
                             index < qtdPagamentosVisualizar &&
                             <CardContainer key={item.id}>
