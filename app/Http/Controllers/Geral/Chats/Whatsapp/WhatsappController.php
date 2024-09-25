@@ -20,10 +20,11 @@ class WhatsappController extends Controller
 
     public function chaves()
     {
-        $urlFrontend = env('VITE_WHATSAPP', '');
-        $urlBackend = env('VITE_WHATSAPP_API', '');
-        $apiKey = env('VITE_WHATSAPP_API_TOKEN', '');
+        $urlFrontend = env('WHATSAPP_FRONTEND', '');
+        $urlBackend = env('WHATSAPP_BACKEND', '');
+        $apiKey = env('WHATSAPP_API_TOKEN', '');
+        $userId = id_usuario_atual();
 
-        return response()->json(compact('urlFrontend', 'urlBackend', 'apiKey'));
+        return response()->json(compact('urlFrontend', 'urlBackend', 'apiKey', 'userId'));
     }
 }
