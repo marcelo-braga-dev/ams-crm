@@ -1,9 +1,9 @@
-import {toast} from "react-toastify";
+import { toast } from 'react-toastify';
 
 const AlertError = (mensagem) => {
 
     return toast.error(mensagem, {
-        autoClose: false
+        autoClose: true,
     });
-}
-export default AlertError
+};
+export default AlertError;

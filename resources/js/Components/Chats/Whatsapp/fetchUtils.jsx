@@ -1,5 +1,6 @@
 import { ativarStatusWhatsapp, inativarStatusWhatsapp } from './statusUtils';
-import { useEffect, useState } from 'react';
+import axios from 'axios';
+import AlertSuccess from '@/Components/Alerts/AlertSuccess.jsx';
 
 const optionsFetch = (token, number, userId) => ({
     method: 'POST',
@@ -7,37 +8,50 @@ const optionsFetch = (token, number, userId) => ({
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ number, name: 'TESTE', userId: userId }),
+    data: {
+        number,
+        name: 'TESTE',
+        userId,
+    },
 });
 
-// Função para cadastrar contato via API
-export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setContactId) => {
-
-    const [keys, setKeys] = useState({ urlFrontend: '', urlBackend: '', apiKey: '', userId: '' });
-
-    const fetchKeys = async () => {
-        const urlFrontend = await axios.get(route('auth.chats.whatsapp.chaves'));
-        setKeys(urlFrontend.data);
-    };
-
-    useEffect(() => {
-        fetchKeys();
-    }, []);
-
+export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setChattId, keysWhatsapp) => {
     try {
-        const response = await fetch(`${keys.urlBackend}/api/messages/contacts`, optionsFetch(keys.apiKey, `${numero}`, keys.userId));
+        const url = `${keysWhatsapp.urlBackend}/api/messages/contacts`;
+        const options = optionsFetch(keysWhatsapp.apiKey, numero, keysWhatsapp.userId);
 
-        if (!response.ok) {
-            if (response.status === 400) inativarStatusWhatsapp(id);
-            throw new Error('Erro na requisição');
+        const response = await axios.post(url, options.data, { headers: options.headers });
+
+        console.log('----------------\\/--------------');
+        console.log('STATUS: ', response.status);
+        console.log('RESPONSE: ', response);
+        console.log('----------------/\\--------------');
+
+        // CONTATO CADASTRADO
+        if (response.status === 201) {
+            // AlertSuccess(response.data.message);
         }
 
-        const data = await response.json();
-        setContactId(data?.data?.contactId);
+        const data = response.data;
+        setChattId(data?.data?.id);
 
         ativarStatusWhatsapp(id);
         return true;
     } catch (error) {
-        return false;
+        console.log('/-ERROR-------\\/--------/');
+        console.log('ERROR STATUS: ', error?.response?.status);
+        console.log('ERROR MESSAGE: ', error?.response?.data?.message);
+        console.log('ERROR: ', error);
+        console.log('/------------/\\-----/');
+
+        let msgError = 'Erro Desconhecido!';
+        if (error?.response?.data?.message === 'ERR_NO_DEF_WAPP_FOUND') msgError = 'SEM CONEXÃO COM WHATSAPP';
+        if (error?.response?.data?.message === 'ERR_WAPP_INVALID_CONTACT') {
+            inativarStatusWhatsapp(id);
+            return;
+        }
+        ;
+
+        throw new Error(msgError);
     }
 };

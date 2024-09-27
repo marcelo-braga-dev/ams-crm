@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { CircularProgress } from '@mui/material';
 import { WhatsappButton } from './WhatsappButton';
@@ -6,30 +6,23 @@ import { fetchCadastrarContatoNoWhatsapp } from './fetchUtils';
 import axios from 'axios';
 import AlertError from '@/Components/Alerts/AlertError.jsx';
 import { inativarStatusWhatsapp } from '@/Components/Chats/Whatsapp/statusUtils.jsx';
+import { ContextFunilVendas } from '@/Pages/Admin/Leads/Kanban/ContextFunilVendas.jsx';
 
 const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     const [openIflame, setOpenIflame] = useState(false);
-    const [contactId, setContactId] = useState(null);
+    const [chatId, setChattId] = useState(null);
     const [carregando, setCarregando] = useState(false);
     const [isPrimeiraMensagem, setIsPrimeiraMensagem] = useState(false);
     const [telefoneSelecionado, setTelefoneSelecionado] = useState(null);
-    const [keys, setKeys] = useState({ urlFrontend: '', urlBackend: '', apiKey: '', userId: '' });
 
-    const fetchKeys = async () => {
-        const urlFrontend = await axios.get(route('auth.chats.whatsapp.chaves'));
-        setKeys(urlFrontend.data);
-    };
+    const { keysWhatsapp } = useContext(ContextFunilVendas);
 
-    useEffect(() => {
-        fetchKeys();
-    }, []);
-
-    const URL_DO_WHATICKET = `${keys.urlFrontend}/tickets/${contactId}`;
+    const URL_DO_WHATICKET = `${keysWhatsapp.urlFrontend}/tickets/${chatId}`;
 
     // Abre o iframe quando o contactId é definido
     useEffect(() => {
-        if (contactId) setOpenIflame(true);
-    }, [contactId]);
+        if (chatId) setOpenIflame(true);
+    }, [chatId]);
 
     // Marcar como primeira mensagem quando o iframe é aberto
     useEffect(() => {
@@ -53,20 +46,24 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     // Função para selecionar o telefone para contatar
     const selecionarTelefonesParaContatar = useCallback(async () => {
         let noContato = true;
-        for (const item of telefones) {
-            if (item.numero && item.status_whatsapp) {
-                const success = await fetchCadastrarContatoNoWhatsapp(item, setContactId);
-                setTelefoneSelecionado(item);
-                if (success) {
-                    noContato = false;
-                    break;
+        try {
+            for (const item of telefones) {
+                if (item.numero && item.status_whatsapp) {
+                    const success = await fetchCadastrarContatoNoWhatsapp(item, setChattId, keysWhatsapp);
+                    setTelefoneSelecionado(item);
+                    if (success) {
+                        noContato = false;
+                        break;
+                    }
                 }
+                setChattId(false);
             }
-            setContactId(false);
-        }
-        if (noContato) {
-            atualizarCards();
-            AlertError('Nenhum número de Whatsapp válido!');
+            if (noContato) {
+                atualizarCards();
+                AlertError('Nenhum número de Whatsapp válido!');
+            }
+        } catch (error) {
+            AlertError(error.message);
         }
 
     }, [telefones]);
@@ -74,7 +71,7 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     // Função para abrir o WhatsApp
     const handleOpenWhatsapp = async () => {
         setCarregando(true);
-        setContactId(null);
+        setChattId(null);
 
         try {
             await selecionarTelefonesParaContatar();
@@ -111,14 +108,15 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     return (
         <>
             {carregando ? <CircularProgress size={20} /> : <WhatsappButton telefones={telefones} handleOpen={handleOpenWhatsapp} />}
-
             <Dialog open={openIflame} onClose={handleClose} fullWidth maxWidth="md">
                 {openIflame && (
-                    <iframe
-                        src={URL_DO_WHATICKET}
-                        style={{ width: '100%', height: '700px', border: 'none' }}
-                        title="WhatsApp"
-                    />
+                    <>{console.log(URL_DO_WHATICKET)}
+                        <iframe
+                            src={URL_DO_WHATICKET}
+                            style={{ width: '100%', height: '700px', border: 'none' }}
+                            title="WhatsApp"
+                        />
+                    </>
                 )}
             </Dialog>
         </>
