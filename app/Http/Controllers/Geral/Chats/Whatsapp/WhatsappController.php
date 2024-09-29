@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Geral\Chats\Whatsapp;
 
 use App\Http\Controllers\Controller;
 use App\Models\LeadsDEPREECATED\LeadsContatosRealizados;
+use App\Repositories\Ferramentas\Whatsapp\UsuariosWhatsappRepositories;
 use Illuminate\Http\Request;
 
 class WhatsappController extends Controller
@@ -20,11 +21,12 @@ class WhatsappController extends Controller
 
     public function chaves()
     {
-        $urlFrontend = env('WHATSAPP_FRONTEND', 'INVALIDO');
-        $urlBackend = env('WHATSAPP_BACKEND', 'INVALIDO');
-        $apiKey = env('WHATSAPP_API_TOKEN', 'INVALIDO');
-        $userId = id_usuario_atual();
+        $urlFrontend = env('WHATSAPP_FRONTEND');
+        $urlBackend = env('WHATSAPP_BACKEND');
+        $apiKey = env('WHATSAPP_API_TOKEN');
 
-        return response()->json(compact('urlFrontend', 'urlBackend', 'apiKey', 'userId'));
+        $credenciaisUsuario = (new UsuariosWhatsappRepositories())->credenciais();
+
+        return response()->json(compact('urlFrontend', 'urlBackend', 'apiKey', 'credenciaisUsuario'));
     }
 }

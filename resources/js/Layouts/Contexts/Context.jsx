@@ -1,6 +1,6 @@
 import React, {createContext, useState} from 'react';
 import {usePage} from "@inertiajs/react";
-import menuItemsAdmin from "@/Layouts/AdminLayout/menu-items";
+import menuItemsAdmin from "@/Layouts/Menus/Admins";
 import menuItemsIntegrador from "@/Layouts/Menus/Integrador";
 import menuItemsColsultor from '@/Layouts/Menus/Consultor'
 

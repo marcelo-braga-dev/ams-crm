@@ -78,10 +78,22 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chaveDashboardsEconomicos(), 'nome' => 'Indicadores Econômicos'],
                 ]
             ], [
-                'categoria' => 'Chats',
+                'categoria' => 'Whatsapp',
+                'permissoes' => [
+                    [
+                        'id' => $this->chaveChatsWhatsapp(),
+                        'nome' => 'Chat do Whatsapp',
+                        'descricao' => 'Acessar o chat do Whatsapp'],
+                    [
+                        'id' => $this->chaveChatsWhatsappUsuarios(),
+                        'nome' => 'Cadastrar e Editar Usuários',
+                        'descricao' => 'Permitir que cadastre e edite usuários do Whatsapp'
+                    ],
+                ]
+            ], [
+                'categoria' => 'Chat Interno',
                 'permissoes' => [
                     ['id' => $this->chaveChatsInterno(), 'nome' => 'Chat Interno'],
-                    ['id' => $this->chaveChatsWhatsapp(), 'nome' => 'Whatsapp'],
                 ]
             ], [
                 'categoria' => 'Financeiro',

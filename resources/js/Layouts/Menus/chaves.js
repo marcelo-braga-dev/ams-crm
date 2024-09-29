@@ -13,7 +13,11 @@ const chavesPermissoes = {
         integrados: 8, vendas: 9, financeiros: 10, economicos: 11, leads: 43
     },
     chats: {
-        interno: 12
+        interno: 12,
+        whatsapp: {
+            chat: 85,
+            usuarios: 86
+        }
     },
     financeiro: {
         fluxocaixa: 13, salario: 14, cadastros: 15, faturamento: 58

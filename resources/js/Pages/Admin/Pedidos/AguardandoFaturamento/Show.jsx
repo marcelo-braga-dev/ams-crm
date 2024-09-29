@@ -3,7 +3,6 @@ import Layout from "@/Layouts/Layout";
 
 import React from 'react';
 import {useForm} from '@inertiajs/react';
-import {Container, Row, Col} from 'reactstrap';
 
 import {TextField, Typography} from "@mui/material";
 import ImagePdf from "@/Components/Elementos/ImagePdf";

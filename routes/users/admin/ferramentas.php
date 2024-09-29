@@ -6,12 +6,26 @@ use App\Http\Controllers\Admin\Ferramentas\Tarefas\AtendimentoController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\FinalizadoController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\TaferasController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\AbertoController;
+use App\Http\Controllers\Admin\Ferramentas\Whatsapp\UsuariosWhatsappController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'auth.admins'])
     ->name('admin.ferramentas.')
     ->prefix('admin/ferramentas')
     ->group(function () {
+
+        Route::name('whatsapp.')
+            ->prefix('whatsapp/usuario')
+            ->group(function () {
+                Route::resource('usuario', UsuariosWhatsappController::class);
+                Route::get('api-usuario', [UsuariosWhatsappController::class, 'getUsuarios'])->name('get-usuarios');
+                Route::post('api-inativar-usuario/{id}', [UsuariosWhatsappController::class, 'setInativarUsuario'])
+                    ->name('inativar-usuario');
+                Route::post('api-ativar-usuario/{id}', [UsuariosWhatsappController::class, 'setAtivarUsuario'])
+                    ->name('ativar-usuario');
+            });
+
+
         Route::resource('tarefas', TaferasController::class);
         Route::resource('bibliotecas', BibliotecaController::class);
 

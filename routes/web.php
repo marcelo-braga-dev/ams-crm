@@ -11,7 +11,10 @@
 |
 */
 
-require __DIR__ . '/users/auth.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/auth/index.php';
+
+
 require __DIR__ . '/users/index.php';
 require __DIR__ . '/users/admin/index.php';
 require __DIR__ . '/users/consultor/index.php';

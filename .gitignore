@@ -22,4 +22,5 @@ package-lock.json
 yarn.lock
 composer.lock
 ./package-lock.json
+.phpunit.cache/
 

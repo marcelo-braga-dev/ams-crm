@@ -430,4 +430,9 @@ class ChavesPermissoes
     {
         return '85';
     }
+
+    public function chaveChatsWhatsappUsuarios()
+    {
+        return '86';
+    }
 }

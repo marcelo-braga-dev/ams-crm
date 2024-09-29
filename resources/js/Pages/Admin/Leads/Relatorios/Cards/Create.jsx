@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import { router } from '@inertiajs/react';
 import {Container, TextField} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import {Button} from 'reactstrap';
+import {Button} from '@mui/material';
 
 
 export default function Create({auth, errors}) {

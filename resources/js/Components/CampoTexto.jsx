@@ -16,7 +16,7 @@ const CampoTexto = ({ titulo, texto, icone, bold, nowrap }) => {
     const IconTexto = icone;
 
     return (
-        <Stack direction="row" spacing={1} alignItems="top" marginBottom={1}>
+        <Stack direction="row" spacing={1} alignItems="top" marginBottom={0}>
             <div>
                 <Stack direction="row" spacing={1} alignItems="center" marginBottom={1}>
                     {icone && <IconTexto color="rgb(59, 64, 86)" size={18} />}

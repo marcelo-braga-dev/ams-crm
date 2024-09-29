@@ -7,9 +7,10 @@ import perfil from './perfil';
 import dashboard from './dashboard';
 import ferramentas from './ferramentas';
 import orcamentos from './orcamentos';
+import whatsapp from './whatsapp.js';
 
 const menuItems = {
-    items: [pedidos, clientes, orcamentos, produtos, chatInterno, ferramentas, dashboard, sac, perfil]
+    items: [pedidos, clientes, orcamentos, produtos, whatsapp, chatInterno, ferramentas, dashboard, sac, perfil],
 };
 
 export default menuItems;

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Ferramentas\Whatsapp\WhatsappUsuario;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Services\UploadFiles;
 use App\src\Leads\Status\AtivoStatusLeads;
@@ -52,6 +53,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at',
+        'email_verified_at',
+        'ultimo_login',
     ];
 
     /**
@@ -63,11 +68,46 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['avatar'];
+    protected $with = ['setor', 'franquia', 'funcao'];
+    protected $appends = ['avatar', 'nome'];
 
+    //-----------------------
+    // Attribute
+    //-----------------------
     public function getAvatarAttribute()
     {
         return url_arquivos($this->attributes['foto'] ?? null);
+    }
+
+    public function getNomeAttribute()
+    {
+        return $this->attributes['name'] ?? $this->attributes['nome']; //remover attributes['nome']
+    }
+
+    //-----------------------
+    // Relations
+    //-----------------------
+    public function setor()
+    {
+        return $this->hasOne(Setores::class, 'id', 'setor_id')
+            ->select(['id', 'nome', 'cor']);
+    }
+
+    public function franquia()
+    {
+        return $this->hasOne(Franquias::class, 'id', 'franquia_id')
+            ->select(['id', 'nome', 'cor']);
+    }
+
+    public function funcao()
+    {
+        return $this->hasOne(UsersFuncoes::class, 'id', 'funcao_id')
+            ->select(['id', 'nome']);
+    }
+
+    public function whatsapp()
+    {
+        return $this->hasOne(WhatsappUsuario::class, 'user_id', 'id');
     }
 
 
