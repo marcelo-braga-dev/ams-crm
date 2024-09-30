@@ -48,6 +48,6 @@ class UsuariosWhatsappRepositories
     {
         return (new WhatsappUsuario)
             ->where('user_id', id_usuario_atual())
-            ->first(['email', 'password']);
+            ->first(['email', 'password', 'whatsapp_id as whatsappId']);
     }
 }

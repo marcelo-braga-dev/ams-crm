@@ -29,6 +29,7 @@ export const WhatsappProvider = ({ children }) => {
             credenciaisUsuario: {
                 email: '',
                 password: '',
+                whatsappId: '',
             },
         });
 

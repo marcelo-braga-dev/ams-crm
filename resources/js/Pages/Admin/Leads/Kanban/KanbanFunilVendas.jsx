@@ -14,19 +14,17 @@ import InputAdornment from "@mui/material/InputAdornment";
 const KanbanFunilVendas = () => {
     const [setor, setSetor] = useState("");
     const [usuario, setUsuario] = useState("");
-
     const [cards, setCards] = useState([]);
-
     const [usuarios, setUsuarios] = useState([]);
     const [setores, setSetores] = useState([]);
     const [colunas, setColunas] = useState([]);
-
     const [carregando, setCarregando] = useState(false);
 
     // Função para buscar os dados e aplicar filtros com debouncing para melhorar a performance
     const fetchData = useCallback(
         debounce(async (setor, usuario) => {
             try {
+                setCarregando(true);
                 const response = await axios.get(route('auth.leads.funil-vendas-kanban.index-registros'), {
                     params: {setor, usuario},
                 });
@@ -43,7 +41,6 @@ const KanbanFunilVendas = () => {
         }, 300), []);
 
     useEffect(() => {
-        setCarregando(true);
         fetchData(setor, usuario);
     }, [setor, usuario, fetchData]);
 

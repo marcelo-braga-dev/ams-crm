@@ -15,10 +15,11 @@ const optionsFetch = (token, number, userId) => ({
     },
 });
 
-export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setChattId, keysWhatsapp) => {
+export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setChattId, urlFrontend, urlBackend, apiKey,credenciaisUsuario) => {
     try {
-        const url = `${keysWhatsapp.urlBackend}/api/messages/contacts`;
-        const options = optionsFetch(keysWhatsapp.apiKey, numero, keysWhatsapp.userId);
+        const url = `${urlBackend}/api/messages/contacts`;
+        console.info(credenciaisUsuario.whatsappId)
+        const options = optionsFetch(apiKey, numero, credenciaisUsuario.whatsappId);
 
         const response = await axios.post(url, options.data, { headers: options.headers });
 
@@ -35,7 +36,7 @@ export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setChattId
         const data = response.data;
         setChattId(data?.data?.id);
 
-        ativarStatusWhatsapp(id);
+        // ativarStatusWhatsapp(id);
         return true;
     } catch (error) {
         console.log('/-ERROR-------\\/--------/');
@@ -50,7 +51,6 @@ export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setChattId
             inativarStatusWhatsapp(id);
             return;
         }
-        ;
 
         throw new Error(msgError);
     }

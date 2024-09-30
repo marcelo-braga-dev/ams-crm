@@ -6,7 +6,8 @@ import { fetchCadastrarContatoNoWhatsapp } from './fetchUtils';
 import axios from 'axios';
 import AlertError from '@/Components/Alerts/AlertError.jsx';
 import { inativarStatusWhatsapp } from '@/Components/Chats/Whatsapp/statusUtils.jsx';
-import { ContextFunilVendas } from '@/Pages/Admin/Leads/Kanban/ContextFunilVendas.jsx';
+import { FunilVendasContext } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
+import { useWhatsapp } from '@/Hooks/useWhatsapp.jsx';
 
 const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     const [openIflame, setOpenIflame] = useState(false);
@@ -15,9 +16,10 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     const [isPrimeiraMensagem, setIsPrimeiraMensagem] = useState(false);
     const [telefoneSelecionado, setTelefoneSelecionado] = useState(null);
 
-    const { keysWhatsapp } = useContext(ContextFunilVendas);
+    const { urlFrontend, urlBackend, apiKey, credenciaisUsuario } = useWhatsapp();
 
-    const URL_DO_WHATICKET = `${keysWhatsapp.urlFrontend}/tickets/${chatId}`;
+    const URL_DO_WHATICKET = `${urlFrontend}/chat/${chatId}`;
+    console.log(URL_DO_WHATICKET)
 
     // Abre o iframe quando o contactId é definido
     useEffect(() => {
@@ -49,7 +51,7 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
         try {
             for (const item of telefones) {
                 if (item.numero && item.status_whatsapp) {
-                    const success = await fetchCadastrarContatoNoWhatsapp(item, setChattId, keysWhatsapp);
+                    const success = await fetchCadastrarContatoNoWhatsapp(item, setChattId, urlFrontend, urlBackend, apiKey, credenciaisUsuario);
                     setTelefoneSelecionado(item);
                     if (success) {
                         noContato = false;
@@ -110,13 +112,11 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
             {carregando ? <CircularProgress size={20} /> : <WhatsappButton telefones={telefones} handleOpen={handleOpenWhatsapp} />}
             <Dialog open={openIflame} onClose={handleClose} fullWidth maxWidth="md">
                 {openIflame && (
-                    <>{console.log(URL_DO_WHATICKET)}
                         <iframe
                             src={URL_DO_WHATICKET}
                             style={{ width: '100%', height: '700px', border: 'none' }}
                             title="WhatsApp"
                         />
-                    </>
                 )}
             </Dialog>
         </>
