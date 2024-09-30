@@ -7,6 +7,7 @@ import {Eye, People, Trash} from "react-bootstrap-icons";
 import CardTable from "@/Components/Cards/CardTable";
 import MenuItem from "@mui/material/MenuItem";
 import {router} from "@inertiajs/react";
+import LeadShow from '@/Pages/Geral/Leads/Dialogs/LeadShow.jsx';
 
 export default function Tabela({
                                    leads, setPaginate, paginate, paginateDados, setOrdenar, setFiltroFiltroOrdenarBy,
@@ -131,7 +132,7 @@ export default function Tabela({
                                 {!!item.pedido_data && <Typography variant="body2">Último Pedido: {item.pedido_data} há {item.pedido_periodo}</Typography>}
                             </td>
                             <td style={{width: '5%'}} className="text-center">
-                                <a href={route('admin.clientes.leads.leads-main.show', item.id)}><Eye size={20}/></a>
+                                <LeadShow leadId={item.id} iconButton={<Eye size={20} color="black" />} />
                             </td>
                         </tr>
                     ))}

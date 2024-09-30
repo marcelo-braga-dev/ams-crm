@@ -9,7 +9,7 @@ use App\Http\Controllers\Consultor\Pedidos\Status\RevisarController;
 use Illuminate\Support\Facades\Route;
 
 // MODELO 1
-Route::middleware(['auth', 'auth.consultores'])
+Route::middleware(['auth'])
     ->name('consultor.')
     ->prefix('consultor/pedido')
     ->group(function () {

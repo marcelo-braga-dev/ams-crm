@@ -6,7 +6,7 @@ import * as React from 'react';
 import { PencilFill } from 'react-bootstrap-icons';
 import EditForms from './Partials/EditForms.jsx';
 import { useContext } from 'react';
-import { LeadContext } from '@/Pages/Geral/Pedidos/LeadContext.jsx';
+import { LeadContext } from '@/Pages/Geral/Leads/Dialogs/LeadContext.jsx';
 
 const EditModal = () => {
     const { lead, setAtualizarDados } = useContext(LeadContext);

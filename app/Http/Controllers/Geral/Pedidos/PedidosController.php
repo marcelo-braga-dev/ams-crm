@@ -3,13 +3,19 @@
 namespace App\Http\Controllers\Geral\Pedidos;
 
 use App\Http\Controllers\Controller;
+use App\Models\Enderecos;
+use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\Pedidos\PedidosAnotacoes;
 use App\Models\PedidosAcompanhamentos;
 use App\Models\PedidosFretesTransportadoras;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosProdutos;
+use App\Models\ProdutosCategorias;
+use App\Models\ProdutosFornecedores;
+use App\Models\ProdutosUnidades;
 use App\Models\Sac;
+use App\Models\Setores;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -17,9 +23,32 @@ class PedidosController extends Controller
 {
     public function create(Request $request)
     {
-        $leadId = $request->input('lead_id');
+        $setor = setor_usuario_atual();
 
-        return Inertia::render('Geral/Pedidos/Create');
+        $fornecedores = (new ProdutosFornecedores())->getAll($setor);
+        $lead = (new LeadsANTIGO())->find($request->lead);
+
+        $endereco = (new Enderecos())->get($lead->endereco);
+        $categorias = (new ProdutosCategorias())->categorias(setor_usuario_atual());
+        $unidades = (new ProdutosUnidades())->get();
+
+        switch ((new Setores())->getModelo($setor)) {
+            case 1:
+                return Inertia::render(
+                    'Consultor/Pedidos/Create/Modelo1/Create',
+                    compact('fornecedores', 'lead', 'endereco')
+                );
+            case 2:
+                return Inertia::render(
+                    'Consultor/Pedidos/Create/Modelo2/Create',
+                    compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades')
+                );
+            default:
+            {
+                modalErro('Falha no formulário de cadastro.');
+                return redirect()->back();
+            }
+        }
     }
 
     public function show($id)

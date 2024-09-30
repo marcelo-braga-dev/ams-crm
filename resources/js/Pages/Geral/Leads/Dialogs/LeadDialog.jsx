@@ -13,11 +13,13 @@ import HistoricoStatus from '@/Partials/Leads/HistoricoStatus.jsx';
 import Dialog from '@mui/material/Dialog';
 import * as React from 'react';
 import { useContext, useState } from 'react';
-import { router } from '@inertiajs/react';
-import { LeadContext } from '@/Pages/Geral/Pedidos/LeadContext.jsx';
+import { router, usePage } from '@inertiajs/react';
+import { LeadContext } from './LeadContext.jsx';
 import { TbPackage, TbX } from 'react-icons/tb';
+import Link from '@/Components/Link.jsx';
 
 const LeadDialog = ({ iconButton }) => {
+    const isAdmin = usePage().props.auth.user.is_admin; // remover
 
     const { lead, filtros, permissoes, historicos } = useContext(LeadContext);
 
@@ -109,7 +111,14 @@ const LeadDialog = ({ iconButton }) => {
 
                     <CardContainer>
                         <CardBody>
-                            <Button color="success" component="a" href={route('consultor.pedidos.create', {lead: lead.id})}  startIcon={<TbPackage />}>Emitir Pedido</Button>
+                            {isAdmin ?
+                                <Link href={route('admin.pedidos.emitir.create', { lead: lead.id })}>
+                                    <Button color="success" startIcon={<TbPackage />}>Emitir Pedido</Button>
+                                </Link> :
+                                <Link href={route('consultor.pedidos.create', { lead: lead.id })}>
+                                    <Button color="success" startIcon={<TbPackage />}>Emitir Pedido</Button>
+                                </Link>
+                            }
                         </CardBody>
                     </CardContainer>
 

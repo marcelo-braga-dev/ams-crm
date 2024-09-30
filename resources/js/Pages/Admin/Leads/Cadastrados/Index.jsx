@@ -44,11 +44,13 @@ const FilterSection = ({
                            onChange={event => setStatus(event.target.value)}>
                     <MenuItem value="">Todos</MenuItem>
                     <MenuItem value="novo">Novos</MenuItem>
-                    <MenuItem value="aberto">Aberto</MenuItem>
-                    <MenuItem value="atendimento">Atendimento</MenuItem>
-                    <MenuItem value="ativo">Ativo</MenuItem>
+                    <MenuItem value="fazer">A Fazer</MenuItem>
+                    <MenuItem value="progresso">Em Progresso</MenuItem>
+                    <MenuItem value="revisao">Revisão</MenuItem>
+                    <MenuItem value="concluido">Concluídos</MenuItem>
                     <MenuItem value="finalizado">Finalizados</MenuItem>
                     <MenuItem value="inativo">Inativos</MenuItem>
+                    <MenuItem value="inicio_funil">Início Funil</MenuItem>
                 </TextField>
             </div>
             <div className="col-md-2">

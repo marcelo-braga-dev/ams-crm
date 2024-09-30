@@ -24,7 +24,7 @@ import styled from 'styled-components';
 import LinearProgress from '@mui/material/LinearProgress';
 import { round } from 'lodash';
 import { TbArrowBigRightFilled } from 'react-icons/tb';
-import LeadShow from '@/Pages/Geral/Pedidos/LeadShow.jsx';
+import LeadShow from '@/Pages/Geral/Leads/Dialogs/LeadShow.jsx';
 
 const Card = styled.div`
     border-radius: 10px;
