@@ -1,6 +1,6 @@
 import CardBody from '@/Components/Cards/CardBody.jsx';
 import LeadsDados from '@/Components/Leads/LeadsDados.jsx';
-import { IconButton, MenuItem, Stack, TextField, Typography } from '@mui/material';
+import { Button, IconButton, MenuItem, Stack, TextField, Typography } from '@mui/material';
 import { ArrowRight, BoxSeam, ListUl, Tag, TrashFill } from 'react-bootstrap-icons';
 import EditModal from '@/Pages/Geral/Leads/EditModal.jsx';
 import CardContainer from '@/Components/Cards/CardContainer.jsx';
@@ -15,7 +15,7 @@ import * as React from 'react';
 import { useContext, useState } from 'react';
 import { router } from '@inertiajs/react';
 import { LeadContext } from '@/Pages/Geral/Pedidos/LeadContext.jsx';
-import { TbX } from 'react-icons/tb';
+import { TbPackage, TbX } from 'react-icons/tb';
 
 const LeadDialog = ({ iconButton }) => {
 
@@ -106,6 +106,12 @@ const LeadDialog = ({ iconButton }) => {
                             </IconButton>
                         </Stack>
                     } />
+
+                    <CardContainer>
+                        <CardBody>
+                            <Button color="success" component="a" href={route('consultor.pedidos.create', {lead: lead.id})}  startIcon={<TbPackage />}>Emitir Pedido</Button>
+                        </CardBody>
+                    </CardContainer>
 
                     <CardContainer>
                         <CardTitle title={(

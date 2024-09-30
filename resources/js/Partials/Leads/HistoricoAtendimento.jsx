@@ -19,7 +19,7 @@ export default function HistoricoAtendimento({historicos}) {
             <List>
                 {historicos.map((dado, index) => (
                     dado.msg !== 'Pedido Emitido' && dado.msg &&
-                    <CardContainer>
+                    <CardContainer key={dado.id}>
                         <ListItem>
                             <ListItemAvatar>
                                 <Avatar sx={{bgcolor: tipoContato?.[dado.meio_contato]?.cor ?? 'orange'}}>

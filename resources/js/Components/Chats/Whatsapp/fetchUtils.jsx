@@ -18,20 +18,14 @@ const optionsFetch = (token, number, userId) => ({
 export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setChattId, urlFrontend, urlBackend, apiKey,credenciaisUsuario) => {
     try {
         const url = `${urlBackend}/api/messages/contacts`;
-        console.info(credenciaisUsuario.whatsappId)
+
         const options = optionsFetch(apiKey, numero, credenciaisUsuario.whatsappId);
 
         const response = await axios.post(url, options.data, { headers: options.headers });
 
-        console.log('----------------\\/--------------');
-        console.log('STATUS: ', response.status);
+        console.log('----\\/------');
         console.log('RESPONSE: ', response);
-        console.log('----------------/\\--------------');
-
-        // CONTATO CADASTRADO
-        if (response.status === 201) {
-            // AlertSuccess(response.data.message);
-        }
+        console.log('----/\\------');
 
         const data = response.data;
         setChattId(data?.data?.id);
@@ -39,11 +33,10 @@ export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setChattId
         // ativarStatusWhatsapp(id);
         return true;
     } catch (error) {
-        console.log('/-ERROR-------\\/--------/');
-        console.log('ERROR STATUS: ', error?.response?.status);
-        console.log('ERROR MESSAGE: ', error?.response?.data?.message);
-        console.log('ERROR: ', error);
-        console.log('/------------/\\-----/');
+        console.error('/-ERROR-------\\/--------/');
+        console.error('ERROR MESSAGE: ', error?.response?.data?.message);
+        console.error('ERROR: ', error);
+        console.error('/------------/\\-----/');
 
         let msgError = 'Erro Desconhecido!';
         if (error?.response?.data?.message === 'ERR_NO_DEF_WAPP_FOUND') msgError = 'SEM CONEXÃO COM WHATSAPP';

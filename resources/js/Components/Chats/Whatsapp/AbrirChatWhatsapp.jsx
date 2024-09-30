@@ -19,7 +19,6 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     const { urlFrontend, urlBackend, apiKey, credenciaisUsuario } = useWhatsapp();
 
     const URL_DO_WHATICKET = `${urlFrontend}/chat/${chatId}`;
-    console.log(URL_DO_WHATICKET)
 
     // Abre o iframe quando o contactId é definido
     useEffect(() => {
@@ -61,7 +60,6 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
                 setChattId(false);
             }
             if (noContato) {
-                atualizarCards();
                 AlertError('Nenhum número de Whatsapp válido!');
             }
         } catch (error) {
@@ -110,7 +108,7 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     return (
         <>
             {carregando ? <CircularProgress size={20} /> : <WhatsappButton telefones={telefones} handleOpen={handleOpenWhatsapp} />}
-            <Dialog open={openIflame} onClose={handleClose} fullWidth maxWidth="md">
+            <Dialog open={openIflame} onClose={handleClose} fullWidth maxWidth="xs">
                 {openIflame && (
                         <iframe
                             src={URL_DO_WHATICKET}

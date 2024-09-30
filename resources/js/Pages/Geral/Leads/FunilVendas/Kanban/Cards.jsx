@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import CardKanbanLeads from '@/Pages/Admin/Leads/Kanban/Components/CardKanbanLeads.jsx';
 import { useFunilVendas } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
 import CardFunilVendas from '../Cards/Card.jsx';
 

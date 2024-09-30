@@ -37,7 +37,7 @@ const Card = styled.div`
 
 `;
 
-const CardFunilVendas = ({ card, emitePedidos, atualizarCards, cor, urlAvancarStatus, prazoDias }) => {
+const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias }) => {
     const {
         razao_social, nome, cnpj, cpf, id, telefones, consultor, status_data, classificacao,
         setor,
@@ -55,10 +55,9 @@ const CardFunilVendas = ({ card, emitePedidos, atualizarCards, cor, urlAvancarSt
     const avancarStatus = () => {
         router.post(route(urlAvancarStatus, id));
         handleClose();
-        atualizarCards();
     };
 
-    const prazoRestante = prazoDias + card.status_prazo
+    const prazoRestante = prazoDias + card.status_prazo;
 
     const margemPrazo = round((1 + card.status_prazo / prazoDias) * 100);
 
@@ -204,8 +203,8 @@ const CardFunilVendas = ({ card, emitePedidos, atualizarCards, cor, urlAvancarSt
 
                 <Stack direction="row" spacing={2} marginTop={2} justifyContent="space-between">
                     <Stack direction="row" spacing={2}>
-                        <AbrirChatWhatsapp telefones={telefones} leadId={id} atualizarCards={atualizarCards} />
-                        <AbrirTelefone telefones={telefones} atualizarCards={atualizarCards} />
+                        <AbrirChatWhatsapp telefones={telefones} leadId={id} />
+                        <AbrirTelefone telefones={telefones} />
                         <AbrirEmail />
                     </Stack>
                     <Stack direction="row">

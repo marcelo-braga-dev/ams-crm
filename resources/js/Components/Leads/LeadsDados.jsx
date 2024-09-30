@@ -15,7 +15,7 @@ export default function LeadsDados({dados, acoes}) {
     const toggleInfo = () => {
         setToggleMenu(e => !e)
     }
-console.log(dados?.contato?.telefones)
+
     const telefones = useMemo(() => {
         return dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({id, telefone}) => (
             <div key={id} className="col p-2 m-2 mt-1 px-3 border border-radius-lg">

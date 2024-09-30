@@ -26,14 +26,14 @@ const EditModal = () => {
         telefones: lead.contato.telefones ?? [],
 
         endereco: {
-            id: lead.endereco.id,
-            cep: lead.endereco.cep,
-            rua: lead.endereco.rua,
-            numero: lead.endereco.numero,
-            complemento: lead.endereco.complemento,
-            bairro: lead.endereco.bairro,
-            cidade: lead.endereco.cidade,
-            estado: lead.endereco.estado,
+            id: lead.endereco?.id,
+            cep: lead.endereco?.cep,
+            rua: lead.endereco?.rua,
+            numero: lead.endereco?.numero,
+            complemento: lead.endereco?.complemento,
+            bairro: lead.endereco?.bairro,
+            cidade: lead.endereco?.cidade,
+            estado: lead.endereco?.estado,
         },
     });
 
