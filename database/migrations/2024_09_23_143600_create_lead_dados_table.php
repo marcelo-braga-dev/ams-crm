@@ -10,15 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('lead_dados', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('lead_id');
-            $table->string('nome')->nullable();
-            $table->string('razao_social')->nullable();
-            $table->timestamps();
-
-            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
-        });
+//        Schema::create('lead_dados', function (Blueprint $table) {
+//            $table->id();
+//            $table->unsignedBigInteger('lead_id');
+//            $table->string('nome')->nullable();
+//            $table->string('razao_social')->nullable();
+//            $table->timestamps();
+//
+//            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
+//        });
     }
 
     /**

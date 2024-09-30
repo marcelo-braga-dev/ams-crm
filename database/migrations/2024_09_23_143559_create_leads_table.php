@@ -10,19 +10,19 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('leads', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('cnpj')->nullable()->unique();
-            $table->bigInteger('cpf')->nullable()->unique();
-            $table->unsignedBigInteger('vendedor_id')->nullable();
-            $table->unsignedBigInteger('status_id');
-            $table->unsignedBigInteger('setor_id');
-            $table->timestamps();
-
-            $table->foreign('setor_id')->references('id')->on('setores');
-            $table->foreign('vendedor_id')->references('id')->on('users');
-            $table->index(['status_id', 'vendedor_id']);
-        });
+//        Schema::create('leads', function (Blueprint $table) {
+//            $table->id();
+//            $table->bigInteger('cnpj')->nullable()->unique();
+//            $table->bigInteger('cpf')->nullable()->unique();
+//            $table->unsignedBigInteger('vendedor_id')->nullable();
+//            $table->unsignedBigInteger('status_id');
+//            $table->unsignedBigInteger('setor_id');
+//            $table->timestamps();
+//
+//            $table->foreign('setor_id')->references('id')->on('setores');
+//            $table->foreign('vendedor_id')->references('id')->on('users');
+//            $table->index(['status_id', 'vendedor_id']);
+//        });
     }
 
     /**
