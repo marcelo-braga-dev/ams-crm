@@ -50,7 +50,6 @@ services:
             timeout: 5s
     phpmyadmin:
         image: phpmyadmin
-        restart: always
         ports:
             - '${PHPMYADMIN_PORT:-81}:80'
         networks:
