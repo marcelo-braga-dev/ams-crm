@@ -138,6 +138,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
     const isFirstRender = useRef(true);
 
     function getLeads() {
+        setCarregando(true);
         axios.get(route('admin.clientes.leads.get-leads-cadastrados-paginate', {
             page: paginate,
             filtros: {

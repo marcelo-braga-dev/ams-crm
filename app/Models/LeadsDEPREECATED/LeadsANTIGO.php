@@ -1030,7 +1030,7 @@ class LeadsANTIGO extends Model
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
-            ->whereIn('status', ['novo', 'aberto', 'atendimento', 'ativo', 'finalizado'])
+            ->whereIn('status', ['novo', 'aberto', 'atendimento', 'ativo', 'finalizado', 'concluido', 'progresso', 'revisao', 'fazer'])
             ->with('telefones')
             ->with('copias')
             ->where('setor_id', $setor);
