@@ -233,6 +233,7 @@ class Pedidos extends Model
         if ($dados['tipo_financiamento'] ?? null) (new PedidosFinanciamentoDados())->create($pedido->id, $dados['tipo_financiamento']);
 
         (new LeadsANTIGO())->atualizarDataUltimoPedido($dados->id_lead);
+        (new LeadsANTIGO())->atualizarStatusAtivo($dados->id_lead);
         (new PedidosHistoricos())->create($pedido->id, $status, $prazo, null);
         (new LeadsHistoricos())->createPedido($dados->id_lead, $pedido->id);
 

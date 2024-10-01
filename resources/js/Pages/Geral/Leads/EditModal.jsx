@@ -69,6 +69,7 @@ const EditModal = () => {
             onClose={handleClose}
             fullWidth
             maxWidth={'lg'}
+            className="m-4"
         >
             <div className="p-4">
                 <form onSubmit={onSubmit}>

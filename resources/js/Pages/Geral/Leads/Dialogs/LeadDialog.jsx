@@ -18,7 +18,7 @@ import { LeadContext } from './LeadContext.jsx';
 import { TbPackage, TbX } from 'react-icons/tb';
 import Link from '@/Components/Link.jsx';
 
-const LeadDialog = ({ iconButton }) => {
+const LeadDialog = ({ iconButton, action }) => {
     const isAdmin = usePage().props.auth.user.is_admin; // remover
 
     const { lead, filtros, permissoes, historicos } = useContext(LeadContext);
@@ -76,9 +76,8 @@ const LeadDialog = ({ iconButton }) => {
     };
 
     return (<>
-            <IconButton onClick={handleClickOpen}>
-                {iconButton}
-            </IconButton>
+            {action && <span onClick={handleClickOpen} className="cursor-pointer">{action}</span>}
+            {iconButton && <IconButton onClick={handleClickOpen}>{iconButton}</IconButton>}
             <Dialog
                 open={open}
                 onClose={handleClose}

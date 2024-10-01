@@ -98,8 +98,7 @@ export default function Tabela({
                                 />
                             </td>
                             <td style={{width: '40%'}}>
-                                <Typography variant="body1" className="cursor-pointer" fontWeight="bold"
-                                            onClick={() => router.get(route('admin.clientes.leads.leads-main.show', item.id))}>{item.nome}</Typography>
+                                <LeadShow leadId={item.id} action={<Typography variant="body1" fontWeight="bold">{item.nome}</Typography>} />
                                 {(item.nome !== item.razao_social) && <Typography variant="body2">{item.razao_social}</Typography>}
                                 <Stack direction="row" spacing={2} marginBottom={1}>
                                     <Typography variant="body2">#{item.id}</Typography>

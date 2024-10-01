@@ -18,6 +18,7 @@ use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\Status\StatusLeads;
+use App\src\Leads\StatusLeads\ConcluidoStatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use DateTime;
 use Error;
@@ -1205,6 +1206,13 @@ class LeadsANTIGO extends Model
         $this->newQuery()
             ->find($id)
             ->update(['status' => (new AtivoStatusLeads())->getStatus()]);
+    }
+
+    public function atualizarStatusAtivo($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['status', (new ConcluidoStatusLeads())->status()]);
     }
 }
 
