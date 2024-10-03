@@ -317,7 +317,7 @@ class LeadsANTIGO extends Model
         if ($alterarStatus) $this->newQuery()
             ->whereIn('id', $idLeads)
             ->update([
-                'status' => (new AbertoStatusLeads())->getStatus()
+                'status' => (new NovoStatusLeads())->getStatus()
             ]);
 
         foreach ($idLeads as $id) {
@@ -1033,6 +1033,7 @@ class LeadsANTIGO extends Model
             ->whereIn('status', ['novo', 'aberto', 'atendimento', 'ativo', 'finalizado', 'concluido', 'progresso', 'revisao', 'fazer'])
             ->with('telefones')
             ->with('copias')
+            ->with('cidadeEstado')
             ->where('setor_id', $setor);
 
         $orderBy = $filtros['ordenar_by'] ?? 'ASC';
@@ -1096,7 +1097,8 @@ class LeadsANTIGO extends Model
                     'cpf' => $item->cpf,
                     'cidade' => $item->cidade,
                     'estado' => $item->estado,
-                    'classificacao' => $item->classificacao
+                    'classificacao' => $item->classificacao,
+                    'cidadeEstado' => $item->cidadeEstado,
                 ],
                 'contato' => [
                     'telefone' => converterTelefone($item->telefone),

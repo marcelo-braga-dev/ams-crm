@@ -1,5 +1,5 @@
-import chaves from "@/Layouts/Menus/chaves";
-import {People} from "react-bootstrap-icons";
+import chaves from '@/Layouts/Menus/chaves';
+import { People } from 'react-bootstrap-icons';
 
 const dashboard = {
     id: '',
@@ -14,6 +14,12 @@ const dashboard = {
             icon: People,
             submenu: [
                 {
+                    id: 'leads-gerenciar',
+                    chave: chaves.leads.cadastrados,
+                    title: 'Gerenciar Leads',
+                    type: 'item',
+                    url: route('auth.leads.gerenciar.index'),
+                }, {
                     id: 'leads-cadastrados',
                     chave: chaves.leads.cadastrados,
                     title: 'Leads',
@@ -43,7 +49,7 @@ const dashboard = {
                     title: 'Histórico',
                     type: 'item',
                     url: route('admin.leads.historicos.index'),
-                },{
+                }, {
                     id: 'leads-encaminhados',
                     chave: chaves.leads.encaminhados,
                     title: 'Encaminhados',
@@ -62,10 +68,10 @@ const dashboard = {
                     type: 'item',
                     admin: true,
                     url: route('admin.clientes.leads.importar.index'),
-                }
-            ]
-        }
-    ]
+                },
+            ],
+        },
+    ],
 };
 
 export default dashboard;
