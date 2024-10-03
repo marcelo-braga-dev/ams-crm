@@ -50,7 +50,7 @@ class UsuariosService
             'id' => $dado->id,
             'nome' => $dado->name,
             'franquia' => $dado->franquia,
-            'setor' => $this->nomeSetores[$dado->setor] ?? '',
+            'setor' => '',//, $this->nomeSetores[$dado->setor] ?? '',
             'email' => $dado->email,
             'funcao_id' => $dado->funcao_id,
             'status' => $dado->status,
