@@ -317,7 +317,7 @@ class LeadsANTIGO extends Model
         if ($alterarStatus) $this->newQuery()
             ->whereIn('id', $idLeads)
             ->update([
-                'status' => (new NovoStatusLeads())->getStatus()
+                'status' => (new AbertoStatusLeads())->getStatus()
             ]);
 
         foreach ($idLeads as $id) {
