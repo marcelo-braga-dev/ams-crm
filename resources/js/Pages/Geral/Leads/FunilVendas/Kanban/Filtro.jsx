@@ -12,7 +12,7 @@ const Kanban = () => {
     const { filtros, filtrar, handleFiltrar } = useFunilVendas();
 
     return useMemo(() =>
-            filtros?.usuarios?.length > 0 && (<div className="row">
+            filtros?.usuarios?.length > 1 && (<div className="row">
                 <div className="mb-4 col-md-4">
                     <TextField
                         label="Representante"
