@@ -8,12 +8,13 @@ const Cards = () => {
     return useMemo(() => (
         Object.values(colunas).map(({ status, cor, url_avancar_status, prazo_dias }) => {
             const statusGroup = cards[status];
+            const qtd = status === 'novo' ? 20 : 1000
 
             return (
                 <td key={status} style={{ padding: 10 }}>
 
                     {statusGroup?.map((item, index) => (
-                        index < 20 ? <CardFunilVendas
+                        index < qtd ? <CardFunilVendas
                             key={item.id}
                             card={item}
                             cor={cor}
