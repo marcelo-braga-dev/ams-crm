@@ -35,6 +35,7 @@ const ChatWhatsapp = ({ telefones }) => {
     useEffect(() => {
         const handleMessage = (event) => {
             if (event.data.type === 'messageSent' && isPrimeiraMensagem && telefoneSelecionado?.lead_id) {
+                // setCarregando(true)
                 saveMessageToDatabase(telefoneSelecionado);
             }
         };
@@ -91,7 +92,7 @@ const ChatWhatsapp = ({ telefones }) => {
         setIsPrimeiraMensagem(false);
         setOpenIflame(false);
         handleAtualizar()
-        setCarregando(true)
+
     };
 
     // Função para salvar a mensagem no banco de dados
