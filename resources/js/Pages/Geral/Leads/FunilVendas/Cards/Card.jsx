@@ -23,7 +23,20 @@ import { router } from '@inertiajs/react';
 import styled from 'styled-components';
 import LinearProgress from '@mui/material/LinearProgress';
 import { round } from 'lodash';
-import { TbArrowBigRightFilled } from 'react-icons/tb';
+import {
+    TbAddressBook,
+    TbArrowBigRightFilled,
+    TbBox, TbClockHour5,
+    TbDeviceWatch,
+    TbEye,
+    TbFiles,
+    TbHourglass, TbHourglassHigh,
+    TbMapPin,
+    TbPin,
+    TbPinFilled,
+    TbUser,
+    TbUserFilled,
+} from 'react-icons/tb';
 import LeadShow from '@/Pages/Geral/Leads/Dialogs/LeadShow.jsx';
 
 const Card = styled.div`
@@ -66,18 +79,19 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
     return (
         <Card border={cor}>
 
-            <div style={{ width: 350, padding: '20px' }}>
+            <div style={{ width: 290, padding: '20px' }}>
                 <Grid container spacing={2}>
                     <Grid item xs={11}>
                         {/*nome e razao social*/}
                         <Grid container spacing={3} marginBottom={1} alignItems="center">
-                            <Grid item xs={1}>
-                                <PersonFill size={20} />
+                            <Grid item md={1}>
+                                <TbUser size={17} />
                             </Grid>
-                            <Grid item xs={11}>
+                            <Grid item md={10}>
                                 <Tooltip title="Nome/Razão Social do Lead" placement="top-start" arrow>
                                     <Typography
                                         fontWeight="bold"
+                                        variant="body2"
                                         sx={{
                                             overflow: 'hidden',
                                             textOverflow: 'ellipsis',
@@ -93,14 +107,14 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                         {/*cnpj || cpf*/}
                         <Grid container spacing={3} marginBottom={1} alignItems="center">
                             <Grid item xs={1}>
-                                <PersonVideo2 size={18} />
+                                <TbFiles size={18} />
                             </Grid>
-                            <Grid item xs={11}>
+                            <Grid item xs={10}>
                                 <Tooltip title="Documentos do lead" arrow>
                                     {cnpj || cpf ? (
                                         <Stack>
-                                            <Typography>{cnpj}</Typography>
-                                            <Typography>{cpf}</Typography>
+                                            <Typography variant="body2">{cnpj}</Typography>
+                                            <Typography variant="body2">{cpf}</Typography>
                                         </Stack>
                                     ) : (
                                         <Typography variant="body2">-</Typography>
@@ -112,11 +126,11 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                         {/*localidade*/}
                         <Grid container spacing={3} marginBottom={1} alignItems="center">
                             <Grid item xs={1}>
-                                <GeoAlt size={18} />
+                                <TbMapPin size={17} />
                             </Grid>
                             <Grid item xs={10}>
                                 <Tooltip title="Localidade" arrow>
-                                    <Typography>{card.cidade_estado?.cidade ?? '-'}/{card.cidade_estado?.estado ?? '-'}</Typography>
+                                    <Typography variant="body2">{card.cidade_estado?.cidade ?? '-'}/{card.cidade_estado?.estado ?? '-'}</Typography>
                                 </Tooltip>
                             </Grid>
                         </Grid>
@@ -125,11 +139,10 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                         <Tooltip title="Setor" arrow>
                             <Grid container spacing={3} marginBottom={1} alignItems="center">
                                 <Grid item xs={1}>
-                                    <Box size={18} />
+                                    <TbBox size={18} />
                                 </Grid>
-                                <Grid item xs={11}>
-                                    <Typography>
-                                        {/*<Dot size={30}  color={setor.cor ?? 'black'}/>*/}
+                                <Grid item xs={10}>
+                                    <Typography variant="body2">
                                         {setor.nome ?? '-'}
                                     </Typography>
                                 </Grid>
@@ -140,7 +153,7 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                     {/* Coluna da direita com o ícone, centralizado */}
                     <Grid item xs={1} container>
                         <Stack spacing={3} alignItems="center">
-                            <LeadShow leadId={id} iconButton={<Eye size={20} color="black" />} />
+                            <LeadShow leadId={id} iconButton={<TbEye size={18} color="#555" />} />
 
                             {emitePedidos && <Link href={route('auth.pedidos.create', { lead_id: id })} icon={<Box size={18} color="black" />} />}
 
@@ -150,47 +163,42 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                                         setPin(e => !e);
                                         armazenarStatusPinCard();
                                     }}>
-                                    <PinAngleFill color="red" size={18} />
+                                    <TbPinFilled color="red" size={18} />
                                 </IconButton>
                                 : <IconButton
                                     onClick={() => {
                                         setPin(e => !e);
                                         armazenarStatusPinCard();
                                     }}>
-                                    <PinAngle color="black" size={18} />
+                                    <TbPin size={17} color="#555" />
                                 </IconButton>}
                         </Stack>
                     </Grid>
                 </Grid>
 
-                <Divider sx={{ marginBlock: 2 }} color="#fafafa" />
+                <Divider sx={{ marginBlock: 1 }} color="#fafafa" />
 
                 {/*vendedor*/}
                 <Grid container spacing={3} marginBottom={1} alignItems="center">
-                    <Grid item xs={1}>
-                        <Tooltip title="Consultor(a)" placement="left">
-                            <Pencil size={16} />
-                        </Tooltip>
-                    </Grid>
-                    <Grid item xs={11}>
+                    <Grid item xs={10}>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                            {consultor.foto && <Avatar src={consultor.foto ?? ''} sx={{ width: 25, height: 25 }} />}
+                            <Avatar src={consultor.foto ?? ''} sx={{ width: 23, height: 23 }} />
                             <Tooltip title="Consultor(a)" placement="top-start" arrow>
-                                <Typography>{consultor.nome ?? '-'}</Typography>
+                                <Typography variant="body2">{consultor.nome ?? '-'}</Typography>
                             </Tooltip>
                         </Stack>
                     </Grid>
                 </Grid>
 
-                <Divider sx={{ marginBlock: 2 }} color="#fafafa" />
+                <Divider sx={{ marginBlock: 1 }} color="#fafafa" />
 
                 {/*prazo atendimento*/}
                 <Tooltip title="Prazo para atendimento" placement="bottom-start" arrow>
                     <Grid container spacing={3} marginBottom={1}>
                         <Grid item xs={1}>
-                            <Stopwatch size={18} />
+                            <TbClockHour5 size={18} className="mb-1"/>
                         </Grid>
-                        <Grid item xs={11} style={{ color: margemPrazo > 75 ? 'red' : 'inherit' }}>
+                        <Grid item xs={10} style={{ color: margemPrazo > 75 ? 'red' : 'inherit' }}>
                             <Stack marginTop={1} alignContent="end" textAlign="end">
                                 <LinearProgress variant="determinate" color="inherit" value={margemPrazoStatus} />
                                 <Typography variant="body2">{`restam ${prazoRestante} de ${prazoDias} dias`}</Typography>

@@ -34,14 +34,6 @@ export const FunilVendasProvider = ({ children }) => {
         fetchData();
     }, [filtrar]);
 
-    // useEffect(() => {
-    //     const intervalId = setInterval(() => {
-    //         fetchData();
-    //     }, 5000);
-    //
-    //     return () => clearInterval(intervalId);
-    // }, [filtrar]);
-
     const handleFiltrar = (value) => {
         setFiltrar((prev) => ({ ...prev, ...value }));
     };

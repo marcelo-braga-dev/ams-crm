@@ -40,6 +40,7 @@ class LeadsANTIGO extends Model
         'user_id',
         'sdr_id',
         'status',
+        'contato_data',
         'importacao_id',
         'nome',
         'setor_id',
@@ -103,6 +104,13 @@ class LeadsANTIGO extends Model
     {
         return $this->belongsTo(Enderecos::class, 'endereco')
             ->select(['id', 'cidade', 'estado']);
+    }
+
+    public function updateContatoData($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['contato_data' => now()]);
     }
 
     public function agrupadosPorStatus($setor = null, $usuario = null)

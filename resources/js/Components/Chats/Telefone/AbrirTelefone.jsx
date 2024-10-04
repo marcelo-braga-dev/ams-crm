@@ -3,6 +3,7 @@ import MenuItem from '@mui/material/MenuItem';
 import {Check, CheckCircle, CheckCircleFill, Telephone, X, XCircle, XCircleFill} from "react-bootstrap-icons";
 import {Badge, IconButton, Menu, Stack, Typography} from "@mui/material";
 import {router} from "@inertiajs/react";
+import { TbPhone } from 'react-icons/tb';
 
 function AbrirTelefone({telefones, atualizarCards}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -45,8 +46,8 @@ function AbrirTelefone({telefones, atualizarCards}) {
                        horizontal: 'right',
                    }}>
                 {indices.length > 0
-                    ? <Telephone size={24} cursor="pointer" color="blue" onClick={handleClick}/>
-                    : <Telephone size={24} cursor="pointer" color="gray" onClick={handleClick}/>}
+                    ? <TbPhone size={22} cursor="pointer" color="blue" onClick={handleClick}/>
+                    : <TbPhone size={22} cursor="pointer" color="gray" onClick={handleClick}/>}
             </Badge>
 
             <Menu

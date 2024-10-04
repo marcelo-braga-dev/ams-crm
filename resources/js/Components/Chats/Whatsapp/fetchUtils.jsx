@@ -18,7 +18,7 @@ const optionsFetch = (token, number, userId) => ({
 export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setChattId, urlFrontend, urlBackend, apiKey,credenciaisUsuario) => {
     try {
         const url = `${urlBackend}/api/messages/contacts`;
-
+console.log(credenciaisUsuario)
         const options = optionsFetch(apiKey, numero, credenciaisUsuario.whatsappId);
 
         const response = await axios.post(url, options.data, { headers: options.headers });

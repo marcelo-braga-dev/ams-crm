@@ -13,7 +13,7 @@ const Colunas = () => {
                 <div className="mx-1 row justify-content-between"
                      style={{
                          backgroundColor: item.cor ?? 'black',
-                         width: 370,
+                         width: 300,
                          paddingBlock: 10,
                          paddingInline: 15,
                          borderTopLeftRadius: 15,

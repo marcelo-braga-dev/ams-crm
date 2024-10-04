@@ -24,7 +24,7 @@ const Kanban = () => {
                         height: 'calc(100vh - 11rem)',
                     }}
                 >
-                    <div style={{ minWidth: '1000px' }}>
+                    <div style={{ minWidth: '800px' }}>
                         <table>
                             <thead style={{ position: 'sticky', top: 0, zIndex: 2 }}>
                             <tr>
