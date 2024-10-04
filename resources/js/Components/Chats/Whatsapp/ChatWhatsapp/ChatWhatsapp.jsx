@@ -1,22 +1,23 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
+import React, { useEffect, useState, useCallback, useContext, useMemo } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { CircularProgress } from '@mui/material';
 import { WhatsappButton } from './WhatsappButton';
 import { fetchCadastrarContatoNoWhatsapp } from './fetchUtils';
 import axios from 'axios';
 import AlertError from '@/Components/Alerts/AlertError.jsx';
-import { inativarStatusWhatsapp } from '@/Components/Chats/Whatsapp/statusUtils.jsx';
-import { FunilVendasContext } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
 import { useWhatsapp } from '@/Hooks/useWhatsapp.jsx';
+import { useFunilVendas } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
 
-const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
+const ChatWhatsapp = ({ telefones }) => {
     const [openIflame, setOpenIflame] = useState(false);
     const [chatId, setChattId] = useState(null);
     const [carregando, setCarregando] = useState(false);
     const [isPrimeiraMensagem, setIsPrimeiraMensagem] = useState(false);
     const [telefoneSelecionado, setTelefoneSelecionado] = useState(null);
 
+    const { handleAtualizar } = useFunilVendas();
     const { urlFrontend, urlBackend, apiKey, credenciaisUsuario } = useWhatsapp();
+
 
     const URL_DO_WHATICKET = `${urlFrontend}/chat/${chatId}`;
 
@@ -61,6 +62,8 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
             }
             if (noContato) {
                 AlertError('Nenhum número de Whatsapp válido!');
+                handleAtualizar()
+                setCarregando(true)
             }
         } catch (error) {
             AlertError(error.message);
@@ -87,12 +90,14 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
     const handleClose = () => {
         setIsPrimeiraMensagem(false);
         setOpenIflame(false);
+        handleAtualizar()
+        setCarregando(true)
     };
 
     // Função para salvar a mensagem no banco de dados
     const saveMessageToDatabase = async (telefone) => {
         try {
-            await axios.post(route('auth.chats.whatsapp.enviado-mensagem'), {
+            await axios.post(route('auth.lead.iniciado-chat'), {
                 lead_id: telefone.lead_id,
                 telefone_id: telefone.id,
                 origem: 'whatsapp',
@@ -105,20 +110,31 @@ const AbrirChatWhatsapp = ({ telefones, atualizarCards }) => {
         }
     };
 
+    const dialogMemo = useMemo(() => {
+        return (
+            <Dialog
+                open={openIflame}
+                onClose={handleClose}
+                fullWidth maxWidth="xs">
+                {openIflame && (
+                    <iframe
+                        src={URL_DO_WHATICKET}
+                        allow="microphone"
+                        style={{ width: '100%', height: '700px', border: 'none' }}
+                        title="WhatsApp"
+                    />
+                )}
+            </Dialog>
+        );
+    }, [openIflame, handleClose, URL_DO_WHATICKET]);
+
     return (
         <>
             {carregando ? <CircularProgress size={20} /> : <WhatsappButton telefones={telefones} handleOpen={handleOpenWhatsapp} />}
-            <Dialog open={openIflame} onClose={handleClose} fullWidth maxWidth="xs">
-                {openIflame && (
-                        <iframe
-                            src={URL_DO_WHATICKET}
-                            style={{ width: '100%', height: '700px', border: 'none' }}
-                            title="WhatsApp"
-                        />
-                )}
-            </Dialog>
+            {dialogMemo}
         </>
+
     );
 };
 
-export default AbrirChatWhatsapp;
+export default ChatWhatsapp;

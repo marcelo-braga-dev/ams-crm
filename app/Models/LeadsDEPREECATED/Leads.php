@@ -37,6 +37,7 @@ class Leads extends Model
         'user_id',
         'sdr_id',
         'status',
+        'contato_data',
         'importacao_id',
         'nome',
         'setor_id',
@@ -209,7 +210,12 @@ class Leads extends Model
         });
     }
 
-
+    public function setConatoData($id)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['contato_data' => now()]);
+    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

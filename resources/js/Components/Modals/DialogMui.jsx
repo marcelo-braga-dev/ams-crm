@@ -1,6 +1,7 @@
 import React from 'react';
 import {Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Divider, IconButton} from '@mui/material';
 import {Close} from '@mui/icons-material';
+import { TbCheck } from 'react-icons/tb';
 
 const DialogMui = ({open, onClose, title, content, onConfirm, href}) => {
     return (
@@ -19,10 +20,10 @@ const DialogMui = ({open, onClose, title, content, onConfirm, href}) => {
             </DialogContent>
 
             <DialogActions>
-                <Button onClick={onClose} variant="outlined" color="info">
+                <Button onClick={onClose}>
                     Cancelar
                 </Button>
-                <Button onClick={onConfirm} variant="contained" color="success">
+                <Button onClick={onConfirm} startIcon={<TbCheck/>} color="success">
                     Confirmar
                 </Button>
             </DialogActions>

@@ -1,6 +1,6 @@
 import { useWhatsapp } from '@/Hooks/useWhatsapp.jsx';
 
-export const ChatWhatsapp = () => {
+const ChatsWhatsapp = () => {
 
     const { urlFrontend } = useWhatsapp();
 
@@ -14,3 +14,4 @@ export const ChatWhatsapp = () => {
         </>
     );
 };
+export default ChatsWhatsapp

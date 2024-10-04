@@ -4,7 +4,7 @@ import { Avatar, Divider, Grid, IconButton, Stack, Typography } from '@mui/mater
 import { ArrowDownShort, Box, Eye, ForwardFill, GeoAlt, Hash, Pencil, PersonFill, PersonVideo2, PinAngle, PinAngleFill, Stopwatch } from 'react-bootstrap-icons';
 import Tooltip from '@mui/material/Tooltip';
 import LinearProgress from '@mui/material/LinearProgress';
-import AbrirChatWhatsapp from '@/Components/Chats/Whatsapp/AbrirChatWhatsapp.jsx';
+import ChatWhatsapp from '@/Components/Chats/Whatsapp/ChatWhatsapp/ChatWhatsapp.jsx';
 import AbrirTelefone from '@/Components/Chats/Telefone/AbrirTelefone.jsx';
 import AbrirEmail from '@/Components/Chats/Email/AbrirEmail.jsx';
 import Link from '@/Components/Link.jsx';

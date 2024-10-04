@@ -1,6 +1,6 @@
 import Layout from '@/Layouts/Layout.jsx';
-import { ChatWhatsapp } from '@/Components/Whastapp/ChatWhatsapp.jsx';
 import { WhatsappProvider } from '@/Contexts/WhatsappContext.jsx';
+import ChatsWhatsapp from '@/Components/Chats/Whatsapp/ChatsWhatsapp/ChatsWhatspp.jsx';
 
 
 const Page = () => {
@@ -8,7 +8,7 @@ const Page = () => {
     return (
         <Layout titlePage="Whatsapp" menu="whatsapp" submenu="whatsapp-chat">
             <WhatsappProvider>
-                <ChatWhatsapp/>
+                <ChatsWhatsapp/>
             </WhatsappProvider>
         </Layout>
     );

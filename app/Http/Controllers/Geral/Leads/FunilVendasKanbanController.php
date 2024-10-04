@@ -7,10 +7,12 @@ use App\Models\Lead\Lead;
 use App\Models\Lead\LeadStatus;
 use App\Models\LeadsDEPREECATED\Leads;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
+use App\Models\LeadsDEPREECATED\LeadsContatosRealizados;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\LeadFunilVendasService;
 use App\src\Leads\StatusLeads;
+use App\src\Leads\StatusLeads\AFazerStatusLeads;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -30,6 +32,21 @@ class FunilVendasKanbanController extends Controller
             ->get();
 
         return response()->json(compact('dados'));
+    }
+
+    public function setChatWhatsapp(Request $request)
+    {
+        $leadId = $request->input('lead_id');
+        $telefoneId = $request->input('telefone_id');
+        $origem = $request->input('origem');
+        $meta = $request->input('meta');
+
+        (new Leads())->setConatoData($leadId);
+
+        $lead = (new Leads())->newQuery()->find($leadId);
+        if ($lead->status === 'novo') (new AFazerStatusLeads())->updateStatus($leadId); // remover
+
+        (new LeadsContatosRealizados())->store($leadId, $telefoneId, $origem, $meta);
     }
 
     public function getIndexRegistros(Request $request)

@@ -9,11 +9,10 @@ export const FunilVendasProvider = ({ children }) => {
     const [filtrar, setFiltrar] = useState({ setor: null, usuario: null });
     const [colunas, setColunas] = useState([]);
     const [cards, setCards] = useState([]);
-    const [carregando, setCarregando] = useState(false);
+    const [carregando, setCarregando] = useState(true);
     const [atualizar, setAtualizar] = useState(false);
 
     const fetchData = useCallback(async () => {
-        // setCarregando(true);
         try {
             const response = await axios.get(route('auth.leads.funil-vendas-kanban.index-registros'), {
                 params: { ...filtrar },
@@ -30,16 +29,15 @@ export const FunilVendasProvider = ({ children }) => {
     }, [filtrar]);
 
     useEffect(() => {
-        setCarregando(true);
         fetchData();
-    }, [filtrar]);
+    }, [filtrar, atualizar]);
 
     const handleFiltrar = (value) => {
         setFiltrar((prev) => ({ ...prev, ...value }));
     };
 
     const handleAtualizar = () => {
-        setAtualizar((prev) => !prev);
+        setAtualizar(prev => !prev);
     };
 
     return (

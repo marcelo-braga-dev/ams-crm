@@ -13,7 +13,7 @@ import {
     TicketFill,
 } from 'react-bootstrap-icons';
 
-import AbrirChatWhatsapp from '@/Components/Chats/Whatsapp/AbrirChatWhatsapp.jsx';
+import ChatWhatsapp from '@/Components/Chats/Whatsapp/ChatWhatsapp/ChatWhatsapp.jsx';
 import AbrirTelefone from '@/Components/Chats/Telefone/AbrirTelefone.jsx';
 import Link from '@/Components/Link.jsx';
 import AbrirEmail from '@/Components/Chats/Email/AbrirEmail.jsx';
@@ -204,7 +204,7 @@ const CardKanbanLeads = ({ card, emitePedidos, atualizarCards, cor, urlAvancarSt
 
                 <Stack direction="row" spacing={2} marginTop={2} justifyContent="space-between">
                     <Stack direction="row" spacing={2}>
-                        <AbrirChatWhatsapp telefones={telefones} leadId={id} atualizarCards={atualizarCards} />
+                        <ChatWhatsapp telefones={telefones} leadId={id} atualizarCards={atualizarCards} />
                         <AbrirTelefone telefones={telefones} atualizarCards={atualizarCards} />
                         <AbrirEmail />
                     </Stack>

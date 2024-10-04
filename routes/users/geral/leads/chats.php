@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Geral\Chats\Telefones\TelefonesController;
-use App\Http\Controllers\Geral\Chats\Whatsapp\WhatsappController;
+use App\Http\Controllers\Geral\Ferramentas\Whatsapp\WhatsappController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('auth.chats.')
@@ -11,7 +11,6 @@ Route::name('auth.chats.')
         Route::name('whatsapp.')
             ->prefix('chats/whatsapp-api')
             ->group(function () {
-                Route::post('enviado-mensagem', [WhatsappController::class, 'enviadoMensagem'])->name('enviado-mensagem');
                 Route::get('chaves', [WhatsappController::class, 'chaves'])->name('chaves');
             });
 

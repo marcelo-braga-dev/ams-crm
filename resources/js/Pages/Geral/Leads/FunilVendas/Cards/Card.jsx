@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
 import { Grid, Stack, Typography, Divider, IconButton, Avatar } from '@mui/material';
 import {
-    ArrowDownShort, Box, Dot,
-    Eye,
-    ForwardFill, Geo, GeoAlt,
-    Hash,
-    Pencil,
-    PersonFill,
-    PersonVideo2,
-    PinAngle,
-    PinAngleFill, Stopwatch,
-    TicketFill,
+    ArrowDownShort, Box, Hash,
 } from 'react-bootstrap-icons';
 
-import AbrirChatWhatsapp from '@/Components/Chats/Whatsapp/AbrirChatWhatsapp.jsx';
+import ChatWhatsapp from '@/Components/Chats/Whatsapp/ChatWhatsapp/ChatWhatsapp.jsx';
 import AbrirTelefone from '@/Components/Chats/Telefone/AbrirTelefone.jsx';
 import Link from '@/Components/Link.jsx';
 import AbrirEmail from '@/Components/Chats/Email/AbrirEmail.jsx';
@@ -24,18 +15,14 @@ import styled from 'styled-components';
 import LinearProgress from '@mui/material/LinearProgress';
 import { round } from 'lodash';
 import {
-    TbAddressBook,
-    TbArrowBigRightFilled,
+    TbArrowBigRightFilled, TbArrowNarrowDown,
     TbBox, TbClockHour5,
-    TbDeviceWatch,
     TbEye,
-    TbFiles,
-    TbHourglass, TbHourglassHigh,
+    TbFiles, TbHash,
     TbMapPin,
     TbPin,
     TbPinFilled,
     TbUser,
-    TbUserFilled,
 } from 'react-icons/tb';
 import LeadShow from '@/Pages/Geral/Leads/Dialogs/LeadShow.jsx';
 
@@ -196,7 +183,7 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                 <Tooltip title="Prazo para atendimento" placement="bottom-start" arrow>
                     <Grid container spacing={3} marginBottom={1}>
                         <Grid item xs={1}>
-                            <TbClockHour5 size={18} className="mb-1"/>
+                            <TbClockHour5 size={18} className="mb-1" />
                         </Grid>
                         <Grid item xs={10} style={{ color: margemPrazo > 75 ? 'red' : 'inherit' }}>
                             <Stack marginTop={1} alignContent="end" textAlign="end">
@@ -209,9 +196,10 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
 
                 <Divider sx={{ marginTop: 2 }} color="#fafafa" />
 
+                {/*Conatatos*/}
                 <Stack direction="row" spacing={2} marginTop={2} justifyContent="space-between">
                     <Stack direction="row" spacing={2}>
-                        <AbrirChatWhatsapp telefones={telefones} leadId={id} />
+                        <ChatWhatsapp telefones={telefones} leadId={id} />
                         <AbrirTelefone telefones={telefones} />
                         <AbrirEmail />
                     </Stack>
@@ -227,14 +215,14 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                 {/*rodape*/}
                 <Stack direction="row" spacing={2} alignItems="center">
                     <Stack direction="row" spacing={0} alignItems="center">
-                        <Hash size={16} />
+                        <TbHash size={14} />
                         <Typography variant="body2">{id}</Typography>
                     </Stack>
 
                     <Typography variant="body2">{classificacao}</Typography>
 
-                    <Stack direction="row" spacing={0}>
-                        <ArrowDownShort size={20} />
+                    <Stack direction="row" spacing={0} alignItems="center">
+                        <TbArrowNarrowDown size={14} />
                         <Typography variant="body2">{status_data}</Typography>
                     </Stack>
                 </Stack>
@@ -243,7 +231,7 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
             <DialogMui
                 content={
                     <Stack>
-                        <Typography>CONFIRMAR O AVANCO DO STATUS DO LEAD</Typography>
+                        <Typography>CONFIRMAR O AVANCO DO STATUS DO LEAD?</Typography>
                         <Typography>ID DO LEAD: #{id}</Typography>
                         <Typography>LEAD: {razao_social || nome}</Typography>
                     </Stack>

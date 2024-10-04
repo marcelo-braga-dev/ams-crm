@@ -13,7 +13,7 @@ import {
     TicketFill
 } from "react-bootstrap-icons";
 
-import AbrirChatWhatsapp from "@/Components/Chats/Whatsapp/AbrirChatWhatsapp.jsx";
+import ChatWhatsapp from "@/Components/Chats/Whatsapp/ChatWhatsapp/ChatWhatsapp.jsx";
 import AbrirTelefone from "@/Components/Chats/Telefone/AbrirTelefone.jsx";
 import Link from "@/Components/Link.jsx";
 import AbrirEmail from "@/Components/Chats/Email/AbrirEmail.jsx";
@@ -182,7 +182,7 @@ const CardLead = ({lead, cor}) => {
                         <Divider sx={{marginTop: 2}} color="#fafafa"/>
 
                         <Stack direction="row" spacing={2} marginTop={2}>
-                            <AbrirChatWhatsapp telefones={telefones} leadId={id}/>
+                            <ChatWhatsapp telefones={telefones} leadId={id}/>
                             <AbrirTelefone telefones={telefones}/>
                             <AbrirEmail/>
                             {/*<Hourglass size={25}/>*/}

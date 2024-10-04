@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Geral\Chats\Whatsapp\LeadsWhatsappController;
+use App\Http\Controllers\Geral\Ferramentas\Whatsapp\LeadsWhatsappController;
 use App\Http\Controllers\Geral\Leads\FunilVendasKanbanController;
 use App\Http\Controllers\Geral\Leads\LeadController;
 use App\Http\Controllers\Geral\Leads\LeadsController;
@@ -22,6 +22,7 @@ Route::name('auth.')->group(function () {
         ->group(function () {
             Route::get('lead/{id}', [LeadController::class, 'getLead'])->name('get-lead');
             Route::get('funil-vendas-kanban', [FunilVendasKanbanController::class, 'getDados'])->name('get-leads-kanban');
+            Route::post('iniciado-chat', [FunilVendasKanbanController::class, 'setChatWhatsapp'])->name('iniciado-chat');
         });
 
 

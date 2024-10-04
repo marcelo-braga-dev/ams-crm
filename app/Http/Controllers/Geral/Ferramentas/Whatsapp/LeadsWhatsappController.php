@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Geral\Chats\Whatsapp;
+namespace App\Http\Controllers\Geral\Ferramentas\Whatsapp;
 
 use App\Http\Controllers\Controller;
 use App\Models\LeadsDEPREECATED\LeadsTelefones;

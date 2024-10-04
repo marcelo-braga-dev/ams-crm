@@ -5,15 +5,15 @@ import ScrollContainer from 'react-indiana-drag-scroll';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useFunilVendas } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
 import { Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const Kanban = () => {
-    const { carregando, colunas } = useFunilVendas();
+
+    const { colunas, carregando } = useFunilVendas();
 
     return (<>
             <Filtro />
-            {carregando ?
-                <LinearProgress color="inherit" /> :
+            {carregando ? <LinearProgress color="inherit" /> :
                 <ScrollContainer
                     vertical={true}
                     horizontal={true}
