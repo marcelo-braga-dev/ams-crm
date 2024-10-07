@@ -14,7 +14,7 @@ const DialogIflame = ({ openIflame, handleClose, urlFrontend, leadId, noDialogLe
                 fullWidth maxWidth="xs">
                 {openIflame && (<>
                         <Stack direction="row" spacing={2} justifyContent="end" paddingInline={2}>
-                            {!noDialogLead && <LeadShow leadId={leadId} iconButton={<TbEye size={24} color="#555" />} />}
+                            {/*{noDialogLead && <LeadShow leadId={leadId} iconButton={<TbEye size={24} color="#555" />} />}*/}
                             <IconButton onClick={handleClose}><TbX color="red" /></IconButton>
                         </Stack>
                         <iframe

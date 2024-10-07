@@ -40,22 +40,22 @@ export default function LeadsDados({dados, acoes}) {
                 <div className="row">
                     <div className="col">
                         <Stack spacing={0.5}>
-                            {dados.cliente.razao_social && <CampoTexto titulo="Razão Social" texto={dados.cliente.razao_social}/>}
-                            {dados.cliente.nome && <CampoTexto titulo="Nome/Nome Fantasia" texto={dados.cliente.nome}/>}
-                            {dados.cliente.cnpj && <CampoTexto titulo="CNPJ" texto={dados.cliente.cnpj}/>}
-                            {dados.cliente.rg && <CampoTexto titulo="RG" texto={dados.cliente.rg}/>}
-                            {dados.cliente.cpf && <CampoTexto titulo="CPF" texto={dados.cliente.cpf}/>}
-                            {dados.cliente.inscricao_estadual && <CampoTexto titulo="Inscrição Estadual" texto={dados.cliente.inscricao_estadual}/>}
-                            {dados.infos.situacao && <CampoTexto titulo="Situaçao" texto={dados.infos.situacao}/>}
+                            {dados.cliente?.razao_social && <CampoTexto titulo="Razão Social" texto={dados.cliente.razao_social}/>}
+                            {dados.cliente?.nome && <CampoTexto titulo="Nome/Nome Fantasia" texto={dados.cliente.nome}/>}
+                            {dados.cliente?.cnpj && <CampoTexto titulo="CNPJ" texto={dados.cliente.cnpj}/>}
+                            {dados.cliente?.rg && <CampoTexto titulo="RG" texto={dados.cliente.rg}/>}
+                            {dados.cliente?.cpf && <CampoTexto titulo="CPF" texto={dados.cliente.cpf}/>}
+                            {dados.cliente?.inscricao_estadual && <CampoTexto titulo="Inscrição Estadual" texto={dados.cliente.inscricao_estadual}/>}
+                            {dados.infos?.situacao && <CampoTexto titulo="Situaçao" texto={dados.infos.situacao}/>}
                         </Stack>
                     </div>
                     <div className="col">
                         <Stack spacing={0.5}>
                             <CampoTexto titulo="ID" texto={`#${dados.id}`}/>
-                            <CampoTexto titulo="Status" texto={dados.infos.status_nome}/>
+                            <CampoTexto titulo="Status" texto={dados?.infos?.status_nome}/>
                             <CampoTexto titulo="Setor" texto={dados?.infos?.setor?.nome}/>
-                            {dados.cliente.endereco && <CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/>}
-                            {dados.infos.anotacoes && <CampoTexto titulo="Anotações" texto={dados.infos.anotacoes}/>}
+                            {dados?.cliente?.endereco && <CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/>}
+                            {dados?.infos?.anotacoes && <CampoTexto titulo="Anotações" texto={dados.infos.anotacoes}/>}
                         </Stack>
                     </div>
                 </div>
@@ -63,21 +63,21 @@ export default function LeadsDados({dados, acoes}) {
                 {toggleMenu && <div className="row mt-1">
                     <div className="col">
                         <Stack spacing={0.5}>
-                            {dados.contato.atendente && <CampoTexto titulo="Nome do Contato" texto={dados.contato.atendente}/>}
-                            {dados.dados.capital_social && <CampoTexto titulo="Capital Social" texto={dados.dados.capital_social}/>}
-                            {dados.dados.tipo && <CampoTexto titulo="Tipo" texto={dados.dados.tipo}/>}
-                            {dados.dados.porte && <CampoTexto titulo="Porte" texto={dados.dados.porte}/>}
-                            {dados.dados.atividade_principal && <CampoTexto titulo="Atividade Principal" texto={dados.dados.atividade_principal}/>}
+                            {dados.contato?.atendente && <CampoTexto titulo="Nome do Contato" texto={dados.contato.atendente}/>}
+                            {dados.dados?.capital_social && <CampoTexto titulo="Capital Social" texto={dados.dados.capital_social}/>}
+                            {dados.dados?.tipo && <CampoTexto titulo="Tipo" texto={dados.dados.tipo}/>}
+                            {dados.dados?.porte && <CampoTexto titulo="Porte" texto={dados.dados.porte}/>}
+                            {dados.dados?.atividade_principal && <CampoTexto titulo="Atividade Principal" texto={dados.dados.atividade_principal}/>}
                         </Stack>
                     </div>
                     <div className="col">
                         <Stack spacing={0.5}>
-                            {dados.dados.natureza_juridica && <CampoTexto titulo="Natureza Jurídica" texto={dados.dados.natureza_juridica}/>}
-                            {dados.dados.quadro_societario && <CampoTexto titulo="Quadro Societário" texto={dados.dados.quadro_societario}/>}
-                            {dados.dados.data_situacao && <CampoTexto titulo="Data Situação" texto={dados.dados.data_situacao}/>}
-                            {dados.dados.data_abertura && <CampoTexto titulo="Data Abertura" texto={dados.dados.data_abertura}/>}
-                            {dados.infos.status_anotacoes && <CampoTexto titulo="Observações" texto={dados.infos.status_anotacoes}/>}
-                            {dados.infos.data_criacao && <CampoTexto titulo="Data de Cadastro" texto={dados.infos.data_criacao}/>}
+                            {dados.dados?.natureza_juridica && <CampoTexto titulo="Natureza Jurídica" texto={dados.dados.natureza_juridica}/>}
+                            {dados.dados?.quadro_societario && <CampoTexto titulo="Quadro Societário" texto={dados.dados.quadro_societario}/>}
+                            {dados.dados?.data_situacao && <CampoTexto titulo="Data Situação" texto={dados.dados.data_situacao}/>}
+                            {dados.dados?.data_abertura && <CampoTexto titulo="Data Abertura" texto={dados.dados.data_abertura}/>}
+                            {dados.infos?.status_anotacoes && <CampoTexto titulo="Observações" texto={dados.infos.status_anotacoes}/>}
+                            {dados.infos?.data_criacao && <CampoTexto titulo="Data de Cadastro" texto={dados.infos.data_criacao}/>}
                         </Stack>
                     </div>
                 </div>}

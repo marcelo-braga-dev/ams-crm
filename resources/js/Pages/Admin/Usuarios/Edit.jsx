@@ -230,6 +230,7 @@ export default function({
                                             <Stack direction="row" spacing={1} alignItems="top">
                                                 <Stack direction="row" spacing={2}>
                                                     <Switch
+                                                        key={item.id}
                                                         defaultChecked={data?.permissoes?.[item.id] ?? permissoesUsuario[item.id] > 0}
                                                         onChange={e => setData('permissoes', {
                                                             ...data.permissoes,
