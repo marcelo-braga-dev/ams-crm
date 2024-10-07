@@ -8,6 +8,7 @@ import {Chat, Dash, Envelope, Person, Plus, Telephone, TelephoneFill, Whatsapp} 
 import * as React from "react";
 import CampoTexto from "@/Components/CampoTexto.jsx";
 import Chip from "@mui/material/Chip";
+import OpenIflame from '@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflame.jsx';
 
 export default function LeadsDados({dados, acoes}) {
     const [toggleMenu, setToggleMenu] = useState(false)
@@ -17,15 +18,19 @@ export default function LeadsDados({dados, acoes}) {
     }
 
     const telefones = useMemo(() => {
-        return dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({id, telefone}) => (
-            <div key={id} className="col p-2 m-2 mt-1 px-3 border border-radius-lg">
+        return dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({id, telefone, numero, status_telefone, lead_id}) => {
+
+            return <div key={id} className="col p-2 m-2 mt-1 px-3 border border-radius-lg">
                 <Stack direction="row" alignItems="center" spacing={2}>
-                    <Whatsapp size={18} color="green"/>
+                    <OpenIflame numero={numero?.replace(/\D/g, '')} status={status_telefone} telefone={telefone} leadId={lead_id} telefoneId={id}
+                                icone noDialogLead />
+
+
                     <Telephone size={18} color="blue"/>
                     <Typography display="inline" marginBottom={1}>{telefone}</Typography>
                 </Stack>
             </div>
-        ))
+    })
     }, [dados]);
 
     return (<>
