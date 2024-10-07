@@ -15,10 +15,10 @@ class LeadFunilVendasService
             ->when($usuario, function ($query) use ($usuario) {
                 return $query->where('user_id', $usuario);
             })
-            ->whereIn('user_id', supervisionados(id_usuario_atual()))
+//            ->whereIn('user_id', [id_usuario_atual()])
             ->orderBy('contato_data', 'asc')
             ->get();
 
-        return $leads->groupBy('status')->toArray();
+        return $leads->groupBy('status');
     }
 }

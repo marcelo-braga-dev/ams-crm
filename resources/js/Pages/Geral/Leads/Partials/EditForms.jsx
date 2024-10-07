@@ -8,17 +8,8 @@ import {useEffect, useState} from "react";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
-import {GeoAlt, Person, Phone, Telephone} from "react-bootstrap-icons";
-
-const estados = [{id: 'AC', nome: 'Acre'}, {id: 'AL', nome: 'Alagoas'}, {id: 'AP', nome: 'Amapá'}, {id: 'AM', nome: 'Amazonas'}, {id: 'BA', nome: 'Bahia'}, {
-    id: 'CE', nome: 'Ceará'
-}, {id: 'DF', nome: 'Distrito Federal'}, {id: 'ES', nome: 'Espírito Santo'}, {id: 'GO', nome: 'Goiás'}, {id: 'MA', nome: 'Maranhão'}, {
-    id: 'MT', nome: 'Mato Grosso'
-}, {id: 'MS', nome: 'Mato Grosso do Sul'}, {id: 'MG', nome: 'Minas Gerais'}, {id: 'PA', nome: 'Pará'}, {id: 'PB', nome: 'Paraíba'}, {id: 'PR', nome: 'Paraná'}, {
-    id: 'PE', nome: 'Pernambuco'
-}, {id: 'PI', nome: 'Piauí'}, {id: 'RJ', nome: 'Rio de Janeiro'}, {id: 'RN', nome: 'Rio Grande do Norte'}, {id: 'RS', nome: 'Rio Grande do Sul'}, {
-    id: 'RO', nome: 'Rondônia'
-}, {id: 'RR', nome: 'Roraima'}, {id: 'SC', nome: 'Santa Catarina'}, {id: 'SP', nome: 'São Paulo'}, {id: 'SE', nome: 'Sergipe'}, {id: 'TO', nome: 'Tocantins'}]
+import {GeoAlt, Person, Telephone} from "react-bootstrap-icons";
+import { cidadesEstados } from '@/Utils/CidadesEstados.jsx';
 
 export default function EditForms({data, setData, required}) {
 
@@ -204,7 +195,7 @@ export default function EditForms({data, setData, required}) {
                                    value={data?.endereco?.estado}
                                    defaultValue={data?.endereco?.estado ?? ''}
                                    onChange={e => setData('endereco', {...data?.endereco, estado: e.target.value})}>
-                            {estados.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                            {cidadesEstados.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                         </TextField>
                     </div>
                 </div>

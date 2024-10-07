@@ -12,17 +12,16 @@ import HistoricoPedidos from '@/Partials/Leads/HistoricoPedidos.jsx';
 import HistoricoStatus from '@/Partials/Leads/HistoricoStatus.jsx';
 import Dialog from '@mui/material/Dialog';
 import * as React from 'react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import { LeadContext } from './LeadContext.jsx';
 import { TbPackage, TbX } from 'react-icons/tb';
 import Link from '@/Components/Link.jsx';
 
-const LeadDialog = ({ iconButton, action }) => {
+const LeadDialog = ({ iconButton, action, leadId }) => {
     const isAdmin = usePage().props.auth.user.is_admin; // remover
 
-    const { lead, filtros, permissoes, historicos } = useContext(LeadContext);
-
+    const { lead, fetchLead, filtros, permissoes, historicos } = useContext(LeadContext);
     const [consultorSelecionado, setConsultorSelecionado] = useState();
 
     function nomeConsultorSelecionado() {
@@ -68,6 +67,7 @@ const LeadDialog = ({ iconButton, action }) => {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
+        fetchLead(leadId);
         setOpen(true);
     };
 
@@ -94,7 +94,10 @@ const LeadDialog = ({ iconButton, action }) => {
                                         <Typography>Encaminhar</Typography>
                                     </Stack>
                                 </button>}
+
+                            {/*Editar*/}
                             {permissoes.editar && <EditModal lead={lead} />}
+
                             {permissoes.excluir && <button className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir">
                                 <Stack direction="row" alignItems="center" spacing={1}>
                                     <TrashFill size={15} />

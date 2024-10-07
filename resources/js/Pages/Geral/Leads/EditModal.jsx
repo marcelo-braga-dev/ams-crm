@@ -9,51 +9,53 @@ import { useContext } from 'react';
 import { LeadContext } from '@/Pages/Geral/Leads/Dialogs/LeadContext.jsx';
 
 const EditModal = () => {
-    const { lead, setAtualizarDados } = useContext(LeadContext);
+    const { lead, fetchLead } = useContext(LeadContext);
 
     const [openDialog, setOpenDialog] = React.useState(false);
 
-    const { data, setData } = useForm({
-        id_lead: lead.id,
-        nome: lead.cliente.nome,
-        razao_social: lead.cliente.razao_social,
-        cnpj: lead.cliente.cnpj,
-        rg: lead.cliente.rg,
-        cpf: lead.cliente.cpf,
-        email: lead.contato.email,
-        inscricao_estadual: lead.cliente.inscricao_estadual,
-        nascimento: lead.cliente.data_nascimento,
-        telefones: lead.contato.telefones ?? [],
-
-        endereco: {
-            id: lead.endereco?.id,
-            cep: lead.endereco?.cep,
-            rua: lead.endereco?.rua,
-            numero: lead.endereco?.numero,
-            complemento: lead.endereco?.complemento,
-            bairro: lead.endereco?.bairro,
-            cidade: lead.endereco?.cidade,
-            estado: lead.endereco?.estado,
-        },
-    });
-
+    const { data, setData } = useForm();
+console.log(data)
     const onSubmit = (e) => {
         e.preventDefault();
         router.post(route('auth.lead.update', lead.id), { ...data, _method: 'PUT' },
             {
                 onSuccess: () => {
-                    setAtualizarDados(e => !e);
                     handleClose();
                 },
             });
     };
 
     const handleClickOpen = () => {
+        setData({
+            id_lead: lead.id,
+            nome: lead.cliente.nome,
+            razao_social: lead.cliente.razao_social,
+            cnpj: lead.cliente.cnpj,
+            rg: lead.cliente.rg,
+            cpf: lead.cliente.cpf,
+            email: lead.contato.email,
+            inscricao_estadual: lead.cliente.inscricao_estadual,
+            nascimento: lead.cliente.data_nascimento,
+            telefones: lead.contato.telefones ?? [],
+
+            endereco: {
+                id: lead.endereco?.id,
+                cep: lead.endereco?.cep,
+                rua: lead.endereco?.rua,
+                numero: lead.endereco?.numero,
+                complemento: lead.endereco?.complemento,
+                bairro: lead.endereco?.bairro,
+                cidade: lead.endereco?.cidade,
+                estado: lead.endereco?.estado,
+            },
+        });
         setOpenDialog(true);
     };
 
     const handleClose = () => {
         setOpenDialog(false);
+
+        fetchLead(lead.id);
     };
 
     return (<>

@@ -22,10 +22,12 @@ export default function LeadsDados({dados, acoes}) {
 
             return <div key={id} className="col p-2 m-2 mt-1 px-3 border border-radius-lg">
                 <Stack direction="row" alignItems="center" spacing={2}>
-                    <OpenIflame numero={numero?.replace(/\D/g, '')} status={status_telefone} telefone={telefone} leadId={lead_id} telefoneId={id}
-                                icone noDialogLead />
-
-
+                    {/*<OpenIflame numero={numero?.replace(/\D/g, '')} */}
+                    {/*            status={status_telefone} */}
+                    {/*            telefone={telefone}*/}
+                    {/*            leadId={lead_id}*/}
+                    {/*            telefoneId={id}*/}
+                    {/*            icone noDialogLead />*/}
                     <Telephone size={18} color="blue"/>
                     <Typography display="inline" marginBottom={1}>{telefone}</Typography>
                 </Stack>

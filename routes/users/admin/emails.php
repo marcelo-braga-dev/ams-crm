@@ -16,6 +16,6 @@ Route::name('admin.emails.')
             ->name('enviar-lixeira');
 
         Route::get('get-email', [EmailsController::class, 'getEmail'])->name('get-email');
-        Route::get('config', [EmailsController::class, 'config'])->name('config');
-        Route::post('config', [EmailsController::class, 'updateConfig'])->name('config');
+//        Route::get('config', [EmailsController::class, 'config'])->name('config');
+//        Route::post('config', [EmailsController::class, 'updateConfig'])->name('config');
     });

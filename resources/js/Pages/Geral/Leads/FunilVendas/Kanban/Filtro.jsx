@@ -65,7 +65,7 @@ const Kanban = () => {
                         </TextField>
                     </div>
                 </>)}
-                <div className="col">
+                <div className="col mb-4 ">
                     <TextField
                         placeholder="pesquisar..."
                         onChange={e => setPesquisar(e.target.value)}
