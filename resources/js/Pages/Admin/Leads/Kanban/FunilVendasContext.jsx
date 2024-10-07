@@ -7,6 +7,7 @@ export const FunilVendasProvider = ({ children }) => {
 
     const [filtros, setFiltros] = useState({ usuarios: [], setores: [] });
     const [filtrar, setFiltrar] = useState({ setor: null, usuario: null });
+    const [pesquisar, setPesquisar] = useState(null);
     const [colunas, setColunas] = useState([]);
     const [cards, setCards] = useState([]);
     const [carregando, setCarregando] = useState(true);
@@ -42,7 +43,7 @@ export const FunilVendasProvider = ({ children }) => {
 
     return (
         <FunilVendasContext.Provider
-            value={{ filtros, filtrar, colunas, cards, carregando, handleAtualizar, handleFiltrar }}
+            value={{ filtros, filtrar, pesquisar, setPesquisar, colunas, cards, carregando, handleAtualizar, handleFiltrar }}
         >
             {children}
         </FunilVendasContext.Provider>
