@@ -1,7 +1,7 @@
 <?php
 
-return  [
-    'frontend_url' => env('WHATSAPP_FRONTEND', 'xXx'),
-    'backend_url' => env('WHATSAPP_BACKEND'),
-    'api_token' => env('WHATSAPP_API_TOKEN'),
+return [
+    'frontend_url' => env('WHATICKET_FRONTEND'),
+    'backend_url' => env('WHATICKET_BACKEND'),
+    'api_token' => env('WHATICKET_API_TOKEN'),
 ];
