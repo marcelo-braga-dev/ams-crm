@@ -4,7 +4,7 @@ import { useFunilVendas } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.js
 
 const Colunas = () => {
 
-    const { colunas } = useFunilVendas();
+    const { colunas, cards } = useFunilVendas();
 
     return useMemo(() => (
         Object.values(colunas).map((item) => (
@@ -24,7 +24,7 @@ const Colunas = () => {
                         <Typography fontWeight="bold" color="white">{item.nome}</Typography>
                     </div>
                     <div className="col-auto">
-                        <Typography fontWeight="bold" color="white">Qdt: {item?.items?.length ?? 0}</Typography>
+                        <Typography fontWeight="bold" color="white">Qdt: {cards?.[item.status]?.length ?? 0}</Typography>
                     </div>
                 </div>
             </th>

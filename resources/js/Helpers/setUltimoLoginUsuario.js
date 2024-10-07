@@ -1,16 +1,20 @@
-import {useEffect} from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
-export default function setUltimoLoginUsuario() {
+export default function useUltimoLoginUsuario() {
+    const atualizaUltimoLogin = async () => {
+        try {
+            await axios.post(route('geral.usuarios.set-ultimo-login'));
+        } catch (error) {
+            console.error("Failed to update last login:", error);
+        }
+    };
 
-    function atualizaUltimoLogin() {
-        axios.post(route('geral.usuarios.set-ultimo-login'))
+    useEffect(() => {
+        atualizaUltimoLogin();
 
-        setTimeout(function () {
-            atualizaUltimoLogin();
-        }, 60000)
-    }
+        const intervalId = setInterval(atualizaUltimoLogin, 60000);
 
-    useEffect(function () {
-        atualizaUltimoLogin()
-    }, [])
+        return () => clearInterval(intervalId);
+    }, []);
 }
