@@ -90,7 +90,7 @@ class LeadsController extends Controller
 
     public function fazer($id)
     {
-        (new EmProgressoStatusLeads())->updateStatus($id);
+        (new RevisaoStatusLeads())->updateStatus($id);
 
         modalSucesso('Status atualizado com sucesso!');
     }

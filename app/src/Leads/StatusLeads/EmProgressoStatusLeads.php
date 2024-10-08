@@ -12,6 +12,7 @@ class EmProgressoStatusLeads extends StatusLeads
         $this->setStatusNome();
         $this->setStatusCor();
         $this->setStatusPrazo();
+        $this->setDescricao();
         $this->urlStatus = 'auth.leads.avancar-status.progresso';
     }
 
@@ -38,6 +39,11 @@ class EmProgressoStatusLeads extends StatusLeads
     public function setPermissoes(): void
     {
 
+    }
+
+    public function setDescricao(): void
+    {
+        $this->descricao = '';
     }
 
     public function updateStatus($id): void

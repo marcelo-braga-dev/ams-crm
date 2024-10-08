@@ -12,6 +12,7 @@ class RevisaoStatusLeads extends StatusLeads
         $this->setStatusNome();
         $this->setStatusCor();
         $this->setStatusPrazo();
+        $this->setDescricao();
         $this->urlStatus = 'auth.leads.avancar-status.revisao';
     }
 
@@ -22,12 +23,12 @@ class RevisaoStatusLeads extends StatusLeads
 
     public function setStatusNome(): void
     {
-        $this->statusNome = 'Revisão';
+        $this->statusNome = 'Cotação Enviada';
     }
 
     public function setStatusCor(): void
     {
-        $this->statusCor = 'red';
+        $this->statusCor = 'rgb(17, 92, 172)';
     }
 
     public function setStatusPrazo(): void
@@ -38,6 +39,11 @@ class RevisaoStatusLeads extends StatusLeads
     public function setPermissoes(): void
     {
 
+    }
+
+    public function setDescricao(): void
+    {
+        $this->descricao = '';
     }
 
     public function updateStatus($id): void

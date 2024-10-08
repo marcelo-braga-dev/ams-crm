@@ -12,6 +12,7 @@ class AFazerStatusLeads extends StatusLeads
         $this->setStatusNome();
         $this->setStatusCor();
         $this->setStatusPrazo();
+        $this->setDescricao();
         $this->urlStatus = 'auth.leads.avancar-status.fazer';
     }
 
@@ -22,7 +23,7 @@ class AFazerStatusLeads extends StatusLeads
 
     public function setStatusNome(): void
     {
-        $this->statusNome = 'A Fazer';
+        $this->statusNome = 'Contato Direto 360º';
     }
 
     public function setStatusCor(): void
@@ -38,6 +39,11 @@ class AFazerStatusLeads extends StatusLeads
     public function setPermissoes(): void
     {
 
+    }
+
+    public function setDescricao(): void
+    {
+        $this->descricao = '';
     }
 
     public function updateStatus($id): void

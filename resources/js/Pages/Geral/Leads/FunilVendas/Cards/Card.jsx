@@ -25,6 +25,7 @@ import {
     TbUser,
 } from 'react-icons/tb';
 import LeadShow from '@/Pages/Geral/Leads/Dialogs/LeadShow.jsx';
+import { useFunilVendas } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
 
 const Card = styled.div`
     border-radius: 10px;
@@ -43,6 +44,8 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
         setor,
     } = card;
 
+    const { handleAtualizar } = useFunilVendas();
+
     const [openModalConfirmStatus, setOpenModalConfirmStatus] = useState();
     const handleOpen = () => setOpenModalConfirmStatus(true);
     const handleClose = () => setOpenModalConfirmStatus(false);
@@ -54,6 +57,7 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
 
     const avancarStatus = () => {
         router.post(route(urlAvancarStatus, id));
+        handleAtualizar()
         handleClose();
     };
 
