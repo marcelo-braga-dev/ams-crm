@@ -1,4 +1,4 @@
 // ==============================|| THEME CONFIG  ||============================== //
 
-export const drawerWidth = 260;
-export const drawerMinWidth = 63;
+export const drawerWidth = 280;
+export const drawerMinWidth = 68;

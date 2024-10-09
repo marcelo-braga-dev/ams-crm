@@ -126,7 +126,7 @@ export default function Pedidos({fornecedores, setores, permissoesStatus, coresA
             {/*/!*Tabela*!/*/}
             {pedidos &&
                 <ScrollContainer hideScrollbars={false}>
-                    <div style={{height: 'calc(100vh - 11rem)'}}>
+                    <div style={{height: 'calc(100vh - 12rem)'}}>
                         <table id="table-cards" className="mx-1" ref={scrollRef}>
                             <thead>
                             <tr>

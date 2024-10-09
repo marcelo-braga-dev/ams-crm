@@ -75,7 +75,7 @@ class Leads extends Model
 
     protected $hidden = ['user_id', 'setor_id', 'endereco', 'created_at'];
 
-    protected $appends = ['cadastro_data', 'status_prazo'];
+    protected $appends = ['cadastro_data', 'status_prazo', 'ultimo_pedido'];
 
     // get attributes
     public function getStatusDataAttribute()
@@ -96,6 +96,11 @@ class Leads extends Model
     public function getStatusPrazoAttribute()
     {
         return intval(Carbon::now()->diffInDays(Carbon::parse($this->attributes['status_data'])));
+    }
+
+    public function getUltimoPedidoAttribute()
+    {
+        return intval(Carbon::now()->diffInDays(Carbon::parse($this->attributes['ultimo_pedido_data']), true));
     }
 
     // relations
@@ -149,7 +154,8 @@ class Leads extends Model
                 'created_at',
                 'status_data',
                 'classificacao',
-                'endereco'
+                'endereco',
+                'ultimo_pedido_data'
             ]);
     }
 

@@ -65,9 +65,10 @@ const Kanban = () => {
                         </TextField>
                     </div>
                 </>)}
-                <div className="col mb-4 ">
+                <div className="col-md-4 mb-4 ">
                     <TextField
                         placeholder="pesquisar..."
+                        fullWidth
                         onChange={e => setPesquisar(e.target.value)}
                          InputProps={{
                              startAdornment: (

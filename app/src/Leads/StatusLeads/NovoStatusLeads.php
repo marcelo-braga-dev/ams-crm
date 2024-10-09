@@ -23,7 +23,7 @@ class NovoStatusLeads extends StatusLeads
 
     public function setStatusNome(): void
     {
-        $this->statusNome = 'Conexão Proativa';
+        $this->statusNome = 'Oportunidades';
     }
 
     public function setStatusCor(): void
@@ -31,9 +31,9 @@ class NovoStatusLeads extends StatusLeads
         $this->statusCor = '#41D310';
     }
 
-    public function setStatusPrazo()
+    public function setStatusPrazo(): void
     {
-        $this->statusPrazo = 1;
+        $this->statusPrazo = 0;
     }
 
     public function setPermissoes(): void

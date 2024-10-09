@@ -13,13 +13,14 @@ const dashboard = {
             url: undefined,
             icon: People,
             submenu: [
+                // {
+                //     id: 'leads-gerenciar',
+                //     chave: chaves.leads.cadastrados,
+                //     title: 'Gerenciar Leads',
+                //     type: 'item',
+                //     url: route('auth.leads.gerenciar.index'),
+                // },
                 {
-                    id: 'leads-gerenciar',
-                    chave: chaves.leads.cadastrados,
-                    title: 'Gerenciar Leads',
-                    type: 'item',
-                    url: route('auth.leads.gerenciar.index'),
-                }, {
                     id: 'leads-cadastrados',
                     chave: chaves.leads.cadastrados,
                     title: 'Leads',

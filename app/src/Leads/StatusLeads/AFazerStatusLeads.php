@@ -21,19 +21,19 @@ class AFazerStatusLeads extends StatusLeads
         $this->status = 'fazer';
     }
 
+    public function setStatusPrazo(): void
+    {
+        $this->statusPrazo = 4;
+    }
+
     public function setStatusNome(): void
     {
-        $this->statusNome = 'Contato Direto 360º';
+        $this->statusNome = 'Conexão Proativa';
     }
 
     public function setStatusCor(): void
     {
         $this->statusCor = 'orange';
-    }
-
-    public function setStatusPrazo(): void
-    {
-
     }
 
     public function setPermissoes(): void

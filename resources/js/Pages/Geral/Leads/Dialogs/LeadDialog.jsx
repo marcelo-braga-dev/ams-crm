@@ -86,7 +86,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
             >
                 <CardBody>
                     <LeadsDados dados={lead} acoes={
-                        <Stack direction="row" spacing={2} alignItems="center">
+                        <Stack direction="row" spacing={5} alignItems="center">
                             {(permissoes.encaminhar || permissoes.limpar) &&
                                 <button className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEncaminhar">
                                     <Stack direction="row" alignItems="center" spacing={1}>

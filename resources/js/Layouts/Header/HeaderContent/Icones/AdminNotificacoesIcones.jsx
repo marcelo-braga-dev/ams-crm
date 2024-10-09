@@ -76,7 +76,7 @@ export default function AdminNotificacoesIcones({corTexto}) {
     // Online - fim
 
     return (
-        <Stack direction="row" alignItems="center" spacing={2} paddingRight={4}>
+        <Stack direction="row" alignItems="center" spacing={3} paddingRight={4}>
             <RequestNotificacoes
                 url={route('admin.notificacoes.status.index')}
                 setNotificacoes={setNotificacoes}

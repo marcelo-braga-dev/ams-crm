@@ -7,7 +7,7 @@ import { LeadProvider } from '@/Pages/Geral/Leads/Dialogs/LeadContext.jsx';
 
 const Page = () => {
     return (
-        <Layout titlePage="Funil de Vendas" menu="leads" submenu="leads-kanban">
+        <Layout titlePage="Funil de Vendas - Leads" menu="leads" submenu="leads-kanban">
             <FunilVendasProvider>
                 <LeadProvider>
                     <WhatsappProvider>

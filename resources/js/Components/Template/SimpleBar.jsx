@@ -1,51 +1,29 @@
 // material-ui
-import {alpha, styled} from '@mui/material/styles';
-import {Box} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material';
 
 // third-party
 import SimpleBar from 'simplebar-react';
-import {BrowserView, MobileView} from 'react-device-detect';
+import { BrowserView, MobileView } from 'react-device-detect';
 
 // root style
 const RootStyle = styled(BrowserView)({
     flexGrow: 1,
     height: '100%',
     overflowY: 'auto',
-    overflowX: 'hidden'
+    overflowX: 'hidden',
+    scrollbarWidth: 'thin',
+    scrollbarColor: '#777 transparent',
 });
 
-// scroll bar wrapper
-const SimpleBarStyle = styled(SimpleBar)(({theme}) => ({
-    // maxHeight: '100%',
-    '& .simplebar-scrollbar': {
-        '&:before': {
-            backgroundColor: alpha(theme.palette.grey[500], 0.48)
-        },
-        '&.simplebar-visible:before': {
-            opacity: 1
-        }
-    },
-    '& .simplebar-track.simplebar-vertical': {
-        width: 10
-    },
-    '& .simplebar-track.simplebar-horizontal .simplebar-scrollbar': {
-        height: 6
-    },
-    '& .simplebar-mask': {
-        zIndex: 'inherit'
-    }
-}));
-
-export default function SimpleBarScroll({children, sx, ...other}) {
+export default function SimpleBarScroll({ children, sx, ...other }) {
     return (
         <>
             <RootStyle>
-                {/*<SimpleBarStyle timeout={500} clickOnTrack={false} sx={sx} {...other}>*/}
-                    {children}
-                {/*</SimpleBarStyle>*/}
+                {children}
             </RootStyle>
             <MobileView>
-                <Box sx={{overflowX: 'auto', ...sx}} {...other}>
+                <Box sx={{ overflowX: 'auto', ...sx }} {...other}>
                     {children}
                 </Box>
             </MobileView>

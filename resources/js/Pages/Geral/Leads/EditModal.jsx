@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material';
+import { Button, Stack, Typography } from '@mui/material';
 import { useForm } from '@inertiajs/inertia-react';
 import { router } from '@inertiajs/react';
 import Dialog from '@mui/material/Dialog';
@@ -59,12 +59,11 @@ const EditModal = () => {
 
     return (
         <>
-            <button className="btn btn-success" onClick={handleClickOpen}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                    <PencilFill size={15} />
-                    <Typography>Editar</Typography>
-                </Stack>
-            </button>
+            <Button startIcon={<PencilFill size={15}/>}
+                    color="success"
+                    onClick={handleClickOpen}>
+                Editar
+            </Button>
 
             <Dialog
                 open={openDialog}

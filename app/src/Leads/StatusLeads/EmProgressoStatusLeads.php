@@ -23,7 +23,7 @@ class EmProgressoStatusLeads extends StatusLeads
 
     public function setStatusNome(): void
     {
-        $this->statusNome = 'Em Progresso';
+        $this->statusNome = 'Contato Direto 360º';
     }
 
     public function setStatusCor(): void
@@ -33,7 +33,7 @@ class EmProgressoStatusLeads extends StatusLeads
 
     public function setStatusPrazo(): void
     {
-
+        $this->statusPrazo = 6;
     }
 
     public function setPermissoes(): void

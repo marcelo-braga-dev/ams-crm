@@ -9,9 +9,9 @@ Route::get('/', function () {
 
     if ($tipo == 'integrador') return redirect()->route('integrador.pedidos.pedido.index');
 
-    if ($funcao) return redirect()->route('admin.home.index');
+    if ($funcao) return redirect()->route('admin.pedidos.index');
 
-    return redirect()->route('consultor.home.index');
+    return redirect()->route('consultor.pedidos.index');
 })->middleware(['auth', 'verified'])->name('home');
 
 Route::any('dashboard', function () {

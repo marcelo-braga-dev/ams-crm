@@ -33,7 +33,7 @@ class RevisaoStatusLeads extends StatusLeads
 
     public function setStatusPrazo(): void
     {
-
+        $this->statusPrazo = 10;
     }
 
     public function setPermissoes(): void

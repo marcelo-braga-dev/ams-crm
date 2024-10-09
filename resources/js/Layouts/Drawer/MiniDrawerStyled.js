@@ -7,7 +7,7 @@ import {drawerWidth, drawerMinWidth} from '@/Themes/config.js';
 
 const openedMixin = (theme, settings) => ({
     width: drawerWidth,
-    borderRight: `0px solid #f1f1f1`,
+    borderRight: `1px solid #ddd`,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen

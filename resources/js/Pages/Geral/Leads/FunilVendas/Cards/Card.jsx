@@ -17,8 +17,8 @@ import { round } from 'lodash';
 import {
     TbArrowBigRightFilled, TbArrowNarrowDown,
     TbBox, TbClockHour5,
-    TbEye,
-    TbFiles, TbHash,
+    TbEye, TbFileDollar, TbFileInvoice,
+    TbFiles, TbHash, TbInvoice,
     TbMapPin,
     TbPin,
     TbPinFilled,
@@ -41,7 +41,7 @@ const Card = styled.div`
 const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias }) => {
     const {
         razao_social, nome, cnpj, cpf, id, telefones, consultor, status_data, classificacao,
-        setor,
+        setor, ultimo_pedido,
     } = card;
 
     const { handleAtualizar } = useFunilVendas();
@@ -57,19 +57,18 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
 
     const avancarStatus = () => {
         router.post(route(urlAvancarStatus, id));
-        handleAtualizar()
+        handleAtualizar();
         handleClose();
     };
 
-    const prazoRestante = prazoDias + card.status_prazo;
-
-    const margemPrazo = round((1 + card.status_prazo / prazoDias) * 100);
-
-    const margemPrazoStatus = prazoRestante < 0 ? 100 : margemPrazo;
+    // card.status_prazo = 2;
+    const prazoStatus = card.status_prazo;
+    const prazoRestante = prazoDias + prazoStatus;
+    const margemPrazo = round(prazoStatus / prazoDias * 100);
+    const margemPrazoStatus = prazoRestante <= 0 ? 100 : (margemPrazo * -1);
 
     return (
         <Card border={cor}>
-
             <div style={{ width: 290, padding: '20px' }}>
                 <Grid container spacing={2}>
                     <Grid item xs={11}>
@@ -173,7 +172,7 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                 <Grid container spacing={3} marginBottom={1} alignItems="center">
                     <Grid item xs={10}>
                         <Stack direction="row" alignItems="center" spacing={1}>
-                            <Avatar src={consultor.foto ?? ''} sx={{ width: 23, height: 23 }} />
+                            <Avatar src={consultor.avatar ?? ''} sx={{ width: 23, height: 23 }} />
                             <Tooltip title="Consultor(a)" placement="top-start" arrow>
                                 <Typography variant="body2">{consultor.nome ?? '-'}</Typography>
                             </Tooltip>
@@ -181,22 +180,24 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                     </Grid>
                 </Grid>
 
-                <Divider sx={{ marginBlock: 1 }} color="#fafafa" />
-
                 {/*prazo atendimento*/}
-                <Tooltip title="Prazo para atendimento" placement="bottom-start" arrow>
-                    <Grid container spacing={3} marginBottom={1}>
-                        <Grid item xs={1}>
-                            <TbClockHour5 size={18} className="mb-1" />
+                {prazoDias > 0 && <>
+                    <Divider sx={{ marginBlock: 1 }} color="#fafafa" />
+
+                    <Tooltip title="Prazo para atendimento" placement="bottom-start" arrow>
+                        <Grid container spacing={3} marginBottom={1}>
+                            <Grid item xs={1}>
+                                <TbClockHour5 size={18} className="mb-1" />
+                            </Grid>
+                            <Grid item xs={10} style={{ color: margemPrazo > 75 ? 'red' : 'inherit' }}>
+                                <Stack marginTop={1} alignContent="end" textAlign="end">
+                                    <LinearProgress variant="determinate" color={margemPrazoStatus >= 75 ? 'error' : 'inherit'} value={margemPrazoStatus} />
+                                    <Typography variant="body2">{`restam ${prazoRestante < 0 ? 0 : prazoRestante} de ${prazoDias} dias`}</Typography>
+                                </Stack>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={10} style={{ color: margemPrazo > 75 ? 'red' : 'inherit' }}>
-                            <Stack marginTop={1} alignContent="end" textAlign="end">
-                                <LinearProgress variant="determinate" color="inherit" value={margemPrazoStatus} />
-                                <Typography variant="body2">{`restam ${prazoRestante} de ${prazoDias} dias`}</Typography>
-                            </Stack>
-                        </Grid>
-                    </Grid>
-                </Tooltip>
+                    </Tooltip>
+                </>}
 
                 <Divider sx={{ marginTop: 2 }} color="#fafafa" />
 
@@ -217,7 +218,7 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                 <Divider sx={{ marginBlock: 2 }} color="#fafafa" />
 
                 {/*rodape*/}
-                <Stack direction="row" spacing={2} alignItems="center">
+                <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
                     <Stack direction="row" spacing={0} alignItems="center">
                         <TbHash size={14} />
                         <Typography variant="body2">{id}</Typography>
@@ -225,10 +226,12 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
 
                     <Typography variant="body2">{classificacao}</Typography>
 
-                    <Stack direction="row" spacing={0} alignItems="center">
-                        <TbArrowNarrowDown size={14} />
-                        <Typography variant="body2">{status_data}</Typography>
-                    </Stack>
+                    {ultimo_pedido > 0 && (
+                        <Stack direction="row" spacing={0} alignItems="center" color={ultimo_pedido > 15 ? 'red' : 'inheret'}>
+                            <TbFileDollar size={16} />
+                            <Typography variant="body2">{`Último pedido há ${ultimo_pedido} dias`}</Typography>
+                        </Stack>
+                    )}
                 </Stack>
             </div>
 

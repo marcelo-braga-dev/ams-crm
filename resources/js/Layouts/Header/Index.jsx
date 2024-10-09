@@ -29,7 +29,7 @@ const Header = ({titlePage, voltar}) => {
 
     const mainHeader = (
         <Toolbar style={{borderBottom: '1px solid #f4f4f4', paddingLeft: (!toggleMenu && (drawerMinWidth + 7)), backgroundColor: app_settings.header_bgcolor}}>
-            <Stack direction="row" spacing={1} marginInlineEnd={2}>
+            <Stack direction="row" spacing={1} marginInline={2}>
                 <IconButton disableRipple edge="start" onClick={() => {
                     menuToggle(!toggleMenu)
                     sessionStorage.setItem('_toggleMenu', toggleMenu);

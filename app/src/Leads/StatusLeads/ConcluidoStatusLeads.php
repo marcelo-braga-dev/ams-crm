@@ -13,7 +13,7 @@ class ConcluidoStatusLeads extends StatusLeads
         $this->setStatusCor();
         $this->setStatusPrazo();
         $this->setDescricao();
-        $this->urlStatus = 'auth.leads.avancar-status.concluido';
+        $this->urlStatus = '';
         $this->emitePedidos = true;
     }
 
@@ -34,7 +34,7 @@ class ConcluidoStatusLeads extends StatusLeads
 
     public function setStatusPrazo(): void
     {
-
+        $this->statusPrazo = 0;
     }
 
     public function setPermissoes(): void

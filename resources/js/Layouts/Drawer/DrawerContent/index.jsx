@@ -2,10 +2,10 @@ import Navigation from './Navigation';
 import SimpleBar from '@/Components/Template/SimpleBar.jsx';
 
 const style = {
-    '& .simplebar-content': {
-        display: 'flex',
-        flexDirection: 'column'
-    }
+    // '& .simplebar-content': {
+    //     display: 'flex',
+    //     flexDirection: 'column'
+    // }
 }
 
 const DrawerContent = () => (

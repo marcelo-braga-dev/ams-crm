@@ -1,21 +1,21 @@
-import {useContext, useMemo, useState} from 'react';
+import { useContext, useMemo, useState } from 'react';
 
-import {useTheme} from '@mui/material/styles';
-import {Box, Drawer, useMediaQuery} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { Box, Drawer, useMediaQuery } from '@mui/material';
 import DrawerHeader from './DrawerHeader';
 import DrawerContent from './DrawerContent';
 import MiniDrawerStyled from './MiniDrawerStyled.js';
-import AuthProvider from '@/Layouts/Contexts/Context'
+import AuthProvider from '@/Layouts/Contexts/Context';
 
-const MainDrawer = ({window, _toggleMenu}) => {
+const MainDrawer = ({ window, _toggleMenu }) => {
     const theme = useTheme();
     const matchDownMD = useMediaQuery(theme.breakpoints.down('lg'));
-    const {toggleMenu, menuToggle, app_settings} = useContext(AuthProvider);
+    const { toggleMenu, menuToggle, app_settings } = useContext(AuthProvider);
     const container = window !== undefined ? () => window().document.body : undefined;
 
     // header content
-    const drawerHeader = useMemo(() => <DrawerHeader open={toggleMenu}/>, [toggleMenu]);
-    const drawerContent = useMemo(() => <DrawerContent/>, []);
+    const drawerHeader = useMemo(() => <DrawerHeader open={toggleMenu} />, [toggleMenu]);
+    const drawerContent = useMemo(() => <DrawerContent />, []);
 
     const [timeoutId, setTimeoutId] = useState(null);
 
@@ -37,31 +37,31 @@ const MainDrawer = ({window, _toggleMenu}) => {
     };
 
     return (
-        <Box component="nav" sx={{flexShrink: {md: 0}, zIndex: 1300,}}
+        <Box component="nav" sx={{ flexShrink: { md: 0 }, zIndex: 1300 }}
              onMouseEnter={handleMouseEnter}
              onMouseLeave={handleMouseLeave}
         >
             {!matchDownMD ? (
-                <MiniDrawerStyled variant="permanent" open={toggleMenu} settings={app_settings}>
-                    {drawerHeader}
-                    {drawerContent}
-                </MiniDrawerStyled>
+                    <MiniDrawerStyled variant="permanent" open={toggleMenu} settings={app_settings}>
+                        {drawerHeader}
+                        {drawerContent}
+                    </MiniDrawerStyled>
             ) : (
                 <Drawer
                     container={container}
                     variant="temporary"
                     open={toggleMenu}
                     onClose={() => menuToggle(e => !e)}
-                    ModalProps={{keepMounted: true}}
+                    ModalProps={{ keepMounted: true }}
                     sx={{
-                        display: {xs: 'block', lg: 'none'},
+                        display: { xs: 'block', lg: 'none' },
                         '& .MuiDrawer-paper': {
                             boxSizing: 'border-box',
                             width: 260,
                             borderRight: `1px solid ${theme.palette.divider}`,
                             backgroundImage: 'none',
-                            boxShadow: 'inherit'
-                        }
+                            boxShadow: 'inherit',
+                        },
                     }}
                 >
                     {toggleMenu && drawerHeader}
