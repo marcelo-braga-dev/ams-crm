@@ -26,6 +26,7 @@ import {
 } from 'react-icons/tb';
 import LeadShow from '@/Pages/Geral/Leads/Dialogs/LeadShow.jsx';
 import { useFunilVendas } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
+import Chip from '@mui/material/Chip';
 
 const Card = styled.div`
     border-radius: 10px;
@@ -218,21 +219,20 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                 <Divider sx={{ marginBlock: 2 }} color="#fafafa" />
 
                 {/*rodape*/}
-                <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
+                <Stack direction="row" spacing={4} alignItems="center">
                     <Stack direction="row" spacing={0} alignItems="center">
                         <TbHash size={14} />
                         <Typography variant="body2">{id}</Typography>
                     </Stack>
-
                     <Typography variant="body2">{classificacao}</Typography>
-
-                    {ultimo_pedido > 0 && (
-                        <Stack direction="row" spacing={0} alignItems="center" color={ultimo_pedido > 15 ? 'red' : 'inheret'}>
-                            <TbFileDollar size={16} />
-                            <Typography variant="body2">{`Último pedido há ${ultimo_pedido} dias`}</Typography>
-                        </Stack>
-                    )}
                 </Stack>
+                {ultimo_pedido > 0 && (
+                    <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" marginTop={2}>
+                        <Chip icon={<TbFileDollar size={18} />} label={`Último pedido há ${ultimo_pedido} dias`}  size="small"
+                              color={ultimo_pedido > 15 ? 'error' : 'success'} />
+                    </Stack>
+                )}
+
             </div>
 
             <DialogMui
