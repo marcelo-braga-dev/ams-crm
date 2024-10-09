@@ -24,7 +24,7 @@ class PedidosFinanciamentoDados extends Model
                 'pedido_id' => $idPeddo,
                 'banco' => $dados['banco'] ?? null,
                 'gerente_nome' => $dados['gerente'] ?? null,
-                'gerente_telefone' => converterInt($dados['telefone']) ?? null,
+                'gerente_telefone' => converterInt($dados['telefone'] ?? null) ?? null,
                 'gerente_email' => $dados['email'] ?? null,
             ]);
     }
