@@ -15,13 +15,24 @@ class LeadFunilVendasService
             ->when($usuario, function ($query) use ($usuario) {
                 return $query->where('user_id', $usuario);
             })
-            // Ordenação condicional
-            ->orderByRaw("CASE WHEN status = 'novo' THEN updated_at ELSE NULL END DESC") // Ordena por status_data para "novo"
-            ->orderByRaw("CASE WHEN status != 'novo' THEN contato_data ELSE NULL END ASC") // Ordena por contato_data para os demais status
+            ->orderByRaw("CASE
+        WHEN status = 'concluido' THEN ultimo_pedido_data
+        ELSE NULL
+        END ASC")
+            ->orderByRaw("CASE
+        WHEN status NOT IN ('novo', 'concluido') THEN contato_data
+        ELSE NULL
+        END DESC") // Para outros status, ordena por contato_data em ordem crescente
+            ->orderBy('updated_at', 'ASC') // Para todos os leads, ordena por updated_at em ordem decrescente
             ->get();
 
-        // Agrupa os leads por status
+// Agrupa os leads por status
         return $leads->groupBy('status');
+
+
+
+
+
 
 
 //        $leads = (new Leads)->dadosCard()
