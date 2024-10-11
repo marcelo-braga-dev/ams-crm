@@ -57,6 +57,7 @@ class LeadsTelefones extends Model
                     } else
                         $this->updateOrCreate([
                             'id' => $record['id'],
+                        ], [
                             'lead_id' => $record['lead_id'],
                             'numero' => $record['numero']
                         ]);

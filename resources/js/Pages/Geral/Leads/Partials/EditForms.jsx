@@ -1,5 +1,5 @@
 import maskJquery from "@/Helpers/maskJquery";
-import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
+import { FormControl, IconButton, Radio, RadioGroup, TextField } from '@mui/material';
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 import pesquisaCep from "@/Helpers/pesquisaCep";
@@ -10,15 +10,15 @@ import CardBody from "@/Components/Cards/CardBody.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
 import {GeoAlt, Person, Telephone} from "react-bootstrap-icons";
 import { cidadesEstados } from '@/Utils/CidadesEstados.jsx';
+import { TbX } from 'react-icons/tb';
 
-export default function EditForms({data, setData, required}) {
+export default function EditForms({data, setData, required, closeModal}) {
 
     const [isPj, setIsPj] = useState('pj')
 
     useEffect(() => {
         maskJquery()
     }, []);
-
 
     const [novoTelefone, setNovoTelefone] = useState(''); // Estado para o novo telefone
 
@@ -45,7 +45,11 @@ export default function EditForms({data, setData, required}) {
 
     return (<>
         <CardContainer>
-            <CardTitle title="Dados do Lead" icon={<Person size={22}/>}/>
+            <CardTitle title="Dados do Lead" icon={<Person size={22}/>} children={
+                <IconButton onClick={closeModal}>
+                    <TbX color="red" size={22}/>
+                </IconButton>
+            }/>
             <CardBody>
                 <div className="row">
                     {/*Check Pessoa*/}

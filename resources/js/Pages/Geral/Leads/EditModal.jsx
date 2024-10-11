@@ -59,9 +59,10 @@ const EditModal = () => {
 
     return (
         <>
-            <Button startIcon={<PencilFill size={15}/>}
-                    color="success"
-                    onClick={handleClickOpen}>
+            <Button
+                startIcon={<PencilFill size={15} />}
+                color="success"
+                onClick={handleClickOpen}>
                 Editar
             </Button>
 
@@ -69,12 +70,12 @@ const EditModal = () => {
                 open={openDialog}
                 onClose={handleClose}
                 fullWidth
-                maxWidth={'lg'}
+                maxWidth="lg"
                 className="m-4"
             >
                 <div className="p-4">
                     <form onSubmit={onSubmit}>
-                        <EditForms setData={setData} data={data} />
+                        <EditForms setData={setData} data={data}  closeModal={handleClose} />
                         <Stack direction="row" justifyContent="center" spacing={6}>
                             <button type="button" className="btn btn-secondary" onClick={handleClose}>Fechar</button>
                             <button type="submit" className="btn btn-success">Salvar</button>
