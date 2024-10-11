@@ -34,7 +34,7 @@ class LeadsHistoricosComentarios extends Model
         $resposta = [];
         foreach ($dados as $dado) {
             $resposta[$dado->leads_historicos_id][] = [
-                'nome' => $nomes[$dado->user_id],
+                'nome' => $nomes[$dado->user_id] ?? '-',
                 'msg' => $dado->msg,
                 'data' => date('d/m/y H:i', strtotime($dado->created_at))
             ];
