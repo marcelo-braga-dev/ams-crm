@@ -40,7 +40,7 @@ export default function Index({fornecedores, categorias, setores, isFinanceiro})
                                 {setores.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                             </TextField>
                         </div>
-                        <div className="col-md-3">
+                        <div className="col">
                             <Stack direction="row">
                                 <TextField label="Filtro" select fullWidth sx={{width: '10rem'}} value={filtros.filtro}
                                            onChange={e => {

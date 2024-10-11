@@ -81,7 +81,7 @@ class Produtos extends Model
             ->where(($filtros['categoria'] ?? null) ? ['produtos.categoria_id' => $filtros['categoria']] : null);
 
         $query->whereIn('categoria_id', (new ProdutosCategoriasUsuarios())->categorias(id_usuario_atual()))
-            ->orderByDesc('estoque_local');
+            ->orderBy('nome');
 
         if ($setor) $query->where('produtos.setor_id', $setor);
 
@@ -259,11 +259,18 @@ class Produtos extends Model
             ->update(['status' => $status]);
     }
 
-    public function updateEstoque(int $id, $estoque)
+    public function incrementEstoque(int $id, $estoque)
     {
         $this->newQuery()
             ->find($id)
             ->increment('estoque_local', $estoque);
+    }
+
+    public function setEstoque(int $id, $estoque)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update(['estoque_local' => $estoque]);
     }
 
     public function get($setor = null)

@@ -116,11 +116,11 @@ class ProdutosController extends Controller
     {
         if ($request->recontagem) {
             (new ProdutosEstoquesHistoricos())->createRecontagem($request->produto_id, $request->qtd);
+            (new Produtos())->setEstoque($request->produto_id, $request->qtd);
         } else {
             (new ProdutosEstoquesHistoricos())->createEntrada($request);
+            (new Produtos())->incrementEstoque($request->produto_id, $request->qtd);
         }
-
-        (new Produtos())->updateEstoque($request->produto_id, $request->qtd);
 
         modalSucesso('Estoque Atualizado com sucesso!');
     }
