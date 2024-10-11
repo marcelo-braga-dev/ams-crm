@@ -134,7 +134,7 @@ export default function({
                 </CardContainer>
             </div>,
         );
-    }, [data, usuarios]);
+    }, [data, usuarios, usuarioAtivos]);
 
     return (
         <Layout empty titlePage="Editar Usuário" menu="usuarios" submenu="usuarios-contas"
