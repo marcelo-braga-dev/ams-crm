@@ -57,7 +57,7 @@ class Pedidos extends Model
 
     /**
      * Deplecated
-    **/
+     **/
     public function historicoPedidosLead($id)
     {
         $status = (new StatusPedidos());
@@ -413,7 +413,7 @@ class Pedidos extends Model
 
         $query->select(DB::raw("
             pedidos.*, CASE WHEN pins.user_id = " . $usuarioAtual . " THEN TRUE ELSE FALSE END as pin,
-            users.name as consultor_nome, leads.nome as lead_nome, pedidos_clientes.nome as cliente_nome, pedidos_clientes.razao_social as cliente_razao_social,
+            users.name as consultor_nome, leads.nome as lead_nome,leads.razao_social as lead_razao_social, pedidos_clientes.nome as cliente_nome, pedidos_clientes.razao_social as cliente_razao_social,
             produtos_fornecedores.nome as fornecedor, setores.nome as setor_nome, setores.cor as setor_cor
         "));
 
@@ -427,7 +427,7 @@ class Pedidos extends Model
                     'consultor' => $pedido->consultor_nome,
                     'preco' => $pedido->preco_venda,
                     'fornecedor' => $pedido->fornecedor ?? '',
-                    'integrador' => $pedido->lead_nome ?? '',
+                    'integrador' => $pedido->lead_nome ?: $pedido->lead_razao_social,
                     'setor_nome' => $pedido->setor_nome,
                     'setor_cor' => $pedido->setor_cor,
                     'status' => $pedido->status,
@@ -456,7 +456,6 @@ class Pedidos extends Model
             ->leftJoin('leads', 'pedidos.lead_id', '=', 'leads.id')
             ->leftJoin('pedidos_clientes', 'pedidos.id', '=', 'pedidos_clientes.pedido_id')
             ->leftJoin('users', 'pedidos.user_id', '=', 'users.id')
-
             ->orderByDesc('pedidos.id')
             ->selectRaw('pedidos.*, leads.nome AS lead_nome, leads.id AS lead_id, pedidos_clientes.nome AS cliente_nome,
                 users.name AS consultor_nome');
