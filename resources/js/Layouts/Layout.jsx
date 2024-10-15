@@ -9,6 +9,7 @@ import ModalsAlerts from "@/Components/Modals/AlertsModals";
 
 import {AuthProvider} from './Contexts/Context';
 import ChatNotificacoes from "@/Components/Alerts/ChatNotificacoes.jsx";
+import FabWhatsapp from '@/Components/Chats/Whatsapp/Fab/FabWhatsapp.jsx';
 
 export default function Layout({children, titlePage, voltar, menu, submenu}) {
     const {app_settings} = usePage().props;
@@ -34,6 +35,7 @@ export default function Layout({children, titlePage, voltar, menu, submenu}) {
                 <Content open={toggleMenu}>
                     <Container maxWidth={false}>
                         {children}
+                        <FabWhatsapp/>
                     </Container>
                 </Content>
             </AuthProvider>
