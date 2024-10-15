@@ -58,27 +58,21 @@ class PedidosController extends Controller
         $fornecedores = (new ProdutosFornecedores())->getAll($setor);
         $lead = (new LeadsANTIGO())->find($request->lead);
 
+        $setorModelo = (new Setores())->getModelo($setor);
+
+        if ($setorModelo == 1) return Inertia::render(
+            'Consultor/Pedidos/Create/Modelo1/Create',
+            compact('fornecedores', 'lead')
+        );
+
         $endereco = (new Enderecos())->get($lead->endereco);
         $categorias = (new ProdutosCategorias())->categorias(setor_usuario_atual());
         $unidades = (new ProdutosUnidades())->get();
 
-        switch ((new Setores())->getModelo($setor)) {
-            case 1:
-                return Inertia::render(
-                    'Consultor/Pedidos/Create/Modelo1/Create',
-                    compact('fornecedores', 'lead', 'endereco')
-                );
-            case 2:
-                return Inertia::render(
-                    'Consultor/Pedidos/Create/Modelo2/Create',
-                    compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades')
-                );
-            default:
-            {
-                modalErro('Falha no formulário de cadastro.');
-                return redirect()->back();
-            }
-        }
+        return Inertia::render(
+            'Consultor/Pedidos/Create/Modelo2/Create',
+            compact('fornecedores', 'lead', 'endereco', 'categorias', 'unidades')
+        );
     }
 
     public function show($id)

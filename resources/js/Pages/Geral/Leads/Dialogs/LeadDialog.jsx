@@ -111,18 +111,18 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                         </Stack>
                     } />
 
-                    <CardContainer>
+                    {lead.id && <CardContainer>
                         <CardBody>
                             {isAdmin ?
                                 <Link href={route('admin.pedidos.emitir.create', { lead: lead.id })}>
-                                    <Button color="success" startIcon={<TbPackage />}>Emitir Pedido</Button>
+                                    <Button color="success" startIcon={<TbPackage />}>Emitir PedidoX</Button>
                                 </Link> :
                                 <Link href={route('consultor.pedidos.create', { lead: lead.id })}>
                                     <Button color="success" startIcon={<TbPackage />}>Emitir Pedido</Button>
                                 </Link>
                             }
                         </CardBody>
-                    </CardContainer>
+                    </CardContainer>}
 
                     <CardContainer>
                         <CardTitle title={(

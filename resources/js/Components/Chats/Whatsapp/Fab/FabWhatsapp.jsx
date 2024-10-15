@@ -4,14 +4,15 @@ import React from 'react';
 import Dialog from '@mui/material/Dialog';
 import { useWhatsapp } from '@/Hooks/useWhatsapp.jsx';
 import { Badge } from '@mui/material';
+import GetTicketsByStatus from '@/Components/Chats/Whatsapp/Fab/utils/getTicketsByStatus.jsx';
 
-const whatsappButton = {
+const whatsappButton = (error) => ({
     position: 'fixed',
     bottom: 80,
     right: 20,
     zIndex: 1000,
-    backgroundColor: '#25d366',
-};
+    backgroundColor: error ? 'red' : '#25d366', // Define a cor vermelha se houver erro
+});
 
 const whatsappBadge = {
     '& .MuiBadge-badge': {
@@ -26,6 +27,7 @@ const FabWhatsapp = () => {
     const { urlFrontend } = useWhatsapp();
     const [open, setOpen] = React.useState(false);
     const [qtdMsg, setQtdMsg] = React.useState(0);
+    const [error, setError] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -35,10 +37,11 @@ const FabWhatsapp = () => {
         setOpen(false);
     };
 
+    // getTicketsByStatus();
     return (
         <>
-
-            <Fab color="success" aria-label="edit" sx={whatsappButton} onClick={handleClickOpen}>
+            <GetTicketsByStatus qtdOpen={setQtdMsg} setError={setError} />
+            <Fab aria-label="edit" sx={whatsappButton(error)} onClick={handleClickOpen} color="success">
                 <Badge badgeContent={qtdMsg} color="error"
                        sx={whatsappBadge}>
                     <TbBrandWhatsapp size={35} />
