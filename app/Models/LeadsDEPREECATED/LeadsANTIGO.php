@@ -1162,6 +1162,8 @@ class LeadsANTIGO extends Model
         $filtro = $filtros['filtro'] ?? null;
         $valor = $filtros['filtro_valor'] ?? null;
 
+        if ($filtro == 'telefone') $valor = converterInt($valor);
+
         if ($valor && $filtro)
             switch ($filtro) {
                 case 'id':
