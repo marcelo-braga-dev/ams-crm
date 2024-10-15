@@ -40,7 +40,7 @@ const FabWhatsapp = () => {
     // getTicketsByStatus();
     return (
         <>
-            {/*<GetTicketsByStatus qtdOpen={setQtdMsg} setError={setError} />*/}
+            <GetTicketsByStatus qtdOpen={setQtdMsg} setError={setError} />
             <Fab aria-label="edit" sx={whatsappButton(error)} onClick={handleClickOpen} color="success">
                 <Badge badgeContent={qtdMsg} color="error"
                        sx={whatsappBadge}>
