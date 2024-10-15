@@ -11,7 +11,7 @@ const optionsFetch = (apiKey) => ({
 
 const GetTicketsByStatus = ({ qtdOpen, setError }) => {
     const { urlBackend, apiKey, userId } = useWhatsapp();
-
+    console.log(userId);
     const url = `${urlBackend}/api/tickets/status?status=open&userId=${userId}`;
 
     const fetchTickets = async () => {
