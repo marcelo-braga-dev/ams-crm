@@ -119,6 +119,7 @@ class User extends Authenticatable
     {
         return $this->newQuery()
             ->whereIn('id', supervisionados(id_usuario_atual()))
+            ->where('status', 1)
             ->orderBy('name')
             ->get()
             ->map(function ($item) {
