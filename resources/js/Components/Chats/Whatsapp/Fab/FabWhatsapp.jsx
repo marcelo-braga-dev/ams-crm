@@ -1,6 +1,6 @@
 import { TbBrandWhatsapp } from 'react-icons/tb';
 import Fab from '@mui/material/Fab';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { useWhatsapp } from '@/Hooks/useWhatsapp.jsx';
 import { Badge } from '@mui/material';
@@ -37,9 +37,8 @@ const FabWhatsapp = () => {
         setOpen(false);
     };
 
-    // getTicketsByStatus();
-    return (
-        <>
+    const dialogWhatsapp = useMemo(() => {
+        return (<>
             <GetTicketsByStatus qtdOpen={setQtdMsg} setError={setError} />
             <Fab aria-label="edit" sx={whatsappButton(error)} onClick={handleClickOpen} color="success">
                 <Badge badgeContent={qtdMsg} color="error"
@@ -61,7 +60,12 @@ const FabWhatsapp = () => {
                     title="Whaticket"
                 />
             </Dialog>
-        </>
+        </>)
+    }, [handleClickOpen, setQtdMsg, setError]);
+
+    // getTicketsByStatus();
+    return (
+        dialogWhatsapp
     );
 };
 export default FabWhatsapp;
