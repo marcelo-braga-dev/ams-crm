@@ -22,21 +22,21 @@ export default function CardChamados({dados}) {
 
             <Stack spacing={1}>
                 {!!dados.avaria && <Chip label="AVARIA" size="small" color="warning"/>}
-                <Typography><b>Cliente:</b> {dados.cliente_nome}</Typography>
-                <Typography><b>Autor:</b> {dados.autor}</Typography>
-                <Typography><b>Integrador:</b> {dados.lead_nome}</Typography>
-                <Typography><b>ID do Pedido:</b> #{dados.pedido_id}</Typography>
-                <Typography><b>Status Pedido:</b> {dados.pedido_status}</Typography>
-                <Typography><b>Valor:</b> R$ {convertFloatToMoney(dados.valor)}</Typography>
-                {dados.fornecedor_nome && <Typography><b>Distribudora:</b> {dados.fornecedor_nome}</Typography>}
+                <Typography variant="body2"><b>Cliente:</b> {dados.cliente_nome}</Typography>
+                <Typography variant="body2"><b>Autor:</b> {dados.autor}</Typography>
+                <Typography variant="body2"><b>Integrador:</b> {dados.lead_nome}</Typography>
+                <Typography variant="body2"><b>ID do Pedido:</b> #{dados.pedido_id}</Typography>
+                <Typography variant="body2"><b>Status Pedido:</b> {dados.pedido_status}</Typography>
+                <Typography variant="body2"><b>Valor:</b> R$ {convertFloatToMoney(dados.valor)}</Typography>
+                {dados.fornecedor_nome && <Typography variant="body2"><b>Distribudora:</b> {dados.fornecedor_nome}</Typography>}
             </Stack>
             <div className="col-12">
                 <div className="row">
                     <div className="col">
-                        <small className="">Data: {dados.data_cadastro}</small>
+                        <Typography variant="body2">Data: {dados.data_cadastro}</Typography>
                     </div>
                     <div className="col-auto">
-                        <small className="text-muted d-block">ID: #{dados.id}</small>
+                        <Typography variant="body2">ID: #{dados.id}</Typography>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Typography} from "@mui/material";
+import { Stack, Typography } from '@mui/material';
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import Chip from "@mui/material/Chip";
 
@@ -19,18 +19,16 @@ export default function CardChamados({dados}) {
     return (
         <>
             <div className="row bg-white shadow p-1 py-2 m-1 mb-4 rounded">
-                <div className="col-12 mb-2">
-                    <Typography><b>{dados.titulo}</b></Typography>
-                </div>
-                <div className="col-12">
-                    <Typography><b>Autor:</b> {dados.autor}</Typography>
-                </div>
-                <div className="col-12">
-                    <Typography><b>ID do Pedido:</b> #{dados.pedido_id}</Typography>
-                    <Typography><b>Status Pedido:</b> {dados.pedido_status}</Typography>
-                    <Typography><b>Valor:</b> R$ {convertFloatToMoney(dados.valor)}</Typography>
-                    {dados.fornecedor_nome && <Typography><b>Distribudora:</b> {dados.fornecedor_nome}</Typography>}
-                </div>
+                <Stack spacing={1}>
+                    {!!dados.avaria && <Chip label="AVARIA" size="small" color="warning"/>}
+                    <Typography variant="body2"><b>Cliente:</b> {dados.cliente_nome}</Typography>
+                    <Typography variant="body2"><b>Autor:</b> {dados.autor}</Typography>
+                    <Typography variant="body2"><b>Integrador:</b> {dados.lead_nome}</Typography>
+                    <Typography variant="body2"><b>ID do Pedido:</b> #{dados.pedido_id}</Typography>
+                    <Typography variant="body2"><b>Status Pedido:</b> {dados.pedido_status}</Typography>
+                    <Typography variant="body2"><b>Valor:</b> R$ {convertFloatToMoney(dados.valor)}</Typography>
+                    {dados.fornecedor_nome && <Typography variant="body2"><b>Distribudora:</b> {dados.fornecedor_nome}</Typography>}
+                </Stack>
                 <div className="col-12">
                     <div className="row">
                         <div className="col">
@@ -42,11 +40,9 @@ export default function CardChamados({dados}) {
                     </div>
                 </div>
 
-                <div className="col-12">
+                <div className="col-12 mt-4">
                     <div className="row">
                         <div className="col">
-                            {!!dados.avaria && <Chip label="AVARIA" size="small"/>}
-
                         </div>
                         <div className="col-auto">
                             <a href={url()} className="btn btn-primary btn-sm p-1 px-3">Abrir</a>

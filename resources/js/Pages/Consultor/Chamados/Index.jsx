@@ -9,7 +9,7 @@ export default function Pedidos({sac}) {
         <Layout empty titlePage="SAC" menu="sac" submenu="sac-chamados">
             <div className="row justify-content-center">
                 <div className="col-auto">
-                    <div className="overflow-scroll bg-white" style={{height: '78vh'}}>
+                    <div className="overflow-scroll" style={{height: '78vh'}}>
                         <table>
                             <thead>
                             <tr>
