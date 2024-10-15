@@ -10,9 +10,9 @@ const optionsFetch = (apiKey) => ({
 });
 
 const GetTicketsByStatus = ({ qtdOpen, setError }) => {
-    const { urlBackend, apiKey, userId } = useWhatsapp();
-    console.log(userId);
-    const url = `${urlBackend}/api/tickets/status?status=open&userId=${userId}`;
+    const { urlBackend, apiKey, credenciaisUsuario } = useWhatsapp();
+
+    const url = `${urlBackend}/api/tickets/status?status=open&userId=${credenciaisUsuario?.whatsappId}`;
 
     const fetchTickets = async () => {
         try {
