@@ -61,7 +61,7 @@ const FabWhatsapp = () => {
                 />
             </Dialog>
         </>)
-    }, [handleClickOpen, setQtdMsg, setError]);
+    }, [handleClickOpen, setQtdMsg, setError, handleClose]);
 
     // getTicketsByStatus();
     return (
