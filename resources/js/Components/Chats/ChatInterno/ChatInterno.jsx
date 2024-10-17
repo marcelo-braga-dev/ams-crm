@@ -106,7 +106,7 @@ function ChatInterno({pessoas, setores, chatId, getUrl, urlSubmit, Layout, admin
     useEffect(() => {
         fetchMensagens(); // Chamada inicial
 
-        intervalRef.current = setInterval(fetchMensagens, 10000); // Mantém a chamada a cada 500ms
+        intervalRef.current = setInterval(fetchMensagens, 500); // Mantém a chamada a cada 500ms
 
         return () => clearInterval(intervalRef.current);
     }, [fetchMensagens]);
