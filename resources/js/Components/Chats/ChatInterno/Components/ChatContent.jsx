@@ -39,9 +39,8 @@ export default function ChatContent({mensagens, infoChatSelecionado, admin}) {
     const renderMessage = useCallback((item, index) => (
         infoChatSelecionado.categoria === 'chat' ? (
             <AreaChat
-                key={item.id || index}
+                key={item.id}
                 item={item}
-                index={index}
                 infoChatSelecionado={infoChatSelecionado}
                 setProgress={setProgress}
             />
