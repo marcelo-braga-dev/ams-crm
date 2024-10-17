@@ -51,16 +51,9 @@ class ChatInterno extends Model
             ]);
 
         return $this->newQuery()
-            ->where(function ($query) use ($usuario, $destinatarios, $categoria) {
-                $query->where([
-                    ['user_id', $usuario],
-                    ['contato_id', $destinatarios]
-                ])->orWhere([
-                    ['user_id', $destinatarios],
-                    ['contato_id', $usuario]
-                ]);
-            })
-            ->where('categoria', $categoria)
+            ->whereIn('user_id', [$usuario, $destinatarios])
+            ->whereIn('contato_id', [$usuario, $destinatarios])
+            ->where('categoria', '=', $categoria)
             ->orderBy('id')
             ->limit(1000)
             ->get();
