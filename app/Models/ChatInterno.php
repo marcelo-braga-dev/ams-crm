@@ -62,7 +62,7 @@ class ChatInterno extends Model
             })
             ->where('categoria', $categoria)
             ->orderBy('id')
-//            ->limit()
+            ->limit(10000)
             ->get();
     }
 
