@@ -55,7 +55,7 @@ class ChatInterno extends Model
             ->whereIn('contato_id', [$usuario, $destinatarios])
             ->where('categoria', '=', $categoria)
             ->orderBy('id')
-            ->limit(1000)
+            ->limit(10000)
             ->get();
     }
 
