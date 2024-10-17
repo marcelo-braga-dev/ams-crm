@@ -51,6 +51,7 @@ class MensagensChatInternoService
 
     public function mensagens($usuario, $destinatario, $categoria = 'chat', $limit)
     {
+        $usuario = id_usuario_atual();
         if (!$destinatario) return [];
         $mensagens = [];
         if ($categoria === 'chat') $mensagens = (new ChatInterno())->getMensagens($usuario, $destinatario, $limit);
