@@ -64,7 +64,7 @@ class ChatInterno extends Model
         $categoria = (new Chat())->categoria();
 
         return $this->newQuery()
-            ->limit(5000)
+            ->limit(10000)
             ->where(function ($query) use ($usuarioAtual, $categoria) {
                 $query->where('user_id', $usuarioAtual)
                     ->where('categoria', $categoria);
