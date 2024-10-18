@@ -1,4 +1,5 @@
 import './bootstrap';
+import './echo';
 
 import '@/Themes/assets';
 import ThemeCustomization from '@/Themes/index';
@@ -21,7 +22,7 @@ createInertiaApp({
             <ThemeCustomization>
                 <AlertProvider>
                     <AlertListener />
-                        <App {...props} />
+                    <App {...props} />
                 </AlertProvider>
             </ThemeCustomization>);
     },
