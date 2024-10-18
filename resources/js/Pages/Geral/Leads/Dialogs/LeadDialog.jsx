@@ -216,7 +216,11 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                                             </TextField>
                                         </div>
                                         <div className="col-2">
-                                            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEncaminhar">
+                                            <button type="button"
+                                                    onClick={() => submit()}
+                                                    className="btn btn-primary"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalEncaminhar">
                                                 ENVIAR
                                             </button>
                                         </div>
