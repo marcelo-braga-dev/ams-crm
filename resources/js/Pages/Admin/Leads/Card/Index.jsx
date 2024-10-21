@@ -24,27 +24,30 @@ export default function ({statusLeads}) {
                     <table className="table-1">
                         <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>Iniciar Atendimento</th>
-                            <th>Pré Atendimento</th>
-                            <th>Em Aberto</th>
-                            <th>Atendimento</th>
-                            <th>Ativo</th>
-                            <th>Finalizado</th>
-                            <th>Total</th>
-                            <th></th>
+                            <th>NOME</th>
+                            <th>OPORTUNIDADES</th>
+                            <th>CONEXÃO PROATIVA</th>
+                            <th>CONTATO DIRETO 360º</th>
+                            <th>COTAÇÃO ENVIADA</th>
+                            <th>ATIVO</th>
+                            <th>TOTAL</th>
                         </tr>
                         </thead>
                         <tbody>
                         {statusLeads.map((dado, index) => {
-                            const total = (dado.status.novo ?? 0) + (dado.status.pre_atendimento ?? 0) + (dado.status.aberto ?? 0) + (dado.status.atendimento ?? 0) + (dado.status.ativo ?? 0) + (dado.status.finalizado ?? 0)
+                            const total =
+                                (dado.status.novo ?? 0) +
+                                (dado.status.fazer ?? 0) +
+                                (dado.status.progresso ?? 0) +
+                                (dado.status.revisao ?? 0) +
+                                (dado.status.concluido ?? 0)
+
                             totalLeads += total
                             totalNovo += dado.status.novo ?? 0
-                            totalPreAtendimento += dado.status.pre_atendimento ?? 0
-                            totalAberto += dado.status.aberto ?? 0
-                            totalAtendimento += dado.status.atendimento ?? 0
-                            totalAtivo += dado.status.ativo ?? 0
-                            totalFinalizado += dado.status.finalizado ?? 0
+                            totalPreAtendimento += dado.status.fazer ?? 0
+                            totalAberto += dado.status.progresso ?? 0
+                            totalAtendimento += dado.status.revisao ?? 0
+                            totalAtivo += dado.status.concluido ?? 0
 
                             return (
                                 <tr key={index}>
@@ -55,15 +58,11 @@ export default function ({statusLeads}) {
                                         </Stack>
                                     </td>
                                     <td>{dado.status.novo ?? 0}</td>
-                                    <td>{dado.status.pre_atendimento ?? 0}</td>
-                                    <td>{dado.status.aberto ?? 0}</td>
-                                    <td>{dado.status.atendimento ?? 0}</td>
-                                    <td>{dado.status.ativo ?? 0}</td>
-                                    <td>{dado.status.finalizado ?? 0}</td>
-                                    <td>{total}</td>
-                                    <td>
-                                        <Link label="Ver Kanban" href={route('admin.leads.consultores-cards.index', {id: dado.id})}/>
-                                    </td>
+                                    <td>{dado.status.fazer ?? 0}</td>
+                                    <td>{dado.status.progresso ?? 0}</td>
+                                    <td>{dado.status.revisao ?? 0}</td>
+                                    <td>{dado.status.concluido ?? 0}</td>
+                                    <td className="bg-light">{total}</td>
                                 </tr>
                             )
                         })}
@@ -74,9 +73,7 @@ export default function ({statusLeads}) {
                             <td>{totalAberto}</td>
                             <td>{totalAtendimento}</td>
                             <td>{totalAtivo}</td>
-                            <td>{totalFinalizado}</td>
                             <td>{totalLeads}</td>
-                            <td></td>
                         </tr>
                         </tbody>
                     </table>
