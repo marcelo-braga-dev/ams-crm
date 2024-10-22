@@ -87,14 +87,10 @@ class LeadsTelefones extends Model
         }
     }
 
-    public function inativar($id)
+    public function inativar($numero)
     {
-        $telefone = $this->find($id);
-
-        if ($telefone) {
-            $telefone->status_whatsapp = 0;
-            $telefone->save();
-        }
+        $this->where('numero', $numero)
+            ->update(['status_whatsapp' => 0]);
     }
 
     public function alterarStatusTelefone($id, $status)

@@ -39,7 +39,7 @@ Route::name('auth.')->group(function () {
 
             Route::put('ativar-whatsapp/{id}', [LeadsWhatsappController::class, 'ativarNumeroWhatsapp'])
                 ->name('ativar-whatsapp');
-            Route::put('inativar-whatsapp/{id}', [LeadsWhatsappController::class, 'inativarNumeroWhatsapp'])
+            Route::put('inativar-whatsapp/{numero}', [LeadsWhatsappController::class, 'inativarNumeroWhatsapp'])
                 ->name('inativar-whatsapp');
         });
 

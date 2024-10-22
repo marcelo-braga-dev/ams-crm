@@ -11,8 +11,8 @@ class LeadsWhatsappController extends Controller
     {
         (new LeadsTelefones())->ativar($id);
     }
-    public function inativarNumeroWhatsapp($id)
+    public function inativarNumeroWhatsapp($numero)
     {
-        (new LeadsTelefones())->inativar($id);
+        (new LeadsTelefones())->inativar($numero);
     }
 }

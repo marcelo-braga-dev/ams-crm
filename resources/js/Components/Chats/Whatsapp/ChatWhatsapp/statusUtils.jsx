@@ -5,7 +5,7 @@ export const ativarStatusWhatsapp = (id) => {
         {_method: 'PUT'}, {preserveScroll: true});
 };
 
-export const inativarStatusWhatsapp = (id) => {
-    router.post(route('auth.leads.inativar-whatsapp', id),
+export const inativarStatusWhatsapp = (numero) => {
+    router.post(route('auth.leads.inativar-whatsapp', numero),
         {_method: 'PUT'}, {preserveScroll: true});
 };
