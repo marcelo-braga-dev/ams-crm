@@ -164,7 +164,7 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                                     }}>
                                     <TbPin size={17} color="#555" />
                                 </IconButton>}
-                            <FinalizarLeadDialog leadId={id}/>
+                            <FinalizarLeadDialog leadId={id} lead={card}/>
                         </Stack>
                     </Grid>
                 </Grid>

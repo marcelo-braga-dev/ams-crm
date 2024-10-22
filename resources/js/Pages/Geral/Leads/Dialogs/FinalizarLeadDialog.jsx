@@ -4,8 +4,10 @@ import React, { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { useFunilVendas } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
 import { router } from '@inertiajs/react';
+import Stack from '@mui/material/Stack';
+import CampoTexto from '@/Components/CampoTexto.jsx';
 
-const FinalizarLeadDialog = ({ leadId }) => {
+const FinalizarLeadDialog = ({ leadId, lead }) => {
     const { handleAtualizar } = useFunilVendas();
 
     const [motivo, setMotivo] = useState('');
@@ -48,6 +50,12 @@ const FinalizarLeadDialog = ({ leadId }) => {
                 </DialogTitle>
                 <form onSubmit={submit}>
                     <DialogContent>
+                        <Stack marginBottom={2}>
+                            {lead.nome && <CampoTexto titulo="Nome" texto={lead.nome} />}
+                            {lead.razao_social && <CampoTexto titulo="Razão Social" texto={lead.razao_social} />}
+                            {lead.cnpj && <CampoTexto titulo="CNPJ" texto={lead.cnpj} />}
+                            {lead.id && <CampoTexto titulo="ID" texto={`#${lead.id}`} />}
+                        </Stack>
                         <TextField
                             label="Motivo da finalização..."
                             required

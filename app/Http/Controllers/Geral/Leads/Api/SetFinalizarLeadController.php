@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Geral\Leads\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\LeadsStatusHistoricos;
 use App\src\Leads\StatusLeads\FinalizadosStatusLeads;
 use Illuminate\Http\Request;
 
