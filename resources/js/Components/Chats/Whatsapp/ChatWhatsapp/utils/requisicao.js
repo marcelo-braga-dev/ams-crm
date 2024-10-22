@@ -21,9 +21,6 @@ const fetchRequisicao = async (urlBackend, apiKey, numero, credenciaisUsuario) =
 
     try {
         const response =  await axios.post(url, options.data, { headers: options.headers })
-        // console.log('----\\/------');
-        // console.log('RESPONSE: ', response);
-        // console.log('----/\\------');
 
         return response?.data?.data?.id
     } catch (error) {

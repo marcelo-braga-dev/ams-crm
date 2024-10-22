@@ -25,8 +25,8 @@ const OpenIflame = ({ numero, status, telefone, leadId, telefoneId, icone, noDia
             const res = await fetchRequisicao(urlBackend, apiKey, numero, credenciaisUsuario);
             setChatId(res);
         } catch (error) {
+            handleAtualizar()
             AlertError(error.message);
-            console.log(error.message);
         }
     };
 
