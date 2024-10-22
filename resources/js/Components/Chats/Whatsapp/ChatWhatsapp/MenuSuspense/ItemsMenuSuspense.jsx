@@ -3,12 +3,10 @@ import * as React from 'react';
 import OpenIflame from '@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflame.jsx';
 
 const ItemsMenuSuspense = ({ value }) => {
-    const { id, status_telefone, telefone, numero } = value;
+    const { id, status_whatsapp, telefone, numero } = value;
 
     return (
-        <Stack key={id} direction="row" spacing={0} alignItems="center" marginInlineStart={1}>
-            <OpenIflame numero={numero} status={status_telefone} telefone={telefone} leadId={value.lead_id} telefoneId={value.id}/>
-        </Stack>
+            <OpenIflame key={id} numero={numero} status={status_whatsapp} telefone={telefone} leadId={value.lead_id} telefoneId={value.id}/>
     );
 };
 export default ItemsMenuSuspense;

@@ -24,8 +24,7 @@ const fetchRequisicao = async (urlBackend, apiKey, numero, credenciaisUsuario) =
 
         return response?.data?.data?.id
     } catch (error) {
-        console.log('ERRO')
-        throw new Error(analizarErros(error));
+        throw new Error(analizarErros(error, numero));
     }
 }
 export default fetchRequisicao

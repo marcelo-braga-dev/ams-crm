@@ -25,6 +25,7 @@ const OpenIflame = ({ numero, status, telefone, leadId, telefoneId, icone, noDia
             const res = await fetchRequisicao(urlBackend, apiKey, numero, credenciaisUsuario);
             setChatId(res);
         } catch (error) {
+            console.log('ATUALIZAR CARDS')
             handleAtualizar()
             AlertError(error.message);
         }
@@ -84,8 +85,8 @@ const OpenIflame = ({ numero, status, telefone, leadId, telefoneId, icone, noDia
                     <Whatsapp size={18} color="green"/>
                 </IconButton>
             ) : (
-                <MenuItem onClick={fetch}>
-                    <Typography color={status === 0 ? '#ccc' : 'black'}>{telefone}</Typography>
+                <MenuItem disabled={status === 0} onClick={fetch}>
+                    <Typography >{telefone}</Typography>
                 </MenuItem>
             )}
             <DialogIflame openIflame={openIflame} handleClose={handleClose} urlFrontend={URL_DO_WHATICKET} noDialogLead />

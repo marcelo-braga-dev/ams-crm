@@ -8,7 +8,7 @@ const ButtonWhatsapp = ({ telefones }) => {
     const open = Boolean(anchorEl);
 
     const indices = telefones
-        .map((telefone, index) => (telefone.status_telefone >= 1 ? index : -1))
+        .map((telefone, index) => (telefone.status_whatsapp >= 1 ? index : -1))
         .filter(index => index !== -1);
 
     const handleClick = (event) => {
@@ -19,7 +19,7 @@ const ButtonWhatsapp = ({ telefones }) => {
     };
 
     return (<>
-        <Badge badgeContent={telefones.length}
+        <Badge badgeContent={indices.length}
                sx={{
                    '& .MuiBadge-badge': {
                        backgroundColor: (indices.length > 0 ? 'green' : '#aaa'),
