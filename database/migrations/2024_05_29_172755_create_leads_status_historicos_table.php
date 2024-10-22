@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('lead_id')->index();
             $table->string('status');
-            $table->string('anotacoes')->nullable();
+            $table->string('anotacao')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
