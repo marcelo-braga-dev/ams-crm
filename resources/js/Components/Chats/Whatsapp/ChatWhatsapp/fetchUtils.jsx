@@ -42,7 +42,7 @@ export const fetchCadastrarContatoNoWhatsapp = async ({ numero, id }, setChattId
         if (error?.response?.data?.message === 'ERR_NO_DEF_WAPP_FOUND') msgError = 'SEM CONEXÃO COM WHATSAPP';
         if (error?.response?.data?.message === 'ERR_WAPP_INVALID_CONTACT') {
             inativarStatusWhatsapp(id);
-            return;
+            msgError = 'Número de Whatsapp Inválido!';
         }
 
         throw new Error(msgError);
