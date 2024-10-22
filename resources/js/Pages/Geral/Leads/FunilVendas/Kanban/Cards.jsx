@@ -54,7 +54,6 @@ const Cards = () => {
 
             return (
                 <td key={status} style={{ padding: 10 }}>
-                    {/* Renderiza os cartões filtrados ou todos se `pesquisar` for nulo */}
                     {filteredStatusGroup?.slice(0, qutCardsByStatus[status]).map((item) => (
                         <CardFunilVendas
                             key={item.id}

@@ -3,6 +3,7 @@
 namespace App\src\Leads\StatusLeads;
 
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
+use App\Models\LeadsStatusHistoricos;
 
 class FinalizadosStatusLeads extends StatusLeads
 {
@@ -46,8 +47,9 @@ class FinalizadosStatusLeads extends StatusLeads
         $this->descricao = '';
     }
 
-    public function updateStatus($id): void
+    public function updateStatus($id, $msg = null): void
     {
         (new LeadsANTIGO())->updateStatus($id, $this->status);
+        (new LeadsStatusHistoricos())->create($id, $this->status, $msg);
     }
 }

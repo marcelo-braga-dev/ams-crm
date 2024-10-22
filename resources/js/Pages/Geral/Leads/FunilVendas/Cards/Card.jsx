@@ -22,11 +22,12 @@ import {
     TbMapPin,
     TbPin,
     TbPinFilled,
-    TbUser,
+    TbUser, TbX,
 } from 'react-icons/tb';
 import LeadShow from '@/Pages/Geral/Leads/Dialogs/LeadShow.jsx';
 import { useFunilVendas } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
 import Chip from '@mui/material/Chip';
+import FinalizarLeadDialog from '@/Pages/Geral/Leads/Dialogs/FinalizarLeadDialog.jsx';
 
 const Card = styled.div`
     border-radius: 10px;
@@ -163,6 +164,7 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                                     }}>
                                     <TbPin size={17} color="#555" />
                                 </IconButton>}
+                            <FinalizarLeadDialog leadId={id}/>
                         </Stack>
                     </Grid>
                 </Grid>
