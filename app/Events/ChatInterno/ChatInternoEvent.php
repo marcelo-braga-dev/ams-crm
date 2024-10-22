@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\ChatInterno;
 
 use App\Models\User;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChatInternoNovaMensagemRecebida  implements ShouldBroadcast
+class ChatInternoEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -42,7 +40,7 @@ class ChatInternoNovaMensagemRecebida  implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
-        return [new PrivateChannel('chat.' . $this->destinatarioId)];
+        return [new PrivateChannel('chat-interno.' . $this->destinatarioId)];
     }
 
     public function broadcastAs()

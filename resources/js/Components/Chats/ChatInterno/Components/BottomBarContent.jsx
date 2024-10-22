@@ -48,6 +48,7 @@ function BottomBarContent({infoChatSelecionado, urlSubmit, admin, fetchMensagens
 
     let isSending = false
     const submit = useCallback(() => {
+        console.log('CLICK')
         if (isSending) return;
         isSending = true;
 

@@ -115,7 +115,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                         <CardBody>
                             {isAdmin ?
                                 <Link href={route('admin.pedidos.emitir.create', { lead: lead.id })}>
-                                    <Button color="success" startIcon={<TbPackage />}>Emitir PedidoX</Button>
+                                    <Button color="success" startIcon={<TbPackage />}>Emitir Pedido</Button>
                                 </Link> :
                                 <Link href={route('consultor.pedidos.create', { lead: lead.id })}>
                                     <Button color="success" startIcon={<TbPackage />}>Emitir Pedido</Button>
@@ -137,7 +137,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                         )} />
                         <div style={{ height: 530 }}>
                             <CardBody>
-                                {value === 0 && <HistoricoAtendimento historicos={historicos.atendimento} />}
+                                {value === 0 && <HistoricoAtendimento leadId={leadId} />}
 
                                 {value === 1 && <HistoricoPedidos historicos={historicos.pedidos} />}
 

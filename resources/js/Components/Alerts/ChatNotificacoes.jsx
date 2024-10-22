@@ -24,7 +24,7 @@ const ChatNotificacoes = () => {
 
     useEffect(() => {
 
-        window.Echo.channel(`private-chat.${chatId}`)
+        window.Echo.channel(`private-chat-interno.${chatId}`)
             .listen('.message.sent', (data) => {
 
                 setSomNotificacao(e => !e)

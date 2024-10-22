@@ -2,7 +2,7 @@
 
 namespace App\src\ChatInterno;
 
-use App\Events\ChatInternoNovaMensagemRecebida;
+use App\Events\ChatInterno\ChatInternoEvent;
 use App\Models\ChatInterno;
 use App\Models\User;
 use App\Services\UploadFiles;
@@ -13,7 +13,7 @@ class CadastrarChatInterno
 {
     public function salvar($dados)
     {
-        event(new ChatInternoNovaMensagemRecebida($dados->destinatario, $dados->mensagem));
+        event(new ChatInternoEvent($dados->destinatario, $dados->mensagem));
 
         $dadosAnexo = (new UploadFiles())->armazenarComMime($dados, 'anexo', 'chat-interno');
 

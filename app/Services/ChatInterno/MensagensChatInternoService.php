@@ -52,7 +52,7 @@ class MensagensChatInternoService
     public function mensagens($usuario, $destinatario, $categoria = 'chat', $limit)
     {
         $usuario = id_usuario_atual();
-        if (!$destinatario) return [];
+        if (!$destinatario && $categoria !== 'avisos') return [];
         $mensagens = [];
         if ($categoria === 'chat') $mensagens = (new ChatInterno())->getMensagens($usuario, $destinatario, $limit);
         if ($categoria === 'avisos') $mensagens = (new ChatInterno())->getAvisos();
@@ -62,10 +62,13 @@ class MensagensChatInternoService
 
         $dados = [];
         $periodo = '';
+
         foreach ($mensagens as $mensagem) {
             $periodoAtual = date('d/m/Y', strtotime($mensagem->created_at));;
+
             if ($periodo != $periodoAtual) $periodoMostrar = $periodoAtual;
             else $periodoMostrar = false;
+
             $dados[] = [
                 'id_mensagem' => $mensagem->id,
                 'chat_destinatario' => $destinatario,
@@ -85,6 +88,7 @@ class MensagensChatInternoService
 
             $periodo = date('d/m/Y', strtotime($mensagem->created_at));
         }
+
         return $dados;
     }
 
