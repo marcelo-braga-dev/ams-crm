@@ -2,13 +2,12 @@ import * as React from 'react';
 import CardContainer from '@/Components/Cards/CardContainer';
 import { Stack, Typography } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
-import { ChatFill, Person, TelephoneFill, Whatsapp } from 'react-bootstrap-icons';
+import {  TelephoneFill, Whatsapp } from 'react-bootstrap-icons';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
 import { useEffect, useState } from 'react';
-import { router } from '@inertiajs/react';
 import { TbBrandWhatsapp, TbLocation } from 'react-icons/tb';
 
 const tipoContato = {
@@ -28,7 +27,7 @@ export default function HistoricoAtendimento({ leadId }) {
         };
         fetchHistorico();
     }, []);
-    console.log(historicos);
+
     return (
         <div style={{ maxHeight: 500, overflowY: 'auto', paddingInline: 20 }}>
             <List>
