@@ -19,11 +19,9 @@ export default function HistoricoAtendimento({ leadId }) {
     const [historicos, setHistoricos] = useState([]);
 
     useEffect(() => {
-
         const fetchHistorico = async () => {
             const response = await axios.get(route('auth.leads.get-historico-contato', leadId));
             setHistoricos(response.data);
-            console.log(response.data);
         };
         fetchHistorico();
     }, []);
