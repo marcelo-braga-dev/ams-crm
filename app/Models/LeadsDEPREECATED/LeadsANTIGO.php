@@ -468,7 +468,7 @@ class LeadsANTIGO extends Model
                 'status_data' => now()
             ]);
 
-        (new LeadsStatusHistoricos())->create($id, $this->status, $msg);
+        (new LeadsStatusHistoricos())->create($id, $status, $msg);
     }
 
     public function remover($id)
