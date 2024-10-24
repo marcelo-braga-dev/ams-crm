@@ -49,7 +49,6 @@ class FinalizadosStatusLeads extends StatusLeads
 
     public function updateStatus($id, $msg = null): void
     {
-        (new LeadsANTIGO())->updateStatus($id, $this->status);
-        (new LeadsStatusHistoricos())->create($id, $this->status, $msg);
+        (new LeadsANTIGO())->updateStatus($id, $this->status, $msg);
     }
 }
