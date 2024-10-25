@@ -1134,34 +1134,37 @@ class LeadsANTIGO extends Model
         $filtro = $filtros['filtro'] ?? null;
         $valor = $filtros['filtro_valor'] ?? null;
 
-        if ($filtro == 'telefone') $valor = converterInt($valor);
+        if ($filtro == 'telefone' || $filtro == 'cnpj') $valor = converterInt($valor);
 
-        if ($valor && $filtro)
+        if ($valor && $filtro) {
             switch ($filtro) {
                 case 'id':
                     $query->where('id', $valor);
                     break;
                 case 'nome':
-                    {
-                        $query->where(function ($query) use ($valor) {
-                            $query->where('nome', 'LIKE', '%' . $valor . '%')
-                                ->orWhere('razao_social', 'LIKE', '%' . $valor . '%');
-                        });
-                    }
+                    $query->where(function ($query) use ($valor) {
+                        $query->where('nome', 'LIKE', '%' . $valor . '%')
+                            ->orWhere('razao_social', 'LIKE', '%' . $valor . '%');
+                    });
                     break;
                 case 'cnpj':
-                    $query->where('cnpj', 'LIKE', "{$valor}%");
+                    $query->where('cnpj', 'LIKE', "%$valor%");
                     break;
                 case 'cidade':
-                    $query->where('cidade', 'LIKE', "{$valor}%");
+                    $query->where('cidade', 'LIKE', "$valor%");
                     break;
                 case 'ddd':
-                    $query->where('telefone', 'LIKE', "55{$valor}%");
+                    $query->whereHas('telefones', function ($query) use ($valor) {
+                        $query->where('numero', 'LIKE', "55$valor%");
+                    });
                     break;
                 case 'telefone':
-                    $query->where('telefone', 'LIKE', "%{$valor}%");
+                    $query->whereHas('telefones', function ($query) use ($valor) {
+                        $query->where('numero', 'LIKE', "%$valor%");
+                    });
                     break;
             }
+        }
     }
 
     public function removerImportacao($id)
