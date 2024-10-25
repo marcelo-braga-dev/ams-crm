@@ -10,10 +10,10 @@ import Link from "@/Components/Link.jsx";
 export default function ({statusLeads}) {
 
     let totalLeads = 0,
-        totalNovo = 0,
-        totalPreAtendimento = 0,
-        totalAberto = 0,
-        totalAtendimento = 0,
+        totalOporunidades = 0,
+        totalConexaoProativo = 0,
+        totalContatoDireto = 0,
+        totalCotacaoEnviado = 0,
         totalAtivo = 0,
         totalFinalizado = 0
 
@@ -36,18 +36,18 @@ export default function ({statusLeads}) {
                         <tbody>
                         {statusLeads.map((dado, index) => {
                             const total =
-                                (dado.status.novo ?? 0) +
-                                (dado.status.fazer ?? 0) +
-                                (dado.status.progresso ?? 0) +
-                                (dado.status.revisao ?? 0) +
-                                (dado.status.concluido ?? 0)
+                                (dado.status.oportunidade ?? 0) +
+                                (dado.status.conexao_proativo ?? 0) +
+                                (dado.status.contato_direto ?? 0) +
+                                (dado.status.cotacao_enviado ?? 0) +
+                                (dado.status.ativo ?? 0)
 
                             totalLeads += total
-                            totalNovo += dado.status.novo ?? 0
-                            totalPreAtendimento += dado.status.fazer ?? 0
-                            totalAberto += dado.status.progresso ?? 0
-                            totalAtendimento += dado.status.revisao ?? 0
-                            totalAtivo += dado.status.concluido ?? 0
+                            totalOporunidades += dado.status.oportunidade ?? 0
+                            totalConexaoProativo += dado.status.conexao_proativo ?? 0
+                            totalContatoDireto += dado.status.contato_direto ?? 0
+                            totalCotacaoEnviado += dado.status.cotacao_enviado ?? 0
+                            totalAtivo += dado.status.ativo ?? 0
 
                             return (
                                 <tr key={index}>
@@ -57,21 +57,21 @@ export default function ({statusLeads}) {
                                             <span><b>{dado.nome.nome}</b></span>
                                         </Stack>
                                     </td>
-                                    <td>{dado.status.novo ?? 0}</td>
-                                    <td>{dado.status.fazer ?? 0}</td>
-                                    <td>{dado.status.progresso ?? 0}</td>
-                                    <td>{dado.status.revisao ?? 0}</td>
-                                    <td>{dado.status.concluido ?? 0}</td>
+                                    <td>{dado.status.oportunidade ?? 0}</td>
+                                    <td>{dado.status.conexao_proativo ?? 0}</td>
+                                    <td>{dado.status.contato_direto ?? 0}</td>
+                                    <td>{dado.status.cotacao_enviado ?? 0}</td>
+                                    <td>{dado.status.ativo ?? 0}</td>
                                     <td className="bg-light">{total}</td>
                                 </tr>
                             )
                         })}
                         <tr className="bg-light">
                             <td><b>TOTAL</b></td>
-                            <td>{totalNovo}</td>
-                            <td>{totalPreAtendimento}</td>
-                            <td>{totalAberto}</td>
-                            <td>{totalAtendimento}</td>
+                            <td>{totalOporunidades}</td>
+                            <td>{totalConexaoProativo}</td>
+                            <td>{totalContatoDireto}</td>
+                            <td>{totalCotacaoEnviado}</td>
                             <td>{totalAtivo}</td>
                             <td>{totalLeads}</td>
                         </tr>
