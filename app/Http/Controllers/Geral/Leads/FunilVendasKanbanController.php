@@ -3,16 +3,14 @@
 namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Lead\Lead;
 use App\Models\Lead\LeadStatus;
 use App\Models\LeadsDEPREECATED\Leads;
-use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsDEPREECATED\LeadsContatosRealizados;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\LeadFunilVendasService;
 use App\src\Leads\StatusLeads;
-use App\src\Leads\StatusLeads\AFazerStatusLeads;
+use App\src\Leads\StatusLeads\ConexaoProativaStatusLead;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -44,7 +42,7 @@ class FunilVendasKanbanController extends Controller
         (new Leads())->setConatoData($leadId);
 
         $lead = (new Leads())->newQuery()->find($leadId);
-        if ($lead->status === 'novo') (new AFazerStatusLeads())->updateStatus($leadId); // remover
+        if ($lead->status === 'novo') (new ConexaoProativaStatusLead())->updateStatus($leadId); // remover
 
         (new LeadsContatosRealizados())->store($leadId, $telefoneId, $origem, $meta);
     }

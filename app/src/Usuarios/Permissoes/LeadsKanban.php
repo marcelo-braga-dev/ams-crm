@@ -3,14 +3,14 @@
 namespace App\src\Usuarios\Permissoes;
 
 
-use App\src\Leads\StatusLeads\AFazerStatusLeads;
-use App\src\Leads\StatusLeads\ConcluidoStatusLeads;
-use App\src\Leads\StatusLeads\EmProgressoStatusLeads;
-use App\src\Leads\StatusLeads\FinalizadosStatusLeads;
-use App\src\Leads\StatusLeads\InativoStatusLeads;
-use App\src\Leads\StatusLeads\InicioFunilStatusLeads;
-use App\src\Leads\StatusLeads\NovoStatusLeads;
-use App\src\Leads\StatusLeads\RevisaoStatusLeads;
+use App\src\Leads\StatusLeads\ConexaoProativaStatusLead;
+use App\src\Leads\StatusLeads\AtivoStatusLead;
+use App\src\Leads\StatusLeads\ContatoDiretoStatusLead;
+use App\src\Leads\StatusLeads\FinalizadoStatusLead;
+use App\src\Leads\StatusLeads\InativoStatusLead;
+use App\src\Leads\StatusLeads\InicioFunilStatusLead;
+use App\src\Leads\StatusLeads\OportunidadeStatusLead;
+use App\src\Leads\StatusLeads\CotacaoEnviadoStatusLead;
 
 class LeadsKanban extends ChavesPermissoes
 {
@@ -45,14 +45,14 @@ class LeadsKanban extends ChavesPermissoes
     public function permissoesStatus($status): string
     {
         $items = [
-            $this->chaveLeadsStatusInicioFunil() => (new InicioFunilStatusLeads())->status(),
-            $this->chaveLeadsStatusNovos() => (new NovoStatusLeads())->status(),
-            $this->chaveLeadsStatusFazer() => (new AFazerStatusLeads())->status(),
-            $this->chaveLeadsStatusProgresso() => (new EmProgressoStatusLeads())->status(),
-            $this->chaveLeadsStatusRevisao() => (new RevisaoStatusLeads())->status(),
-            $this->chaveLeadsStatusConcluido() => (new ConcluidoStatusLeads())->status(),
-            $this->chaveLeadsStatusFinalizados() => (new FinalizadosStatusLeads())->status(),
-            $this->chaveLeadsStatusInativos() => (new InativoStatusLeads())->status(),
+            $this->chaveLeadsStatusInicioFunil() => (new InicioFunilStatusLead())->getStatus(),
+            $this->chaveLeadsStatusNovos() => (new OportunidadeStatusLead())->getStatus(),
+            $this->chaveLeadsStatusFazer() => (new ConexaoProativaStatusLead())->getStatus(),
+            $this->chaveLeadsStatusProgresso() => (new ContatoDiretoStatusLead())->getStatus(),
+            $this->chaveLeadsStatusRevisao() => (new CotacaoEnviadoStatusLead())->getStatus(),
+            $this->chaveLeadsStatusConcluido() => (new AtivoStatusLead())->getStatus(),
+            $this->chaveLeadsStatusFinalizados() => (new FinalizadoStatusLead())->getStatus(),
+            $this->chaveLeadsStatusInativos() => (new InativoStatusLead())->getStatus(),
         ];
 
         return $items[$status];

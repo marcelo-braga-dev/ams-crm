@@ -2,7 +2,7 @@
 
 namespace App\src\Usuarios\Permissoes;
 
-use App\src\Leads\StatusLeads\RevisaoStatusLeads;
+use App\src\Leads\StatusLeads\CotacaoEnviadoStatusLead;
 use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
 use App\src\Pedidos\Status\AguardandoNotaStatus;

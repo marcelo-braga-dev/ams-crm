@@ -7,7 +7,9 @@ use App\src\Leads\StatusAtendimentoLeads;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+/**
+ * @deprecated
+ */
 class LeadsHistoricos extends Model
 {
     use HasFactory;

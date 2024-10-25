@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Consultor\Leads\MeioContatoLeads;
 use App\Http\Controllers\Controller;
+use App\Models\Lead\LeadStatusHistoricos;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsHistoricos;
-use App\Models\LeadsStatusHistoricos;
 use App\Models\User;
 use App\Models\UsersPermissoes;
 use App\Services\Leads\HistoricoDadosService;
@@ -26,7 +26,7 @@ class AtendimentoController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getUsuarios($dados['infos']['setor']);
         $isEditar = (new UsersPermissoes())->isLeadsEditar(id_usuario_atual());
-        $historicoStatus = (new LeadsStatusHistoricos())->getId($id);
+        $historicoStatus = (new LeadStatusHistoricos())->getId($id);
 
         return Inertia::render(
             'Admin/Leads/Relatorios/Cards/Atendimento/Show',

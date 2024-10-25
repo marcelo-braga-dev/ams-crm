@@ -6,7 +6,9 @@ use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsDEPREECATED\LeadsCopias;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * @deprecated
+ */
 class LeadsImportarHistoricos extends Model
 {
     use HasFactory;

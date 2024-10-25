@@ -4,7 +4,7 @@ namespace App\src\Leads\StatusLeads;
 
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 
-class NovoStatusLeads extends StatusLeads
+class AtivoStatusLead extends StatusLeads
 {
     public function __construct()
     {
@@ -13,22 +13,23 @@ class NovoStatusLeads extends StatusLeads
         $this->setStatusCor();
         $this->setStatusPrazo();
         $this->setDescricao();
-        $this->urlStatus = 'auth.leads.avancar-status.novo';
+        $this->urlStatus = '';
+        $this->emitePedidos = true;
     }
 
     public function setStatus(): void
     {
-        $this->status = 'novo';
+        $this->status = 'ativo';
     }
 
     public function setStatusNome(): void
     {
-        $this->statusNome = 'Oportunidades';
+        $this->statusNome = 'Ativo';
     }
 
     public function setStatusCor(): void
     {
-        $this->statusCor = '#41D310';
+        $this->statusCor = 'green';
     }
 
     public function setStatusPrazo(): void

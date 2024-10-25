@@ -3,14 +3,14 @@
 namespace App\src\Leads;
 
 use App\Services\Permissoes\LeadsKanbanPermissoesServices;
-use App\src\Leads\StatusLeads\AFazerStatusLeads;
-use App\src\Leads\StatusLeads\ConcluidoStatusLeads;
-use App\src\Leads\StatusLeads\EmProgressoStatusLeads;
-use App\src\Leads\StatusLeads\FinalizadosStatusLeads;
-use App\src\Leads\StatusLeads\InativoStatusLeads;
-use App\src\Leads\StatusLeads\InicioFunilStatusLeads;
-use App\src\Leads\StatusLeads\NovoStatusLeads;
-use App\src\Leads\StatusLeads\RevisaoStatusLeads;
+use App\src\Leads\StatusLeads\ConexaoProativaStatusLead;
+use App\src\Leads\StatusLeads\AtivoStatusLead;
+use App\src\Leads\StatusLeads\ContatoDiretoStatusLead;
+use App\src\Leads\StatusLeads\FinalizadoStatusLead;
+use App\src\Leads\StatusLeads\InativoStatusLead;
+use App\src\Leads\StatusLeads\InicioFunilStatusLead;
+use App\src\Leads\StatusLeads\OportunidadeStatusLead;
+use App\src\Leads\StatusLeads\CotacaoEnviadoStatusLead;
 use App\src\Leads\StatusLeads\StatusLeadsInterface;
 
 class StatusLeads
@@ -23,22 +23,34 @@ class StatusLeads
     private function sequenciaClasses(): array
     {
         return [
-            (new InicioFunilStatusLeads()),
-            (new NovoStatusLeads()),
-            (new AFazerStatusLeads),
-            (new EmProgressoStatusLeads),
-            (new RevisaoStatusLeads()),
-            (new ConcluidoStatusLeads()),
-            (new FinalizadosStatusLeads()),
-            (new InativoStatusLeads()),
+            (new InicioFunilStatusLead()),
+            (new OportunidadeStatusLead()),
+            (new ConexaoProativaStatusLead),
+            (new ContatoDiretoStatusLead),
+            (new CotacaoEnviadoStatusLead()),
+            (new AtivoStatusLead()),
+            (new FinalizadoStatusLead()),
+            (new InativoStatusLead()),
         ];
+    }
+
+    public function status(): array
+    {
+        $classes = [];
+        foreach ($this->sequenciaClasses() as $status) {
+            $classes[] = [
+                'id' => $status->getStatus(),
+                'nome' => $status->getStatusNome()
+            ];
+        }
+        return $classes;
     }
 
     public function sequenciaStatus(): array
     {
         $classes = [];
         foreach ($this->sequenciaClasses() as $status) {
-            $classes[] = $status->status();
+            $classes[] = $status->getStatus();
         }
         return $classes;
     }
@@ -52,8 +64,8 @@ class StatusLeads
 
         foreach ($this->sequenciaClasses() as $statusDados) {
             if ($usuario) {
-                if (in_array($statusDados->status(), $statusPermitidos)) $status[$statusDados->status()] = $statusDados->statusDados();
-            } else $status[$statusDados->status()] = $statusDados->statusDados();
+                if (in_array($statusDados->getStatus(), $statusPermitidos)) $status[$statusDados->getStatus()] = $statusDados->statusDados();
+            } else $status[$statusDados->getStatus()] = $statusDados->statusDados();
         }
 
         return $status;

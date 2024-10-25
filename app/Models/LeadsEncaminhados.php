@@ -6,7 +6,9 @@ use App\src\Usuarios\Status\AtivoStatusUsuario;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+/**
+ * @deprecated
+ */
 class LeadsEncaminhados extends Model
 {
     use HasFactory;

@@ -12,12 +12,12 @@ abstract class StatusLeads implements StatusLeadsInterface
     protected string $descricao = '';
     protected bool $emitePedidos = false;
 
-    public function status(): string
+    public function getStatus(): string
     {
         return $this->status;
     }
 
-    public function statusNome(): string
+    public function getStatusNome(): string
     {
         return $this->statusNome;
     }

@@ -4,7 +4,7 @@ namespace App\src\Leads\StatusLeads;
 
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 
-class InativoStatusLeads extends StatusLeads
+class ConexaoProativaStatusLead extends StatusLeads
 {
     public function __construct()
     {
@@ -13,27 +13,27 @@ class InativoStatusLeads extends StatusLeads
         $this->setStatusCor();
         $this->setStatusPrazo();
         $this->setDescricao();
-        $this->urlStatus = '';
+        $this->urlStatus = 'auth.leads.avancar-status.fazer';
     }
 
     public function setStatus(): void
     {
-        $this->status = 'inativo';
-    }
-
-    public function setStatusNome(): void
-    {
-        $this->statusNome = 'Inativos';
-    }
-
-    public function setStatusCor(): void
-    {
-        $this->statusCor = 'gray';
+        $this->status = 'conexao_proativo';
     }
 
     public function setStatusPrazo(): void
     {
+        $this->statusPrazo = 4;
+    }
 
+    public function setStatusNome(): void
+    {
+        $this->statusNome = 'Conexão Proativa';
+    }
+
+    public function setStatusCor(): void
+    {
+        $this->statusCor = 'orange';
     }
 
     public function setPermissoes(): void

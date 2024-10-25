@@ -4,7 +4,7 @@ namespace App\src\Leads\StatusLeads;
 
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 
-class RevisaoStatusLeads extends StatusLeads
+class CotacaoEnviadoStatusLead extends StatusLeads
 {
     public function __construct()
     {
@@ -18,7 +18,7 @@ class RevisaoStatusLeads extends StatusLeads
 
     public function setStatus(): void
     {
-        $this->status = 'revisao';
+        $this->status = 'cotacao_enviado';
     }
 
     public function setStatusNome(): void

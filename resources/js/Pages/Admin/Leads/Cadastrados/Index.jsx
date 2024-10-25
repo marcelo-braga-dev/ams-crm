@@ -1,14 +1,14 @@
-import React, {useEffect, useState, useMemo, useRef} from 'react';
-import {TextField, MenuItem, FormControl, FormControlLabel, Switch, Autocomplete, Stack, Avatar, CircularProgress, Select, Box} from "@mui/material";
-import {router} from "@inertiajs/react";
+import React, { useEffect, useState, useMemo, useRef } from 'react';
+import { TextField, MenuItem, FormControl, FormControlLabel, Switch, Autocomplete, Stack, Avatar, CircularProgress, Select, Box } from '@mui/material';
+import { router } from '@inertiajs/react';
 
 import Layout from '@/Layouts/Layout';
 import Tabela from './Tabela';
 import Modal from './Modals';
-import CardContainer from "@/Components/Cards/CardContainer";
-import CardBody from "@/Components/Cards/CardBody";
-import {Trash} from "react-bootstrap-icons";
-import InputLabel from "@mui/material/InputLabel";
+import CardContainer from '@/Components/Cards/CardContainer';
+import CardBody from '@/Components/Cards/CardBody';
+import { Trash } from 'react-bootstrap-icons';
+import InputLabel from '@mui/material/InputLabel';
 
 const FilterSection = ({
                            setFiltroValor,
@@ -24,7 +24,8 @@ const FilterSection = ({
                            setComConsultor,
                            setFiltroLeads,
                            setFiltroClassificacao,
-                           setFiltroEnriquecidos
+                           setFiltroEnriquecidos,
+                           statusleads
                        }) => (<>
         <div className="row justify-content-between">
             <div className="col-md-2">
@@ -43,14 +44,7 @@ const FilterSection = ({
                 <TextField fullWidth select label="Status" defaultValue="" size="small"
                            onChange={event => setStatus(event.target.value)}>
                     <MenuItem value="">Todos</MenuItem>
-                    <MenuItem value="novo">Novos</MenuItem>
-                    <MenuItem value="fazer">A Fazer</MenuItem>
-                    <MenuItem value="progresso">Em Progresso</MenuItem>
-                    <MenuItem value="revisao">Revisão</MenuItem>
-                    <MenuItem value="concluido">Concluídos</MenuItem>
-                    <MenuItem value="finalizado">Finalizados</MenuItem>
-                    <MenuItem value="inativo">Inativos</MenuItem>
-                    <MenuItem value="inicio_funil">Início Funil</MenuItem>
+                    {statusleads.map(item => <MenuItem value={item.id}>{item.nome} | {item.id}</MenuItem>)}
                 </TextField>
             </div>
             <div className="col-md-2">
@@ -64,7 +58,7 @@ const FilterSection = ({
             </div>
             <div className="col-md-3">
                 <Stack direction="row">
-                    <TextField label="Filtro" select defaultValue="id" size="small" fullWidth sx={{width: '10rem'}}
+                    <TextField label="Filtro" select defaultValue="id" size="small" fullWidth sx={{ width: '10rem' }}
                                onChange={event => setFiltro(event.target.value)}>
                         <MenuItem value="id">ID</MenuItem>
                         <MenuItem value="nome">Nome/Razão Social</MenuItem>
@@ -74,12 +68,12 @@ const FilterSection = ({
                         <MenuItem value="telefone">Telefone</MenuItem>
                     </TextField>
                     <TextField placeholder="Pesquisar..." fullWidth
-                               onChange={e => setFiltroValor(e.target.value)} size="small"/>
+                               onChange={e => setFiltroValor(e.target.value)} size="small" />
                 </Stack>
             </div>
             <div className="col-auto">
-                <TextField select size="small" style={{width: 60}} onChange={event => setFiltroClassificacao(event.target.value)}>
-                    <MenuItem value="" style={{height: 30}}></MenuItem>
+                <TextField select size="small" style={{ width: 60 }} onChange={event => setFiltroClassificacao(event.target.value)}>
+                    <MenuItem value="" style={{ height: 30 }}></MenuItem>
                     <MenuItem value="😁">😁</MenuItem>
                     <MenuItem value="🙂">🙂</MenuItem>
                     <MenuItem value="😐">😐</MenuItem>
@@ -93,13 +87,13 @@ const FilterSection = ({
                 <Stack direction="row" spacing={4}>
                     <FormControlLabel label={<small>Apenas SEM SDR</small>}
                                       control={<Switch size="small" disabled={carregando}
-                                                       onChange={e => setComSdr(e.target.checked)}/>}/>
+                                                       onChange={e => setComSdr(e.target.checked)} />} />
                     <FormControlLabel label={<small>Apenas SEM Consultor(a)</small>}
                                       control={<Switch size="small" disabled={carregando}
-                                                       onChange={e => setComConsultor(e.target.checked)}/>}/>
+                                                       onChange={e => setComConsultor(e.target.checked)} />} />
                     <FormControlLabel label={<small>Enriquecidos</small>}
                                       control={<Switch size="small" disabled={carregando}
-                                                       onChange={e => setFiltroEnriquecidos(e.target.checked)}/>}/>
+                                                       onChange={e => setFiltroEnriquecidos(e.target.checked)} />} />
                 </Stack>
             </div>
         </div>
@@ -107,7 +101,7 @@ const FilterSection = ({
 );
 
 
-const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir}) => {
+const Index = ({ categorias, statusleads, datasImportacao, isLeadsEncaminhar, isLeadsExcluir }) => {
     const [leads, setLeads] = useState([]);
     const [carregando, setCarregando] = useState(true);
 
@@ -159,17 +153,17 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
         })).then(res => {
             setLeads(res.data.leads.dados);
             setUsuarios(res.data.usuarios);
-            setPaginateDados(res.data.leads.paginate)
+            setPaginateDados(res.data.leads.paginate);
         }).finally(() => {
             setCarregando(false);
             setLeadsChecked([]);
-            setCheckedPage(false)
+            setCheckedPage(false);
         });
     }
 
     useEffect(() => {
-        setPaginate(1)
-        getLeads()
+        setPaginate(1);
+        getLeads();
     }, [filtroSetor, filtroImportacao, filtroStatus, filtroSdr, filtroConsultor, enviarLead, filtroValor,
         filtroLeads, filtroOrdenar, filtroOrdenarBy, filtroQtdPagina, filtroClassificacao, filtroEnriquecidos]);
 
@@ -177,7 +171,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
         if (isFirstRender.current) {
             isFirstRender.current = false;
         } else {
-            getLeads()
+            getLeads();
         }
     }, [paginate]);
 
@@ -191,7 +185,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
             if (check) newChecked.push(valueID);
             else {
                 const currentIndex = leadsChecked.indexOf(valueID);
-                newChecked.splice(currentIndex,);
+                newChecked.splice(currentIndex);
             }
         }
 
@@ -203,7 +197,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
         const nome = usuarios.find(i => i.id === consultorSelecionado)?.nome;
         return nome ? (
             <>
-                <b>TROCAR</b> o consultor(a) dos Leads Selecionados para:<br/>
+                <b>TROCAR</b> o consultor(a) dos Leads Selecionados para:<br />
                 <h5>{nome}</h5>
             </>
         ) : <div className="alert alert-danger text-white">Selecione o Consultor</div>;
@@ -213,23 +207,24 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
         if (consultorSelecionado && leadsChecked.length > 0) {
             setCarregando(true);
             setEnviarLead(e => !e);
-            router.post(route('admin.clientes.leads.update-consultor', {leadsSelecionados: leadsChecked, consultor: consultorSelecionado}));
+
+            router.post(route('auth.leads.api.encaminhar', { lead_ids: leadsChecked, consultor_id: consultorSelecionado }));
         }
     };
 
     const removerSdr = () => {
         setEnviarLead(e => !e);
-        router.post(route('admin.clientes.leads.remover-sdr', {lead: leadsChecked}));
+        router.post(route('admin.clientes.leads.remover-sdr', { lead: leadsChecked }));
     };
 
     const removerConsultor = () => {
         setEnviarLead(e => !e);
-        router.post(route('admin.clientes.leads.remover-consultor', {lead: leadsChecked}));
+        router.post(route('admin.clientes.leads.remover-consultor', { lead: leadsChecked }));
     };
 
     const excluirLeads = () => {
         setEnviarLead(e => !e);
-        router.post(route('admin.clientes.leads.delete', {lead: leadsChecked}));
+        router.post(route('admin.clientes.leads.delete', { lead: leadsChecked }));
     };
 
     const [selectedOption, setSelectedOption] = useState('');
@@ -245,6 +240,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                     <FilterSection
                         setFiltroValor={setFiltroValor}
                         setores={categorias}
+                        statusleads={statusleads}
                         datasImportacao={datasImportacao}
                         setorSelecionado={filtroSetor}
                         setSetorSelecionado={setFiltroSetor}
@@ -269,7 +265,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                 <CardBody>
                     <div className="row justify-content-between">
                         {isLeadsEncaminhar && (
-                            <div className="col-3">
+                            <div className="col-6">
                                 <Stack direction="row" spacing={2}>
                                     <FormControl fullWidth variant="outlined">
                                         <InputLabel id="select-label">Enviar Leads para...</InputLabel>
@@ -282,7 +278,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                                             {usuarios.map((option) => (
                                                 <MenuItem key={option.id} value={option.id}>
                                                     <Box display="flex" alignItems="center">
-                                                        <Avatar src={option.foto} alt={option.nome} sx={{mr: 2, width: 25, height: 25}}/>
+                                                        <Avatar src={option.foto} alt={option.nome} sx={{ mr: 2, width: 25, height: 25 }} />
                                                         {option.nome}
                                                     </Box>
                                                 </MenuItem>
@@ -294,7 +290,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                             </div>
                         )}
                         <div className="col-auto">
-                            {carregando && <CircularProgress/>}
+                            {carregando && <CircularProgress />}
                         </div>
                         <div className="col-auto">
                             <Stack direction="row" spacing={4}>
@@ -303,7 +299,7 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
                                 <button className="btn btn-link btn-sm p-0 text-end text-dark" data-bs-toggle="modal" data-bs-target="#modalRemoverConsultor">Remover
                                     Consultor(a)
                                 </button>
-                                <Trash className="mt-1 cursor-pointer" color="red" size={18} data-bs-toggle="modal" data-bs-target="#modalExcluirLeads"/>
+                                <Trash className="mt-1 cursor-pointer" color="red" size={18} data-bs-toggle="modal" data-bs-target="#modalExcluirLeads" />
                             </Stack>
                         </div>
                     </div>
@@ -312,16 +308,16 @@ const Index = ({categorias, datasImportacao, isLeadsEncaminhar, isLeadsExcluir})
 
             <Tabela leads={leads} setPaginate={setPaginate} paginate={paginate} paginateDados={paginateDados} setOrdenar={setFiltroFiltroOrdenar}
                     setFiltroFiltroOrdenarBy={setFiltroFiltroOrdenarBy} setFiltroQtdPagina={setFiltroQtdPagina} filtroQtdPagina={filtroQtdPagina}
-                    leadsChecked={leadsChecked} setLeadsChecked={setLeadsChecked} checkedPage={checkedPage} adicionarLeadsCheck={adicionarLeadsCheck}/>
+                    leadsChecked={leadsChecked} setLeadsChecked={setLeadsChecked} checkedPage={checkedPage} adicionarLeadsCheck={adicionarLeadsCheck} />
 
-            <Modal id="modalEnviar" title="ALTERAR CONSULTOR" body={<>{leadsChecked.length} selecionados.<br/>{nomeConsultorSelecionado()}</>}
-                   confirmText="Alterar Consultor(a)" confirmAction={enviarLeads}/>
+            <Modal id="modalEnviar" title="ALTERAR CONSULTOR" body={<>{leadsChecked.length} selecionados.<br />{nomeConsultorSelecionado()}</>}
+                   confirmText="Alterar Consultor(a)" confirmAction={enviarLeads} />
             <Modal id="modalRemoverSdr" title="Remover SDR dos Leads" body="Deseja realmente remover SDR dos LEADS selecionados?" confirmText="Remover SDR"
-                   confirmAction={removerSdr}/>
+                   confirmAction={removerSdr} />
             <Modal id="modalRemoverConsultor" title="Remover Consultor(a) dos Leads" body="Deseja realmente remover os Consultor(a) dos LEADS selecionados?"
-                   confirmText="Remover Consultor(a)" confirmAction={removerConsultor}/>
+                   confirmText="Remover Consultor(a)" confirmAction={removerConsultor} />
             <Modal id="modalExcluirLeads" title="Excluir Leads Selecionados" body="Deseja realmente EXCLUIR PERMANENTEMENTE os LEADS selecionados?" confirmText="Excluir"
-                   confirmAction={excluirLeads}/>
+                   confirmAction={excluirLeads} />
         </Layout>
     );
 };

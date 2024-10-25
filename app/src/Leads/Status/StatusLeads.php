@@ -2,32 +2,43 @@
 
 namespace App\src\Leads\Status;
 
-use App\src\Leads\StatusLeads\AFazerStatusLeads;
-use App\src\Leads\StatusLeads\ConcluidoStatusLeads;
-use App\src\Leads\StatusLeads\EmProgressoStatusLeads;
-use App\src\Leads\StatusLeads\InicioFunilStatusLeads;
-use App\src\Leads\StatusLeads\RevisaoStatusLeads;
+use App\src\Leads\StatusLeads\AtivoStatusLead;
+use App\src\Leads\StatusLeads\ConexaoProativaStatusLead;
+use App\src\Leads\StatusLeads\ContatoDiretoStatusLead;
+use App\src\Leads\StatusLeads\CotacaoEnviadoStatusLead;
+use App\src\Leads\StatusLeads\FinalizadoStatusLead;
+use App\src\Leads\StatusLeads\InativoStatusLead;
+use App\src\Leads\StatusLeads\InicioFunilStatusLead;
+use App\src\Leads\StatusLeads\OportunidadeStatusLead;
+use App\src\Leads\StatusLeads\ReativarStatusLead;
 
+/**
+ * @deprecated
+ */
 class StatusLeads
 {
     public function nomesStatus(): array
     {
-        $novo = (new NovoStatusLeads());
-        $aberto = (new AbertoStatusLeads());
-        $preAtendimento = (new PreAtendimentoStatusLeads());
-        $atendimento = (new AtendimentoStatusLeads());
-        $ativo = (new AtivoStatusLeads());
-        $finalizado = (new FinalizadoStatusLeads());
-        $inativo = (new InativoStatusLeads());
+        $ativo = (new AtivoStatusLead());
+        $conexaoProativa = (new ConexaoProativaStatusLead);
+        $contatoDireto = (new ContatoDiretoStatusLead);
+        $cotacaoEnviado = (new CotacaoEnviadoStatusLead());
+        $finalizado = (new FinalizadoStatusLead());
+        $inativo = (new InativoStatusLead());
+        $inicioFunil = (new InicioFunilStatusLead());
+        $oportunidade = (new OportunidadeStatusLead);
+        $reativar = (new ReativarStatusLead());
 
         return [
-            $novo->getStatus() => $novo->getNome(),
-            $aberto->getStatus() => $aberto->getNome(),
-            $preAtendimento->getStatus() => $preAtendimento->getNome(),
-            $atendimento->getStatus() => $atendimento->getNome(),
-            $ativo->getStatus() => $ativo->getNome(),
-            $finalizado->getStatus() => $finalizado->getNome(),
-            $inativo->getStatus() => $inativo->getNome(),
+            $ativo->getStatus() => $ativo->getStatusNome(),
+            $conexaoProativa->getStatus() => $conexaoProativa->getStatusNome(),
+            $contatoDireto->getStatus() => $contatoDireto->getStatusNome(),
+            $cotacaoEnviado->getStatus() => $cotacaoEnviado->getStatusNome(),
+            $finalizado->getStatus() => $finalizado->getStatusNome(),
+            $inativo->getStatus() => $inativo->getStatusNome(),
+            $inicioFunil->getStatus() => $inicioFunil->getStatusNome(),
+            $oportunidade->getStatus() => $oportunidade->getStatusNome(),
+            $reativar->getStatus() => $reativar->getStatusNome(),
         ];
     }
 
@@ -37,46 +48,31 @@ class StatusLeads
         return $nomes[$status] ?? '';
     }
 
-    public function nomeCor($status)
+    public function nomeCor($status): array
     {
-        $novo = (new NovoStatusLeads());
-        $preAtendimento = (new PreAtendimentoStatusLeads());
-        $aberto = (new AbertoStatusLeads());
-        $atendimento = (new AtendimentoStatusLeads());
-        $ativo = (new AtivoStatusLeads());
-        $finalizado = (new FinalizadoStatusLeads());
-        $inativo = (new InativoStatusLeads());
-
-        $fazer = (new AFazerStatusLeads());
-        $progresso = (new EmProgressoStatusLeads());
-        $inicioFunil = (new InicioFunilStatusLeads());
-        $revisao = (new RevisaoStatusLeads());
-
-        $concluido = (new ConcluidoStatusLeads());
+        $ativo = (new AtivoStatusLead());
+        $conexaoProativa = (new ConexaoProativaStatusLead);
+        $contatoDireto = (new ContatoDiretoStatusLead);
+        $cotacaoEnviado = (new CotacaoEnviadoStatusLead());
+        $finalizado = (new FinalizadoStatusLead());
+        $inativo = (new InativoStatusLead());
+        $inicioFunil = (new InicioFunilStatusLead());
+        $oportunidade = (new OportunidadeStatusLead);
+        $reativar = (new ReativarStatusLead());
 
         $statusClass = match ($status) {
-            $fazer->status() => $fazer,
-            $progresso->status() => $progresso,
-            $inicioFunil->status() => $inicioFunil,
-            $revisao->status() => $revisao,
-            $concluido->status() => $concluido,
-            default => null,
-        };
-
-        if ($statusClass) return ['nome' => $statusClass->statusNome(), 'cor' => $statusClass->statusCor()];
-
-
-        $statusClass = match ($status) {
-            $novo->getStatus() => (new NovoStatusLeads()),
-            $aberto->getStatus() => (new AbertoStatusLeads()),
-            $preAtendimento->getStatus() => (new PreAtendimentoStatusLeads()),
-            $atendimento->getStatus() => (new AtendimentoStatusLeads()),
-            $ativo->getStatus() => (new AtivoStatusLeads()),
-            $finalizado->getStatus() => (new FinalizadoStatusLeads()),
-            $inativo->getStatus() => (new InativoStatusLeads()),
+            $ativo->getStatus() => $ativo,
+            $conexaoProativa->getStatus() => $conexaoProativa,
+            $contatoDireto->getStatus() => $contatoDireto,
+            $cotacaoEnviado->getStatus() => $cotacaoEnviado,
+            $finalizado->getStatus() => $finalizado,
+            $inativo->getStatus() => $inativo,
+            $inicioFunil->getStatus() => $inicioFunil,
+            $oportunidade->getStatus() => $oportunidade,
+            $reativar->getStatus() => $reativar,
             default => (new BaixadaStatusLeads()),
         };
 
-        return ['nome' => $statusClass->getNome(), 'cor' => $statusClass->getCor()];
+        return ['nome' => $statusClass->getStatusNome(), 'cor' => $statusClass->statusCor()];
     }
 }

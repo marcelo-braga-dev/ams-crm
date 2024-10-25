@@ -2,9 +2,12 @@
 
 namespace App\src\Leads\Status;
 
+use App\Models\Lead\LeadStatusHistoricos;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
-use App\Models\LeadsStatusHistoricos;
 
+/**
+ * @deprecated
+ */
 class NovoStatusLeads
 {
     private string $status = 'novo';
@@ -27,6 +30,6 @@ class NovoStatusLeads
     public function updateStatus($id)
     {
         (new LeadsANTIGO())->updateStatus($id, $this->getStatus());
-        (new LeadsStatusHistoricos())->create($id, $this->status);
+        (new LeadStatusHistoricos())->create($id, $this->status);
     }
 }

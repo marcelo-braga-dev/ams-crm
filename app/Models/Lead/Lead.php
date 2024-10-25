@@ -3,6 +3,7 @@
 namespace App\Models\Lead;
 
 use App\Models\LeadsDEPREECATED\LeadsTelefones;
+use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,19 +13,25 @@ class Lead extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['vendedor_id', 'cnpj', 'cpf', 'status_id', 'setor_id'];
+    protected $fillable = ['user_id', 'status', 'vendedor_id', 'cnpj', 'cpf', 'status_id', 'setor_id'];
 
-    protected $with = ['setor', 'dados', 'vendedor', 'telefones'];
+    protected $with = ['setor', 'vendedor', 'telefones'];
     protected $appends = ['status'];
 
     protected $hidden = ['setor_id', 'status_id', 'vendedor_id', 'created_at', 'updated_at'];
 
     // =======================
-    // Atributos (Getters/Setters)
+    // Getters
     // =======================
     public function getStatusAttribute()
     {
         return $this->leadStatus ? $this->leadStatus : null;
+    }
+
+    public function setStatusAttribute($value)
+    {
+        (new LeadStatusHistoricos())->create($this->attributes['id'], $this->attributes['status']);
+        return $this->attributes['status'] = $value;
     }
 
     // =======================
@@ -50,8 +57,8 @@ class Lead extends Model
         return $this->hasMany(LeadsTelefones::class, 'lead_id');
     }
 
-    public function leadStatus()
+    public function pedidos()
     {
-        return $this->belongsTo(LeadStatus::class, 'status_id');
+        return $this->hasMany(Pedidos::class, 'lead_id');
     }
 }

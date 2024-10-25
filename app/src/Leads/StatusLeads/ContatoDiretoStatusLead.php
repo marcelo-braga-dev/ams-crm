@@ -4,7 +4,7 @@ namespace App\src\Leads\StatusLeads;
 
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 
-class EmProgressoStatusLeads extends StatusLeads
+class ContatoDiretoStatusLead extends StatusLeads
 {
     public function __construct()
     {
@@ -18,7 +18,7 @@ class EmProgressoStatusLeads extends StatusLeads
 
     public function setStatus(): void
     {
-        $this->status = 'progresso';
+        $this->status = 'contato_direto';
     }
 
     public function setStatusNome(): void

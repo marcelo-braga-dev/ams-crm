@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lead\LeadStatusHistoricos;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsEncaminhados;
-use App\Models\LeadsStatusHistoricos;
 use App\Models\Setores;
 use App\Models\User;
 use App\src\Leads\Status\FinalizadoStatusLeads;
@@ -37,18 +37,18 @@ class LeadsController extends Controller
         $usuariosSdr = (new User())->usuariosSdr();
         $usuariosConsultores = (new User())->usuariosConsultores();
 
-        $registrosUsuario = (new LeadsStatusHistoricos())->qtdUsuario($userId, $mes, $ano);
+        $registrosUsuario = (new LeadStatusHistoricos())->qtdUsuario($userId, $mes, $ano);
         $registrosStatus = (new LeadsANTIGO())->relatorioLeads();
 
         $statusQtds = [
-            'novo' => (new LeadsStatusHistoricos())->periodoStatus((new NovoStatusLeads())->getStatus(), $mes, $ano),
-            'pre_atendimento' => (new LeadsStatusHistoricos())->periodoStatus((new PreAtendimentoStatusLeads())->getStatus(), $mes, $ano),
+            'novo' => (new LeadStatusHistoricos())->periodoStatus((new NovoStatusLeads())->getStatus(), $mes, $ano),
+            'pre_atendimento' => (new LeadStatusHistoricos())->periodoStatus((new PreAtendimentoStatusLeads())->getStatus(), $mes, $ano),
             'encaminhados' => (new LeadsEncaminhados())->relatorio($mes, $ano),
             'ativos' => (new LeadsEncaminhados())->ativosQtd($mes, $ano),
-            'finalizados' => (new LeadsStatusHistoricos())->periodoStatus((new FinalizadoStatusLeads())->getStatus(), $mes, $ano),
+            'finalizados' => (new LeadStatusHistoricos())->periodoStatus((new FinalizadoStatusLeads())->getStatus(), $mes, $ano),
         ];
 
-        $statusHistoricos = (new LeadsStatusHistoricos())->qtdUsuarios($mes, $ano);
+        $statusHistoricos = (new LeadStatusHistoricos())->qtdUsuarios($mes, $ano);
 
         return response()->json([
             'usuarios_sdr' => $usuariosSdr,

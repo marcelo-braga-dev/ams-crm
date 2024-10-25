@@ -3,9 +3,9 @@
 namespace App\Models\LeadsDEPREECATED;
 
 use App\Models\Enderecos;
+use App\Models\Lead\LeadStatusHistoricos;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
-use App\Models\LeadsStatusHistoricos;
 use App\Models\Pedidos;
 use App\Models\Pins;
 use App\Models\Setores;
@@ -19,7 +19,7 @@ use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\Status\StatusLeads;
-use App\src\Leads\StatusLeads\ConcluidoStatusLeads;
+use App\src\Leads\StatusLeads\AtivoStatusLead;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use DateTime;
 use Error;
@@ -468,7 +468,7 @@ class LeadsANTIGO extends Model
                 'status_data' => now()
             ]);
 
-        (new LeadsStatusHistoricos())->create($id, $status, $msg);
+        (new LeadStatusHistoricos())->create($id, $status, $msg);
     }
 
     public function remover($id)
@@ -1012,7 +1012,7 @@ class LeadsANTIGO extends Model
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
-            ->whereIn('status', ['novo', 'aberto', 'atendimento', 'ativo', 'finalizado', 'concluido', 'progresso', 'revisao', 'fazer'])
+            ->whereIn('status', ['novo', 'oportunidade', 'conexao_proativo', 'contato_direto', 'cotacao_enviado', 'reativar', 'finalizado'])
             ->with('telefones')
             ->with('copias')
             ->with('cidadeEstado')
@@ -1193,7 +1193,7 @@ class LeadsANTIGO extends Model
     {
         $this->newQuery()
             ->find($id)
-            ->update(['status', (new ConcluidoStatusLeads())->status()]);
+            ->update(['status', (new AtivoStatusLead())->getStatus()]);
     }
 }
 

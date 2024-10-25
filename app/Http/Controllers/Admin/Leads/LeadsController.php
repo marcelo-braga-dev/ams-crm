@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Admin\Leads;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
+use App\Models\Lead\LeadStatusHistoricos;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsDEPREECATED\LeadsCopias;
 use App\Models\LeadsDEPREECATED\LeadsTelefones;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
-use App\Models\LeadsStatusHistoricos;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
@@ -19,6 +19,7 @@ use App\Services\Leads\LeadsDadosService;
 use App\Services\Leads\Relatorios\LeadsUsuariosService;
 use App\Services\Setores\SetoresService;
 use App\src\Leads\Status\AtivoStatusLeads;
+use App\src\Leads\StatusLeads;
 use App\src\Leads\UpdateStatusLeads;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Illuminate\Http\Request;
@@ -32,9 +33,10 @@ class LeadsController extends Controller
         $datasImportacao = (new LeadsImportarHistoricos())->datasImportacao();
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar(id_usuario_atual());
         $isLeadsExcluir = (new UsersPermissoes())->isLeadsExcluir(id_usuario_atual());
+        $statusleads = (new StatusLeads())->status();
 
         return Inertia::render('Admin/Leads/Cadastrados/Index',
-            compact('categorias', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
+            compact('categorias', 'statusleads', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
     }
 
     public function show($id)
@@ -45,7 +47,7 @@ class LeadsController extends Controller
         $historicos = (new HistoricoDadosService())->dados($id);
         $usuarios = (new User())->getUsuarios($dados['infos']['setor']);
         $historicoPedidos = (new Pedidos())->historicoPedidosLead($id);
-        $historicoStatus = (new LeadsStatusHistoricos())->getId($id);
+        $historicoStatus = (new LeadStatusHistoricos())->getId($id);
         $isLeadsEncaminhar = (new UsersPermissoes())->isLeadsEncaminhar($idUsuario);
         $isLeadsLimpar = (new UsersPermissoes())->isLeadsLimpar($idUsuario);
         $isEditar = (new UsersPermissoes())->isLeadsEditar($idUsuario);

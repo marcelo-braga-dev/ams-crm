@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\Leads\Consultores;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lead\LeadStatusHistoricos;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsHistoricos;
-use App\Models\LeadsStatusHistoricos;
 use App\Models\User;
 use App\Services\Leads\HistoricoDadosService;
 use App\src\Leads\Status\AtendimentoStatusLeads;
@@ -19,7 +19,7 @@ class AbertoController extends Controller
         $dados = (new LeadsANTIGO())->getDados($id);
         $historicos = (new HistoricoDadosService())->dados($id);
         $consultores = (new User())->getUsuarios($dados['infos']['setor']);
-        $historicoStatus = (new LeadsStatusHistoricos())->getId($id);
+        $historicoStatus = (new LeadStatusHistoricos())->getId($id);
         $isSdr = is_sdr();
         $idUsuarioCard = $id;
 

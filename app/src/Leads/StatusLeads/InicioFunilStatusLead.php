@@ -4,7 +4,7 @@ namespace App\src\Leads\StatusLeads;
 
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 
-class InicioFunilStatusLeads extends StatusLeads
+class InicioFunilStatusLead extends StatusLeads
 {
     public function __construct()
     {

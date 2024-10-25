@@ -3,9 +3,8 @@
 namespace App\src\Leads\StatusLeads;
 
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
-use App\Models\LeadsStatusHistoricos;
 
-class FinalizadosStatusLeads extends StatusLeads
+class FinalizadoStatusLead extends StatusLeads
 {
     public function __construct()
     {

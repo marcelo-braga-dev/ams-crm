@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Lead\Lead;
+use App\Models\Lead\LeadStatusHistoricos;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
-use App\Models\LeadsStatusHistoricos;
 use App\Models\Pedidos;
 use App\Models\User;
 use App\Models\UsersPermissoes;
 use App\Services\Leads\HistoricoDadosService;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class LeadController extends Controller
 {
@@ -41,7 +39,7 @@ class LeadController extends Controller
         ];
 
         $historicos = [
-            'status' => (new LeadsStatusHistoricos())->getId($id),
+            'status' => (new LeadStatusHistoricos())->getId($id),
             'pedidos' => (new Pedidos())->historicoPedidosLead($id),
             'atendimento' => (new HistoricoDadosService())->dados($id),
         ];

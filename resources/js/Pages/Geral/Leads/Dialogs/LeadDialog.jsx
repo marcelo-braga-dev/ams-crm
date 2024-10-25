@@ -34,7 +34,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
 
     function submit() {
         if (consultorSelecionado) {
-            router.post(route('admin.clientes.leads.update-consultor', { leadsSelecionados: [lead.id], consultor: consultorSelecionado }));
+            router.post(route('auth.leads.api.encaminhar', { lead_ids: [lead.id], consultor_id: consultorSelecionado }));
         }
     }
 

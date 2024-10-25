@@ -3,21 +3,19 @@
 namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\LeadsDEPREECATED\LeadsNEW;
+use App\Models\Lead\LeadStatusHistoricos;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
-use App\Models\LeadsStatusHistoricos;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
 use App\Models\UsersPermissoes;
 use App\Services\Leads\HistoricoDadosService;
-use App\src\Leads\StatusLeads\AFazerStatusLeads;
-use App\src\Leads\StatusLeads\ConcluidoStatusLeads;
-use App\src\Leads\StatusLeads\EmProgressoStatusLeads;
-use App\src\Leads\StatusLeads\FinalizadosStatusLeads;
-use App\src\Leads\StatusLeads\InativoStatusLeads;
-use App\src\Leads\StatusLeads\NovoStatusLeads;
-use App\src\Leads\StatusLeads\RevisaoStatusLeads;
+use App\src\Leads\StatusLeads\AtivoStatusLead;
+use App\src\Leads\StatusLeads\ConexaoProativaStatusLead;
+use App\src\Leads\StatusLeads\ContatoDiretoStatusLead;
+use App\src\Leads\StatusLeads\CotacaoEnviadoStatusLead;
+use App\src\Leads\StatusLeads\FinalizadoStatusLead;
+use App\src\Leads\StatusLeads\InativoStatusLead;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -42,7 +40,7 @@ class LeadsController extends Controller
         ];
 
         $historicos = [
-            'status' => (new LeadsStatusHistoricos())->getId($id),
+            'status' => (new LeadStatusHistoricos())->getId($id),
             'pedidos' => (new Pedidos())->historicoPedidosLead($id),
             'atendimento' => (new HistoricoDadosService())->dados($id),
         ];
@@ -83,42 +81,42 @@ class LeadsController extends Controller
 
     public function novo($id)
     {
-        (new AFazerStatusLeads())->updateStatus($id);
+        (new ConexaoProativaStatusLead())->updateStatus($id);
 
         modalSucesso('Status atualizado com sucesso!');
     }
 
     public function fazer($id)
     {
-        (new EmProgressoStatusLeads())->updateStatus($id);
+        (new ContatoDiretoStatusLead())->updateStatus($id);
 
         modalSucesso('Status atualizado com sucesso!');
     }
 
     public function progresso($id)
     {
-        (new RevisaoStatusLeads())->updateStatus($id);
+        (new CotacaoEnviadoStatusLead())->updateStatus($id);
 
         modalSucesso('Status atualizado com sucesso!');
     }
 
     public function revisao($id)
     {
-        (new ConcluidoStatusLeads())->updateStatus($id);
+        (new AtivoStatusLead())->updateStatus($id);
 
         modalSucesso('Status atualizado com sucesso!');
     }
 
     public function concluido($id)
     {
-        (new FinalizadosStatusLeads())->updateStatus($id);
+        (new FinalizadoStatusLead())->updateStatus($id);
 
         modalSucesso('Status atualizado com sucesso!');
     }
 
     public function finalizados($id)
     {
-        (new InativoStatusLeads())->updateStatus($id);
+        (new InativoStatusLead())->updateStatus($id);
 
         modalSucesso('Status atualizado com sucesso!');
     }

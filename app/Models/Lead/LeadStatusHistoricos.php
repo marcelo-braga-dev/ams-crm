@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Lead;
 
 use App\src\Leads\Status\StatusLeads;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class LeadsStatusHistoricos extends Model
+/**
+ * @deprecated
+ */
+class LeadStatusHistoricos extends Model
 {
     use HasFactory;
 
@@ -17,6 +20,7 @@ class LeadsStatusHistoricos extends Model
         'status',
         'anotacao'
     ];
+
 
     public function create($id, $status, $msg = null)
     {
@@ -73,10 +77,10 @@ class LeadsStatusHistoricos extends Model
     {
         $statusNome = (new StatusLeads())->nomesStatus();
         return $this->newQuery()
-            ->join('users', 'leads_status_historicos.user_id', '=', 'users.id')
+            ->join('users', 'lead_status_historicos.user_id', '=', 'users.id')
             ->where('lead_id', $id)
             ->orderByDesc('id')
-            ->get(['leads_status_historicos.*', 'users.name AS nome'])
+            ->get(['lead_status_historicos.*', 'users.name AS nome'])
             ->each(function ($item) use ($statusNome) {
                 $item->status = $statusNome[$item->status] ?? '';
                 $item->data = date('d/m/y H:i', strtotime($item->created_at));
@@ -87,14 +91,14 @@ class LeadsStatusHistoricos extends Model
     public function relatorioDashboard($id, array $mes, $ano)
     {
         return $this->newQuery()
-            ->leftJoin('leads', 'leads_status_historicos.lead_id', '=', 'leads.id')
-            ->where('leads_status_historicos.user_id', $id)
-            ->whereIn(DB::raw('MONTH(leads_status_historicos.created_at)'), $mes)
-            ->whereYear('leads_status_historicos.created_at', $ano)
+            ->leftJoin('leads', 'lead_status_historicos.lead_id', '=', 'leads.id')
+            ->where('lead_status_historicos.user_id', $id)
+            ->whereIn(DB::raw('MONTH(lead_status_historicos.created_at)'), $mes)
+            ->whereYear('lead_status_historicos.created_at', $ano)
             ->select([
-                'leads_status_historicos.*',
-                'leads_status_historicos.status AS status',
-                'leads_status_historicos.created_at AS created_at',
+                'lead_status_historicos.*',
+                'lead_status_historicos.status AS status',
+                'lead_status_historicos.created_at AS created_at',
                 'leads.id AS lead_id',
                 'leads.nome AS lead_nome',
                 'leads.razao_social AS lead_razao_social',

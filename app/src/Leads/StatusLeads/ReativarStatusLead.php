@@ -4,7 +4,7 @@ namespace App\src\Leads\StatusLeads;
 
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 
-class ConcluidoStatusLeads extends StatusLeads
+class ReativarStatusLead extends StatusLeads
 {
     public function __construct()
     {
@@ -14,27 +14,26 @@ class ConcluidoStatusLeads extends StatusLeads
         $this->setStatusPrazo();
         $this->setDescricao();
         $this->urlStatus = '';
-        $this->emitePedidos = true;
     }
 
     public function setStatus(): void
     {
-        $this->status = 'concluido';
+        $this->status = 'reativar';
     }
 
     public function setStatusNome(): void
     {
-        $this->statusNome = 'Ativo';
+        $this->statusNome = 'Super oportunidade';
     }
 
     public function setStatusCor(): void
     {
-        $this->statusCor = 'green';
+        $this->statusCor = 'gold';
     }
 
     public function setStatusPrazo(): void
     {
-        $this->statusPrazo = 0;
+
     }
 
     public function setPermissoes(): void
@@ -47,8 +46,8 @@ class ConcluidoStatusLeads extends StatusLeads
         $this->descricao = '';
     }
 
-    public function updateStatus($id): void
+    public function updateStatus($id, $msg = null): void
     {
-        (new LeadsANTIGO())->updateStatus($id, $this->status);
+        (new LeadsANTIGO())->updateStatus($id, $this->status, $msg);
     }
 }
