@@ -11,9 +11,7 @@ export const GerenciarProvider = ({ children }) => {
     const filtrar = {};
 
     const fetchLeads = async () => {
-        console.log('INIT')
         const response = await axios.get(route('auth.leads.gerenciar.get-gerenciar'), {
-            // paginate,
         });
         setLeads(response.data.leads.dados ?? []);
     };

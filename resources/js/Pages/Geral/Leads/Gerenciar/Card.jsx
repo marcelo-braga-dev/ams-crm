@@ -8,6 +8,7 @@ import { TbBrandWhatsapp, TbFileStack, TbHash, TbMapPin, TbPhone, TbPin, TbUser 
 import SetorIcone from '@/Components/Icons/SetorIcone.jsx';
 
 const Card = ({ lead }) => {
+    console.log(lead)
     return (
         <CardContainer>
             <CardBody>
@@ -23,7 +24,7 @@ const Card = ({ lead }) => {
                             <CampoTexto titulo="Setor" icone={SetorIcone} texto={lead.infos.setor} />
                         </Stack>
                         <CampoTexto titulo="CNPJ" icone={TbFileStack} texto={lead.cliente.cnpj} />
-                        <CampoTexto titulo="Localidade" icone={TbMapPin} texto={`${lead.cliente.cidadeEstado.cidade}/${lead.cliente.cidadeEstado.estado}`} />
+                        {/*<CampoTexto titulo="Localidade" icone={TbMapPin} texto={`${lead.cliente.cidadeEstado.cidade}/${lead.cliente.cidadeEstado.estado}`} />*/}
                     </div>
                     <div className="col-2">
                         <Chip className="mb-3 mt-2" label={lead.infos.status_nome.nome} variant="outlined" sx={{ borderColor: 'blue', color: 'blue' }} size="small" />

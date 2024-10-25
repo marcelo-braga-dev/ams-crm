@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('setor');
             $table->integer('novas')->nullable();
             $table->integer('enriquecidas')->nullable();
+            $table->string('url_file')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

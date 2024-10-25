@@ -320,27 +320,27 @@ class ChavesPermissoes
     }
 
 
-    public function chaveLeadsStatusNovos()
+    public function chaveLeadsStatusOportunidades()
     {
         return '64';
     }
 
-    public function chaveLeadsStatusFazer()
+    public function chaveLeadsStatusConexaoProativo()
     {
         return '65';
     }
 
-    public function chaveLeadsStatusProgresso()
+    public function chaveLeadsStatusContatoDireto()
     {
         return '66';
     }
 
-    public function chaveLeadsStatusRevisao()
+    public function chaveLeadsStatusCotacaoEnviado()
     {
         return '67';
     }
 
-    public function chaveLeadsStatusConcluido()
+    public function chaveLeadsStatusAtivo()
     {
         return '68';
     }
@@ -434,5 +434,10 @@ class ChavesPermissoes
     public function chaveChatsWhatsappUsuarios()
     {
         return '86';
+    }
+
+    public function chaveLeadsStatusSuperOportunidades()
+    {
+        return '87';
     }
 }

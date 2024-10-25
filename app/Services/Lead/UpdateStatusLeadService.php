@@ -9,7 +9,7 @@ use App\src\Leads\StatusLeads\ConexaoProativaStatusLead;
 use App\src\Leads\StatusLeads\ContatoDiretoStatusLead;
 use App\src\Leads\StatusLeads\CotacaoEnviadoStatusLead;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
-use App\src\Leads\StatusLeads\ReativarStatusLead;
+use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
 
 class UpdateStatusLeadService
 {
@@ -57,6 +57,6 @@ class UpdateStatusLeadService
 
     public function setReativarStatus()
     {
-        $this->leadRepository->updateStatus($this->leadId, (new ReativarStatusLead()));
+        $this->leadRepository->updateStatus($this->leadId, (new SuperOporunidadeStatusLead()));
     }
 }

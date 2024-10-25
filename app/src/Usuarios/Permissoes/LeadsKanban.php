@@ -11,6 +11,7 @@ use App\src\Leads\StatusLeads\InativoStatusLead;
 use App\src\Leads\StatusLeads\InicioFunilStatusLead;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
 use App\src\Leads\StatusLeads\CotacaoEnviadoStatusLead;
+use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
 
 class LeadsKanban extends ChavesPermissoes
 {
@@ -18,13 +19,13 @@ class LeadsKanban extends ChavesPermissoes
     {
         return [
             ['id' => $this->chaveLeadsStatusInicioFunil(), 'nome' => 'Inicio Funil'],
-            ['id' => $this->chaveLeadsStatusNovos(), 'nome' => 'Novos'],
-            ['id' => $this->chaveLeadsStatusFazer(), 'nome' => 'A Fazer'],
-            ['id' => $this->chaveLeadsStatusProgresso(), 'nome' => 'Progresso'],
-            ['id' => $this->chaveLeadsStatusRevisao(), 'nome' => 'Revisão'],
-            ['id' => $this->chaveLeadsStatusConcluido(), 'nome' => 'Concluídos'],
+            ['id' => $this->chaveLeadsStatusOportunidades(), 'nome' => 'Oportunidades'],
+            ['id' => $this->chaveLeadsStatusConexaoProativo(), 'nome' => 'Conexão Proativa'],
+            ['id' => $this->chaveLeadsStatusContatoDireto(), 'nome' => 'Contato Direto 360°'],
+            ['id' => $this->chaveLeadsStatusCotacaoEnviado(), 'nome' => 'Cotação Enviada'],
+            ['id' => $this->chaveLeadsStatusSuperOportunidades(), 'nome' => 'Super Oportunidades'],
+            ['id' => $this->chaveLeadsStatusAtivo(), 'nome' => 'Ativos'],
             ['id' => $this->chaveLeadsStatusFinalizados(), 'nome' => 'Finalizados'],
-            ['id' => $this->chaveLeadsStatusInativos(), 'nome' => 'Inativos'],
         ];
     }
 
@@ -32,13 +33,13 @@ class LeadsKanban extends ChavesPermissoes
     {
         return [
             $this->chaveLeadsStatusInicioFunil(),
-            $this->chaveLeadsStatusNovos(),
-            $this->chaveLeadsStatusFazer(),
-            $this->chaveLeadsStatusProgresso(),
-            $this->chaveLeadsStatusRevisao(),
-            $this->chaveLeadsStatusConcluido(),
-            $this->chaveLeadsStatusFinalizados(),
-            $this->chaveLeadsStatusInativos(),
+            $this->chaveLeadsStatusOportunidades(),
+            $this->chaveLeadsStatusConexaoProativo(),
+            $this->chaveLeadsStatusContatoDireto(),
+            $this->chaveLeadsStatusCotacaoEnviado(),
+            $this->chaveLeadsStatusSuperOportunidades(),
+            $this->chaveLeadsStatusAtivo(),
+            $this->chaveLeadsStatusFinalizados()
         ];
     }
 
@@ -46,13 +47,13 @@ class LeadsKanban extends ChavesPermissoes
     {
         $items = [
             $this->chaveLeadsStatusInicioFunil() => (new InicioFunilStatusLead())->getStatus(),
-            $this->chaveLeadsStatusNovos() => (new OportunidadeStatusLead())->getStatus(),
-            $this->chaveLeadsStatusFazer() => (new ConexaoProativaStatusLead())->getStatus(),
-            $this->chaveLeadsStatusProgresso() => (new ContatoDiretoStatusLead())->getStatus(),
-            $this->chaveLeadsStatusRevisao() => (new CotacaoEnviadoStatusLead())->getStatus(),
-            $this->chaveLeadsStatusConcluido() => (new AtivoStatusLead())->getStatus(),
-            $this->chaveLeadsStatusFinalizados() => (new FinalizadoStatusLead())->getStatus(),
-            $this->chaveLeadsStatusInativos() => (new InativoStatusLead())->getStatus(),
+            $this->chaveLeadsStatusOportunidades() => (new OportunidadeStatusLead())->getStatus(),
+            $this->chaveLeadsStatusConexaoProativo() => (new ConexaoProativaStatusLead())->getStatus(),
+            $this->chaveLeadsStatusContatoDireto() => (new ContatoDiretoStatusLead())->getStatus(),
+            $this->chaveLeadsStatusCotacaoEnviado() => (new CotacaoEnviadoStatusLead())->getStatus(),
+            $this->chaveLeadsStatusSuperOportunidades() => (new SuperOporunidadeStatusLead())->getStatus(),
+            $this->chaveLeadsStatusAtivo() => (new AtivoStatusLead())->getStatus(),
+            $this->chaveLeadsStatusFinalizados() => (new FinalizadoStatusLead())->getStatus()
         ];
 
         return $items[$status];

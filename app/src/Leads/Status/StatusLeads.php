@@ -10,7 +10,7 @@ use App\src\Leads\StatusLeads\FinalizadoStatusLead;
 use App\src\Leads\StatusLeads\InativoStatusLead;
 use App\src\Leads\StatusLeads\InicioFunilStatusLead;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
-use App\src\Leads\StatusLeads\ReativarStatusLead;
+use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
 
 /**
  * @deprecated
@@ -27,7 +27,7 @@ class StatusLeads
         $inativo = (new InativoStatusLead());
         $inicioFunil = (new InicioFunilStatusLead());
         $oportunidade = (new OportunidadeStatusLead);
-        $reativar = (new ReativarStatusLead());
+        $reativar = (new SuperOporunidadeStatusLead());
 
         return [
             $ativo->getStatus() => $ativo->getStatusNome(),
@@ -58,7 +58,7 @@ class StatusLeads
         $inativo = (new InativoStatusLead());
         $inicioFunil = (new InicioFunilStatusLead());
         $oportunidade = (new OportunidadeStatusLead);
-        $reativar = (new ReativarStatusLead());
+        $reativar = (new SuperOporunidadeStatusLead());
 
         $statusClass = match ($status) {
             $ativo->getStatus() => $ativo,

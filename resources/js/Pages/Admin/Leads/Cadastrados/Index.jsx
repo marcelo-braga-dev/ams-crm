@@ -44,7 +44,7 @@ const FilterSection = ({
                 <TextField fullWidth select label="Status" defaultValue="" size="small"
                            onChange={event => setStatus(event.target.value)}>
                     <MenuItem value="">Todos</MenuItem>
-                    {statusleads.map(item => <MenuItem value={item.id}>{item.nome} | {item.id}</MenuItem>)}
+                    {statusleads.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
                 </TextField>
             </div>
             <div className="col-md-2">

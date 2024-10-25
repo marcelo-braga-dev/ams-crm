@@ -11,6 +11,7 @@ use App\src\Leads\StatusLeads\InativoStatusLead;
 use App\src\Leads\StatusLeads\InicioFunilStatusLead;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
 use App\src\Leads\StatusLeads\CotacaoEnviadoStatusLead;
+use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
 use App\src\Leads\StatusLeads\StatusLeadsInterface;
 
 class StatusLeads
@@ -28,6 +29,7 @@ class StatusLeads
             (new ConexaoProativaStatusLead),
             (new ContatoDiretoStatusLead),
             (new CotacaoEnviadoStatusLead()),
+            (new SuperOporunidadeStatusLead()),
             (new AtivoStatusLead()),
             (new FinalizadoStatusLead()),
             (new InativoStatusLead()),

@@ -16,7 +16,7 @@ class ImportarController extends Controller
     public function index()
     {
         $setores = (new SetoresService())->setores();
-        $modelo = asset('storage/importacao/importacao_leads_modelo.csv');
+        $modelo = asset('storage/importacao/modelos/importacao_leads_modelo.csv');
         $historicos = (new LeadsImportarHistoricos())->historicos();
 
         return Inertia::render('Admin/Leads/Importar/Index',
@@ -27,9 +27,11 @@ class ImportarController extends Controller
     {
         set_time_limit(600);
         try {
-            $dados = (new ImportarArquivoService())->dados($request);
-            $dadosSeparados = (new DadosImportacaoService())->executar($dados);
             $idHistorico = (new LeadsImportarHistoricos())->create($request->setor);
+
+            $dados = (new ImportarArquivoService())->dados($request, $idHistorico);
+            $dadosSeparados = (new DadosImportacaoService())->executar($dados);
+
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

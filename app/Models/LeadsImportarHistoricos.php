@@ -18,6 +18,7 @@ class LeadsImportarHistoricos extends Model
         'setor',
         'novas',
         'enriquecidas',
+        'url_file',
     ];
 
     public function create($setor)
@@ -27,6 +28,15 @@ class LeadsImportarHistoricos extends Model
                 'user_id' => id_usuario_atual(),
                 'setor' => $setor,
             ])->id;
+    }
+
+    public function setUrlFile($id, $url)
+    {
+        $this->newQuery()
+            ->find($id)
+            ->update([
+                'url_file' => $url
+            ]);
     }
 
     public function atualizar($id, $dadosPlanilha)
@@ -62,6 +72,7 @@ class LeadsImportarHistoricos extends Model
                     'setor' => $setores[$item->setor] ?? '',
                     'qtd' => $item->novas,
                     'enriquecidas' => $item->enriquecidas ?? 0,
+                    'url_file' => url_arquivos($item->url_file),
                     'data' => date('d/m/y H:i', strtotime($item->created_at))
                 ];
             });

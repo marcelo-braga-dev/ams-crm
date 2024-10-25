@@ -4,7 +4,7 @@ namespace App\src\Leads\StatusLeads;
 
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 
-class ReativarStatusLead extends StatusLeads
+class SuperOporunidadeStatusLead extends StatusLeads
 {
     public function __construct()
     {
@@ -18,17 +18,17 @@ class ReativarStatusLead extends StatusLeads
 
     public function setStatus(): void
     {
-        $this->status = 'reativar';
+        $this->status = 'super_oportunidade';
     }
 
     public function setStatusNome(): void
     {
-        $this->statusNome = 'Super oportunidade';
+        $this->statusNome = 'Super Oportunidade';
     }
 
     public function setStatusCor(): void
     {
-        $this->statusCor = 'gold';
+        $this->statusCor = '#FFBF00';
     }
 
     public function setStatusPrazo(): void

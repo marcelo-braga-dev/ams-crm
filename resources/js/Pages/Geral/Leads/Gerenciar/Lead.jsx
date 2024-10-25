@@ -12,7 +12,7 @@ import { useGerenciarLeads } from '@/Pages/Geral/Leads/Gerenciar/Context.jsx';
 const Lead = () => {
 
     const { leads } = useGerenciarLeads();
-    console.log(leads);
+
     return (<>
             <CardContainer>
                 <CardBody>
