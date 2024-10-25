@@ -26,10 +26,10 @@ class StatusLeads
         return [
             (new InicioFunilStatusLead()),
             (new OportunidadeStatusLead()),
+            (new SuperOporunidadeStatusLead()),
             (new ConexaoProativaStatusLead),
             (new ContatoDiretoStatusLead),
             (new CotacaoEnviadoStatusLead()),
-            (new SuperOporunidadeStatusLead()),
             (new AtivoStatusLead()),
             (new FinalizadoStatusLead()),
             (new InativoStatusLead()),

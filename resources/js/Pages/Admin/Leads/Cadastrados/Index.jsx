@@ -305,7 +305,7 @@ const Index = ({ categorias, statusleads, datasImportacao, isLeadsEncaminhar, is
                 </CardBody>
             </CardContainer>
 
-            <Tabela leads={leads} setPaginate={setPaginate} paginate={paginate} paginateDados={paginateDados} setOrdenar={setFiltroFiltroOrdenar}
+            <Tabela leads={leads} carregando={carregando} setPaginate={setPaginate} paginate={paginate} paginateDados={paginateDados} setOrdenar={setFiltroFiltroOrdenar}
                     setFiltroFiltroOrdenarBy={setFiltroFiltroOrdenarBy} setFiltroQtdPagina={setFiltroQtdPagina} filtroQtdPagina={filtroQtdPagina}
                     leadsChecked={leadsChecked} setLeadsChecked={setLeadsChecked} checkedPage={checkedPage} adicionarLeadsCheck={adicionarLeadsCheck} />
 

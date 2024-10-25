@@ -12,12 +12,13 @@ import CampoTexto from '@/Components/CampoTexto.jsx';
 import { TbBrandWhatsapp, TbFileStack, TbHash, TbHeadset, TbMapPin, TbPhone, TbUser, TbUserEdit } from 'react-icons/tb';
 import SetorIcone from '@/Components/Icons/SetorIcone.jsx';
 import Avatar from '@mui/material/Avatar';
+import LinearProgress from '@mui/material/LinearProgress';
 
 export default function Tabela({
-                                   leads, setPaginate, paginate, paginateDados, setOrdenar, setFiltroFiltroOrdenarBy,
+                                   leads, setPaginate, paginate, paginateDados, setOrdenar, setFiltroFiltroOrdenarBy,carregando,
                                    leadsChecked, setLeadsChecked, checkedPage, adicionarLeadsCheck, setFiltroQtdPagina, filtroQtdPagina,
                                }) {
-    console.log(leads);
+
     const linhas = leads.map(function(items) {
         return {
             id: items.id,
@@ -92,7 +93,10 @@ export default function Tabela({
                     </div>
                 </div>
             </CardContainer>
-            {linhas.map(lead => (
+
+            {carregando && <LinearProgress />}
+
+            {!carregando && linhas.map(lead => (
                 <CardContainer key={lead.id}>
                     <CardBody>
                         <div className="row">
