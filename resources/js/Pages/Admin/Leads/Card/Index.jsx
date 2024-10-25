@@ -11,6 +11,7 @@ export default function ({statusLeads}) {
 
     let totalLeads = 0,
         totalOporunidades = 0,
+        totalSuperOporunidades = 0,
         totalConexaoProativo = 0,
         totalContatoDireto = 0,
         totalCotacaoEnviado = 0,
@@ -26,6 +27,7 @@ export default function ({statusLeads}) {
                         <tr>
                             <th>NOME</th>
                             <th>OPORTUNIDADES</th>
+                            <th>SUPER OPORTUNIDADES</th>
                             <th>CONEXÃO PROATIVA</th>
                             <th>CONTATO DIRETO 360º</th>
                             <th>COTAÇÃO ENVIADA</th>
@@ -37,6 +39,7 @@ export default function ({statusLeads}) {
                         {statusLeads.map((dado, index) => {
                             const total =
                                 (dado.status.oportunidade ?? 0) +
+                                (dado.status.super_oportunidade ?? 0) +
                                 (dado.status.conexao_proativo ?? 0) +
                                 (dado.status.contato_direto ?? 0) +
                                 (dado.status.cotacao_enviado ?? 0) +
@@ -44,6 +47,7 @@ export default function ({statusLeads}) {
 
                             totalLeads += total
                             totalOporunidades += dado.status.oportunidade ?? 0
+                            totalSuperOporunidades += dado.status.super_oportunidade ?? 0
                             totalConexaoProativo += dado.status.conexao_proativo ?? 0
                             totalContatoDireto += dado.status.contato_direto ?? 0
                             totalCotacaoEnviado += dado.status.cotacao_enviado ?? 0
@@ -58,6 +62,7 @@ export default function ({statusLeads}) {
                                         </Stack>
                                     </td>
                                     <td>{dado.status.oportunidade ?? 0}</td>
+                                    <td>{dado.status.super_oportunidade ?? 0}</td>
                                     <td>{dado.status.conexao_proativo ?? 0}</td>
                                     <td>{dado.status.contato_direto ?? 0}</td>
                                     <td>{dado.status.cotacao_enviado ?? 0}</td>
@@ -69,6 +74,7 @@ export default function ({statusLeads}) {
                         <tr className="bg-light">
                             <td><b>TOTAL</b></td>
                             <td>{totalOporunidades}</td>
+                            <td>{totalSuperOporunidades}</td>
                             <td>{totalConexaoProativo}</td>
                             <td>{totalContatoDireto}</td>
                             <td>{totalCotacaoEnviado}</td>
