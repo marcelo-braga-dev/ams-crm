@@ -8,7 +8,7 @@ import { TbBrandWhatsapp, TbFileStack, TbHash, TbMapPin, TbPhone, TbPin, TbUser 
 import SetorIcone from '@/Components/Icons/SetorIcone.jsx';
 
 const Card = ({ lead }) => {
-    console.log(lead)
+
     return (
         <CardContainer>
             <CardBody>

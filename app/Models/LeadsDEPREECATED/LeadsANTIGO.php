@@ -1008,11 +1008,11 @@ class LeadsANTIGO extends Model
 
     public function getDadosMinimoPaginate($setor, $filtros)
     {
-        $nomeConsultores = (new User())->getNomes();
+        $nomeConsultores = (new User())->getNomesAvatar();
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
-            ->whereIn('status', ['novo', 'oportunidade', 'conexao_proativo', 'contato_direto', 'cotacao_enviado', 'reativar', 'finalizado'])
+            ->whereIn('status', ['inicio_funil', 'novo', 'oportunidade', 'conexao_proativo', 'contato_direto', 'cotacao_enviado', 'super_oportunidade', 'ativo', 'finalizado'])
             ->with('telefones')
             ->with('copias')
             ->with('cidadeEstado')
@@ -1058,7 +1058,8 @@ class LeadsANTIGO extends Model
                     'qtd' => count($item->copias)
                 ],
                 'consultor' => [
-                    'nome' => $nomeConsultores[$item->user_id] ?? '',
+                    'nome' => $nomeConsultores[$item->user_id]['nome'] ?? '',
+                    'avatar' => $nomeConsultores[$item->user_id]['foto'] ?? '',
                     'id' => $item->user_id
                 ],
                 'sdr' => [
@@ -1071,6 +1072,7 @@ class LeadsANTIGO extends Model
                         return [
                             'id' => $item->id,
                             'telefone' => converterTelefone($item->numero),
+                            'status_whatsapp' => $item->status_whatsapp,
                         ];
                     }),
                     'razao_social' => $item->razao_social,

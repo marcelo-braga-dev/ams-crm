@@ -25,7 +25,7 @@ const FilterSection = ({
                            setFiltroLeads,
                            setFiltroClassificacao,
                            setFiltroEnriquecidos,
-                           statusleads
+                           statusleads,
                        }) => (<>
         <div className="row justify-content-between">
             <div className="col-md-2">
@@ -44,7 +44,7 @@ const FilterSection = ({
                 <TextField fullWidth select label="Status" defaultValue="" size="small"
                            onChange={event => setStatus(event.target.value)}>
                     <MenuItem value="">Todos</MenuItem>
-                    {statusleads.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
+                    {statusleads.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
                 </TextField>
             </div>
             <div className="col-md-2">
@@ -107,7 +107,6 @@ const Index = ({ categorias, statusleads, datasImportacao, isLeadsEncaminhar, is
 
     const [checkedPage, setCheckedPage] = useState(false);
     const [leadsChecked, setLeadsChecked] = useState([]);
-    const [rowsPerPage, setRowsPerPage] = useState(100);
 
     const [consultorSelecionado, setConsultorSelecionado] = useState();
     const [usuarios, setUsuarios] = useState([]);
@@ -180,7 +179,7 @@ const Index = ({ categorias, statusleads, datasImportacao, isLeadsEncaminhar, is
         setCheckedPage(check);
         const newChecked = [...leadsChecked];
 
-        for (let i = 0; i < rowsPerPage; i++) {
+        for (let i = 0; i < filtroQtdPagina; i++) {
             const valueID = leads[i]?.id;
             if (check) newChecked.push(valueID);
             else {
