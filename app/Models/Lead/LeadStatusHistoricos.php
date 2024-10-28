@@ -2,7 +2,9 @@
 
 namespace App\Models\Lead;
 
+use App\Models\User;
 use App\src\Leads\Status\StatusLeads;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -21,12 +23,37 @@ class LeadStatusHistoricos extends Model
         'anotacao'
     ];
 
+    protected $appends = ['status_nome', 'status_data'];
 
-    public function create($id, $status, $msg = null)
+    public function lead()
     {
+        return $this->hasOne(Lead::class, 'id', 'lead_id');
+    }
+    public function destinatario()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function getStatusNomeAttribute()
+    {
+        return (new StatusLeads())->nome($this->attributes['status']);
+    }
+
+    public function getStatusDataAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
+    }
+
+
+    //////////
+
+
+    public function create($id, $status, $msg = null, $userId = null)
+    {
+        $userId = $userId ?? id_usuario_atual();
         $this->newQuery()
             ->create([
-                'user_id' => id_usuario_atual(),
+                'user_id' => $userId,
                 'lead_id' => $id,
                 'status' => $status,
                 'anotacao' => $msg

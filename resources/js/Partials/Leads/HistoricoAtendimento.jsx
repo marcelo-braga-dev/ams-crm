@@ -1,14 +1,15 @@
 import * as React from 'react';
 import CardContainer from '@/Components/Cards/CardContainer';
-import { Stack, Typography } from '@mui/material';
+import { Button, Stack, TextField, Typography } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
-import {  TelephoneFill, Whatsapp } from 'react-bootstrap-icons';
+import { TelephoneFill, Whatsapp } from 'react-bootstrap-icons';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import List from '@mui/material/List';
 import { useEffect, useState } from 'react';
 import { TbBrandWhatsapp, TbLocation } from 'react-icons/tb';
+import { router } from '@inertiajs/react';
 
 const tipoContato = {
     'Whatsapp': { icone: <Whatsapp />, cor: 'green' },
@@ -17,6 +18,7 @@ const tipoContato = {
 
 export default function HistoricoAtendimento({ leadId }) {
     const [historicos, setHistoricos] = useState([]);
+    const [anotacoes, setAnotacoes] = useState('');
 
     useEffect(() => {
         const fetchHistorico = async () => {
@@ -25,6 +27,10 @@ export default function HistoricoAtendimento({ leadId }) {
         };
         fetchHistorico();
     }, []);
+
+    const submit = () => {
+        router.post('');
+    };
 
     return (
         <div style={{ maxHeight: 500, overflowY: 'auto', paddingInline: 20 }}>
@@ -48,10 +54,17 @@ export default function HistoricoAtendimento({ leadId }) {
                                         {/*<Typography variant="body2">{dado.meta}</Typography>*/}
                                     </Stack>
 
-                                    <Stack direction="row" spacing={3}>
+                                    <Stack direction="row" spacing={3} marginBottom={2}>
                                         <Typography variant="caption">#{historicos.length - index}</Typography>
                                         <Typography variant="caption">{dado.data_contato}</Typography>
                                     </Stack>
+
+                                    <form onSubmit={submit}>
+                                        <Stack direction="row" spacing={3} marginBottom={2}>
+                                            <TextField label="Anotações" size="small" fullWidth onChange={e => setAnotacoes(e.target.value)} />
+                                            <Button type="submit">Salvar</Button>
+                                        </Stack>
+                                    </form>
                                 </>}
                             />
                         </ListItem>

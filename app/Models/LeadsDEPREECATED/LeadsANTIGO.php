@@ -275,10 +275,7 @@ class LeadsANTIGO extends Model
                 modalErro($msgErro);
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
-        } catch (\DomainException $exception) {
-            print_pre($exception->getMessage());
-        } catch (QueryException $exception) {
-            print_pre($dados);
+        } catch (\DomainException|QueryException $exception) {
             $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
             if ($existCnpj->id ?? null) throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
         }

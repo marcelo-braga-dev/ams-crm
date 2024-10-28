@@ -17,6 +17,7 @@ import { router, usePage } from '@inertiajs/react';
 import { LeadContext } from './LeadContext.jsx';
 import { TbPackage, TbX } from 'react-icons/tb';
 import Link from '@/Components/Link.jsx';
+import Avatar from '@mui/material/Avatar';
 
 const LeadDialog = ({ iconButton, action, leadId }) => {
     const isAdmin = usePage().props.auth.user.is_admin; // remover
@@ -32,7 +33,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
         </> : <div className="alert alert-danger text-white">Selecione o Consultor</div>;
     }
 
-    function submit() {
+    function encaminharLead() {
         if (consultorSelecionado) {
             router.post(route('auth.leads.api.encaminhar', { lead_ids: [lead.id], consultor_id: consultorSelecionado }));
         }
@@ -162,7 +163,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                                     <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                            onClick={() => submit()}>
+                                            onClick={() => encaminharLead()}>
                                         Alterar Consultor(a).
                                     </button>
                                 </div>
@@ -203,7 +204,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                                     <h5 className="modal-title" id="exampleModalLabel">Encaminhar Lead</h5>
                                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                                 </div>
-                                <div className="modal-body">
+                                <div className="modal-body">{console.log(filtros.usuarios)}
                                     {permissoes.encaminhar && <div className="row">
                                         <div className="col-md-8">
                                             <TextField label="Selecione o Consultor..." select
@@ -211,13 +212,16 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                                                        fullWidth required
                                                        onChange={e => setConsultorSelecionado(e.target.value)}>
                                                 {filtros.usuarios.map((option) => (<MenuItem key={option.id} value={option.id}>
-                                                    #{option.id} - {option.name}
+                                                    <Stack direction="row" spacing={2}>
+                                                        <Avatar src={option.foto} sx={{ width: 25, height: 25 }} />
+                                                        <Typography>{option.name}</Typography>
+                                                    </Stack>
                                                 </MenuItem>))}
                                             </TextField>
                                         </div>
                                         <div className="col-2">
                                             <button type="button"
-                                                    onClick={() => submit()}
+                                                    onClick={() => encaminharLead()}
                                                     className="btn btn-primary"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#modalEncaminhar">
@@ -227,18 +231,17 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                                     </div>}
 
                                     <div className="row">
-                                        {permissoes.limpar && <>
-                                            <div className="col-auto">
-                                                <button className="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#modalRemoverConsultor">
-                                                    Remover Vendedor
-                                                </button>
-                                            </div>
-                                            <div className="col-auto">
-                                                <button className="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#modalRemoverSDR">
-                                                    Remover SDR
-                                                </button>
-                                            </div>
-                                        </>}
+                                        <div className="col-auto">
+                                            <button className="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#modalRemoverConsultor">
+                                                Remover Vendedor
+                                            </button>
+                                        </div>
+                                        <div className="col-auto">
+                                            <button className="btn btn-link text-dark" data-bs-toggle="modal" data-bs-target="#modalRemoverSDR">
+                                                Remover SDR
+                                            </button>
+                                        </div>
+
                                         {permissoes.inativar && <div className="col text-end">
                                             {lead.infos.status === 'ativo' &&
                                                 <button className="btn btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar

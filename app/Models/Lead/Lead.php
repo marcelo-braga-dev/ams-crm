@@ -30,7 +30,7 @@ class Lead extends Model
 
     public function setStatusAttribute($value)
     {
-        (new LeadStatusHistoricos())->create($this->attributes['id'], $this->attributes['status']);
+        (new LeadStatusHistoricos())->create($this->attributes['id'], $this->attributes['status'], null, $this->attributes['user_id']);
         return $this->attributes['status'] = $value;
     }
 

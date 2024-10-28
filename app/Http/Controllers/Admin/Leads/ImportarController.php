@@ -33,19 +33,13 @@ class ImportarController extends Controller
 
             $dadosSeparados = (new DadosImportacaoService())->executar($dados, $request->tipo_planilha);
 
+            foreach ($dadosSeparados as $item) {
+                (new LeadsANTIGO())->createOrUpdatePlanilhas($item, $request->setor, $idHistorico);
+            }
+
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();
-        }
-
-        $qtd = 0;
-        foreach ($dadosSeparados as $item) {
-            try {
-                $qtd++;
-                (new LeadsANTIGO())->createOrUpdatePlanilhas($item, $request->setor, $idHistorico);
-            } catch (\DomainException $exception) {
-                $qtd--;
-            }
         }
 
         (new LeadsImportarHistoricos())->atualizar($idHistorico, $dadosSeparados);
