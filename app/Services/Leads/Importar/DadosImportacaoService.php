@@ -4,12 +4,17 @@ namespace App\Services\Leads\Importar;
 
 class DadosImportacaoService
 {
-    public function executar(array $dados): array
+    public function executar(array $dados, $tipoPlanilha): array
     {
         $items = [];
         foreach ($dados as $dado) {
             try {
-                if ($dado[0] || $dado[1]) $items[] = $this->dados($dado);
+                if ($tipoPlanilha == 'pj') {
+                    if ($dado[0] || $dado[1]) $items[] = $this->dadosPJ($dado);
+                } else {
+                    if ($dado[0] || $dado[1]) $items[] = $this->dadosPF($dado);
+                }
+
             } catch (\ErrorException $exception) {
                 throw new \DomainException('Falha na leitura do arquivo!');
             }
@@ -18,7 +23,7 @@ class DadosImportacaoService
         return $items;
     }
 
-    private function dados($dado)
+    private function dadosPJ($dado)
     {
         return [
             'cnpj' => $dado[0] ?? null,
@@ -60,6 +65,48 @@ class DadosImportacaoService
                 (($dado[127] ?? null) ? (' & ' . $dado[127] . ' ' . ($dado[126] ?? null)) : '') .
                 (($dado[133] ?? null) ? (' & ' . $dado[133] . ' ' . ($dado[132] ?? null)) : '') .
                 (($dado[139] ?? null) ? (' & ' . $dado[139] . ' ' . ($dado[138] ?? null)) : '')
+        ];
+    }
+
+    private function dadosPF($dado)
+    {
+        return [
+            'cpf' => $dado[0] ?? null,
+            'nome' => $dado[1] ?? null,
+            'sexo' => $dado[2] ?? null,
+            'data_nascimento' => $dado[3] ?? null,
+            'rg' => $dado[6] ?? null,
+            'escolaridade' => $dado[10] ?? null,
+            'renda_estimada' => $dado[16] ?? null,
+            'faixa_renda' => $dado[17] ?? null,
+
+            'cnpj' => $dado[52] ?? null,
+            'nome_fantasia' => $dado[53] ?? null,
+            'cnae' => $dado[54] ?? null,
+            'atividade_principal' => $dado[55] ?? null,
+
+            'endereco' => [
+                'rua' => $dado[23] ?? null,
+                'numero' => $dado[24] ?? null,
+                'complemento' => $dado[25] ?? null,
+                'bairro' => $dado[26] ?? null,
+                'cidade' => $dado[27] ?? null,
+                'estado' => $dado[28] ?? null,
+                'cep' => $dado[29] ?? null,
+            ],
+
+            'telefones' => [
+                $dado[44] ?? null,//cel
+                $dado[45] ?? null,
+                $dado[46] ?? null,
+                $dado[47] ?? null,
+                $dado[40] ?? null,
+                $dado[41] ?? null,
+                $dado[42] ?? null,
+                $dado[43] ?? null,
+            ],
+            'quadro_societario' => (($dado[63] ?? null) . ' ' . ($dado[62] ?? null)) .
+                (($dado[66] ?? null) ? (' & ' . $dado[66] . ' ' . ($dado[65] ?? null)) : '')
         ];
     }
 }

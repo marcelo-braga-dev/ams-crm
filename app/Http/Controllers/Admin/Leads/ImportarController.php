@@ -30,7 +30,8 @@ class ImportarController extends Controller
             $idHistorico = (new LeadsImportarHistoricos())->create($request->setor);
 
             $dados = (new ImportarArquivoService())->dados($request, $idHistorico);
-            $dadosSeparados = (new DadosImportacaoService())->executar($dados);
+
+            $dadosSeparados = (new DadosImportacaoService())->executar($dados, $request->tipo_planilha);
 
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());

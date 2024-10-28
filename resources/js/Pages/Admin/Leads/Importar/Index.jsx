@@ -10,9 +10,16 @@ import CardTitle from '@/Components/Cards/CardTitle';
 import { Eye } from 'react-bootstrap-icons';
 import Link from '@/Components/Link.jsx';
 import { TbDownload } from 'react-icons/tb';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 export default function({ setores, modelo, historicos }) {
-    const { data, setData } = useForm();
+    const { data, setData } = useForm({
+        tipo_planilha: '',
+    });
     const [pregress, setPregress] = useState(false);
 
     function submit(e) {
@@ -25,7 +32,6 @@ export default function({ setores, modelo, historicos }) {
 
     return (
         <Layout titlePage="Importar Planilhas de Leads" menu="leads" submenu="leads-importar">
-
             <CardContainer>
                 <CardTitle title="Importar Planilhas de Leads">
                     <a href={modelo} className="btn btn-primary btn-sm mb-0">Baixar Modelo</a>
@@ -33,6 +39,20 @@ export default function({ setores, modelo, historicos }) {
                 <CardBody>
                     <form onSubmit={submit}>
                         <div className="row">
+                            <div className="col-auto mb-4">
+                                <FormControl>
+                                    <FormLabel id="demo-controlled-radio-buttons-group">Tipo de PLanilha</FormLabel>
+                                    <RadioGroup
+                                        row
+                                        name="controlled-radio-buttons-group"
+                                        value={data.tipo_planilha}
+                                        onChange={e => setData('tipo_planilha', e.target.value)}
+                                    >
+                                        <FormControlLabel value="pj" control={<Radio required />} label="PJ" />
+                                        <FormControlLabel value="pf" control={<Radio required />} label="PF" />
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
                             <div className="col-md-4 mb-4">
                                 <span className="d-block">Setor</span>
                                 <TextField select label="" fullWidth defaultValue="" required
