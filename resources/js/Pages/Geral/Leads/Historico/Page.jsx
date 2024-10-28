@@ -16,7 +16,7 @@ const Page = () => {
 
     useEffect(() => {
         const fetchhistorico = async () => {
-            const response = await axios.get(route('auth.leads.historico.api.get-historico'), { page: currentPage });
+            const response = await axios.get(route('auth.leads.historico.api.get-historico', { page: currentPage }));
 
             setHistoricos(response.data.data);
             setTotalPages(response.data.last_page);
