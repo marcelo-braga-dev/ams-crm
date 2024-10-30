@@ -16,6 +16,7 @@ use App\src\Pedidos\Status\FaturadoStatus;
 use App\src\Pedidos\Status\FaturadoVistaStatus;
 use App\src\Pedidos\Status\LancadoStatus;
 use App\src\Pedidos\Status\RevisarStatusPedido;
+use App\src\Pedidos\Status\VencidoStatusPedido;
 
 class PedidosStatusPermissoes extends ChavesPermissoes
 {
@@ -25,6 +26,7 @@ class PedidosStatusPermissoes extends ChavesPermissoes
     {
         return [
             $this->chavePedidosStatusReprovado(),
+            $this->chavePedidosStatusVencido(),
             $this->chavePedidosStatusEncomenda(),
             $this->chavePedidosStatusConferencia(),
             $this->chavePedidosStatusLancado(),
@@ -44,6 +46,7 @@ class PedidosStatusPermissoes extends ChavesPermissoes
     {
         $items = [
             $this->chavePedidosStatusReprovado() => (new RevisarStatusPedido())->getStatus(),
+            $this->chavePedidosStatusVencido() => (new VencidoStatusPedido())->getStatus(),
             $this->chavePedidosStatusEncomenda() => (new EncomendaStatus())->getStatus(),
             $this->chavePedidosStatusConferencia() => (new ConferenciaStatusPedido())->getStatus(),
             $this->chavePedidosStatusLancado() => (new LancadoStatus())->getStatus(),

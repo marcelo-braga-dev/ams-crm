@@ -43,6 +43,7 @@ class Pedidos extends Model
         'repasse',
         'repasse_desconto',
         'imposto',
+        'pagamento_vencimento_data',
     ];
 
     public function cliente()

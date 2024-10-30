@@ -16,6 +16,7 @@ use App\src\Pedidos\Status\FaturadoStatus;
 use App\src\Pedidos\Status\FaturadoVistaStatus;
 use App\src\Pedidos\Status\LancadoStatus;
 use App\src\Pedidos\Status\RevisarStatusPedido;
+use App\src\Pedidos\Status\VencidoStatusPedido;
 
 class CardDadosService
 {
@@ -23,6 +24,7 @@ class CardDadosService
     {
         $statusClasses = [
             'reprovado' => RevisarStatusPedido::class,
+            'vencido' => VencidoStatusPedido::class,
             'conferencia' => ConferenciaStatusPedido::class,
             'lancado' => LancadoStatus::class,
             'nota' => AguardandoNotaStatus::class,

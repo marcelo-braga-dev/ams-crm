@@ -37,6 +37,8 @@ const avancarStatus = (id, status, situacao) => {
     switch (status) {
         case 'reprovado':
             return btnStatusPadrao(route('admin.reprovado.show', id))
+        case 'vencido':
+            return btnStatusPadrao(route('admin.vencido.show', id))
         case 'encomenda':
             return btnStatusPadrao(route('admin.conferencia.show', id))
         case 'conferencia':

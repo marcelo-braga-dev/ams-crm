@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\Pedidos\Modelo1\FaturadoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\LancadoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\ReprovadosController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\RetrocederController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\VencidoPedidoController;
 use App\Http\Controllers\Admin\Pedidos\PedidosController;
 use App\Http\Controllers\Admin\Pedidos\Quadros\PedidosQuadrosController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\FaturamentoController;
@@ -31,6 +32,7 @@ Route::name('admin.')
 
         Route::resource('pedidos', PedidosController::class);
         Route::resource('reprovado', ReprovadosController::class);
+        Route::resource('vencido', VencidoPedidoController::class);
         Route::resource('conferencia', ConferenciaController::class);
         Route::resource('lancado', LancadoController::class);
         Route::resource('aguardando-nota', AguardandoNotaController::class);

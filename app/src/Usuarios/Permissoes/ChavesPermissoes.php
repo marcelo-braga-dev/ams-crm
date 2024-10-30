@@ -440,4 +440,9 @@ class ChavesPermissoes
     {
         return '87';
     }
+
+    public function chavePedidosStatusVencido()
+    {
+        return '88';
+    }
 }

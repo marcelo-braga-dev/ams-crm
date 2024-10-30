@@ -138,6 +138,15 @@ export default function Pedidos({fornecedores, setores, permissoesStatus, coresA
                                         <small className="d-block text-end">R$ {totalPedidos('reprovado')}</small>
                                     </div>
                                 </th>}
+                                {permissoesStatus.some(item => item === 'vencido') &&
+                                    <th id="th-2" style={{minWidth: 300}} className="sticky-top">
+                                        <div style={{backgroundColor: 'purple'}}
+                                             className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                            <div className='col-auto'>Vencido</div>
+                                            <div className='col-auto'>Qdt: {pedidos.vencido.length}</div>
+                                            <small className="d-block text-end">R$ {totalPedidos('vencido')}</small>
+                                        </div>
+                                    </th>}
                                 {permissoesStatus.some(item => item === 'encomenda') && modelo2 &&
                                     <th id="th-2" style={{minWidth: 300}} className="sticky-top">
                                         <div style={{backgroundColor: coresAbas.encomenda}}
@@ -252,6 +261,14 @@ export default function Pedidos({fornecedores, setores, permissoesStatus, coresA
                                                             permissoesStatus={permissoesStatus}/>
                                     })}
                                 </td>}
+                                {permissoesStatus.some(item => item === 'vencido')  &&
+                                    <td id="td-2" style={{minWidth: 300}}>
+                                        {pedidos.vencido.map((dados) => {
+                                            return <CardPedidos key={dados.id} dados={dados} status="vencido" cor="purple"
+                                                                permissoesStatus={permissoesStatus}/>
+                                        })}
+                                    </td>
+                                }
                                 {permissoesStatus.some(item => item === 'encomenda') && modelo2 &&
                                     <td id="td-2" style={{minWidth: 300}}>
                                         {pedidos.encomenda.map((dados) => {

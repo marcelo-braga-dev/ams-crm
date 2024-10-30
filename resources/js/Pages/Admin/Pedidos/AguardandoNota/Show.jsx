@@ -48,11 +48,16 @@ export default function Create({dados}) {
                         <h6 className="mb-4">Enviar Nota/Boleto</h6>
                         <form onSubmit={submit}>
                             <div className="row mb-4">
-                                <div className="col-md-4 mb-3">
+                                <div className="col-md-4 mb-4">
                                     <TextField
-                                        type="file" fullWidth required
+                                        label="Nota/Boleto" type="file" fullWidth required InputLabelProps={{shrink: true}}
                                         onChange={e => setData('file_boleto', e.target.files[0])}>
                                     </TextField>
+                                </div>
+                                <div className="col-md-3 mb-4">
+                                    <TextField type="date" label="Data Vencimento" required InputLabelProps={{shrink: true}} fullWidth
+                                               onChange={e => setData('pagamento_vencimento_data', e.target.value)}
+                                    />
                                 </div>
                             </div>
                             <button className="btn btn-primary" type='submit'>

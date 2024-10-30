@@ -3,14 +3,13 @@
 namespace App\src\Pedidos\Status;
 
 use App\Models\Pedidos;
-use App\Models\PedidosImagens;
 use App\Models\PedidosPrazos;
 use App\src\Pedidos\Notificacoes\Pedidos\PedidosAdminsNotificar;
 use App\src\Pedidos\Notificacoes\Pedidos\PedidosConsultorNotificar;
 
-class AguardandoPagamentoStatus implements PedidosStatus
+class VencidoStatusPedido implements PedidosStatus
 {
-    private string $status = 'aguardando_pagamento';
+    private string $status = 'vencido';
 
     function getStatus(): string
     {
@@ -19,25 +18,19 @@ class AguardandoPagamentoStatus implements PedidosStatus
 
     function getPrazo(): int
     {
-        return (new PedidosPrazos())->getPagamento();
+        return 1;
     }
 
     function getNomeStatus(): string
     {
-        return 'Aguardando Pagamento';
+        return 'Vencido';
     }
 
-    function updateStatus($id, $alerta = null, $dataVencimento = null)
+    function updateStatus($id, $alerta = null)
     {
         (new Pedidos())->updateStatus($id, $this->getStatus(), $this->getPrazo(), $alerta);
 
         (new PedidosConsultorNotificar())->notificar($id, $this->getNomeStatus());
         (new PedidosAdminsNotificar())->notificar($id, $this->getNomeStatus());
-    }
-
-    public function insertDadosStatus($id, $request)
-    {
-        (new Pedidos())->find($id)->update(['pagamento_vencimento_data' => $request->pagamento_vencimento_data]);
-        (new PedidosImagens())->updateBoleto($id, $request);
     }
 }

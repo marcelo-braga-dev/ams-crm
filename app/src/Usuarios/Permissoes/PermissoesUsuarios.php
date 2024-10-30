@@ -21,6 +21,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                 'categoria' => 'Alterar Status dos Pedidos',
                 'permissoes' => [
                     ['id' => $this->chavePedidosStatusReprovado(), 'nome' => 'Reprovados'],
+                    ['id' => $this->chavePedidosStatusVencido(), 'nome' => 'Vencido'],
                     ['id' => $this->chavePedidosStatusEncomenda(), 'nome' => 'Encomendas'],
                     ['id' => $this->chavePedidosStatusConferencia(), 'nome' => 'Conferência'],
                     ['id' => $this->chavePedidosStatusLancado(), 'nome' => 'Lancados'],
