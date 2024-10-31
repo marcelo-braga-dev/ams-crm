@@ -1,5 +1,5 @@
 import chaves from '@/Layouts/Menus/chaves';
-import { Whatsapp } from 'react-bootstrap-icons';
+import {Whatsapp} from 'react-bootstrap-icons';
 
 const dashboard = {
     id: 'whatsapp',
@@ -19,6 +19,12 @@ const dashboard = {
                     title: 'WhatsApp',
                     type: 'item',
                     url: route('auth.ferramentas.whatsapp.index'),
+                }, {
+                    id: 'whatsapp-contatos',
+                    chave: chaves.chats.whatsapp.usuarios,
+                    title: 'Contatos',
+                    type: 'item',
+                    url: route('auth.ferramentas.whatsapp.contato.index'),
                 }, {
                     id: 'whatsapp-usuario',
                     chave: chaves.chats.whatsapp.usuarios,

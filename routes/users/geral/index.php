@@ -11,4 +11,5 @@ Route::middleware(['auth'])
         require __DIR__ . '/pedidos/pedidos.php';
         require __DIR__ . '/perfil/perfil.php';
         require __DIR__ . '/sac/sac.php';
+        require __DIR__ . '/ferramentas/index.php';
     });

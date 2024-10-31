@@ -51,6 +51,13 @@ const dashboard = {
                     type: 'item',
                     admin: true,
                     url: route('admin.config.index'),
+                }, {
+                    id: 'pedidos-permissoes',
+                    chave: chaves.pedidos.config,
+                    title: 'Permissões',
+                    type: 'item',
+                    admin: true,
+                    url: route('admin.pedidos.permissao.index'),
                 }
             ]
         }

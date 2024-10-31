@@ -4,6 +4,7 @@ namespace App\Services\Lead;
 
 use App\Models\Lead\LeadStatusHistoricos;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
+use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
 
 class EncaminharLeadService
 {
@@ -15,7 +16,7 @@ class EncaminharLeadService
             try {
                 $lastUser = (new LeadStatusHistoricos())->newQuery()
                     ->where('lead_id', $leadId)
-                    ->where('status', (new OportunidadeStatusLead())->getStatus())
+                    ->whereIn('status', [(new OportunidadeStatusLead())->getStatus(), (new SuperOporunidadeStatusLead())->getStatus()])
                     ->orderByDesc('id')
                     ->value('user_id');
 
@@ -26,7 +27,7 @@ class EncaminharLeadService
 
                 (new UpdateStatusLeadService($leadId))->setOportunidadeStatus();
                 (new AlterarConsultorService())->alterar($leadId, $consultor);
-            } catch (\Exception) {
+            } catch (\Exception $exception) {print_pre($exception->getMessage());
                 $erroLeads[] = $leadId;
             }
         }

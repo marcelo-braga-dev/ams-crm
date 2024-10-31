@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\Pedidos\Quadros\PedidosQuadrosController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\FaturamentoController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\ProdutosController;
 use App\Http\Controllers\Admin\Pedidos\Relatorios\VendasController;
+use App\Http\Controllers\Admin\Permissoes\PermissaoPedidoController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('admin.')
@@ -62,6 +63,7 @@ Route::name('admin.pedidos.relatorios.')
 Route::name('admin.pedidos.')
     ->prefix('admin/pedidos')
     ->group(function () {
+        Route::resource('permissao', PermissaoPedidoController::class);
         Route::resource('quadros', PedidosQuadrosController::class);
         Route::resource('fretes', FretesController::class);
         Route::resource('emitir', EmitirPedidosController::class);

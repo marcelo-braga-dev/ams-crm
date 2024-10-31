@@ -1,18 +1,14 @@
-import { FunilVendasProvider } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
-import { WhatsappProvider } from '@/Contexts/WhatsappContext.jsx';
-import KanbanFunilVendas from '@/Pages/Admin/Leads/Kanban/KanbanFunilVendas.jsx';
+import {FunilVendasProvider} from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
 import Layout from '@/Layouts/Layout.jsx';
 import Kanban from './Kanban.jsx';
-import { LeadProvider } from '@/Pages/Geral/Leads/Dialogs/LeadContext.jsx';
+import {LeadProvider} from '@/Pages/Geral/Leads/Dialogs/LeadContext.jsx';
 
 const Page = () => {
     return (
         <Layout titlePage="Funil de Vendas - Leads" menu="leads" submenu="leads-kanban">
             <FunilVendasProvider>
                 <LeadProvider>
-                    <WhatsappProvider>
-                        <Kanban />
-                    </WhatsappProvider>
+                    <Kanban/>
                 </LeadProvider>
             </FunilVendasProvider>
         </Layout>
