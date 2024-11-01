@@ -25,6 +25,12 @@ const dashboard = {
                     title: 'Contatos',
                     type: 'item',
                     url: route('auth.ferramentas.whatsapp.contato.index'),
+                },{
+                    id: 'whatsapp-conexoes',
+                    chave: chaves.chats.whatsapp.usuarios,
+                    title: 'Conexões',
+                    type: 'item',
+                    url: route('auth.ferramentas.whatsapp.conexoes.index'),
                 }, {
                     id: 'whatsapp-usuario',
                     chave: chaves.chats.whatsapp.usuarios,

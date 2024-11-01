@@ -55,7 +55,7 @@ export const WhatsappProvider = ({children}) => {
                     'Content-Type': 'application/json',
                 },
             });
-            console.log(response)
+
             return response.data;
         } catch (error) {
             // console.error('Erro na comunicação:', error.response ? error.response.data : error.message);

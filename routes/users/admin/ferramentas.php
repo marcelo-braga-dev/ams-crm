@@ -1,12 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\Ferramentas\Biblioteca\BibliotecaController;
+use App\Http\Controllers\Admin\Ferramentas\Tarefas\AbertoController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\AprovacaoController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\AtendimentoController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\FinalizadoController;
 use App\Http\Controllers\Admin\Ferramentas\Tarefas\TaferasController;
-use App\Http\Controllers\Admin\Ferramentas\Tarefas\AbertoController;
-use App\Http\Controllers\Admin\Ferramentas\Whatsapp\ContatoWhatsappController;
 use App\Http\Controllers\Admin\Ferramentas\Whatsapp\UsuariosWhatsappController;
 use Illuminate\Support\Facades\Route;
 

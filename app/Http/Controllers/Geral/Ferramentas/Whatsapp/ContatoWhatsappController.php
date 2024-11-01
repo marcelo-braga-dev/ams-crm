@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Ferramentas\Whatsapp;
+namespace App\Http\Controllers\Geral\Ferramentas\Whatsapp;
 
 use App\Http\Controllers\Controller;
 use Inertia\Inertia;

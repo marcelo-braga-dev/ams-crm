@@ -46,7 +46,8 @@ const Page = () => {
             <CardContainer>
                 <CardTitle
                     title="Contatos do Whatsapp"
-                    icon={<TbUsers size={20}/>}
+                    icon={<TbUsers size={25}/>}
+                    subtitle={<Typography variant="body2">{contatos.length} Contatos</Typography>}
                     children={
                         <TextField
                             label="Pesquisar pelo número"
@@ -69,7 +70,7 @@ const Page = () => {
 
                                     <Grid container>
                                         {item.extraInfo.map(info => (
-                                            <Grid>
+                                            <Grid key={info.id}>
                                                 <Chip label={`${info.name}: ${info.value}`} size="small" sx={{margin: 1}}/>
                                             </Grid>
                                         ))}
