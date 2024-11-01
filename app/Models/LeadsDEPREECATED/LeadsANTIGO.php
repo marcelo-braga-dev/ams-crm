@@ -256,11 +256,17 @@ class LeadsANTIGO extends Model
 
                 $dadosAntigos = $this->newQuery()->where('cnpj', $cnpj)->first();
 
-                if (!$dadosAntigos) $valores['status'] = $status;
+                if (!$dadosAntigos) {
+                    $valores['status'] = $status;
+//                    $valores['importacao_id'] = $importacao;
+                }
 
                 $lead = $this->newQuery()->updateOrCreate($atributos, $valores);
 
-                if ($dadosAntigos) (new LeadsCopias())->atualizarRegistro($cnpj, $dadosAntigos, $valores, $importacao);
+                if ($dadosAntigos) {
+
+                    (new LeadsCopias())->atualizarRegistro($cnpj, $dadosAntigos, $valores, $importacao);
+                }
 
                 $this->cadastrarTelefones($lead->id, $dados['telefones'] ?? null, $importacao);
 

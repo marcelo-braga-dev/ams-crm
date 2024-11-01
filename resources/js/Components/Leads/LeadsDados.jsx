@@ -8,7 +8,7 @@ import {Chat, Dash, Envelope, Person, Plus, Telephone, TelephoneFill, Whatsapp} 
 import * as React from "react";
 import CampoTexto from "@/Components/CampoTexto.jsx";
 import Chip from "@mui/material/Chip";
-import OpenIflame from '@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflame.jsx';
+import OpenIflameChatWhatsapp from '@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflameChatWhatsapp.jsx';
 
 export default function LeadsDados({dados, acoes}) {
     const [toggleMenu, setToggleMenu] = useState(false)

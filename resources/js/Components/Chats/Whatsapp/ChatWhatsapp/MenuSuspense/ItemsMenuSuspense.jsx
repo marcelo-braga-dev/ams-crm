@@ -1,12 +1,18 @@
-import { Stack } from '@mui/material';
 import * as React from 'react';
-import OpenIflame from '@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflame.jsx';
+import OpenIflameChatWhatsapp from '@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflameChatWhatsapp.jsx';
 
-const ItemsMenuSuspense = ({ value }) => {
-    const { id, status_whatsapp, telefone, numero } = value;
+const ItemsMenuSuspense = ({value}) => {
+    const {id, status_whatsapp, telefone, numero, lead_id} = value;
 
     return (
-            <OpenIflame key={id} numero={numero} status={status_whatsapp} telefone={telefone} leadId={value.lead_id} telefoneId={value.id}/>
+        <OpenIflameChatWhatsapp
+            key={id}
+            numero={numero}
+            status={status_whatsapp}
+            telefone={telefone}
+            leadId={lead_id}
+            telefoneId={id}
+        />
     );
 };
 export default ItemsMenuSuspense;

@@ -10,7 +10,7 @@ import axios from 'axios';
 import DialogIflame from '@/Components/Chats/Whatsapp/ChatWhatsapp/DialogIflame.jsx';
 import { Whatsapp } from 'react-bootstrap-icons';
 
-const OpenIflame = ({ numero, status, telefone, leadId, telefoneId, icone, noDialogLead }) => {
+const OpenIflameChatWhatsapp = ({ numero, status, telefone, leadId, telefoneId, icone }) => {
     const [chatId, setChatId] = useState();
     const [openIflame, setOpenIflame] = useState(false);
     const [isPrimeiraMensagem, setIsPrimeiraMensagem] = useState(false);
@@ -93,4 +93,4 @@ const OpenIflame = ({ numero, status, telefone, leadId, telefoneId, icone, noDia
         </>
     );
 };
-export default OpenIflame;
+export default OpenIflameChatWhatsapp;

@@ -16,7 +16,6 @@ const Page = () => {
     const [contatos, setContatos] = useState([]);
     const [filteredContatos, setFilteredContatos] = useState([]);
     const [qtdPage, setQtdPage] = useState(20);
-    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchContatos = async () => {
@@ -34,7 +33,6 @@ const Page = () => {
 
     const handleSearch = (event) => {
         const term = event.target.value.replace(/\D/g, '');
-        setSearchTerm(term);
 
         const filtered = contatos.filter(contact =>
             contact.number.includes(term)

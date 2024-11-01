@@ -46,6 +46,13 @@ class LeadsTelefones extends Model
                 'id' => $telefone['id'] ?? null,
                 'numero' => ($telefone['numero'] ?? null) ? converterInt(converterTelefone($telefone['numero'])) : null,
             ];
+            else {
+                if ($telefone) $records[] = [
+                    'lead_id' => $leadId,
+                    'id' => null,
+                    'numero' => converterInt(converterTelefone($telefone))
+                ];
+            }
         }
 
         if (!empty($records)) {
@@ -70,8 +77,6 @@ class LeadsTelefones extends Model
                     'importacao_id' => $importacao,
                     'dados' => $telefones,
                 ]);
-
-//                throw new \DomainException('Erro ao cadastrar telefones do lead.');
             }
         }
 
