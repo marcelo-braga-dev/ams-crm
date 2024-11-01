@@ -5,7 +5,7 @@ import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
 import React from "react";
 import Chip from "@mui/material/Chip";
 
-export default function InfoLead({dado}) {
+export default function InfoLead({dado}) {console.log(dado)
     return (
         <table className="m-2">
             <tbody>
@@ -40,6 +40,16 @@ export default function InfoLead({dado}) {
                     <span className="d-block">{dado.telefone}</span>
                 </td>
             </tr>}
+            {dado.telefones.map(item => (
+                <tr>
+                    <td>
+                        <LocalPhoneOutlinedIcon sx={{fontSize: 18}}/>
+                    </td>
+                    <td>
+                        <span className="d-block">{item.telefone}</span>
+                    </td>
+                </tr>
+            ))}
 
             {(dado.cidade || dado.estado) && <tr>
                 <td>

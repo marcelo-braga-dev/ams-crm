@@ -128,6 +128,7 @@ export default function Filtering({leads, dadosimportacao}) {
             estado: items.cliente.estado,
             status: items.infos.status,
             enriquecida: items.enriquecida.qtd,
+            telefones: items.contato.numeros,
         }
     });
     // Dados - fim

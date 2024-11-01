@@ -20,7 +20,7 @@ class ImportarHistoricoController extends Controller
     {
         $leads = (new LeadsANTIGO)->importacao($id);
         $dadosimportacao = (new LeadsImportarHistoricos())->getDados($id);
-
+//print_pre($leads);
         return Inertia::render('Admin/Leads/Importar/Historico/Show',
             compact('leads', 'dadosimportacao'));
     }

@@ -629,6 +629,7 @@ class LeadsANTIGO extends Model
                     'email' => $item->email,
                     'telefone' => converterTelefone($item->telefone),
                     'telefones' => $telefones,
+                    'numeros' => $item->telefones,
                     'atendente' => $item->atendente,
                 ],
                 'infos' => [
@@ -809,6 +810,7 @@ class LeadsANTIGO extends Model
     public function importacao($id)
     {
         return $this->newQuery()
+            ->with('telefones')
             ->leftJoin('leads_copias', 'leads.id', '=', 'leads_copias.lead_id')
             ->where('leads.importacao_id', $id)
             ->select('leads.*', DB::raw('COUNT(leads_copias.id) as enriquecida_qtd'))
