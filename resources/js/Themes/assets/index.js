@@ -1,9 +1,11 @@
-import './argon-dashboard.css';
+import './argon/css/argon-dashboard.css';
+
+import 'typeface-inter';
 
 import './style.css';
 import './theme.css';
 import './lightbox.css';
 
-import './argon/popper.min';
-import './argon/bootstrap.min';
-import './argon/argon-dashboard.min';
+import './argon/js/core/popper.min.js';
+import './argon/js/core/bootstrap.min.js';
+import './argon/js/argon-dashboard.min.js';

@@ -21,14 +21,15 @@ const Page = () => {
     useEffect(() => {
         const fetchContatos = async () => {
             const response = await get('contact');
-            setContatos(response ?? []);
+            const sortedContatos = response.sort((a, b) => b.id - a.id);
+            setContatos(sortedContatos ?? []);
             setFilteredContatos(response ?? []);
         };
         fetchContatos();
     }, [get]);
 
     const handleQtdPage = () => {
-        setQtdPage(qtdPage + 2);
+        setQtdPage(qtdPage + 30);
     };
 
     const handleSearch = (event) => {
