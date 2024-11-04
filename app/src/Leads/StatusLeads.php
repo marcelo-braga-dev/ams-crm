@@ -9,6 +9,7 @@ use App\src\Leads\StatusLeads\ContatoDiretoStatusLead;
 use App\src\Leads\StatusLeads\FinalizadoStatusLead;
 use App\src\Leads\StatusLeads\InativoStatusLead;
 use App\src\Leads\StatusLeads\InicioFunilStatusLead;
+use App\src\Leads\StatusLeads\NovoStatusLead;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
 use App\src\Leads\StatusLeads\CotacaoEnviadoStatusLead;
 use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
@@ -25,6 +26,7 @@ class StatusLeads
     {
         return [
             (new InicioFunilStatusLead()),
+            (new NovoStatusLead()),
             (new OportunidadeStatusLead()),
             (new SuperOporunidadeStatusLead()),
             (new ConexaoProativaStatusLead),
