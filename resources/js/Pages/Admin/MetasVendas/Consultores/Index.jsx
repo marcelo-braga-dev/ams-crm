@@ -66,10 +66,10 @@ export default function ({
             <CardContainer>
                 <CardBody>
                     <div className="row">
-                        <div className="col-md-3">
+                        <div className="col-md-4">{console.log(usuarios)}
                             <TextField label="Usuário" fullWidth select value={usuario.id}
                                        onChange={e => selecionarusuario(e.target.value)}>
-                                {usuarios.map(item => <MenuItem key={item.id} value={item.id}>
+                                {usuarios.map(item => item.status === "1" && <MenuItem key={item.id} value={item.id}>
                                     <Stack direction="row" spacing={1}>
                                         <Avatar src={item.foto} sx={{width: 25, height: 25}}/>
                                         <Typography>{item.nome}</Typography>
