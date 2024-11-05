@@ -11,7 +11,6 @@ const FiltrosLead = ({
 
                          setores,
                          datasImportacao,
-                         setorSelecionado,
                          carregando,
                          statusleads,
                      }) => {

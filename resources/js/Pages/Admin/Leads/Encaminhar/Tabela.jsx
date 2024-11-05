@@ -6,7 +6,7 @@ import {People} from 'react-bootstrap-icons';
 import CardTable from '@/Components/Cards/CardTable';
 import MenuItem from '@mui/material/MenuItem';
 import LinearProgress from '@mui/material/LinearProgress';
-import CardLeadGerenciar from "@/Pages/Admin/Leads/Gerenciar/CardLeadGerenciar.jsx";
+import CardLeadGerenciar from "@/Pages/Admin/Leads/Encaminhar/CardLeadGerenciar.jsx";
 
 export default function Tabela({
                                    leads, setPaginate, paginate, paginateDados, setOrdenar, setFiltroFiltroOrdenarBy, carregando,

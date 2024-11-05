@@ -9,7 +9,7 @@ import CardContainer from '@/Components/Cards/CardContainer';
 import CardBody from '@/Components/Cards/CardBody';
 import {Trash} from 'react-bootstrap-icons';
 import InputLabel from '@mui/material/InputLabel';
-import FiltrosLead from "@/Pages/Admin/Leads/Gerenciar/FiltrosLead.jsx";
+import FiltrosLead from "@/Pages/Admin/Leads/Encaminhar/FiltrosLead.jsx";
 
 const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isLeadsExcluir}) => {
     const [leads, setLeads] = useState([]);

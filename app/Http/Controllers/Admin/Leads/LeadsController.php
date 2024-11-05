@@ -35,7 +35,7 @@ class LeadsController extends Controller
         $isLeadsExcluir = (new UsersPermissoes())->isLeadsExcluir(id_usuario_atual());
         $statusleads = (new StatusLeads())->status();
 
-        return Inertia::render('Admin/Leads/Cadastrados/Index',
+        return Inertia::render('Admin/Leads/Encaminhar/Index',
             compact('categorias', 'statusleads', 'datasImportacao', 'isLeadsEncaminhar', 'isLeadsExcluir'));
     }
 

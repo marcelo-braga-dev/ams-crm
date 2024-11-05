@@ -41,9 +41,9 @@ const dashboard = {
                 }, {
                     id: 'leads-cards',
                     chave: chaves.leads.quadros,
-                    title: 'Quadros de Leads',
+                    title: 'Gerenciar de Leads',
                     type: 'item',
-                    url: route('admin.leads.cards-leads.index'),
+                    url: route('admin.leads.gerenciar.gerenciar-leads.index'),
                 }, {
                     id: 'leads-historico',
                     chave: chaves.leads.historico,

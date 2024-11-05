@@ -20,6 +20,7 @@ use App\src\Leads\Status\OcultosLeadsStatus;
 use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\Status\StatusLeads;
 use App\src\Leads\StatusLeads\AtivoStatusLead;
+use App\src\Leads\StatusLeads\OportunidadeStatusLead;
 use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use DateTime;
 use Error;
@@ -112,6 +113,14 @@ class LeadsANTIGO extends Model
         $this->newQuery()
             ->find($id)
             ->update(['contato_data' => now()]);
+    }
+
+    public function encaminharStatus($consultor, $novoConsultor, $status)
+    {
+        $this->newQuery()
+            ->where('user_id', $consultor)
+            ->where('status', $status)
+            ->update(['user_id' => $novoConsultor]);
     }
 
     public function agrupadosPorStatus($setor = null, $usuario = null)
@@ -1159,15 +1168,7 @@ class LeadsANTIGO extends Model
             ->where('status', $status)
             ->update([
                 'user_id' => null,
-                'status' => (new NovoStatusLeads())->getStatus()
-            ]);
-
-        $this->newQuery()
-            ->where('sdr_id', $id)
-            ->where('status', $status)
-            ->update([
-                'sdr_id' => null,
-                'status' => (new NovoStatusLeads())->getStatus()
+                'status' => (new OportunidadeStatusLead())->getStatus()
             ]);
     }
 

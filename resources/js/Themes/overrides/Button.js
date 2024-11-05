@@ -1,5 +1,3 @@
-// ==============================|| OVERRIDES - BUTTON ||============================== //
-
 export default function Button(theme) {
     const disabledStyle = {
         '&.Mui-disabled': {
@@ -43,6 +41,19 @@ export default function Button(theme) {
         },
     };
 
+    const outlinedPrimary = {
+        '&.MuiButton-variantOutlined': {
+            color: '#000000', // Texto preto
+            borderColor: '#000000', // Borda preta
+            backgroundColor: '#ffffff', // Borda preta
+            '&:hover': {
+                backgroundColor: theme.palette.action.hover,
+                borderColor: '#000000',
+                color: '#000000',
+            },
+        },
+    };
+
     const sizeSmall = {
         fontSize: '0.75rem',
         paddingBlock: 2,
@@ -63,6 +74,7 @@ export default function Button(theme) {
         ...successStyle,
         ...errorStyle,
         ...warningStyle,
+        ...outlinedPrimary,
     };
 
     return {
@@ -72,12 +84,15 @@ export default function Button(theme) {
                 variant: 'contained',
             },
             styleOverrides: {
-                root: { ...rootStyle },
+                root: {...rootStyle},
                 contained: {
                     ...disabledStyle,
                 },
                 outlined: {
                     ...disabledStyle,
+                    color: '#000000',
+                    borderColor: '#000000',
+                    backgroundColor: '#ffffff',
                 },
                 sizeSmall: sizeSmall,
             },

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\Leads\CardsController as LeadsCardsController;
 use App\Http\Controllers\Admin\Leads\Consultores\AbertoController;
 use App\Http\Controllers\Admin\Leads\Consultores\AtendimentoController;
 use App\Http\Controllers\Admin\Leads\Consultores\AtivoController;
@@ -10,6 +9,9 @@ use App\Http\Controllers\Admin\Leads\Consultores\LeadsRelatoriosController;
 use App\Http\Controllers\Admin\Leads\Consultores\NovoController;
 use App\Http\Controllers\Admin\Leads\Consultores\PreAtendimentoController;
 use App\Http\Controllers\Admin\Leads\Encaminhados\EncaminhadosController;
+use App\Http\Controllers\Admin\Leads\GerenciarLead\EncaminharLeadsStatusController;
+use App\Http\Controllers\Admin\Leads\GerenciarLead\GerenciarLeadsController as LeadsCardsController;
+use App\Http\Controllers\Admin\Leads\GerenciarLead\RemoverStatusLeadsConsultorController;
 use App\Http\Controllers\Admin\Leads\Historicos\HistoricosController;
 use App\Http\Controllers\Admin\Leads\ImportarController;
 use App\Http\Controllers\Admin\Leads\ImportarHistoricoController;
@@ -18,6 +20,26 @@ use App\Http\Controllers\Admin\Leads\RelatoriosController;
 use App\Http\Controllers\Admin\Leads\StatusController;
 use Illuminate\Support\Facades\Route;
 
+
+Route::name('admin.leads.')
+    ->prefix('admin/leads')
+    ->group(function () {
+
+        Route::name('gerenciar.')
+            ->prefix('gerenciar')
+            ->group(function () {
+                Route::resource('gerenciar-leads', LeadsCardsController::class);
+                Route::get('get-registros', [LeadsCardsController::class, 'getRegistros'])->name('get-registros');
+
+                Route::put('remover-consultor', RemoverStatusLeadsConsultorController::class)->name('remover-status-consultor');
+                Route::put('encaminhar-status', EncaminharLeadsStatusController::class)->name('encaminhar-status');
+            });
+    });
+
+
+// ======
+// Remover
+// ======
 Route::name('admin.clientes.leads.')
     ->prefix('admin/clientes/leads')
     ->group(function () {
@@ -66,10 +88,6 @@ Route::name('admin.leads.')
         Route::resource('cards-atendimento', AtendimentoController::class);
         Route::resource('cards-ativo', AtivoController::class);
         Route::resource('cards-finalizado', FinalizadoController::class);
-
-        Route::resource('cards-leads', LeadsCardsController::class);
-
-        Route::post('cards-leads-limpar', [LeadsCardsController::class, 'limparFinalizados'])->name('cards-leads.limpar-finalizados');
 
         Route::post('limpar-consultor', [CardsController::class, 'limparConsultor'])->name('limpar-consultor');
         Route::post('limpar-sdr', [LeadsController::class, 'limparSdr'])->name('limpar-sdr');
