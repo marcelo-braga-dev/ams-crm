@@ -367,21 +367,15 @@ class LeadsANTIGO extends Model
     {
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
-        if ($status) $status = (new PreAtendimentoStatusLeads())->getStatus();
-        else $status = (new AbertoStatusLeads())->getStatus();
+        $status = (new NovoStatusLeads())->getStatus();
+
+        if ($usuario) {
+            $status = (new OportunidadeStatusLead())->getStatus();
+        }
 
         try {
             $sdr = null;
             $vendedor = null;
-
-            if ($usuario) {
-                $isSdr = is_sdr($usuario);
-                $status = $isSdr ? (new NovoStatusLeads())->getStatus() : (new AbertoStatusLeads())->getStatus();
-                $isSdr ? $sdr = $usuario : $vendedor = $usuario;
-            }
-
-            if ($importacao) $status = (new NovoStatusLeads())->getStatus();
-
             $verificacaoCnpj = null;
 
             $idEndereco = (new Enderecos())->create($dados['endereco'] ?? null);
