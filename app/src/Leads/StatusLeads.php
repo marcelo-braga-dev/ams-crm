@@ -50,6 +50,15 @@ class StatusLeads
         return $classes;
     }
 
+    public function statusNome($status): string
+    {
+        $classes = [];
+        foreach ($this->sequenciaClasses() as $class) {
+            $classes[$class->getStatus()] = $class->getStatusNome();
+        }
+        return $classes[$status] ?? '-';
+    }
+
     public function sequenciaStatus(): array
     {
         $classes = [];

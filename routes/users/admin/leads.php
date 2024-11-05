@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\Leads\Consultores\PreAtendimentoController;
 use App\Http\Controllers\Admin\Leads\Encaminhados\EncaminhadosController;
 use App\Http\Controllers\Admin\Leads\GerenciarLead\EncaminharLeadsStatusController;
 use App\Http\Controllers\Admin\Leads\GerenciarLead\GerenciarLeadsController as LeadsCardsController;
+use App\Http\Controllers\Admin\Leads\GerenciarLead\GetLeadsStatusConsultorController;
 use App\Http\Controllers\Admin\Leads\GerenciarLead\RemoverStatusLeadsConsultorController;
 use App\Http\Controllers\Admin\Leads\Historicos\HistoricosController;
 use App\Http\Controllers\Admin\Leads\ImportarController;
@@ -31,6 +32,7 @@ Route::name('admin.leads.')
                 Route::resource('gerenciar-leads', LeadsCardsController::class);
                 Route::get('get-registros', [LeadsCardsController::class, 'getRegistros'])->name('get-registros');
 
+                Route::get('get-leads-status', GetLeadsStatusConsultorController::class)->name('get-leads-status');
                 Route::put('remover-consultor', RemoverStatusLeadsConsultorController::class)->name('remover-status-consultor');
                 Route::put('encaminhar-status', EncaminharLeadsStatusController::class)->name('encaminhar-status');
             });

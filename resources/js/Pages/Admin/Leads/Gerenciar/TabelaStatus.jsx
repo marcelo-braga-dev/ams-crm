@@ -4,11 +4,12 @@ import {TbDotsVertical} from "react-icons/tb";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import * as React from "react";
 import MenuItem from "@mui/material/MenuItem";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
 import Dialog from "@mui/material/Dialog";
 import CampoTexto from "@/Components/CampoTexto.jsx";
+import LeadsStatusDialog from "@/Pages/Admin/Leads/Gerenciar/LeadsStatusDialog.jsx";
 
 const statusColunas = {
     oportunidade: 'OPORTUNIDADES',
@@ -136,6 +137,40 @@ const TabelaStatus = () => {
         }
     }
 
+    const tabela = useMemo(() => {
+        return totals.rows.map((row) => (
+            <tr key={row.id}>
+                <td className="text-wrap text-start">
+                    <Stack direction="row" alignItems="center">
+                        <Avatar src={row.nome.foto} sx={{width: 25, height: 25}} className="me-2"/>
+                        <Typography component="span"><b>{row.nome.nome}</b></Typography>
+                    </Stack>
+                </td>
+                {Object.entries(row.status).map(([key, value]) => (
+                    <td key={key}>
+                        <Stack direction="row" spacing={2} alignItems="center">
+                            <Typography>{value}</Typography>
+                            <IconButton onClick={(e) => handleMenuOpen(e, row.id + key)}>
+                                <TbDotsVertical size={20}/>
+                            </IconButton>
+                            <Menu
+                                id={`menu-${row.id}-${key}`}
+                                anchorEl={anchorElMap[row.id + key]}
+                                open={Boolean(anchorElMap[row.id + key])}
+                                onClose={() => handleMenuClose(row.id + key)}
+                            >
+                                <MenuItem><LeadsStatusDialog user={row.id} status={key} onClose={() => handleMenuClose(row.id + key)}/></MenuItem>
+                                <MenuItem onClick={() => handdleOpenDialogEncaminhar(row.id, key)}>Encaminhar</MenuItem>
+                                <MenuItem onClick={() => handdleOpenDialogRemover(row.id, key)}>Remover do Consultor</MenuItem>
+                            </Menu>
+                        </Stack>
+                    </td>
+                ))}
+                <td className="bg-light"><strong>{row.total}</strong></td>
+            </tr>
+        ))
+    }, [totals.rows, anchorElMap]);
+
     return (
         <CardContainer>
             <CardTitle title="Quantidade de Leads atualmente em cada Consultor"/>
@@ -156,37 +191,7 @@ const TabelaStatus = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {totals.rows.map((row) => (
-                            <tr key={row.id}>
-                                <td className="text-wrap text-start">
-                                    <Stack direction="row" alignItems="center">
-                                        <Avatar src={row.nome.foto} sx={{width: 25, height: 25}} className="me-2"/>
-                                        <Typography component="span"><b>{row.nome.nome}</b></Typography>
-                                    </Stack>
-                                </td>
-                                {Object.entries(row.status).map(([key, value]) => (
-                                    <td key={key}>
-                                        <Stack direction="row" spacing={2} alignItems="center">
-                                            <Typography>{value}</Typography>
-                                            <IconButton onClick={(e) => handleMenuOpen(e, row.id + key)}>
-                                                <TbDotsVertical size={20}/>
-                                            </IconButton>
-                                            <Menu
-                                                id={`menu-${row.id}-${key}`}
-                                                anchorEl={anchorElMap[row.id + key]}
-                                                open={Boolean(anchorElMap[row.id + key])}
-                                                onClose={() => handleMenuClose(row.id + key)}
-                                            >
-                                                <MenuItem onClick={() => handleMenuClose(row.id + key)}>Ver Leads</MenuItem>
-                                                <MenuItem onClick={() => handdleOpenDialogEncaminhar(row.id, key)}>Encaminhar</MenuItem>
-                                                <MenuItem onClick={() => handdleOpenDialogRemover(row.id, key)}>Remover do Consultor</MenuItem>
-                                            </Menu>
-                                        </Stack>
-                                    </td>
-                                ))}
-                                <td className="bg-light"><strong>{row.total}</strong></td>
-                            </tr>
-                        ))}
+                        {tabela}
                         <tr className="bg-light">
                             <td><b>TOTAL</b></td>
                             <td>{totals.totalOportunidades}</td>

@@ -6,6 +6,8 @@ use App\Models\LeadsDEPREECATED\LeadsTelefones;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
+use App\src\Leads\StatusLeads;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,16 +18,26 @@ class Lead extends Model
     protected $fillable = ['user_id', 'status', 'vendedor_id', 'cnpj', 'cpf', 'status_id', 'setor_id'];
 
     protected $with = ['setor', 'vendedor', 'telefones'];
-    protected $appends = ['status'];
+    protected $appends = ['status_date', 'status_nome'];
 
     protected $hidden = ['setor_id', 'status_id', 'vendedor_id', 'created_at', 'updated_at'];
 
     // =======================
     // Getters
     // =======================
-    public function getStatusAttribute()
+    public function getStatusNomeAttribute()
     {
-        return $this->leadStatus ? $this->leadStatus : null;
+        return (new StatusLeads())->statusNome($this->attributes['status']);
+    }
+
+    public function getStatusDateAttribute()
+    {
+        return Carbon::parse($this->attributes['status_data'])->format('d/m/Y H:i');
+    }
+
+    public function getCnpjAttribute()
+    {
+        return converterCNPJ($this->attributes['cnpj']);
     }
 
     public function setStatusAttribute($value)

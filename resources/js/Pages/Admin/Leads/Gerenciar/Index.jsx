@@ -11,7 +11,7 @@ import TabelaStatus from "@/Pages/Admin/Leads/Gerenciar/TabelaStatus.jsx";
 
 export default function () {
     return (
-        <Layout empty titlePage="Tabelas de Leads" menu="leads" submenu="leads-cards">
+        <Layout empty titlePage="Gerenciar Leads" menu="leads" submenu="leads-cards">
             <TabelaStatus/>
         </Layout>
     )
