@@ -31,6 +31,25 @@ export default function Button(theme) {
         },
     };
 
+    const warningStyle = {
+        '&.MuiButton-colorWarning': {
+            color: '#000000',
+            backgroundColor: '#ffc107',
+            borderColor: theme.palette.success.light,
+            '&:hover': {
+                backgroundColor: '#e4b904',
+                color: '#000000',
+            },
+        },
+    };
+
+    const sizeSmall = {
+        fontSize: '0.75rem',
+        paddingBlock: 2,
+        paddingInline: 15,
+        fontWeight: 500,
+    };
+
     const rootStyle = {
         fontWeight: 700,
         paddingBlock: 7,
@@ -43,6 +62,7 @@ export default function Button(theme) {
         },
         ...successStyle,
         ...errorStyle,
+        ...warningStyle,
     };
 
     return {
@@ -59,12 +79,7 @@ export default function Button(theme) {
                 outlined: {
                     ...disabledStyle,
                 },
-                sizeSmall: {
-                    fontSize: '0.8rem',
-                    paddingBlock: 2,
-                    paddingInline: 1,
-                    fontWeight: 500,
-                },
+                sizeSmall: sizeSmall,
             },
         },
     };

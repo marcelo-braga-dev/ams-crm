@@ -20,10 +20,10 @@ class LeadsKanban extends ChavesPermissoes
         return [
             ['id' => $this->chaveLeadsStatusInicioFunil(), 'nome' => 'Inicio Funil'],
             ['id' => $this->chaveLeadsStatusOportunidades(), 'nome' => 'Oportunidades'],
+            ['id' => $this->chaveLeadsStatusSuperOportunidades(), 'nome' => 'Super Oportunidades'],
             ['id' => $this->chaveLeadsStatusConexaoProativo(), 'nome' => 'Conexão Proativa'],
             ['id' => $this->chaveLeadsStatusContatoDireto(), 'nome' => 'Contato Direto 360°'],
             ['id' => $this->chaveLeadsStatusCotacaoEnviado(), 'nome' => 'Cotação Enviada'],
-            ['id' => $this->chaveLeadsStatusSuperOportunidades(), 'nome' => 'Super Oportunidades'],
             ['id' => $this->chaveLeadsStatusAtivo(), 'nome' => 'Ativos'],
             ['id' => $this->chaveLeadsStatusFinalizados(), 'nome' => 'Finalizados'],
         ];

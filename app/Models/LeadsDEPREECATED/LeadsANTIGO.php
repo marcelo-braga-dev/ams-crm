@@ -1017,39 +1017,74 @@ class LeadsANTIGO extends Model
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
-            ->whereIn('status', ['inicio_funil', 'novo', 'oportunidade', 'conexao_proativo', 'contato_direto', 'cotacao_enviado', 'super_oportunidade', 'ativo', 'finalizado'])
-            ->with('telefones')
-            ->with('copias')
-            ->with('cidadeEstado')
+            ->with(['telefones', 'copias', 'cidadeEstado'])
             ->where('setor_id', $setor);
 
         $orderBy = $filtros['ordenar_by'] ?? 'ASC';
         switch ($filtros['ordenar'] ?? null) {
-            case 'id' :
+            case 'id':
                 $query->orderBy('id', $orderBy);
                 break;
-            case 'nome' :
+            case 'nome':
                 $query->orderBy('nome', $orderBy);
                 break;
-            case 'razao_social' :
-                $query->orderBy('razao_social', $orderBy)->whereNotNull('razao_social');
+            case 'razao_social':
+                $query->orderBy('razao_social', $orderBy)
+                    ->whereNotNull('razao_social');
                 break;
-            default :
+            default:
                 $query->orderBy('data_encaminhado', $orderBy)
-                    ->orderBy('created_at');
+                    ->orderBy('user_id');
                 break;
         }
 
-        if ($filtros['sdr'] ?? null) $query->whereNull('sdr_id');
-        if ($filtros['enriquecidos'] ?? null) $query->whereHas('copias');
-        if ($filtros['consultor'] ?? null) $query->whereNull('user_id');
-        if ($filtros['importacao'] ?? null) $query->where('importacao_id', $filtros['importacao']);
-        if ($filtros['status'] ?? null) $query->where('status', $filtros['status']);
-        if ($filtros['classificacao'] ?? null) $query->where('classificacao', $filtros['classificacao']);
-        if ($filtros['leads'] ?? null) {
-            if ($filtros['leads'] == 'novos') $query->whereNull('data_encaminhado');
-            if ($filtros['leads'] == 'atendidos') $query->whereNotNull('data_encaminhado');
-            if ($filtros['leads'] == 'ativados') $query->whereNotNull('ultimo_pedido_data');
+// Aplicação dos filtros
+        if (!empty($filtros['sdr'])) {
+            $query->whereNull('sdr_id');
+        }
+
+        if (!empty($filtros['enriquecidos'])) {
+            $query->whereHas('copias');
+        }
+
+        if (!empty($filtros['consultor'])) {
+            $query->whereNull('user_id');
+        }
+
+        if (!empty($filtros['importacao'])) {
+            $query->where('importacao_id', $filtros['importacao']);
+        }
+
+        if (!empty($filtros['status'])) {
+            $query->where('status', $filtros['status']);
+        }
+
+        if (!empty($filtros['classificacao'])) {
+            $query->where('classificacao', $filtros['classificacao']);
+        }
+
+        if (!empty($filtros['contato'])) {
+
+            if ($filtros['contato'] === 'sem_telefone') {
+                $query->whereDoesntHave('telefones');
+            }
+            if ($filtros['contato'] === 'com_telefone') {
+                $query->has('telefones');
+            }
+        }
+
+        if (!empty($filtros['leads'])) {
+            switch ($filtros['leads']) {
+                case 'novos':
+                    $query->whereNull('data_encaminhado');
+                    break;
+                case 'atendidos':
+                    $query->whereNotNull('data_encaminhado');
+                    break;
+                case 'ativados':
+                    $query->whereNotNull('ultimo_pedido_data');
+                    break;
+            }
         }
 
         $this->filtrar($filtros, $query);
@@ -1107,7 +1142,7 @@ class LeadsANTIGO extends Model
             ];
         });
 
-        return ['dados' => $dados, 'paginate' => ['current' => $items->currentPage(), 'last_page' => $items->lastPage(), 'total' => $items->total()]];
+        return ['info' => $filtros, 'dados' => $dados, 'paginate' => ['current' => $items->currentPage(), 'last_page' => $items->lastPage(), 'total' => $items->total()]];
     }
 
     private function difData($data)

@@ -204,7 +204,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                                     <h5 className="modal-title" id="exampleModalLabel">Encaminhar Lead</h5>
                                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
                                 </div>
-                                <div className="modal-body">{console.log(filtros.usuarios)}
+                                <div className="modal-body">
                                     {permissoes.encaminhar && <div className="row">
                                         <div className="col-md-8">
                                             <TextField label="Selecione o Consultor..." select
