@@ -89,10 +89,14 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
 
         for (let i = 0; i < filtroQtdPagina; i++) {
             const valueID = leads[i]?.id;
-            if (check) newChecked.push(valueID);
-            else {
-                const currentIndex = leadsChecked.indexOf(valueID);
-                newChecked.splice(currentIndex);
+            const status = leads[i]?.infos?.status
+
+            if (status !== 'ativo') {
+                if (check) newChecked.push(valueID);
+                else {
+                    const currentIndex = leadsChecked.indexOf(valueID);
+                    newChecked.splice(currentIndex);
+                }
             }
         }
 
@@ -135,7 +139,7 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
     };
 
     return (
-        <Layout empty titlePage="Leads Cadastrados" menu="leads" submenu="leads-cadastrados">
+        <Layout empty titlePage="Encaminhar Leads" menu="leads" submenu="leads-cadastrados">
             <FiltrosLead
                 filtros={filtros}
                 setFiltros={setFiltros}

@@ -75,7 +75,7 @@ const TabelaStatus = () => {
 
             acc.rows.push({
                 id: dado.id,
-                nome: dado.nome,
+                usuario: dado.nome,
                 status: {oportunidade, super_oportunidade, conexao_proativo, contato_direto, cotacao_enviado, ativo},
                 total,
             });
@@ -142,8 +142,8 @@ const TabelaStatus = () => {
             <tr key={row.id}>
                 <td className="text-wrap text-start">
                     <Stack direction="row" alignItems="center">
-                        <Avatar src={row.nome.foto} sx={{width: 25, height: 25}} className="me-2"/>
-                        <Typography component="span"><b>{row.nome.nome}</b></Typography>
+                        <Avatar src={row.usuario.foto} sx={{width: 25, height: 25}} className="me-2"/>
+                        <Typography component="span"><b>{row.usuario.nome}</b></Typography>
                     </Stack>
                 </td>
                 {Object.entries(row.status).map(([key, value]) => (
