@@ -2,7 +2,7 @@ import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import {Box, Button, FormControlLabel, Grid, MenuItem, Stack, Switch, TextField, Typography} from "@mui/material";
 import React, {useState} from "react";
-import {TbMinus, TbPlus} from "react-icons/tb";
+import {TbDots, TbMinus, TbPlus, TbPoint, TbPointFilled, TbTag} from "react-icons/tb";
 import Checkbox from "@mui/material/Checkbox";
 
 const FiltrosLead = ({
@@ -36,7 +36,13 @@ const FiltrosLead = ({
                             <TextField fullWidth select label="Status" defaultValue="" size="small"
                                        onChange={e => setFiltros({...filtros, status: e.target.value})}>
                                 <MenuItem value="">Todos</MenuItem>
-                                {statusleads.map(item => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                                {statusleads.map(item => (<MenuItem key={item.id} value={item.id}>
+                                    <Stack direction="row" spacing={1} alignItems="center">
+                                        <TbPointFilled color={item.cor} size="25"/>
+                                        <Typography>{item.nome}</Typography>
+                                    </Stack>
+                                </MenuItem>
+                                ))}
                             </TextField>
                         </Grid>
                         <Grid item xs={12} md={4}>

@@ -44,7 +44,8 @@ class StatusLeads
         foreach ($this->sequenciaClasses() as $status) {
             $classes[] = [
                 'id' => $status->getStatus(),
-                'nome' => $status->getStatusNome()
+                'nome' => $status->getStatusNome(),
+                'cor' => $status->statusCor()
             ];
         }
         return $classes;
