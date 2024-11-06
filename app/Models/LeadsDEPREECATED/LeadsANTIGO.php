@@ -1040,7 +1040,14 @@ class LeadsANTIGO extends Model
 //                    ->orderBy('user_id');
 //                break;
 //        }
-        $query->orderByDesc('data_encaminhado')
+        $query->orderByRaw("
+            CASE
+                WHEN status = 'oportunidade' THEN 0
+                ELSE 1
+            END
+        ")
+            ->orderByDesc('data_encaminhado')
+            ->orderBy('status_data')
             ->orderBy('user_id');
 
 // Aplicação dos filtros
