@@ -1024,22 +1024,24 @@ class LeadsANTIGO extends Model
             ->where('setor_id', $setor);
 
         $orderBy = $filtros['ordenar_by'] ?? 'ASC';
-        switch ($filtros['ordenar'] ?? null) {
-            case 'id':
-                $query->orderBy('id', $orderBy);
-                break;
-            case 'nome':
-                $query->orderBy('nome', $orderBy);
-                break;
-            case 'razao_social':
-                $query->orderBy('razao_social', $orderBy)
-                    ->whereNotNull('razao_social');
-                break;
-            default:
-                $query->orderBy('data_encaminhado', $orderBy)
-                    ->orderBy('user_id');
-                break;
-        }
+//        switch ($filtros['ordenar'] ?? null) {
+//            case 'id':
+//                $query->orderBy('id', $orderBy);
+//                break;
+//            case 'nome':
+//                $query->orderBy('nome', $orderBy);
+//                break;
+//            case 'razao_social':
+//                $query->orderBy('razao_social', $orderBy)
+//                    ->whereNotNull('razao_social');
+//                break;
+//            default:
+//                $query->orderBy('data_encaminhado', $orderBy)
+//                    ->orderBy('user_id');
+//                break;
+//        }
+        $query->orderByDesc('data_encaminhado')
+            ->orderBy('user_id');
 
 // Aplicação dos filtros
         if (!empty($filtros['sdr'])) {
