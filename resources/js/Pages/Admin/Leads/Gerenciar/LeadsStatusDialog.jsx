@@ -5,6 +5,7 @@ import CampoTexto from "@/Components/CampoTexto.jsx";
 import LeadShow from "@/Pages/Geral/Leads/Dialogs/LeadShow.jsx";
 import {TbEye, TbX} from "react-icons/tb";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
+import MenuItem from "@mui/material/MenuItem";
 
 const LeadsStatusDialog = ({user, status, onClose}) => {
     const [leads, setLeads] = useState([])
@@ -32,7 +33,9 @@ const LeadsStatusDialog = ({user, status, onClose}) => {
     }
 
     return (<>
-        <Typography onClick={handleOpenDialog}>Ver Leads</Typography>
+        <MenuItem onClick={handleOpenDialog}>
+            Ver Leads
+        </MenuItem>
 
         <Dialog
             open={openDialog}

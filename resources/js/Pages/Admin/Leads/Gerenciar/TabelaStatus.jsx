@@ -159,7 +159,7 @@ const TabelaStatus = () => {
                                 open={Boolean(anchorElMap[row.id + key])}
                                 onClose={() => handleMenuClose(row.id + key)}
                             >
-                                <MenuItem><LeadsStatusDialog user={row.id} status={key} onClose={() => handleMenuClose(row.id + key)}/></MenuItem>
+                                <LeadsStatusDialog user={row.id} status={key} onClose={() => handleMenuClose(row.id + key)}/>
                                 <MenuItem onClick={() => handdleOpenDialogEncaminhar(row.id, key)}>Encaminhar</MenuItem>
                                 <MenuItem onClick={() => handdleOpenDialogRemover(row.id, key)}>Remover do Consultor</MenuItem>
                             </Menu>
