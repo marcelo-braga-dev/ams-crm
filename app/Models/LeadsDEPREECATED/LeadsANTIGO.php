@@ -1046,6 +1046,12 @@ class LeadsANTIGO extends Model
                 ELSE 1
             END
         ")
+            ->orderByRaw("
+            CASE
+                WHEN user_id IS NULL THEN 0
+                ELSE 1
+            END
+        ")
             ->orderByDesc('data_encaminhado')
             ->orderBy('status_data')
             ->orderBy('user_id');
