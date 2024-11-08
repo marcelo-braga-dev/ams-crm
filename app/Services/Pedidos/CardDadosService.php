@@ -20,7 +20,7 @@ use App\src\Pedidos\Status\VencidoStatusPedido;
 
 class CardDadosService
 {
-    public function getCards($id = null, ?int $fornecedorAtual = null, ?int $setorAtual = null, $leadCnpj = null): array
+    public function getCards($id = null, ?int $fornecedorAtual = null, ?int $setorAtual = null, $leadCnpj = null, $usuario = null): array
     {
         $statusClasses = [
             'reprovado' => RevisarStatusPedido::class,
@@ -39,7 +39,7 @@ class CardDadosService
             'encomenda' => EncomendaStatus::class,
         ];
 
-        $dados = (new Pedidos())->getPedidos($id, $setorAtual, $fornecedorAtual, $leadCnpj);
+        $dados = (new Pedidos())->getPedidos($id, $setorAtual, $fornecedorAtual, $leadCnpj, $usuario);
 
         $cards = [];
         foreach ($statusClasses as $key => $class) {

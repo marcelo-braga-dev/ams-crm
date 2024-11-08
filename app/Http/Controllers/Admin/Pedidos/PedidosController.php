@@ -26,13 +26,14 @@ class PedidosController extends Controller
     {
         $setores = (new Setores())->get();
         $fornecedores = (new ProdutosFornecedores())->get();
+        $usuarios = (new User())->subordinados();
         $coresAbas = (new ConfigCores())->getPedidos();
         $goCard = $request->id_card;
         $permissoesStatus = (new PedidosStatusPermissoesServices())->permissoesUsuario(id_usuario_atual());
 
         return Inertia::render(
             'Admin/Pedidos/Index',
-            compact('fornecedores', 'setores', 'permissoesStatus', 'coresAbas', 'goCard')
+            compact('fornecedores', 'usuarios', 'setores', 'permissoesStatus', 'coresAbas', 'goCard')
         );
     }
 
@@ -92,7 +93,7 @@ class PedidosController extends Controller
         $sessao = session('sessaoSetor');
         $setorPedidos = $sessao['id'] ?? $setorAtual;
 
-        $pedidos = (new CardDadosService())->getCards(null, $request->fornecedor, $setorPedidos);
+        $pedidos = (new CardDadosService())->getCards($request->usuario, $request->fornecedor, $setorPedidos);
 
         return response()->json(['pedidos' => $pedidos, 'modelo' => modelo_setor($setorPedidos), 'setor' => $setorPedidos]);
     }

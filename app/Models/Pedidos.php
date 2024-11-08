@@ -56,6 +56,19 @@ class Pedidos extends Model
         $this->belongsTo(PedidosInstalacoesAnotacoes::class, 'pedido_id');
     }
 
+    protected function getStatusAttribute()
+    {
+        $data = \Carbon\Carbon::parse($this->attributes['pagamento_vencimento_data']);
+        $statusAtual = $this->attributes['status'];
+
+        if ($data->isPast() && ($this->attributes['status'] == 'aguardando_pagamento')) {
+            $this->newQuery()->find($this->attributes['id'])->update(['status' => 'vencido']);
+            $statusAtual = 'vencido';
+        }
+
+        return $statusAtual;
+    }
+
     /**
      * Deplecated
      **/

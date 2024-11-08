@@ -21,26 +21,30 @@ import ScrollContainer from "react-indiana-drag-scroll";
 
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 import avancarStatus from "@/Pages/Admin/Pedidos/Cards/AvancarStatus.jsx";
+import {Stack, Typography} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
 
-export default function Pedidos({fornecedores, setores, permissoesStatus, coresAbas, goCard}) {
+export default function Pedidos({fornecedores, usuarios, setores, permissoesStatus, coresAbas, goCard}) {
     const [pedidos, setPedidos] = useState()
     const [modelo, setModelo] = useState()
     const [carregando, setCarregando] = useState(true)
     const [setorSelecionado, setSetorSelecionado] = useState()
     const [fornecedorSelecionado, setFornecedorSelecionado] = useState()
+    const [usuarioSelecionado, setUsuarioSelecionado] = useState()
     const [qtdPedidos, setQtdPedidos] = useState(0)
     const scrollRef = useRef(null);
 
     const modelo1 = useMemo(() => modelo === 1 || modelo === null, [modelo]);
     const modelo2 = useMemo(() => modelo === 2 || modelo === null, [modelo]);
 
-    const atualizarPagina = useCallback((fornecedorId, setorId) => {
+    const atualizarPagina = useCallback((fornecedorId, setorId, userId) => {
         setCarregando(true);
         setPedidos(undefined);
         setSetorSelecionado(setorId);
         setFornecedorSelecionado(fornecedorId);
+        setUsuarioSelecionado(userId);
 
-        axios.get(route('admin.pedidos-cards', {setor: setorId, fornecedor: fornecedorId}))
+        axios.get(route('admin.pedidos-cards', {setor: setorId, fornecedor: fornecedorId, usuario: userId}))
             .then(res => {
                 setPedidos(res.data.pedidos);
                 setModelo(res.data.modelo);
@@ -79,22 +83,35 @@ export default function Pedidos({fornecedores, setores, permissoesStatus, coresA
         <Layout titlePage="Quadro de Pedidos" menu="pedidos" submenu="pedidos-lista" empty>
 
             <div className="row justify-content-between mb-4">
-                <div className="col-md-5">
+                <div className="col-md-7">
                     <div className="row">
                         <div className="col-md-4">
                             <TextField select label="Setores" size="small" fullWidth
-                                       defaultValue="" value={setorSelecionado ?? ''}
-                                       onChange={e => atualizarPagina(null, e.target.value)}>
+                                       value={setorSelecionado ?? ''}
+                                       onChange={e => atualizarPagina(fornecedorSelecionado, e.target.value, usuarioSelecionado)}>
                                 <MenuItem value="todos">Todos</MenuItem>
                                 {setores.map(setor => <MenuItem key={setor.id} value={setor.id}>{setor.nome}</MenuItem>)}
                             </TextField>
                         </div>
                         <div className="col-md-4">
                             <TextField select size="small" label="Fornecedores" fullWidth
-                                       defaultValue="" value={fornecedorSelecionado ?? ''}
-                                       onChange={e => atualizarPagina(e.target.value, '')}>
+                                       value={fornecedorSelecionado ?? ''}
+                                       onChange={e => atualizarPagina(e.target.value, setorSelecionado, usuarioSelecionado)}>
                                 <MenuItem value="">Todos</MenuItem>
                                 {fornecedores.map((item, index) => <MenuItem key={item.id} value={item.id}>{item.nome}</MenuItem>)}
+                            </TextField>
+                        </div>
+                        <div className="col-md-4">
+                            <TextField select size="small" label="Consultor" fullWidth
+                                       value={usuarioSelecionado ?? ''}
+                                       onChange={e => atualizarPagina(fornecedorSelecionado, setorSelecionado, e.target.value)}>
+                                <MenuItem value="">Todos</MenuItem>
+                                {usuarios.map(item => (<MenuItem key={item.id} value={item.id}>
+                                    <Stack direction="row" spacing={1}>
+                                        <Avatar src={item.foto} sx={{width: 20, height: 20}}/>
+                                        <Typography>{item.nome}</Typography>
+                                    </Stack>
+                                </MenuItem>))}
                             </TextField>
                         </div>
                     </div>
@@ -261,7 +278,7 @@ export default function Pedidos({fornecedores, setores, permissoesStatus, coresA
                                                             permissoesStatus={permissoesStatus}/>
                                     })}
                                 </td>}
-                                {permissoesStatus.some(item => item === 'vencido')  &&
+                                {permissoesStatus.some(item => item === 'vencido') &&
                                     <td id="td-2" style={{minWidth: 300}}>
                                         {pedidos.vencido.map((dados) => {
                                             return <CardPedidos key={dados.id} dados={dados} status="vencido" cor="purple"
