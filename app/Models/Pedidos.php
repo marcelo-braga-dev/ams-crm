@@ -58,6 +58,8 @@ class Pedidos extends Model
 
     protected function getStatusAttribute()
     {
+        if (empty($this->attributes['pagamento_vencimento_data'] ?? null)) return;
+
         $data = \Carbon\Carbon::parse($this->attributes['pagamento_vencimento_data']);
         $statusAtual = $this->attributes['status'];
 
