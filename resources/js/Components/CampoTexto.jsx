@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material';
+import {Stack, Typography} from '@mui/material';
 import styled from 'styled-components';
 
 const TituloCard = styled.span`
@@ -12,18 +12,18 @@ const TextoCard = styled.span`
     font-weight: 400
 `;
 
-const CampoTexto = ({ titulo, texto, icone, bold, nowrap }) => {
+const CampoTexto = ({titulo, texto, icone, small, bold, nowrap}) => {
     const IconTexto = icone;
 
     return (
         <Stack direction="row" spacing={1} alignItems="top" marginBottom={0}>
             <div>
                 <Stack direction="row" spacing={1} alignItems="center" marginBottom={1}>
-                    {icone && <IconTexto color="rgb(59, 64, 86)" size={18} />}
-                    {titulo && <TituloCard>{titulo}:</TituloCard>}
+                    {icone && <IconTexto color="rgb(59, 64, 86)" size={18}/>}
+                    {titulo && <Typography fontWeight={500}>{titulo}</Typography>}
                 </Stack>
             </div>
-            {texto && <TextoCard>{texto}</TextoCard>}
+            <Typography fontWeight={400}>{texto}</Typography>
         </Stack>
 
         // <Stack spacing={1} marginBottom={1} direction="row" alignItems="center">

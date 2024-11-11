@@ -9,9 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-/**
- * @deprecated
- */
 class LeadStatusHistoricos extends Model
 {
     use HasFactory;
@@ -47,7 +44,9 @@ class LeadStatusHistoricos extends Model
 
     //////////
 
-
+    /**
+     * @deprecated
+     */
     public function create($id, $status, $msg = null, $userId = null)
     {
         $userId = $userId ?? id_usuario_atual();
@@ -60,46 +59,9 @@ class LeadStatusHistoricos extends Model
             ]);
     }
 
-    public function periodoStatus(string $status, array $mes, string $ano)
-    {
-        return $this->newQuery()
-            ->whereIn(DB::raw('MONTH(created_at)'), $mes)
-            ->whereYear('created_at', $ano)
-            ->where('status', $status)
-            ->selectRaw('user_id, COUNT(id) as qtd')
-            ->groupBy('user_id')
-            ->pluck('qtd', 'user_id');
-    }
-
-    public function qtdUsuario($id, mixed $mes, mixed $ano)
-    {
-        return $this->newQuery()
-            ->whereIn(DB::raw('MONTH(created_at)'), $mes)
-            ->whereYear('created_at', $ano)
-            ->where('user_id', $id)
-            ->selectRaw('user_id, status, COUNT(id) as qtd')
-            ->groupBy('status')
-            ->pluck('qtd', 'status');
-    }
-
-
-    public function qtdUsuarios(array $mes, int $ano)
-    {
-        $items = $this->newQuery()
-            ->whereIn(DB::raw('MONTH(created_at)'), $mes)
-            ->whereYear('created_at', $ano)
-            ->selectRaw('user_id, status, COUNT(status) as qtd')
-            ->groupBy(['user_id', 'status'])
-            ->get();
-
-        $res = [];
-        foreach ($items as $item) {
-            $res[$item->user_id][$item->status] = $item->qtd;
-        }
-
-        return $res;
-    }
-
+    /**
+     * @deprecated
+     */
     public function getId($id)
     {
         $statusNome = (new StatusLeads())->nomesStatus();
@@ -115,6 +77,9 @@ class LeadStatusHistoricos extends Model
 
     }
 
+    /**
+     * @deprecated
+     */
     public function relatorioDashboard($id, array $mes, $ano)
     {
         return $this->newQuery()

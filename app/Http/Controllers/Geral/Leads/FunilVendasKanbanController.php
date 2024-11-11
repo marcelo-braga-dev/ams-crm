@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
-use App\Models\Lead\LeadStatus;
+use App\Models\Lead\LeadContatoRealizado;
 use App\Models\LeadsDEPREECATED\Leads;
-use App\Models\LeadsDEPREECATED\LeadsContatosRealizados;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Leads\LeadFunilVendasService;
@@ -21,17 +20,6 @@ class FunilVendasKanbanController extends Controller
         return Inertia::render('Geral/Leads/FunilVendas/Index', []);
     }
 
-    public function getDados()
-    {
-        //  telefones,  status_data, classificacao,  avancar_status_url,
-        $dados = (new LeadStatus())
-            ->with('leads')
-            ->orderBy('ordem')
-            ->get();
-
-        return response()->json(compact('dados'));
-    }
-
     public function setChatWhatsapp(Request $request)
     {
         $leadId = $request->input('lead_id');
@@ -44,7 +32,7 @@ class FunilVendasKanbanController extends Controller
         $lead = (new Leads())->newQuery()->find($leadId);
         if ($lead->status === 'novo') (new ConexaoProativaStatusLead())->updateStatus($leadId); // remover
 
-        (new LeadsContatosRealizados())->store($leadId, $telefoneId, $origem, $meta);
+        (new LeadContatoRealizado())->store($leadId, $telefoneId, $origem, $meta);
     }
 
     public function getIndexRegistros(Request $request)

@@ -2,7 +2,6 @@
 
 namespace App\Models\Lead;
 
-use App\Models\LeadsDEPREECATED\LeadsTelefones;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
@@ -66,7 +65,7 @@ class Lead extends Model
 
     public function telefones()
     {
-        return $this->hasMany(LeadsTelefones::class, 'lead_id');
+        return $this->hasMany(LeadTelefones::class, 'lead_id');
     }
 
     public function pedidos()

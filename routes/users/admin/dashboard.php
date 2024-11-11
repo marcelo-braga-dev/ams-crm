@@ -19,7 +19,6 @@ Route::middleware(['auth', 'auth.admins'])
         Route::resource('leads', LeadsController::class);
         Route::resource('relatorios-leads', RelatorioLeadsController::class);
 
-        Route::get('leads-relatorio', [LeadsController::class, 'relatorios'])->name('leads.relatorio');
 
         Route::get('vendas-registros', [VendasController::class, 'registros'])->name('vendas.registros');
         Route::get('vendas-leads', [VendasController::class, 'leadsVendas'])->name('vendas.leads');

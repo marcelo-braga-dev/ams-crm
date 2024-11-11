@@ -57,16 +57,16 @@ export default function Tabela({
                 <CardTable title="Leads" icon={<People size="23"/>} paginate={paginate} paginateDados={paginateDados} setPaginate={setPaginate}/>
 
                 <Grid container justifyContent="space-between">
-                    <Grid xs={12} md={3} textAlign="center">
+                    <Grid item xs={12} md={3} textAlign="center">
                         <Checkbox
                             edge="start"
                             checked={checkedPage || false}
                             onChange={e => adicionarLeadsCheck(e.target.checked)}/>
                         Leads: {leadsChecked.length} selecionados
                     </Grid>
-                    <Grid xs={12} md={5}>
+                    <Grid item xs={12} md={5}>
                         <Grid container justifyContent="end">
-                            <Grid xs={12} md={3}>
+                            <Grid item xs={12} md={3}>
                                 <TextField label={<small>Ordenar</small>} select size="small" fullWidth
                                            onChange={e => setOrdenar(e.target.value)}>
                                     <MenuItem value="">Padrão</MenuItem>
@@ -75,7 +75,7 @@ export default function Tabela({
                                     <MenuItem value="razao_social">Nome/Razão Social</MenuItem>
                                 </TextField>
                             </Grid>
-                            <Grid xs={12} md={3}>
+                            <Grid item xs={12} md={3}>
                                 <TextField select label={<small> </small>} size="small" defaultValue="" sx={{width: 100}}
                                            onChange={e => setFiltroFiltroOrdenarBy(e.target.value)}>
                                     <MenuItem value="">Padrão</MenuItem>
@@ -83,7 +83,7 @@ export default function Tabela({
                                     <MenuItem value="desc">Ordem Decrescente</MenuItem>
                                 </TextField>
                             </Grid>
-                            <Grid xs={12} md={3}>
+                            <Grid item xs={12} md={3}>
                                 <TextField label={<small>Qtd. por Página</small>} size="small" defaultValue={filtroQtdPagina} sx={{width: 100}}
                                            onChange={e => setFiltroQtdPagina(e.target.value)}>
                                 </TextField>
@@ -95,8 +95,8 @@ export default function Tabela({
 
             {carregando && <LinearProgress/>}
 
-            {!carregando && linhas.map(lead => (
-                <CardLeadGerenciar lead={lead} leadsChecked={leadsChecked} handleToggle={handleToggle}/>
+            {linhas.map(lead => (
+                <CardLeadGerenciar key={lead.id} lead={lead} leadsChecked={leadsChecked} handleToggle={handleToggle}/>
             ))}
         </>
     )

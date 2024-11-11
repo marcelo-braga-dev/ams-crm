@@ -2,7 +2,7 @@ import CardBody from "@/Components/Cards/CardBody.jsx";
 import {Divider, Grid, Stack, Typography} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import CampoTexto from "@/Components/CampoTexto.jsx";
-import {TbBrandWhatsapp, TbFileStack, TbHash, TbHeadset, TbMapPin, TbPoint, TbUser, TbUserEdit} from "react-icons/tb";
+import {TbBrandWhatsapp, TbFileStack, TbHash, TbHeadset, TbMapPin, TbUser, TbUserEdit} from "react-icons/tb";
 import SetorIcone from "@/Components/Icons/SetorIcone.jsx";
 import Chip from "@mui/material/Chip";
 import LeadShow from "@/Pages/Geral/Leads/Dialogs/LeadShow.jsx";
@@ -17,53 +17,43 @@ const CardLeadGerenciar = ({lead, leadsChecked, handleToggle}) => {
         <CardContainer key={lead.id}>
             <CardBody>
                 <Grid container>
-                    <Grid xs={12} md={1} textAlign="center">
+                    <Grid item xs={12} md={1} textAlign="center">
                         <Checkbox
                             edge="start" tabIndex={-1}
                             checked={leadsChecked.indexOf(lead.id) !== -1}
                             onChange={() => handleToggle(lead.id)}
                         />
                     </Grid>
-                    <Grid xs={12} md={10}>
+                    <Grid item xs={12} md={10}>
                         {lead.razao_social && <CampoTexto titulo="Razão Social" icone={TbUser} texto={lead.razao_social}/>}
                         {lead.nome && <CampoTexto titulo="Nome/Nome Fantasia" icone={TbUser} texto={lead.nome}/>}
                         <Divider sx={{marginBottom: 1}}/>
+                        <Chip
+                            label={lead.status_nome.nome}
+                            variant="outlined"
+                            sx={{borderColor: lead.status_nome.cor, color: lead.status_nome.cor, marginBottom: 3, marginTop: 2}}
+                            size="small"/>
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={6}>
-                                {/*<CampoTexto titulo="Status" icone={TbPoint} texto={<Chip*/}
-                                {/*    className="mb-3 mt-2"*/}
-                                {/*    label={lead.status_nome.nome}*/}
-                                {/*    variant="outlined" sx={{borderColor: lead.status_nome.cor, color: lead.status_nome.cor}}*/}
-                                {/*    size="small"/>}/>*/}
-                                <Chip
-                                    className="mb-3 mt-2"
-                                    label={lead.status_nome.nome}
-                                    variant="outlined" sx={{borderColor: lead.status_nome.cor, color: lead.status_nome.cor}}
-                                    size="small"/>
+                                <CampoTexto titulo="CNPJ" icone={TbFileStack} texto={lead.cnpj}/>
+                                <CampoTexto titulo="Localidade" icone={TbMapPin} texto={lead.cidade_estado} small/>
+                            </Grid>
+                            <Grid item xs={12} md={6}>
                                 <CampoTexto titulo="ID" icone={TbHash} texto={`#${lead.id}`}/>
                                 <CampoTexto titulo="Setor" icone={SetorIcone} texto={lead.setor}/>
-                                <CampoTexto titulo="CNPJ" icone={TbFileStack} texto={lead.cnpj}/>
-                                <CampoTexto titulo="Localidade" icone={TbMapPin} texto={lead.cidade_estado}/>
-                            </Grid>
-                            <Grid item xs={12} md={2}>
-
-
-                            </Grid>
-                            <Grid item xs={12} md={2}>
-
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid xs={12} md={1} textAlign="center">
+                    <Grid item xs={12} md={1} textAlign="center">
                         <LeadShow leadId={lead.id} iconButton={<Eye size={20} color="black"/>}/>
                     </Grid>
                 </Grid>
 
                 {/*Contatos*/}
                 <Grid container>
-                    <Grid xs={12} md={1}>
+                    <Grid item xs={12} md={1}>
                     </Grid>
-                    <Grid xs={12} md={10}>
+                    <Grid item xs={12} md={10}>
                         <Divider sx={{marginBlock: 2}}/>
                         <Grid container alignItems="center">
                             <CampoTexto titulo="Contatos" icone={TbHeadset}/>
@@ -73,6 +63,7 @@ const CardLeadGerenciar = ({lead, leadsChecked, handleToggle}) => {
                                         <Stack spacing={1} direction="row" alignItems="center">
                                             <TbBrandWhatsapp size={20} color={telefone.status_whatsapp === 0 ? 'gray' : 'green'}/>
                                             <Typography variant="body1">{telefone.telefone}</Typography>
+                                            <Typography variant="body1" fontWeight={300}>Atendente</Typography>
                                         </Stack>
                                     </Paper>
                                 </Grid>
@@ -83,9 +74,9 @@ const CardLeadGerenciar = ({lead, leadsChecked, handleToggle}) => {
                 </Grid>
 
                 <Grid container>
-                    <Grid xs={12} md={1}>
+                    <Grid item xs={12} md={1}>
                     </Grid>
-                    <Grid xs={12} md={10}>
+                    <Grid item xs={12} md={10}>
                         <Divider sx={{marginBlock: 2}}/>
                         <CampoTexto
                             titulo="Consultor(a) em Atendimento Atualmente"
@@ -100,9 +91,9 @@ const CardLeadGerenciar = ({lead, leadsChecked, handleToggle}) => {
 
                 {(lead.classificacao || lead.pedido_emitido || lead.enriquecido) && (
                     <Grid container>
-                        <Grid xs={12} md={1}>
+                        <Grid item xs={12} md={1}>
                         </Grid>
-                        <Grid xs={12} md={10}>
+                        <Grid item xs={12} md={10}>
                             <Divider sx={{marginBlock: 2}}/>
                             <Stack direction="row" spacing={2}>
                                 {lead.classificacao && <Typography>{lead.classificacao}</Typography>}

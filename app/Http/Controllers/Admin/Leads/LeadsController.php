@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin\Leads;
 use App\Http\Controllers\Controller;
 use App\Models\Enderecos;
 use App\Models\Lead\LeadStatusHistoricos;
+use App\Models\Lead\LeadTelefones;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\LeadsDEPREECATED\LeadsCopias;
-use App\Models\LeadsDEPREECATED\LeadsTelefones;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
 use App\Models\Pedidos;
@@ -194,7 +194,7 @@ class LeadsController extends Controller
     {
         $dados = (new LeadsANTIGO())->find($id);
         $endereco = (new Enderecos())->get($dados->endereco);
-        $telefones = (new LeadsTelefones())->get($id);
+        $telefones = (new LeadTelefones())->get($id);
 
         $urlAnterior = url()->previous();
 

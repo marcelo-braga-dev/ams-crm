@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\LeadsDEPREECATED;
+namespace App\Models\Lead;
 
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LeadsContatosRealizados extends Model
+class LeadContatoRealizado extends Model
 {
     use HasFactory;
 
@@ -19,6 +19,7 @@ class LeadsContatosRealizados extends Model
         'meta',
     ];
 
+    protected $with = ['anotacoes'];
     protected $appends = ['data_contato'];
 
     public function getDataContatoAttribute()
@@ -33,7 +34,13 @@ class LeadsContatosRealizados extends Model
 
     public function telefone()
     {
-        return $this->belongsTo(LeadsTelefones::class, 'telefone_id', 'id');
+        return $this->belongsTo(LeadTelefones::class, 'telefone_id', 'id');
+    }
+
+    public function anotacoes()
+    {
+        return $this->hasMany(LeadContatoRealizadoAnotacao::class, 'contato_id', 'id')
+            ->orderByDesc('id');
     }
 
     public function store(int $leadId, int $telefoneId, ?string $origem, ?string $meta): void

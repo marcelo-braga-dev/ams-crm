@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Geral\Ferramentas\Whatsapp;
 
 use App\Http\Controllers\Controller;
-use App\Models\LeadsDEPREECATED\LeadsTelefones;
+use App\Models\Lead\LeadTelefones;
 
 class LeadsWhatsappController extends Controller
 {
     public function ativarNumeroWhatsapp($id)
     {
-        (new LeadsTelefones())->ativar($id);
+        (new LeadTelefones())->ativar($id);
     }
     public function inativarNumeroWhatsapp($numero)
     {
-        (new LeadsTelefones())->inativar($numero);
+        (new LeadTelefones())->inativar($numero);
     }
 }

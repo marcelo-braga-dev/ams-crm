@@ -10,6 +10,7 @@ import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers';
 import {AlertListener, AlertProvider} from '@/Contexts/AlertsContext.jsx';
 import React from 'react';
 import {WhatsappProvider} from "@/Contexts/WhatsappContext.jsx";
+import {AtualizarDadosProvider} from "@/Contexts/AtualizarDadosContext.jsx";
 
 // const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -21,12 +22,14 @@ createInertiaApp({
 
         root.render(
             <ThemeCustomization>
-                <AlertProvider>
-                    <WhatsappProvider>
-                        <AlertListener/>
-                        <App {...props} />
-                    </WhatsappProvider>
-                </AlertProvider>
+                <AtualizarDadosProvider>
+                    <AlertProvider>
+                        <WhatsappProvider>
+                            <AlertListener/>
+                            <App {...props} />
+                        </WhatsappProvider>
+                    </AlertProvider>
+                </AtualizarDadosProvider>
             </ThemeCustomization>);
     },
     progress: {

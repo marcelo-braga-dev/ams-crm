@@ -7,8 +7,10 @@ import { PencilFill } from 'react-bootstrap-icons';
 import EditForms from './Partials/EditForms.jsx';
 import { useContext, useMemo } from 'react';
 import { LeadContext } from '@/Pages/Geral/Leads/Dialogs/LeadContext.jsx';
+import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
 
 const EditModal = () => {
+    const {handle} = useAtualizarDados()
     const { lead, fetchLead } = useContext(LeadContext);
 
     const [openDialog, setOpenDialog] = React.useState(false);
@@ -43,18 +45,19 @@ const EditModal = () => {
         router.post(route('auth.lead.update', lead.id), { ...data, _method: 'PUT' }, {
             onSuccess: () => {
                 handleClose();
+                handle()
+                fetchLead(lead.id);
             },
         });
     };
 
     const handleClickOpen = () => {
-        setData(leadData); // Use memorized leadData
+        setData(leadData);
         setOpenDialog(true);
     };
 
     const handleClose = () => {
         setOpenDialog(false);
-        fetchLead(lead.id);
     };
 
     return (

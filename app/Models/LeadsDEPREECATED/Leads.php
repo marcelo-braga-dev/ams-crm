@@ -3,30 +3,15 @@
 namespace App\Models\LeadsDEPREECATED;
 
 use App\Models\Enderecos;
-use App\Models\LeadsHistoricos;
-use App\Models\LeadsImportarHistoricos;
-use App\Models\Pedidos;
-use App\Models\Pins;
+use App\Models\Lead\LeadTelefones;
 use App\Models\Setores;
 use App\Models\User;
-use App\Services\Excel\RelatorioLeads;
-use App\src\Leads\Status\AbertoStatusLeads;
-use App\src\Leads\Status\AtivoStatusLeads;
-use App\src\Leads\Status\FinalizadoStatusLeads;
-use App\src\Leads\Status\InativoStatusLeads;
-use App\src\Leads\Status\NovoStatusLeads;
-use App\src\Leads\Status\OcultosLeadsStatus;
-use App\src\Leads\Status\PreAtendimentoStatusLeads;
-use App\src\Leads\Status\StatusLeads;
-use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Carbon\Carbon;
-use DateTime;
-use Error;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\DB;
-
+/**
+ * @deprecated
+ */
 class Leads extends Model
 {
     use HasFactory;
@@ -106,7 +91,7 @@ class Leads extends Model
     // relations
     public function telefones()
     {
-        return $this->hasMany(LeadsTelefones::class, 'lead_id')
+        return $this->hasMany(LeadTelefones::class, 'lead_id')
             ->select(['id', 'lead_id', 'numero', 'status_whatsapp', 'status_telefone']);
     }
 

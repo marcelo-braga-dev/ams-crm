@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {TextField, MenuItem, FormControl, FormControlLabel, Switch, Stack, Avatar, CircularProgress, Select, Box, Button} from '@mui/material';
 import {router} from '@inertiajs/react';
 
@@ -10,8 +10,11 @@ import CardBody from '@/Components/Cards/CardBody';
 import {Trash} from 'react-bootstrap-icons';
 import InputLabel from '@mui/material/InputLabel';
 import FiltrosLead from "@/Pages/Admin/Leads/Encaminhar/FiltrosLead.jsx";
+import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
 
 const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isLeadsExcluir}) => {
+    const {atualizarDados} = useAtualizarDados();
+
     const [leads, setLeads] = useState([]);
     const [carregando, setCarregando] = useState(true);
 
@@ -49,25 +52,26 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
 
     const getLeads = async () => {
         setCarregando(true);
+        try {
+            const response = await axios.get(route('admin.clientes.leads.get-leads-cadastrados-paginate', {
+                page: paginate,
+                filtros: {
+                    ...filtros,
+                    ordenar: filtroOrdenar,
+                    ordenar_by: filtroOrdenarBy,
+                    page_qtd: filtroQtdPagina,
+                },
+            }));
 
-        const response = await axios.get(route('admin.clientes.leads.get-leads-cadastrados-paginate', {
-            page: paginate,
-            filtros: {
-                ...filtros,
-                ordenar: filtroOrdenar,
-                ordenar_by: filtroOrdenarBy,
-                page_qtd: filtroQtdPagina,
-            },
-        })).finally(() => {
+            setLeads(response.data.leads.dados);
+            setUsuarios(response.data.usuarios);
+            setPaginateDados(response.data.leads.paginate);
+        } finally {
             setCarregando(false);
             setLeadsChecked([]);
             setCheckedPage(false);
-        });
-
-        setLeads(response.data.leads.dados);
-        setUsuarios(response.data.usuarios);
-        setPaginateDados(response.data.leads.paginate);
-    }
+        }
+    };
 
     useEffect(() => {
         setPaginate(1);
@@ -75,13 +79,11 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
     }, [filtros, enviarLead]);
 
     useEffect(() => {
-        if (isFirstRender.current) {
-            isFirstRender.current = false;
-        } else {
+        if (!isFirstRender.current) {
             getLeads();
         }
-    }, [paginate]);
-
+        isFirstRender.current = false;
+    }, [paginate, atualizarDados]);
 
     const adicionarLeadsCheck = (check) => {
         setCheckedPage(check);
@@ -89,7 +91,7 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
 
         for (let i = 0; i < filtroQtdPagina; i++) {
             const valueID = leads[i]?.id;
-            const status = leads[i]?.infos?.status
+            const status = leads[i]?.infos?.status;
 
             if (status !== 'ativo') {
                 if (check) newChecked.push(valueID);
@@ -116,27 +118,23 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
 
     const enviarLeads = () => {
         if (consultorSelecionado && leadsChecked.length > 0) {
-            setCarregando(true);
-            setEnviarLead(e => !e);
-
             router.post(route('auth.leads.api.encaminhar', {lead_ids: leadsChecked, consultor_id: consultorSelecionado}));
         }
     };
 
     const removerSdr = () => {
-        setEnviarLead(e => !e);
         router.post(route('admin.clientes.leads.remover-sdr', {lead: leadsChecked}));
     };
 
     const removerConsultor = () => {
-        setEnviarLead(e => !e);
         router.post(route('admin.clientes.leads.remover-consultor', {lead: leadsChecked}));
     };
 
     const excluirLeads = () => {
-        setEnviarLead(e => !e);
         router.post(route('admin.clientes.leads.delete', {lead: leadsChecked}));
     };
+
+    router.on('success', () => setEnviarLead(e => !e))
 
     return (
         <Layout empty titlePage="Encaminhar Leads" menu="leads" submenu="leads-cadastrados">
@@ -146,8 +144,8 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                 setores={categorias}
                 statusleads={statusleads}
                 datasImportacao={datasImportacao}
-                // setorSelecionado={filtroSetor}
-                carregando={carregando}/>
+                carregando={carregando}
+            />
 
             <CardContainer>
                 <CardBody>
@@ -194,9 +192,21 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                 </CardBody>
             </CardContainer>
 
-            <Tabela leads={leads} carregando={carregando} setPaginate={setPaginate} paginate={paginate} paginateDados={paginateDados} setOrdenar={setFiltroFiltroOrdenar}
-                    setFiltroFiltroOrdenarBy={setFiltroFiltroOrdenarBy} setFiltroQtdPagina={setFiltroQtdPagina} filtroQtdPagina={filtroQtdPagina}
-                    leadsChecked={leadsChecked} setLeadsChecked={setLeadsChecked} checkedPage={checkedPage} adicionarLeadsCheck={adicionarLeadsCheck}/>
+            <Tabela
+                leads={leads}
+                carregando={carregando}
+                setPaginate={setPaginate}
+                paginate={paginate}
+                paginateDados={paginateDados}
+                setOrdenar={setFiltroFiltroOrdenar}
+                setFiltroFiltroOrdenarBy={setFiltroFiltroOrdenarBy}
+                setFiltroQtdPagina={setFiltroQtdPagina}
+                filtroQtdPagina={filtroQtdPagina}
+                leadsChecked={leadsChecked}
+                setLeadsChecked={setLeadsChecked}
+                checkedPage={checkedPage}
+                adicionarLeadsCheck={adicionarLeadsCheck}
+            />
 
             <Modal id="modalEnviar" title="ALTERAR CONSULTOR" body={<>{leadsChecked.length} selecionados.<br/>{nomeConsultorSelecionado()}</>}
                    confirmText="Alterar Consultor(a)" confirmAction={enviarLeads}/>

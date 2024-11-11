@@ -4,6 +4,7 @@ namespace App\Models\LeadsDEPREECATED;
 
 use App\Models\Enderecos;
 use App\Models\Lead\LeadStatusHistoricos;
+use App\Models\Lead\LeadTelefones;
 use App\Models\LeadsHistoricos;
 use App\Models\LeadsImportarHistoricos;
 use App\Models\Pedidos;
@@ -11,13 +12,11 @@ use App\Models\Pins;
 use App\Models\Setores;
 use App\Models\User;
 use App\Services\Excel\RelatorioLeads;
-use App\src\Leads\Status\AbertoStatusLeads;
 use App\src\Leads\Status\AtivoStatusLeads;
 use App\src\Leads\Status\FinalizadoStatusLeads;
 use App\src\Leads\Status\InativoStatusLeads;
 use App\src\Leads\Status\NovoStatusLeads;
 use App\src\Leads\Status\OcultosLeadsStatus;
-use App\src\Leads\Status\PreAtendimentoStatusLeads;
 use App\src\Leads\Status\StatusLeads;
 use App\src\Leads\StatusLeads\AtivoStatusLead;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
@@ -80,7 +79,7 @@ class LeadsANTIGO extends Model
 
     public function telefones()
     {
-        return $this->hasMany(LeadsTelefones::class, 'lead_id')
+        return $this->hasMany(LeadTelefones::class, 'lead_id')
             ->select(['id', 'lead_id', 'numero', 'status_whatsapp', 'status_telefone']);
     }
 
@@ -436,7 +435,7 @@ class LeadsANTIGO extends Model
 
     private function cadastrarTelefones($id, $telefones, $importacao = null): void
     {
-        if ($telefones ?? []) (new LeadsTelefones())->criar($id, $telefones, $importacao);
+        if ($telefones ?? []) (new LeadTelefones())->criar($id, $telefones, $importacao);
     }
 
     public function getResumido($setor, $comSdr = null, $comConsultor = null, $importacao = null)
@@ -535,7 +534,7 @@ class LeadsANTIGO extends Model
                     'data_nascimento' => $dados->nascimento,
                 ]);
 
-            (new LeadsTelefones())->criar($id, $dados['telefones'] ?? []);
+            (new LeadTelefones())->criar($id, $dados['telefones'] ?? []);
 
         } catch (QueryException $exception) {
             $msgErro = ('O CNPJ: ' . converterCNPJ($dados['cnpj'] . ' já está cadastrado em outro LEAD!'));
@@ -583,7 +582,7 @@ class LeadsANTIGO extends Model
         $item = $this->newQuery()->find($id);
         $nomes = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
-        $telefones = (new LeadsTelefones())->get($id);
+        $telefones = (new LeadTelefones())->get($id);
         $endereco = (new Enderecos())->newQuery()->find($item->endereco ?? null);
 
         return $this->dados($item, $nomes, $setores, $telefones, $endereco);

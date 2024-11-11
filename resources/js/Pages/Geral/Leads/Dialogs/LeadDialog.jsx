@@ -1,7 +1,7 @@
 import CardBody from '@/Components/Cards/CardBody.jsx';
 import LeadsDados from '@/Components/Leads/LeadsDados.jsx';
-import { Button, IconButton, MenuItem, Stack, TextField, Typography } from '@mui/material';
-import { ArrowRight, BoxSeam, ListUl, Tag, TrashFill } from 'react-bootstrap-icons';
+import {Button, IconButton, MenuItem, Stack, TextField, Typography} from '@mui/material';
+import {ArrowRight, BoxSeam, ListUl, Tag, TrashFill} from 'react-bootstrap-icons';
 import EditModal from '@/Pages/Geral/Leads/EditModal.jsx';
 import CardContainer from '@/Components/Cards/CardContainer.jsx';
 import CardTitle from '@/Components/Cards/CardTitle.jsx';
@@ -12,51 +12,53 @@ import HistoricoPedidos from '@/Partials/Leads/HistoricoPedidos.jsx';
 import HistoricoStatus from '@/Partials/Leads/HistoricoStatus.jsx';
 import Dialog from '@mui/material/Dialog';
 import * as React from 'react';
-import { useContext, useEffect, useState } from 'react';
-import { router, usePage } from '@inertiajs/react';
-import { LeadContext } from './LeadContext.jsx';
-import { TbPackage, TbX } from 'react-icons/tb';
+import {useContext, useEffect, useState} from 'react';
+import {router, usePage} from '@inertiajs/react';
+import {LeadContext} from './LeadContext.jsx';
+import {TbPackage, TbX} from 'react-icons/tb';
 import Link from '@/Components/Link.jsx';
 import Avatar from '@mui/material/Avatar';
+import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
 
-const LeadDialog = ({ iconButton, action, leadId }) => {
+const LeadDialog = ({iconButton, action, leadId}) => {
+
     const isAdmin = usePage().props.auth.user.is_admin; // remover
 
-    const { lead, fetchLead, filtros, permissoes, historicos } = useContext(LeadContext);
+    const {lead, fetchLead, filtros, permissoes, historicos} = useContext(LeadContext);
     const [consultorSelecionado, setConsultorSelecionado] = useState();
 
     function nomeConsultorSelecionado() {
         const nome = filtros.usuarios[filtros.usuarios.findIndex(i => i.id === consultorSelecionado)]?.name;
         return nome ? <>
-            <b>TROCAR</b> o consultor(a) dos Leads para:<br />
+            <b>TROCAR</b> o consultor(a) dos Leads para:<br/>
             <h6>{nome}</h6>
         </> : <div className="alert alert-danger text-white">Selecione o Consultor</div>;
     }
 
     function encaminharLead() {
         if (consultorSelecionado) {
-            router.post(route('auth.leads.api.encaminhar', { lead_ids: [lead.id], consultor_id: consultorSelecionado }));
+            router.post(route('auth.leads.api.encaminhar', {lead_ids: [lead.id], consultor_id: consultorSelecionado}));
         }
     }
 
     function deletarLead() {
-        router.post(route('admin.clientes.leads.delete', { lead: lead.id }));
+        router.post(route('admin.clientes.leads.delete', {lead: lead.id}));
     }
 
     function removerVendedor() {
-        router.post(route('admin.clientes.leads.remover-consultor', { lead: lead.id }));
+        router.post(route('admin.clientes.leads.remover-consultor', {lead: lead.id}));
     }
 
     function removerSdr() {
-        router.post(route('admin.clientes.leads.remover-sdr', { lead: lead.id }));
+        router.post(route('admin.clientes.leads.remover-sdr', {lead: lead.id}));
     }
 
     function inativarLead() {
-        router.post(route('admin.clientes.leads.inativar-lead'), { id: lead.id, _method: 'PUT' });
+        router.post(route('admin.clientes.leads.inativar-lead'), {id: lead.id, _method: 'PUT'});
     }
 
     function reativarLead() {
-        router.post(route('admin.clientes.leads.reativar-lead'), { id: lead.id, _method: 'PUT' });
+        router.post(route('admin.clientes.leads.reativar-lead'), {id: lead.id, _method: 'PUT'});
     }
 
     const [value, setValue] = React.useState(0);
@@ -91,35 +93,35 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                             {(permissoes.encaminhar || permissoes.limpar) &&
                                 <button className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEncaminhar">
                                     <Stack direction="row" alignItems="center" spacing={1}>
-                                        <ArrowRight size={20} />
+                                        <ArrowRight size={20}/>
                                         <Typography>Encaminhar</Typography>
                                     </Stack>
                                 </button>}
 
                             {/*Editar*/}
-                            {permissoes.editar && <EditModal lead={lead} />}
+                            {permissoes.editar && <EditModal lead={lead}/>}
 
                             {permissoes.excluir && <button className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir">
                                 <Stack direction="row" alignItems="center" spacing={1}>
-                                    <TrashFill size={15} />
+                                    <TrashFill size={15}/>
                                     <Typography>Excluir</Typography>
                                 </Stack>
                             </button>
                             }
                             <IconButton onClick={handleClose}>
-                                <TbX color="red" size={25} />
+                                <TbX color="red" size={25}/>
                             </IconButton>
                         </Stack>
-                    } />
+                    }/>
 
                     {lead.id && <CardContainer>
                         <CardBody>
                             {isAdmin ?
-                                <Link href={route('admin.pedidos.emitir.create', { lead: lead.id })}>
-                                    <Button color="success" startIcon={<TbPackage />}>Emitir Pedido</Button>
+                                <Link href={route('admin.pedidos.emitir.create', {lead: lead.id})}>
+                                    <Button color="success" startIcon={<TbPackage/>}>Emitir Pedido</Button>
                                 </Link> :
-                                <Link href={route('consultor.pedidos.create', { lead: lead.id })}>
-                                    <Button color="success" startIcon={<TbPackage />}>Emitir Pedido</Button>
+                                <Link href={route('consultor.pedidos.create', {lead: lead.id})}>
+                                    <Button color="success" startIcon={<TbPackage/>}>Emitir Pedido</Button>
                                 </Link>
                             }
                         </CardBody>
@@ -131,18 +133,18 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                                 value={value}
                                 onChange={handleChange}
                             >
-                                <Tab icon={<ListUl size={24} />} iconPosition="start" label="Histórico de Atendimento" />
-                                <Tab icon={<BoxSeam size={22} />} iconPosition="start" label="Histórico de Pedidos" />
-                                <Tab icon={<Tag size={22} />} iconPosition="start" label="Histórico dos Status" />
+                                <Tab icon={<ListUl size={24}/>} iconPosition="start" label="Histórico de Atendimento"/>
+                                <Tab icon={<BoxSeam size={22}/>} iconPosition="start" label="Histórico de Pedidos"/>
+                                <Tab icon={<Tag size={22}/>} iconPosition="start" label="Histórico dos Status"/>
                             </Tabs>
-                        )} />
-                        <div style={{ height: 530 }}>
+                        )}/>
+                        <div style={{height: 530}}>
                             <CardBody>
-                                {value === 0 && <HistoricoAtendimento leadId={leadId} />}
+                                {value === 0 && <HistoricoAtendimento leadId={leadId}/>}
 
-                                {value === 1 && <HistoricoPedidos historicos={historicos.pedidos} />}
+                                {value === 1 && <HistoricoPedidos historicos={historicos.pedidos}/>}
 
-                                {value === 2 && <HistoricoStatus historicos={historicos.status} />}
+                                {value === 2 && <HistoricoStatus historicos={historicos.status}/>}
                             </CardBody>
                         </div>
                     </CardContainer>
@@ -202,7 +204,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="exampleModalLabel">Encaminhar Lead</h5>
-                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
                                 </div>
                                 <div className="modal-body">
                                     {permissoes.encaminhar && <div className="row">
@@ -213,7 +215,7 @@ const LeadDialog = ({ iconButton, action, leadId }) => {
                                                        onChange={e => setConsultorSelecionado(e.target.value)}>
                                                 {filtros.usuarios.map((option) => (<MenuItem key={option.id} value={option.id}>
                                                     <Stack direction="row" spacing={2}>
-                                                        <Avatar src={option.foto} sx={{ width: 25, height: 25 }} />
+                                                        <Avatar src={option.foto} sx={{width: 25, height: 25}}/>
                                                         <Typography>{option.name}</Typography>
                                                     </Stack>
                                                 </MenuItem>))}

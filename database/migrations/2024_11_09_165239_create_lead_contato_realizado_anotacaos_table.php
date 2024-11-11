@@ -10,18 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('lead_contato_realizados', function (Blueprint $table) {
+        Schema::create('lead_contato_realizado_anotacaos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('lead_id');
-            $table->unsignedBigInteger('telefone_id');
-            $table->string('origem')->nullable();
-            $table->string('meta')->nullable();
+            $table->unsignedBigInteger('contato_id');
+            $table->string('msg');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('lead_id')->references('id')->on('leads')->onDelete('cascade');
-            $table->foreign('telefone_id')->references('id')->on('leads_telefones')->onDelete('cascade');
+            $table->foreign('contato_id')->references('id')->on('lead_contato_realizados')->onDelete('cascade');
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('leads_contatos_realizados');
+        Schema::dropIfExists('lead_contato_realizado_anotacaos');
     }
 };

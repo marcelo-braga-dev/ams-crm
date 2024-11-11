@@ -34,23 +34,23 @@ export default function ({mes, ano, setores}) {
     let totalNovo = 0, totalAtendimento = 0, totalEncaminhados = 0, totalAtivos = 0, totalFinalizados = 0, totalConversao = 0
     let totalAbertoC = 0, totalAtendimentoC = 0, totalAtivosC = 0, totalFinalizadosC = 0, totalConversaoC = 0
 
-    useEffect(() => {
-        setCarregando(true)
-        axios.get(route('admin.dashboard.leads.relatorio',
-            {id: usuarioSelecionado, mes: mesesSelecionado, ano: anoSelecionado, setor: setorSelecionado}))
-            .then(res => {
-                setUsuariosSdr(res.data.usuarios_sdr)
-                setUsuariosConsultores(res.data.usuarios_consultores)
-                setRegistrosUsuario(res.data.registros_usuario)
-                setRegistrosStatus(res.data.registros_status)
-                setRegistrosQtds(res.data.status_qtds)
-                setStatusQtd(res.data.status_qtd)
-
-                setRegistrosUsuario(res.data.registros_usuario)
-                setCarregando(false)
-            })
-
-    }, [usuarioSelecionado, mesesSelecionado, anoSelecionado, setorSelecionado]);
+    // useEffect(() => {
+    //     setCarregando(true)
+    //     axios.get(route('admin.dashboard.leads.relatorio',
+    //         {id: usuarioSelecionado, mes: mesesSelecionado, ano: anoSelecionado, setor: setorSelecionado}))
+    //         .then(res => {
+    //             setUsuariosSdr(res.data.usuarios_sdr)
+    //             setUsuariosConsultores(res.data.usuarios_consultores)
+    //             setRegistrosUsuario(res.data.registros_usuario)
+    //             setRegistrosStatus(res.data.registros_status)
+    //             setRegistrosQtds(res.data.status_qtds)
+    //             setStatusQtd(res.data.status_qtd)
+    //
+    //             setRegistrosUsuario(res.data.registros_usuario)
+    //             setCarregando(false)
+    //         })
+    //
+    // }, [usuarioSelecionado, mesesSelecionado, anoSelecionado, setorSelecionado]);
 
     return (
         <Layout empty titlePage="Indicadores de Leads" menu="dashboard" submenu="dashboard-leads">

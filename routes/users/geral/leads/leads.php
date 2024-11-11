@@ -21,7 +21,6 @@ Route::name('auth.')->group(function () {
         ->name('lead.')
         ->group(function () {
             Route::get('lead/{id}', [LeadController::class, 'getLead'])->name('get-lead');
-            Route::get('funil-vendas-kanban', [FunilVendasKanbanController::class, 'getDados'])->name('get-leads-kanban');
             Route::post('iniciado-chat', [FunilVendasKanbanController::class, 'setChatWhatsapp'])->name('iniciado-chat');
         });
 

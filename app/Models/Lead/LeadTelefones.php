@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Models\LeadsDEPREECATED;
+namespace App\Models\Lead;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
-class LeadsTelefones extends Model
+class LeadTelefones extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'lead_id',
+        'nome',
         'numero',
         'status_whatsapp',
         'status_telefone',

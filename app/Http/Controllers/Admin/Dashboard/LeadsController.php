@@ -26,37 +26,4 @@ class LeadsController extends Controller
         return Inertia::render('Admin/Dashboard/Leads/Index',
             compact('mes', 'ano', 'setores'));
     }
-
-    public function relatorios(Request $request)
-    {
-        $mes = $request->mes;
-        $ano = $request->ano;
-        $setor = $request->setor ?? 1;
-        $userId = $request->id;
-
-        $usuariosSdr = (new User())->usuariosSdr();
-        $usuariosConsultores = (new User())->usuariosConsultores();
-
-        $registrosUsuario = (new LeadStatusHistoricos())->qtdUsuario($userId, $mes, $ano);
-        $registrosStatus = (new LeadsANTIGO())->relatorioLeads();
-
-        $statusQtds = [
-            'novo' => (new LeadStatusHistoricos())->periodoStatus((new NovoStatusLeads())->getStatus(), $mes, $ano),
-            'pre_atendimento' => (new LeadStatusHistoricos())->periodoStatus((new PreAtendimentoStatusLeads())->getStatus(), $mes, $ano),
-            'encaminhados' => (new LeadsEncaminhados())->relatorio($mes, $ano),
-            'ativos' => (new LeadsEncaminhados())->ativosQtd($mes, $ano),
-            'finalizados' => (new LeadStatusHistoricos())->periodoStatus((new FinalizadoStatusLeads())->getStatus(), $mes, $ano),
-        ];
-
-        $statusHistoricos = (new LeadStatusHistoricos())->qtdUsuarios($mes, $ano);
-
-        return response()->json([
-            'usuarios_sdr' => $usuariosSdr,
-            'usuarios_consultores' => $usuariosConsultores,
-            'registros_usuario' => $registrosUsuario,
-            'registros_status' => $registrosStatus,
-            'status_qtds' => $statusQtds,
-            'status_qtd' => $statusHistoricos,
-        ]);
-    }
 }

@@ -4,7 +4,9 @@ namespace App\Models\LeadsDEPREECATED;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * @deprecated
+ */
 class LeadsCopias extends Model
 {
     use HasFactory;

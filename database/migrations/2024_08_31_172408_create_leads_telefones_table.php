@@ -10,9 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('leads_telefones', function (Blueprint $table) {
+        Schema::create('lead_telefones', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('lead_id');
+            $table->string('nome')->nullable();
             $table->unsignedBigInteger('numero');
             $table->boolean('status_whatsapp')->default(true);
             $table->boolean('status_telefone')->default(true);
