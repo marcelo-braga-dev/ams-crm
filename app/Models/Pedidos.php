@@ -44,6 +44,7 @@ class Pedidos extends Model
         'repasse_desconto',
         'imposto',
         'pagamento_vencimento_data',
+        'pagamento_ignorar_vencimento',
     ];
 
     public function cliente()
@@ -63,7 +64,7 @@ class Pedidos extends Model
         $data = \Carbon\Carbon::parse($this->attributes['pagamento_vencimento_data']);
         $statusAtual = $this->attributes['status'];
 
-        if ($data->isPast() && ($this->attributes['status'] == 'aguardando_pagamento')) {
+        if ($data->isPast() && ($this->attributes['status'] == 'aguardando_pagamento' && !$this->attributes['pagamento_ignorar_vencimento'])) {
             $this->newQuery()->find($this->attributes['id'])->update(['status' => 'vencido']);
             $statusAtual = 'vencido';
         }

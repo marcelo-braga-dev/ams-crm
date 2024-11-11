@@ -37,6 +37,8 @@ return new class extends Migration {
             $table->integer('modelo');
             $table->string('situacao', '32')->default('novo');
             $table->string('obs')->nullable();
+            $table->date('pagamento_vencimento_data')->nullable();
+            $table->boolean('pagamento_ignorar_vencimento')->default(false);
             $table->timestamps();
 
             $table->index('user_id');

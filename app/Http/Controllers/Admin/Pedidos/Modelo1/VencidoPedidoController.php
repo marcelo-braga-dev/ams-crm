@@ -11,7 +11,12 @@ class VencidoPedidoController extends Controller
 {
     public function show($id)
     {
-        (new Pedidos())->find($id)->update(['status' => (new AguardandoPagamentoStatus())->getStatus()]);
+        (new Pedidos())
+            ->find($id)
+            ->update([
+                'status' => (new AguardandoPagamentoStatus())->getStatus(),
+                'pagamento_ignorar_vencimento' => true
+            ]);
 
         modalSucesso('Atualização realizada com sucesso');
         return redirect()->route('admin.pedidos.index', ['id_card' => $id]);
