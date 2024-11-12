@@ -8,7 +8,7 @@ const dashboard = {
     children: [
         {
             id: 'cursos',
-            title: 'UniLevelead',
+            title: 'UniLeve',
             type: 'collapse',
             url: undefined,
             icon: Easel,
