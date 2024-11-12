@@ -11,9 +11,10 @@ import dev from './dev';
 import fluxoCaixa from './financeiro';
 import ferramentas from './ferramentas';
 import whatsapp from './whatsapp.js';
+import cursos from './cursos.js';
 
 const menuItems = {
-    items: [pedidos, leads, whatsapp, chats, produtos, dashboard, fluxoCaixa, metasVendas, ferramentas, usuarios, sac, config, dev],
+    items: [pedidos, leads, whatsapp, chats, produtos, dashboard, fluxoCaixa, metasVendas, cursos, ferramentas, usuarios, sac, config, dev],
 };
 
 export default menuItems;

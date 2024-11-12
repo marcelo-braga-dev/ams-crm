@@ -1,4 +1,4 @@
-import {Stack, Typography} from "@mui/material";
+import {Button, Grid, Stack, TextField, Typography} from "@mui/material";
 import Switch from "@/Components/Inputs/Switch";
 import {useMemo, useState} from "react";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
@@ -9,16 +9,19 @@ import * as React from "react";
 import CampoTexto from "@/Components/CampoTexto.jsx";
 import Chip from "@mui/material/Chip";
 import OpenIflameChatWhatsapp from '@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflameChatWhatsapp.jsx';
+import {TbEdit} from "react-icons/tb";
+import Text from "@/Components/Elementos/Text.jsx";
 
 export default function LeadsDados({dados, acoes}) {
     const [toggleMenu, setToggleMenu] = useState(false)
+    const [editarLead, setEditarLead] = useState(false)
 
     const toggleInfo = () => {
         setToggleMenu(e => !e)
     }
 
     const telefones = useMemo(() => {
-        return dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({id, telefone, numero, status_telefone, lead_id}) => {
+        return dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({id, telefone, contato_nome, numero, status_telefone, lead_id}) => {
 
             return <div key={id} className="col p-2 m-2 mt-1 px-3 border border-radius-lg">
                 <Stack direction="row" alignItems="center" spacing={2}>
@@ -30,11 +33,12 @@ export default function LeadsDados({dados, acoes}) {
                     {/*            icone noDialogLead />*/}
                     <Telephone size={18} color="blue"/>
                     <Typography display="inline" marginBottom={1}>{telefone}</Typography>
+                    {contato_nome && <Typography display="inline" marginBottom={1}>{contato_nome}</Typography>}
                 </Stack>
             </div>
-    })
+        })
     }, [dados]);
-
+    console.log(dados)
     return (<>
         <CardContainer>
             <CardTitle title="Informações do Lead" icon={<Person size="22"/>} children={acoes}/>
@@ -84,7 +88,30 @@ export default function LeadsDados({dados, acoes}) {
                     </div>
                 </div>}
 
-                <Chip className="cursor-pointer mt-4" onClick={toggleInfo} label={<>{toggleMenu ? <Dash/> : <Plus size={15}/>} Informações</>}/>
+                <Grid container justifyContent="space-between">
+                    <Grid item>
+                        <Chip className="cursor-pointer mt-4" onClick={toggleInfo} label={<>{toggleMenu ? <Dash/> : <Plus size={15}/>} Informações</>}/>
+                    </Grid>
+                    <Grid item>
+                        <Button color="success" startIcon={<TbEdit/>}
+                                onClick={() => setEditarLead(value => !value)}> Solicitar Edição do Lead</Button>
+                    </Grid>
+                </Grid>
+
+                {editarLead &&
+                    <Grid container justifyContent="space-between" marginTop={3}>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Solicitação de Edição das informações do Lead"
+
+                                fullWidth
+                                multiline
+                                minRows={3}
+                            />
+                            <Button>Enviar</Button>
+                        </Grid>
+                    </Grid>
+                }
 
             </CardBody>
         </CardContainer>

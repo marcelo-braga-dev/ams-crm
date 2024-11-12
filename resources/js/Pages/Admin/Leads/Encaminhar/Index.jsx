@@ -13,7 +13,7 @@ import FiltrosLead from "@/Pages/Admin/Leads/Encaminhar/FiltrosLead.jsx";
 import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
 
 const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isLeadsExcluir}) => {
-    const {atualizarDados} = useAtualizarDados();
+    const {atualizarDados, handle} = useAtualizarDados();
 
     const [leads, setLeads] = useState([]);
     const [carregando, setCarregando] = useState(true);
@@ -118,7 +118,11 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
 
     const enviarLeads = () => {
         if (consultorSelecionado && leadsChecked.length > 0) {
-            router.post(route('auth.leads.api.encaminhar', {lead_ids: leadsChecked, consultor_id: consultorSelecionado}));
+            try {
+                axios.post(route('auth.leads.api.encaminhar', {lead_ids: leadsChecked, consultor_id: consultorSelecionado}));
+            } finally {
+                handle()
+            }
         }
     };
 

@@ -63,13 +63,12 @@ const CardLeadGerenciar = ({lead, leadsChecked, handleToggle}) => {
                                         <Stack spacing={1} direction="row" alignItems="center">
                                             <TbBrandWhatsapp size={20} color={telefone.status_whatsapp === 0 ? 'gray' : 'green'}/>
                                             <Typography variant="body1">{telefone.telefone}</Typography>
-                                            <Typography variant="body1" fontWeight={300}>Atendente</Typography>
+                                            <Typography variant="body1" fontWeight={300}>{telefone.contato_nome}</Typography>
                                         </Stack>
                                     </Paper>
                                 </Grid>
                             ))}
                         </Grid>
-
                     </Grid>
                 </Grid>
 

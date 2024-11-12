@@ -80,7 +80,7 @@ class LeadsANTIGO extends Model
     public function telefones()
     {
         return $this->hasMany(LeadTelefones::class, 'lead_id')
-            ->select(['id', 'lead_id', 'numero', 'status_whatsapp', 'status_telefone']);
+            ->select(['id', 'lead_id', 'numero', 'status_whatsapp', 'status_telefone', 'contato_nome']);
     }
 
     public function consultor()
@@ -1130,6 +1130,7 @@ class LeadsANTIGO extends Model
                             'id' => $item->id,
                             'telefone' => converterTelefone($item->numero),
                             'status_whatsapp' => $item->status_whatsapp,
+                            'contato_nome' => $item->contato_nome,
                         ];
                     }),
                     'razao_social' => $item->razao_social,

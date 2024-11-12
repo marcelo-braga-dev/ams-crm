@@ -12,7 +12,7 @@ class LeadTelefones extends Model
 
     protected $fillable = [
         'lead_id',
-        'nome',
+        'contato_nome',
         'numero',
         'status_whatsapp',
         'status_telefone',
@@ -45,12 +45,14 @@ class LeadTelefones extends Model
             if (is_array($telefone)) $records[] = [
                 'lead_id' => $leadId,
                 'id' => $telefone['id'] ?? null,
+                'contato_nome' => $telefone['contato_nome'] ?? null,
                 'numero' => ($telefone['numero'] ?? null) ? converterInt(converterTelefone($telefone['numero'])) : null,
             ];
             else {
                 if ($telefone) $records[] = [
                     'lead_id' => $leadId,
                     'id' => null,
+                    'contato_nome' => $telefone['contato_nome'] ?? null,
                     'numero' => converterInt(converterTelefone($telefone))
                 ];
             }
@@ -67,7 +69,8 @@ class LeadTelefones extends Model
                             'id' => $record['id'],
                         ], [
                             'lead_id' => $record['lead_id'],
-                            'numero' => $record['numero']
+                            'numero' => $record['numero'],
+                            'contato_nome' => $record['contato_nome']
                         ]);
 
                 }
