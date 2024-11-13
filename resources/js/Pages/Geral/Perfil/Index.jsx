@@ -1,29 +1,33 @@
 import React from 'react';
 import Layout from "@/Layouts/Layout";
 
-import {useForm, usePage} from '@inertiajs/react';
-import {Avatar, TextField, Alert} from "@mui/material";
+import {useForm} from '@inertiajs/react';
+import {Avatar, TextField} from "@mui/material";
 
 import {router} from '@inertiajs/react';
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
+import AlertError from "@/Components/Alerts/AlertError.jsx";
 
 const Page = ({dados, flash}) => {
     const {data, setData} = useForm();
-    const {errors} = usePage().props;
 
     function submit(e) {
         e.preventDefault()
-        router.post(route('consultor.senha.update', dados.id), {
-            _method: 'put',
-            ...data,
-        },)
+        if (data.nova_senha.length >= 4)
+            router.post(route('auth.perfil.atualizar-senha'), {
+                _method: 'put',
+                user_id: dados.id,
+                ...data,
+            },)
+        else AlertError("A senha deve ter no mínimo 4 dígitos.")
     }
 
     function atualizarFoto(file) {
-        router.post(route('consultor.perfil.update', dados.id), {
+        router.post(route('auth.perfil.atualizar-avatar', dados.id), {
             _method: 'put',
             foto: file,
+            user_id: dados.id,
         })
     }
 
@@ -58,20 +62,7 @@ const Page = ({dados, flash}) => {
                 <CardBody>
                     <div className="row">
                         <h5 className="mb-2 mb-4">Alterar Senha</h5>
-                        {flash.erro && <Alert className="mb-3" severity="error">{flash.erro}</Alert>}
-                        {errors.nova_senha && <Alert className="mb-3" severity="error">{errors.nova_senha}</Alert>}
-                        {flash.sucesso && <Alert className="mb-3" severity="success">{flash.sucesso}</Alert>}
-
                         <form onSubmit={submit}>
-                            <div className="mb-4 row">
-                                <div className="col">
-                                    <TextField
-                                        label="Senha Atual" required fullWidth type="password"
-                                        onChange={e => setData('senha_atual', e.target.value)}/>
-                                </div>
-                                <div className="col">
-                                </div>
-                            </div>
                             <div className="mb-4 row">
                                 <div className="col">
                                     <TextField

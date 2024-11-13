@@ -6,7 +6,7 @@ import {useEffect} from "react";
 import {toast, ToastContainer} from "react-toastify";
 
 export default function ModalsAllerts() {
-    const {flash} = usePage().props
+    const {flash, errors} = usePage().props
 
     if (flash.sucesso) {
         toast.success(flash.sucesso, {
@@ -22,6 +22,7 @@ export default function ModalsAllerts() {
         flash.erro = null
     }
 
+    console.log(errors)
+
     return <ToastContainer limit={2}/>
 }
-
