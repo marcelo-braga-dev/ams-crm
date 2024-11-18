@@ -810,13 +810,12 @@ class Pedidos extends Model
         if ($dados['nota_pedido']) (new PedidosFaturados())->updateNotaPedido($id, $dados['nota_pedido']);
 
         if (!empty($dados['pedido_data'])) {
-            $novaData = new DateTime($dados['pedido_data']); // Criar objeto DateTime
-            $novaDataFormatada = $novaData->format('Y-m-d H:i:s'); // Converter para o formato MySQL
+            $novaData = new DateTime($dados['pedido_data']);
+            $novaDataFormatada = $novaData->format('Y-m-d H:i:s');
 
             $lead = Lead::find($query->lead_id);
 
             if ($lead) {
-                // Criar objeto DateTime para a última data de pedido
                 $ultimoPedidoData = $lead->ultimo_pedido_data
                     ? new DateTime($lead->ultimo_pedido_data)
                     : null;
