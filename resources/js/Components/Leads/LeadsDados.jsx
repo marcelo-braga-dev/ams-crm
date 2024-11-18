@@ -1,4 +1,4 @@
-import {Button, Grid, Stack, TextField, Typography} from "@mui/material";
+import {Avatar, Button, Grid, Stack, TextField, Typography} from "@mui/material";
 import Switch from "@/Components/Inputs/Switch";
 import {useMemo, useState} from "react";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
@@ -14,7 +14,7 @@ import Text from "@/Components/Elementos/Text.jsx";
 import Paper from "@mui/material/Paper";
 
 export default function LeadsDados({dados, acoes}) {
-    console.log(dados)
+
     const [toggleMenu, setToggleMenu] = useState(false)
     const [editarLead, setEditarLead] = useState(false)
 
@@ -157,11 +157,14 @@ export default function LeadsDados({dados, acoes}) {
             </CardBody>
         </CardContainer>
 
-        {dados?.consultor?.nome && <CardContainer>
+        {dados?.vendedor?.nome && <CardContainer>
             <CardBody>
                 <Stack direction="row" spacing={2}>
                     <Typography fontWeight="bold">Consultor em Atendimento(a):</Typography>
-                    <Typography>{dados?.consultor?.nome ?? 'Nenhum Consultor(a)'}</Typography>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                    <Avatar src={dados?.vendedor?.avatar} sx={{width: 25, height: 25}}/>
+                    <Typography>{dados?.vendedor?.nome ?? 'Nenhum Consultor(a)'}</Typography>
+                    </Stack>
                 </Stack>
             </CardBody>
         </CardContainer>}

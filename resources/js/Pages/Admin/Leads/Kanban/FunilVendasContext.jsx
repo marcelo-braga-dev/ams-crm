@@ -1,9 +1,12 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
 
 export const FunilVendasContext = createContext();
 
 export const FunilVendasProvider = ({ children }) => {
+
+    const {atualizarDados} = useAtualizarDados()
 
     const [filtros, setFiltros] = useState({ usuarios: [], setores: [] });
     const [filtrar, setFiltrar] = useState({ setor: null, usuario: null });
@@ -31,7 +34,7 @@ export const FunilVendasProvider = ({ children }) => {
 
     useEffect(() => {
         fetchData();
-    }, [filtrar, atualizar]);
+    }, [filtrar, atualizar, atualizarDados]);
 
     const handleFiltrar = (value) => {
         setFiltrar((prev) => ({ ...prev, ...value }));

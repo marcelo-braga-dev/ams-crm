@@ -16,7 +16,7 @@ export const LeadProvider = ({ children }) => {
     const fetchLead = async (leadId) => {
         try {
             // const leadData = await axios.get(route('auth.lead.get-all-data', leadId));
-            console.log(route('auth.lead.get-all-data', 24747))
+            // console.log(route('auth.lead.get-all-data', 24747))
             const response = await axios.get(route('auth.lead.get-lead', leadId));
 
             setLead(response.data.lead);

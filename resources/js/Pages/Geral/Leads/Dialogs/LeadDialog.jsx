@@ -18,13 +18,16 @@ import {LeadContext} from './LeadContext.jsx';
 import {TbPackage, TbX} from 'react-icons/tb';
 import Link from '@/Components/Link.jsx';
 import Avatar from '@mui/material/Avatar';
+import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
 
 const LeadDialog = ({iconButton, action, leadId}) => {
 
     const isAdmin = usePage().props.auth.user.is_admin; // remover
+    const {handle} = useAtualizarDados()
+    const { lead, fetchLead, filtros, permissoes } = useContext(LeadContext);
 
-    const {lead, fetchLead, filtros, permissoes, historicos} = useContext(LeadContext);
     const [consultorSelecionado, setConsultorSelecionado] = useState();
+    const [novoStatus, setNovoStatus] = useState();
 
     function nomeConsultorSelecionado() {
         const nome = filtros.usuarios[filtros.usuarios.findIndex(i => i.id === consultorSelecionado)]?.name;
@@ -40,6 +43,7 @@ const LeadDialog = ({iconButton, action, leadId}) => {
                 axios.post(route('auth.leads.api.encaminhar', {lead_ids: [lead.id], consultor_id: consultorSelecionado}))
             } finally {
                 fetchLead(leadId)
+                handle()
             }
         }
     }
@@ -64,6 +68,18 @@ const LeadDialog = ({iconButton, action, leadId}) => {
         router.post(route('admin.clientes.leads.reativar-lead'), {id: lead.id, _method: 'PUT'});
     }
 
+    function alterarStatus() {
+        if (novoStatus) {
+            try {
+                axios.post(route('auth.lead.update-status', lead.id), {status: novoStatus, _method: 'PUT'})
+            } finally {
+                setNovoStatus('')
+                fetchLead(leadId)
+                handle()
+            }
+        }
+    }
+
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {
@@ -79,6 +95,7 @@ const LeadDialog = ({iconButton, action, leadId}) => {
 
     const handleClose = () => {
         setOpen(false);
+        handle()
     };
 
     return (<>
@@ -94,15 +111,16 @@ const LeadDialog = ({iconButton, action, leadId}) => {
                     <LeadsDados dados={lead} acoes={
                         <Stack direction="row" spacing={5} alignItems="center">
                             {(permissoes.encaminhar || permissoes.limpar) &&
-                                <Button color="warning" data-bs-toggle="modal" data-bs-target="#modalEncaminhar">
-                                    <Stack direction="row" alignItems="center" spacing={1}>
-                                        <ArrowRight size={20}/>
-                                        <Typography>Encaminhar</Typography>
-                                    </Stack>
+                                <Button startIcon={<ArrowRight size={20}/>}
+                                        color="warning"
+                                        data-bs-toggle="modal" data-bs-target="#modalEncaminhar"
+                                >
+                                    <Typography>Encaminhar</Typography>
                                 </Button>}
 
                             {/*Editar*/}
-                            {permissoes.editar && <Button>Alterar Status</Button>}
+                            {permissoes.editar && <Button data-bs-toggle="modal" data-bs-target="#modalAlterarStatus">Alterar Status</Button>}
+
                             {permissoes.editar && <EditModal lead={lead}/>}
 
                             {permissoes.excluir && <Button color="error" data-bs-toggle="modal" data-bs-target="#modalExcluir">
@@ -325,6 +343,44 @@ const LeadDialog = ({iconButton, action, leadId}) => {
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                                     <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => inativarLead()}>Inativar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/*Inativar Lead*/}
+                    <div className="modal fade mt-5" id="modalAlterarStatus" tabIndex="-1"
+                         aria-hidden="true">
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="limparLeadLabel">Alterar Status</h5>
+                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div className="modal-body">
+                                    <Typography>Escolha o novo status deste lead?</Typography>
+                                    <TextField
+                                        label="Selecinar status"
+                                        fullWidth
+                                        select
+                                        value={novoStatus}
+                                        onChange={e => setNovoStatus(e.target.value)}
+                                    >
+                                        <MenuItem value="inicio_funil">Início Funil</MenuItem>
+                                        <MenuItem value="novo">Novo</MenuItem>
+                                        <MenuItem value="oportunidade">Oporunidades</MenuItem>
+                                        <MenuItem value="conexao_proativo">Conexão Proativa</MenuItem>
+                                        <MenuItem value="contato_direto">Contato DIreto 360º</MenuItem>
+                                        <MenuItem value="cotacao_enviado">Cotação Enviada</MenuItem>
+                                        <MenuItem value="ativo">Ativo</MenuItem>
+                                        <MenuItem value="finalizado">Finalizado</MenuItem>
+                                        <MenuItem value="inativo">Inativo</MenuItem>
+                                    </TextField>
+                                </div>
+                                <div className="modal-footer">
+                                    <Button type="button" data-bs-dismiss="modal">Fechar</Button>
+                                    <Button data-bs-dismiss="modal" color="success"
+                                            onClick={() => alterarStatus()}>Alterar Status</Button>
                                 </div>
                             </div>
                         </div>
