@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\Geral\Ferramentas\Whatsapp\LeadsWhatsappController;
+use App\Http\Controllers\Geral\Leads\Api\GetAllDataLeadController;
 use App\Http\Controllers\Geral\Leads\FunilVendasKanbanController;
 use App\Http\Controllers\Geral\Leads\LeadController;
 use App\Http\Controllers\Geral\Leads\LeadsController;
 use Illuminate\Support\Facades\Route;
 
-Route::name('auth.')->group(function () {
+Route::name('auth.')
+    ->prefix('auth')
+    ->group(function () {
 
     Route::resource('lead', LeadController::class);
 
@@ -14,13 +17,14 @@ Route::name('auth.')->group(function () {
         ->name('lead.')
         ->group(function () {
             Route::resource('funil-vendas-kanban', FunilVendasKanbanController::class);
-            Route::resource('funil-vendas-kanban', FunilVendasKanbanController::class);
         });
 
     Route::prefix('api-lead')
         ->name('lead.')
         ->group(function () {
             Route::get('lead/{id}', [LeadController::class, 'getLead'])->name('get-lead');
+            Route::get('get-all-lead/{id}', GetAllDataLeadController::class)->name('get-all-data');
+
             Route::post('iniciado-chat', [FunilVendasKanbanController::class, 'setChatWhatsapp'])->name('iniciado-chat');
         });
 

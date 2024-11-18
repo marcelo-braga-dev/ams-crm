@@ -7,16 +7,18 @@ import Avatar from "@mui/material/Avatar";
 import {BoxFill, Eye} from "react-bootstrap-icons";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
+import convertFloatToMoney from "@/Helpers/converterDataHorario.jsx";
 
-export default function HistoricoPedidos({historicos}) {
+export default function HistoricoPedidos({pedidos}) {
+    console.log(pedidos)
     return (
         <div style={{maxHeight: 500, overflowY: 'auto', paddingInline: 20}}>
             <List>
-                {historicos.map((item) => (
+                {pedidos.map((item) => (
                     <CardContainer>
                         <ListItem
                             secondaryAction={
-                                <IconButton href={route('admin.pedidos.show', item.id)}>
+                                <IconButton href={route('auth.pedidos.show', item.id)}>
                                     <Eye/>
                                 </IconButton>
                             }
@@ -27,17 +29,15 @@ export default function HistoricoPedidos({historicos}) {
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText
-                                // primary={}
                                 secondary={<>
-                                    <Stack spacing={0} direction="row" justifyContent="space-between">
-                                        <Typography variant="body2" fontWeight="bold">{item.consultor}</Typography>
-                                        <Typography variant="body2" marginRight={2}>{item.data_criacao}</Typography>
-                                    </Stack>
+                                    <Typography variant="body2" fontWeight="bold">{item.consultor.nome}</Typography>
+
                                     <Stack direction="row" spacing={4}>
                                         <Typography variant="body2">#{item.id}</Typography>
-                                        <Typography variant="body2">R$ {item.valor}</Typography>
+                                        <Typography variant="body2">R$ {convertFloatToMoney(item.preco_venda)}</Typography>
                                     </Stack>
-                                    <Typography variant="body2">{item.status}</Typography>
+                                    <Typography variant="body2">{item.status_nome}</Typography>
+                                    <Typography variant="body2" marginRight={2}>{item.pedido_data}</Typography>
                                 </>}
                             />
                         </ListItem>
@@ -45,8 +45,8 @@ export default function HistoricoPedidos({historicos}) {
                 ))}
             </List>
 
-            {historicos.length === 0 && <div className="row text-center">
-                <span>Não há histórico de pedidos.</span>
+            {pedidos.length === 0 && <div className="row text-center">
+                <Typography>Não há histórico de pedidos.</Typography>
             </div>}
         </div>
     )

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Lead;
+namespace App\Services\Lead\Revisar;
 
 use App\Repositories\Lead\LeadRepository;
 

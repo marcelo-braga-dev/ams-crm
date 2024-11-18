@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services\Lead;
+namespace App\Services\Lead\Revisar;
 
 use App\Models\Lead\LeadStatusHistoricos;
+use App\Services\Lead\UpdateStatusLeadService;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
 use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
 

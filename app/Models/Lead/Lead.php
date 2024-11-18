@@ -2,6 +2,7 @@
 
 namespace App\Models\Lead;
 
+use App\Models\Pedido\Pedido;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
@@ -16,8 +17,9 @@ class Lead extends Model
 
     protected $fillable = ['user_id', 'status', 'vendedor_id', 'cnpj', 'cpf', 'status_id', 'setor_id'];
 
-    protected $with = ['setor', 'vendedor', 'telefones'];
-    protected $appends = ['status_date', 'status_nome'];
+    protected $with = ['endereco', 'setor', 'vendedor', 'telefones'];
+
+    protected $appends = ['status_date', 'status_nome', 'extras', 'emails'];
 
     protected $hidden = ['setor_id', 'status_id', 'vendedor_id', 'created_at', 'updated_at'];
 
@@ -27,6 +29,23 @@ class Lead extends Model
     public function getStatusNomeAttribute()
     {
         return (new StatusLeads())->statusNome($this->attributes['status']);
+    }
+
+    public function getExtrasAttribute()
+    {
+        return [
+            'cnae' => $this->attributes['cnae'],
+            'situacao' => $this->attributes['situacao'],
+            'atividade_principal' => $this->attributes['atividade_principal'],
+            'natureza_juridica' => $this->attributes['natureza_juridica'],
+            'quadro_societario' => $this->attributes['quadro_societario'],
+            'data_situacao' => $this->attributes['data_situacao'],
+            'data_abertura' => $this->attributes['data_abertura'],
+            'data_nascimento' => $this->attributes['data_nascimento'],
+            'capital_social' => $this->attributes['capital_social'],
+            'tipo' => $this->attributes['tipo'],
+            'porte' => $this->attributes['porte'],
+        ];
     }
 
     public function getStatusDateAttribute()
@@ -39,6 +58,11 @@ class Lead extends Model
         return converterCNPJ($this->attributes['cnpj']);
     }
 
+    public function getEmailsAttribute()
+    {
+        return [$this->attributes['email'] ?? null];
+    }
+
     public function setStatusAttribute($value)
     {
         (new LeadStatusHistoricos())->create($this->attributes['id'], $this->attributes['status'], null, $this->attributes['user_id']);
@@ -48,9 +72,14 @@ class Lead extends Model
     // =======================
     // Relacionamentos
     // =======================
+    public function endereco()
+    {
+        return $this->hasOne(LeadEndereco::class, 'lead_id', 'id');
+    }
+
     public function vendedor()
     {
-        return $this->belongsTo(User::class, 'vendedor_id')->select('id', 'foto', 'name as nome');
+        return $this->belongsTo(User::class, 'user_id')->select('id', 'foto', 'name as nome');
     }
 
     public function setor()
@@ -58,18 +87,21 @@ class Lead extends Model
         return $this->belongsTo(Setores::class, 'setor_id');
     }
 
-    public function dados()
-    {
-        return $this->hasOne(LeadDados::class, 'lead_id');
-    }
-
     public function telefones()
     {
         return $this->hasMany(LeadTelefones::class, 'lead_id');
     }
 
+    //
     public function pedidos()
     {
-        return $this->hasMany(Pedidos::class, 'lead_id');
+        return $this->hasMany(Pedido::class, 'lead_id')
+            ->select(['id', 'status','preco_venda', 'lead_id', 'user_id', 'created_at']);
+    }
+
+    public function statusHistorico()
+    {
+        return $this->hasMany(LeadStatusHistoricos::class, 'lead_id')
+            ->orderByDesc('id');
     }
 }

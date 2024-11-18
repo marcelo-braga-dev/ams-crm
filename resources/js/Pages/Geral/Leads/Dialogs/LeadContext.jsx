@@ -15,6 +15,8 @@ export const LeadProvider = ({ children }) => {
     // Fetch lead data based on leadId
     const fetchLead = async (leadId) => {
         try {
+            // const leadData = await axios.get(route('auth.lead.get-all-data', leadId));
+            console.log(route('auth.lead.get-all-data', 24747))
             const response = await axios.get(route('auth.lead.get-lead', leadId));
 
             setLead(response.data.lead);
@@ -25,6 +27,7 @@ export const LeadProvider = ({ children }) => {
             console.error('Error fetching lead data:', error);
         }
     };
+
 
     const handleAtualizar = () => {
         setAtualizarDados(e => !e);

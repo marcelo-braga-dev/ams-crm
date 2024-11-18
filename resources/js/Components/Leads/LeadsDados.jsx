@@ -11,8 +11,10 @@ import Chip from "@mui/material/Chip";
 import OpenIflameChatWhatsapp from '@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflameChatWhatsapp.jsx';
 import {TbEdit} from "react-icons/tb";
 import Text from "@/Components/Elementos/Text.jsx";
+import Paper from "@mui/material/Paper";
 
 export default function LeadsDados({dados, acoes}) {
+    console.log(dados)
     const [toggleMenu, setToggleMenu] = useState(false)
     const [editarLead, setEditarLead] = useState(false)
 
@@ -21,98 +23,111 @@ export default function LeadsDados({dados, acoes}) {
     }
 
     const telefones = useMemo(() => {
-        return dados?.contato?.telefones.length > 0 && dados?.contato?.telefones.map(({id, telefone, contato_nome, numero, status_telefone, lead_id}) => {
-
-            return <div key={id} className="col p-2 m-2 mt-1 px-3 border border-radius-lg">
-                <Stack direction="row" alignItems="center" spacing={2}>
-                    {/*<OpenIflame numero={numero?.replace(/\D/g, '')} */}
-                    {/*            status={status_telefone} */}
-                    {/*            telefone={telefone}*/}
-                    {/*            leadId={lead_id}*/}
-                    {/*            telefoneId={id}*/}
-                    {/*            icone noDialogLead />*/}
-                    <Telephone size={18} color="blue"/>
-                    <Typography display="inline" marginBottom={1}>{telefone}</Typography>
-                    {contato_nome && <Typography display="inline" marginBottom={1}>{contato_nome}</Typography>}
-                </Stack>
-            </div>
+        return dados?.telefones?.length > 0 && dados?.telefones?.map(({id, telefone, contato_nome}) => {
+            return (
+                <Grid item key={id}>
+                    <Paper sx={{padding: 1}} variant="outlined">
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                            <Telephone size={18} color="blue"/>
+                            <Typography display="inline" marginBottom={1}>{telefone}</Typography>
+                            {contato_nome && <Typography display="inline" marginBottom={1}>{contato_nome}</Typography>}
+                        </Stack>
+                    </Paper>
+                </Grid>
+            )
         })
+    }, [dados?.telefones]);
+
+    const dadosLead = useMemo(() => {
+        return (
+            <Grid container>
+                <Grid item md={6}>
+                    {dados?.razao_social && <CampoTexto titulo="Razão Social" texto={dados.razao_social}/>}
+                    {dados?.nome && <CampoTexto titulo="Nome/Nome Fantasia" texto={dados.nome}/>}
+                    {dados?.cnpj && <CampoTexto titulo="CNPJ" texto={dados.cnpj}/>}
+                    {dados?.rg && <CampoTexto titulo="RG" texto={dados.rg}/>}
+                    {dados?.cpf && <CampoTexto titulo="CPF" texto={dados.cpf}/>}
+                    {dados?.endereco?.cidade_estado && <CampoTexto titulo="Localidade" texto={dados?.endereco?.cidade_estado}/>}
+                    {dados?.inscricao_estadual && <CampoTexto titulo="Inscrição Estadual" texto={dados.inscricao_estadual}/>}
+                </Grid>
+                <Grid item md={6}>
+                    <CampoTexto titulo="ID" texto={`#${dados.id}`}/>
+                    <CampoTexto titulo="Status" texto={dados?.status_nome}/>
+                    <CampoTexto titulo="Setor" texto={dados?.setor?.nome}/>
+                    {dados?.cliente?.endereco && <CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/>}
+                </Grid>
+            </Grid>
+        )
     }, [dados]);
-    console.log(dados)
+
+    const dadosLeadExtra = useMemo(() => {
+        return (
+            <Grid container>
+                <Grid item md={12}>
+                    {dados.extras?.cnae && <CampoTexto titulo="CNAE" texto={dados.extras.cnae}/>}
+                    {dados.extras?.situacao && <CampoTexto titulo="Situação" texto={`${dados.extras.situacao} ${dados.extras.data_situacao}`}/>}
+                    {dados.extras?.atividade_principal && <CampoTexto titulo="Atividade Principal" texto={dados.extras.atividade_principal}/>}
+                    {dados.extras?.natureza_juridica && <CampoTexto titulo="Natureza Jurídica" texto={dados.extras.natureza_juridica}/>}
+                    {dados.extras?.data_nascimento && <CampoTexto titulo="Data Nascimento" texto={dados.extras.data_nascimento}/>}
+                    {dados.extras?.capital_social && <CampoTexto titulo="Capital Social" texto={dados.extras.capital_social}/>}
+                    {dados.extras?.tipo && <CampoTexto titulo="Tipo de Empresa" texto={dados.extras.tipo}/>}
+                    {dados.extras?.porte && <CampoTexto titulo="Porte de Empresa" texto={dados.extras.porte}/>}
+                    {dados.extras?.quadro_societario && <CampoTexto titulo="Quadro Societário" texto={dados.extras.quadro_societario}/>}
+                    {dados.extras?.data_abertura && <CampoTexto titulo="Data Abertura" texto={dados.extras.data_abertura}/>}
+                </Grid>
+            </Grid>
+        )
+    }, [dados?.extras]);
+
     return (<>
         <CardContainer>
             <CardTitle title="Informações do Lead" icon={<Person size="22"/>} children={acoes}/>
             <CardBody>
-                <div className="row">
-                    <div className="col">
-                        <Stack spacing={0.5}>
-                            {dados.cliente?.razao_social && <CampoTexto titulo="Razão Social" texto={dados.cliente.razao_social}/>}
-                            {dados.cliente?.nome && <CampoTexto titulo="Nome/Nome Fantasia" texto={dados.cliente.nome}/>}
-                            {dados.cliente?.cnpj && <CampoTexto titulo="CNPJ" texto={dados.cliente.cnpj}/>}
-                            {dados.cliente?.rg && <CampoTexto titulo="RG" texto={dados.cliente.rg}/>}
-                            {dados.cliente?.cpf && <CampoTexto titulo="CPF" texto={dados.cliente.cpf}/>}
-                            {dados.cliente?.inscricao_estadual && <CampoTexto titulo="Inscrição Estadual" texto={dados.cliente.inscricao_estadual}/>}
-                            {dados.infos?.situacao && <CampoTexto titulo="Situaçao" texto={dados.infos.situacao}/>}
-                        </Stack>
-                    </div>
-                    <div className="col">
-                        <Stack spacing={0.5}>
-                            <CampoTexto titulo="ID" texto={`#${dados.id}`}/>
-                            <CampoTexto titulo="Status" texto={dados?.infos?.status_nome}/>
-                            <CampoTexto titulo="Setor" texto={dados?.infos?.setor?.nome}/>
-                            {dados?.cliente?.endereco && <CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/>}
-                            {dados?.infos?.anotacoes && <CampoTexto titulo="Anotações" texto={dados.infos.anotacoes}/>}
-                        </Stack>
-                    </div>
-                </div>
 
-                {toggleMenu && <div className="row mt-1">
-                    <div className="col">
-                        <Stack spacing={0.5}>
-                            {dados.contato?.atendente && <CampoTexto titulo="Nome do Contato" texto={dados.contato.atendente}/>}
-                            {dados.dados?.capital_social && <CampoTexto titulo="Capital Social" texto={dados.dados.capital_social}/>}
-                            {dados.dados?.tipo && <CampoTexto titulo="Tipo" texto={dados.dados.tipo}/>}
-                            {dados.dados?.porte && <CampoTexto titulo="Porte" texto={dados.dados.porte}/>}
-                            {dados.dados?.atividade_principal && <CampoTexto titulo="Atividade Principal" texto={dados.dados.atividade_principal}/>}
-                        </Stack>
-                    </div>
-                    <div className="col">
-                        <Stack spacing={0.5}>
-                            {dados.dados?.natureza_juridica && <CampoTexto titulo="Natureza Jurídica" texto={dados.dados.natureza_juridica}/>}
-                            {dados.dados?.quadro_societario && <CampoTexto titulo="Quadro Societário" texto={dados.dados.quadro_societario}/>}
-                            {dados.dados?.data_situacao && <CampoTexto titulo="Data Situação" texto={dados.dados.data_situacao}/>}
-                            {dados.dados?.data_abertura && <CampoTexto titulo="Data Abertura" texto={dados.dados.data_abertura}/>}
-                            {dados.infos?.status_anotacoes && <CampoTexto titulo="Observações" texto={dados.infos.status_anotacoes}/>}
-                            {dados.infos?.data_criacao && <CampoTexto titulo="Data de Cadastro" texto={dados.infos.data_criacao}/>}
-                        </Stack>
-                    </div>
-                </div>}
+                {/*Dados do Lead*/}
+                {dadosLead}
+
+                {/*Extras*/}
+                {toggleMenu && dadosLeadExtra}
 
                 <Grid container justifyContent="space-between">
                     <Grid item>
-                        <Chip className="cursor-pointer mt-4" onClick={toggleInfo} label={<>{toggleMenu ? <Dash/> : <Plus size={15}/>} Informações</>}/>
+                        <Chip
+                            className="cursor-pointer "
+                            onClick={toggleInfo}
+                            label={<>{toggleMenu ? <Dash/> : <Plus size={15}/>} Informações</>}
+                            size="small"
+                        />
                     </Grid>
-                    <Grid item>
-                        <Button color="success" startIcon={<TbEdit/>}
-                                onClick={() => setEditarLead(value => !value)}> Solicitar Edição do Lead</Button>
+                    <Grid item marginBottom={2}>
+                        <Button
+                            color="warning"
+                            startIcon={<TbEdit/>}
+                            onClick={() => setEditarLead(value => !value)}
+                        >
+                            Solicitar Edição de Dados
+                        </Button>
                     </Grid>
                 </Grid>
 
-                {editarLead &&
-                    <Grid container justifyContent="space-between" marginTop={3}>
-                        <Grid item xs={12}>
-                            <TextField
-                                label="Solicitação de Edição das informações do Lead"
-
-                                fullWidth
-                                multiline
-                                minRows={3}
-                            />
-                            <Button>Enviar</Button>
-                        </Grid>
-                    </Grid>
-                }
-
+                {editarLead && (
+                    <CardContainer>
+                        <CardBody>
+                            <Typography>Solicitação de Edição das informações do Lead</Typography>
+                            <Grid container justifyContent="space-between" marginTop={1}>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        label="Detalhe a informações que precisam ser alteradas..."
+                                        fullWidth
+                                        multiline
+                                        minRows={3}
+                                    />
+                                    <Button color="success" sx={{marginTop: 1}}>Enviar Solicitação</Button>
+                                </Grid>
+                            </Grid>
+                        </CardBody>
+                    </CardContainer>
+                )}
             </CardBody>
         </CardContainer>
 
@@ -120,24 +135,33 @@ export default function LeadsDados({dados, acoes}) {
         <CardContainer>
             <CardTitle icon={<Chat size={20}/>} title="Contatos"/>
             <CardBody>
-                <div className="row row-cols-auto">
+                <Grid container spacing={2}>
+
+                    {/*Telefones*/}
                     {telefones}
 
-                    {dados?.contato?.email && <div className="col p-2 m-2 mt-1 px-3 border border-radius-lg">
-                        <Stack direction="row" alignItems="center" spacing={2}>
-                            <Envelope size={20} color="orange"/>
-                            <Typography display="inline" marginBottom={1}>{dados.contato.email}</Typography>
-                        </Stack>
-                    </div>}
-                </div>
+                    {/*Emails*/}
+                    {dados?.emails?.map(email => {
+                        return (
+                            email && <Grid item key={email}>
+                                <Paper sx={{padding: 1}} variant="outlined">
+                                    <Stack direction="row" alignItems="center" spacing={2}>
+                                        <Envelope size={18} color="orange"/>
+                                        <Typography display="inline" marginBottom={1}>{email}</Typography>
+                                    </Stack>
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
             </CardBody>
         </CardContainer>
 
         {dados?.consultor?.nome && <CardContainer>
             <CardBody>
                 <Stack direction="row" spacing={2}>
-                    <Typography fontWeight="bold">Vendedor(a):</Typography>
-                    <Typography>{dados?.consultor?.nome}</Typography>
+                    <Typography fontWeight="bold">Consultor em Atendimento(a):</Typography>
+                    <Typography>{dados?.consultor?.nome ?? 'Nenhum Consultor(a)'}</Typography>
                 </Stack>
             </CardBody>
         </CardContainer>}

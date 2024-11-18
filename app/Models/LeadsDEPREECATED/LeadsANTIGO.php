@@ -529,8 +529,6 @@ class LeadsANTIGO extends Model
                     'cpf' => $dados->cpf,
                     'email' => $dados->email,
                     'endereco' => $idEndereco,
-                    'cidade' => $dados->cidade ?? $lead->cidade,
-                    'estado' => $dados->estado ?? $lead->cidade,
                     'data_nascimento' => $dados->nascimento,
                 ]);
 
@@ -778,7 +776,7 @@ class LeadsANTIGO extends Model
             ->orderByDesc('pin')
             ->orderByDesc('pedido_dias')
             ->orderByDesc('status_data')
-            ->get(['leads.id', 'status', 'leads.user_id', 'sdr_id', 'nome', 'razao_social', 'cnpj', 'cnpj', 'telefone', 'status_data', 'classificacao',
+            ->get(['leads.id', 'status', 'leads.user_id', 'sdr_id', 'nome', 'razao_social', 'cnpj', 'cnpj', 'status_data', 'classificacao',
                 DB::raw('CASE WHEN pins.user_id = ' . id_usuario_atual() . ' THEN TRUE ELSE FALSE END as pin'),
                 DB::raw('DATEDIFF(CURDATE(), leads.ultimo_pedido_data) as pedido_dias'),
                 DB::raw('DATEDIFF(CURDATE(), leads.status_data) as status_dias')])
@@ -798,7 +796,6 @@ class LeadsANTIGO extends Model
                     ],
                     'contato' => [
                         'email' => $item->email,
-                        'telefone' => converterTelefone($item->telefone),
                     ],
                     'infos' => [
                         'status_data' => date('d/m/y H:i', strtotime($item->status_data)),

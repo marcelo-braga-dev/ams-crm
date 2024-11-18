@@ -8,6 +8,7 @@ use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Pedidos;
 use App\Models\User;
 use App\Models\UsersPermissoes;
+use App\Repositories\Lead\LeadRepository;
 use App\Services\Leads\HistoricoDadosService;
 use Illuminate\Http\Request;
 
@@ -27,8 +28,10 @@ class LeadController extends Controller
     {
         $idUsuario = id_usuario_atual();
 
-        $lead = (new LeadsANTIGO())->getDados($id);
-        $usuarios = (new User())->getUsuarios($lead['infos']['setor']);
+//        $lead = (new LeadsANTIGO())->getDados($id);
+        $lead = (new LeadRepository)->findAllData($id);
+
+        $usuarios = (new User())->getUsuarios($lead['setor']['id']);
 
         $permissoes = [
             'encaminhar' => (new UsersPermissoes())->isLeadsEncaminhar($idUsuario),
@@ -37,11 +40,10 @@ class LeadController extends Controller
             'excluir' => (new UsersPermissoes())->isLeadsExcluir($idUsuario),
             'inativar' => (new UsersPermissoes())->isLeadsInativar($idUsuario),
         ];
-
+//
         $historicos = [
             'status' => (new LeadStatusHistoricos())->getId($id),
-            'pedidos' => (new Pedidos())->historicoPedidosLead($id),
-            'atendimento' => (new HistoricoDadosService())->dados($id),
+            'pedidos' => (new Pedidos())->historicoPedidosLead($id)
         ];
 
         return response()->json(compact( 'lead', 'historicos', 'usuarios', 'permissoes'));

@@ -27,6 +27,17 @@ const FilterComponent = ({filterText, onFilter}) => (
     />
 );
 
+const  getCurrentDateTime = () =>  {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Janeiro é 0
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
 export default function Pedido({fornecedores, unidades, categorias, urlProdutos, data, setData}) {
     total = 0
     const [filterText, setFilterText] = React.useState('');
@@ -365,6 +376,16 @@ export default function Pedido({fornecedores, unidades, categorias, urlProdutos,
                             label="Orçamento do Pedido" required
                             fullWidth type="file" InputLabelProps={{shrink: true}}
                             onChange={e => setData('img_pedido', e.target.files[0])}>
+                        </TextField>
+                    </div>
+                    <div className="col-md-3">
+                        <TextField
+                            label="Data do Pedido" required
+                            defaultValue={getCurrentDateTime()}
+                            type="datetime-local"
+                            fullWidth
+                            InputLabelProps={{shrink: true}}
+                            onChange={e => setData('pedido_data', e.target.value)}>
                         </TextField>
                     </div>
                 </div>

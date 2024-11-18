@@ -4,7 +4,6 @@ namespace App\Repositories\Lead;
 
 use App\DTO\Lead\LeadCreateDTO;
 use App\Models\Lead\Lead;
-use App\Services\Lead\UpdateStatusLeadService;
 use App\src\Leads\StatusLeads\StatusLeads;
 use Illuminate\Support\Facades\DB;
 
@@ -13,6 +12,13 @@ class LeadRepository
     public function find($id)
     {
         return Lead::find($id);
+    }
+
+    public function findAllData($id)
+    {
+        return Lead::with(['pedidos', 'statusHistorico'])
+            ->find($id)
+            ->toArray();
     }
 
     public function create(LeadCreateDTO $createDTO)

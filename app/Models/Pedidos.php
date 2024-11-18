@@ -45,6 +45,7 @@ class Pedidos extends Model
         'imposto',
         'pagamento_vencimento_data',
         'pagamento_ignorar_vencimento',
+        'created_at'
     ];
 
     public function cliente()
@@ -241,7 +242,8 @@ class Pedidos extends Model
                     'info_pedido' => $dados->obs,
                     'modelo' => modelo_usuario(),
                     'repasse' => convert_money_float($dados->repasse),
-                    'repasse_desconto' => $dados->repasse ? 13.8 : null
+                    'repasse_desconto' => $dados->repasse ? 13.8 : null,
+                    'created_at' => $dados->pedido_data ? (new DateTime($dados->pedido_data))->format('Y-m-d H:i:s') : now()
                 ]);
         } catch (QueryException $exception) {
             throw new \DomainException('Falha no cadastro do pedido.');

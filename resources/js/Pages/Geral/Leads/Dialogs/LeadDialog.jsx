@@ -18,7 +18,6 @@ import {LeadContext} from './LeadContext.jsx';
 import {TbPackage, TbX} from 'react-icons/tb';
 import Link from '@/Components/Link.jsx';
 import Avatar from '@mui/material/Avatar';
-import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
 
 const LeadDialog = ({iconButton, action, leadId}) => {
 
@@ -37,7 +36,11 @@ const LeadDialog = ({iconButton, action, leadId}) => {
 
     function encaminharLead() {
         if (consultorSelecionado) {
-            router.post(route('auth.leads.api.encaminhar', {lead_ids: [lead.id], consultor_id: consultorSelecionado}));
+            try {
+                axios.post(route('auth.leads.api.encaminhar', {lead_ids: [lead.id], consultor_id: consultorSelecionado}))
+            } finally {
+                fetchLead(leadId)
+            }
         }
     }
 
@@ -91,22 +94,23 @@ const LeadDialog = ({iconButton, action, leadId}) => {
                     <LeadsDados dados={lead} acoes={
                         <Stack direction="row" spacing={5} alignItems="center">
                             {(permissoes.encaminhar || permissoes.limpar) &&
-                                <button className="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalEncaminhar">
+                                <Button color="warning" data-bs-toggle="modal" data-bs-target="#modalEncaminhar">
                                     <Stack direction="row" alignItems="center" spacing={1}>
                                         <ArrowRight size={20}/>
                                         <Typography>Encaminhar</Typography>
                                     </Stack>
-                                </button>}
+                                </Button>}
 
                             {/*Editar*/}
+                            {permissoes.editar && <Button>Alterar Status</Button>}
                             {permissoes.editar && <EditModal lead={lead}/>}
 
-                            {permissoes.excluir && <button className="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalExcluir">
+                            {permissoes.excluir && <Button color="error" data-bs-toggle="modal" data-bs-target="#modalExcluir">
                                 <Stack direction="row" alignItems="center" spacing={1}>
                                     <TrashFill size={15}/>
                                     <Typography>Excluir</Typography>
                                 </Stack>
-                            </button>
+                            </Button>
                             }
                             <IconButton onClick={handleClose}>
                                 <TbX color="red" size={25}/>
@@ -142,9 +146,9 @@ const LeadDialog = ({iconButton, action, leadId}) => {
                             <CardBody>
                                 {value === 0 && <HistoricoAtendimento leadId={leadId}/>}
 
-                                {value === 1 && <HistoricoPedidos historicos={historicos.pedidos}/>}
+                                {value === 1 && <HistoricoPedidos pedidos={lead?.pedidos}/>}
 
-                                {value === 2 && <HistoricoStatus historicos={historicos.status}/>}
+                                {value === 2 && <HistoricoStatus historico={lead?.status_historico}/>}
                             </CardBody>
                         </div>
                     </CardContainer>

@@ -20,17 +20,31 @@ class LeadStatusHistoricos extends Model
         'anotacao'
     ];
 
+    protected $with = ['user'];
+
     protected $appends = ['status_nome', 'status_data'];
 
+    // =======================
+    // Relacionamentos
+    // =======================
     public function lead()
     {
         return $this->hasOne(Lead::class, 'id', 'lead_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
     public function destinatario()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+    // =======================
+    // Getters
+    // =======================
     public function getStatusNomeAttribute()
     {
         return (new StatusLeads())->nome($this->attributes['status']);

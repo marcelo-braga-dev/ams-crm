@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Geral\Leads\Api;
 
 use App\Http\Controllers\Controller;
-use App\Services\Lead\EncaminharLeadService;
-use App\Services\Lead\UpdateStatusLeadService;
+use App\Services\Lead\Revisar\EncaminharLeadService;
 use Illuminate\Http\Request;
 
 class EncaminharLeadController extends Controller

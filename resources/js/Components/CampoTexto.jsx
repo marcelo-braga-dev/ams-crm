@@ -12,7 +12,7 @@ const TextoCard = styled.span`
     font-weight: 400
 `;
 
-const CampoTexto = ({titulo, texto, icone, small, bold, nowrap}) => {
+const CampoTexto = ({titulo, texto, icone}) => {
     const IconTexto = icone;
 
     return (
@@ -20,7 +20,11 @@ const CampoTexto = ({titulo, texto, icone, small, bold, nowrap}) => {
             <div>
                 <Stack direction="row" spacing={1} alignItems="center" marginBottom={1}>
                     {icone && <IconTexto color="rgb(59, 64, 86)" size={18}/>}
-                    {titulo && <Typography fontWeight={500}>{titulo}</Typography>}
+                    {titulo && <Typography
+                        fontWeight={500}
+                        sx={{
+                            whiteSpace: 'nowrap',
+                        }}>{titulo}:</Typography>}
                 </Stack>
             </div>
             <Typography fontWeight={400}>{texto}</Typography>
