@@ -249,10 +249,10 @@ const LeadDialog = ({iconButton, action, leadId}) => {
                                         </div>
 
                                         {permissoes.inativar && <div className="col text-end">
-                                            {lead.infos.status === 'ativo' &&
+                                            {lead.status === 'ativo' &&
                                                 <button className="btn btn-danger mb-0" data-bs-toggle="modal" data-bs-target="#inativarLead">Inativar
                                                     Lead</button>}
-                                            {lead.infos.status === 'inativo' &&
+                                            {lead.status === 'inativo' &&
                                                 <button className="btn btn-success mb-0" onClick={() => reativarLead()}>Reativar Lead</button>}
                                         </div>}
                                     </div>
