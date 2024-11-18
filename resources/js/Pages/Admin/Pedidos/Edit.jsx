@@ -3,13 +3,22 @@ import TextFieldMoney from "@/Components/Inputs/TextFieldMoney3";
 import {useState} from "react";
 import {router, usePage} from "@inertiajs/react";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
-import {TextField} from "@mui/material";
+import {Grid, TextField} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import CardContainer from "@/Components/Cards/CardContainer";
 import CardBody from "@/Components/Cards/CardBody";
 import CardTitle from "@/Components/Cards/CardTitle";
 import {Pencil} from "react-bootstrap-icons";
-import TextFieldPorcentagem from "@/Components/Inputs/TextFieldPorcentagem.jsx";
+
+const convertToDateTimeLocal = (inputDate) => {
+    // O inputDate esperado: "07/11/24 12:45:18"
+    const [datePart, timePart] = inputDate.split(" ");
+    const [day, month, year] = datePart.split("/"); // Separar o dia, mês e ano
+
+    // Ajustar para o formato correto (YYYY-MM-DDTHH:MM)
+    return `20${year}-${month}-${day}T${timePart.slice(0, 5)}`;
+}
+
 
 export default function ({pedido, usuarios}) {
     const [valorPedido, setValorPedido] = useState(pedido.financeiro.preco)
@@ -19,6 +28,7 @@ export default function ({pedido, usuarios}) {
     const [userFaturado, setUserFaturado] = useState(pedido.pedido.user_faturamento)
     const [dataFaturamento, setDataFaturamento] = useState(pedido.financeiro.data_faturamento)
     const [notaPedido, setNotaPedido] = useState(pedido.financeiro.nota_numero)
+    const [pedidoData, setPedidoData] = useState(convertToDateTimeLocal(pedido.pedido.data_criacao))
 
     const isAdmin = usePage().props.auth.user.is_financeiro == 1
 
@@ -33,6 +43,7 @@ export default function ({pedido, usuarios}) {
             data_faturamento: dataFaturamento,
             nota_pedido: notaPedido,
             repasse_desconto: repasseDesconto,
+            pedido_data: pedidoData,
         })
     }
 
@@ -58,16 +69,24 @@ export default function ({pedido, usuarios}) {
                 <CardBody>
                     <span className="pb-4"></span>
                     <form onSubmit={submit}>
-                        <div className="row">
-                            {isAdmin && <div className="col-md-3 mb-4">
+                        <Grid container spacing={3}>
+                            {isAdmin && <Grid item marginBottom={4} md={3}>
                                 <TextField label="Vendedor(a) Faturado" select fullWidth value={userFaturado}
                                            onChange={e => setUserFaturado(e.target.value)}>
                                     {usuarios.map(item => <MenuItem value={item.id}>{item.nome}</MenuItem>)}
                                 </TextField>
-                            </div>}
-
-                            <div className="col"></div>
-                        </div>
+                            </Grid>}
+                            {isAdmin && <Grid item marginBottom={4} md={3}>
+                                <TextField
+                                    label="Data do Pedido"
+                                    value={pedidoData}
+                                    fullWidth
+                                    type="datetime-local"
+                                    InputLabelProps={{shrink: true}}
+                                    onChange={e => setPedidoData(e.target.value)}
+                                />
+                            </Grid>}
+                        </Grid>
                         <div className="row mb-4">
                             {isAdmin &&
                                 <div className="col-md-2">

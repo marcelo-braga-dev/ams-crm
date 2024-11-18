@@ -807,6 +807,7 @@ class Pedidos extends Model
         if ($dados['usuario_faturado']) $query->update(['user_faturamento' => $dados['usuario_faturado']]);
         if ($dados['data_faturamento']) $query->update(['data_faturamento' => $dados['data_faturamento']]);
         if ($dados['nota_pedido']) (new PedidosFaturados())->updateNotaPedido($id, $dados['nota_pedido']);
+        if ($dados['pedido_data']) $query->update(['created_at' => (new DateTime($dados->pedido_data))->format('Y-m-d H:i:s')]);
     }
 
     public function setSac($id)
