@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Lead\Lead;
 use App\Models\LeadsDEPREECATED\LeadsANTIGO;
 use App\Models\Pedidos\Instalacoes\PedidosInstalacoesAnotacoes;
 use App\Models\Pedidos\PedidosFinanciamentoDados;
@@ -807,7 +808,28 @@ class Pedidos extends Model
         if ($dados['usuario_faturado']) $query->update(['user_faturamento' => $dados['usuario_faturado']]);
         if ($dados['data_faturamento']) $query->update(['data_faturamento' => $dados['data_faturamento']]);
         if ($dados['nota_pedido']) (new PedidosFaturados())->updateNotaPedido($id, $dados['nota_pedido']);
-        if ($dados['pedido_data']) $query->update(['created_at' => (new DateTime($dados->pedido_data))->format('Y-m-d H:i:s')]);
+
+        if (!empty($dados['pedido_data'])) {
+            $novaData = new DateTime($dados['pedido_data']); // Criar objeto DateTime
+            $novaDataFormatada = $novaData->format('Y-m-d H:i:s'); // Converter para o formato MySQL
+
+            $lead = Lead::find($query->lead_id);
+
+            if ($lead) {
+                // Criar objeto DateTime para a última data de pedido
+                $ultimoPedidoData = $lead->ultimo_pedido_data
+                    ? new DateTime($lead->ultimo_pedido_data)
+                    : null;
+
+                // Verificar se a nova data é maior que a última data registrada
+                if (!$ultimoPedidoData || $novaData > $ultimoPedidoData) {
+                    $lead->update(['ultimo_pedido_data' => $novaDataFormatada]);
+                }
+            }
+
+            $query->update(['created_at' => $novaDataFormatada]);
+        }
+
     }
 
     public function setSac($id)
