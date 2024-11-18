@@ -23,6 +23,7 @@ import TextFieldMoney from "@/Components/Inputs/TextFieldMoney3.jsx";
 import MenuItem from "@mui/material/MenuItem";
 import {useState} from "react";
 import {router} from "@inertiajs/react";
+import {isAdmin} from "@/Helpers/helper.js";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -90,9 +91,12 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                         <Tab label="SAC" {...a11yProps(7)} />
                     </Tabs>
                 </div>
-                {/*<div className="col-auto m-0">*/}
-                {/*    <Link label="Editar" href={route('admin.pedidos.edit', pedido.id)}/>*/}
-                {/*</div>*/}
+                {isAdmin() && (
+                    <div className="col-auto m-0">
+                        <Link label="Editar" href={route('admin.pedidos.edit', pedido.id)}/>
+                    </div>
+                )}
+
             </div>
 
             <Box sx={{width: '100%'}}>
