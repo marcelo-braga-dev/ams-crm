@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Geral\Ferramentas\Whatsapp;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Ferramentas\Whatsapp\UsuariosWhatsappRepositories;
+use App\Services\Ferramentas\Whatsapp\SettingsWatsappService;
 use Inertia\Inertia;
 
 class WhatsappController extends Controller
@@ -15,11 +16,8 @@ class WhatsappController extends Controller
 
     public function chaves()
     {
-        $urlFrontend = config('whaticket.frontend_url');
-        $urlBackend = config('whaticket.backend_url');
-        $apiKey = config('whaticket.api_token');
-        $credenciaisUsuario = (new UsuariosWhatsappRepositories())->credenciais();
+        $settings = (new SettingsWatsappService())->settings();
 
-        return response()->json(compact('urlFrontend', 'urlBackend', 'apiKey', 'credenciaisUsuario'));
+        return response()->json($settings);
     }
 }

@@ -18,7 +18,8 @@
         "php-imap/php-imap": "^5.0.1",
         "phpoffice/phpspreadsheet": "^1.29.0",
         "pusher/pusher-php-server": "^7.2",
-        "tightenco/ziggy": "^2.2"
+        "tightenco/ziggy": "^2.2",
+        "ext-curl": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23.1",

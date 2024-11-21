@@ -1,29 +1,34 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Button, IconButton, Stack, Typography } from '@mui/material';
+import React, {useEffect, useState} from 'react';
+import {IconButton, Typography} from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
-import { useWhatsapp } from '@/Hooks/useWhatsapp.jsx';
-import Dialog from '@mui/material/Dialog';
+import {useWhatsapp} from '@/Hooks/useWhatsapp.jsx';
 import fetchRequisicao from '@/Components/Chats/Whatsapp/ChatWhatsapp/utils/requisicao.js';
 import AlertError from '@/Components/Alerts/AlertError.jsx';
-import { useFunilVendas } from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
+import {useFunilVendas} from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx';
 import axios from 'axios';
 import DialogIflame from '@/Components/Chats/Whatsapp/ChatWhatsapp/DialogIflame.jsx';
-import { Whatsapp } from 'react-bootstrap-icons';
+import {Whatsapp} from 'react-bootstrap-icons';
+import getNameContactLead from "@/Utils/GetNameContactLead.js";
+import updateLeadContactService from "@/Services/Whatsapp/UpdateLeadContactService.jsx";
 
-const OpenIflameChatWhatsapp = ({ numero, status, telefone, leadId, telefoneId, icone }) => {
+const OpenIflameChatWhatsapp = ({numero, status, telefone, leadId, telefoneId, icone}) => {
     const [chatId, setChatId] = useState();
     const [openIflame, setOpenIflame] = useState(false);
     const [isPrimeiraMensagem, setIsPrimeiraMensagem] = useState(false);
 
-    const { handleAtualizar } = useFunilVendas();
-    const { urlFrontend, urlBackend, apiKey, credenciaisUsuario } = useWhatsapp();
+    const {handleAtualizar} = useFunilVendas();
+    const {urlFrontend, urlBackend, apiKey, credenciaisUsuario} = useWhatsapp();
 
     const URL_DO_WHATICKET = `${urlFrontend}/chat/${chatId}`;
 
     const fetch = async () => {
         try {
-            const res = await fetchRequisicao(urlBackend, apiKey, numero, credenciaisUsuario);
-            setChatId(res);
+            const leadName = await getNameContactLead(leadId)
+
+            const contact = await fetchRequisicao(urlBackend, apiKey, numero, credenciaisUsuario, leadName);
+            await updateLeadContactService(telefoneId, contact)
+            console.log(telefoneId)
+            setChatId(contact?.data?.data?.id);
         } catch (error) {
             console.log('ATUALIZAR CARDS')
             handleAtualizar()
@@ -86,10 +91,10 @@ const OpenIflameChatWhatsapp = ({ numero, status, telefone, leadId, telefoneId, 
                 </IconButton>
             ) : (
                 <MenuItem disabled={status === 0} onClick={fetch}>
-                    <Typography >{telefone}</Typography>
+                    <Typography>{telefone}</Typography>
                 </MenuItem>
             )}
-            <DialogIflame openIflame={openIflame} handleClose={handleClose} urlFrontend={URL_DO_WHATICKET} noDialogLead />
+            <DialogIflame openIflame={openIflame} handleClose={handleClose} urlFrontend={URL_DO_WHATICKET} noDialogLead/>
         </>
     );
 };

@@ -580,7 +580,7 @@ class LeadsANTIGO extends Model
         $item = $this->newQuery()->find($id);
         $nomes = (new User())->getNomes();
         $setores = (new Setores())->getNomes();
-        $telefones = (new LeadTelefones())->get($id);
+        $telefones = [];//(new LeadTelefones())->get($id);
         $endereco = (new Enderecos())->newQuery()->find($item->endereco ?? null);
 
         return $this->dados($item, $nomes, $setores, $telefones, $endereco);

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Services\Lead\Revisar;
+namespace App\Services\Lead;
 
 use App\Models\Lead\LeadStatusHistoricos;
-use App\Services\Lead\UpdateStatusLeadService;
+use App\Services\Ferramentas\Whatsapp\UpdateUserContactWhatsappService;
+use App\Services\Lead\Revisar\AlterarConsultorService;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
 use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
 
@@ -28,7 +29,8 @@ class EncaminharLeadService
 
                 (new UpdateStatusLeadService($leadId))->setOportunidadeStatus();
                 (new AlterarConsultorService())->alterar($leadId, $consultor);
-            } catch (\Exception $exception) {print_pre($exception->getMessage());
+                (new UpdateUserContactWhatsappService())->update($leadId, $consultor);
+            } catch (\Exception $exception) {
                 $erroLeads[] = $leadId;
             }
         }

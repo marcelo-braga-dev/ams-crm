@@ -14,6 +14,8 @@ class LeadTelefones extends Model
         'lead_id',
         'contato_nome',
         'numero',
+        'whatsapp_id',
+        'whatsapp_picture',
         'status_whatsapp',
         'status_telefone',
     ];
@@ -23,18 +25,6 @@ class LeadTelefones extends Model
     public function getTelefoneAttribute()
     {
         return converterTelefone($this->attributes['numero']);
-    }
-
-    public function get($leadId)
-    {
-        return $this->newQuery()
-            ->where('lead_id', $leadId)
-            ->get()
-            ->transform(function ($item) {
-                $item->numero = converterTelefone($item->numero);
-                $item->numero_padronizado = converterTelefone($item->numero);
-                return $item;
-            });
     }
 
     public function criar(int $leadId, array $telefones, ?int $importacao = null)

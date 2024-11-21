@@ -1,7 +1,7 @@
 import axios from 'axios';
 import analizarErros from '@/Components/Chats/Whatsapp/ChatWhatsapp/utils/analizarErros.js';
 
-const optionsFetch = (token, number, userId) => ({
+const optionsFetch = (token, number, userId, leadName) => ({
     method: 'POST',
     headers: {
         'Authorization': `Bearer ${token}`,
@@ -9,20 +9,17 @@ const optionsFetch = (token, number, userId) => ({
     },
     data: {
         number,
-        name: 'TESTE',
+        name: leadName,
         userId,
     },
 });
 
-const fetchRequisicao = async (urlBackend, apiKey, numero, credenciaisUsuario) => {
-
-    const options = optionsFetch(apiKey, numero, credenciaisUsuario.whatsappId);
+const fetchRequisicao = async (urlBackend, apiKey, numero, credenciaisUsuario, leadName) => {
+    const options = optionsFetch(apiKey, numero, credenciaisUsuario.whatsappId, leadName);
     const url = `${urlBackend}/api/messages/contacts`;
 
     try {
-        const response =  await axios.post(url, options.data, { headers: options.headers })
-
-        return response?.data?.data?.id
+        return await axios.post(url, options.data, {headers: options.headers})
     } catch (error) {
         throw new Error(analizarErros(error, numero));
     }

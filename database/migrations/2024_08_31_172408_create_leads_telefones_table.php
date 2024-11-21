@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('lead_id');
             $table->string('nome')->nullable();
             $table->unsignedBigInteger('numero');
+            $table->integer('whatsapp_id')->nullable();
+            $table->string('whatsapp_picture')->nullable();
             $table->boolean('status_whatsapp')->default(true);
             $table->boolean('status_telefone')->default(true);
             $table->timestamps();

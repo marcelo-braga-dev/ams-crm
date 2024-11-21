@@ -62,7 +62,7 @@ class LeadsController extends Controller
             $id = (new LeadsANTIGO())->create($request, $request->setor);
 
             modalSucesso('Lead Cadastrado com sucesso!');
-            return redirect()->route('admin.clientes.leads.leads-main.show', $id);
+            return redirect()->route('admin.clientes.leads.leads-cadastrados');
         } catch (\DomainException $exception) {
             modalErro($exception->getMessage());
             return redirect()->back();

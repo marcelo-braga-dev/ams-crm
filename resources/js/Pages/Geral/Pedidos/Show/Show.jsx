@@ -91,12 +91,12 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                         <Tab label="SAC" {...a11yProps(7)} />
                     </Tabs>
                 </div>
+
                 {isAdmin() && (
                     <div className="col-auto m-0">
                         <Link label="Editar" href={route('admin.pedidos.edit', pedido.id)}/>
                     </div>
                 )}
-
             </div>
 
             <Box sx={{width: '100%'}}>
@@ -309,7 +309,7 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                                             <td className="col-1">{item.autor}</td>
                                             <td>{item.titulo}</td>
                                             <td>
-                                                <Link href={route('auth.sac.show', item.id)} icon={<Eye size={24}/> }/>
+                                                <Link href={route('auth.sac.show', item.id)} icon={<Eye size={24}/>}/>
                                             </td>
                                         </tr>
                                     ))}
