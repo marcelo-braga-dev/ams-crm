@@ -14,7 +14,7 @@ class UpdateContatoLeadController extends Controller
         $telefoneId = $request->input('telefoneId');
         $contato = $request->input('contact');
 
-        $whatsappId = $contato['data']['data']['id'];
+        $whatsappId = $contato['data']['data']['contact']['id'];
         $foto = $contato['data']['data']['contact']['profilePicUrl'];
 
         DB::transaction(function () use ($telefoneId, $whatsappId, $foto) {

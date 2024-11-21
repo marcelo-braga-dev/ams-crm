@@ -27,7 +27,7 @@ const OpenIflameChatWhatsapp = ({numero, status, telefone, leadId, telefoneId, i
 
             const contact = await fetchRequisicao(urlBackend, apiKey, numero, credenciaisUsuario, leadName);
             await updateLeadContactService(telefoneId, contact)
-            console.log(telefoneId)
+
             setChatId(contact?.data?.data?.id);
         } catch (error) {
             console.log('ATUALIZAR CARDS')

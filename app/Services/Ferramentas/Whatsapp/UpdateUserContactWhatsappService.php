@@ -23,10 +23,6 @@ class UpdateUserContactWhatsappService
 
         $whatsappId = $whatsappUsuario?->whatsapp_id;
 
-//        if (is_null($whatsappId)) {
-//            $whatsappId = null;
-//        }
-
         $telefones = (new LeadTelefones())
             ->where('lead_id', $leadId)
             ->whereNotNull('whatsapp_id')
