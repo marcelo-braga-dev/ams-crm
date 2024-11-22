@@ -114,6 +114,14 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                 </div>
                             </th>
                             <th id="th-8" className="sticky-top">
+                                <div style={{backgroundColor: 'blue'}}
+                                     className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                                    <div className='col-auto'>Aguardando Rastreio</div>
+                                    <div className='col-auto'>Qdt: {pedidos.aguardando_rastreio.length}</div>
+                                    <small className="d-block text-end">R$ {totalPedidos('aguardando_rastreio')}</small>
+                                </div>
+                            </th>
+                            <th id="th-9" className="sticky-top">
                                 <div style={{backgroundColor: coresAbas.acompanhamento ?? 'black'}}
                                      className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-auto'>Acompanhamento</div>
@@ -121,7 +129,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                     <small className="d-block text-end">R$ {totalPedidos('acompanhamento')}</small>
                                 </div>
                             </th>
-                            <th id="th-9" className="sticky-top">
+                            <th id="th-10" className="sticky-top">
                                 <div style={{backgroundColor: coresAbas.entregue ?? 'black'}}
                                      className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-auto'>Entregue</div>
@@ -129,7 +137,7 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                     <small className="d-block text-end">R$ {totalPedidos('entregue')}</small>
                                 </div>
                             </th>
-                            <th id="th-10" className="sticky-top">
+                            <th id="th-11" className="sticky-top">
                                 <div style={{backgroundColor: coresAbas.cancelados ?? 'black'}}
                                      className='row justify-content-between rounded-top text-white mx-1 p-2'>
                                     <div className='col-12'>Cancelados</div>
@@ -177,16 +185,21 @@ export default function Dashboard({pedidos, coresAbas, goCard}) {
                                 })}
                             </td>
                             <td id="td-8" style={{minWidth: 300}}>
+                                {pedidos.aguardando_rastreio.map((dados) => {
+                                    return <CardLancado key={dados.id} dados={dados} cor="blue"/>
+                                })}
+                            </td>
+                            <td id="td-9" style={{minWidth: 300}}>
                                 {pedidos.acompanhamento.map((dados) => {
                                     return <CardAcompanhamento key={dados.id} dados={dados} cor={coresAbas.acompanhamento}/>
                                 })}
                             </td>
-                            <td id="td-9" style={{minWidth: 300}}>
+                            <td id="td-10" style={{minWidth: 300}}>
                                 {pedidos.entregue.map((dados) => {
                                     return <CardEntregue key={dados.id} dados={dados} cor={coresAbas.entregue}/>
                                 })}
                             </td>
-                            <td id="td-10" style={{minWidth: 300}}>
+                            <td id="td-11" style={{minWidth: 300}}>
                                 {pedidos.cancelado.map((dados) => {
                                     return <CardCancelado key={dados.id} dados={dados} cor={coresAbas.cancelados}/>
                                 })}
