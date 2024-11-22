@@ -18,7 +18,7 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
     }
 
     return (
-        <div className="pesquisar-card shadow-sm bg-white m-2 py-2 px-3 rounded mb-4" id={'card-id-' + dados.id}
+        <div className="pesquisar-card shadow-sm bg-white m-2 py-2 px-3 rounded mb-4" id={`card-id-${dados.id}`}
              style={{
                  width: 300,
                  border: (goCard === dados.id.toString()) ? ('2px solid ' + border) : '',

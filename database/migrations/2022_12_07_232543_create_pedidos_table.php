@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->string('status');
             $table->dateTime('status_data');
             $table->integer('prazo');
+            $table->date('prazo_rastreio')->nullable();
             $table->boolean('sac')->default(0);
             $table->float('preco_venda', 10);
             $table->float('preco_custo', 10)->nullable();

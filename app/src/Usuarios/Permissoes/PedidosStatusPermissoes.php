@@ -7,6 +7,7 @@ use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
 use App\src\Pedidos\Status\AguardandoNotaStatus;
 use App\src\Pedidos\Status\AguardandoPagamentoStatus;
+use App\src\Pedidos\Status\AguardandoRastreio;
 use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\Status\EncomendaStatus;
@@ -36,6 +37,7 @@ class PedidosStatusPermissoes extends ChavesPermissoes
             $this->chavePedidosStatusFaturado(),
             $this->chavePedidosStatusFaturadoVista(),
             $this->chavePedidosStatusFaturadoPrazo(),
+            $this->chavePedidosStatusAguardandoRastreio(),
             $this->chavePedidosStatusAcompanhamento(),
             $this->chavePedidosStatusEntregue(),
             $this->chavePedidosStatusCancelados(),
@@ -56,6 +58,7 @@ class PedidosStatusPermissoes extends ChavesPermissoes
             $this->chavePedidosStatusFaturado() => (new FaturadoStatus())->getStatus(),
             $this->chavePedidosStatusFaturadoVista() => (new FaturadoVistaStatus())->getStatus(),
             $this->chavePedidosStatusFaturadoPrazo() => (new FaturadoPrazoStatus())->getStatus(),
+            $this->chavePedidosStatusAguardandoRastreio() => (new AguardandoRastreio())->getStatus(),
             $this->chavePedidosStatusAcompanhamento() => (new AcompanhamentoStatus())->getStatus(),
             $this->chavePedidosStatusEntregue() => (new EntregueStatus())->getStatus(),
             $this->chavePedidosStatusCancelados() => (new CanceladoStatus())->getStatus(),

@@ -8,7 +8,9 @@ use App\Models\Pedidos\Instalacoes\PedidosInstalacoesAnotacoes;
 use App\Models\Pedidos\PedidosFinanciamentoDados;
 use App\Services\Pedidos\StatusPedidosServices;
 use App\src\Pedidos\SituacaoPedido;
+use App\src\Pedidos\Status\AguardandoRastreio;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
+use App\src\Pedidos\Status\FaturadoStatus;
 use App\src\Pedidos\StatusPedidos;
 use DateTime;
 use Illuminate\Database\Eloquent\Builder;
@@ -61,6 +63,16 @@ class Pedidos extends Model
 
     protected function getStatusAttribute()
     {
+        if ($this->attributes['status'] === (new FaturadoStatus())->getStatus()) {
+            $data = \Carbon\Carbon::parse($this->attributes['prazo_rastreio']);
+            if ($data->isPast() && $this->attributes['prazo_rastreio']) {
+                $newStatus = (new AguardandoRastreio())->getStatus();
+                $this->newQuery()->find($this->attributes['id'])->update(['status' => $newStatus]);
+                return $newStatus;
+            }
+            return $this->attributes['status'];
+        }
+
         if (empty($this->attributes['pagamento_vencimento_data'] ?? null)) return $this->attributes['status'];;
 
         $data = \Carbon\Carbon::parse($this->attributes['pagamento_vencimento_data']);
@@ -344,13 +356,6 @@ class Pedidos extends Model
         } catch (QueryException $exception) {
             throw new \DomainException('Valor inválido');
         }
-    }
-
-    public function updatePrazo(int $id, int $prazo)
-    {
-        $this->newQuery()
-            ->find($id)
-            ->update(['prazo' => $prazo]);
     }
 
     public function getIdConsultor($id)

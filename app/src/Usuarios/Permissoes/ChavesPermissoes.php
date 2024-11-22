@@ -445,4 +445,9 @@ class ChavesPermissoes
     {
         return '88';
     }
+
+    public function chavePedidosStatusAguardandoRastreio()
+    {
+        return '89';
+    }
 }

@@ -4,7 +4,7 @@ import Layout from "@/Layouts/Layout";
 import React from 'react';
 import {useForm} from '@inertiajs/react';
 
-import {TextField, Typography} from "@mui/material";
+import {Button, TextField, Typography} from "@mui/material";
 import ImagePdf from "@/Components/Elementos/ImagePdf";
 import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
@@ -15,32 +15,19 @@ import CardTitle from "@/Components/Cards/CardTitle.jsx";
 import {Download, FileText} from "react-bootstrap-icons";
 
 export default function Create({pedido}) {
-    const getCurrentDate = () => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, '0'); // Meses são de 0-11
-        const day = String(today.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    };
-
     const {data, setData, progress} = useForm({
-        file_nota_fiscal: '',
-        prazo: '',
-        nota_numero: '',
-        nota_data: getCurrentDate()
+        file_nota_fiscal: '', prazo: '', nota_numero: '', nota_data: ''
     });
 
     function submit(e) {
         e.preventDefault()
         router.post(route('admin.aguardando-faturamento.update', pedido.pedido.id), {
-            _method: 'put',
-            ...data
+            _method: 'put', ...data
         })
     }
 
-    return (
-        <Layout container voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})} titlePage="Pedido Aguardando Faturamento"
-                menu="pedidos" submenu="pedidos-lista">
+    return (<Layout voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})} titlePage="Pedido Aguardando Faturamento"
+                    menu="pedidos" submenu="pedidos-lista">
 
             <CardContainer>
                 <CardBody>
@@ -79,39 +66,50 @@ export default function Create({pedido}) {
                     <form onSubmit={submit}>
                         <div className="row mb-4">
                             <div className="col-md-6">
-                                <TextField label="N. Nota" fullWidth required
-                                           onChange={e => setData('n_nota', e.target.value)}/>
-                            </div>
-                        </div>
-                        <div className="row mb-4">
-                            <div className="col-md-6">
-                                <TextField type="date" label="Data da Nota" fullWidth required InputLabelProps={{shrink: true}}
-                                           defaultValue={data.nota_data}
-                                           onChange={e => setData('nota_data', e.target.value)}/>
+                                <TextField
+                                    label="N. Nota"
+                                    fullWidth
+                                    required
+                                    onChange={e => setData('n_nota', e.target.value)}/>
                             </div>
                         </div>
                         <div className="row mb-4">
                             <div className="col-md-6">
                                 <TextField
-                                    label="Nota Fiscal" focused
-                                    fullWidth required type="file"
+                                    type="date"
+                                    label="Data da Nota"
+                                    fullWidth
+                                    required
+                                    InputLabelProps={{shrink: true}}
+                                    onChange={e => setData('nota_data', e.target.value)}/>
+                            </div>
+                        </div>
+                        <div className="row mb-4">
+                            <div className="col-md-6">
+                                <TextField
+                                    label="Nota Fiscal"
+                                    focused
+                                    fullWidth
+                                    required
+                                    type="file"
                                     onChange={e => setData('file_nota_fiscal', e.target.files[0])}>
                                 </TextField>
                             </div>
                         </div>
                         <div className="row mb-4">
                             <div className="col-md-6">
-                                <TextField label="Prazo Entrega" type="number" required
-                                           onChange={e => setData('prazo', e.target.value)}></TextField>
+                                <TextField
+                                    label="Prazo para Verificar Rastreio"
+                                    type="date"
+                                    fullWidth
+                                    required
+                                    InputLabelProps={{shrink: true}}
+                                    onChange={e => setData('prazo_rastreio', e.target.value)}/>
                             </div>
                         </div>
-                        <button className="btn btn-success mt-4" type='submit' color="primary">
-                            Enviar
-                        </button>
+                        <Button type='submit' color="success">Enviar</Button>
                     </form>
                 </CardBody>
             </CardContainer>
-
-        </Layout>
-    )
+        </Layout>)
 }

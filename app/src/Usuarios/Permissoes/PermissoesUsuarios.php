@@ -31,6 +31,7 @@ class PermissoesUsuarios extends ChavesPermissoes
                     ['id' => $this->chavePedidosStatusFaturado(), 'nome' => 'Faturado'],
                     ['id' => $this->chavePedidosStatusFaturadoVista(), 'nome' => 'Faturado Vista'],
                     ['id' => $this->chavePedidosStatusFaturadoPrazo(), 'nome' => 'Faturado Prazo'],
+                    ['id' => $this->chavePedidosStatusAguardandoRastreio(), 'nome' => 'Aguardando Rastreio'],
                     ['id' => $this->chavePedidosStatusAcompanhamento(), 'nome' => 'Acompanhamento'],
                     ['id' => $this->chavePedidosStatusEntregue(), 'nome' => 'Entregue'],
                     ['id' => $this->chavePedidosStatusCancelados(), 'nome' => 'Cancelados'],

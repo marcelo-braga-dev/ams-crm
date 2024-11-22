@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pedido_id');
             $table->unsignedBigInteger('user_id');
             $table->string('status', 32);
-            $table->integer('prazo');
+            $table->integer('prazo')->nullable();
             $table->string('obs')->nullable();
             $table->timestamps();
 

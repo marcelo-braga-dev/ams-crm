@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pedido extends Model
 {
+    protected $fillable = ['prazo_rastreio'];
+
     protected $hidden = ['user_id', 'created_at', 'updated_at'];
 
     protected $with = ['consultor'];

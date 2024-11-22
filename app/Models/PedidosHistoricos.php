@@ -21,7 +21,7 @@ class PedidosHistoricos extends Model
         'obs'
     ];
 
-    function create(int $id, string $status, int $prazo, ?string $obs)
+    function create(int $id, string $status, ?int $prazo, ?string $obs)
     {
         $this->newQuery()
             ->create([

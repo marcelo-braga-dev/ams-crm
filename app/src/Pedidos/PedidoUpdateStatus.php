@@ -10,6 +10,7 @@ use App\Models\PedidosFaturados;
 use App\Models\PedidosFaturamentos;
 use App\Models\PedidosImagens;
 use App\Models\PedidosProdutos;
+use App\Services\Pedido\Valores\PrazoRastreioPedidoService;
 use App\src\Pedidos\Arquivos\ArquivosPedido;
 use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
@@ -42,7 +43,7 @@ class PedidoUpdateStatus
         (new PedidosFaturados())->create($id, $request);
         (new PedidosImagens())->updateNotaFiscal($id, $request);
         (new FaturadoStatus())->updateStatus($id, null, $request->prazo);
-        (new Pedidos())->updatePrazo($id, $request->prazo);
+        (new PrazoRastreioPedidoService())->atualizar($id, $request->prazo_rastreio);
 
         (new PedidosFaturamentos())->create($id);
     }

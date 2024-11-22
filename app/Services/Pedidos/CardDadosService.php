@@ -7,6 +7,7 @@ use App\src\Pedidos\Status\AcompanhamentoStatus;
 use App\src\Pedidos\Status\AguardandoFaturamentoStatus;
 use App\src\Pedidos\Status\AguardandoNotaStatus;
 use App\src\Pedidos\Status\AguardandoPagamentoStatus;
+use App\src\Pedidos\Status\AguardandoRastreio;
 use App\src\Pedidos\Status\CanceladoStatus;
 use App\src\Pedidos\Status\ConferenciaStatusPedido;
 use App\src\Pedidos\Status\EncomendaStatus;
@@ -37,6 +38,7 @@ class CardDadosService
             'entregue' => EntregueStatus::class,
             'cancelado' => CanceladoStatus::class,
             'encomenda' => EncomendaStatus::class,
+            'aguardando_rastreio' => AguardandoRastreio::class,
         ];
 
         $dados = (new Pedidos())->getPedidos($id, $setorAtual, $fornecedorAtual, $leadCnpj, $usuario);

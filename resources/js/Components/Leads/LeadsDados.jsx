@@ -1,16 +1,13 @@
 import {Avatar, Button, Grid, Stack, TextField, Typography} from "@mui/material";
-import Switch from "@/Components/Inputs/Switch";
 import {useMemo, useState} from "react";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
-import {Chat, Dash, Envelope, Person, Plus, Telephone, TelephoneFill, Whatsapp} from "react-bootstrap-icons";
+import {Chat, Dash, Envelope, Person, Plus, Telephone} from "react-bootstrap-icons";
 import * as React from "react";
 import CampoTexto from "@/Components/CampoTexto.jsx";
 import Chip from "@mui/material/Chip";
-import OpenIflameChatWhatsapp from '@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflameChatWhatsapp.jsx';
 import {TbEdit} from "react-icons/tb";
-import Text from "@/Components/Elementos/Text.jsx";
 import Paper from "@mui/material/Paper";
 
 export default function LeadsDados({dados, acoes}) {
@@ -122,7 +119,7 @@ export default function LeadsDados({dados, acoes}) {
                                         multiline
                                         minRows={3}
                                     />
-                                    <Button color="success" sx={{marginTop: 1}}>Enviar Solicitação</Button>
+                                    <Button color="success" sx={{marginTop: 1}} onClick={() => setEditarLead(false)}>Enviar Solicitação</Button>
                                 </Grid>
                             </Grid>
                         </CardBody>
@@ -162,8 +159,8 @@ export default function LeadsDados({dados, acoes}) {
                 <Stack direction="row" spacing={2}>
                     <Typography fontWeight="bold">Consultor em Atendimento(a):</Typography>
                     <Stack direction="row" spacing={1} alignItems="center">
-                    <Avatar src={dados?.vendedor?.avatar} sx={{width: 25, height: 25}}/>
-                    <Typography>{dados?.vendedor?.nome ?? 'Nenhum Consultor(a)'}</Typography>
+                        <Avatar src={dados?.vendedor?.avatar} sx={{width: 25, height: 25}}/>
+                        <Typography>{dados?.vendedor?.nome ?? 'Nenhum Consultor(a)'}</Typography>
                     </Stack>
                 </Stack>
             </CardBody>

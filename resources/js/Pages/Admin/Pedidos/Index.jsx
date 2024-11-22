@@ -24,6 +24,19 @@ import avancarStatus from "@/Pages/Admin/Pedidos/Cards/AvancarStatus.jsx";
 import {Stack, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 
+const Head = ({nome, corAba, qtdPedidos, valorTotal, index}) => {
+    return (
+        <th id={`th-${index}`} className="sticky-top">
+            <div style={{backgroundColor: corAba, width: 310}}
+                 className='row justify-content-between rounded-top text-white mx-1 p-2'>
+                <div className='col-auto'>{nome}</div>
+                <div className='col-auto'>Qdt: {qtdPedidos}</div>
+                <small className="d-block text-end">R$ {valorTotal}</small>
+            </div>
+        </th>
+    )
+}
+
 export default function Pedidos({fornecedores, usuarios, setores, permissoesStatus, coresAbas, goCard}) {
     const [pedidos, setPedidos] = useState()
     const [modelo, setModelo] = useState()
@@ -81,7 +94,6 @@ export default function Pedidos({fornecedores, usuarios, setores, permissoesStat
 
     return (
         <Layout titlePage="Quadro de Pedidos" menu="pedidos" submenu="pedidos-lista" empty>
-
             <div className="row justify-content-between mb-4">
                 <div className="col-md-7">
                     <div className="row">
@@ -147,139 +159,76 @@ export default function Pedidos({fornecedores, usuarios, setores, permissoesStat
                         <table id="table-cards" className="mx-1" ref={scrollRef}>
                             <thead>
                             <tr>
-                                {permissoesStatus.some(item => item === 'revisar') && <th id="th-1" style={{minWidth: 300}} className="sticky-top ps-2">
-                                    <div style={{backgroundColor: coresAbas.reprovado}}
-                                         className='row justify-content-between rounded-top text-white me-1 p-2'>
-                                        <div className='col-auto'>Reprovados</div>
-                                        <div className='col-auto'>Qdt: {pedidos.reprovado.length}</div>
-                                        <small className="d-block text-end">R$ {totalPedidos('reprovado')}</small>
-                                    </div>
-                                </th>}
+                                {permissoesStatus.some(item => item === 'revisar') && (
+                                    <Head nome="Reprovados" corAba={coresAbas.reprovado} index={1} qtdPedidos={pedidos.reprovado.length}
+                                          valorTotal={totalPedidos('reprovado')}/>
+                                )}
                                 {permissoesStatus.some(item => item === 'vencido') &&
-                                    <th id="th-2" style={{minWidth: 300}} className="sticky-top">
-                                        <div style={{backgroundColor: 'purple'}}
-                                             className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Vencido</div>
-                                            <div className='col-auto'>Qdt: {pedidos.vencido.length}</div>
-                                            <small className="d-block text-end">R$ {totalPedidos('vencido')}</small>
-                                        </div>
-                                    </th>}
+                                    <Head nome="Vencido" corAba="purple" index={2} qtdPedidos={pedidos.vencido.length} valorTotal={totalPedidos('vencido')}/>
+                                }
                                 {permissoesStatus.some(item => item === 'encomenda') && modelo2 &&
-                                    <th id="th-2" style={{minWidth: 300}} className="sticky-top">
-                                        <div style={{backgroundColor: coresAbas.encomenda}}
-                                             className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Encomenda</div>
-                                            <div className='col-auto'>Qdt: {pedidos.encomenda.length}</div>
-                                            <small className="d-block text-end">R$ {totalPedidos('encomenda')}</small>
-                                        </div>
-                                    </th>}
-                                {permissoesStatus.some(item => item === 'conferencia') && <th id="th-3" style={{minWidth: 300}} className="sticky-top">
-                                    <div style={{backgroundColor: coresAbas.conferencia}}
-                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                        <div className='col-auto'>Conferência</div>
-                                        <div className='col-auto'>Qdt: {pedidos.conferencia.length}</div>
-                                        <small className="d-block text-end">R$ {totalPedidos('conferencia')}</small>
-                                    </div>
-                                </th>}
-                                {permissoesStatus.some(item => item === 'lancado') && <th id="th-4" style={{minWidth: 300}} className="sticky-top">
-                                    <div style={{backgroundColor: coresAbas.lancado}}
-                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                        <div className='col-auto'>Lançado</div>
-                                        <div className='col-auto'>Qdt: {pedidos.lancado.length}</div>
-                                        <small className="d-block text-end">R$ {totalPedidos('lancado')}</small>
-                                    </div>
-                                </th>}
+                                    <Head nome="Encomenda" corAba={coresAbas.encomenda} index={3} qtdPedidos={pedidos.encomenda.length}
+                                          valorTotal={totalPedidos('encomenda')}/>
+                                }
+                                {permissoesStatus.some(item => item === 'conferencia') && (
+                                    <Head nome="Conferência" corAba={coresAbas.conferencia} index={4} qtdPedidos={pedidos.conferencia.length}
+                                          valorTotal={totalPedidos('conferencia')}/>
+                                )}
+                                {permissoesStatus.some(item => item === 'lancado') && (
+                                    <Head nome="Lançado" corAba={coresAbas.lancado} index={5} qtdPedidos={pedidos.lancado.length} valorTotal={totalPedidos('lancado')}/>
+                                )}
                                 {permissoesStatus.some(item => item === 'aguardando_nota') && modelo1 &&
-                                    <th id="th-5" style={{minWidth: 300}} className="sticky-top">
-                                        <div style={{backgroundColor: coresAbas.boleto}}
-                                             className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Aguard. Nota/Boleto</div>
-                                            <div className='col-auto'>Qdt: {pedidos.nota.length}</div>
-                                            <small className="d-block text-end">R$ {totalPedidos('nota')}</small>
-                                        </div>
-                                    </th>}
+                                    <Head nome="Aguard. Nota/Boleto" corAba={coresAbas.boleto} index={6} qtdPedidos={pedidos.nota.length}
+                                          valorTotal={totalPedidos('nota')}/>
+                                }
                                 {permissoesStatus.some(item => item === 'aguardando_pagamento') && modelo1 &&
-                                    <th id="th-6" style={{minWidth: 300}} className="sticky-top">
-                                        <div style={{backgroundColor: coresAbas.pagamento}}
-                                             className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Aguard. Pagamento</div>
-                                            <div className='col-auto'>Qdt: {pedidos.pagamento.length}</div>
-                                            <small className="d-block text-end">R$ {totalPedidos('pagamento')}</small>
-                                        </div>
-                                    </th>}
+                                    <Head nome="Aguard. Pagamento" corAba={coresAbas.pagamento} index={7} qtdPedidos={pedidos.pagamento.length}
+                                          valorTotal={totalPedidos('pagamento')}/>
+                                }
                                 {permissoesStatus.some(item => item === 'aguardando_faturamento') && modelo1 &&
-                                    <th id="th-7" style={{minWidth: 300}} className="sticky-top">
-                                        <div style={{backgroundColor: coresAbas.faturamento}}
-                                             className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Aguard. Faturamento</div>
-                                            <div className='col-auto'>Qdt: {pedidos.faturamento.length}</div>
-                                            <small className="d-block text-end">R$ {totalPedidos('faturamento')}</small>
-                                        </div>
-                                    </th>}
+                                    <Head nome="Aguard. Faturamento" corAba={coresAbas.faturamento} index={8} qtdPedidos={pedidos.faturamento.length}
+                                          valorTotal={totalPedidos('faturamento')}/>
+                                }
                                 {permissoesStatus.some(item => item === 'faturado') && modelo1 &&
-                                    <th id="th-8" style={{minWidth: 300}} className="sticky-top">
-                                        <div style={{backgroundColor: coresAbas.faturado}}
-                                             className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Faturado</div>
-                                            <div className='col-auto'>Qdt: {pedidos.faturado.length}</div>
-                                            <small className="d-block text-end">R$ {totalPedidos('faturado')}</small>
-                                        </div>
-                                    </th>}
+                                    <Head nome="Faturado" corAba={coresAbas.faturado} index={9} qtdPedidos={pedidos.faturado.length}
+                                          valorTotal={totalPedidos('faturado')}/>
+                                }
                                 {permissoesStatus.some(item => item === 'faturado_vista') && modelo2 &&
-                                    <th id="th-9" style={{minWidth: 300}} className="sticky-top">
-                                        <div style={{backgroundColor: '#3B087AFF'}}
-                                             className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Faturado à Vista</div>
-                                            <div className='col-auto'>Qdt: {pedidos.faturado_vista.length}</div>
-                                            <small className="d-block text-end">R$ {totalPedidos('faturado_vista')}</small>
-                                        </div>
-                                    </th>}
+                                    <Head nome="Faturado à Vista" corAba="#3B087AFF" index={10} qtdPedidos={pedidos.faturado_vista.length}
+                                          valorTotal={totalPedidos('faturado_vista')}/>
+                                }
                                 {permissoesStatus.some(item => item === 'faturado_prazo') && modelo2 &&
-                                    <th id="th-10" style={{minWidth: 300}} className="sticky-top">
-                                        <div style={{backgroundColor: "#b81919"}}
-                                             className='row bg-pink-600 justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Faturado à Prazo</div>
-                                            <div className='col-auto'>Qdt: {pedidos.faturado_prazo.length}</div>
-                                            <small className="d-block text-end">R$ {totalPedidos('faturado_prazo')}</small>
-                                        </div>
-                                    </th>}
+                                    <Head nome="Faturado à Prazo" corAba="#B81919" index={11} qtdPedidos={pedidos.faturado_prazo.length}
+                                          valorTotal={totalPedidos('faturado_prazo')}/>
+                                }
+                                {permissoesStatus.some(item => item === 'aguardando_rastreio') && modelo1 &&
+                                    <Head nome="Aguardando Rastreio" corAba="blue" index={12} qtdPedidos={pedidos.aguardando_rastreio.length}
+                                          valorTotal={totalPedidos('aguardando_rastreio')}/>
+                                }
                                 {permissoesStatus.some(item => item === 'acompanhamento') && modelo1 &&
-                                    <th id="th-11" style={{minWidth: 300}} className="sticky-top">
-                                        <div style={{backgroundColor: coresAbas.acompanhamento}}
-                                             className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                            <div className='col-auto'>Acompanhamento</div>
-                                            <div className='col-auto'>Qdt: {pedidos.acompanhamento.length}</div>
-                                            <small className="d-block text-end">R$ {totalPedidos('acompanhamento')}</small>
-                                        </div>
-                                    </th>}
-                                {permissoesStatus.some(item => item === 'entregue') && <th id="th-12" style={{minWidth: 300}} className="sticky-top">
-                                    <div style={{backgroundColor: coresAbas.entregue}}
-                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                        <div className='col-auto'>Entregue</div>
-                                        <div className='col-auto'>Qdt: {pedidos.entregue.length}</div>
-                                        <small className="d-block text-end">R$ {totalPedidos('entregue')}</small>
-                                    </div>
-                                </th>}
-                                {permissoesStatus.some(item => item === 'cancelado') && <th id="th-13" style={{minWidth: 300}} className="sticky-top">
-                                    <div style={{backgroundColor: coresAbas.cancelados}}
-                                         className='row justify-content-between rounded-top text-white mx-1 p-2'>
-                                        <div className='col-auto'>Cancelados</div>
-                                        <div className='col-auto'>Qdt: {pedidos.cancelado.length}</div>
-                                        <small className="d-block text-end">-</small>
-                                    </div>
-                                </th>}
+                                    <Head nome="Acompanhamento" corAba={coresAbas.acompanhamento} index={13} qtdPedidos={pedidos.acompanhamento.length}
+                                          valorTotal={totalPedidos('acompanhamento')}/>
+                                }
+                                {permissoesStatus.some(item => item === 'entregue') && (
+                                    <Head nome="Entregue" corAba={coresAbas.entregue} index={14} qtdPedidos={pedidos.entregue.length}
+                                          valorTotal={totalPedidos('entregue')}/>
+                                )}
+                                {permissoesStatus.some(item => item === 'cancelado') &&
+                                    <Head nome="Cancelados" corAba={coresAbas.cancelados} index={15} qtdPedidos={pedidos.cancelado.length}
+                                          valorTotal={totalPedidos('cancelado')}/>
+                                }
                             </tr>
                             </thead>
                             <tbody>
                             <tr className="align-top">
-                                {permissoesStatus.some(item => item === 'revisar') && <td id="td-1" style={{minWidth: 300}}>
+                                {permissoesStatus.some(item => item === 'revisar') && <td id="td-1">
                                     {pedidos.reprovado.map((dados) => {
                                         return <CardPedidos key={dados.id} dados={dados} status="reprovado" cor={coresAbas.reprovado}
                                                             permissoesStatus={permissoesStatus}/>
                                     })}
                                 </td>}
                                 {permissoesStatus.some(item => item === 'vencido') &&
-                                    <td id="td-2" style={{minWidth: 300}}>
+                                    <td id="td-2">
                                         {pedidos.vencido.map((dados) => {
                                             return <CardPedidos key={dados.id} dados={dados} status="vencido" cor="purple"
                                                                 permissoesStatus={permissoesStatus}/>
@@ -287,76 +236,83 @@ export default function Pedidos({fornecedores, usuarios, setores, permissoesStat
                                     </td>
                                 }
                                 {permissoesStatus.some(item => item === 'encomenda') && modelo2 &&
-                                    <td id="td-2" style={{minWidth: 300}}>
+                                    <td id="td-3">
                                         {pedidos.encomenda.map((dados) => {
                                             return <CardPedidos key={dados.id} dados={dados} status="encomenda" cor={coresAbas.encomenda}
                                                                 permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>
                                 }
-                                {permissoesStatus.some(item => item === 'conferencia') && <td id="td-3" style={{minWidth: 300}}>
+                                {permissoesStatus.some(item => item === 'conferencia') && <td id="td-4">
                                     {pedidos.conferencia.map((dados) =>
                                         <CardPedidos key={dados.id} status="conferencia" dados={dados} cor={coresAbas.conferencia} permissoesStatus={permissoesStatus}/>
                                     )}
                                 </td>}
-                                {permissoesStatus.some(item => item === 'lancado') && <td id="td-4" style={{minWidth: 300}}>
+                                {permissoesStatus.some(item => item === 'lancado') && <td id="td-5">
                                     {pedidos.lancado.map((dados) => {
                                         return <CardPedidos key={dados.id} status="lancado" dados={dados} cor={coresAbas.lancado} permissoesStatus={permissoesStatus}/>
                                     })}
                                 </td>}
                                 {permissoesStatus.some(item => item === 'aguardando_nota') && modelo1 &&
-                                    <td id="td-5" style={{minWidth: 300}}>
+                                    <td id="td-6">
                                         {pedidos.nota.map((dados) => {
                                             return <CardPedidos key={dados.id} dados={dados} status="nota" cor={coresAbas.boleto} permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 {permissoesStatus.some(item => item === 'aguardando_pagamento') && modelo1 &&
-                                    <td id="td-6" style={{minWidth: 300}}>
+                                    <td id="td-7">
                                         {pedidos.pagamento.map((dados) => {
                                             return <CardPedidos key={dados.id} dados={dados} status="pagamento" cor={coresAbas.pagamento}
                                                                 permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 {permissoesStatus.some(item => item === 'aguardando_faturamento') && modelo1 &&
-                                    <td id="td-7" style={{minWidth: 300}}>
+                                    <td id="td-8">
                                         {pedidos.faturamento.map((dados) => {
                                             return <CardPedidos key={dados.id} dados={dados} status="faturamento" cor={coresAbas.faturamento}
                                                                 permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 {permissoesStatus.some(item => item === 'faturado') && modelo1 &&
-                                    <td id="td-8" style={{minWidth: 300}}>
+                                    <td id="td-9">
                                         {pedidos.faturado.map((dados) => {
                                             return <CardPedidos key={dados.id} dados={dados} status="faturado" cor={coresAbas.faturado}
                                                                 permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
                                 {permissoesStatus.some(item => item === 'faturado_vista') && modelo2 &&
-                                    <td id="td-9" style={{minWidth: 300}}>
+                                    <td id="td-10">
                                         {pedidos.faturado_vista.map((dados) => {
                                             return (
                                                 <CardPedidos key={dados.id} dados={dados} status="faturado_vista" cor={"#3B087A"} permissoesStatus={permissoesStatus}/>)
                                         })}
                                     </td>}
                                 {permissoesStatus.some(item => item === 'faturado_prazo') && modelo2 &&
-                                    <td id="td-10" style={{minWidth: 300}}>
+                                    <td id="td-11">
                                         {pedidos.faturado_prazo.map((dados) => {
                                             return <CardPedidos key={dados.id} dados={dados} status="faturado_prazo" cor={'#b81919'} permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
+                                {permissoesStatus.some(item => item === 'aguardando_rastreio') && modelo1 &&
+                                    <td id="td-12">
+                                        {pedidos.aguardando_rastreio.map((dados) => {
+                                            return <CardPedidos key={dados.id} dados={dados} status="aguardando_rastreio" cor="blue"
+                                                                permissoesStatus={permissoesStatus}/>
+                                        })}
+                                    </td>}
                                 {permissoesStatus.some(item => item === 'acompanhamento') && modelo1 &&
-                                    <td id="td-11" style={{minWidth: 300}}>
+                                    <td id="td-13">
                                         {pedidos.acompanhamento.map((dados) => {
                                             return <CardPedidos key={dados.id} dados={dados} status="acompanhamento" cor={coresAbas.acompanhamento}
                                                                 permissoesStatus={permissoesStatus}/>
                                         })}
                                     </td>}
-                                {permissoesStatus.some(item => item === 'entregue') && <td id="td-12" style={{minWidth: 300}}>
+                                {permissoesStatus.some(item => item === 'entregue') && <td id="td-14">
                                     {pedidos.entregue.map((dados) => {
                                         return <CardPedidos key={dados.id} dados={dados} status="entregue" cor={coresAbas.entregue} permissoesStatus={permissoesStatus}/>
                                     })}
                                 </td>}
-                                {permissoesStatus.some(item => item === 'cancelado') && <td id="td-13" style={{minWidth: 300}}>
+                                {permissoesStatus.some(item => item === 'cancelado') && <td id="td-15">
                                     {pedidos.cancelado.map((dados) => {
                                         return <CardPedidos key={dados.id} dados={dados} status="cancelado" cor={coresAbas.cancelados}
                                                             permissoesStatus={permissoesStatus}/>
