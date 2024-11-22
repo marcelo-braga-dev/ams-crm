@@ -64,6 +64,7 @@ class Pedidos extends Model
     protected function getStatusAttribute()
     {
         if ($this->attributes['status'] === (new FaturadoStatus())->getStatus()) {
+            if (empty($this->attributes['prazo_rastreio'] ?? null)) return $this->attributes['status'];
             $data = \Carbon\Carbon::parse($this->attributes['prazo_rastreio']);
             if ($data->isPast() && $this->attributes['prazo_rastreio']) {
                 $newStatus = (new AguardandoRastreio())->getStatus();
@@ -73,7 +74,7 @@ class Pedidos extends Model
             return $this->attributes['status'];
         }
 
-        if (empty($this->attributes['pagamento_vencimento_data'] ?? null)) return $this->attributes['status'];;
+        if (empty($this->attributes['pagamento_vencimento_data'] ?? null)) return $this->attributes['status'];
 
         $data = \Carbon\Carbon::parse($this->attributes['pagamento_vencimento_data']);
         $statusAtual = $this->attributes['status'];
