@@ -1,9 +1,9 @@
-import { Badge, Menu } from '@mui/material';
+import {Badge, Menu} from '@mui/material';
 import * as React from 'react';
-import { TbBrandWhatsapp } from 'react-icons/tb';
+import {TbBrandWhatsapp} from 'react-icons/tb';
 import ItemsMenuSuspense from '@/Components/Chats/Whatsapp/ChatWhatsapp/MenuSuspense/ItemsMenuSuspense.jsx';
 
-const ButtonWhatsapp = ({ telefones }) => {
+const ButtonWhatsapp = ({telefones}) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -31,8 +31,8 @@ const ButtonWhatsapp = ({ telefones }) => {
                    horizontal: 'right',
                }}>
             {indices.length > 0
-                ? <TbBrandWhatsapp size={24} cursor="pointer" color="green" onClick={handleClick} />
-                : <TbBrandWhatsapp size={24} cursor="pointer" color="gray" onClick={handleClick} />}
+                ? <TbBrandWhatsapp size={24} cursor="pointer" color="green" onClick={handleClick}/>
+                : <TbBrandWhatsapp size={24} cursor="pointer" color="gray" onClick={handleClick}/>}
         </Badge>
 
         <Menu
@@ -44,7 +44,7 @@ const ButtonWhatsapp = ({ telefones }) => {
                 'aria-labelledby': 'basic-button',
             }}
         >
-            {telefones.map(numero => <ItemsMenuSuspense key={numero.id} value={numero} />)}
+            {telefones.map(numero => <ItemsMenuSuspense key={numero.id} value={numero}/>)}
         </Menu>
     </>);
 };

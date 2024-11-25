@@ -45,8 +45,6 @@ class FunilVendasKanbanController extends Controller
         $usuarios = (new User())->subordinados();
         $setores = (new Setores())->setores();
 
-//        $registros = (new Leads)->cards($setor, $usuario);//
-
         $cards = (new LeadFunilVendasService())->getLeadsGroupedByStatus($setor, $usuario);
 
         return response()->json(compact('cards', 'usuarios', 'setores', 'colunas'));

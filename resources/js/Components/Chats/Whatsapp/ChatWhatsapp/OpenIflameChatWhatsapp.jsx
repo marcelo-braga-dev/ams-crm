@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {IconButton, Typography} from '@mui/material';
+import {Avatar, IconButton, Stack, Typography} from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import {useWhatsapp} from '@/Hooks/useWhatsapp.jsx';
 import fetchRequisicao from '@/Components/Chats/Whatsapp/ChatWhatsapp/utils/requisicao.js';
@@ -11,7 +11,7 @@ import {Whatsapp} from 'react-bootstrap-icons';
 import getNameContactLead from "@/Utils/GetNameContactLead.js";
 import updateLeadContactService from "@/Services/Whatsapp/UpdateLeadContactService.jsx";
 
-const OpenIflameChatWhatsapp = ({numero, status, telefone, leadId, telefoneId, icone}) => {
+const OpenIflameChatWhatsapp = ({dados, icone}) => {
     const [chatId, setChatId] = useState();
     const [openIflame, setOpenIflame] = useState(false);
     const [isPrimeiraMensagem, setIsPrimeiraMensagem] = useState(false);
@@ -19,18 +19,17 @@ const OpenIflameChatWhatsapp = ({numero, status, telefone, leadId, telefoneId, i
     const {handleAtualizar} = useFunilVendas();
     const {urlFrontend, urlBackend, apiKey, credenciaisUsuario} = useWhatsapp();
 
-    const URL_DO_WHATICKET = `${urlFrontend}/chat/${chatId}`;
-
+    const urlWhaticket = `${urlFrontend}/chat/${chatId}`;
+    console.log(dados)
     const fetch = async () => {
         try {
-            const leadName = await getNameContactLead(leadId)
+            const leadName = await getNameContactLead(dados.lead_id)
 
-            const contact = await fetchRequisicao(urlBackend, apiKey, numero, credenciaisUsuario, leadName);
-            await updateLeadContactService(telefoneId, contact)
+            const contact = await fetchRequisicao(urlBackend, apiKey, dados.numero, credenciaisUsuario, leadName);
+            await updateLeadContactService(dados.id, contact)
 
             setChatId(contact?.data?.data?.id);
         } catch (error) {
-            console.log('ATUALIZAR CARDS')
             handleAtualizar()
             AlertError(error.message);
         }
@@ -56,8 +55,8 @@ const OpenIflameChatWhatsapp = ({numero, status, telefone, leadId, telefoneId, i
     // Listener para receber mensagens do iframe
     useEffect(() => {
         const handleMessage = (event) => {
-            if (event.data.type === 'messageSent' && isPrimeiraMensagem && leadId) {
-                saveMessageToDatabase(leadId, telefoneId);
+            if (event.data.type === 'messageSent' && isPrimeiraMensagem && dados.lead_id) {
+                saveMessageToDatabase(dados.lead_id, dados.id);
             }
         };
 
@@ -65,7 +64,7 @@ const OpenIflameChatWhatsapp = ({numero, status, telefone, leadId, telefoneId, i
         return () => {
             window.removeEventListener('message', handleMessage);
         };
-    }, [isPrimeiraMensagem, numero]);
+    }, [isPrimeiraMensagem, dados.numero]);
 
     const saveMessageToDatabase = async (leadId, telefoneId) => {
         try {
@@ -90,11 +89,14 @@ const OpenIflameChatWhatsapp = ({numero, status, telefone, leadId, telefoneId, i
                     <Whatsapp size={18} color="green"/>
                 </IconButton>
             ) : (
-                <MenuItem disabled={status === 0} onClick={fetch}>
-                    <Typography>{telefone}</Typography>
+                <MenuItem disabled={dados.status_whatsapp === 0} onClick={fetch}>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        {dados.whatsapp_picture && <Avatar src={dados.whatsapp_picture} sx={{width: 25, height: 25}}/>}
+                        <Typography>{dados.telefone}</Typography>
+                    </Stack>
                 </MenuItem>
             )}
-            <DialogIflame openIflame={openIflame} handleClose={handleClose} urlFrontend={URL_DO_WHATICKET} noDialogLead/>
+            <DialogIflame openIflame={openIflame} handleClose={handleClose} urlFrontend={urlWhaticket} noDialogLead/>
         </>
     );
 };

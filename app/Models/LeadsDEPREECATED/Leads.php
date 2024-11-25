@@ -92,7 +92,7 @@ class Leads extends Model
     public function telefones()
     {
         return $this->hasMany(LeadTelefones::class, 'lead_id')
-            ->select(['id', 'lead_id', 'numero', 'status_whatsapp', 'status_telefone']);
+            ->select(['id', 'lead_id', 'numero', 'status_whatsapp', 'status_telefone', 'whatsapp_id', 'whatsapp_picture']);
     }
 
     public function consultor()
