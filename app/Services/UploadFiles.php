@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
-
-;
+use Illuminate\Support\Str;
 
 class UploadFiles
 {
@@ -13,6 +11,7 @@ class UploadFiles
         if (is_file($file) && $file->isValid()) {
 
             $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $originalName = Str::slug($originalName);
             $extension = $file->getClientOriginalExtension();
 
             $fileName = $originalName . '_' . uniqid() . '.' . $extension;
