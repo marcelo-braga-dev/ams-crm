@@ -4,7 +4,7 @@ import {usePage} from "@inertiajs/react";
 
 import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import TruckIcon from '@mui/icons-material/LocalShippingOutlined';
-import {Alarm, CalendarEvent, Coin, Pen, PersonFill, PinAngle, PinAngleFill, Shop, Wallet2} from "react-bootstrap-icons";
+import {Alarm, BoxSeam, CalendarEvent, Coin, Pen, PersonFill, PinAngle, PinAngleFill, Shop, Wallet2} from "react-bootstrap-icons";
 import {Typography} from "@mui/material";
 import convertFloatToMoney from "@/Helpers/converterDataHorario";
 
@@ -64,6 +64,10 @@ export default function CardPedidos({dados, menuMore, btnAvancaStatus, alerts, b
                     {dados.integrador && <tr>
                         <td className="col-1 px-2"><Shop size="15" sx={{fontSize: 20}}/></td>
                         <td><Typography>{dados.integrador.toUpperCase()}</Typography></td>
+                    </tr>}
+                    {dados.prazos.rastreio_data && <tr>
+                        <td className="col-1 px-2"><BoxSeam size="15" sx={{fontSize: 20}}/></td>
+                        <td><Typography>{dados.prazos.rastreio_data}</Typography></td>
                     </tr>}
                     </tbody>
                 </table>

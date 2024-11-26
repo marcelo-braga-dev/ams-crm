@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pedido extends Model
 {
-    protected $fillable = ['prazo_rastreio'];
+    protected $fillable = ['prazo_rastreio', 'rastreio_data'];
 
     protected $hidden = ['user_id', 'created_at', 'updated_at'];
 

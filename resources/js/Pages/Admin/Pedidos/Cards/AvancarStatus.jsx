@@ -57,6 +57,8 @@ const avancarStatus = (id, status, situacao) => {
             return btnStatusPadrao(route('admin.faturado.show', id))
         case 'faturado_prazo':
             return btnStatusPadrao(route('admin.faturado.show', id))
+        case 'aguardando_rastreio':
+            return btnStatusPadrao(route('admin.aguardando-rastreio.show', id))
         case 'acompanhamento':
             return btnStatusPadrao(route('admin.acompanhamento.show', id))
         case 'entregue':

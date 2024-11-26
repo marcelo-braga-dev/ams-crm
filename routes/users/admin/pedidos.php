@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\Pedidos\Modelo1\AcompanhamentoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoFaturamentoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoNotaController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoPagamentoController;
+use App\Http\Controllers\Admin\Pedidos\Modelo1\AguardandoRastreioController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\CanceladoController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\ConferenciaController;
 use App\Http\Controllers\Admin\Pedidos\Modelo1\EncomendaController;
@@ -40,6 +41,7 @@ Route::name('admin.')
         Route::resource('aguardando-pagamento', AguardandoPagamentoController::class);
         Route::resource('aguardando-faturamento', AguardandoFaturamentoController::class);
         Route::resource('faturado', FaturadoController::class);
+        Route::resource('aguardando-rastreio', AguardandoRastreioController::class);
         Route::resource('acompanhamento', AcompanhamentoController::class);
         Route::resource('entregue', EntregueController::class);
         Route::resource('cancelado', CanceladoController::class);

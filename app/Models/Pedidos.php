@@ -440,7 +440,7 @@ class Pedidos extends Model
         $query->select(DB::raw("
             pedidos.*, CASE WHEN pins.user_id = " . $usuarioAtual . " THEN TRUE ELSE FALSE END as pin,
             users.name as consultor_nome, leads.nome as lead_nome,leads.razao_social as lead_razao_social, pedidos_clientes.nome as cliente_nome, pedidos_clientes.razao_social as cliente_razao_social,
-            produtos_fornecedores.nome as fornecedor, setores.nome as setor_nome, setores.cor as setor_cor
+            produtos_fornecedores.nome as fornecedor, setores.nome as setor_nome, setores.cor as setor_cor, rastreio_data
         "));
 
         return $query->get()
@@ -465,7 +465,8 @@ class Pedidos extends Model
                     'prazos' => [
                         'data_status' => date('d/m/y H:i', strtotime($pedido->status_data)),
                         'data_prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),
-                        'prazo_atrasado' => false//diferenca que falta para o prazo estourar
+                        'prazo_atrasado' => false,//diferenca que falta para o prazo estourar
+                        'rastreio_data' => $pedido->rastreio_data ? date('d/m/Y', strtotime($pedido->rastreio_data)) : null
                     ],
                     'infos' => [
                         'situacao' => $pedido->situacao,

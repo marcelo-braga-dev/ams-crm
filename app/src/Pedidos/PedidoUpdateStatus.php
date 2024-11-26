@@ -2,14 +2,10 @@
 
 namespace App\src\Pedidos;
 
-use App\Models\Comissoes;
-use App\Models\MetasVendas;
 use App\Models\Pedidos;
-use App\Models\PedidosArquivos;
 use App\Models\PedidosFaturados;
 use App\Models\PedidosFaturamentos;
 use App\Models\PedidosImagens;
-use App\Models\PedidosProdutos;
 use App\Services\Pedido\Valores\PrazoRastreioPedidoService;
 use App\src\Pedidos\Arquivos\ArquivosPedido;
 use App\src\Pedidos\Status\AcompanhamentoStatus;
@@ -80,9 +76,12 @@ class PedidoUpdateStatus
         (new AguardandoFaturamentoStatus())->updateStatus($id);
     }
 
-    public function setAcompanhamento($id, $msg = null)
+    public function setAcompanhamento($id, $rastreioData = null)
     {
-        (new AcompanhamentoStatus())->updateStatus($id, $msg);
+        (new AcompanhamentoStatus())->updateStatus($id, null);
+
+        \App\Models\Pedido\Pedido::find($id)
+            ->update(['rastreio_data' => $rastreioData]);
     }
 
     public function setAguardandoPagamento($id, $request)
