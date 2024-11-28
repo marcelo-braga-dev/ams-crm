@@ -17,10 +17,30 @@ class LeadEndereco extends Model
         'estado'
     ];
 
-    protected $appends = ['cidade_estado'];
+    protected $appends = ['cidade_estado', 'endereco_completo'];
 
     public function getCidadeEstadoAttribute()
     {
         return ($this->attributes['cidade'] ?? '-') . '/' . ($this->attributes['estado'] ?? '-');
+    }
+
+    protected function setCepAttribute($value)
+    {
+        $this->attributes['cep'] = converterInt($value);
+    }
+
+    public function getEnderecoCompletoAttribute()
+    {
+        $enderecoCompleto = '';
+
+        if ($this->attributes['rua']) $enderecoCompleto .= 'RUA/AV: ' . $this->attributes['rua'];
+        if ($this->attributes['numero']) $enderecoCompleto .= ' | NÚMERO: ' . $this->attributes['numero'];
+        if ($this->attributes['complemento']) $enderecoCompleto .= ' | COMPLEMENTO: ' . $this->attributes['complemento'];
+        if ($this->attributes['bairro']) $enderecoCompleto .= ' | BAIRRO: ' . $this->attributes['bairro'];
+        if ($this->attributes['cidade']) $enderecoCompleto .= ' | CIDADE: ' . $this->attributes['cidade'];
+        if ($this->attributes['estado']) $enderecoCompleto .= ' | ESTADO: ' . $this->attributes['estado'];
+        if ($this->attributes['cep']) $enderecoCompleto .= ' | CEP: ' . $this->attributes['cep'];
+
+        return $enderecoCompleto;
     }
 }

@@ -61,6 +61,7 @@ export default function LeadsDados({dados, acoes}) {
         return (
             <Grid container>
                 <Grid item md={12}>
+                    {dados.endereco?.endereco_completo && <CampoTexto titulo="Endereço" texto={dados.endereco.endereco_completo}/>}
                     {dados.extras?.cnae && <CampoTexto titulo="CNAE" texto={dados.extras.cnae}/>}
                     {dados.extras?.situacao && <CampoTexto titulo="Situação" texto={`${dados.extras.situacao} ${dados.extras.data_situacao}`}/>}
                     {dados.extras?.atividade_principal && <CampoTexto titulo="Atividade Principal" texto={dados.extras.atividade_principal}/>}

@@ -3,6 +3,7 @@
 namespace App\Models\LeadsDEPREECATED;
 
 use App\Models\Enderecos;
+use App\Models\Lead\LeadEndereco;
 use App\Models\Lead\LeadStatusHistoricos;
 use App\Models\Lead\LeadTelefones;
 use App\Models\LeadsHistoricos;
@@ -224,7 +225,8 @@ class LeadsANTIGO extends Model
             $status = (new NovoStatusLeads())->getStatus();
             $verificacaoCnpj = null;
 
-            $idEndereco = (new Enderecos())->create($dados['endereco'] ?? null);
+            $endereco = (new LeadEndereco())->create($dados['endereco']);
+
             $pessoa = ($dados['pessoa'] ?? null) ? !(($dados['pessoa'] ?? null) == 'Pessoa Física') : substr($cnpj, -6, 4) == '0001';
 
             if ((($dados['nome'] ?? null) || ($dados['razao_social'] ?? null)) && count($dados['telefones'] ?? [])) {
@@ -242,7 +244,7 @@ class LeadsANTIGO extends Model
                     'importacao_id' => $importacao,
                     'atendente' => $dados['atendente'] ?? null,
                     'setor_id' => $setor,
-                    'endereco' => $idEndereco,
+                    'endereco' => $endereco->id,
                     'pessoa_juridica' => $pessoa,
                     'rg' => $dados['rg'] ?? null,
                     'cpf' => $dados['cpf'] ?? null,
@@ -514,8 +516,8 @@ class LeadsANTIGO extends Model
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
         try {
-            $lead = $this->newQuery()->find($id);
-            $idEndereco = $lead->endereco ? (new Enderecos())->updateDados($lead->endereco, $dados->get('endereco')) : (new Enderecos())->create($dados->get('endereco'));
+            (new LeadEndereco())->where('lead_id', $id)
+                ->update($dados->get('endereco'));
 
             $this->newQuery()
                 ->find($id)
@@ -528,7 +530,6 @@ class LeadsANTIGO extends Model
                     'rg' => $dados->rg,
                     'cpf' => $dados->cpf,
                     'email' => $dados->email,
-                    'endereco' => $idEndereco,
                     'data_nascimento' => $dados->nascimento,
                 ]);
 
@@ -1048,9 +1049,7 @@ class LeadsANTIGO extends Model
                 ELSE 1
             END
         ")
-            ->orderByDesc('data_encaminhado')
-            ->orderBy('status_data')
-            ->orderBy('user_id');
+            ->orderBy('status_data');
 
 // Aplicação dos filtros
         if (!empty($filtros['sdr'])) {
