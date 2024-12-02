@@ -7,9 +7,9 @@ use App\Models\Lead\LeadContatoRealizado;
 use App\Models\LeadsDEPREECATED\Leads;
 use App\Models\Setores;
 use App\Models\User;
+use App\Services\Lead\UpdateStatusLeadService;
 use App\Services\Leads\LeadFunilVendasService;
 use App\src\Leads\StatusLeads;
-use App\src\Leads\StatusLeads\ConexaoProativaStatusLead;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -30,7 +30,9 @@ class FunilVendasKanbanController extends Controller
         (new Leads())->setConatoData($leadId);
 
         $lead = (new Leads())->newQuery()->find($leadId);
-        if ($lead->status === 'novo') (new ConexaoProativaStatusLead())->updateStatus($leadId); // remover
+        if ($lead->status === 'novo' ?? $lead->status === 'oportunidade') {
+            (new UpdateStatusLeadService($leadId))->setOportunidadeStatus();
+        }
 
         (new LeadContatoRealizado())->store($leadId, $telefoneId, $origem, $meta);
     }

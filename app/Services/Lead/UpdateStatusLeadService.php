@@ -28,7 +28,7 @@ class UpdateStatusLeadService
         $leadHasPedidos = Lead::find($this->leadId)->pedidos()->exists();
 
         if ($leadHasPedidos) {
-            $this->setReativarStatus();
+            $this->setSuperOportunidadeStatus();
             return;
         }
 
@@ -55,7 +55,7 @@ class UpdateStatusLeadService
         $this->leadRepository->updateStatus($this->leadId, (new AtivoStatusLead));
     }
 
-    public function setReativarStatus()
+    public function setSuperOportunidadeStatus()
     {
         $this->leadRepository->updateStatus($this->leadId, (new SuperOporunidadeStatusLead()));
     }
