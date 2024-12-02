@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
-import {TextField, MenuItem, FormControl, FormControlLabel, Switch, Stack, Avatar, CircularProgress, Select, Box, Button} from '@mui/material';
+import {TextField, MenuItem, FormControl, FormControlLabel, Switch, Stack, Avatar, CircularProgress, Select, Box, Button, Typography} from '@mui/material';
 import {router} from '@inertiajs/react';
 
 import Layout from '@/Layouts/Layout';
@@ -107,6 +107,10 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
     };
 
     const nomeConsultorSelecionado = () => {
+        if (consultorSelecionado === '0') {
+            return <Typography>Remover o consultor(a) dos leads selecionados?</Typography>
+        }
+
         const nome = usuarios.find(i => i.id === consultorSelecionado)?.nome;
         return nome ? (
             <>
@@ -165,6 +169,8 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                                             onChange={e => setConsultorSelecionado(e.target.value)}
                                             label="Enviar Leads para..."
                                         >
+                                            <MenuItem value="0">Sem Consultor(a)</MenuItem>
+
                                             {usuarios.map((option) => (
                                                 <MenuItem key={option.id} value={option.id}>
                                                     <Box display="flex" alignItems="center">
@@ -184,11 +190,6 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                         </div>
                         <div className="col-auto">
                             <Stack direction="row" spacing={4}>
-                                <button className="btn btn-link btn-sm p-0 text-end text-dark" data-bs-toggle="modal" data-bs-target="#modalRemoverSdr">Remover SDR
-                                </button>
-                                <button className="btn btn-link btn-sm p-0 text-end text-dark" data-bs-toggle="modal" data-bs-target="#modalRemoverConsultor">Remover
-                                    Consultor(a)
-                                </button>
                                 <Trash className="mt-1 cursor-pointer" color="red" size={18} data-bs-toggle="modal" data-bs-target="#modalExcluirLeads"/>
                             </Stack>
                         </div>

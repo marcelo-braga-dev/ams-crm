@@ -13,6 +13,7 @@ class EncaminharLeadService
     public function encaminharOportunidade(array $leads, int $consultor)
     {
         $erroLeads = [];
+        $consultor = $consultor === 0 ? null : $consultor;
 
         foreach ($leads as $leadId) {
             try {
