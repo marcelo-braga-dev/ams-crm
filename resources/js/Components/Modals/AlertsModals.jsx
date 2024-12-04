@@ -22,7 +22,5 @@ export default function ModalsAllerts() {
         flash.erro = null
     }
 
-    console.log(errors)
-
     return <ToastContainer limit={2}/>
 }

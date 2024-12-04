@@ -1,8 +1,7 @@
 import IntegradorLayout from "@/Layouts/Layout";
 import React, {useState} from 'react';
-import { router } from '@inertiajs/react';
-import {Container, FormControl, FormHelperText, InputLabel, Select, TextField} from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
+import {router} from '@inertiajs/react';
+import {Container, FormControl, InputLabel, Select} from '@mui/material';
 import Typography from "@mui/material/Typography";
 import {Row, Col, Button} from 'reactstrap';
 import MenuItem from "@mui/material/MenuItem";

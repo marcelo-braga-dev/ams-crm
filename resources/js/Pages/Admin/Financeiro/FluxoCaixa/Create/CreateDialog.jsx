@@ -9,8 +9,6 @@ import CardTitle from '@/Components/Cards/CardTitle.jsx';
 import { CurrencyDollar, FileEarmarkPlus, Files, FileText, Plus } from 'react-bootstrap-icons';
 import PagamentosEntrada from '@/Pages/Admin/Financeiro/FluxoCaixa/Components/PagamentosEntrada.jsx';
 import PagamentosSaida from '@/Pages/Admin/Financeiro/FluxoCaixa/Components/PagamentosSaida.jsx';
-import { Link } from '@inertiajs/inertia-react';
-
 
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';

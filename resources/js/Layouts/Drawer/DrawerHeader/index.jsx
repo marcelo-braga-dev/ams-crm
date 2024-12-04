@@ -1,24 +1,23 @@
-// material-ui
-import {useTheme} from '@mui/material/styles';
 import AuthProvider from '@/Layouts/Contexts/Context'
 
-// project import
-import DrawerHeaderStyled from './DrawerHeaderStyled.js';
-import {ButtonBase} from '@mui/material';
-import Avatar from "@mui/material/Avatar";
+import {Box, ButtonBase} from '@mui/material';
 import {useContext} from "react";
 
 const DrawerHeader = ({open}) => {
-    const theme = useTheme();
-    const {toggleMenu, menuToggle, app_settings} = useContext(AuthProvider);
+    const {app_settings} = useContext(AuthProvider);
 
     return (
-        // only available in paid version
-        <DrawerHeaderStyled theme={theme} open={true} className="mt-2">
+        <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: 70,
+            margin: 1
+        }}>
             <ButtonBase disableRipple href="/" sx={{paddingInline: 3}}>
                 <img alt="Logo" style={{maxHeight: 70}} src={app_settings.logo}/>
             </ButtonBase>
-        </DrawerHeaderStyled>
+        </Box>
     );
 };
 

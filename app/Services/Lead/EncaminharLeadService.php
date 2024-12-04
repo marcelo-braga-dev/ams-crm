@@ -3,6 +3,7 @@
 namespace App\Services\Lead;
 
 use App\Models\Lead\LeadStatusHistoricos;
+use App\Repositories\Lead\LeadEncaminharRepository;
 use App\Services\Ferramentas\Whatsapp\UpdateUserContactWhatsappService;
 use App\Services\Lead\Revisar\AlterarConsultorService;
 use App\src\Leads\StatusLeads\OportunidadeStatusLead;
@@ -10,10 +11,10 @@ use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
 
 class EncaminharLeadService
 {
-    public function encaminharOportunidade(array $leads, int $consultor)
+    public function encaminharOportunidade(array $leads, int $consultorId)
     {
         $erroLeads = [];
-        $consultor = $consultor === 0 ? null : $consultor;
+        $consultorId = $consultorId === 0 ? null : $consultorId;
 
         foreach ($leads as $leadId) {
             try {
@@ -23,18 +24,20 @@ class EncaminharLeadService
                     ->orderByDesc('id')
                     ->value('user_id');
 
-                if ($consultor == $lastUser) {
+                if ($consultorId == $lastUser) {
                     $erroLeads[] = $leadId;
                     continue;
                 }
 
                 (new UpdateStatusLeadService($leadId))->setOportunidadeStatus();
-                (new AlterarConsultorService())->alterar($leadId, $consultor);
-                (new UpdateUserContactWhatsappService())->update($leadId, $consultor);
+                (new AlterarConsultorService())->alterar($leadId, $consultorId);
+                (new UpdateUserContactWhatsappService())->update($leadId, $consultorId);
             } catch (\Exception $exception) {
                 $erroLeads[] = $leadId;
             }
         }
+
+        (new LeadEncaminharRepository())->armazenarHistorico($consultorId, $leads);
 
         if (!empty($erroLeads)) {
             $erroIds = implode(', #', $erroLeads);

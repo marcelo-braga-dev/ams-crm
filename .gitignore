@@ -18,9 +18,7 @@ yarn-error.log
 /.idea
 /.vscode
 /sail-mysql
-package-lock.json
 yarn.lock
 composer.lock
-./package-lock.json
 .phpunit.cache/
 
