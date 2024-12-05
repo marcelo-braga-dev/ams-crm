@@ -188,7 +188,6 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                                 </FormControl>
 
                                 <Button onClick={handleOpenDialogEncaminhar}>Encaminhar</Button>
-                                <Button data-bs-toggle="modal" data-bs-target="#modalEnviar">ENVIAR</Button>
                             </Stack>
                         </div>)}
                         <div className="col-auto">
