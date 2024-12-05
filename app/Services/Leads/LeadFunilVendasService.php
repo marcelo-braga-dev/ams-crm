@@ -15,16 +15,21 @@ class LeadFunilVendasService
             ->when($usuario, function ($query) use ($usuario) {
                 return $query->where('user_id', $usuario);
             })
-            ->orderByRaw("CASE
-                WHEN status = 'concluido' THEN ultimo_pedido_data
-                ELSE NULL
-                END ASC")
-            ->orderByRaw("CASE
-                WHEN status NOT IN ('novo', 'concluido') THEN contato_data
-                ELSE NULL
-                END DESC")
+            ->orderByRaw("
+                CASE
+                    WHEN status = 'ativo' THEN ultimo_pedido_data
+                    ELSE '9999-12-31'
+                END ASC
+            ")
+            ->orderByRaw("
+                CASE
+                    WHEN status NOT IN ('novo', 'ativo') THEN contato_data
+                    ELSE '0000-01-01'
+                END DESC
+            ")
             ->orderBy('updated_at', 'ASC')
             ->get();
+
 
         return $leads->groupBy('status');
     }
