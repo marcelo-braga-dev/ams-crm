@@ -11,7 +11,9 @@ class HistoricoLeadController extends Controller
 {
     public function index()
     {
-        $encaminhados = LeadEncaminhadoHistorico::all();
+        $encaminhados = (new LeadEncaminhadoHistorico)
+            ->orderByDesc('id')
+            ->get();
 
 //        print_pre($encaminhados);
         return Inertia::render('Geral/Leads/Historico/Page', compact('encaminhados'));

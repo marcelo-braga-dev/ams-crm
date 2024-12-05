@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
-import {TextField, MenuItem, FormControl, FormControlLabel, Switch, Stack, Avatar, CircularProgress, Select, Box, Button, Typography} from '@mui/material';
+import {TextField, MenuItem, FormControl, FormControlLabel, Switch, Stack, Avatar, CircularProgress, Select, Box, Button, Typography, DialogActions} from '@mui/material';
 import {router} from '@inertiajs/react';
 
 import Layout from '@/Layouts/Layout';
@@ -11,6 +11,10 @@ import {Trash} from 'react-bootstrap-icons';
 import InputLabel from '@mui/material/InputLabel';
 import FiltrosLead from "@/Pages/Admin/Leads/Encaminhar/FiltrosLead.jsx";
 import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import Chip from "@mui/material/Chip";
+import CampoTexto from "@/Components/CampoTexto.jsx";
 
 const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isLeadsExcluir}) => {
     const {atualizarDados, handle} = useAtualizarDados();
@@ -54,12 +58,8 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
         setCarregando(true);
         try {
             const response = await axios.get(route('admin.clientes.leads.get-leads-cadastrados-paginate', {
-                page: paginate,
-                filtros: {
-                    ...filtros,
-                    ordenar: filtroOrdenar,
-                    ordenar_by: filtroOrdenarBy,
-                    page_qtd: filtroQtdPagina,
+                page: paginate, filtros: {
+                    ...filtros, ordenar: filtroOrdenar, ordenar_by: filtroOrdenarBy, page_qtd: filtroQtdPagina,
                 },
             }));
 
@@ -90,14 +90,15 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
         const newChecked = [...leadsChecked];
 
         for (let i = 0; i < filtroQtdPagina; i++) {
-            const valueID = leads[i]?.id;
-            const status = leads[i]?.infos?.status;
+            if (i < leads.length) {
+                const valueID = leads[i]?.id;
+                const status = leads[i]?.infos?.status;
 
-            if (status !== 'ativo') {
-                if (check) newChecked.push(valueID);
-                else {
-                    const currentIndex = leadsChecked.indexOf(valueID);
-                    newChecked.splice(currentIndex);
+                if (status !== 'ativo') {
+                    if (check) newChecked.push(valueID); else {
+                        const currentIndex = leadsChecked.indexOf(valueID);
+                        newChecked.splice(currentIndex);
+                    }
                 }
             }
         }
@@ -112,12 +113,10 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
         }
 
         const nome = usuarios.find(i => i.id === consultorSelecionado)?.nome;
-        return nome ? (
-            <>
-                <b>TROCAR</b> o consultor(a) dos Leads Selecionados para:<br/>
-                <h5>{nome}</h5>
-            </>
-        ) : <div className="alert alert-danger text-white">Selecione o Consultor</div>;
+        return nome ? (<>
+            <b>TROCAR</b> o consultor(a) dos Leads Selecionados para:<br/>
+            <h5>{nome}</h5>
+        </>) : <div className="alert alert-danger text-white">Selecione o Consultor</div>;
     };
 
     const enviarLeads = () => {
@@ -126,6 +125,8 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                 axios.post(route('auth.leads.api.encaminhar', {lead_ids: leadsChecked, consultor_id: consultorSelecionado}));
             } finally {
                 handle()
+                handleCloneDialogEncaminhar()
+                setLeadsChecked([])
             }
         }
     };
@@ -144,8 +145,15 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
 
     router.on('success', () => setEnviarLead(e => !e))
 
-    return (
-        <Layout empty titlePage="Encaminhar Leads" menu="leads" submenu="leads-cadastrados">
+    const [openDialogEncaminha, setOpenDialogEncaminha] = useState(false)
+    const handleOpenDialogEncaminhar = () => {
+        setOpenDialogEncaminha(true)
+    }
+    const handleCloneDialogEncaminhar = () => {
+        setOpenDialogEncaminha(false)
+    }
+
+    return (<Layout empty titlePage="Encaminhar Leads" menu="leads" submenu="leads-cadastrados">
             <FiltrosLead
                 filtros={filtros}
                 setFiltros={setFiltros}
@@ -158,33 +166,31 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
             <CardContainer>
                 <CardBody>
                     <div className="row justify-content-between">
-                        {isLeadsEncaminhar && (
-                            <div className="col-6">
-                                <Stack direction="row" spacing={2}>
-                                    <FormControl fullWidth variant="outlined">
-                                        <InputLabel id="select-label">Enviar Leads para...</InputLabel>
-                                        <Select
-                                            labelId="select-label"
-                                            value={consultorSelecionado}
-                                            onChange={e => setConsultorSelecionado(e.target.value)}
-                                            label="Enviar Leads para..."
-                                        >
-                                            <MenuItem value="0">Sem Consultor(a)</MenuItem>
+                        {isLeadsEncaminhar && (<div className="col-6">
+                            <Stack direction="row" spacing={2}>
+                                <FormControl fullWidth variant="outlined">
+                                    <InputLabel id="select-label">Enviar Leads para...</InputLabel>
+                                    <Select
+                                        labelId="select-label"
+                                        value={consultorSelecionado}
+                                        onChange={e => setConsultorSelecionado(e.target.value)}
+                                        label="Enviar Leads para..."
+                                    >
+                                        <MenuItem value="0">Sem Consultor(a)</MenuItem>
 
-                                            {usuarios.map((option) => (
-                                                <MenuItem key={option.id} value={option.id}>
-                                                    <Box display="flex" alignItems="center">
-                                                        <Avatar src={option.foto} alt={option.nome} sx={{mr: 2, width: 25, height: 25}}/>
-                                                        {option.nome}
-                                                    </Box>
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                    <Button data-bs-toggle="modal" data-bs-target="#modalEnviar">ENVIAR</Button>
-                                </Stack>
-                            </div>
-                        )}
+                                        {usuarios.map((option) => (<MenuItem key={option.id} value={option.id}>
+                                            <Box display="flex" alignItems="center">
+                                                <Avatar src={option.foto} alt={option.nome} sx={{mr: 2, width: 25, height: 25}}/>
+                                                {option.nome}
+                                            </Box>
+                                        </MenuItem>))}
+                                    </Select>
+                                </FormControl>
+
+                                <Button onClick={handleOpenDialogEncaminhar}>Encaminhar</Button>
+                                <Button data-bs-toggle="modal" data-bs-target="#modalEnviar">ENVIAR</Button>
+                            </Stack>
+                        </div>)}
                         <div className="col-auto">
                             {carregando && <CircularProgress/>}
                         </div>
@@ -221,6 +227,57 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                    confirmText="Remover Consultor(a)" confirmAction={removerConsultor}/>
             <Modal id="modalExcluirLeads" title="Excluir Leads Selecionados" body="Deseja realmente EXCLUIR PERMANENTEMENTE os LEADS selecionados?" confirmText="Excluir"
                    confirmAction={excluirLeads}/>
+            <Dialog
+                open={openDialogEncaminha}
+                onClose={handleCloneDialogEncaminhar}
+                fullWidth
+                maxWidth="md"
+            >
+                <DialogContent>
+                    <Stack marginBottom={2}>
+                        <CampoTexto titulo="Enviar Para" texto={usuarios.find(i => i.id === consultorSelecionado)?.nome}/>
+                        <CampoTexto titulo="Quantidade" texto={leadsChecked.length}/>
+                    </Stack>
+                    <table className="table-1">
+                        <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Consultor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {leadsChecked.map(id => {
+                            const lead = leads.find(lead => lead.id === id);
+                            return (
+                                <tr>
+                                    <td>
+                                        <Typography>{lead.cliente.nome}</Typography>
+                                        <Typography>ID: #{lead.id}</Typography>
+                                        <Typography>CNPJ: {lead.cliente.cnpj}</Typography>
+                                        <Typography>Status: {lead.infos.status_nome.nome}</Typography>
+                                        <Chip
+                                            label={lead.infos.status_nome.nome}
+                                            variant="outlined"
+                                            sx={{borderColor: lead.infos.status_nome.cor, color: lead.infos.status_nome.cor, marginBottom: 3, marginTop: 2}}
+                                            size="small"/>
+                                    </td>
+                                    <td>
+                                        {lead.consultor.nome && <Stack direction="row" spacing={1}>
+                                            <Avatar sx={{width: 25, height: 25}} src={lead.consultor.avatar}/>
+                                            <Typography>{lead.consultor.nome ?? '-'}</Typography>
+                                        </Stack>}
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                        </tbody>
+                    </table>
+                </DialogContent>
+                <DialogActions sx={{padding: 3}}>
+
+                    <Button onClick={enviarLeads} color="success">Enviar</Button>
+                </DialogActions>
+            </Dialog>
         </Layout>
     );
 };
