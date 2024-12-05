@@ -1,4 +1,4 @@
-import {Avatar, Button, Grid, Stack, TextField, Typography} from "@mui/material";
+import {Avatar, Button, Grid, Link, Stack, TextField, Typography} from "@mui/material";
 import {useMemo, useState} from "react";
 import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
@@ -7,7 +7,7 @@ import {Chat, Dash, Envelope, Person, Plus, Telephone} from "react-bootstrap-ico
 import * as React from "react";
 import CampoTexto from "@/Components/CampoTexto.jsx";
 import Chip from "@mui/material/Chip";
-import {TbEdit} from "react-icons/tb";
+import {TbEdit, TbMapPin} from "react-icons/tb";
 import Paper from "@mui/material/Paper";
 
 export default function LeadsDados({dados, acoes}) {
@@ -61,7 +61,16 @@ export default function LeadsDados({dados, acoes}) {
         return (
             <Grid container>
                 <Grid item md={12}>
-                    {dados.endereco?.endereco_completo && <CampoTexto titulo="Endereço" texto={dados.endereco.endereco_completo}/>}
+                    {dados.endereco?.endereco_completo && (
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <CampoTexto titulo="Endereço" texto={dados.endereco.endereco_completo}/>
+                            <Link target="_blank" sx={{paddingBottom: 1}}
+                                  href={`https://www.google.com.br/maps/search/${encodeURIComponent(dados.endereco.endereco_padrao)}`}>
+                                <TbMapPin color="red" size={22}/>
+                            </Link>
+                        </Stack>
+                    )}
+
                     {dados.extras?.cnae && <CampoTexto titulo="CNAE" texto={dados.extras.cnae}/>}
                     {dados.extras?.situacao && <CampoTexto titulo="Situação" texto={`${dados.extras.situacao} ${dados.extras.data_situacao}`}/>}
                     {dados.extras?.atividade_principal && <CampoTexto titulo="Atividade Principal" texto={dados.extras.atividade_principal}/>}

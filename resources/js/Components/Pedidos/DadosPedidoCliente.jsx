@@ -1,8 +1,10 @@
 import Typography from "@mui/material/Typography";
 import {Person} from "react-bootstrap-icons";
 import CardTitleDefault from "@/Components/Cards/CardTitleDefault";
-import {Stack} from "@mui/material";
+import {Link, Stack} from "@mui/material";
 import CampoTexto from "@/Components/CampoTexto.jsx";
+import {TbMapPin} from "react-icons/tb";
+import * as React from "react";
 
 export default function DadosPedidoCliente({dados}) {
     return (<>
@@ -17,6 +19,15 @@ export default function DadosPedidoCliente({dados}) {
             {dados.cliente.telefone && <div className="col mb-2"><CampoTexto titulo="Telefone" texto={dados.cliente.telefone}/></div>}
             {dados.cliente.email && <div className="col mb-2"><CampoTexto titulo="Email" texto={dados.cliente.email}/></div>}
         </div>
-        {dados.cliente.endereco && <div className="mb-2"><CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/></div>}
+
+        {dados.cliente.endereco && (
+            <Stack direction="row" spacing={1} alignItems="center">
+                <CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/>
+                <Link target="_blank" sx={{paddingBottom: 1}}
+                      href={`https://www.google.com.br/maps/search/${encodeURIComponent(dados.cliente.endereco_padrao)}`}>
+                    <TbMapPin color="red" size={22}/>
+                </Link>
+            </Stack>
+        )}
     </>)
 }

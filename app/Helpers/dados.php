@@ -14,6 +14,13 @@ if (!function_exists('getEnderecoCompleto')) {
     }
 }
 
+if (!function_exists('getEnderecoPadrao')) {
+    function getEnderecoPadrao($id)
+    {
+        return (new \App\Models\Enderecos())->getEnderecoPadrao($id);
+    }
+}
+
 if (!function_exists('converterTelefone')) {
     function converterTelefone($dados = '')
     {

@@ -13,7 +13,7 @@ class CotacaoEnviadoStatusLead extends StatusLeads
         $this->setStatusCor();
         $this->setStatusPrazo();
         $this->setDescricao();
-        $this->urlStatus = 'auth.leads.avancar-status.revisao';
+        $this->urlStatus = '';
     }
 
     public function setStatus(): void

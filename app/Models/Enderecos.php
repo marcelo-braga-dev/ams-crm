@@ -89,6 +89,23 @@ class Enderecos extends Model
         return $enderecoCompleto;
     }
 
+    public function getEnderecoPadrao($id): string
+    {
+        $dados = $this->newQuery()->find($id);
+
+        $enderecoCompleto = '';
+
+        if ($dados['rua']) $enderecoCompleto .= '' . $dados['rua'];
+        if ($dados['numero']) $enderecoCompleto .= ', ' . $dados['numero'];
+        if ($dados['complemento']) $enderecoCompleto .= ', ' . $dados['complemento'];
+        if ($dados['bairro']) $enderecoCompleto .= ' - ' . $dados['bairro'];
+        if ($dados['cidade']) $enderecoCompleto .= ', ' . $dados['cidade'];
+        if ($dados['estado']) $enderecoCompleto .= ' - ' . $dados['estado'];
+        if ($dados['cep']) $enderecoCompleto .= ', ' . $dados['cep'];
+
+        return $enderecoCompleto;
+    }
+
     public function getEnderecoLegivel($id): string
     {
         $dados = $this->newQuery()->find($id);
