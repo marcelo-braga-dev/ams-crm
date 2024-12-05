@@ -76,14 +76,14 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
     useEffect(() => {
         setPaginate(1);
         getLeads();
-    }, [filtros, enviarLead]);
+    }, [filtros, enviarLead, atualizarDados]);
 
     useEffect(() => {
         if (!isFirstRender.current) {
             getLeads();
         }
         isFirstRender.current = false;
-    }, [paginate, atualizarDados]);
+    }, [paginate]);
 
     const adicionarLeadsCheck = (check) => {
         setCheckedPage(check);
