@@ -34,7 +34,7 @@ class AtivoStatusLead extends StatusLeads
 
     public function setStatusPrazo(): void
     {
-        $this->statusPrazo = 0;
+        $this->statusPrazo = 150;
     }
 
     public function setPermissoes(): void
