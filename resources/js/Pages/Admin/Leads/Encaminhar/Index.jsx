@@ -250,7 +250,7 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                             return (
                                 <tr>
                                     <td>
-                                        <Typography>{lead.cliente.nome}</Typography>
+                                        <Typography fontWeight="bold">{lead.cliente.nome}</Typography>
                                         <Typography>ID: #{lead.id}</Typography>
                                         <Typography>CNPJ: {lead.cliente.cnpj}</Typography>
                                         <Typography>Status: {lead.infos.status_nome.nome}</Typography>
