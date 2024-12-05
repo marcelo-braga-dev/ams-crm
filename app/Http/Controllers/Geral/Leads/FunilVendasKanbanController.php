@@ -32,7 +32,7 @@ class FunilVendasKanbanController extends Controller
 
         $lead = (new Lead())->newQuery()->find($leadId);
         if ($lead->status === 'novo' || $lead->status === 'oportunidade') {
-            (new UpdateStatusLeadService($leadId))->setOportunidadeStatus();
+            (new UpdateStatusLeadService($leadId))->setConexaoProativaStatus($leadId);
         }
 
         (new LeadContatoRealizado())->store($leadId, $telefoneId, $origem, $meta);
