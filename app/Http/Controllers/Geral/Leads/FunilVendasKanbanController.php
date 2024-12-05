@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Geral\Leads;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lead\Lead;
 use App\Models\Lead\LeadContatoRealizado;
 use App\Models\LeadsDEPREECATED\Leads;
 use App\Models\Setores;
@@ -29,8 +30,8 @@ class FunilVendasKanbanController extends Controller
 
         (new Leads())->setConatoData($leadId);
 
-        $lead = (new Leads())->newQuery()->find($leadId);
-        if ($lead->status === 'novo' ?? $lead->status === 'oportunidade') {
+        $lead = (new Lead())->newQuery()->find($leadId);
+        if ($lead->status === 'novo' || $lead->status === 'oportunidade') {
             (new UpdateStatusLeadService($leadId))->setOportunidadeStatus();
         }
 
