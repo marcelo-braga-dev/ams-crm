@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('lead_encaminhado_historicos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('destinatario_id');
+            $table->unsignedBigInteger('destinatario_id')->nullable();
             $table->json('lead_ids');
             $table->integer('qtd');
             $table->timestamps();

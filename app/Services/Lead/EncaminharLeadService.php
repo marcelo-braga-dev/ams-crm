@@ -11,22 +11,24 @@ use App\src\Leads\StatusLeads\SuperOporunidadeStatusLead;
 
 class EncaminharLeadService
 {
-    public function encaminharOportunidade(array $leads, int $consultorId)
+    public function encaminharOportunidade(array $leads, ?int $consultorId)
     {
         $erroLeads = [];
         $consultorId = $consultorId === 0 ? null : $consultorId;
 
         foreach ($leads as $leadId) {
             try {
-                $lastUser = (new LeadStatusHistoricos())->newQuery()
-                    ->where('lead_id', $leadId)
-                    ->whereIn('status', [(new OportunidadeStatusLead())->getStatus(), (new SuperOporunidadeStatusLead())->getStatus()])
-                    ->orderByDesc('id')
-                    ->value('user_id');
+                if ($consultorId) {
+                    $lastUser = (new LeadStatusHistoricos())->newQuery()
+                        ->where('lead_id', $leadId)
+                        ->whereIn('status', [(new OportunidadeStatusLead())->getStatus(), (new SuperOporunidadeStatusLead())->getStatus()])
+                        ->orderByDesc('id')
+                        ->value('user_id');
 
-                if ($consultorId == $lastUser) {
-                    $erroLeads[] = $leadId;
-                    continue;
+                    if ($consultorId == $lastUser) {
+                        $erroLeads[] = $leadId;
+                        continue;
+                    }
                 }
 
                 (new UpdateStatusLeadService($leadId))->setOportunidadeStatus();
@@ -35,7 +37,7 @@ class EncaminharLeadService
             } catch (\Exception $exception) {
                 $erroLeads[] = $leadId;
             }
-        }
+            }
 
         (new LeadEncaminharRepository())->armazenarHistorico($consultorId, $leads);
 
@@ -46,4 +48,4 @@ class EncaminharLeadService
 
         return null;
     }
-}
+    }
