@@ -17,7 +17,7 @@ class LeadEndereco extends Model
         'estado'
     ];
 
-    protected $appends = ['cidade_estado', 'endereco_completo', 'endereco_padrao'];
+    protected $appends = ['cidade_estado', 'endereco_completo', 'endereco_maps'];
 
     public function getCidadeEstadoAttribute()
     {
@@ -27,6 +27,11 @@ class LeadEndereco extends Model
     protected function setCepAttribute($value)
     {
         $this->attributes['cep'] = converterInt($value);
+    }
+
+    protected function getCepAttribute($value)
+    {
+        $this->attributes['cep'] =  sprintf('%05d-%03d', substr($value, 0, 5), substr($value, 5));
     }
 
     public function getEnderecoCompletoAttribute()
@@ -44,13 +49,12 @@ class LeadEndereco extends Model
         return $enderecoCompleto;
     }
 
-    public function getEnderecoPadraoAttribute()
+    public function getEnderecoMapsAttribute()
     {
         $enderecoCompleto = '';
 
         if ($this->attributes['rua']) $enderecoCompleto .= '' . $this->attributes['rua'];
         if ($this->attributes['numero']) $enderecoCompleto .= ', ' . $this->attributes['numero'];
-        if ($this->attributes['complemento']) $enderecoCompleto .= ', ' . $this->attributes['complemento'];
         if ($this->attributes['bairro']) $enderecoCompleto .= ' - ' . $this->attributes['bairro'];
         if ($this->attributes['cidade']) $enderecoCompleto .= ', ' . $this->attributes['cidade'];
         if ($this->attributes['estado']) $enderecoCompleto .= ' - ' . $this->attributes['estado'];

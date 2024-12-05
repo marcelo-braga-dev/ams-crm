@@ -65,7 +65,7 @@ export default function LeadsDados({dados, acoes}) {
                         <Stack direction="row" spacing={1} alignItems="center">
                             <CampoTexto titulo="Endereço" texto={dados.endereco.endereco_completo}/>
                             <Link target="_blank" sx={{paddingBottom: 1}}
-                                  href={`https://www.google.com.br/maps/search/${encodeURIComponent(dados.endereco.endereco_padrao)}`}>
+                                  href={`https://www.google.com.br/maps/search/${encodeURIComponent(dados.endereco.endereco_maps)}`}>
                                 <TbMapPin color="red" size={22}/>
                             </Link>
                         </Stack>

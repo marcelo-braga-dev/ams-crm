@@ -24,7 +24,7 @@ export default function DadosPedidoCliente({dados}) {
             <Stack direction="row" spacing={1} alignItems="center">
                 <CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/>
                 <Link target="_blank" sx={{paddingBottom: 1}}
-                      href={`https://www.google.com.br/maps/search/${encodeURIComponent(dados.cliente.endereco_padrao)}`}>
+                      href={`https://www.google.com.br/maps/search/${encodeURIComponent(dados.cliente.endereco_maps)}`}>
                     <TbMapPin color="red" size={22}/>
                 </Link>
             </Stack>
