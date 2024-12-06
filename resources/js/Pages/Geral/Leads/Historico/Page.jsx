@@ -15,12 +15,11 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Grid from '@mui/material/Grid2';
 import Dialog from "@mui/material/Dialog";
-import LeadDialog from "@/Pages/Geral/Leads/Dialogs/LeadDialog.jsx";
 import LeadShow from "@/Pages/Geral/Leads/Dialogs/LeadShow.jsx";
 import {Eye} from "react-bootstrap-icons";
 
 const Page = ({encaminhados}) => {
-    console.log(encaminhados)
+
     const [historicos, setHistoricos] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
@@ -56,7 +55,6 @@ const Page = ({encaminhados}) => {
     const handleOpenDialog = (leads) => {
         setOpenDialog(true)
         setLeadsEncaminhados(leads)
-        console.log(leads)
     }
 
     const handleCloseDialog = () => {
@@ -79,9 +77,9 @@ const Page = ({encaminhados}) => {
                                 <Paper sx={{marginBottom: 2, padding: 2}} variant="outlined">
                                     <Grid container spacing={2}>
                                         <Grid size={10}>
-                                            <CampoTexto titulo="Enviado Para" texto={item.destinatario.nome}/>
+                                            <CampoTexto titulo="Enviado Para" texto={item?.destinatario?.nome}/>
 
-                                            <CampoTexto titulo="Autor" texto={item.autor.nome}/>
+                                            <CampoTexto titulo="Autor" texto={item?.autor?.nome}/>
 
                                             <CampoTexto titulo="Quantidade de Leads" texto={item?.qtd}/>
 

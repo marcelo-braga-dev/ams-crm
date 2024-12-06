@@ -15,7 +15,6 @@ class HistoricoLeadController extends Controller
             ->orderByDesc('id')
             ->get();
 
-//        print_pre($encaminhados);
         return Inertia::render('Geral/Leads/Historico/Page', compact('encaminhados'));
     }
 
