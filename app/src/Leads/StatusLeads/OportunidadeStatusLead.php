@@ -13,7 +13,7 @@ class OportunidadeStatusLead extends StatusLeads
         $this->setStatusCor();
         $this->setStatusPrazo();
         $this->setDescricao();
-        $this->urlStatus = '';
+        $this->urlStatus = 'auth.leads.avancar-status.novo';
     }
 
     public function setStatus(): void
