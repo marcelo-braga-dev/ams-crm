@@ -122,14 +122,24 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
     const enviarLeads = () => {
         if (consultorSelecionado && leadsChecked.length > 0) {
 
-            axios.post(route('auth.leads.api.encaminhar',
+            router.post(route('auth.leads.api.encaminhar',
                 {lead_ids: leadsChecked, consultor_id: consultorSelecionado}
-            )).then(res => {
-                // handle()
+            ), {}, {
+                onSuccess: () => {
+                    handleCloseDialogEncaminhar()
+                    setLeadsChecked([])
+                }
+            })
 
-                handleCloseDialogEncaminhar()
-                setLeadsChecked([])
-            }).finally(() => getLeads());
+            // axios.post(route('auth.leads.api.encaminhar',
+            //     {lead_ids: leadsChecked, consultor_id: consultorSelecionado}
+            // )).then(res => {
+            //     // handle()
+            //
+            //     handleCloseDialogEncaminhar()
+            //     setLeadsChecked([])
+            // })
+            // .finally(() => getLeads());
         }
     };
 
@@ -145,7 +155,8 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
         router.post(route('admin.clientes.leads.delete', {lead: leadsChecked}));
     };
 
-    router.on('success', () => setEnviarLead(e => !e))
+    // router.on('success', () => setEnviarLead(e => !e))
+    router.on('success', () => getLeads())
 
     const [openDialogEncaminha, setOpenDialogEncaminha] = useState(false)
     const handleOpenDialogEncaminhar = () => {
