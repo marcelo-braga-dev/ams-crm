@@ -104,8 +104,7 @@ class LeadsANTIGO extends Model
 
     public function cidadeEstado()
     {
-        return $this->belongsTo(Enderecos::class, 'endereco')
-            ->select(['id', 'cidade', 'estado']);
+        return $this->belongsTo(LeadEndereco::class, 'id', 'lead_id');
     }
 
     public function updateContatoData($id)
@@ -1133,8 +1132,6 @@ class LeadsANTIGO extends Model
                     'cnpj' => converterCNPJ($item->cnpj),
                     'rg' => $item->rg,
                     'cpf' => $item->cpf,
-                    'cidade' => $item->cidade,
-                    'estado' => $item->estado,
                     'classificacao' => $item->classificacao,
                     'cidadeEstado' => $item->cidadeEstado,
                 ],

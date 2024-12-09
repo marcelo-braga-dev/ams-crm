@@ -12,7 +12,7 @@ export default function Tabela({
                                    leads, setPaginate, paginate, paginateDados, setOrdenar, setFiltroFiltroOrdenarBy, carregando,
                                    leadsChecked, setLeadsChecked, checkedPage, adicionarLeadsCheck, setFiltroQtdPagina, filtroQtdPagina,
                                }) {
-
+console.log(leads)
     const linhas = leads.map(function (items) {
         return {
             id: items.id,
