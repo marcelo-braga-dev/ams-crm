@@ -76,7 +76,7 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
     useEffect(() => {
         setPaginate(1);
         getLeads();
-    }, [filtros, enviarLead, atualizarDados]);
+    }, [filtros, enviarLead]);
 
     useEffect(() => {
         if (!isFirstRender.current) {
@@ -121,13 +121,15 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
 
     const enviarLeads = () => {
         if (consultorSelecionado && leadsChecked.length > 0) {
-            try {
-                axios.post(route('auth.leads.api.encaminhar', {lead_ids: leadsChecked, consultor_id: consultorSelecionado}));
-            } finally {
-                handle()
-                handleCloneDialogEncaminhar()
+
+            axios.post(route('auth.leads.api.encaminhar',
+                {lead_ids: leadsChecked, consultor_id: consultorSelecionado}
+            )).then(res => {
+                // handle()
+
+                handleCloseDialogEncaminhar()
                 setLeadsChecked([])
-            }
+            }).finally(() => getLeads());
         }
     };
 
@@ -149,7 +151,7 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
     const handleOpenDialogEncaminhar = () => {
         setOpenDialogEncaminha(true)
     }
-    const handleCloneDialogEncaminhar = () => {
+    const handleCloseDialogEncaminhar = () => {
         setOpenDialogEncaminha(false)
     }
 
@@ -228,7 +230,7 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                    confirmAction={excluirLeads}/>
             <Dialog
                 open={openDialogEncaminha}
-                onClose={handleCloneDialogEncaminhar}
+                onClose={handleCloseDialogEncaminhar}
                 fullWidth
                 maxWidth="md"
             >
@@ -273,7 +275,6 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
                     </table>
                 </DialogContent>
                 <DialogActions sx={{padding: 3}}>
-
                     <Button onClick={enviarLeads} color="success">Enviar</Button>
                 </DialogActions>
             </Dialog>

@@ -94,7 +94,7 @@ export default function Tabela({
             </CardContainer>
 
             {carregando && <LinearProgress/>}
-
+            {console.log(linhas)}
             {linhas.map(lead => (
                 <CardLeadGerenciar key={lead.id} lead={lead} leadsChecked={leadsChecked} handleToggle={handleToggle}/>
             ))}

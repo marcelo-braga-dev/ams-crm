@@ -17,9 +17,10 @@ class EncaminharLeadController extends Controller
 
         if (!empty($errors)) {
             modalErro($errors);
-            return;
+            return redirect()->back();
         }
 
         modalSucesso('Lead encaminhado com sucesso!');
+        return redirect()->back();
     }
 }
