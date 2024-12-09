@@ -31,7 +31,7 @@ class ImportarController extends Controller
 
             $dados = (new ImportarArquivoService())->dados($request, $idHistorico);
 
-            $dadosSeparados = (new DadosImportacaoService())->executar($dados, $request->tipo_planilha);
+            $dadosSeparados = (new DadosImportacaoService())->executar($dados, $request->tipo_planilha, $request->pessoa);
 
             foreach ($dadosSeparados as $item) {
                 (new LeadsANTIGO())->createOrUpdatePlanilhas($item, $request->setor, $idHistorico);

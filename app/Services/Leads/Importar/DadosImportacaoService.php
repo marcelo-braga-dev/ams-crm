@@ -4,13 +4,18 @@ namespace App\Services\Leads\Importar;
 
 class DadosImportacaoService
 {
-    public function executar(array $dados, $tipoPlanilha): array
+    public function executar(array $dados, $tipoPlanilha, $pessoa): array
     {
         $items = [];
         foreach ($dados as $dado) {
             try {
-                if ($tipoPlanilha == 'pj') {
-                    if ($dado[0] || $dado[1]) $items[] = $this->dadosPJ($dado);
+                if ($pessoa == 'pj') {
+                    if ($tipoPlanilha == 'entrada') {
+                        if ($dado[0] || $dado[1]) $items[] = $this->dadosPJEntrada($dado);
+                    } else {
+                        if ($dado[0] || $dado[1]) $items[] = $this->dadosPJ($dado);
+                    }
+
                 } else {
                     if ($dado[0] || $dado[1]) $items[] = $this->dadosPF($dado);
                 }
@@ -19,8 +24,38 @@ class DadosImportacaoService
                 throw new \DomainException('Falha na leitura do arquivo!');
             }
         }
-
         return $items;
+    }
+
+    private function dadosPJEntrada($dado)
+    {
+        return [
+            'cnpj' => $dado[0] ?? null,
+            'razao_social' => $dado[1] ?? null,
+            'nome' => $dado[2] ?? null,
+            'tipo' => $dado[19] ?? null,
+            'endereco' => [
+                'rua' => $dado[4] ?? null,
+                'numero' => $dado[5] ?? null,
+                'complemento' => $dado[6] ?? null,
+                'bairro' => $dado[7] ?? null,
+                'cidade' => $dado[8] ?? null,
+                'estado' => $dado[9] ?? null,
+                'cep' => $dado[11] ?? null,
+            ],
+            'telefones' => [
+                $dado[12] ?? null,//cel
+                $dado[13] ?? null,
+            ],
+            'email' => $dado[14] ?? null,
+            'cnae' => $dado[16] ?? null,
+            'atividade_principal' => $dado[17] ?? null,
+            'situacao' => $dado[21] ?? null,
+            'data_situacao' => $dado[22] ?? null,
+            'data_abertura' => $dado[24] ?? null,
+            'porte' => $dado[29] ?? null,
+            'quadro_societario' => (($dado[35] ?? null) . ' ' . ($dado[37] ?? null))
+        ];
     }
 
     private function dadosPJ($dado)

@@ -225,8 +225,6 @@ class LeadsANTIGO extends Model
             $status = (new NovoStatusLeads())->getStatus();
             $verificacaoCnpj = null;
 
-            $endereco = (new LeadEndereco())->create($dados['endereco']);
-
             $pessoa = ($dados['pessoa'] ?? null) ? !(($dados['pessoa'] ?? null) == 'Pessoa Física') : substr($cnpj, -6, 4) == '0001';
 
             if ((($dados['nome'] ?? null) || ($dados['razao_social'] ?? null)) && count($dados['telefones'] ?? [])) {
@@ -244,7 +242,6 @@ class LeadsANTIGO extends Model
                     'importacao_id' => $importacao,
                     'atendente' => $dados['atendente'] ?? null,
                     'setor_id' => $setor,
-                    'endereco' => $endereco->id,
                     'pessoa_juridica' => $pessoa,
                     'rg' => $dados['rg'] ?? null,
                     'cpf' => $dados['cpf'] ?? null,
@@ -279,6 +276,8 @@ class LeadsANTIGO extends Model
                 }
 
                 $this->cadastrarTelefones($lead->id, $dados['telefones'] ?? null, $importacao);
+                $dados['endereco']['lead_id'] = $lead->id;
+                (new LeadEndereco())->create($dados['endereco']);
 
 
                 return $lead->id;
@@ -292,6 +291,7 @@ class LeadsANTIGO extends Model
                 (new LeadsNotificacao())->notificarDuplicidade($msgErro);
             }
         } catch (\DomainException|QueryException $exception) {
+            print_pre($exception->getMessage());
             $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
             if ($existCnpj->id ?? null) throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
         }

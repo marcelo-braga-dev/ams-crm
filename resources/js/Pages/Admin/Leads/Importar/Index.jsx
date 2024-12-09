@@ -53,8 +53,8 @@ export default function ({setores, modelo, historicos}) {
                                         value={data.tipo_planilha}
                                         onChange={e => setData('tipo_planilha', e.target.value)}
                                     >
-                                        <FormControlLabel value="pj" control={<Radio required size="small"/>} sx={{marginInlineEnd: 2}} label="Pessoa Física"/>
-                                        <FormControlLabel value="pf" control={<Radio required size="small"/>} label="Pessoa Jurídica"/>
+                                        <FormControlLabel value="entrada" control={<Radio required size="small"/>} sx={{marginInlineEnd: 2}} label="Planilha de Entrada"/>
+                                        <FormControlLabel value="enriquecimento" control={<Radio required size="small"/>} label="Planilha de Enriquecimento"/>
                                     </RadioGroup>
                                 </FormControl>
                                 <Divider sx={{marginBottom: 1}}/>
@@ -63,11 +63,11 @@ export default function ({setores, modelo, historicos}) {
                                 <FormControl>
                                     <RadioGroup
                                         row
-                                        value={data.tipo_planilha}
-                                        onChange={e => setData('tipo_planilha', e.target.value)}
+                                        value={data.pessoa}
+                                        onChange={e => setData('pessoa', e.target.value)}
                                     >
-                                        <FormControlLabel value="pj" control={<Radio required size="small"/>} label="Planilha de Entrada"/>
-                                        <FormControlLabel value="pf" control={<Radio required size="small"/>} label="Planilha de Enriquecimento"/>
+                                        <FormControlLabel value="pf" control={<Radio required size="small"/>} label="Pessoa Física"/>
+                                        <FormControlLabel value="pj" control={<Radio required size="small"/>} label="Pessoa Jurídica"/>
                                     </RadioGroup>
                                 </FormControl>
                                 <Divider sx={{marginBottom: 1}}/>
