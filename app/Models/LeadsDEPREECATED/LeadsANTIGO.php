@@ -1196,7 +1196,10 @@ class LeadsANTIGO extends Model
                     $query->where('cnpj', 'LIKE', "%$valor%");
                     break;
                 case 'cidade':
-                    $query->where('cidade', 'LIKE', "$valor%");
+                    $query->whereHas('cidadeEstado', function ($query) use ($valor)  {
+                        $query->where('cidade', 'LIKE', "$valor%");
+                    });
+//                    $query->where('cidade', 'LIKE', "$valor%");
                     break;
                 case 'ddd':
                     $query->whereHas('telefones', function ($query) use ($valor) {
