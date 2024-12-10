@@ -418,6 +418,13 @@ class LeadsANTIGO extends Model
 
                 $this->cadastrarTelefones($lead->id, $dados['telefones'] ?? null);
 
+                if ($dados['endereco']) {
+                    $endereco = $dados['endereco'];
+                    $endereco['lead_id'] = $lead->id;
+
+                    (new LeadEndereco())->create($endereco);
+                }
+
                 return $lead->id;
             } else {
                 $msgErro = '';
@@ -431,6 +438,8 @@ class LeadsANTIGO extends Model
         } catch (QueryException $exception) {
             $existCnpj = $this->newQuery()->where('cnpj', $cnpj)->first();
             if ($existCnpj->id ?? null) throw new \DomainException('CNPJ já cadastrado no LEAD: #' . $existCnpj->id);
+        } catch (\Exception $exception) {
+            throw new \DomainException('Falha no cadasdro do lead!');
         }
     }
 
@@ -1196,7 +1205,7 @@ class LeadsANTIGO extends Model
                     $query->where('cnpj', 'LIKE', "%$valor%");
                     break;
                 case 'cidade':
-                    $query->whereHas('cidadeEstado', function ($query) use ($valor)  {
+                    $query->whereHas('cidadeEstado', function ($query) use ($valor) {
                         $query->where('cidade', 'LIKE', "$valor%");
                     });
                     break;
