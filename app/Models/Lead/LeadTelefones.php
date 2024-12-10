@@ -38,7 +38,7 @@ class LeadTelefones extends Model
                 'contato_nome' => $telefone['contato_nome'] ?? null,
                 'numero' => isset($telefone['numero'])
                     ? converterInt(converterTelefone($telefone['numero']))
-                    : null,
+                    : converterInt(converterTelefone($telefone)),
             ];
         }
 
@@ -71,7 +71,6 @@ class LeadTelefones extends Model
                     'importacao_id' => $importacao ?? null,
                     'dados' => $telefones,
                 ]);
-                throw $e; // Opcional: Lança a exceção para tratar em outro nível
             }
         }
 

@@ -275,9 +275,9 @@ class LeadsANTIGO extends Model
                 }
 
                 $this->cadastrarTelefones($lead->id, $dados['telefones'] ?? null, $importacao);
+
                 $dados['endereco']['lead_id'] = $lead->id;
                 (new LeadEndereco())->create($dados['endereco']);
-
 
                 return $lead->id;
             } else {
@@ -443,9 +443,9 @@ class LeadsANTIGO extends Model
         }
     }
 
-    private function cadastrarTelefones($id, $telefones, $importacao = null): void
+    private function cadastrarTelefones($id, array $telefones = [], $importacao = null): void
     {
-        if ($telefones ?? []) (new LeadTelefones())->criar($id, $telefones, $importacao);
+        if (count($telefones)) (new LeadTelefones())->criar($id, $telefones, $importacao);
     }
 
     public function getResumido($setor, $comSdr = null, $comConsultor = null, $importacao = null)
