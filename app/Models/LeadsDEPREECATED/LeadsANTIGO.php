@@ -216,6 +216,8 @@ class LeadsANTIGO extends Model
 
     public function createOrUpdatePlanilhas($dados, $setor, $importacao = null)
     {
+        if (count($dados['telefones'] ?? []) < 1) return;
+
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
         try {
