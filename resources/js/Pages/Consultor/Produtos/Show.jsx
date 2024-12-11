@@ -96,7 +96,7 @@ export default function ({produto, infos}) {
                             </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
-                            <Text texto={produto.descricao}/>
+                            <Text texto={infos.descricao}/>
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
                             <Text texto={infos.utilidade}/>
