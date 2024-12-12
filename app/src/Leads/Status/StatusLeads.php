@@ -78,6 +78,6 @@ class StatusLeads
             default => $inativo,
         };
 
-        return ['nome' => $statusClass->getStatusNome(), 'cor' => $statusClass->statusCor()];
+        return ['nome' => $statusClass->getStatusNome(), 'cor' => $statusClass->getStatusCor()];
     }
 }

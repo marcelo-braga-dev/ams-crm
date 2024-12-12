@@ -21,7 +21,7 @@ const dashboard = {
                 //     url: route('auth.leads.gerenciar.index'),
                 // },
                 {
-                    id: 'leads-cadastrados',
+                    id: 'leads-encaminhar',
                     chave: chaves.leads.cadastrados,
                     title: 'Leads',
                     type: 'item',

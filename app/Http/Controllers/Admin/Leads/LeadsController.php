@@ -25,6 +25,9 @@ use App\src\Pedidos\Notificacoes\Leads\LeadsNotificacao;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+/**
+ * @deprecated
+ */
 class LeadsController extends Controller
 {
     public function cadastrados(Request $request)

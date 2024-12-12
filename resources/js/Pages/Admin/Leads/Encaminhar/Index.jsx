@@ -46,7 +46,7 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
         ordearBy: '',
         qtdPagina: '',
         enriquecidos: '',
-        contato: '',
+        contato: 'com_telefone',
     });
 
     const [filtroOrdenar, setFiltroFiltroOrdenar] = useState('');

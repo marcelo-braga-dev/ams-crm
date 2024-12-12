@@ -32,14 +32,6 @@ export default function InfoLead({dado}) {console.log(dado)
                     <span className="d-block">CNPJ: {dado.cnpj}</span>
                 </td>
             </tr>}
-            {dado.telefone && <tr>
-                <td>
-                    <LocalPhoneOutlinedIcon sx={{fontSize: 18}}/>
-                </td>
-                <td>
-                    <span className="d-block">{dado.telefone}</span>
-                </td>
-            </tr>}
             {dado.telefones.map(item => (
                 <tr>
                     <td>

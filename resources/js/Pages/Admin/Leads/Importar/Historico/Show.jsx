@@ -20,6 +20,8 @@ import CardTable from "@/Components/Cards/CardTable";
 import CampoTexto from "@/Components/CampoTexto.jsx";
 import Switch from "@mui/material/Switch";
 import Chip from "@mui/material/Chip";
+import LeadShow from "@/Pages/Geral/Leads/Dialogs/LeadShow.jsx";
+import {Eye} from "react-bootstrap-icons";
 
 export default function Filtering({leads, dadosimportacao}) {
     // loading
@@ -75,10 +77,7 @@ export default function Filtering({leads, dadosimportacao}) {
                         <ListItem
                             disablePadding
                             secondaryAction={
-                                <a className="btn btn-primary btn-sm mt-2"
-                                   href={route('admin.clientes.leads.leads-main.show', row.id)}>
-                                    Abrir
-                                </a>
+                                <LeadShow leadId={row.id} iconButton={<Eye size={20} color="black"/>}/>
                             }>
                             <ListItemButton role={undefined} onClick={() => handleToggle(row.id)} dense>
                                 <div className="row w-100 py-1">

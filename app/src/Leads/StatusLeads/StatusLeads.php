@@ -50,7 +50,7 @@ abstract class StatusLeads implements StatusLeadsInterface
         return $this->emitePedidos;
     }
 
-    public function statusCor()
+    public function getStatusCor()
     {
         return $this->statusCor;
     }

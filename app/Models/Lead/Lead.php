@@ -6,6 +6,7 @@ use App\Models\Pedido\Pedido;
 use App\Models\Pedidos;
 use App\Models\Setores;
 use App\Models\User;
+use App\src\Leads\StatusDados;
 use App\src\Leads\StatusLeads;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +20,7 @@ class Lead extends Model
 
     protected $with = ['endereco', 'setor', 'vendedor', 'telefones'];
 
-    protected $appends = ['status_date', 'status_nome', 'extras', 'emails'];
+    protected $appends = ['status_date', 'status_nome', 'status_dados', 'extras', 'emails'];
 
     protected $hidden = ['setor_id', 'status_id', 'vendedor_id', 'created_at', 'updated_at'];
 
@@ -29,6 +30,11 @@ class Lead extends Model
     public function getStatusNomeAttribute()
     {
         return (new StatusLeads())->statusNome($this->attributes['status']);
+    }
+
+    public function getStatusDadosAttribute()
+    {
+        return (new StatusDados())->dado($this->attributes['status']);
     }
 
     public function getExtrasAttribute()
@@ -62,6 +68,10 @@ class Lead extends Model
     {
         return [$this->attributes['email'] ?? null];
     }
+
+    // =======================
+    // Setters
+    // =======================
 
     public function setStatusAttribute($value)
     {

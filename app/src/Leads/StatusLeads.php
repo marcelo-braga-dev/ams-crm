@@ -22,7 +22,7 @@ class StatusLeads
      *
      * @return StatusLeadsInterface[] Um array de objetos que implementam a interface `StatusLeadsInterface`.
      */
-    private function sequenciaClasses(): array
+    public function sequenciaClasses(): array
     {
         return [
             (new InicioFunilStatusLead()),
@@ -45,7 +45,7 @@ class StatusLeads
             $classes[] = [
                 'id' => $status->getStatus(),
                 'nome' => $status->getStatusNome(),
-                'cor' => $status->statusCor()
+                'cor' => $status->getStatusCor()
             ];
         }
         return $classes;

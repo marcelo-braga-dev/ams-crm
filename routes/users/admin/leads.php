@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Leads\Consultores\LeadsRelatoriosController;
 use App\Http\Controllers\Admin\Leads\Consultores\NovoController;
 use App\Http\Controllers\Admin\Leads\Consultores\PreAtendimentoController;
 use App\Http\Controllers\Admin\Leads\Encaminhados\EncaminhadosController;
+use App\Http\Controllers\Admin\Leads\EncaminharLead\EncaminharLeadController;
 use App\Http\Controllers\Admin\Leads\GerenciarLead\EncaminharLeadsStatusController;
 use App\Http\Controllers\Admin\Leads\GerenciarLead\GerenciarLeadsController as LeadsCardsController;
 use App\Http\Controllers\Admin\Leads\GerenciarLead\GetLeadsStatusConsultorController;
@@ -25,6 +26,13 @@ use Illuminate\Support\Facades\Route;
 Route::name('admin.leads.')
     ->prefix('admin/leads')
     ->group(function () {
+
+        Route::name('encaminhar.')
+            ->prefix('encaminhar')
+            ->group(function () {
+                Route::resource('encaminhar-leads', EncaminharLeadController::class);
+                Route::get('get-leads', [EncaminharLeadController::class, 'getLeads'])->name('get-leads');
+            });
 
         Route::name('gerenciar.')
             ->prefix('gerenciar')
