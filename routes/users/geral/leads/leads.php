@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Geral\Ferramentas\Whatsapp\LeadsWhatsappController;
 use App\Http\Controllers\Geral\Leads\Api\GetAllDataLeadController;
+use App\Http\Controllers\Geral\Leads\Api\GetLeadApiController;
+use App\Http\Controllers\Geral\Leads\Api\InicioChatApiController;
 use App\Http\Controllers\Geral\Leads\Api\UpdadeStatusLeadController;
 use App\Http\Controllers\Geral\Leads\FunilVendasKanbanController;
 use App\Http\Controllers\Geral\Leads\LeadController;
@@ -23,12 +25,10 @@ Route::name('auth.')
         Route::prefix('api-lead')
             ->name('lead.')
             ->group(function () {
-                Route::get('lead/{id}', [LeadController::class, 'getLead'])->name('get-lead');
+                Route::get('lead/{id}', GetLeadApiController::class)->name('get-lead');
                 Route::get('get-all-lead/{id}', GetAllDataLeadController::class)->name('get-all-data');
-
                 Route::put('update-status/{id}', UpdadeStatusLeadController::class)->name('update-status');
-
-                Route::post('iniciado-chat', [FunilVendasKanbanController::class, 'setChatWhatsapp'])->name('iniciado-chat');
+                Route::post('iniciado-chat', InicioChatApiController::class)->name('iniciado-chat');
             });
 
 

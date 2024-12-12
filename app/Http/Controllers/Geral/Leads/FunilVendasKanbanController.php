@@ -21,24 +21,6 @@ class FunilVendasKanbanController extends Controller
         return Inertia::render('Geral/Leads/FunilVendas/Index', []);
     }
 
-    public function setChatWhatsapp(Request $request)
-    {
-        $leadId = $request->input('lead_id');
-        $telefoneId = $request->input('telefone_id');
-        $origem = $request->input('origem');
-        $meta = $request->input('meta');
-
-        (new Leads())->setConatoData($leadId);
-
-        $lead = (new Lead())->newQuery()->find($leadId);
-        if ($lead->status === 'novo' || $lead->status === 'oportunidade') {
-            (new UpdateStatusLeadService($leadId))->setConexaoProativaStatus($leadId);
-            $lead->update(['status_data' => now()]);
-        }
-
-        (new LeadContatoRealizado())->store($leadId, $telefoneId, $origem, $meta);
-    }
-
     public function getIndexRegistros(Request $request)
     {
         $setor = $request->input("setor");
