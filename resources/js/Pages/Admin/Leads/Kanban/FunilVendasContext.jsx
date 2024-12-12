@@ -1,15 +1,15 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, {createContext, useCallback, useContext, useEffect, useState} from 'react';
 import axios from 'axios';
 import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
 
 export const FunilVendasContext = createContext();
 
-export const FunilVendasProvider = ({ children }) => {
+export const FunilVendasProvider = ({children}) => {
 
     const {atualizarDados} = useAtualizarDados()
 
-    const [filtros, setFiltros] = useState({ usuarios: [], setores: [] });
-    const [filtrar, setFiltrar] = useState({ setor: null, usuario: null });
+    const [filtros, setFiltros] = useState({usuarios: [], setores: []});
+    const [filtrar, setFiltrar] = useState({setor: null, usuario: null});
     const [pesquisar, setPesquisar] = useState(null);
     const [colunas, setColunas] = useState([]);
     const [cards, setCards] = useState([]);
@@ -19,11 +19,11 @@ export const FunilVendasProvider = ({ children }) => {
     const fetchData = useCallback(async () => {
         try {
             const response = await axios.get(route('auth.leads.funil-vendas-kanban.index-registros'), {
-                params: { ...filtrar },
+                params: {...filtrar},
             });
             const data = response.data;
             setCards(data.cards);
-            setFiltros({ usuarios: data.usuarios, setores: data.setores });
+            setFiltros({usuarios: data.usuarios, setores: data.setores});
             setColunas(data.colunas);
         } catch (error) {
             console.error('Erro ao buscar dados:', error);
@@ -37,7 +37,7 @@ export const FunilVendasProvider = ({ children }) => {
     }, [filtrar, atualizar, atualizarDados]);
 
     const handleFiltrar = (value) => {
-        setFiltrar((prev) => ({ ...prev, ...value }));
+        setFiltrar((prev) => ({...prev, ...value}));
     };
 
     const handleAtualizar = () => {
@@ -46,7 +46,7 @@ export const FunilVendasProvider = ({ children }) => {
 
     return (
         <FunilVendasContext.Provider
-            value={{ filtros, filtrar, pesquisar, setPesquisar, colunas, cards, carregando, handleAtualizar, handleFiltrar }}
+            value={{filtros, filtrar, pesquisar, setPesquisar, colunas, cards, carregando, handleAtualizar, handleFiltrar}}
         >
             {children}
         </FunilVendasContext.Provider>
@@ -54,11 +54,16 @@ export const FunilVendasProvider = ({ children }) => {
 };
 
 export const useFunilVendas = () => {
-    const context = useContext(FunilVendasContext);
+    try {
+        const context = useContext(FunilVendasContext);
 
-    if (!context) {
-        throw new Error('useFunilVendas deve ser usado dentro de um FunilVendasProvider');
+        if (!context) {
+            throw new Error('useFunilVendas deve ser usado dentro de um FunilVendasProvider.');
+        }
+
+        return context;
+    } catch (error) {
+        console.error(error.message);
+        return {}; // Fallback para evitar erros
     }
-
-    return context;
 };
