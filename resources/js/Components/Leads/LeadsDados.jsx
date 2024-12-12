@@ -9,6 +9,7 @@ import CampoTexto from "@/Components/CampoTexto.jsx";
 import Chip from "@mui/material/Chip";
 import {TbEdit, TbMapPin} from "react-icons/tb";
 import Paper from "@mui/material/Paper";
+import OpenIflameChatWhatsapp from "@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflameChatWhatsapp.jsx";
 
 export default function LeadsDados({dados, acoes}) {
 
@@ -25,6 +26,7 @@ export default function LeadsDados({dados, acoes}) {
                 <Grid item key={id}>
                     <Paper sx={{padding: 1}} variant="outlined">
                         <Stack direction="row" alignItems="center" spacing={2}>
+                            <OpenIflameChatWhatsapp dados={{id, telefone, contato_nome}} icone={true}/>
                             <Telephone size={18} color="blue"/>
                             <Typography display="inline" marginBottom={1}>{telefone}</Typography>
                             {contato_nome && <Typography display="inline" marginBottom={1}>{contato_nome}</Typography>}

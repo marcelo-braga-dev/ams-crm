@@ -20,7 +20,7 @@ const OpenIflameChatWhatsapp = ({dados, icone}) => {
     const {urlFrontend, urlBackend, apiKey, credenciaisUsuario} = useWhatsapp();
 
     const urlWhaticket = `${urlFrontend}/chat/${chatId}`;
-    console.log(dados)
+
     const fetch = async () => {
         try {
             const leadName = await getNameContactLead(dados.lead_id)

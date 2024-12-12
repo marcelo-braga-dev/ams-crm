@@ -44,7 +44,7 @@ const ButtonWhatsapp = ({telefones}) => {
                 'aria-labelledby': 'basic-button',
             }}
         >
-            {telefones.map(numero => <ItemsMenuSuspense key={numero.id} value={numero}/>)}
+            {telefones.map(numero => <ItemsMenuSuspense key={numero.id} numero={numero}/>)}
         </Menu>
     </>);
 };
