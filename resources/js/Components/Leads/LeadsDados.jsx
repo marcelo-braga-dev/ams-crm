@@ -24,7 +24,7 @@ export default function LeadsDados({dados, acoes}) {
         return dados?.telefones?.length > 0 && dados?.telefones?.map((item) => {
             return (
                 <Grid item key={item.id}>
-                    <Paper sx={{padding: 1}} variant="outlined">
+                    <Paper sx={{padding: 2}} variant="outlined">
                         <Stack direction="row" alignItems="center" spacing={2}>
                             <OpenIflameChatWhatsapp dados={item} icone={true}/>
                             <Telephone size={18} color="blue"/>
@@ -153,7 +153,7 @@ export default function LeadsDados({dados, acoes}) {
                     {dados?.emails?.map(email => {
                         return (
                             email && <Grid item key={email}>
-                                <Paper sx={{padding: 1}} variant="outlined">
+                                <Paper sx={{padding: 2}} variant="outlined">
                                     <Stack direction="row" alignItems="center" spacing={2}>
                                         <Envelope size={18} color="orange"/>
                                         <Typography display="inline" marginBottom={1}>{email}</Typography>
