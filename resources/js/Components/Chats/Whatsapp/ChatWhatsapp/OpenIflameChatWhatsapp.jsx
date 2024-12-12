@@ -8,7 +8,7 @@ import {useFunilVendas} from '@/Pages/Admin/Leads/Kanban/FunilVendasContext.jsx'
 import axios from 'axios';
 import DialogIflame from '@/Components/Chats/Whatsapp/ChatWhatsapp/DialogIflame.jsx';
 import {Whatsapp} from 'react-bootstrap-icons';
-import getNameContactLead from "@/Utils/GetNameContactLead.js";
+import getLead from "@/Utils/GetNameContactLead.js";
 import updateLeadContactService from "@/Services/Whatsapp/UpdateLeadContactService.jsx";
 
 const OpenIflameChatWhatsapp = ({dados, icone}) => {
@@ -23,9 +23,9 @@ const OpenIflameChatWhatsapp = ({dados, icone}) => {
 
     const fetch = async () => {
         try {
-            const leadName = await getNameContactLead(dados.lead_id)
+            const leadInfo = await getLead(dados.lead_id)
 
-            const contact = await fetchRequisicao(urlBackend, apiKey, dados.numero, credenciaisUsuario, leadName);
+            const contact = await fetchRequisicao(urlBackend, apiKey, dados.numero, leadInfo.whatsapp_id, leadInfo.contato_nome);
             await updateLeadContactService(dados.id, contact)
 
             setChatId(contact?.data?.data?.id);

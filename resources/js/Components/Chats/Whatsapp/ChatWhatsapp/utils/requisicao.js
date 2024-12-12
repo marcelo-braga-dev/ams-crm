@@ -14,8 +14,8 @@ const optionsFetch = (token, number, userId, leadName) => ({
     },
 });
 
-const fetchRequisicao = async (urlBackend, apiKey, numero, credenciaisUsuario, leadName) => {
-    const options = optionsFetch(apiKey, numero, credenciaisUsuario.whatsappId, leadName);
+const fetchRequisicao = async (urlBackend, apiKey, numero, whatsappId, leadName) => {
+    const options = optionsFetch(apiKey, numero, whatsappId, leadName);
     const url = `${urlBackend}/api/messages/contacts`;
 
     try {

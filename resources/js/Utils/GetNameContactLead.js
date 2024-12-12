@@ -1,13 +1,13 @@
 import axios from "axios";
 
-const getNameContactLead = async (leadId) => {
+const getLead = async (leadId) => {
     try {
-        const {data} = await axios.get(route('auth.lead.get-all-data', leadId));
-
-        return `${data.nome ?? data.razao_social} [#${leadId}]`;
+        const {data} = await axios.get(route('auth.lead.find-lead', leadId));
+        console.log(data)
+        return {contato_nome: `${data.nome.trim() ?? data.razao_social} [ID #${leadId}]`, ...data.whatsapp}
     } catch (error) {
         console.error("Erro ao buscar os dados do lead:", error);
         throw error;
     }
 }
-export default getNameContactLead
+export default getLead

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Geral\Ferramentas\Whatsapp\LeadsWhatsappController;
+use App\Http\Controllers\Geral\Leads\Api\FindLeadApiController;
 use App\Http\Controllers\Geral\Leads\Api\GetAllDataLeadController;
 use App\Http\Controllers\Geral\Leads\Api\GetLeadApiController;
 use App\Http\Controllers\Geral\Leads\Api\InicioChatApiController;
@@ -25,6 +26,7 @@ Route::name('auth.')
         Route::prefix('api-lead')
             ->name('lead.')
             ->group(function () {
+                Route::get('find/{id}', FindLeadApiController::class)->name('find-lead');
                 Route::get('lead/{id}', GetLeadApiController::class)->name('get-lead');
                 Route::get('get-all-lead/{id}', GetAllDataLeadController::class)->name('get-all-data');
                 Route::put('update-status/{id}', UpdadeStatusLeadController::class)->name('update-status');

@@ -2,6 +2,7 @@
 
 namespace App\Models\Lead;
 
+use App\Models\Ferramentas\Whatsapp\WhatsappUsuario;
 use App\Models\Pedido\Pedido;
 use App\Models\Pedidos;
 use App\Models\Setores;
@@ -18,7 +19,7 @@ class Lead extends Model
 
     protected $fillable = ['user_id', 'status', 'vendedor_id', 'cnpj', 'cpf', 'status_id', 'setor_id', 'ultimo_pedido_data', 'status_data'];
 
-    protected $with = ['endereco', 'setor', 'vendedor', 'telefones'];
+    protected $with = ['endereco', 'setor', 'vendedor', 'telefones', 'whatsapp'];
 
     protected $appends = ['status_date', 'status_nome', 'status_dados', 'extras', 'emails'];
 
@@ -85,6 +86,11 @@ class Lead extends Model
     public function endereco()
     {
         return $this->hasOne(LeadEndereco::class, 'lead_id', 'id');
+    }
+
+    public function whatsapp()
+    {
+        return $this->hasOne(WhatsappUsuario::class, 'user_id', 'user_id');
     }
 
     public function vendedor()
