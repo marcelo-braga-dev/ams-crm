@@ -21,15 +21,15 @@ export default function LeadsDados({dados, acoes}) {
     }
 
     const telefones = useMemo(() => {
-        return dados?.telefones?.length > 0 && dados?.telefones?.map(({id, telefone, contato_nome}) => {
+        return dados?.telefones?.length > 0 && dados?.telefones?.map((item) => {
             return (
-                <Grid item key={id}>
+                <Grid item key={item.id}>
                     <Paper sx={{padding: 1}} variant="outlined">
                         <Stack direction="row" alignItems="center" spacing={2}>
-                            <OpenIflameChatWhatsapp dados={{id, telefone, contato_nome}} icone={true}/>
+                            <OpenIflameChatWhatsapp dados={item} icone={true}/>
                             <Telephone size={18} color="blue"/>
-                            <Typography display="inline" marginBottom={1}>{telefone}</Typography>
-                            {contato_nome && <Typography display="inline" marginBottom={1}>{contato_nome}</Typography>}
+                            <Typography display="inline" marginBottom={1}>{item.telefone}</Typography>
+                            {item.contato_nome && <Typography display="inline" marginBottom={1}>{item.contato_nome}</Typography>}
                         </Stack>
                     </Paper>
                 </Grid>
