@@ -35,10 +35,13 @@ export default function Pedidos({pedido, produtos, clienteDuplicado}) {
     return (
         <Layout container voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}
                 titlePage="Pedido em Conferência" menu="pedidos" submenu="pedidos-lista">
-            {clienteDuplicado > 1 && (
+            {clienteDuplicado.length > 1 && (
                 <CardContainer>
                     <CardBody>
-                        <Alert variant="filled" severity="error" sx={{marginBlock: 2}}>CLIENTE JÁ POSSUI PEDIDOS NO SISTEMA!</Alert>
+                        <Alert variant="filled" severity="error" sx={{marginBlock: 2}}>
+                            <Typography>CLIENTE JÁ POSSUI PEDIDOS NO SISTEMA!</Typography>
+                            <Typography>ID dos pedidos: {clienteDuplicado.map(item => `#${item} `)}</Typography>
+                        </Alert>
                     </CardBody>
                 </CardContainer>
             )}

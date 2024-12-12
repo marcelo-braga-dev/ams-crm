@@ -20,7 +20,7 @@ class ConferenciaController extends Controller
         $clienteDuplicado = (new PedidosClientes())
             ->where('cpf', $pedido['cliente']['cpf'])
             ->orWhere('cnpj', $pedido['cliente']['cnpj'])
-            ->count();
+            ->pluck('pedido_id');
 
         return Inertia::render('Admin/Pedidos/Conferencia/Show',
             compact('pedido', 'produtos', 'clienteDuplicado'));
