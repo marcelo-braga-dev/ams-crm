@@ -1,5 +1,5 @@
 import maskJquery from "@/Helpers/maskJquery";
-import {FormControl, Radio, RadioGroup, TextField} from "@mui/material";
+import {FormControl, Grid2, Radio, RadioGroup, TextField} from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
 import pesquisaCep from "@/Helpers/pesquisaCep";
@@ -30,6 +30,7 @@ export default function FormLeads({data, setData, required}) {
 
 
     const [novoTelefone, setNovoTelefone] = useState(''); // Estado para o novo telefone
+    const [novoContato, setNovoContato] = useState('');
 
     // Função para atualizar o telefone existente
     const handleTelefoneChange = (index, value) => {
@@ -41,15 +42,20 @@ export default function FormLeads({data, setData, required}) {
     // Função para adicionar um novo telefone diretamente quando o usuário termina de digitar
     const handleAdicionarTelefone = () => {
         if (novoTelefone.trim()) {
-            const novo = {id: Date.now(), numero: novoTelefone};
+            const novo = {id: Date.now(), numero: novoTelefone, contato_nome: novoContato};
             setData('telefones', [...data.telefones, novo]); // Adiciona o novo telefone ao estado
             setNovoTelefone(''); // Limpa o campo de entrada
+            setNovoContato('');
         }
     };
 
     // Função para atualizar o novo telefone no estado `data` enquanto o usuário digita
     const handleNovoTelefoneChange = (value) => {
         setNovoTelefone(value);
+    };
+
+    const handleNovoContatoChange = (value) => {
+        setNovoContato(value);
     };
 
     return (<>
@@ -128,18 +134,43 @@ export default function FormLeads({data, setData, required}) {
             <CardBody>
                 <div className="row row-cols-5">
                     {data?.telefones?.map((item, i) => (
-                        <div key={item.id} className="col mb-3">
-                            <TextField
-                                label={`Telefone ${i + 1}:`}
-                                required={i < 1}
-                                fullWidth
-                                className="phone"
-                                value={item.numero}
-                                onChange={(e) => handleTelefoneChange(i, e.target.value)}
-                            />
-                        </div>
+                        <Grid2 container>
+                            <Grid2 item>
+                                <TextField
+                                    label="Nome do Contato"
+                                    fullWidth
+                                    value={item.contato_nome}
+                                    onChange={(e) => handleContatoChange(i, e.target.value)}
+                                />
+                            </Grid2>
+                            <Grid2 item>
+                                <div key={item.id} className="col mb-3">
+                                    <TextField
+                                        label={`Telefone ${i + 1}:`}
+                                        required={i < 1}
+                                        fullWidth
+                                        className="phone"
+                                        value={item.numero}
+                                        onChange={(e) => handleTelefoneChange(i, e.target.value)}
+                                    />
+                                </div>
+                            </Grid2>
+                        </Grid2>
+
                     ))}
-                    <div className="col mb-3">
+
+
+                </div>
+                <Grid2 container spacing={2}>
+                    <Grid2 item size={{md: 3}}>
+                        <TextField
+                            label="Nome do Contato"
+                            fullWidth
+                            value={novoContato}
+                            onChange={(e) => handleNovoContatoChange(e.target.value)}
+                        />
+                    </Grid2>
+                    <Grid2 item>
                         <TextField
                             label="Adicionar Telefone"
                             fullWidth
@@ -154,8 +185,8 @@ export default function FormLeads({data, setData, required}) {
                                 }
                             }}
                         />
-                    </div>
-                </div>
+                    </Grid2>
+                </Grid2>
             </CardBody>
 
         </CardContainer>
