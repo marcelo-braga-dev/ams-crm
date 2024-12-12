@@ -43,10 +43,12 @@ class DadosImportacaoService
                 'estado' => $dado[9] ?? null,
                 'cep' => $dado[11] ?? null,
             ],
-            'telefones' => [
-                $dado[12] ?? null,//cel
+            'telefones' => array_filter([
+                $dado[12] ?? null, // cel
                 $dado[13] ?? null,
-            ],
+            ], function ($value) {
+                return !empty($value); // Remove valores vazios ou null
+            }),
             'email' => $dado[14] ?? null,
             'cnae' => $dado[16] ?? null,
             'atividade_principal' => $dado[17] ?? null,
@@ -82,7 +84,7 @@ class DadosImportacaoService
                 'estado' => $dado[33] ?? null,
                 'cep' => $dado[34] ?? null,
             ],
-            'telefones' => [
+            'telefones' => array_filter([
                 $dado[87] ?? null,//cel
                 $dado[88] ?? null,
                 $dado[89] ?? null,
@@ -93,7 +95,9 @@ class DadosImportacaoService
                 $dado[94] ?? null,
                 $dado[95] ?? null,
                 $dado[96] ?? null,
-            ],
+            ], function ($value) {
+                return !empty($value); // Remove valores vazios ou null
+            }),
             'quadro_societario' => (($dado[109] ?? null) . ' ' . ($dado[108] ?? null)) .
                 (($dado[115] ?? null) ? (' & ' . $dado[115] . ' ' . ($dado[114] ?? null)) : '') .
                 (($dado[121] ?? null) ? (' & ' . $dado[121] . ' ' . ($dado[120] ?? null)) : '') .
@@ -129,8 +133,7 @@ class DadosImportacaoService
                 'estado' => $dado[28] ?? null,
                 'cep' => $dado[29] ?? null,
             ],
-
-            'telefones' => [
+            'telefones' => array_filter([
                 $dado[44] ?? null,//cel
                 $dado[45] ?? null,
                 $dado[46] ?? null,
@@ -139,7 +142,9 @@ class DadosImportacaoService
                 $dado[41] ?? null,
                 $dado[42] ?? null,
                 $dado[43] ?? null,
-            ],
+            ], function ($value) {
+                return !empty($value); // Remove valores vazios ou null
+            }),
             'quadro_societario' => (($dado[63] ?? null) . ' ' . ($dado[62] ?? null)) .
                 (($dado[66] ?? null) ? (' & ' . $dado[66] . ' ' . ($dado[65] ?? null)) : '')
         ];
