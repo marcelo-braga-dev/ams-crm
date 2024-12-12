@@ -82,6 +82,7 @@ class Pedidos extends Model
         if ($data->isPast() && ($this->attributes['status'] == 'aguardando_pagamento' && !$this->attributes['pagamento_ignorar_vencimento'])) {
             $this->newQuery()->find($this->attributes['id'])->update(['status' => 'vencido']);
             $statusAtual = 'vencido';
+            (new PedidosHistoricos())->create($this->attributes['id'], $statusAtual, null, null);
         }
 
         return $statusAtual;
