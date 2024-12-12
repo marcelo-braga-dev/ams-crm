@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pedidos\Modelo1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pedidos;
+use App\Models\PedidosClientes;
 use App\Models\PedidosProdutos;
 use App\src\Pedidos\PedidoUpdateStatus;
 use Illuminate\Http\Request;
@@ -16,8 +17,13 @@ class ConferenciaController extends Controller
         $pedido = (new Pedidos())->getDadosPedido($id);
         $produtos = (new PedidosProdutos())->getProdutosPedido($id);
 
+        $clienteDuplicado = (new PedidosClientes())
+            ->where('cpf', $pedido['cliente']['cpf'])
+            ->orWhere('cnpj', $pedido['cliente']['cnpj'])
+            ->count();
+
         return Inertia::render('Admin/Pedidos/Conferencia/Show',
-            compact('pedido', 'produtos'));
+            compact('pedido', 'produtos', 'clienteDuplicado'));
     }
 
     public function update($id, Request $request)

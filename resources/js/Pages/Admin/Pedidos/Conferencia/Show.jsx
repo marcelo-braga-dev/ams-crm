@@ -18,7 +18,7 @@ import {Box} from "react-bootstrap-icons";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles.jsx";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro.jsx";
 
-export default function Pedidos({pedido, produtos}) {
+export default function Pedidos({pedido, produtos, clienteDuplicado}) {
 
     const {data, setData} = useForm({
         'reprovado': ''
@@ -35,6 +35,13 @@ export default function Pedidos({pedido, produtos}) {
     return (
         <Layout container voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}
                 titlePage="Pedido em Conferência" menu="pedidos" submenu="pedidos-lista">
+            {clienteDuplicado > 1 && (
+                <CardContainer>
+                    <CardBody>
+                        <Alert variant="filled" severity="error" sx={{marginBlock: 2}}>CLIENTE JÁ POSSUI PEDIDOS NO SISTEMA!</Alert>
+                    </CardBody>
+                </CardContainer>
+            )}
 
             {pedido.pedido.alerta && <Alert severity="info">
                 <b>PEDIDO PASSOU POR REVISÃO</b><br/>
