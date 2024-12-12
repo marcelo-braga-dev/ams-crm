@@ -526,8 +526,11 @@ class LeadsANTIGO extends Model
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
         try {
-            (new LeadEndereco())->where('lead_id', $id)
-                ->update($dados->get('endereco'));
+            $endereco = $dados->get('endereco');
+            (new LeadEndereco())
+                ->updateOrCreate(
+                    ['id' => $endereco['id']],
+                    [...$endereco]);
 
             $this->newQuery()
                 ->find($id)
@@ -546,6 +549,7 @@ class LeadsANTIGO extends Model
             (new LeadTelefones())->criar($id, $dados['telefones'] ?? []);
 
         } catch (QueryException $exception) {
+            print_pre($exception->getMessage());
             $msgErro = ('O CNPJ: ' . converterCNPJ($dados['cnpj'] . ' já está cadastrado em outro LEAD!'));
             (new LeadsNotificacao())->notificarDuplicidade($msgErro);
 

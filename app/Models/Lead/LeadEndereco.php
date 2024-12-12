@@ -29,10 +29,10 @@ class LeadEndereco extends Model
         $this->attributes['cep'] = converterInt($value);
     }
 
-    protected function getCepAttribute($value)
-    {
-        $this->attributes['cep'] =  sprintf('%05d-%03d', substr($value, 0, 5), substr($value, 5));
-    }
+//    protected function getCepAttribute($value)
+//    {
+//        $this->attributes['cep'] =  sprintf('%05d-%03d', substr($value, 0, 5), substr($value, 5));
+//    }
 
     public function getEnderecoCompletoAttribute()
     {
