@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\Geral\Leads\GerenciarLeadsController;
+use App\Http\Controllers\Geral\Leads\Api\EdicoesHistoricoController;
 use App\Http\Controllers\Geral\Leads\HistoricoLeadController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\Leads\LeadsController;
 
 Route::name('auth.leads.')
     ->prefix('auth/leads')
@@ -14,5 +13,6 @@ Route::name('auth.leads.')
             ->prefix('historico-api')
             ->group(function () {
                 Route::get('get-histrico', [HistoricoLeadController::class, 'getHistorico'])->name('get-historico');
+                Route::get('get-histrico-edicoes/{id}', EdicoesHistoricoController::class)->name('get-histrico-edicoes');
             });
     });

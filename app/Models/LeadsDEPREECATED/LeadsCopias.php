@@ -2,6 +2,7 @@
 
 namespace App\Models\LeadsDEPREECATED;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 /**
@@ -34,6 +35,13 @@ class LeadsCopias extends Model
         'data_situacao',
         'data_abertura',
     ];
+
+    protected $appends = ['criado_em'];
+
+    protected function getCriadoEmAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
+    }
 
     public function create($idLead, $dados)
     {
@@ -79,6 +87,7 @@ class LeadsCopias extends Model
                 'situacao' => $colunasAlteradas['situacao'] ?? null,
                 'data_situacao' => $colunasAlteradas['data_situacao'] ?? null,
                 'data_abertura' => $colunasAlteradas['data_abertura'] ?? null,
+                'created_at' => now()
             ]);
         }
     }

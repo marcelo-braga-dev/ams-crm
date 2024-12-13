@@ -10,6 +10,7 @@ import Chip from "@mui/material/Chip";
 import {TbEdit, TbMapPin} from "react-icons/tb";
 import Paper from "@mui/material/Paper";
 import OpenIflameChatWhatsapp from "@/Components/Chats/Whatsapp/ChatWhatsapp/OpenIflameChatWhatsapp.jsx";
+import Box from "@mui/material/Box";
 
 export default function LeadsDados({dados, acoes}) {
 
@@ -88,7 +89,7 @@ export default function LeadsDados({dados, acoes}) {
         )
     }, [dados?.extras]);
 
-    return (<>
+    return (<Box>
         <CardContainer>
             <CardTitle title="Informações do Lead" icon={<Person size="22"/>} children={acoes}/>
             <CardBody>
@@ -177,5 +178,5 @@ export default function LeadsDados({dados, acoes}) {
                 </Stack>
             </CardBody>
         </CardContainer>}
-    </>)
+    </Box>)
 }

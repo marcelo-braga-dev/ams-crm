@@ -15,16 +15,17 @@ import * as React from 'react';
 import {useContext, useEffect, useState} from 'react';
 import {router, usePage} from '@inertiajs/react';
 import {LeadContext} from './LeadContext.jsx';
-import {TbPackage, TbX} from 'react-icons/tb';
+import {TbEdit, TbPackage, TbX} from 'react-icons/tb';
 import Link from '@/Components/Link.jsx';
 import Avatar from '@mui/material/Avatar';
 import {useAtualizarDados} from "@/Hooks/useAtualizarDados.jsx";
+import HistoricoEdicoes from "@/Partials/Leads/HistoricoEdicoes.jsx";
 
 const LeadDialog = ({iconButton, action, leadId}) => {
 
     const isAdmin = usePage().props.auth.user.is_admin; // remover
     const {handle} = useAtualizarDados()
-    const { lead, fetchLead, filtros, permissoes } = useContext(LeadContext);
+    const {lead, fetchLead, filtros, permissoes} = useContext(LeadContext);
 
     const [consultorSelecionado, setConsultorSelecionado] = useState();
     const [novoStatus, setNovoStatus] = useState();
@@ -158,6 +159,7 @@ const LeadDialog = ({iconButton, action, leadId}) => {
                                 <Tab icon={<ListUl size={24}/>} iconPosition="start" label="Histórico de Atendimento"/>
                                 <Tab icon={<BoxSeam size={22}/>} iconPosition="start" label="Histórico de Pedidos"/>
                                 <Tab icon={<Tag size={22}/>} iconPosition="start" label="Histórico dos Status"/>
+                                <Tab icon={<TbEdit size={22}/>} iconPosition="start" label="Histórico de Edições"/>
                             </Tabs>
                         )}/>
                         <div style={{height: 530}}>
@@ -167,6 +169,8 @@ const LeadDialog = ({iconButton, action, leadId}) => {
                                 {value === 1 && <HistoricoPedidos pedidos={lead?.pedidos}/>}
 
                                 {value === 2 && <HistoricoStatus historico={lead?.status_historico}/>}
+
+                                {value === 3 && <HistoricoEdicoes leadId={leadId}/>}
                             </CardBody>
                         </div>
                     </CardContainer>
