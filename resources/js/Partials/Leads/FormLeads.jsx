@@ -26,7 +26,7 @@ export default function FormLeads({data, setData, required}) {
 
     useEffect(() => {
         maskJquery()
-    }, []);
+    }, [isPj]);
 
 
     const [novoTelefone, setNovoTelefone] = useState(''); // Estado para o novo telefone
@@ -93,12 +93,12 @@ export default function FormLeads({data, setData, required}) {
                 </div>
                 <div className="row">
                     {isPj === 'pf' && (<div className="col-md-4 mb-4">
-                        <TextField label={'RG'} required={required} fullWidth className="rg" defaultValue={data?.rg}
-                                   onBlur={e => setData('rg', e.target.value)}/>
-                    </div>)}
-                    {isPj === 'pf' && (<div className="col-md-4 mb-4">
                         <TextField label={'CPF'} required fullWidth className="cpf" defaultValue={data?.cpf}
                                    onBlur={e => setData('cpf', e.target.value)}/>
+                    </div>)}
+                    {isPj === 'pf' && (<div className="col-md-4 mb-4">
+                        <TextField label={'RG'} required={required} fullWidth className="rg" defaultValue={data?.rg}
+                                   onBlur={e => setData('rg', e.target.value)}/>
                     </div>)}
                     {isPj === 'pj' && (<div className="col-md-4 mb-4">
                         <TextField label={'CNPJ'} required fullWidth className="cnpj" defaultValue={data?.cnpj}
@@ -231,7 +231,7 @@ export default function FormLeads({data, setData, required}) {
                                    onChange={e => setData('endereco', {...data?.endereco, cidade: e.target.value})}/>
                     </div>
                     <div className="col-md-4 mb-4">
-                        <TextField label="Estado" fullWidth required id="estado" select
+                        <TextField label="Estado" fullWidth required={required} id="estado" select
                                    value={data?.endereco?.estado}
                                    defaultValue={data?.endereco?.estado ?? ''}
                                    onChange={e => setData('endereco', {...data?.endereco, estado: e.target.value})}>
