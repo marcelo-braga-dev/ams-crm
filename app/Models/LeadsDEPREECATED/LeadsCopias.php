@@ -40,7 +40,7 @@ class LeadsCopias extends Model
 
     protected function getCriadoEmAttribute()
     {
-        return Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s');
+        return $this->attributes['created_at'] ? Carbon::parse($this->attributes['created_at'])->format('d/m/Y H:i:s') : null;
     }
 
     public function create($idLead, $dados)
