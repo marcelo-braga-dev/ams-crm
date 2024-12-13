@@ -73,7 +73,7 @@ const Page = ({encaminhados}) => {
                 <TabPanel value="1">
                     <CardContainer>
                         <CardBody>
-                            {encaminhados.map(item => (
+                            {encaminhados.data.map(item => (
                                 <Paper sx={{marginBottom: 2, padding: 2}} variant="outlined">
                                     <Grid container spacing={2}>
                                         <Grid size={10}>

@@ -13,7 +13,7 @@ class HistoricoLeadController extends Controller
     {
         $encaminhados = (new LeadEncaminhadoHistorico)
             ->orderByDesc('id')
-            ->get();
+            ->paginate();
 
         return Inertia::render('Geral/Leads/Historico/Page', compact('encaminhados'));
     }

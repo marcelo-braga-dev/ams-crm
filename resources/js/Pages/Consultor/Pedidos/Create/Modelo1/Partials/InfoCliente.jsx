@@ -45,13 +45,14 @@ export default function InfoCliente({data, setData}) {
                 </div>
                 <div className="row">
                     {data.pessoa === 'Pessoa Física' && (<Col className={"mb-4"} lg={"4"}>
-                        <TextField label={'RG'} required fullWidth className="rg" defaultValue={data.rg}
-                                   onBlur={e => setData('rg', e.target.value)}/>
-                    </Col>)}
-                    {data.pessoa === 'Pessoa Física' && (<Col className={"mb-4"} lg={"4"}>
                         <TextField label={'CPF'} required fullWidth className="cpf" defaultValue={data.cpf}
                                    onBlur={e => setData('cpf', e.target.value)}/>
                     </Col>)}
+                    {data.pessoa === 'Pessoa Física' && (<Col className={"mb-4"} lg={"4"}>
+                        <TextField label={'RG'} required fullWidth className="rg" defaultValue={data.rg}
+                                   onBlur={e => setData('rg', e.target.value)}/>
+                    </Col>)}
+
                     {data.pessoa === 'Jurídica' && (<Col className={"mb-4"} lg={"4"}>
                         <TextField label={'CNPJ'} required fullWidth className="cnpj" defaultValue={data.cnpj}
                                    onBlur={e => setData('cnpj', e.target.value)}/>
