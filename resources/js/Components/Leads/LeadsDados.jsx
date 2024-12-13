@@ -56,13 +56,6 @@ export default function LeadsDados({dados, acoes}) {
                     <CampoTexto titulo="Setor" texto={dados?.setor?.nome}/>
                     {dados?.cliente?.endereco && <CampoTexto titulo="Endereço" texto={dados.cliente.endereco}/>}
                 </Grid>
-            </Grid>
-        )
-    }, [dados]);
-
-    const dadosLeadExtra = useMemo(() => {
-        return (
-            <Grid container>
                 <Grid item md={12}>
                     {dados.endereco?.endereco_completo && (
                         <Stack direction="row" spacing={1} alignItems="center">
@@ -73,7 +66,15 @@ export default function LeadsDados({dados, acoes}) {
                             </Link>
                         </Stack>
                     )}
+                </Grid>
+            </Grid>
+        )
+    }, [dados]);
 
+    const dadosLeadExtra = useMemo(() => {
+        return (
+            <Grid container>
+                <Grid item md={12}>
                     {dados.extras?.cnae && <CampoTexto titulo="CNAE" texto={dados.extras.cnae}/>}
                     {dados.extras?.situacao && <CampoTexto titulo="Situação" texto={`${dados.extras.situacao} ${dados.extras.data_situacao}`}/>}
                     {dados.extras?.atividade_principal && <CampoTexto titulo="Atividade Principal" texto={dados.extras.atividade_principal}/>}
@@ -100,7 +101,7 @@ export default function LeadsDados({dados, acoes}) {
                 {/*Extras*/}
                 {toggleMenu && dadosLeadExtra}
 
-                <Grid container justifyContent="space-between">
+                <Grid container justifyContent="space-between" marginTop={2}>
                     <Grid item>
                         <Chip
                             className="cursor-pointer "
