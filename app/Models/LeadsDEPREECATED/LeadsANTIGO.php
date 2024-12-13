@@ -102,6 +102,12 @@ class LeadsANTIGO extends Model
             ->select(['id', 'lead_id']);
     }
 
+    public function pedidos()
+    {
+        return $this->hasMany(Pedidos::class, 'lead_id')
+            ->select(['id', 'lead_id']);
+    }
+
     public function cidadeEstado()
     {
         return $this->belongsTo(LeadEndereco::class, 'id', 'lead_id');
@@ -1031,7 +1037,7 @@ class LeadsANTIGO extends Model
         $setores = (new Setores())->getNomes();
 
         $query = $this->newQuery()
-            ->with(['telefones', 'copias', 'cidadeEstado'])
+            ->with(['telefones', 'copias', 'cidadeEstado', 'pedidos'])
             ->where('setor_id', $setor);
 
         $orderBy = $filtros['ordenar_by'] ?? 'ASC';
@@ -1072,6 +1078,11 @@ class LeadsANTIGO extends Model
 
         if (!empty($filtros['enriquecidos'])) {
             $query->whereHas('copias');
+        }
+
+        if (!empty($filtros['pedidos'])) {
+            if ($filtros['pedidos'] == 'com_pedidos') $query->whereHas('pedidos');
+            if ($filtros['pedidos'] == 'sem_pedidos') $query->doesntHave('pedidos');
         }
 
         if (!empty($filtros['consultor'])) {

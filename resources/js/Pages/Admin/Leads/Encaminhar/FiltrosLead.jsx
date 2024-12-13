@@ -120,6 +120,15 @@ const FiltrosLead = ({
                                 <MenuItem value="com_telefone">Com Telefone</MenuItem>
                             </TextField>
                         </Grid>
+                        <Grid xs={12} md={2}>
+                            <TextField label="Pedidos" select size="small" fullWidth
+                                       value={filtros.pedidos}
+                                       onChange={e => setFiltros({...filtros, pedidos: e.target.value})}>
+                                <MenuItem value="" >Todos</MenuItem>
+                                <MenuItem value="sem_pedidos">Sem Pedidos</MenuItem>
+                                <MenuItem value="com_pedidos">Com Pedidos</MenuItem>
+                            </TextField>
+                        </Grid>
                     </Grid>
                 </Box>}
 
