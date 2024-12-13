@@ -8,6 +8,7 @@ import CardContainer from "@/Components/Cards/CardContainer.jsx";
 import CardBody from "@/Components/Cards/CardBody.jsx";
 import CardTitle from "@/Components/Cards/CardTitle.jsx";
 import {Person} from "react-bootstrap-icons";
+import LeadsDados from "@/Components/Leads/LeadsDados.jsx";
 
 export default function Form({lead, url, urlProdutos, fornecedores, endereco, categorias, unidades, errors}) {
     const {data, setData, post, progress, processing} = useForm({
@@ -53,7 +54,8 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
             <div className="">
                 <AlertDanger errors={errors}/>
 
-                <FormLeads data={data} setData={setData} required/>
+                {/*<FormLeads data={data} setData={setData} required/>*/}
+                <LeadsDados dados={lead}/>
 
                 <Pedidos fornecedores={fornecedores} setData={setData} data={data}
                          categorias={categorias} unidades={unidades} urlProdutos={urlProdutos}/>
