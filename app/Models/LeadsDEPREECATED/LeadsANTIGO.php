@@ -1093,6 +1093,10 @@ class LeadsANTIGO extends Model
             $query->where('importacao_id', $filtros['importacao']);
         }
 
+        if (!empty($filtros['situacao'])) {
+            $query->where('situacao', $filtros['situacao']);
+        }
+
         if (!empty($filtros['status'])) {
             $query->where('status', $filtros['status']);
         }
