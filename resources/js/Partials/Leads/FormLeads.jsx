@@ -110,12 +110,13 @@ export default function FormLeads({data, setData, required}) {
                     </div>)}
                 </div>
                 <div className="row">
-                    <div className="col-md-3 mb-4">
-                        <TextField label={isPj === 'pj' ? 'Data Abertura Empresa' : "Data Nascimento"} id="nascimento" required={required}
-                                   defaultValue={data?.nascimento}
-                                   onBlur={e => setData('nascimento', e.target.value)} type={'date'}
-                                   fullWidth InputLabelProps={{shrink: true}}></TextField>
-                    </div>
+                    {isPj === 'pf' && <div className="col-md-3 mb-4">
+                        <TextField
+                            label={isPj === 'pj' ? 'Data Abertura Empresa' : "Data Nascimento"} id="nascimento" required={required}
+                            defaultValue={data?.nascimento}
+                            onBlur={e => setData('nascimento', e.target.value)} type={'date'}
+                            fullWidth InputLabelProps={{shrink: true}}/>
+                    </div>}
                     {/*<div className="col-md-3 mb-4">*/}
                     {/*    <TextField label={'Atendente'} required={required} fullWidth defaultValue={data?.atendente}*/}
                     {/*               onBlur={e => setData('atendente', e.target.value)}/>*/}
@@ -156,7 +157,6 @@ export default function FormLeads({data, setData, required}) {
                                 </div>
                             </Grid2>
                         </Grid2>
-
                     ))}
 
 

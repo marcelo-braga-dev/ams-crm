@@ -30,13 +30,13 @@ export default function Form({lead, url, urlProdutos, fornecedores, endereco, ca
         cidade: lead.cidade,
         estado: lead.estado,
         endereco: {
-            cep: endereco.cep,
-            rua: endereco.rua,
-            numero: endereco.numero,
-            complemento: endereco.complemento,
-            bairro: endereco.bairro,
-            cidade: endereco.cidade,
-            estado: endereco.estado
+            cep: lead?.endereco?.cep,
+            rua: lead?.endereco?.rua,
+            numero: lead?.endereco?.numero,
+            complemento: lead?.endereco?.complemento,
+            bairro: lead?.endereco?.bairro,
+            cidade: lead?.endereco?.cidade,
+            estado: lead?.endereco?.estado
         },
     });
 

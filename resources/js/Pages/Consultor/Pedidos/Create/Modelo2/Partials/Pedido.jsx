@@ -27,7 +27,7 @@ const FilterComponent = ({filterText, onFilter}) => (
     />
 );
 
-const  getCurrentDateTime = () =>  {
+const getCurrentDateTime = () => {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0'); // Janeiro é 0
@@ -302,20 +302,20 @@ export default function Pedido({fornecedores, unidades, categorias, urlProdutos,
 
                     {documento === 'cnh' && <div className="col-md-4 pt-4">
                         <TextField
-                            label="CNH" required fullWidth type="file" InputLabelProps={{shrink: true}}
+                            label="CNH" fullWidth type="file" InputLabelProps={{shrink: true}}
                             onChange={e => setData('img_cnh', e.target.files[0])}>
                         </TextField>
                     </div>}
                     {documento === 'rg' && <>
                         <div className="col-md-4 pt-4">
                             <TextField
-                                label="RG" required fullWidth type="file" InputLabelProps={{shrink: true}}
+                                label="RG" fullWidth type="file" InputLabelProps={{shrink: true}}
                                 onChange={e => setData('img_rg', e.target.files[0])}>
                             </TextField>
                         </div>
                         <div className="col-md-4 pt-4">
                             <TextField
-                                label="CPF" required fullWidth type="file" InputLabelProps={{shrink: true}}
+                                label="CPF" fullWidth type="file" InputLabelProps={{shrink: true}}
                                 onChange={e => setData('img_cpf', e.target.files[0])}>
                             </TextField>
                         </div>
@@ -373,7 +373,7 @@ export default function Pedido({fornecedores, unidades, categorias, urlProdutos,
                 <div className="row">
                     <div className="col-md-6">
                         <TextField
-                            label="Orçamento do Pedido" required
+                            label="Orçamento do Pedido"
                             fullWidth type="file" InputLabelProps={{shrink: true}}
                             onChange={e => setData('img_pedido', e.target.files[0])}>
                         </TextField>

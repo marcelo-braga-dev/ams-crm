@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Consultor\Pedidos;
 use App\Http\Controllers\Controller;
 use App\Models\ConfigCores;
 use App\Models\Enderecos;
-use App\Models\LeadsDEPREECATED\LeadsANTIGO;
+use App\Models\Lead\Lead;
 use App\Models\Pedidos;
 use App\Models\PedidosHistoricos;
 use App\Models\PedidosProdutos;
@@ -56,8 +56,9 @@ class PedidosController extends Controller
         $setor = setor_usuario_atual();
 
         $fornecedores = (new ProdutosFornecedores())->getAll($setor);
-        $lead = (new LeadsANTIGO())->find($request->lead);
 
+        $lead = (new Lead())->find($request->lead);
+//        print_pre($lead->toArray());
         $setorModelo = (new Setores())->getModelo($setor);
 
         if ($setorModelo == 1) return Inertia::render(
