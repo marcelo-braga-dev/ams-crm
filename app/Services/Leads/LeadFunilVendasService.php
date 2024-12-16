@@ -8,7 +8,8 @@ class LeadFunilVendasService
 {
     public function getLeadsGroupedByStatus($setor = null, $usuario = null)
     {
-        $leads = (new Leads)->dadosCard()
+        $leads = (new Leads)
+            ->dadosCard()
             ->when($setor, function ($query) use ($setor) {
                 return $query->where('setor_id', $setor);
             })
@@ -29,7 +30,6 @@ class LeadFunilVendasService
             ")
             ->orderBy('updated_at', 'ASC')
             ->get();
-
 
         return $leads->groupBy('status');
     }

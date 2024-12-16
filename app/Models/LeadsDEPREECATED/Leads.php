@@ -3,12 +3,14 @@
 namespace App\Models\LeadsDEPREECATED;
 
 use App\Models\Enderecos;
+use App\Models\Lead\LeadEndereco;
 use App\Models\Lead\LeadTelefones;
 use App\Models\Setores;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 /**
  * @deprecated
  */
@@ -115,8 +117,7 @@ class Leads extends Model
 
     public function cidadeEstado()
     {
-        return $this->belongsTo(Enderecos::class, 'endereco')
-            ->select(['id', 'cidade', 'estado']);
+        return $this->hasOne(LeadEndereco::class, 'lead_id', 'id');
     }
 
     public function getAll()
@@ -126,7 +127,8 @@ class Leads extends Model
 
     public function dadosCard()
     {
-        return $this->getAll()
+        return $this
+            ->getAll()
             ->select([
                 'id',
                 'user_id',

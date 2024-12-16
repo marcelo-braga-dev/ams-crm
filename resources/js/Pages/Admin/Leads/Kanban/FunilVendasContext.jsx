@@ -18,10 +18,10 @@ export const FunilVendasProvider = ({children}) => {
 
     const fetchData = useCallback(async () => {
         try {
-            const response = await axios.get(route('auth.leads.funil-vendas-kanban.index-registros'), {
+            const {data} = await axios.get(route('auth.leads.funil-vendas-kanban.index-registros'), {
                 params: {...filtrar},
             });
-            const data = response.data;
+
             setCards(data.cards);
             setFiltros({usuarios: data.usuarios, setores: data.setores});
             setColunas(data.colunas);
