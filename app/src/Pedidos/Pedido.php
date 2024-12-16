@@ -41,7 +41,7 @@ class Pedido
             case (new ProdutoModelo())->modelo(): {
                     DB::beginTransaction();
                     try {
-                        (new LeadsANTIGO())->atualizar($request->id_lead, $request);
+//                        (new LeadsANTIGO())->atualizar($request->id_lead, $request);
                         $idPedido = (new Pedidos())->create($request);
 
                         (new PedidosProdutos())->create($idPedido, $request);
