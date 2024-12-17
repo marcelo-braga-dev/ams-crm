@@ -166,7 +166,8 @@ const Index = ({categorias, statusleads, datasImportacao, isLeadsEncaminhar, isL
         setOpenDialogEncaminha(false)
     }
 
-    return (<Layout empty titlePage="Encaminhar Leads" menu="leads" submenu="leads-cadastrados">
+    return (
+        <Layout empty titlePage="Encaminhar Leads" menu="leads" submenu="leads-cadastrados">
             <FiltrosLead
                 filtros={filtros}
                 setFiltros={setFiltros}
