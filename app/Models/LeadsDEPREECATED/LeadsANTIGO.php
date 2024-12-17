@@ -1224,7 +1224,7 @@ class LeadsANTIGO extends Model
                     break;
                 case 'cnpj':
                     {
-                        $valor = intval($valor);
+                        $valor = intval(converterInt($valor)); ;
                         $query->where('cnpj', 'LIKE', "%$valor%");
                     }
                     break;
