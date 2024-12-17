@@ -227,7 +227,7 @@ class LeadsANTIGO extends Model
         $cnpj = preg_replace('/[^0-9]/', '', $dados['cnpj'] ?? null);
 
         try {
-            if ($cnpj && $cnpj <= 100000000000) throw new \DomainException('CNPJs inválidos;');
+            if ($cnpj && $cnpj <= 10000000000) throw new \DomainException('CNPJs inválidos;');
 
             $status = (new NovoStatusLeads())->getStatus();
             $verificacaoCnpj = null;
