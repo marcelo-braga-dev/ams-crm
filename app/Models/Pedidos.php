@@ -538,6 +538,7 @@ class Pedidos extends Model
 
         return [
             'id' => $pedido->id,
+            'lead_id' => $pedido->lead_id,
             'pedido' => [
                 'id' => $pedido->id,
                 'status' => (new StatusPedidos())->getNomeStatus($pedido->status),

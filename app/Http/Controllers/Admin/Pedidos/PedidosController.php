@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Pedidos;
 
 use App\Http\Controllers\Controller;
 use App\Models\ConfigCores;
+use App\Models\Lead\Lead;
 use App\Models\Pedidos;
 use App\Models\PedidosAcompanhamentos;
 use App\Models\PedidosFretes;
@@ -47,12 +48,13 @@ class PedidosController extends Controller
         $historicoAcompanhamento = (new PedidosAcompanhamentos())->get($id);
         $sacHistorico = (new Sac())->pedido($id);
         $anotacoesHistorico = (new Pedidos\PedidosAnotacoes())->getDados($id);
+        $lead = (new Lead())->find($pedido['lead_id']);
 
         $urlPrevious = go_card($id);
 
         return Inertia::render(
             'Admin/Pedidos/Show',
-            compact('pedido', 'historico', 'produtos', 'transportadoras', 'anotacoesHistorico', 'historicoAcompanhamento', 'sacHistorico', 'urlPrevious')
+            compact('pedido', 'lead', 'historico', 'produtos', 'transportadoras', 'anotacoesHistorico', 'historicoAcompanhamento', 'sacHistorico', 'urlPrevious')
         );
     }
 

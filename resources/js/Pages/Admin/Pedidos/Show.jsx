@@ -23,6 +23,7 @@ import TextFieldMoney from "@/Components/Inputs/TextFieldMoney3.jsx";
 import MenuItem from "@mui/material/MenuItem";
 import {useState} from "react";
 import {router} from "@inertiajs/react";
+import LeadsDados from "@/Components/Leads/LeadsDados.jsx";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -50,7 +51,7 @@ function a11yProps(index) {
     };
 }
 
-export default function Pedidos({pedido, produtos, historico, transportadoras, anotacoesHistorico, historicoAcompanhamento, sacHistorico, urlPrevious}) {
+export default function Pedidos({pedido, lead, produtos, historico, transportadoras, anotacoesHistorico, historicoAcompanhamento, sacHistorico, urlPrevious}) {
     const [value, setValue] = React.useState(0);
 
     const [frete, setFrete] = React.useState(false);
@@ -82,12 +83,13 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="Pedido" {...a11yProps(0)} />
                         <Tab label="Cliente" {...a11yProps(1)} />
-                        <Tab label="Financeiro" {...a11yProps(2)} />
-                        <Tab label="Frete" {...a11yProps(3)} />
-                        <Tab label="Anexos" {...a11yProps(4)} />
-                        <Tab label="Histórico" {...a11yProps(5)} />
-                        <Tab label="Anotações" {...a11yProps(6)} />
-                        <Tab label="SAC" {...a11yProps(7)} />
+                        <Tab label="Faturamento" {...a11yProps(2)} />
+                        <Tab label="Financeiro" {...a11yProps(3)} />
+                        <Tab label="Frete" {...a11yProps(4)} />
+                        <Tab label="Anexos" {...a11yProps(5)} />
+                        <Tab label="Histórico" {...a11yProps(6)} />
+                        <Tab label="Anotações" {...a11yProps(7)} />
+                        <Tab label="SAC" {...a11yProps(8)} />
                     </Tabs>
                 </div>
                 <div className="col-auto m-0">
@@ -110,6 +112,11 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
 
                 {/*Cliente*/}
                 <TabPanel value={value} index={1}>
+                    <LeadsDados dados={lead}/>
+                </TabPanel>
+
+                {/*Faturamento*/}
+                <TabPanel value={value} index={2}>
                     <CardContainer>
                         <CardBody>
                             <DadosPedidoCliente dados={pedido}/>
@@ -120,7 +127,7 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                 </TabPanel>
 
                 {/*Financeiro*/}
-                <TabPanel value={value} index={2}>
+                <TabPanel value={value} index={3}>
                     <CardContainer>
                         <CardBody>
                             <DadosPedidoFinanceiro dados={pedido}/>
@@ -131,7 +138,7 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                 </TabPanel>
 
                 {/*Frete*/}
-                <TabPanel value={value} index={3}>
+                <TabPanel value={value} index={4}>
                     <CardContainer>
                         <CardTitle title="Frete" icon={<Truck size={22}/>}/>
                         <CardBody>
@@ -166,12 +173,12 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                 </TabPanel>
 
                 {/*Anexos*/}
-                <TabPanel value={value} index={4}>
+                <TabPanel value={value} index={5}>
                     <DadosPedidoFiles dados={pedido}/>
                 </TabPanel>
 
                 {/*Historico*/}
-                <TabPanel value={value} index={5}>
+                <TabPanel value={value} index={6}>
                     <CardContainer>
                         <CardTable title="Histórico dos Status" icon={<ListCheck size="23"/>}>
                             <table className="table-1">
@@ -244,7 +251,7 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                         </CardContainer>
                     }
                 </TabPanel>
-                <TabPanel value={value} index={6}>
+                <TabPanel value={value} index={7}>
                     {anotacoesHistorico.length > 0 && (
                         <CardContainer>
                             <CardTable title="Anotações" icon={<Tags size="23"/>}>
@@ -283,7 +290,7 @@ export default function Pedidos({pedido, produtos, historico, transportadoras, a
                         </CardBody>
                     </CardContainer>
                 </TabPanel>
-                <TabPanel value={value} index={7}>
+                <TabPanel value={value} index={8}>
                     <CardContainer>
                         <CardTable title="SAC" icon={<Tags size="23"/>}>
                             {!!sacHistorico.length &&
