@@ -18,14 +18,12 @@ class InicioChatApiController extends Controller
        $origem = $request->input('origem');
        $meta = $request->input('meta');
 
-
        $lead = (new Lead())->newQuery()->find($leadId);
+       $lead->update(['contato_data' => now()]);
        if ($lead->status === 'novo' || $lead->status === 'oportunidade') {
            (new UpdateStatusLeadService($leadId))->setConexaoProativaStatus($leadId);
            $lead->update(['status_data' => now()]);
        }
-
-       $lead->update(['contato_data' => now()]);
 
        (new LeadContatoRealizado())->store($leadId, $telefoneId, $origem, $meta);
    }
