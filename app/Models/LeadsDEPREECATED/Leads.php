@@ -62,12 +62,17 @@ class Leads extends Model
 
     protected $hidden = ['user_id', 'setor_id', 'endereco', 'created_at'];
 
-    protected $appends = ['cadastro_data', 'status_prazo', 'ultimo_pedido'];
+    protected $appends = ['cadastro_data', 'status_prazo', 'ultimo_pedido', 'contato_ultimo_data'];
 
     // get attributes
     public function getStatusDataAttribute()
     {
         return $this->attributes['status_data'] ? Carbon::parse($this->attributes['status_data'])->format('d/m/Y H:i:s') : null;
+    }
+
+    public function getContatoUltimoDataAttribute()
+    {
+        return $this->attributes['contato_data'] ? Carbon::parse($this->attributes['contato_data'])->format('d/m/y H:i:s') : null;
     }
 
     public function getCadastroDataAttribute()
@@ -142,7 +147,8 @@ class Leads extends Model
                 'status_data',
                 'classificacao',
                 'endereco',
-                'ultimo_pedido_data'
+                'ultimo_pedido_data',
+                'contato_data'
             ]);
     }
 

@@ -18,7 +18,7 @@ import {
     TbArrowBigRightFilled, TbArrowNarrowDown,
     TbBox, TbClockHour5,
     TbEye, TbFileDollar, TbFileInvoice,
-    TbFiles, TbHash, TbInvoice,
+    TbFiles, TbHash, TbHeadset, TbInvoice,
     TbMapPin,
     TbPin,
     TbPinFilled,
@@ -227,6 +227,10 @@ const CardFunilVendas = ({ card, emitePedidos, cor, urlAvancarStatus, prazoDias 
                         <Typography variant="body2">{id}</Typography>
                     </Stack>
                     <Typography variant="body2">{classificacao}</Typography>
+                    <Stack direction="row" spacing={0} alignItems="center">
+                        <TbHeadset size={14} />
+                        <Typography variant="body2">{card.contato_ultimo_data}</Typography>
+                    </Stack>
                 </Stack>
                 {ultimo_pedido > 0 && (
                     <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" marginTop={2}>
