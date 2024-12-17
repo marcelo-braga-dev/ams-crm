@@ -26,9 +26,9 @@ class LeadFunilVendasService
                 CASE
                     WHEN status NOT IN ('novo', 'ativo') THEN contato_data
                     ELSE '0000-01-01'
-                END DESC
+                END ASC
             ")
-            ->orderBy('contato_data', 'DESC')
+//            ->orderBy('contato_data', 'DESC')
             ->get();
 
         return $leads->groupBy('status');
