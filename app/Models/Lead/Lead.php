@@ -17,7 +17,7 @@ class Lead extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'status', 'vendedor_id', 'cnpj', 'cpf', 'status_id', 'setor_id', 'ultimo_pedido_data', 'status_data'];
+    protected $fillable = ['user_id', 'status', 'vendedor_id', 'cnpj', 'cpf', 'status_id', 'setor_id', 'ultimo_pedido_data', 'status_data', 'contato_data'];
 
     protected $with = ['endereco', 'setor', 'vendedor', 'telefones', 'whatsapp'];
 
