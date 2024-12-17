@@ -25,7 +25,7 @@ const OpenIflameChatWhatsapp = ({dados, icone}) => {
         try {
             const leadInfo = await getLead(dados.lead_id)
 
-            const contact = await fetchRequisicao(urlBackend, apiKey, dados.numero, leadInfo.whatsapp_id, leadInfo.contato_nome);
+            const contact = await fetchRequisicao(urlBackend, apiKey, dados.numero, leadInfo.whatsapp_id, leadInfo.contato_nome, leadInfo.conexao_id);
             await updateLeadContactService(dados.id, contact)
 
             setChatId(contact?.data?.data?.id);
