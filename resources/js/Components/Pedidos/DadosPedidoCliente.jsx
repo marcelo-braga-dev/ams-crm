@@ -8,7 +8,7 @@ import * as React from "react";
 
 export default function DadosPedidoCliente({dados}) {
     return (<>
-        <CardTitleDefault title="Informações do Cliente" icon={<Person size={22}/>}/>
+        <CardTitleDefault title="Informações do Faturamento" icon={<Person size={22}/>}/>
         {dados.cliente.nome && <div className="mb-2"><CampoTexto titulo="Cliente" texto={dados.cliente.nome}/></div>}
         <div className="row row-cols-3">
             {dados.cliente.cpf && <div className="col mb-2"><CampoTexto titulo="CPF" texto={dados.cliente.cpf}/></div>}

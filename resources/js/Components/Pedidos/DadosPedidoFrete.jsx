@@ -8,6 +8,7 @@ const DadosPedidoFrete = ({dados}) => {
             <CampoTexto titulo="Valor" texto={dados.frete.preco}/>
             <CampoTexto titulo="Transportadora" texto={dados.frete.transportadora_nome}/>
             <CampoTexto titulo="Rastreio" texto={dados.frete.rastreio}/>
+            <CampoTexto titulo="Previsão de Entrega" texto={dados.frete.rastreio_data}/>
         </Stack>
     )
 }

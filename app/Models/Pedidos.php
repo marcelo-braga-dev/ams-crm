@@ -590,6 +590,7 @@ class Pedidos extends Model
                 'transportadora_nome' => $frete->transportadora_nome ?? null,
                 'transportadora_id' => $frete->transportadora_id ?? null,
                 'rastreio' => $frete->rastreio ?? null,
+                'rastreio_data' => $pedido->rastreio_data ? date('d/m/y', strtotime($pedido->rastreio_data)) : null,
             ],
             'prazos' => [
                 'prazo' => date('d/m/y H:i', strtotime("+$pedido->prazo days", strtotime($pedido->status_data))),
