@@ -28,7 +28,7 @@ class LeadFunilVendasService
                     ELSE '0000-01-01'
                 END DESC
             ")
-            ->orderBy('updated_at', 'ASC')
+            ->orderBy('contato_data', 'DESC')
             ->get();
 
         return $leads->groupBy('status');
