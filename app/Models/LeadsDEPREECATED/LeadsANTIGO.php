@@ -1223,7 +1223,10 @@ class LeadsANTIGO extends Model
                     });
                     break;
                 case 'cnpj':
-                    $query->where('cnpj', 'LIKE', "%$valor%");
+                    {
+                        $valor = intval($valor);
+                        $query->where('cnpj', 'LIKE', "%$valor%");
+                    }
                     break;
                 case 'cidade':
                     $query->whereHas('cidadeEstado', function ($query) use ($valor) {
@@ -1251,7 +1254,7 @@ class LeadsANTIGO extends Model
                 ->where('status', '!=', (new AtivoStatusLead())->getStatus())
                 ->where('importacao_id', $id)
                 ->delete();
-        } catch (QueryException){
+        } catch (QueryException) {
         }
 
         (new LeadsImportarHistoricos())->newQuery()->find($id)->delete();
