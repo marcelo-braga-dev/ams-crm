@@ -9,7 +9,7 @@ import CardTable from "@/Components/Cards/CardTable";
 
 export default function ({consultores, idUsuarioAtual}) {
     return (
-        <Layout titlePage="Emitir Pedidos" menu="pedidos" submenu="pedidos-novo">
+        <Layout titlePage="Emitir PedidosX" menu="pedidos" submenu="pedidos-novo">
             <CardContainer>
                 <CardBody>
                     <a className="btn btn-warning" href={route('admin.leads.consultores-cards.index', {id: idUsuarioAtual})}>

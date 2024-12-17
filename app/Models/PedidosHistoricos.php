@@ -36,7 +36,9 @@ class PedidosHistoricos extends Model
     function historico(int $id)
     {
         $historico = $this->newQuery()
-            ->where('pedido_id', $id)->get();
+            ->where('pedido_id', $id)
+            ->orderByDesc('id')
+            ->get();
 
         $nomes = (new User())->getNomes();
 
