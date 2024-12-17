@@ -1246,9 +1246,13 @@ class LeadsANTIGO extends Model
 
     public function removerImportacao($id)
     {
-        $this->newQuery()
-            ->where('importacao_id', $id)
-            ->delete();
+        try {
+            $this->newQuery()
+                ->where('status', '!=', (new AtivoStatusLead())->getStatus())
+                ->where('importacao_id', $id)
+                ->delete();
+        } catch (QueryException){
+        }
 
         (new LeadsImportarHistoricos())->newQuery()->find($id)->delete();
     }
