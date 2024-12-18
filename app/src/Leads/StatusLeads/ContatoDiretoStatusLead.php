@@ -33,7 +33,7 @@ class ContatoDiretoStatusLead extends StatusLeads
 
     public function setStatusPrazo(): void
     {
-        $this->statusPrazo = 6;
+        $this->statusPrazo = 7;
     }
 
     public function setPermissoes(): void

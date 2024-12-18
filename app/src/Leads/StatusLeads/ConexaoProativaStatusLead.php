@@ -23,7 +23,7 @@ class ConexaoProativaStatusLead extends StatusLeads
 
     public function setStatusPrazo(): void
     {
-        $this->statusPrazo = 4;
+        $this->statusPrazo = 7;
     }
 
     public function setStatusNome(): void
