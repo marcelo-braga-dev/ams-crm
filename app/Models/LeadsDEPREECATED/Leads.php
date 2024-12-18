@@ -7,6 +7,7 @@ use App\Models\Lead\LeadEndereco;
 use App\Models\Lead\LeadTelefones;
 use App\Models\Setores;
 use App\Models\User;
+use App\Services\Lead\EncaminharLeadService;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -65,6 +66,40 @@ class Leads extends Model
     protected $appends = ['cadastro_data', 'status_prazo', 'ultimo_pedido', 'contato_ultimo_data'];
 
     // get attributes
+    public function getStatusAttribute()
+    {
+        if ($this->attributes['status'] === 'contato_direto') {
+            $dataContato = Carbon::parse($this->attributes['status_data']);
+            $diff = $dataContato->diffInDays(Carbon::now());
+
+            if ($diff > 6) {
+                (new EncaminharLeadService())->encaminharOportunidade([$this->attributes['id']], null);
+                return 'inativo';
+            }
+        }
+
+        if ($this->attributes['status'] === 'conexao_proativo') {
+            $dataContato = Carbon::parse($this->attributes['status_data']);
+            $diff = $dataContato->diffInDays(Carbon::now());
+
+            if ($diff > 4) {
+                (new EncaminharLeadService())->encaminharOportunidade([$this->attributes['id']], null);
+                return 'inativo';
+            }
+        }
+
+        if ($this->attributes['status'] === 'ativo') {
+            $dataContato = Carbon::parse($this->attributes['ultimo_pedido_data']);
+            $diff = $dataContato->diffInDays(Carbon::now());
+
+            if ($diff > 150) {
+                (new EncaminharLeadService())->encaminharOportunidade([$this->attributes['id']], null);
+                return 'inativo';
+            }
+        }
+        return $this->attributes['status'];
+    }
+
     public function getStatusDataAttribute()
     {
         return $this->attributes['status_data'] ? Carbon::parse($this->attributes['status_data'])->format('d/m/Y H:i:s') : null;

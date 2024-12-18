@@ -35,7 +35,7 @@ class EncaminharLeadService
                 (new AlterarConsultorService())->alterar($leadId, $consultorId);
                 (new UpdateUserContactWhatsappService())->update($leadId, $consultorId);
             } catch (\Exception $exception) {
-                print_pre($exception->getMessage());
+//                print_pre($exception->getMessage());
                 $erroLeads[] = $leadId;
             }
             }
