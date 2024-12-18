@@ -17,8 +17,9 @@ import CardTable from "@/Components/Cards/CardTable.jsx";
 import {Box} from "react-bootstrap-icons";
 import DadosPedidoFinanceiroFiles from "@/Components/Pedidos/DadosPedidoFinanceiroFiles.jsx";
 import DadosPedidoFinanceiro from "@/Components/Pedidos/DadosPedidoFinanceiro.jsx";
+import LeadsDados from "@/Components/Leads/LeadsDados.jsx";
 
-export default function Pedidos({pedido, produtos, clienteDuplicado}) {
+export default function Pedidos({pedido,lead, produtos, clienteDuplicado}) {
 
     const {data, setData} = useForm({
         'reprovado': ''
@@ -55,6 +56,8 @@ export default function Pedidos({pedido, produtos, clienteDuplicado}) {
                     <DadosPedido dados={pedido}/>
                 </CardBody>
             </CardContainer>
+
+            <LeadsDados dados={lead}/>
 
             <CardContainer>
                 <CardBody>

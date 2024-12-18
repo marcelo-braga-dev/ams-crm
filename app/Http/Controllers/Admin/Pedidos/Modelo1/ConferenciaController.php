@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Pedidos\Modelo1;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lead\Lead;
 use App\Models\Pedidos;
 use App\Models\PedidosClientes;
 use App\Models\PedidosProdutos;
@@ -21,9 +22,10 @@ class ConferenciaController extends Controller
             ->where('cpf', $pedido['cliente']['cpf'])
             ->orWhere('cnpj', $pedido['cliente']['cnpj'])
             ->pluck('pedido_id');
+        $lead = (new Lead())->find($pedido['lead_id']);
 
         return Inertia::render('Admin/Pedidos/Conferencia/Show',
-            compact('pedido', 'produtos', 'clienteDuplicado'));
+            compact('pedido', 'lead', 'produtos', 'clienteDuplicado'));
     }
 
     public function update($id, Request $request)

@@ -11,8 +11,9 @@ import DadosPedido from "@/Components/Pedidos/DadosPedido";
 import DadosPedidoCliente from "@/Components/Pedidos/DadosPedidoCliente";
 import BoxShadow from "@/Components/Layout/BoxShadow";
 import DadosProdutosCompleta from "@/Components/Pedidos/DadosProdutosCompleta.jsx";
+import LeadsDados from "@/Components/Leads/LeadsDados.jsx";
 
-export default function Pedidos({pedido, produtos}) {
+export default function Pedidos({pedido, lead, produtos}) {
 
     const {data, setData} = useForm({
         'reprovado': ''
@@ -44,21 +45,21 @@ export default function Pedidos({pedido, produtos}) {
     }
 
     return (
-        <Layout container titlePage="Pedido em Conferência" menu="pedidos" submenu="lista"
-                voltar={route('admin.pedidos.index', {id_card:  pedido.pedido.id})}>
+        <Layout container titlePage="Pedido em ConferênciaXX" menu="pedidos" submenu="lista"
+                voltar={route('admin.pedidos.index', {id_card: pedido.pedido.id})}>
             <BoxShadow>
                 {pedido.pedido.alerta && <Alert severity="info">
                     <b>PEDIDO PASSOU POR REVISÃO</b><br/>
                     {pedido.pedido.alerta}
                 </Alert>}
-                <div className="row">
-                    <div className="col mb-3">
-                        <DadosPedido dados={pedido}/>
-                    </div>
-                    <div className="col mb-3">
-                        <DadosPedidoCliente dados={pedido}/>
-                    </div>
-                </div>
+
+
+                <DadosPedido dados={pedido}/>
+                <LeadsDados dados={lead}/>
+
+                <DadosPedidoCliente dados={pedido}/>
+
+
                 <div className="row">
                     <div className="col">
                         <DadosProdutosCompleta dados={produtos} isFinanceiro={pedido.financeiro.is_financeiro}/>

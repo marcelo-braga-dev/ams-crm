@@ -92,7 +92,7 @@ export default function LeadsDados({dados, acoes}) {
 
     return (<Box>
         <CardContainer>
-            <CardTitle title="Informações do Lead" icon={<Person size="22"/>} children={acoes}/>
+            <CardTitle title="Informações do Cliente" icon={<Person size="22"/>} children={acoes}/>
             <CardBody>
 
                 {/*Dados do Lead*/}
