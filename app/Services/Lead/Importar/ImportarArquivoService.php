@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\Leads\Importar;
+namespace App\Services\Lead\Importar;
 
 use App\Models\LeadsImportarHistoricos;
 use Illuminate\Http\Request;
 
 class ImportarArquivoService
 {
-    public function dados(Request $request, $idHistorico)
+    public function getDadosArquivo(Request $request, $idHistorico)
     {
         if ($request->hasFile('arquivo')) {
             $file = $request->file('arquivo');
@@ -16,6 +16,7 @@ class ImportarArquivoService
                 return $this->linhas($dados);
             }
         }
+
         throw new \DomainException('Arquivo Não Encontrado!');
     }
 
@@ -29,7 +30,7 @@ class ImportarArquivoService
             $i++;
             if ($i > 1) {
                 $item = array_map(function ($item) {
-                    return utf8_encode($item);
+                    return mb_convert_encoding($item, 'UTF-8', 'ISO-8859-1');
                 }, $data);
                 $linhas[] = $item;
             }
