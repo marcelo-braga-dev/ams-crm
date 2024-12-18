@@ -41,7 +41,7 @@ const Cards = () => {
     const handleVerMais = (status) => {
         setQutCardsByStatus((prev) => ({
             ...prev,
-            [status]: prev[status] + 10, // Incrementa a quantidade de cartões para o status específico
+            [status]: prev[status] + 30, // Incrementa a quantidade de cartões para o status específico
         }));
     };
 
