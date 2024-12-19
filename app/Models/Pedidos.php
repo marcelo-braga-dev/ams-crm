@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Pedidos extends Model
 {
@@ -261,6 +262,8 @@ class Pedidos extends Model
                     'created_at' => $dados->pedido_data ? (new DateTime($dados->pedido_data))->format('Y-m-d H:i:s') : now()
                 ]);
         } catch (QueryException $exception) {
+            Log::error($exception->getMessage());
+            print_pre($exception->getMessage());
             throw new \DomainException('Falha no cadastro do pedido.');
         }
 
