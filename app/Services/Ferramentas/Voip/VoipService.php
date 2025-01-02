@@ -4,13 +4,19 @@ namespace App\Services\Ferramentas\Voip;
 
 use PAMI\Client\Impl\ClientImpl;
 use PAMI\Message\Action\OriginateAction;
+use Illuminate\Support\Facades\Http;
 
 class VoipService
 {
-    protected $pamiClient;
+    protected ClientImpl $pamiClient;
+    protected string $baseUri;
+    protected string $apiKey;
 
     public function __construct()
     {
+        $this->baseUri = 'http://5.161.48.234:8088/ari';
+        $this->apiKey = 'user_laravel_env:password_laravel_env';
+
         $options = [
             'host' => config('voip.host'),
             'port' => config('voip.port'),
@@ -44,5 +50,23 @@ class VoipService
         } catch (\Exception $e) {
             return 'Error: ' . $e->getMessage();
         }
+    }
+
+    public function getAsteriskInfo()
+    {
+        $response = Http::get("{$this->baseUri}/asterisk/info", [
+            'api_key' => $this->apiKey,
+        ]);
+
+        return $response->json();
+    }
+
+    public function getChannels()
+    {
+        $response = Http::get("{$this->baseUri}/channels", [
+            'api_key' => $this->apiKey,
+        ]);
+
+        return $response->json();
     }
 }

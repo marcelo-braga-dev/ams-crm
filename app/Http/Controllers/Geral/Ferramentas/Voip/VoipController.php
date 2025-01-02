@@ -29,4 +29,14 @@ class VoipController extends Controller
 
         return response()->json(['message' => $response]);
     }
+
+    public function info()
+    {
+        return response()->json($this->asterisk->getAsteriskInfo());
+    }
+
+    public function channels()
+    {
+        return response()->json($this->asterisk->getChannels());
+    }
 }

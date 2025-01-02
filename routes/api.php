@@ -25,3 +25,6 @@ Route::post('/leads/cadastrar', [App\Http\Controllers\Api\LeadsApiController::cl
 //Voip
 Route::post('/make-call', [VoipController::class, 'makeCall']);
 Route::get('/make-call', [VoipController::class, 'makeCall']);
+
+Route::get('/voip/info', [VoipController::class, 'info']);
+Route::get('/voip/channels', [VoipController::class, 'channels']);
