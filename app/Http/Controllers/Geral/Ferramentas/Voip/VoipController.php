@@ -22,10 +22,10 @@ class VoipController extends Controller
 //            'to' => 'required|string',
 //        ]);
 
-        $from= $request->input('from');
+        $from = $request->input('from');
         $to = $request->input('to');
 
-        $response = $this->asterisk->originateCall($from, $to, 'from-interno', $to, 1);
+        $response = $this->asterisk->makeExternalCall($from, $to);
 
         return response()->json(['message' => $response]);
     }

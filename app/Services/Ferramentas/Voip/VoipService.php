@@ -29,6 +29,32 @@ class VoipService
         $this->pamiClient = new ClientImpl($options);
     }
 
+    public function makeExternalCall($from, $to)
+    {
+        $response = Http::post("{$this->baseUri}/channels", [
+            "endpoint" => "PJSIP/server_external",
+            "extension" => "5517997015338",
+            "context" => "from-server-external",
+            "priority" => 1,
+            "callerId" => "1001",
+//            'endpoint' => "PJSIP/{$from}",
+//            'extension' => $to,
+//            'context' => 'from-server-external',
+//            'priority' => 1,
+//            'callerId' => $from,
+            'api_key' => $this->apiKey,
+            'Authorization' => 'Basic ' . base64_encode($this->apiKey),
+        ], [
+            'Authorization' => 'Basic ' . base64_encode($this->apiKey),
+            'api_key' => $this->apiKey,
+        ]);
+
+        return $response->json();
+    }
+
+    /**
+     * @deprecated
+     */
     public function originateCall(string $from, string $to, string $context, string $extension, int $priority)
     {
         try {
