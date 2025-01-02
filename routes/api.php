@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Geral\Ferramentas\Voip\VoipController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/leads/cadastrar', [App\Http\Controllers\Api\LeadsApiController::class, 'cadastrar'])
     ->name('api.leads.cadastrar');
+
+//Voip
+Route::post('/make-call', [VoipController::class, 'makeCall']);
