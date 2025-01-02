@@ -46,6 +46,7 @@ export default function ({leads, vendasLeads, vendasLeadsComp, setores, mes, ano
                             <TextField label="Ano" select fullWidth defaultValue={ano} onChange={e => setAnoSelecionado(e.target.value)}>
                                 <MenuItem value="2023">2023</MenuItem>
                                 <MenuItem value="2024">2024</MenuItem>
+                                <MenuItem value="2025">2025</MenuItem>
                             </TextField>
                         </div>
                         <div className="col-2">
@@ -65,6 +66,7 @@ export default function ({leads, vendasLeads, vendasLeadsComp, setores, mes, ano
                                 <MenuItem value="">...</MenuItem>
                                 <MenuItem value="2023">2023</MenuItem>
                                 <MenuItem value="2024">2024</MenuItem>
+                                <MenuItem value="2025">2025</MenuItem>
                             </TextField>
                         </div>
                     </div>

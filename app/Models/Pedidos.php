@@ -263,8 +263,7 @@ class Pedidos extends Model
                 ]);
         } catch (QueryException $exception) {
             Log::error($exception->getMessage());
-            print_pre($exception->getMessage());
-            throw new \DomainException('Falha no cadastro do pedido.');
+            throw new \DomainException('Informações do pedido inválida!.');
         }
 
         if ($dados['tipo_financiamento'] ?? null) (new PedidosFinanciamentoDados())->create($pedido->id, $dados['tipo_financiamento']);

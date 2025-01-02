@@ -242,6 +242,7 @@ export default function ({vendasMensalUsuario, ano, dados, vendasMensalSubordina
                                onChange={e => router.get(route('admin.relatorios.meta-vendas.index'), {ano: e.target.value})}>
                         <MenuItem value="2023">2023</MenuItem>
                         <MenuItem value="2024">2024</MenuItem>
+                        <MenuItem value="2025">2025</MenuItem>
                     </TextField>
                 </div>
             </div>

@@ -36,6 +36,7 @@ const FiltrosComponent = ({ setor, setores, filters, ano, handleFilterChange, ha
                             >
                                 <MenuItem value="2023">2023</MenuItem>
                                 <MenuItem value="2024">2024</MenuItem>
+                                <MenuItem value="2025">2025</MenuItem>
                             </TextField>
                         </Stack>
                     </div>
@@ -55,6 +56,7 @@ const FiltrosComponent = ({ setor, setores, filters, ano, handleFilterChange, ha
                             >
                                 <MenuItem value="2023">2023</MenuItem>
                                 <MenuItem value="2024">2024</MenuItem>
+                                <MenuItem value="2025">2025</MenuItem>
                             </TextField>
                         </Stack>
                     </div>

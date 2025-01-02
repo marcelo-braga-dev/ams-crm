@@ -51,6 +51,7 @@ export default function ({fluxoCaixa, salarios, faturamento, prazos, mes, ano, s
                                        onChange={e => filtrar(mes, e.target.value, setor)}>
                                 <MenuItem value="2023">2023</MenuItem>
                                 <MenuItem value="2024">2024</MenuItem>
+                                <MenuItem value="2025">2025</MenuItem>
                             </TextField>
                         </div>
                     </div>
